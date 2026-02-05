@@ -106,6 +106,28 @@ const meta: Meta<typeof CpCard> = {
                 defaultValue: {summary: '10'},
             },
         },
+        actionEffect: {
+            control: 'select',
+            options: ['none', 'blur', 'color', 'blur-color', undefined],
+            description: '操作区效果类型 (默认继承 overlayEffect)',
+            table: {
+                defaultValue: {summary: 'undefined'},
+            },
+        },
+        actionColor: {
+            control: 'color',
+            description: '操作区颜色 (默认继承 overlayColor)',
+            table: {
+                defaultValue: {summary: 'undefined'},
+            },
+        },
+        actionBlur: {
+            control: {type: 'number', min: 0, max: 30, step: 1},
+            description: '操作区模糊程度 (默认继承 overlayBlur)',
+            table: {
+                defaultValue: {summary: 'undefined'},
+            },
+        },
         type: {
             control: 'select',
             options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
@@ -127,6 +149,20 @@ const meta: Meta<typeof CpCard> = {
             description: '减淡模式切换动画时长 (ms)',
             table: {
                 defaultValue: {summary: '300'},
+            },
+        },
+        triggerImageHover: {
+            control: 'boolean',
+            description: 'Card hover 时触发内部 CpImage 的 hover 效果',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
+        },
+        hoverScale: {
+            control: 'boolean',
+            description: 'Card hover 时放大效果',
+            table: {
+                defaultValue: {summary: 'false'},
             },
         },
     },
@@ -273,6 +309,109 @@ export const 无头部卡片: Story = {
             <p>这是一个没有头部的简洁卡片。</p>
             <p>适合纯内容展示场景。</p>
           </CpCard>
+        `,
+    }),
+}
+
+/** 封面图 (Cover) 演示 */
+export const 封面图演示: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpImage, CpTag},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">基础封面图</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px;">
+              <CpCard title="默认封面">
+                <template #cover>
+                  <CpImage 
+                    src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400" 
+                    :height="160"
+                    fit="cover"
+                  />
+                </template>
+                <p style="font-size: 12px;">使用 #cover 插槽添加封面图</p>
+              </CpCard>
+              
+              <CpCard title="Hover 缩放封面" trigger-image-hover>
+                <template #cover>
+                  <CpImage 
+                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400" 
+                    :height="160"
+                    fit="cover"
+                    hoverable
+                    hover-mode="zoom"
+                  />
+                </template>
+                <p style="font-size: 12px;">triggerImageHover 触发图片 hover 效果</p>
+              </CpCard>
+              
+              <CpCard title="带装饰块" trigger-image-hover type="warning">
+                <template #cover>
+                  <CpImage 
+                    src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400" 
+                    :height="160"
+                    fit="cover"
+                    hoverable
+                    hover-mode="scale"
+                    type="warning"
+                    show-decor
+                  />
+                </template>
+                <p style="font-size: 12px;">显示装饰块和主题色</p>
+              </CpCard>
+            </div>
+            
+            <h4 style="color: #fff; margin: 32px 0 16px;">带覆层的封面卡片</h4>
+            <div style="display: flex; gap: 20px;">
+              <CpCard 
+                style="width: 280px;" 
+                trigger-image-hover
+                overlay-effect="blur-color"
+              >
+                <template #cover>
+                  <div style="position: relative;">
+                    <CpImage 
+                      src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400" 
+                      :height="200"
+                      fit="cover"
+                      hoverable
+                      hover-mode="zoom"
+                    />
+                    <div style="position: absolute; top: 12px; right: 12px;">
+                      <CpTag type="primary" size="sm" effect="dark">NEW</CpTag>
+                    </div>
+                  </div>
+                </template>
+                <template #title>游戏封面</template>
+                <p style="font-size: 12px;">封面带标签和覆层</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">查看详情</CpButton>
+                </template>
+              </CpCard>
+              
+              <CpCard 
+                style="width: 280px;" 
+                trigger-image-hover
+                overlay-effect="none"
+                action-effect="blur-color"
+              >
+                <template #cover>
+                  <CpImage 
+                    src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400" 
+                    :height="200"
+                    fit="cover"
+                    hoverable
+                    hover-mode="zoom"
+                  />
+                </template>
+                <template #title>整卡透明 + 操作区毛玻璃</template>
+                <p style="font-size: 12px;">overlayEffect=none, actionEffect=blur-color</p>
+                <template #overlay>
+                  <CpButton size="sm" type="info" style="width: 100%;">进入游戏</CpButton>
+                </template>
+              </CpCard>
+            </div>
+          </div>
         `,
     }),
 }
@@ -463,6 +602,89 @@ export const 覆层效果类型: Story = {
                 <template #overlay>
                   <CpButton size="sm" variant="neon" style="width: 100%;">霓虹操作</CpButton>
                 </template>
+          </div>
+        `,
+    }),
+}
+
+/** 覆层层级控制 */
+export const 覆层层级控制: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">整卡与操作区独立控制（悬停查看）</h4>
+            <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 20px;">
+              backdrop (整卡) 与 overlay (操作区) 可分别设置效果类型、颜色和模糊度。
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px;">
+              <CpCard
+                title="同步效果"
+                overlay-effect="blur-color"
+                style="height: 200px;"
+              >
+                <p style="font-size: 11px; color: var(--cp-text-secondary);">整卡和操作区使用相同效果</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">overlayEffect="blur-color"</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">操作按钮</CpButton>
+                </template>
+              </CpCard>
+              
+              <CpCard
+                title="整卡模糊 + 操作区无效果"
+                overlay-effect="blur-color"
+                action-effect="none"
+                style="height: 200px;"
+              >
+                <p style="font-size: 11px; color: var(--cp-text-secondary);">整卡毛玻璃，操作区透明</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">overlayEffect="blur-color"<br/>actionEffect="none"</p>
+                <template #overlay>
+                  <CpButton size="sm" type="success" style="width: 100%;">透明操作区</CpButton>
+                </template>
+              </CpCard>
+              
+              <CpCard
+                title="整卡无效果 + 操作区颜色"
+                overlay-effect="none"
+                action-effect="color"
+                action-color="rgba(188, 19, 254, 0.7)"
+                style="height: 200px;"
+              >
+                <p style="font-size: 11px; color: var(--cp-text-secondary);">整卡透明，操作区紫色</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">overlayEffect="none"<br/>actionEffect="color"</p>
+                <template #overlay>
+                  <CpButton size="sm" variant="neon" style="width: 100%;">紫色操作区</CpButton>
+                </template>
+              </CpCard>
+            </div>
+            
+            <h4 style="color: #fff; margin: 32px 0 16px;">独立颜色和模糊度</h4>
+            <div style="display: flex; gap: 20px;">
+              <CpCard
+                title="整卡蓝色 + 操作区红色"
+                overlay-effect="color"
+                overlay-color="rgba(0, 120, 255, 0.5)"
+                action-color="rgba(255, 50, 50, 0.7)"
+                style="width: 280px; height: 200px;"
+              >
+                <p style="font-size: 11px; color: var(--cp-text-secondary);">不同颜色的遮罩层</p>
+                <template #overlay>
+                  <CpButton size="sm" type="error" style="width: 100%;">红色操作区</CpButton>
+                </template>
+              </CpCard>
+              
+              <CpCard
+                title="整卡强模糊 + 操作区弱模糊"
+                overlay-effect="blur"
+                :overlay-blur="20"
+                :action-blur="5"
+                style="width: 280px; height: 200px;"
+              >
+                <p style="font-size: 11px; color: var(--cp-text-secondary);">不同模糊程度</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">overlayBlur=20, actionBlur=5</p>
+                <template #overlay>
+                  <CpButton size="sm" type="info" style="width: 100%;">弱模糊操作区</CpButton>
+                </template>
               </CpCard>
             </div>
           </div>
@@ -558,6 +780,8 @@ export const 资产管理卡片: Story = {
                 type="warning"
                 shadow="hover"
                 overlayEffect="none"
+                actionEffect="blur-color"
+                trigger-image-hover
             >
               <!-- 封面图插槽 -->
               <template #cover>
@@ -566,6 +790,8 @@ export const 资产管理卡片: Story = {
                       src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4jC0ceMC1oDZlJzJYZcnIpk3gZzkcRtEX6W_QdU3ZmRyeDzkDYi6cOPM7mO95nZ00RuaZFwK9JzMzSrvz0D9D0vV55m505UwBMVaf9BENEHXWpAnv5E79zN9ol0exbM6cYO6VGLsN1Ca2YbXumreuuQwIfrAbzW6qTNcl-sX-hVAhrTY06HqaRtpLPEWag4H3xxcnHMh0PwPinGW5H4ANU5PlM3f51AS4RTx155tl4v8NqvSmdSb_OMt5HLaVnV9m7QRaeM_kgQI"
                       fit="cover"
                       style="width: 100%; height: 100%; opacity: 0.8;"
+                      hoverable
+                      hover-mode="zoom"
                   />
                   <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
                     <CpTag type="warning" size="sm" effect="dark"
@@ -584,7 +810,6 @@ export const 资产管理卡片: Story = {
                   <div style="display: flex; flex-direction: column;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                       <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">凯 (KAI)</CpText>
-                      <CpTag size="sm" type="warning" plain>角色</CpTag>
                     </div>
                     <div
                         style="font-size: 10px; color: var(--cp-color-warning); opacity: 0.8; font-family: monospace; margin-top: 2px;">
@@ -592,6 +817,10 @@ export const 资产管理卡片: Story = {
                     </div>
                   </div>
                 </div>
+              </template>
+
+              <template #extra>
+                <CpTag size="sm" type="warning" plain>角色</CpTag>
               </template>
 
               <!-- 主体内容 -->
@@ -635,6 +864,9 @@ export const 资产管理卡片: Story = {
                 type="info"
                 shadow="hover"
                 overlayEffect="none"
+                actionEffect="blur-color"
+                trigger
+                trigger-image-hover
             >
               <template #cover>
                 <div style="position: relative; height: 180px; overflow: hidden; background: #000;">
@@ -642,6 +874,8 @@ export const 资产管理卡片: Story = {
                       src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600"
                       fit="cover"
                       style="width: 100%; height: 100%; opacity: 0.6; filter: hue-rotate(180deg);"
+                      hoverable
+                      hover-mode="zoom"
                   />
                   <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
                     <CpTag type="info" size="sm" effect="dark" variant="outline"
@@ -658,10 +892,9 @@ export const 资产管理卡片: Story = {
 
               <template #title>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                  <div style="display: flex; flex-direction: column;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="display: flex; flex-direction: column;width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 8px;width: 100%;">
                       <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">奥拉 (AURA)</CpText>
-                      <CpTag size="sm" type="info" variant="outline" plain>角色</CpTag>
                     </div>
                     <div
                         style="font-size: 10px; color: var(--cp-color-info); opacity: 0.8; font-family: monospace; margin-top: 2px;">
@@ -669,6 +902,10 @@ export const 资产管理卡片: Story = {
                     </div>
                   </div>
                 </div>
+              </template>
+              
+              <template #extra>
+                <CpTag size="sm" type="info" variant="outline" plain>角色</CpTag>
               </template>
 
               <div style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
