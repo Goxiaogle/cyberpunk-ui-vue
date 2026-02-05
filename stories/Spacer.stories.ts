@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { CpSpacer, CpButton } from '../packages/components'
+import { CpSpacer, CpButton, CpText } from '../packages/components'
 
 /**
  * # CpSpacer 弹性空间
- * 
+ *
  * 简单的 flex 空间占位组件，仅提供 `flex-grow: 1` 效果。
- * 
+ *
  * ## 使用场景
  * - 在 flex 布局中分隔元素
  * - 将元素推向容器两端
@@ -37,10 +37,10 @@ export const 基础用法: Story = {
 /** 导航栏布局 */
 export const 导航栏布局: Story = {
   render: () => ({
-    components: { CpSpacer, CpButton },
+    components: { CpSpacer, CpButton, CpText },
     template: `
-      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--cp-bg-elevated); clip-path: var(--cp-clip-path);">
-        <span style="color: var(--cp-color-primary); font-weight: bold; font-size: 18px;">CYBER</span>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--cp-bg-elevated);">
+        <CpText type="primary" :size="18" bold unselectable>CYBER</CpText>
         <CpSpacer />
         <CpButton variant="ghost" size="sm">首页</CpButton>
         <CpButton variant="ghost" size="sm">产品</CpButton>
