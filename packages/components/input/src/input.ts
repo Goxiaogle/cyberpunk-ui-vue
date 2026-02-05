@@ -1,0 +1,260 @@
+import type { ExtractPropTypes, PropType } from 'vue'
+
+/**
+ * 输入框类型
+ * - `text` - 普通文本输入（默认）
+ * - `password` - 密码输入，内容会被遮蔽
+ * - `number` - 数字输入，返回值为 number 类型
+ * - `email` - 邮箱输入，带格式验证
+ * - `tel` - 电话号码输入
+ * - `url` - URL 地址输入，带格式验证
+ */
+export type InputType = 'text' | 'password' | 'number' | 'email' | 'tel' | 'url'
+
+/**
+ * 输入框尺寸
+ * - `sm` - 小尺寸 (28px 高)
+ * - `md` - 中等尺寸 (36px 高)，默认
+ * - `lg` - 大尺寸 (44px 高)
+ */
+export type InputSize = 'sm' | 'md' | 'lg'
+
+/**
+ * 输入框形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type InputShape = 'clip' | 'no-clip' | 'round'
+
+/**
+ * 输入框变体
+ * - `outline` - 边框样式（默认），透明背景
+ * - `filled` - 填充样式，带背景色
+ * - `ghost` - 幽灵样式，无边框无背景，聚焦时显示
+ */
+export type InputVariant = 'outline' | 'filled' | 'ghost'
+
+/**
+ * CpInput 组件 Props 定义
+ *
+ * @description 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。
+ *
+ * @example
+ * ```vue
+ * <!-- 基础用法 -->
+ * <CpInput v-model="value" placeholder="请输入" />
+ *
+ * <!-- 带图标 -->
+ * <CpInput v-model="search">
+ *   <template #prefix><CpIcon icon="mdi:magnify" /></template>
+ * </CpInput>
+ *
+ * <!-- 可清空 -->
+ * <CpInput v-model="value" clearable @clear="onClear" />
+ *
+ * <!-- 密码输入 -->
+ * <CpInput v-model="password" type="password" />
+ * ```
+ *
+ * @slots
+ * - `prefix` - 输入框前缀，常用于放置图标
+ * - `suffix` - 输入框后缀，常用于放置图标或按钮
+ *
+ * @exposes
+ * - `focus()` - 使输入框获取焦点
+ * - `blur()` - 使输入框失去焦点
+ * - `inputRef` - 原生 input 元素引用
+ */
+export const inputProps = {
+    /**
+     * 绑定值 (v-model)
+     * 支持字符串或数字，type="number" 时返回 number 类型
+     * @default ''
+     */
+    modelValue: {
+        type: [String, Number] as PropType<string | number>,
+        default: '',
+    },
+    /**
+     * 输入类型
+     * @default 'text'
+     * @example `<CpInput type="password" />`
+     */
+    type: {
+        type: String as PropType<InputType>,
+        default: 'text',
+    },
+    /**
+     * 输入框尺寸
+     * @default 'md'
+     * @example `<CpInput size="lg" />`
+     */
+    size: {
+        type: String as PropType<InputSize>,
+        default: 'md',
+    },
+    /**
+     * 输入框形状
+     * - `clip` - 切角样式（赛博朋克特色）
+     * - `no-clip` - 直角矩形
+     * - `round` - 圆角矩形
+     * @default 'clip'
+     */
+    shape: {
+        type: String as PropType<InputShape>,
+        default: 'clip',
+    },
+    /**
+     * 输入框变体
+     * - `outline` - 边框样式
+     * - `filled` - 填充背景
+     * - `ghost` - 无边框无背景
+     * @default 'outline'
+     */
+    variant: {
+        type: String as PropType<InputVariant>,
+        default: 'outline',
+    },
+    /**
+     * 占位文本
+     * 输入框为空时显示的提示文本
+     * @default ''
+     */
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 是否禁用输入框
+     * 禁用后不可编辑，样式变为灰色
+     * @default false
+     */
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 是否只读
+     * 只读状态下内容可选中复制但不可编辑
+     * @default false
+     */
+    readonly: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 是否可清空
+     * 开启后，有内容时输入框右侧显示清空按钮
+     * @default false
+     * @example `<CpInput v-model="value" clearable />`
+     */
+    clearable: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 自定义聚焦颜色
+     * 传入有效 CSS 颜色值，覆盖默认的聚焦边框颜色
+     * @default ''
+     * @example `<CpInput color="#ff00ff" />`
+     */
+    color: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 最大输入长度限制
+     * @default undefined (无限制)
+     * @example `<CpInput :maxlength="50" />`
+     */
+    maxlength: {
+        type: Number,
+        default: undefined,
+    },
+    /**
+     * 是否自动获取焦点
+     * 组件挂载后自动调用 focus()
+     * @default false
+     */
+    autofocus: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 是否显示密码切换按钮
+     * 仅在 type="password" 时有效
+     * @default false
+     * @example `<CpInput type="password" show-password />`
+     */
+    showPassword: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 是否显示字数统计
+     * 需配合 maxlength 使用，显示 "当前/最大" 格式
+     * @default false
+     * @example `<CpInput :maxlength="100" show-word-limit />`
+     */
+    showWordLimit: {
+        type: Boolean,
+        default: false,
+    },
+} as const
+
+export type InputProps = ExtractPropTypes<typeof inputProps>
+
+/**
+ * CpInput 组件事件定义
+ *
+ * @event update:modelValue - 值变化时触发 (用于 v-model)
+ * @event input - 输入时触发，提供值和原生事件
+ * @event change - 值确认变化时触发（失焦或回车）
+ * @event focus - 获取焦点时触发
+ * @event blur - 失去焦点时触发
+ * @event clear - 点击清空按钮时触发
+ */
+export const inputEmits = {
+    /**
+     * 值变化时触发 (v-model 绑定)
+     * @param value - 新的输入值
+     */
+    'update:modelValue': (value: string | number) => typeof value === 'string' || typeof value === 'number',
+
+    /**
+     * 输入时触发
+     * @param value - 新的输入值
+     * @param event - 原生 input 事件对象
+     * @example `<CpInput @input="(val, e) => console.log(val)" />`
+     */
+    input: (value: string | number, event: Event) => (typeof value === 'string' || typeof value === 'number') && event instanceof Event,
+
+    /**
+     * 值确认变化时触发
+     * 仅在失去焦点且值有变化时触发
+     * @param value - 确认的输入值
+     */
+    change: (value: string | number) => typeof value === 'string' || typeof value === 'number',
+
+    /**
+     * 获取焦点时触发
+     * @param event - 原生 FocusEvent 对象
+     */
+    focus: (event: FocusEvent) => event instanceof FocusEvent,
+
+    /**
+     * 失去焦点时触发
+     * @param event - 原生 FocusEvent 对象
+     */
+    blur: (event: FocusEvent) => event instanceof FocusEvent,
+
+    /**
+     * 点击清空按钮时触发
+     * 触发后 modelValue 会被设为空字符串
+     * @example `<CpInput clearable @clear="onClear" />`
+     */
+    clear: () => true,
+}
+
+export type InputEmits = typeof inputEmits

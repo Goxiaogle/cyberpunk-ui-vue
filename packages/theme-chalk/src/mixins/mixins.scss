@@ -1,0 +1,61 @@
+// BEM Mixins for Cyberpunk Vue
+// 命名空间: cp
+
+$namespace: 'cp' !default;
+$element-separator: '__' !default;
+$modifier-separator: '--' !default;
+$state-prefix: 'is-' !default;
+
+// 块 (Block)
+@mixin b($block) {
+    $B: #{$namespace}-#{$block};
+
+    .#{$B} {
+        @content;
+    }
+}
+
+// 元素 (Element)
+@mixin e($element) {
+    $E: #{&}#{$element-separator}#{$element};
+
+    @at-root {
+        #{$E} {
+            @content;
+        }
+    }
+}
+
+// 修饰符 (Modifier)
+@mixin m($modifier) {
+    $M: #{&}#{$modifier-separator}#{$modifier};
+
+    @at-root {
+        #{$M} {
+            @content;
+        }
+    }
+}
+
+// 状态 (State)
+@mixin when($state) {
+    @at-root {
+        &.#{$state-prefix}#{$state} {
+            @content;
+        }
+    }
+}
+
+// 尺寸变体
+@mixin size($size) {
+    @include m($size) {
+        @content;
+    }
+}
+
+// 颜色变体
+@mixin color-variant($color) {
+    @include m($color) {
+        @content;
+    }
+}

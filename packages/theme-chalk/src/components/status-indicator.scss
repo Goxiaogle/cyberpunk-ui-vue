@@ -1,0 +1,206 @@
+// CpStatusIndicator 组件样式
+// 赛博朋克风格独立状态指示器
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// 尺寸映射
+$status-indicator-sizes: (
+  sm: 8px,
+  md: 12px,
+  lg: 16px,
+);
+
+// 标签字体尺寸映射
+$status-indicator-label-sizes: (
+  sm: 12px,
+  md: 14px,
+  lg: 16px,
+);
+
+// 尺寸与间隙映射
+$status-indicator-gaps: (
+  sm: 4px,
+  md: 6px,
+  lg: 8px,
+);
+
+@include b(status-indicator) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cp-status-indicator-gap, 6px);
+  color: inherit;
+
+  // ===== 指示点 =====
+  @include e(dot) {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: currentColor;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  // ===== 脉冲扩散环 =====
+  @include e(pulse) {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    animation: cp-status-pulse var(--cp-status-indicator-duration, 1.5s) ease-out infinite;
+  }
+
+  // ===== 标签 =====
+  @include e(label) {
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--cp-text-primary);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  // ===== 尺寸 =====
+  @each $name, $size in $status-indicator-sizes {
+    @include m($name) {
+      gap: var(--cp-status-indicator-gap, map-get($status-indicator-gaps, $name));
+
+      .cp-status-indicator__dot {
+        width: $size;
+        height: $size;
+      }
+
+      .cp-status-indicator__label {
+        font-size: map-get($status-indicator-label-sizes, $name);
+      }
+    }
+  }
+
+  // ===== 形状 =====
+  @include m(shape-dot) {
+    .cp-status-indicator__dot {
+      border-radius: 50%;
+    }
+  }
+
+  @include m(shape-square) {
+    .cp-status-indicator__dot {
+      border-radius: 2px;
+    }
+
+    .cp-status-indicator__pulse {
+      border-radius: 2px;
+    }
+  }
+
+  @include m(shape-diamond) {
+    .cp-status-indicator__dot {
+      border-radius: 1px;
+      transform: rotate(45deg);
+    }
+
+    .cp-status-indicator__pulse {
+      border-radius: 1px;
+    }
+  }
+
+  // ===== 颜色类型 =====
+  @include m(primary) {
+    color: var(--cp-color-primary);
+  }
+
+  @include m(success) {
+    color: var(--cp-color-success);
+  }
+
+  @include m(warning) {
+    color: var(--cp-color-warning);
+  }
+
+  @include m(error) {
+    color: var(--cp-color-error);
+  }
+
+  @include m(info) {
+    color: var(--cp-color-info);
+  }
+
+  @include m(default) {
+    color: var(--cp-text-secondary);
+  }
+
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    color: var(--cp-status-indicator-color);
+  }
+
+  // ===== 动画效果 =====
+
+  // 脉冲扩散
+  @include m(animation-pulse) {
+    // pulse element handles the animation directly via its own class
+  }
+
+  // 发光呼吸
+  @include m(animation-glow) {
+    .cp-status-indicator__dot {
+      animation: cp-status-glow var(--cp-status-indicator-duration, 1.5s) ease-in-out infinite;
+    }
+  }
+
+  // 闪烁
+  @include m(animation-blink) {
+    .cp-status-indicator__dot {
+      animation: cp-status-blink var(--cp-status-indicator-duration, 1s) ease-in-out infinite;
+    }
+  }
+}
+
+// ===== 动画关键帧 =====
+
+// 脉冲扩散动画
+@keyframes cp-status-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    // 默认 2.5 倍扩散，受 intensity 影响
+    transform: scale(calc(1 + 1.5 * var(--cp-status-indicator-intensity, 1)));
+    opacity: 0;
+  }
+}
+
+// 发光呼吸动画
+@keyframes cp-status-glow {
+  0%,
+  100% {
+    // 默认 2px，受 intensity 影响
+    filter: drop-shadow(0 0 calc(2px * var(--cp-status-indicator-intensity, 1)) currentColor);
+    opacity: 1;
+  }
+
+  50% {
+    // 默认 8px/12px，受 intensity 影响
+    filter: drop-shadow(0 0 calc(8px * var(--cp-status-indicator-intensity, 1)) currentColor) 
+            drop-shadow(0 0 calc(12px * var(--cp-status-indicator-intensity, 1)) currentColor);
+    opacity: 0.85;
+  }
+}
+
+// 闪烁动画
+@keyframes cp-status-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    // 默认最低 0.3 透明度，intensity 越高，透明项越低（更激烈）
+    // intensity = 1 -> opacity 0.3
+    // intensity = 2 -> opacity 0.3 / 2 = 0.15
+    opacity: calc(0.3 / var(--cp-status-indicator-intensity, 1));
+  }
+}

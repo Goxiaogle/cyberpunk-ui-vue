@@ -1,0 +1,14 @@
+{
+    "name": "@cyberpunk-vue/theme-chalk",
+    "version": "0.1.0",
+    "description": "Cyberpunk Vue theme styles",
+    "type": "module",
+    "main": "src/index.scss",
+    "files": [
+        "src",
+        "dist"
+    ],
+    "peerDependencies": {
+        "sass": "^1.80.0"
+    }
+}

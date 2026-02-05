@@ -1,0 +1,85 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+@include b(icon) {
+    // 基础样式
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--cp-icon-size, 24px);
+    width: var(--cp-icon-size, 24px);
+    height: var(--cp-icon-size, 24px);
+    color: inherit;
+    line-height: 1;
+    vertical-align: middle;
+
+    // SVG 继承颜色
+    svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+    }
+
+    // SVG 容器
+    @include e(svg) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    // 字体图标嵌套
+    >i {
+        font-size: inherit;
+        color: inherit;
+    }
+
+    // === 颜色类型 ===
+    @include m(default) {
+        color: inherit;
+    }
+
+    @include m(primary) {
+        color: var(--cp-color-primary);
+    }
+
+    @include m(success) {
+        color: var(--cp-color-success);
+    }
+
+    @include m(warning) {
+        color: var(--cp-color-warning);
+    }
+
+    @include m(error) {
+        color: var(--cp-color-error);
+    }
+
+    @include m(info) {
+        color: var(--cp-color-info);
+    }
+
+    // === 状态 ===
+    @include when(custom-color) {
+        color: var(--cp-icon-color);
+    }
+
+    @include when(spin) {
+        animation: cp-icon-spin 1s linear infinite;
+    }
+}
+
+// 旋转动画
+@keyframes cp-icon-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

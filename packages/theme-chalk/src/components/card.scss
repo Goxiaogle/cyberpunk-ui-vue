@@ -1,0 +1,371 @@
+// CpCard 组件样式
+// 赛博朋克/机甲风格卡片容器
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(card) {
+  // 基础样式
+  --cp-card-color: var(--cp-border);
+  --cp-card-color-light: rgba(255, 255, 255, 0.1);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--cp-bg-elevated);
+  border: 1px solid var(--cp-border);
+  color: var(--cp-text-primary);
+  transition: all 0.3s ease, filter 0.4s ease, opacity 0.4s ease;
+  overflow: hidden;
+
+  // 类型变体
+  @each $type in (primary, success, warning, error, info) {
+    &.cp-card--#{$type} {
+      --cp-card-color: var(--cp-color-#{$type});
+      --cp-card-color-light: var(--cp-color-#{$type}-light);
+    }
+  }
+
+  // 机甲风切角 (Top-Left, Bottom-Right)
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+
+  // 装饰性小方块 (右上角)
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--cp-card-color);
+    opacity: 0.4;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+
+  // 悬停效果
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  // ===== 变体 =====
+  @include m(solid) {
+    background: var(--cp-bg-elevated);
+    border-color: var(--cp-border);
+
+    // 顶部装饰线 (仅在非 default type 或有颜色时显示)
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--cp-card-color);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &.cp-card--primary,
+    &.cp-card--success,
+    &.cp-card--warning,
+    &.cp-card--error,
+    &.cp-card--info {
+      &::before {
+        opacity: 0.8;
+      }
+      background: linear-gradient(
+        180deg,
+        var(--cp-card-color-light) 0%,
+        var(--cp-bg-elevated) 40px,
+        var(--cp-bg-elevated) 100%
+      );
+    }
+
+    // 自定义 color 也要显示线条
+    &[style*='--cp-card-color'] {
+      &::before {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  @include m(outline) {
+    background: transparent;
+    border-color: var(--cp-card-color);
+
+    &.cp-card--default {
+      border-color: var(--cp-border);
+    }
+
+    &:hover {
+      border-color: var(--cp-card-color);
+      box-shadow: 0 0 10px var(--cp-card-color-light);
+    }
+  }
+
+  @include m(semi) {
+    background: rgba(42, 42, 58, 0.5);
+    backdrop-filter: blur(10px);
+    border-color: var(--cp-border);
+
+    // 类型色背景叠层
+    &.cp-card--primary,
+    &.cp-card--success,
+    &.cp-card--warning,
+    &.cp-card--error,
+    &.cp-card--info {
+      background: color-mix(in srgb, var(--cp-bg-elevated) 85%, var(--cp-card-color));
+      border-color: var(--cp-card-color-light);
+    }
+
+    &:hover {
+      background: rgba(42, 42, 58, 0.7);
+      box-shadow: 0 0 15px var(--cp-card-color-light);
+
+      &.cp-card--primary,
+      &.cp-card--success,
+      &.cp-card--warning,
+      &.cp-card--error,
+      &.cp-card--info {
+        background: color-mix(in srgb, var(--cp-bg-elevated) 75%, var(--cp-card-color));
+      }
+    }
+  }
+
+  @include m(ghost) {
+    background: transparent;
+    border-color: transparent;
+
+    // 当 ghost 配合 themed 模式时，应用主题色分割线
+    &.cp-card--primary,
+    &.cp-card--success,
+    &.cp-card--warning,
+    &.cp-card--error,
+    &.cp-card--info {
+      --cp-card-divider-color: var(--cp-card-color-light);
+    }
+
+    // 自定义 color 也要显示主题色分割线
+    &[style*='--cp-card-color'] {
+      --cp-card-divider-color: var(--cp-card-color-light);
+    }
+
+    &::after {
+      display: none;
+    }
+
+    &:hover {
+      background: var(--cp-bg-elevated);
+      border-color: var(--cp-card-color-light);
+    }
+  }
+
+  // ===== 形状模式 =====
+  @include m(shape-no-clip) {
+    clip-path: none;
+    border-radius: 0;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  @include m(shape-round) {
+    clip-path: none;
+    border-radius: var(--cp-radius-lg);
+
+    &::after {
+      display: none;
+    }
+  }
+
+  // ===== 阴影 =====
+  // 注意：clip-path 会裁剪 box-shadow，需要使用 filter: drop-shadow
+  @include m(shadow-always) {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  }
+
+  @include m(shadow-hover) {
+    &:hover {
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    }
+  }
+
+  @include m(shadow-never) {
+    filter: none;
+    box-shadow: none;
+  }
+
+  // 非切角模式可以使用 box-shadow（更平滑）
+  &.cp-card--shape-no-clip,
+  &.cp-card--shape-round {
+    &.cp-card--shadow-always {
+      filter: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    &.cp-card--shadow-hover {
+      filter: none;
+      &:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  // ===== 子元素 =====
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+    min-height: 48px;
+
+    &.is-bordered {
+      border-bottom: 1px solid var(--cp-card-divider-color, var(--cp-border));
+    }
+  }
+
+  @include e(title) {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: var(--cp-font-size-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--cp-text-primary);
+  }
+
+  @include e(extra) {
+    display: flex;
+    align-items: center;
+    gap: var(--cp-spacing-sm);
+  }
+
+  @include e(body) {
+    flex: 1;
+    padding: var(--cp-spacing-lg);
+    color: var(--cp-text-secondary);
+    line-height: 1.6;
+  }
+
+  @include e(footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+    gap: var(--cp-spacing-sm);
+
+    &.is-bordered {
+      border-top: 1px solid var(--cp-card-divider-color, var(--cp-border));
+    }
+  }
+
+  // ===== 覆层 (Overlay) =====
+  @include e(overlay) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+    background: rgba(26, 26, 36, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--cp-border);
+    opacity: 0;
+    pointer-events: none;
+    transition-property: opacity, transform;
+    transition-duration: var(--cp-card-overlay-duration, 300ms);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+    // 位置: 底部 (默认)
+    &.cp-card__overlay--bottom {
+      bottom: 0;
+    }
+
+    // 位置: 顶部
+    &.cp-card__overlay--top {
+      top: 0;
+      border-top: none;
+      border-bottom: 1px solid var(--cp-border);
+    }
+
+    // 位置: 居中
+    &.cp-card__overlay--center {
+      top: 50%;
+      border-top: none;
+      border-bottom: none;
+    }
+
+    // 动画: 从底部滑入 (默认)
+    &.cp-card__overlay--slide-up {
+      transform: translateY(100%);
+    }
+
+    // 动画: 从顶部滑入
+    &.cp-card__overlay--slide-down {
+      transform: translateY(-100%);
+    }
+
+    // 动画: 从右侧滑入
+    &.cp-card__overlay--slide-left {
+      transform: translateX(100%);
+    }
+
+    // 动画: 从左侧滑入
+    &.cp-card__overlay--slide-right {
+      transform: translateX(-100%);
+    }
+
+    // 动画: 渐显
+    &.cp-card__overlay--fade {
+      transform: none;
+    }
+
+    // 动画: 缩放
+    &.cp-card__overlay--scale {
+      transform: scale(0.9);
+
+      // 居中位置时需要额外的 Y 偏移
+      &.cp-card__overlay--center {
+        transform: translateY(-50%) scale(0.9);
+      }
+    }
+  }
+
+  // Hover 显示覆层
+  &.is-has-overlay:hover {
+    .cp-card__overlay {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) translateX(0) scale(1);
+
+      // 居中位置需要保持 Y 居中
+      &.cp-card__overlay--center {
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  // ===== 减淡模式 (Dimmed Mode) =====
+  @include when(dimmed) {
+    &:not(:hover) {
+      &.cp-card--dimmed-saturation {
+        filter: saturate(0.2) brightness(0.85);
+        opacity: 0.85;
+      }
+
+      &.cp-card--dimmed-gray {
+        filter: grayscale(1) opacity(0.6);
+      }
+    }
+  }
+}
+

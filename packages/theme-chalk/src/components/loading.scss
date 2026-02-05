@@ -1,0 +1,106 @@
+// CpLoading 组件样式
+// Google Material Design 风格圆形加载器
+// 弧线伸缩 + 旋转双重动画
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// 尺寸映射
+$loading-sizes: (
+    sm: 24px,
+    md: 40px,
+    lg: 56px,
+);
+
+@include b(loading) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    // ===== 尺寸 =====
+    @each $name, $size in $loading-sizes {
+        @include m($name) {
+            width: $size;
+            height: $size;
+        }
+    }
+
+    // ===== SVG 容器 =====
+    @include e(svg) {
+        animation: cp-loading-rotate 2s linear infinite;
+    }
+
+    // ===== 轨道 (半透明背景圆) =====
+    @include e(track) {
+        stroke: currentColor;
+        opacity: 0.15;
+    }
+
+    // ===== 动态弧线 =====
+    @include e(circle) {
+        stroke: currentColor;
+        transform-origin: center;
+        animation: cp-loading-dash 1.5s ease-in-out infinite;
+    }
+
+    // ===== 颜色类型 =====
+    @include m(primary) {
+        color: var(--cp-color-primary);
+    }
+
+    @include m(success) {
+        color: var(--cp-color-success);
+    }
+
+    @include m(warning) {
+        color: var(--cp-color-warning);
+    }
+
+    @include m(error) {
+        color: var(--cp-color-error);
+    }
+
+    @include m(info) {
+        color: var(--cp-color-info);
+    }
+
+    @include m(default) {
+        color: inherit;
+    }
+
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        color: var(--cp-loading-color);
+    }
+}
+
+// ===== 动画 =====
+
+// 旋转动画 - 容器整体旋转
+@keyframes cp-loading-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// 弧线伸缩动画 - Google Material Design 风格
+// 配合 pathLength="100" 使用标准化数值
+// 0% 和 100% 必须完全相同 (除了 offset 差一个周期 -100)
+// 使用 1 作为最小值保持 Google 原版质感，用户提到的消失问题已由 Geometry 修复解决
+@keyframes cp-loading-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: -100;
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "jsx": "preserve",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "declaration": true,
+        "declarationMap": true,
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@cyberpunk-vue/*": [
+                "packages/*/src"
+            ]
+        },
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "packages/**/*.ts",
+        "packages/**/*.vue",
+        "play/**/*.ts",
+        "play/**/*.vue",
+        "typings/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

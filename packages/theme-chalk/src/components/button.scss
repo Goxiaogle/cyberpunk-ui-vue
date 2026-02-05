@@ -1,0 +1,854 @@
+// CpButton 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(button) {
+    // 基础样式
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    // 注意：不使用 gap，因为 loader 需要动画 margin 来实现平滑过渡
+    padding: 0 var(--cp-spacing-lg);
+
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: 1px solid transparent;
+    outline: none;
+    background: transparent;
+    color: var(--cp-text-primary);
+    z-index: 1;
+    transition: all 0.2s ease;
+    user-select: none;
+
+    // 机甲风切角 (Top-Left, Bottom-Right)
+    clip-path: polygon(10px 0,
+            100% 0,
+            100% calc(100% - 10px),
+            calc(100% - 10px) 100%,
+            0 100%,
+            0 10px);
+
+    // 装饰性小方块 (右上角)
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        background: currentColor;
+        opacity: 0.5;
+        z-index: 2;
+        transition: all 0.2s ease;
+    }
+
+    // 点击动画
+    &:active:not(.is-disabled) {
+        transform: scale(0.96);
+        transition: transform 0.1s ease;
+    }
+
+    // ===== 尺寸 =====
+    @include m(sm) {
+        height: var(--cp-size-sm);
+        font-size: var(--cp-font-size-sm);
+        padding: 0 var(--cp-spacing-md);
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    @include m(md) {
+        height: var(--cp-size-md);
+        font-size: var(--cp-font-size-md);
+    }
+
+    @include m(lg) {
+        height: var(--cp-size-lg);
+        font-size: var(--cp-font-size-lg);
+        padding: 0 var(--cp-spacing-xl);
+    }
+
+    // ===== Solid 变体 =====
+    @include m(solid) {
+        &.cp-button--primary {
+            background: var(--cp-color-primary);
+            border-color: var(--cp-color-primary);
+            color: #000;
+
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-color-primary-light), 0 0 40px var(--cp-color-primary-light);
+
+                &::after {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &.cp-button--success {
+            background: var(--cp-color-success);
+            border-color: var(--cp-color-success);
+            color: #000;
+
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-color-success-light), 0 0 40px var(--cp-color-success-light);
+
+                &::after {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &.cp-button--warning {
+            background: var(--cp-color-warning);
+            border-color: var(--cp-color-warning);
+            color: var(--cp-bg-deep);
+
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-color-warning-light), 0 0 40px var(--cp-color-warning-light);
+
+                &::after {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &.cp-button--error {
+            background: var(--cp-color-error);
+            border-color: var(--cp-color-error);
+            color: var(--cp-bg-deep);
+
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-color-error-light), 0 0 40px var(--cp-color-error-light);
+
+                &::after {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &.cp-button--info {
+            background: var(--cp-color-info);
+            border-color: var(--cp-color-info);
+            color: var(--cp-bg-deep);
+
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-color-info-light), 0 0 40px var(--cp-color-info-light);
+
+                &::after {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &.cp-button--default {
+            background: var(--cp-bg-elevated);
+            border-color: var(--cp-border);
+            color: var(--cp-text-primary);
+
+            &::after {
+                background: var(--cp-border);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-border);
+                border-color: var(--cp-text-secondary);
+            }
+        }
+    }
+
+    // ===== Outline 变体 =====
+    @include m(outline) {
+        &.cp-button--primary {
+            background: transparent;
+            border-color: var(--cp-color-primary);
+            color: var(--cp-color-primary);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-primary-light);
+                box-shadow: 0 0 15px var(--cp-color-primary-light);
+            }
+        }
+
+        &.cp-button--success {
+            background: transparent;
+            border-color: var(--cp-color-success);
+            color: var(--cp-color-success);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-success-light);
+                box-shadow: 0 0 15px var(--cp-color-success-light);
+            }
+        }
+
+        &.cp-button--warning {
+            background: transparent;
+            border-color: var(--cp-color-warning);
+            color: var(--cp-color-warning);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-warning-light);
+                box-shadow: 0 0 15px var(--cp-color-warning-light);
+            }
+        }
+
+        &.cp-button--error {
+            background: transparent;
+            border-color: var(--cp-color-error);
+            color: var(--cp-color-error);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-error-light);
+                box-shadow: 0 0 15px var(--cp-color-error-light);
+            }
+        }
+
+        &.cp-button--info {
+            background: transparent;
+            border-color: var(--cp-color-info);
+            color: var(--cp-color-info);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-info-light);
+                box-shadow: 0 0 15px var(--cp-color-info-light);
+            }
+        }
+
+        &.cp-button--default {
+            background: transparent;
+            border-color: var(--cp-border);
+            color: var(--cp-text-secondary);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-bg-elevated);
+                border-color: var(--cp-text-secondary);
+            }
+        }
+    }
+
+    // ===== Semi 变体 (半填充) =====
+    @include m(semi) {
+        &.cp-button--primary {
+            background: var(--cp-color-primary-light);
+            border-color: var(--cp-color-primary);
+            color: var(--cp-color-primary);
+
+            &::after {
+                background: var(--cp-color-primary);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-color-primary-light);
+                text-shadow: 0 0 8px var(--cp-color-primary);
+            }
+        }
+
+        &.cp-button--success {
+            background: var(--cp-color-success-light);
+            border-color: var(--cp-color-success);
+            color: var(--cp-color-success);
+
+            &::after {
+                background: var(--cp-color-success);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-color-success-light);
+                text-shadow: 0 0 8px var(--cp-color-success);
+            }
+        }
+
+        &.cp-button--warning {
+            background: var(--cp-color-warning-light);
+            border-color: var(--cp-color-warning);
+            color: var(--cp-color-warning);
+
+            &::after {
+                background: var(--cp-color-warning);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-color-warning-light);
+                text-shadow: 0 0 8px var(--cp-color-warning);
+            }
+        }
+
+        &.cp-button--error {
+            background: var(--cp-color-error-light);
+            border-color: var(--cp-color-error);
+            color: var(--cp-color-error);
+
+            &::after {
+                background: var(--cp-color-error);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-color-error-light);
+                text-shadow: 0 0 8px var(--cp-color-error);
+            }
+        }
+
+        &.cp-button--info {
+            background: var(--cp-color-info-light);
+            border-color: var(--cp-color-info);
+            color: var(--cp-color-info);
+
+            &::after {
+                background: var(--cp-color-info);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-color-info-light);
+                text-shadow: 0 0 8px var(--cp-color-info);
+            }
+        }
+
+        &.cp-button--default {
+            background: rgba(42, 42, 58, 0.3);
+            border-color: var(--cp-border);
+            color: var(--cp-text-secondary);
+
+            &::after {
+                background: var(--cp-border);
+                opacity: 0.8;
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                background: rgba(42, 42, 58, 0.5);
+            }
+        }
+    }
+
+    // ===== Ghost 变体 =====
+    @include m(ghost) {
+        &.cp-button--primary {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-color-primary);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-primary-light);
+                text-shadow: 0 0 5px var(--cp-color-primary);
+            }
+        }
+
+        &.cp-button--success {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-color-success);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-success-light);
+                text-shadow: 0 0 5px var(--cp-color-success);
+            }
+        }
+
+        &.cp-button--warning {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-color-warning);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-warning-light);
+                text-shadow: 0 0 5px var(--cp-color-warning);
+            }
+        }
+
+        &.cp-button--error {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-color-error);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-error-light);
+                text-shadow: 0 0 5px var(--cp-color-error);
+            }
+        }
+
+        &.cp-button--info {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-color-info);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-info-light);
+                text-shadow: 0 0 5px var(--cp-color-info);
+            }
+        }
+
+        &.cp-button--default {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-text-secondary);
+
+            &::after {
+                display: none;
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-bg-elevated);
+                color: var(--cp-text-primary);
+            }
+        }
+    }
+
+    // ===== Neon 变体 (霓虹发光) =====
+    @include m(neon) {
+        &.cp-button--primary {
+            background: transparent;
+            border-color: var(--cp-color-primary);
+            color: var(--cp-color-primary);
+            box-shadow: 0 0 5px var(--cp-color-primary), inset 0 0 5px var(--cp-color-primary-light);
+            text-shadow: 0 0 5px var(--cp-color-primary);
+            animation: neon-pulse-primary 2s ease-in-out infinite;
+
+            &::after {
+                background: var(--cp-color-primary);
+                box-shadow: 0 0 5px var(--cp-color-primary);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-primary-light);
+                box-shadow: 0 0 15px var(--cp-color-primary), 0 0 30px var(--cp-color-primary-light), inset 0 0 10px var(--cp-color-primary-light);
+            }
+        }
+
+        &.cp-button--success {
+            background: transparent;
+            border-color: var(--cp-color-success);
+            color: var(--cp-color-success);
+            box-shadow: 0 0 5px var(--cp-color-success), inset 0 0 5px var(--cp-color-success-light);
+            text-shadow: 0 0 5px var(--cp-color-success);
+            animation: neon-pulse-success 2s ease-in-out infinite;
+
+            &::after {
+                background: var(--cp-color-success);
+                box-shadow: 0 0 5px var(--cp-color-success);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-success-light);
+                box-shadow: 0 0 15px var(--cp-color-success), 0 0 30px var(--cp-color-success-light), inset 0 0 10px var(--cp-color-success-light);
+            }
+        }
+
+        &.cp-button--warning {
+            background: transparent;
+            border-color: var(--cp-color-warning);
+            color: var(--cp-color-warning);
+            box-shadow: 0 0 5px var(--cp-color-warning), inset 0 0 5px var(--cp-color-warning-light);
+            text-shadow: 0 0 5px var(--cp-color-warning);
+            animation: neon-pulse-warning 2s ease-in-out infinite;
+
+            &::after {
+                background: var(--cp-color-warning);
+                box-shadow: 0 0 5px var(--cp-color-warning);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-warning-light);
+                box-shadow: 0 0 15px var(--cp-color-warning), 0 0 30px var(--cp-color-warning-light), inset 0 0 10px var(--cp-color-warning-light);
+            }
+        }
+
+        &.cp-button--error {
+            background: transparent;
+            border-color: var(--cp-color-error);
+            color: var(--cp-color-error);
+            box-shadow: 0 0 5px var(--cp-color-error), inset 0 0 5px var(--cp-color-error-light);
+            text-shadow: 0 0 5px var(--cp-color-error);
+            animation: neon-pulse-error 2s ease-in-out infinite;
+
+            &::after {
+                background: var(--cp-color-error);
+                box-shadow: 0 0 5px var(--cp-color-error);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-error-light);
+                box-shadow: 0 0 15px var(--cp-color-error), 0 0 30px var(--cp-color-error-light), inset 0 0 10px var(--cp-color-error-light);
+            }
+        }
+
+        &.cp-button--info {
+            background: transparent;
+            border-color: var(--cp-color-info);
+            color: var(--cp-color-info);
+            box-shadow: 0 0 5px var(--cp-color-info), inset 0 0 5px var(--cp-color-info-light);
+            text-shadow: 0 0 5px var(--cp-color-info);
+            animation: neon-pulse-info 2s ease-in-out infinite;
+
+            &::after {
+                background: var(--cp-color-info);
+                box-shadow: 0 0 5px var(--cp-color-info);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-color-info-light);
+                box-shadow: 0 0 15px var(--cp-color-info), 0 0 30px var(--cp-color-info-light), inset 0 0 10px var(--cp-color-info-light);
+            }
+        }
+
+        &.cp-button--default {
+            background: transparent;
+            border-color: var(--cp-border);
+            color: var(--cp-text-secondary);
+            box-shadow: 0 0 5px var(--cp-border);
+
+            &::after {
+                background: var(--cp-border);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-bg-elevated);
+                box-shadow: 0 0 10px var(--cp-border);
+            }
+        }
+    }
+
+    // ===== 状态 =====
+    @include when(disabled) {
+        cursor: not-allowed;
+        opacity: 0.5;
+        filter: grayscale(0.5);
+    }
+
+    @include when(loading) {
+        cursor: wait;
+        pointer-events: none;
+    }
+
+    @include when(block) {
+        display: flex;
+        width: 100%;
+    }
+
+    // ===== 形状模式 =====
+    // clip 是默认，已在基础样式中定义
+
+    // no-clip (直角)
+    @include m(shape-no-clip) {
+        clip-path: none;
+        border-radius: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    // round (圆角)
+    @include m(shape-round) {
+        clip-path: none;
+        border-radius: var(--cp-radius-lg);
+
+        &::after {
+            display: none;
+        }
+    }
+
+    // circle (胶囊/全圆)
+    @include m(shape-circle) {
+        clip-path: none;
+        border-radius: 9999px;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    // 虚线边框
+    @include when(dashed) {
+        border-style: dashed;
+    }
+
+    // 自定义颜色
+    @include when(custom-color) {
+
+        // Solid
+        &.cp-button--solid {
+            background: var(--cp-button-custom-color);
+            border-color: var(--cp-button-custom-color);
+            color: var(--cp-bg-deep);
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--cp-button-custom-color-light);
+            }
+        }
+
+        // Outline
+        &.cp-button--outline {
+            background: transparent;
+            border-color: var(--cp-button-custom-color);
+            color: var(--cp-button-custom-color);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-button-custom-color-light);
+                box-shadow: 0 0 15px var(--cp-button-custom-color-light);
+            }
+        }
+
+        // Semi
+        &.cp-button--semi {
+            background: var(--cp-button-custom-color-light);
+            border-color: var(--cp-button-custom-color);
+            color: var(--cp-button-custom-color);
+
+            &::after {
+                background: var(--cp-button-custom-color);
+            }
+
+            &:hover:not(.is-disabled) {
+                filter: brightness(1.3);
+                box-shadow: 0 0 20px var(--cp-button-custom-color-light);
+            }
+        }
+
+        // Ghost
+        &.cp-button--ghost {
+            background: transparent;
+            border-color: transparent;
+            color: var(--cp-button-custom-color);
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-button-custom-color-light);
+            }
+        }
+
+        // Neon
+        &.cp-button--neon {
+            background: transparent;
+            border-color: var(--cp-button-custom-color);
+            color: var(--cp-button-custom-color);
+            box-shadow: 0 0 5px var(--cp-button-custom-color);
+            text-shadow: 0 0 5px var(--cp-button-custom-color);
+
+            &::after {
+                background: var(--cp-button-custom-color);
+                box-shadow: 0 0 5px var(--cp-button-custom-color);
+            }
+
+            &:hover:not(.is-disabled) {
+                background: var(--cp-button-custom-color-light);
+                box-shadow: 0 0 15px var(--cp-button-custom-color), 0 0 30px var(--cp-button-custom-color-light);
+            }
+        }
+    }
+
+    // ===== 内部元素 =====
+    @include e(prefix) {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 0.35em; // 紧凑间距，保持视觉平衡
+        // 限制图标尺寸，使其与文字协调
+        font-size: 1.1em;
+
+        .cp-icon {
+            --cp-icon-size: 1em;
+        }
+    }
+
+    @include e(suffix) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0.35em; // 紧凑间距，保持视觉平衡
+        // 限制图标尺寸，使其与文字协调
+        font-size: 1.1em;
+
+        .cp-icon {
+            --cp-icon-size: 1em;
+        }
+    }
+
+    @include e(content) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--cp-spacing-sm);
+    }
+
+    @include e(loader) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75em; // 再次增加间距
+        // 限制 Loading 尺寸
+        font-size: 1.1em;
+        width: 1.1em;
+        flex-shrink: 0;
+
+        .cp-loading {
+            --cp-loading-size: 1em;
+        }
+    }
+
+    // loading-placeholder 模式：通过平衡 padding 预留空间
+    @include when(loading-placeholder) {
+        position: relative;
+
+        // 计算预留的总宽度 = Loader宽度(1.1em * 1.1 font-size) + 间距(0.75em)
+        $reserved-width: calc(1.21em + 0.75em);
+
+        // 非加载状态：左右各分担一半预留宽度，使文字居中
+        padding-left: calc(var(--cp-spacing-lg) + #{$reserved-width} / 2);
+        padding-right: calc(var(--cp-spacing-lg) + #{$reserved-width} / 2);
+        transition: padding-left 0.25s ease, padding-right 0.25s ease;
+
+        .cp-button__loader {
+            position: absolute;
+            left: var(--cp-spacing-lg); // Loader 始终位于左侧标准位置
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        // 加载状态：左侧占据全部预留宽度，右侧恢复标准
+        &.is-loading {
+            padding-left: calc(var(--cp-spacing-lg) + #{$reserved-width});
+            padding-right: var(--cp-spacing-lg);
+
+            .cp-button__loader {
+                opacity: 1;
+            }
+        }
+    }
+
+}
+
+// Vue Transition 样式 - Loader 入场/离场动画 (仅用于非占位模式)
+.cp-loader-enter-active,
+.cp-loader-leave-active {
+    transition: width 0.25s ease, margin 0.25s ease, opacity 0.2s ease;
+}
+
+.cp-loader-enter-from,
+.cp-loader-leave-to {
+    width: 0 !important;
+    margin-right: 0 !important;
+    opacity: 0 !important;
+}
+
+
+
+
+
+@keyframes neon-pulse-primary {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--cp-color-primary);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cp-color-primary), 0 0 25px var(--cp-color-primary);
+    }
+}
+
+@keyframes neon-pulse-success {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--cp-color-success);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cp-color-success), 0 0 25px var(--cp-color-success);
+    }
+}
+
+@keyframes neon-pulse-warning {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--cp-color-warning);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cp-color-warning), 0 0 25px var(--cp-color-warning);
+    }
+}
+
+@keyframes neon-pulse-error {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--cp-color-error);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cp-color-error), 0 0 25px var(--cp-color-error);
+    }
+}
+
+@keyframes neon-pulse-info {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--cp-color-info);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cp-color-info), 0 0 25px var(--cp-color-info);
+    }
+}

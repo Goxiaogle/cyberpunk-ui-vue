@@ -1,0 +1,28 @@
+{
+    "name": "@cyberpunk-vue/components",
+    "version": "0.1.0",
+    "description": "Cyberpunk Vue components",
+    "type": "module",
+    "main": "index.ts",
+    "module": "index.ts",
+    "types": "index.ts",
+    "exports": {
+        ".": {
+            "import": "./index.ts",
+            "types": "./index.ts"
+        },
+        "./*": "./*"
+    },
+    "files": [
+        "src",
+        "dist"
+    ],
+    "peerDependencies": {
+        "vue": "^3.5.0"
+    },
+    "dependencies": {
+        "@cyberpunk-vue/hooks": "workspace:*",
+        "@cyberpunk-vue/constants": "workspace:*",
+        "@cyberpunk-vue/theme-chalk": "workspace:*"
+    }
+}

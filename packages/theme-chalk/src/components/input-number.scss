@@ -1,0 +1,210 @@
+// CpInputNumber 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(input-number) {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    width: 180px;
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+
+    // ===== 尺寸 =====
+    @include m(sm) {
+        height: var(--cp-size-sm);
+        font-size: var(--cp-font-size-sm);
+    }
+
+    @include m(md) {
+        height: var(--cp-size-md);
+        font-size: var(--cp-font-size-md);
+    }
+
+    @include m(lg) {
+        height: var(--cp-size-lg);
+        font-size: var(--cp-font-size-lg);
+    }
+
+    // ===== 控制按钮位置 =====
+    @include m(controls-both) {
+        .cp-input-number__inner {
+            text-align: center;
+        }
+    }
+
+    @include m(controls-right) {
+        .cp-input-number__inner {
+            padding-right: 36px;
+        }
+
+        .cp-input-number__controls {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            width: 32px;
+            border-left: 1px solid var(--cp-border);
+        }
+
+        .cp-input-number__increase,
+        .cp-input-number__decrease {
+            flex: 1;
+            width: 100%;
+            height: 50%;
+            border: none;
+            clip-path: none;
+
+            svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        .cp-input-number__increase {
+            border-bottom: 1px solid var(--cp-border);
+        }
+    }
+
+    // ===== 状态 =====
+    @include when(disabled) {
+        cursor: not-allowed;
+        opacity: 0.5;
+
+        .cp-input-number__inner,
+        .cp-input-number__increase,
+        .cp-input-number__decrease {
+            cursor: not-allowed;
+        }
+    }
+
+    @include when(focused) {
+        .cp-input-number__inner {
+            border-color: var(--cp-color-primary);
+            box-shadow: 0 0 10px var(--cp-color-primary-light), inset 0 0 5px var(--cp-color-primary-light);
+        }
+    }
+
+    @include when(without-controls) {
+        .cp-input-number__inner {
+            padding: 0 var(--cp-spacing-md);
+            text-align: left;
+        }
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        &.is-focused .cp-input-number__inner {
+            border-color: var(--cp-input-number-custom-color);
+            box-shadow: 0 0 10px var(--cp-input-number-custom-color-light), inset 0 0 5px var(--cp-input-number-custom-color-light);
+        }
+
+        .cp-input-number__increase:hover:not(.is-disabled),
+        .cp-input-number__decrease:hover:not(.is-disabled) {
+            color: var(--cp-input-number-custom-color);
+        }
+    }
+
+    // ===== 内部元素 =====
+    @include e(inner) {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        padding: 0 var(--cp-spacing-sm);
+        border: 1px solid var(--cp-border);
+        background: transparent;
+        color: var(--cp-text-primary);
+        font-family: 'Rajdhani', monospace;
+        font-size: inherit;
+        text-align: center;
+        outline: none;
+        transition: all 0.2s ease;
+
+        // 机甲风切角
+        clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+
+        &::placeholder {
+            color: var(--cp-text-muted);
+        }
+
+        // 移除默认箭头
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    @include e(increase) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 100%;
+        padding: 0;
+        border: 1px solid var(--cp-border);
+        border-left: none;
+        background: var(--cp-bg-elevated);
+        color: var(--cp-text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        // 右侧切角
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        &:hover:not(.is-disabled) {
+            color: var(--cp-color-primary);
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        &.is-disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+
+    @include e(decrease) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 100%;
+        padding: 0;
+        border: 1px solid var(--cp-border);
+        border-right: none;
+        background: var(--cp-bg-elevated);
+        color: var(--cp-text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        // 左侧切角
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        &:hover:not(.is-disabled) {
+            color: var(--cp-color-primary);
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        &.is-disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+}

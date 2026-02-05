@@ -1,0 +1,76 @@
+# ========================
+# Dependencies
+# ========================
+node_modules/
+.pnpm-store/
+
+# ========================
+# Build outputs
+# ========================
+dist/
+es/
+lib/
+*.tsbuildinfo
+
+# ========================
+# Storybook
+# ========================
+storybook-static/
+
+# ========================
+# IDE & Editors
+# ========================
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ========================
+# OS generated files
+# ========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ========================
+# Testing
+# ========================
+coverage/
+.nyc_output/
+
+# ========================
+# Environment variables
+# ========================
+.env
+.env.local
+.env.*.local
+
+# ========================
+# Misc
+# ========================
+*.local
+*.tgz
+.cache/
+.temp/
+.tmp/
+
+# ========================
+# AI Agent files (optional - remove if you want to track these)
+# ========================
+.agent/
+.agents/
+.gemini/

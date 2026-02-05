@@ -1,0 +1,113 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+// ============================================
+// CpAvatarGroup - 头像组组件
+// ============================================
+
+// 边框宽度
+$avatar-group-border-width: 2px;
+
+// 折叠计数器字体比例
+$avatar-group-counter-font-ratio: 0.35;
+
+@include b(avatar-group) {
+    display: inline-flex;
+    align-items: center;
+
+    // ========================================
+    // 堆叠模式
+    // ========================================
+
+    &.is-stacked {
+        .#{$namespace}-avatar {
+            margin-left: var(--cp-avatar-group-spacing, -8px);
+            border: $avatar-group-border-width solid var(--cp-bg-base);
+            box-sizing: content-box;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            // 堆叠时增加 z-index，后面的在上
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    z-index: #{$i};
+                }
+            }
+        }
+    }
+
+    // 非堆叠模式 - 使用正间距
+    &:not(.is-stacked) {
+        .#{$namespace}-avatar {
+            margin-left: var(--cp-avatar-group-spacing, 0);
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+
+    // ========================================
+    // 折叠计数器
+    // ========================================
+
+    // 切角尺寸比例（与 avatar 保持一致）
+    $counter-clip-ratio: 0.15;
+
+    @include e(counter) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--cp-avatar-size, 40px);
+        height: var(--cp-avatar-size, 40px);
+        background-color: var(--cp-bg-elevated);
+        color: var(--cp-text-secondary);
+        font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-group-counter-font-ratio});
+        font-weight: 600;
+        margin-left: var(--cp-avatar-group-spacing, -8px);
+        border: $avatar-group-border-width solid var(--cp-bg-base);
+        box-sizing: content-box;
+        cursor: default;
+        z-index: 11;
+        flex-shrink: 0;
+
+        // Hover 效果
+        transition: background-color 0.2s ease,
+                    color 0.2s ease;
+
+        &:hover {
+            background-color: var(--cp-border);
+            color: var(--cp-text-primary);
+        }
+
+        // ========================================
+        // 计数器形状变体
+        // ========================================
+
+        // 圆形 (默认)
+        &.#{$namespace}-avatar-group__counter--shape-circle {
+            border-radius: 50%;
+        }
+
+        // 圆角方形
+        &.#{$namespace}-avatar-group__counter--shape-square {
+            border-radius: var(--cp-radius-sm);
+        }
+
+        // 机甲切角
+        &.#{$namespace}-avatar-group__counter--shape-clip {
+            $clip-size: calc(var(--cp-avatar-size, 40px) * #{$counter-clip-ratio});
+            clip-path: polygon(
+                #{$clip-size} 0,
+                100% 0,
+                100% calc(100% - #{$clip-size}),
+                calc(100% - #{$clip-size}) 100%,
+                0 100%,
+                0 #{$clip-size}
+            );
+            border-radius: 0;
+        }
+    }
+}

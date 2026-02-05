@@ -1,0 +1,455 @@
+// CpProgress 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(progress) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+
+    // ===== 线性进度条 =====
+    @include m(line) {
+        flex-direction: row;
+    }
+
+    @include e(outer) {
+        flex: 1;
+        position: relative;
+        // 移除 outer 的 clip-path 防止布局塌陷
+    }
+
+    @include e(inner) {
+        position: relative;
+        width: 100%;
+        background: var(--cp-bg-deep, #0a0a0f); // 使用更深色的背景作为轨道
+        border: 1px solid var(--cp-border);
+        overflow: hidden;
+
+        // 机甲风切角 (Top-Left, Bottom-Right)
+        clip-path: polygon(4px 0,
+                100% 0,
+                100% calc(100% - 4px),
+                calc(100% - 4px) 100%,
+                0 100%,
+                0 4px);
+    }
+
+    // ===== Step 模式：分段进度条 =====
+    @include e(steps) {
+        display: flex;
+        background: transparent;
+        border: none;
+        clip-path: none;
+    }
+
+    @include e(step) {
+        flex: 1;
+        height: 100%;
+        background: var(--cp-bg-deep);
+        border: 1px solid var(--cp-border);
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+
+        // 切角形状
+        clip-path: polygon(
+            3px 0,
+            100% 0,
+            100% calc(100% - 3px),
+            calc(100% - 3px) 100%,
+            0 100%,
+            0 3px
+        );
+
+        // 完成状态
+        @include when(full) {
+            background: var(--cp-progress-color, var(--cp-color-success));
+            box-shadow: 0 0 8px var(--cp-progress-color, var(--cp-color-success)),
+                        inset 0 0 4px rgba(255, 255, 255, 0.2);
+        }
+
+        // 当前状态（脉冲动效）
+        @include when(current) {
+            background: var(--cp-progress-color, var(--cp-color-warning));
+            animation: cp-progress-step-pulse 1.5s ease-in-out infinite;
+        }
+    }
+
+    @include e(bar) {
+        position: relative;
+        height: 100%;
+        background: var(--cp-progress-color, var(--cp-color-primary));
+        transition: width 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        overflow: hidden;
+
+        // 霓虹发光效果
+        box-shadow:
+            0 0 8px var(--cp-progress-color, var(--cp-color-primary)),
+            inset 0 0 4px rgba(255, 255, 255, 0.2);
+
+        // 光波扫过效果 (默认隐藏)
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 15%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.05) 85%,
+                transparent 100%
+            );
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+            pointer-events: none;
+            // 默认不播放动画
+            animation: none;
+        }
+    }
+
+    // ===== 加载状态 =====
+    @include when(loading) {
+        .cp-progress__bar::after {
+            animation: cp-progress-shimmer 2s ease-in-out infinite;
+        }
+    }
+
+    @include e(innerText) {
+        padding: 0 var(--cp-spacing-xs);
+        font-size: 0.75em; // 相对于进度条高度，保持文字不会撑满
+        line-height: 1;
+        // 优先使用用户自定义颜色，其次使用 color-contrast() 自动计算，最后回退到 black
+        color: var(--cp-progress-text-color, color-contrast(var(--cp-progress-color, var(--cp-color-primary)) vs #000, #fff, black));
+        white-space: nowrap;
+        font-weight: bold;
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    }
+
+    @include e(text) {
+        margin-left: var(--cp-spacing-sm);
+        font-size: var(--cp-font-size-sm);
+        color: var(--cp-text-secondary);
+        white-space: nowrap;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        min-width: 50px; // 保持 100% 宽度稳定，防止抖动
+        flex-shrink: 0;
+    }
+
+    // ===== 尺寸变体 =====
+    @include m(sm) {
+        .cp-progress__text {
+            font-size: var(--cp-font-size-sm); // 修正: 使用 sm
+        }
+    }
+
+    @include m(lg) {
+        .cp-progress__text {
+            font-size: var(--cp-font-size-md);
+        }
+
+        .cp-progress__inner {
+            clip-path: polygon(8px 0,
+                    100% 0,
+                    100% calc(100% - 8px),
+                    calc(100% - 8px) 100%,
+                    0 100%,
+                    0 8px);
+        }
+    }
+
+    @include m(xl) {
+        .cp-progress__text {
+            font-size: var(--cp-font-size-lg);
+        }
+
+        .cp-progress__inner {
+            clip-path: polygon(12px 0,
+                    100% 0,
+                    100% calc(100% - 12px),
+                    calc(100% - 12px) 100%,
+                    0 100%,
+                    0 12px);
+        }
+    }
+
+    @include m(xxl) {
+        .cp-progress__text {
+            font-size: 1.25rem;
+        }
+
+        .cp-progress__inner {
+            clip-path: polygon(16px 0,
+                    100% 0,
+                    100% calc(100% - 16px),
+                    calc(100% - 16px) 100%,
+                    0 100%,
+                    0 16px);
+        }
+    }
+
+    // ===== 形状变体 =====
+    @include m(shape-no-clip) {
+        .cp-progress__inner {
+            clip-path: none;
+        }
+    }
+
+    @include m(shape-round) {
+        .cp-progress__inner {
+            clip-path: none;
+            border-radius: 100px; // 对于进度条，全圆角更美观
+        }
+    }
+
+    // ===== 状态颜色 =====
+    @include when(success) {
+        --cp-progress-color: var(--cp-color-success);
+
+        .cp-progress__text {
+            color: var(--cp-color-success);
+        }
+    }
+
+    @include when(warning) {
+        --cp-progress-color: var(--cp-color-warning);
+
+        .cp-progress__text {
+            color: var(--cp-color-warning);
+        }
+    }
+
+    @include when(error) {
+        --cp-progress-color: var(--cp-color-error);
+
+        .cp-progress__text {
+            color: var(--cp-color-error);
+        }
+    }
+
+    // ===== 条纹效果 =====
+    @include when(striped) {
+        .cp-progress__bar {
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.4) 25%,
+                rgba(0, 0, 0, 0.1) 25%,
+                rgba(0, 0, 0, 0.1) 50%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0.4) 75%,
+                rgba(0, 0, 0, 0.1) 75%,
+                rgba(0, 0, 0, 0.1)
+            );
+            background-size: 24px 24px;
+        }
+    }
+
+    @include when(striped-flow) {
+        .cp-progress__bar {
+            animation: cp-progress-striped-flow 1s linear infinite;
+        }
+    }
+
+    // ===== 不确定模式 =====
+    @include when(indeterminate) {
+        .cp-progress__bar {
+            width: 40% !important;
+            position: absolute;
+            animation: cp-progress-indeterminate 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+            // 增强发光效果
+            box-shadow:
+                0 0 12px var(--cp-progress-color, var(--cp-color-primary)),
+                0 0 24px var(--cp-progress-color, var(--cp-color-primary)),
+                inset 0 0 6px rgba(255, 255, 255, 0.3);
+        }
+
+        .cp-progress__indeterminate {
+            stroke: var(--cp-progress-color, var(--cp-color-primary));
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: 0;
+            transform-origin: center;
+            animation: cp-circle-indeterminate 1.5s ease-in-out infinite;
+            // 移除发光，保持利落感
+        }
+    }
+
+    // ===== 环形进度条 =====
+    @include m(circle) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        padding: 6px; // 预留发光空间
+    }
+
+    @include m(dashboard) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        padding: 6px; // 预留发光空间
+    }
+
+    @include e(circle) {
+        display: block;
+        overflow: visible; // 解决发光裁剪问题
+    }
+
+    @include e(track) {
+        stroke: var(--cp-border);
+        opacity: 0.35; // 略微提高轨道可见度
+    }
+
+    @include e(inner-track) {
+        stroke: var(--cp-text-disabled);
+        // 静止，无动画，利落感
+    }
+
+    @include e(path) {
+        // 默认使用 stroke（用于 round 模式的 circle 元素）
+        stroke: var(--cp-progress-color, var(--cp-color-primary));
+        fill: none; // 默认无填充
+        // 移除 transition: all，防止浏览器对 'd' 属性进行错误的插值导致抖动
+        // 颜色变化可以通过父级或特定属性过渡，或者不使用过渡以保持机甲风格的利落感
+        transition: stroke 0.3s ease, fill 0.3s ease;
+    }
+
+    // 路径模式下使用 fill (clip/no-clip)
+    &.cp-progress--shape-clip,
+    &.cp-progress--shape-no-clip {
+        .cp-progress__path {
+            fill: var(--cp-progress-color, var(--cp-color-primary));
+            stroke: none;
+        }
+    }
+
+    // 圆角模式保持 stroke
+    &.cp-progress--shape-round {
+        .cp-progress__path {
+            fill: none;
+            stroke: var(--cp-progress-color, var(--cp-color-primary));
+        }
+    }
+
+    // 环形模式下的文字居中
+    &.cp-progress--circle,
+    &.cp-progress--dashboard {
+        .cp-progress__text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            text-align: center;
+            font-size: var(--cp-font-size-lg);
+            font-weight: 700;
+            color: var(--cp-text-primary);
+        }
+    }
+
+    // ===== 文字在内部 =====
+    @include when(text-inside) {
+        .cp-progress__text {
+            display: none;
+        }
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        .cp-progress__bar {
+            background-color: var(--cp-progress-color);
+        }
+
+        .cp-progress__path {
+            stroke: var(--cp-progress-color);
+            // 无发光
+        }
+
+        .cp-progress__indeterminate {
+            stroke: var(--cp-progress-color);
+            // 无发光
+        }
+    }
+}
+
+// ===== 动画 =====
+@keyframes cp-progress-striped-flow {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 24px 0;
+    }
+}
+
+// 线性不确定进度动画 - 更流畅的移动
+@keyframes cp-progress-indeterminate {
+    0% {
+        left: -40%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+// 环形不确定进度动画 - Google Material Design 风格
+@keyframes cp-circle-indeterminate {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        transform: rotate(0deg);
+    }
+    50% {
+        stroke-dasharray: 100, 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 100, 200;
+        stroke-dashoffset: -125;
+        transform: rotate(360deg);
+    }
+}
+
+// 光波扫过动画
+@keyframes cp-progress-shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 200%;
+    }
+}
+
+// 纯旋转
+@keyframes cp-circle-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Step 模式脉冲动效
+@keyframes cp-progress-step-pulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 8px var(--cp-progress-color, var(--cp-color-warning)),
+                    inset 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 16px var(--cp-progress-color, var(--cp-color-warning)),
+                    inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+}

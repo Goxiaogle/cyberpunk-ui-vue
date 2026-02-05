@@ -1,0 +1,408 @@
+// CpTag 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// Tag 尺寸配置
+$tag-sizes: (
+    sm: (
+        height: 20px,
+        padding: 0 6px,
+        font-size: 11px,
+        clip: 4px,
+        close-size: 12px,
+    ),
+    md: (
+        height: 24px,
+        padding: 0 8px,
+        font-size: 12px,
+        clip: 5px,
+        close-size: 14px,
+    ),
+    lg: (
+        height: 28px,
+        padding: 0 10px,
+        font-size: 13px,
+        clip: 6px,
+        close-size: 16px,
+    ),
+);
+
+// 颜色映射
+$tag-types: (
+    primary: var(--cp-color-primary),
+    success: var(--cp-color-success),
+    warning: var(--cp-color-warning),
+    error: var(--cp-color-error),
+    info: var(--cp-color-info),
+);
+
+@include b(tag) {
+    // 基础样式
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    vertical-align: middle;
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    user-select: none;
+    cursor: default;
+    transition: all 0.2s ease;
+
+    // CSS 变量默认值
+    --cp-tag-color: var(--cp-text-secondary);
+    --cp-tag-color-light: rgba(255, 255, 255, 0.1);
+    --cp-tag-bg: var(--cp-tag-color);
+    --cp-tag-border: var(--cp-tag-color);
+    // 使用 color-contrast 自动选择最佳对比色 (黑或白)
+    --cp-tag-text: color-contrast(var(--cp-tag-color) vs #000, #fff);
+
+    // ===== 内容区域 =====
+    @include e(content) {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+    }
+
+    // ===== 关闭按钮 =====
+    @include e(close) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 4px;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: all 0.15s ease;
+        border-radius: 2px;
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+
+    // ===== 装饰块 (clip 模式右上角) =====
+    @include e(decor) {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 5px;
+        height: 5px;
+        background: var(--cp-tag-color);
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+        opacity: 0.8;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+
+    // ===== 尺寸变体 =====
+    @each $size-name, $size-config in $tag-sizes {
+        @include m(#{$size-name}) {
+            height: map-get($size-config, height);
+            padding: map-get($size-config, padding);
+            font-size: map-get($size-config, font-size);
+
+            .cp-tag__close {
+                width: map-get($size-config, close-size);
+                height: map-get($size-config, close-size);
+            }
+
+            // Clip 形状
+            &.cp-tag--shape-clip {
+                $clip: map-get($size-config, clip);
+                clip-path: polygon(
+                    $clip 0,
+                    100% 0,
+                    100% calc(100% - #{$clip}),
+                    calc(100% - #{$clip}) 100%,
+                    0 100%,
+                    0 $clip
+                );
+            }
+        }
+    }
+
+    // ===== 形状模式 =====
+    // shape-clip 的 clip-path 已在尺寸循环中定义
+
+    @include m(shape-no-clip) {
+        clip-path: none;
+        border-radius: 2px;
+
+        .cp-tag__decor {
+            display: none;
+        }
+    }
+
+    @include m(shape-round) {
+        clip-path: none;
+        border-radius: 9999px;
+
+        .cp-tag__decor {
+            display: none;
+        }
+    }
+
+    // ===== 变体样式 =====
+    // Solid - 实心填充 (文字颜色由 is-typed / default 规则分别处理)
+    @include m(variant-solid) {
+        background: var(--cp-tag-color);
+        border: 1px solid transparent;
+
+        .cp-tag__decor {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        // 关闭按钮 hover 背景
+        .cp-tag__close:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    // Outline - 边框描边
+    @include m(variant-outline) {
+        background: transparent;
+        color: var(--cp-tag-color);
+        border: 1px solid var(--cp-tag-color);
+
+        .cp-tag__decor {
+            background: var(--cp-tag-color);
+        }
+    }
+
+    // Semi - 半透明填充
+    @include m(variant-semi) {
+        background: var(--cp-tag-color-light);
+        color: var(--cp-tag-color);
+        border: 1px solid var(--cp-tag-color);
+        backdrop-filter: blur(4px);
+
+        .cp-tag__decor {
+            background: var(--cp-tag-color);
+        }
+    }
+
+    // Note - 便利贴风格 (左边框 + 半透明背景)
+    @include m(variant-note) {
+        background: rgba(0, 0, 0, 0.4);
+        color: var(--cp-tag-color);
+        border: none;
+        border-left: 2px solid var(--cp-tag-color);
+        border-radius: 0;
+        clip-path: none;
+        gap: 8px;
+        padding: 6px 12px;
+        height: auto;
+        min-height: 32px;
+
+        .cp-tag__decor {
+            display: none;
+        }
+
+        .cp-tag__prefix {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .cp-tag__content {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .cp-tag__suffix {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+            font-family: system-ui, sans-serif;
+        }
+
+        // Hover 效果
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    // ===== 前缀元素 =====
+    @include e(prefix) {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-right: 4px;
+        font-size: 1.1em;
+    }
+
+    // ===== 后缀元素 =====
+    @include e(suffix) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 4px;
+        font-weight: 600;
+    }
+
+    // ===== 虚线边框 =====
+    @include when(dashed) {
+        border-style: dashed;
+        
+        // Note 变体: 只对左边框应用虚线
+        &.cp-tag--variant-note {
+            border-style: none;
+            border-left-style: dashed;
+        }
+    }
+
+    // ===== 可关闭状态 =====
+    @include when(closable) {
+        padding-right: 4px;
+    }
+
+    // ===== 禁用状态 =====
+    @include when(disabled) {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(0.6);
+
+        .cp-tag__close {
+            pointer-events: none;
+        }
+    }
+
+    // ===== 可选中状态 (基础: 未选中) =====
+    @include when(selectable) {
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.3s ease;
+        
+        // 未选中状态：降低饱和度和透明度，表现为"未激活"
+        &:not(.is-selected) {
+            filter: grayscale(0.6) opacity(0.75);
+
+            &:hover {
+                filter: grayscale(0.3) opacity(0.9);
+                transform: translateY(-1px);
+            }
+        }
+
+        &:active {
+            transform: scale(0.96) translateY(0);
+        }
+    }
+
+    // ===== 选中状态 (覆盖未选中样式) =====
+    @include when(selected) {
+        // 恢复原始色彩和全透明度
+        filter: none;
+        opacity: 1;
+        z-index: 1;
+
+        // 选中状态增强边框和发光效果
+        box-shadow: 0 0 0 1px var(--cp-tag-color), 0 0 12px rgba(var(--cp-tag-color), 0.5);
+        
+        // Outline 变体选中时填充背景
+        &.cp-tag--variant-outline {
+            background: var(--cp-tag-color-light);
+        }
+
+        // Semi 变体选中时加深背景
+        &.cp-tag--variant-semi {
+            background: color-mix(in srgb, var(--cp-tag-color) 25%, transparent);
+            border-color: var(--cp-tag-color);
+        }
+
+        // Note 变体选中时加亮背景
+        &.cp-tag--variant-note {
+            background: rgba(var(--cp-tag-color), 0.15);
+            border-left-width: 3px;
+        }
+
+        // 选中状态的 Hover: 略微提亮
+        &:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        // 点击动画 (取消选中时)
+        &:active {
+            transform: scale(0.96) translateY(0);
+        }
+    }
+
+    // ===== 有 type 设置的标签 (is-typed) =====
+    @include when(typed) {
+        // Solid 变体: 大部分预设 type 颜色都是亮色，使用固定深色文字
+        // 使用 #111 而非 var(--cp-bg-deep)，避免主题切换时文字颜色变化
+        &.cp-tag--variant-solid {
+            color: #111;
+
+            // 关闭按钮根据深色文字调整
+            .cp-tag__close:hover {
+                background: rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+
+    // ===== error 和 info 类型需要亮色文字 (背景色偏暗) =====
+    &.cp-tag--type-error.cp-tag--variant-solid,
+    &.cp-tag--type-info.cp-tag--variant-solid {
+        color: #fff;
+
+        .cp-tag__close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    // ===== Default 类型 (无 type、无 custom-color) =====
+    &:not(.is-typed):not(.is-custom-color) {
+        // 默认 solid 变体 - 使用 elevated 背景和 primary 文字 (与 Button 一致)
+        &.cp-tag--variant-solid {
+            --cp-tag-color: var(--cp-bg-elevated);
+            background: var(--cp-bg-elevated);
+            color: var(--cp-text-primary);
+            border: 1px solid var(--cp-border);
+            
+            .cp-tag__decor {
+                background: var(--cp-border);
+            }
+        }
+
+        &.cp-tag--variant-outline,
+        &.cp-tag--variant-semi {
+            --cp-tag-color: var(--cp-text-secondary);
+            --cp-tag-color-light: rgba(128, 128, 128, 0.1);
+        }
+    }
+
+    // Hover 效果
+    &:not(.is-disabled) {
+        &:hover {
+            filter: brightness(1.1);
+
+            .cp-tag__decor {
+                opacity: 1;
+            }
+        }
+    }
+}
+

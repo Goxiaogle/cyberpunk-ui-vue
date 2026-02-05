@@ -1,0 +1,292 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+// ============================================
+// CpImage - 赛博朋克风格图片组件
+// ============================================
+
+// 切角尺寸
+$image-clip-size: 8px;
+$image-clip-size-sm: 6px;
+
+// 圆角尺寸
+$image-border-radius: 8px;
+
+// 过渡时间
+$image-transition-duration: 0.3s;
+
+// 骨架屏动画
+$skeleton-base-color: var(--cp-bg-elevated);
+$skeleton-shine-color: var(--cp-border-color);
+
+@include b(image) {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    background-color: var(--cp-bg-elevated);
+    vertical-align: middle;
+
+    // 默认禁止选中和拖拽
+    user-select: none;
+    -webkit-user-drag: none;
+
+    // 默认尺寸
+    width: 100%;
+    height: 200px;
+
+    // ========================================
+    // 形状变体
+    // ========================================
+
+    // 机甲切角 (默认) - 左上、右下切角
+    &.#{$namespace}-image--shape-clip {
+        clip-path: polygon(
+            #{$image-clip-size} 0,
+            100% 0,
+            100% calc(100% - #{$image-clip-size}),
+            calc(100% - #{$image-clip-size}) 100%,
+            0 100%,
+            0 #{$image-clip-size}
+        );
+    }
+
+    // 直角
+    &.#{$namespace}-image--shape-no-clip {
+        border-radius: 0;
+    }
+
+    // 圆角
+    &.#{$namespace}-image--shape-round {
+        border-radius: $image-border-radius;
+    }
+
+    // 圆形
+    &.#{$namespace}-image--shape-circle {
+        border-radius: 50%;
+    }
+
+    // ========================================
+    // 内部图片
+    // ========================================
+
+    @include e(inner) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        transition: opacity $image-transition-duration ease;
+    }
+
+    // 适应模式
+    &.#{$namespace}-image--fit-contain {
+        .#{$namespace}-image__inner {
+            object-fit: contain;
+        }
+    }
+
+    &.#{$namespace}-image--fit-cover {
+        .#{$namespace}-image__inner {
+            object-fit: cover;
+        }
+    }
+
+    &.#{$namespace}-image--fit-fill {
+        .#{$namespace}-image__inner {
+            object-fit: fill;
+        }
+    }
+
+    &.#{$namespace}-image--fit-none {
+        .#{$namespace}-image__inner {
+            object-fit: none;
+        }
+    }
+
+    &.#{$namespace}-image--fit-scale-down {
+        .#{$namespace}-image__inner {
+            object-fit: scale-down;
+        }
+    }
+
+    // ========================================
+    // 加载占位符
+    // ========================================
+
+    @include e(placeholder) {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--cp-bg-elevated);
+    }
+
+    @include e(skeleton) {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+            90deg,
+            $skeleton-base-color 25%,
+            $skeleton-shine-color 50%,
+            $skeleton-base-color 75%
+        );
+        background-size: 200% 100%;
+        animation: cp-image-skeleton-wave 1.5s ease-in-out infinite;
+    }
+
+    @include e(skeleton-icon) {
+        width: 48px;
+        height: 48px;
+        color: var(--cp-text-muted);
+        opacity: 0.5;
+    }
+
+    // ========================================
+    // 错误状态
+    // ========================================
+
+    @include e(error) {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: var(--cp-bg-elevated);
+        color: var(--cp-text-muted);
+    }
+
+    @include e(error-icon) {
+        width: 48px;
+        height: 48px;
+        opacity: 0.6;
+    }
+
+    @include e(error-text) {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    // ========================================
+    // 装饰块 (clip 模式)
+    // ========================================
+
+    @include e(decor) {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: $image-clip-size-sm;
+        height: $image-clip-size-sm;
+        // 使用 CSS 变量支持自定义颜色，默认为主色
+        background-color: var(--cp-image-decor-color, var(--cp-color-primary));
+        pointer-events: none;
+        transition: background-color $image-transition-duration ease;
+
+        // 装饰块切角
+        clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+
+    // 非 clip 形状隐藏装饰块
+    &:not(.#{$namespace}-image--shape-clip) {
+        .#{$namespace}-image__decor {
+            display: none;
+        }
+    }
+
+    // ========================================
+    // 状态
+    // ========================================
+
+    // 加载中状态
+    &.is-loading {
+        .#{$namespace}-image__inner {
+            opacity: 0;
+        }
+    }
+
+    // 错误状态
+    &.is-error {
+        .#{$namespace}-image__inner {
+            display: none;
+        }
+    }
+
+    // ========================================
+    // Hover 动画
+    // ========================================
+
+    // 动画时间变量
+    --cp-image-hover-duration: #{$image-transition-duration};
+
+    &.is-hoverable {
+        cursor: pointer;
+
+        .#{$namespace}-image__inner {
+            transition: transform var(--cp-image-hover-duration) ease,
+                        filter var(--cp-image-hover-duration) ease;
+        }
+    }
+
+    // Scale 模式 - 整体放大
+    &.#{$namespace}-image--hover-scale {
+        transition: transform var(--cp-image-hover-duration) ease,
+                    box-shadow var(--cp-image-hover-duration) ease,
+                    filter var(--cp-image-hover-duration) ease;
+
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
+            filter: brightness(1.05);
+
+            .#{$namespace}-image__decor {
+                background-color: var(--cp-image-decor-color, var(--cp-color-primary));
+                box-shadow: 0 0 8px var(--cp-image-decor-color, var(--cp-color-primary));
+            }
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    // Zoom 模式 - 容器不变，仅图片放大
+    &.#{$namespace}-image--hover-zoom {
+        transition: box-shadow var(--cp-image-hover-duration) ease;
+
+        &:hover {
+            box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
+
+            .#{$namespace}-image__inner {
+                transform: scale(1.1);
+                filter: brightness(1.05);
+            }
+
+            .#{$namespace}-image__decor {
+                background-color: var(--cp-image-decor-color, var(--cp-color-primary));
+                box-shadow: 0 0 8px var(--cp-image-decor-color, var(--cp-color-primary));
+            }
+        }
+
+        &:active {
+            .#{$namespace}-image__inner {
+                transform: scale(1.05);
+            }
+        }
+    }
+}
+
+// ============================================
+// 动画
+// ============================================
+
+@keyframes cp-image-skeleton-wave {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

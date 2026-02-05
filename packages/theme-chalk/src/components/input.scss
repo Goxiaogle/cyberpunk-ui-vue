@@ -1,0 +1,347 @@
+// CpInput 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(input) {
+    // 基础样式
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--cp-spacing-md);
+    background: transparent;
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-primary);
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    transition: all 0.2s ease;
+
+    // 机甲风切角 (Top-Left, Bottom-Right)
+    clip-path: polygon(8px 0,
+            100% 0,
+            100% calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            0 100%,
+            0 8px);
+
+    // 装饰性小方块 (右上角)
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 6px;
+        height: 6px;
+        background: var(--cp-border);
+        opacity: 0.6;
+        z-index: 2;
+        transition: all 0.2s ease;
+    }
+
+    // ===== 尺寸 =====
+    @include m(sm) {
+        height: var(--cp-size-sm);
+        font-size: var(--cp-font-size-sm);
+        padding: 0 var(--cp-spacing-sm);
+        clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+
+        &::after {
+            width: 5px;
+            height: 5px;
+        }
+    }
+
+    @include m(md) {
+        height: var(--cp-size-md);
+        font-size: var(--cp-font-size-md);
+    }
+
+    @include m(lg) {
+        height: var(--cp-size-lg);
+        font-size: var(--cp-font-size-lg);
+        padding: 0 var(--cp-spacing-lg);
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+
+        &::after {
+            width: 8px;
+            height: 8px;
+        }
+    }
+
+    // ===== Outline 变体 (默认) =====
+    @include m(outline) {
+        background: transparent;
+        border-color: var(--cp-border);
+
+        &::after {
+            background: var(--cp-border);
+        }
+
+        &:hover:not(.is-disabled):not(.is-readonly) {
+            border-color: var(--cp-color-primary);
+
+            &::after {
+                background: var(--cp-color-primary);
+                opacity: 0.8;
+            }
+        }
+
+        &.is-focused {
+            border-color: var(--cp-color-primary);
+            box-shadow: 0 0 10px var(--cp-color-primary-light), inset 0 0 5px var(--cp-color-primary-light);
+
+            &::after {
+                background: var(--cp-color-primary);
+                opacity: 1;
+                box-shadow: 0 0 5px var(--cp-color-primary);
+            }
+        }
+    }
+
+    // ===== Filled 变体 =====
+    @include m(filled) {
+        background: var(--cp-bg-elevated);
+        border-color: var(--cp-border);
+
+        &::after {
+            background: var(--cp-border);
+        }
+
+        &:hover:not(.is-disabled):not(.is-readonly) {
+            border-color: var(--cp-color-primary);
+            background: rgba(0, 240, 255, 0.05);
+
+            &::after {
+                background: var(--cp-color-primary);
+                opacity: 0.8;
+            }
+        }
+
+        &.is-focused {
+            border-color: var(--cp-color-primary);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 10px var(--cp-color-primary-light);
+
+            &::after {
+                background: var(--cp-color-primary);
+                opacity: 1;
+            }
+        }
+    }
+
+    // ===== Ghost 变体 =====
+    @include m(ghost) {
+        background: transparent;
+        border-color: transparent;
+        border-bottom-color: var(--cp-border);
+        clip-path: none;
+        border-radius: 0;
+
+        &::after {
+            display: none;
+        }
+
+        &:hover:not(.is-disabled):not(.is-readonly) {
+            border-bottom-color: var(--cp-color-primary);
+        }
+
+        &.is-focused {
+            border-bottom-color: var(--cp-color-primary);
+            box-shadow: 0 2px 0 0 var(--cp-color-primary);
+        }
+    }
+
+    // ===== 形状模式 =====
+    // no-clip (直角)
+    @include m(shape-no-clip) {
+        clip-path: none;
+        border-radius: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    // round (圆角)
+    @include m(shape-round) {
+        clip-path: none;
+        border-radius: var(--cp-radius-lg);
+
+        &::after {
+            display: none;
+        }
+    }
+
+    // ===== 状态 =====
+    @include when(disabled) {
+        cursor: not-allowed;
+        opacity: 0.5;
+        filter: grayscale(0.5);
+
+        .cp-input__inner {
+            cursor: not-allowed;
+        }
+    }
+
+    @include when(readonly) {
+        .cp-input__inner {
+            cursor: default;
+        }
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        &:hover:not(.is-disabled):not(.is-readonly) {
+            border-color: var(--cp-input-custom-color);
+
+            &::after {
+                background: var(--cp-input-custom-color);
+            }
+        }
+
+        &.is-focused {
+            border-color: var(--cp-input-custom-color);
+            box-shadow: 0 0 10px var(--cp-input-custom-color-light), inset 0 0 5px var(--cp-input-custom-color-light);
+
+            &::after {
+                background: var(--cp-input-custom-color);
+                box-shadow: 0 0 5px var(--cp-input-custom-color);
+            }
+        }
+
+        // Ghost 变体 - 确保只有底部边框显示颜色
+        &.cp-input--ghost {
+            // 基础状态：保持顶部/左右边框透明
+            border-color: transparent;
+            border-bottom-color: var(--cp-border);
+
+            &:hover:not(.is-disabled):not(.is-readonly) {
+                border-color: transparent;
+                border-bottom-color: var(--cp-input-custom-color);
+            }
+
+            &.is-focused {
+                border-color: transparent;
+                border-bottom-color: var(--cp-input-custom-color);
+                box-shadow: 0 2px 0 0 var(--cp-input-custom-color);
+            }
+        }
+    }
+
+    // ===== 内部元素 =====
+    @include e(inner) {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        transition: opacity 0.15s ease, transform 0.15s ease, letter-spacing 0.15s ease;
+
+        &::placeholder {
+            color: var(--cp-text-muted);
+        }
+
+        // 移除 number 类型的箭头
+        &[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                appearance: none;
+                margin: 0;
+            }
+        }
+    }
+
+    // 清除动画状态
+    @include when(clearing) {
+        .cp-input__inner {
+            opacity: 0;
+            transform: scaleX(0.8);
+            letter-spacing: -0.5em;
+            transform-origin: left center;
+        }
+    }
+
+    @include e(prefix) {
+        display: inline-flex;
+        align-items: center;
+        margin-right: var(--cp-spacing-sm);
+        color: var(--cp-text-secondary);
+        font-size: 1.1em;
+
+        .cp-icon {
+            --cp-icon-size: 1em;
+        }
+    }
+
+    @include e(suffix) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: var(--cp-spacing-sm);
+        color: var(--cp-text-secondary);
+        font-size: 1.1em;
+
+        .cp-icon {
+            --cp-icon-size: 1em;
+        }
+    }
+
+    @include e(clear) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: var(--cp-spacing-xs);
+        color: var(--cp-text-muted);
+        font-size: 1em;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--cp-text-secondary);
+        }
+
+        svg {
+            width: 1em;
+            height: 1em;
+        }
+    }
+
+    @include e(password) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: var(--cp-spacing-xs);
+        color: var(--cp-text-muted);
+        font-size: 1em;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--cp-color-primary);
+        }
+
+        svg {
+            width: 1.1em;
+            height: 1.1em;
+        }
+    }
+
+    @include e(count) {
+        display: inline-flex;
+        align-items: center;
+        margin-left: var(--cp-spacing-sm);
+        padding-left: var(--cp-spacing-sm);
+        border-left: 1px solid var(--cp-border);
+        color: var(--cp-text-muted);
+        font-size: var(--cp-font-size-sm);
+        white-space: nowrap;
+        font-family: 'Rajdhani', monospace;
+    }
+}

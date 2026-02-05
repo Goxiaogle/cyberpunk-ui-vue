@@ -1,0 +1,26 @@
+{
+    "name": "@cyberpunk-vue/hooks",
+    "version": "0.1.0",
+    "description": "Cyberpunk Vue composables",
+    "type": "module",
+    "main": "src/index.ts",
+    "module": "src/index.ts",
+    "types": "src/index.ts",
+    "exports": {
+        ".": {
+            "import": "./src/index.ts",
+            "types": "./src/index.ts"
+        },
+        "./*": "./*"
+    },
+    "files": [
+        "src",
+        "dist"
+    ],
+    "peerDependencies": {
+        "vue": "^3.5.0"
+    },
+    "dependencies": {
+        "@cyberpunk-vue/constants": "workspace:*"
+    }
+}

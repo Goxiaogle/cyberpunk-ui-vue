@@ -1,0 +1,34 @@
+// Cyberpunk Vue - 主入口
+// 所有 @use 必须在最前面
+
+@use 'common/var';
+@use 'mixins/mixins';
+@use 'components/button';
+@use 'components/loading';
+@use 'components/icon';
+@use 'components/input';
+@use 'components/textarea';
+@use 'components/input-number';
+@use 'components/slider';
+@use 'components/switch';
+@use 'components/progress';
+@use 'components/card';
+@use 'components/tag';
+@use 'components/text';
+@use 'components/status-indicator';
+@use 'components/image';
+@use 'components/avatar';
+@use 'components/avatar-group';
+
+// 基础样式
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    background: var(--cp-bg-deep);
+    color: var(--cp-text-primary);
+}

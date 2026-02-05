@@ -1,0 +1,132 @@
+// CpTextarea 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(textarea) {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+
+    // ===== 尺寸 =====
+    @include m(sm) {
+        font-size: var(--cp-font-size-sm);
+
+        .cp-textarea__inner {
+            padding: var(--cp-spacing-xs) var(--cp-spacing-sm);
+        }
+    }
+
+    @include m(md) {
+        font-size: var(--cp-font-size-md);
+
+        .cp-textarea__inner {
+            padding: var(--cp-spacing-sm) var(--cp-spacing-md);
+        }
+    }
+
+    @include m(lg) {
+        font-size: var(--cp-font-size-lg);
+
+        .cp-textarea__inner {
+            padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+        }
+    }
+
+    // ===== Outline 变体 =====
+    @include m(outline) {
+        .cp-textarea__inner {
+            background: transparent;
+            border: 1px solid var(--cp-border);
+
+            &:hover:not(:disabled):not([readonly]) {
+                border-color: var(--cp-color-primary);
+            }
+        }
+
+        &.is-focused .cp-textarea__inner {
+            border-color: var(--cp-color-primary);
+            box-shadow: 0 0 10px var(--cp-color-primary-light), inset 0 0 5px var(--cp-color-primary-light);
+        }
+    }
+
+    // ===== Filled 变体 =====
+    @include m(filled) {
+        .cp-textarea__inner {
+            background: var(--cp-bg-elevated);
+            border: 1px solid var(--cp-border);
+
+            &:hover:not(:disabled):not([readonly]) {
+                border-color: var(--cp-color-primary);
+                background: rgba(0, 240, 255, 0.05);
+            }
+        }
+
+        &.is-focused .cp-textarea__inner {
+            border-color: var(--cp-color-primary);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 10px var(--cp-color-primary-light);
+        }
+    }
+
+    // ===== 状态 =====
+    @include when(disabled) {
+        cursor: not-allowed;
+        opacity: 0.5;
+
+        .cp-textarea__inner {
+            cursor: not-allowed;
+        }
+    }
+
+    @include when(readonly) {
+        .cp-textarea__inner {
+            cursor: default;
+        }
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        .cp-textarea__inner:hover:not(:disabled):not([readonly]) {
+            border-color: var(--cp-textarea-custom-color);
+        }
+
+        &.is-focused .cp-textarea__inner {
+            border-color: var(--cp-textarea-custom-color);
+            box-shadow: 0 0 10px var(--cp-textarea-custom-color-light), inset 0 0 5px var(--cp-textarea-custom-color-light);
+        }
+    }
+
+    // ===== 内部元素 =====
+    @include e(inner) {
+        width: 100%;
+        min-height: 80px;
+        resize: vertical;
+        outline: none;
+        color: var(--cp-text-primary);
+        font-family: inherit;
+        font-size: inherit;
+        line-height: 1.5;
+        transition: all 0.2s ease;
+
+        // 机甲风切角
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+
+        &::placeholder {
+            color: var(--cp-text-muted);
+        }
+    }
+
+    @include e(count) {
+        position: absolute;
+        right: var(--cp-spacing-sm);
+        bottom: var(--cp-spacing-sm);
+        color: var(--cp-text-muted);
+        font-size: var(--cp-font-size-sm);
+        font-family: 'Rajdhani', monospace;
+        pointer-events: none;
+    }
+}

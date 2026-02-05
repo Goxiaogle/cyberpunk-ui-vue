@@ -1,0 +1,420 @@
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ============================================
+// CpSlider - 赛博朋克风格滑块
+// ============================================
+
+// 尺寸变量
+$slider-sizes: (
+  'sm': (
+    'track-height': 4px,
+    'thumb-size': 14px,
+    'clip-size': 3px,
+  ),
+  'md': (
+    'track-height': 6px,
+    'thumb-size': 18px,
+    'clip-size': 4px,
+  ),
+  'lg': (
+    'track-height': 8px,
+    'thumb-size': 22px,
+    'clip-size': 5px,
+  ),
+);
+
+@include b(slider) {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+  // ========== 轨道 ==========
+  @include e(runway) {
+    position: relative;
+    flex: 1;
+    height: 6px;
+    background: #1a1a1f; // 使用稍微亮一点的深色背景
+    border: 1px solid var(--cp-border);
+    transition: all 0.2s ease;
+    overflow: hidden;
+
+    // 切角默认形状
+    clip-path: polygon(
+      4px 0,
+      100% 0,
+      100% calc(100% - 4px),
+      calc(100% - 4px) 100%,
+      0 100%,
+      0 4px
+    );
+  }
+
+  // ========== 填充条 ==========
+  @include e(bar) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--cp-color-primary);
+    box-shadow: 0 0 10px var(--cp-color-primary);
+    z-index: 1;
+
+    // 内部纹理，增加科幻感
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      pointer-events: none;
+    }
+  }
+
+  // ========== 滑块手柄 ==========
+  @include e(thumb) {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: var(--cp-bg-elevated);
+    border: 2px solid var(--cp-color-primary);
+    box-shadow: 0 0 8px var(--cp-color-primary);
+    transform: translate(-50%, 0);
+    cursor: grab;
+    z-index: 2;
+    outline: none;
+
+    // 切角造型
+    clip-path: polygon(
+      4px 0,
+      100% 0,
+      100% calc(100% - 4px),
+      calc(100% - 4px) 100%,
+      0 100%,
+      0 4px
+    );
+
+    // 装饰元素
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: var(--cp-color-primary); // 修正变量名
+      transform: translate(-50%, -50%);
+      clip-path: polygon(2px 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%, 0 2px);
+    }
+
+    &:hover {
+      border-color: var(--cp-color-primary-light);
+      box-shadow: 0 0 12px var(--cp-color-primary);
+      transform: translate(-50%, 0) scale(1.1);
+    }
+
+    &:active,
+    &:focus {
+      cursor: grabbing;
+      border-color: var(--cp-color-primary-light);
+      box-shadow: 0 0 16px var(--cp-color-primary);
+    }
+
+    @include when(active) {
+      border-color: var(--cp-color-primary-light);
+      box-shadow: 0 0 16px var(--cp-color-primary);
+      transform: translate(-50%, 0) scale(1.15);
+    }
+  }
+
+  // ========== Tooltip ==========
+  @include e(tooltip) {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-color-primary); // 修正变量名
+    color: var(--cp-color-primary); // 修正变量名
+    font-family: 'Rajdhani', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 0 8px var(--cp-color-primary); // 修正变量名
+    z-index: 10;
+
+    // 箭头
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: var(--cp-color-primary); // 修正变量名
+    }
+  }
+
+  // ========== 刻度点 ==========
+  @include e(stop) {
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--cp-border);
+    transform: translate(-50%, -50%);
+    transition: background 0.2s ease;
+  }
+
+  // ========== 刻度标记 ==========
+  @include e(marks) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+  }
+
+  @include e(mark) {
+    position: absolute;
+    transform: translateX(-50%);
+  }
+
+  @include e(mark-text) {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    color: var(--cp-text-secondary);
+    white-space: nowrap;
+  }
+
+  // ========== 尺寸变体 ==========
+  @each $size, $values in $slider-sizes {
+    @include m($size) {
+      $track-height: map-get($values, 'track-height');
+      $thumb-size: map-get($values, 'thumb-size');
+      $clip-size: map-get($values, 'clip-size');
+
+      @include e(runway) {
+        height: $track-height;
+        clip-path: polygon(
+          $clip-size 0,
+          100% 0,
+          100% calc(100% - #{$clip-size}),
+          calc(100% - #{$clip-size}) 100%,
+          0 100%,
+          0 $clip-size
+        );
+      }
+
+      @include e(thumb) {
+        width: $thumb-size;
+        height: $thumb-size;
+        clip-path: polygon(
+          $clip-size 0,
+          100% 0,
+          100% calc(100% - #{$clip-size}),
+          calc(100% - #{$clip-size}) 100%,
+          0 100%,
+          0 $clip-size
+        );
+      }
+    }
+  }
+
+  // ========== 形状变体 ==========
+  @include m(shape-no-clip) {
+    @include e(runway) {
+      clip-path: none;
+    }
+
+    @include e(thumb) {
+      clip-path: none;
+    }
+  }
+
+  @include m(shape-round) {
+    @include e(runway) {
+      clip-path: none;
+      border-radius: 100px;
+    }
+
+    @include e(thumb) {
+      clip-path: none;
+      border-radius: 50%;
+
+      &::before {
+        clip-path: none;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  // ========== 垂直模式 ==========
+  &.is-vertical {
+    width: 32px;
+    height: 200px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .#{$namespace}-slider__runway {
+      width: 6px;
+      height: 100%;
+      flex: 1;
+      clip-path: none;
+    }
+
+    .#{$namespace}-slider__bar {
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: auto;
+    }
+
+    .#{$namespace}-slider__thumb {
+      left: 50%;
+      transform: translate(-50%, 50%);
+
+      &:hover {
+        transform: translate(-50%, 50%) scale(1.1);
+      }
+
+      &.is-active {
+        transform: translate(-50%, 50%) scale(1.15);
+      }
+    }
+
+    @include e(tooltip) {
+      bottom: auto;
+      left: calc(100% + 8px);
+      top: 50%;
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: auto;
+        right: 100%;
+        transform: translateY(-50%);
+        border: 4px solid transparent;
+        border-right-color: var(--cp-color-primary);
+        border-top-color: transparent;
+      }
+    }
+
+    @include e(stop) {
+      left: 50%;
+      top: auto;
+      transform: translate(-50%, 50%);
+    }
+
+    @include e(marks) {
+      top: 0;
+      left: 100%;
+      right: auto;
+      bottom: 0;
+      margin-top: 0;
+      margin-left: 8px;
+    }
+
+    @include e(mark) {
+      transform: translateY(50%);
+    }
+  }
+
+  // ========== 禁用状态 ==========
+  @include when(disabled) {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(0.5);
+
+    @include e(thumb) {
+      cursor: not-allowed;
+
+      &:hover {
+        transform: translate(-50%, 0);
+        box-shadow: none;
+      }
+    }
+
+    @include when(vertical) {
+      @include e(thumb) {
+        &:hover {
+          transform: translate(0, 50%);
+        }
+      }
+    }
+  }
+
+  // ========== 拖动状态 ==========
+  @include when(dragging) {
+    // 拖动时禁用所有过渡，实现即时响应
+    @include e(bar) {
+      transition: none;
+    }
+
+    @include e(thumb) {
+      cursor: grabbing;
+      transition: none;
+    }
+  }
+
+  // ========== 自定义颜色 ==========
+  @include when(custom-color) {
+    @include e(bar) {
+      background: var(--cp-slider-custom-color);
+    }
+
+    @include e(thumb) {
+      border-color: var(--cp-slider-custom-color);
+
+      &::before {
+        background: var(--cp-slider-custom-color);
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        border-color: var(--cp-slider-custom-color);
+        box-shadow: 0 0 12px var(--cp-slider-custom-color-light);
+      }
+
+      @include when(active) {
+        border-color: var(--cp-slider-custom-color);
+        box-shadow: 0 0 16px var(--cp-slider-custom-color-light);
+      }
+    }
+
+    @include e(tooltip) {
+      border-color: var(--cp-slider-custom-color);
+      color: var(--cp-slider-custom-color);
+      box-shadow: 0 0 8px var(--cp-slider-custom-color-light);
+
+      &::after {
+        border-top-color: var(--cp-slider-custom-color);
+      }
+    }
+
+    @include when(vertical) {
+      @include e(tooltip) {
+        &::after {
+          border-right-color: var(--cp-slider-custom-color);
+          border-top-color: transparent;
+        }
+      }
+    }
+  }
+}

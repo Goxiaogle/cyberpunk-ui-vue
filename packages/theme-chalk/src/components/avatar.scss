@@ -1,0 +1,124 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+// ============================================
+// CpAvatar - 赛博朋克风格头像组件
+// ============================================
+
+// 切角尺寸比例
+$avatar-clip-ratio: 0.15;
+
+// 图标占比
+$avatar-icon-ratio: 0.55;
+
+// 文字占比
+$avatar-font-ratio: 0.4;
+
+// 过渡时间
+$avatar-transition-duration: 0.2s;
+
+@include b(avatar) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--cp-bg-elevated);
+    color: var(--cp-text-muted);
+    vertical-align: middle;
+    flex-shrink: 0;
+
+    // 使用 CSS 变量控制尺寸
+    width: var(--cp-avatar-size, 40px);
+    height: var(--cp-avatar-size, 40px);
+    font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-font-ratio});
+    line-height: 1;
+
+    // 默认禁止选中和拖拽
+    user-select: none;
+    -webkit-user-drag: none;
+
+    transition: background-color $avatar-transition-duration ease,
+                box-shadow $avatar-transition-duration ease;
+
+    // ========================================
+    // 形状变体
+    // ========================================
+
+    // 圆形 (默认)
+    &.#{$namespace}-avatar--shape-circle {
+        border-radius: 50%;
+    }
+
+    // 圆角方形
+    &.#{$namespace}-avatar--shape-square {
+        border-radius: var(--cp-radius-sm);
+    }
+
+    // 机甲切角
+    &.#{$namespace}-avatar--shape-clip {
+        $clip-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-clip-ratio});
+        clip-path: polygon(
+            #{$clip-size} 0,
+            100% 0,
+            100% calc(100% - #{$clip-size}),
+            calc(100% - #{$clip-size}) 100%,
+            0 100%,
+            0 #{$clip-size}
+        );
+    }
+
+    // ========================================
+    // 内部元素
+    // ========================================
+
+    // 图片
+    @include e(image) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    // 图标
+    @include e(icon) {
+        font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-icon-ratio}) !important;
+        color: inherit;
+    }
+
+    // 文字
+    @include e(text) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    // 占位符（用户轮廓）
+    @include e(placeholder) {
+        width: 55%;
+        height: 55%;
+        color: var(--cp-text-muted);
+        opacity: 0.7;
+    }
+
+    // ========================================
+    // 状态
+    // ========================================
+
+    // 加载中
+    &.is-loading {
+        .#{$namespace}-avatar__image {
+            opacity: 0;
+        }
+    }
+
+    // 错误
+    &.is-error {
+        .#{$namespace}-avatar__image {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,434 @@
+// CpSwitch 组件样式
+// 赛博朋克/机甲风格 - 升级版
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// Switch 变量
+$switch-sizes: (
+    sm: (
+        height: 20px, // 稍微增高以容纳细节
+        width: 36px,
+        thumb: 16px,
+        clip: 4px,
+        font-size: 10px,
+        padding: 2px,
+    ),
+    md: (
+        height: 24px,
+        width: 44px,
+        thumb: 20px,
+        clip: 5px,
+        font-size: 12px,
+        padding: 2px,
+    ),
+    lg: (
+        height: 28px,
+        width: 56px,
+        thumb: 24px,
+        clip: 6px,
+        font-size: 13px,
+        padding: 2px,
+    ),
+);
+
+@include b(switch) {
+    // 基础样式
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    
+    // CSS 变量
+    --cp-switch-active-color: var(--cp-color-primary);
+    --cp-switch-active-color-light: var(--cp-color-primary-light);
+    --cp-switch-inactive-color: var(--cp-border);
+    --cp-switch-bg-color: rgba(20, 20, 25, 0.8);
+    --cp-switch-text-color: var(--cp-text-inverse);
+
+    // ===== 隐藏原生 input =====
+    @include e(input) {
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        margin: 0;
+    }
+
+    // ===== 轨道 =====
+    @include e(track) {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: var(--cp-switch-bg-color);
+        border: 1px solid var(--cp-switch-inactive-color);
+        border-radius: 2px; // 轻微圆角配合切角
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        
+        // 纹理叠加
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 4px
+            );
+            z-index: 0;
+        }
+
+        // 装饰性细节 (角落光标)
+        &::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            width: 6px;
+            height: 6px;
+            background: transparent;
+            border-top: 1px solid var(--cp-switch-inactive-color);
+            border-right: 1px solid var(--cp-switch-inactive-color);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0); // 三角形
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+    }
+
+    // ===== Wrapper (Fit Text 占位) =====
+    // 仅在 fit-text 模式下有内容撑开
+    @include e(wrapper) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        height: 100%;
+        pointer-events: none;
+        
+        .wrapper-text {
+            padding: 0 8px; // 边距
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            white-space: nowrap;
+            
+            // 同时渲染两个文本，取最宽的一个撑开容器
+            &.inactive {
+                display: none; // 如果不想都显示，至少要让最宽的那个生效。
+                // 简单起见，如果 fit-text 开启，我们让 .active 和 .inactive 叠加？
+                // 为了简单，这里简单处理：并排会导致过宽。
+                // 应该 absolute 叠加取最大宽，或者 JS 计算。
+                // CSS 方案：grid 布局叠加。
+            }
+        }
+    }
+
+    @include when(fit-text) {
+        width: auto;
+        min-width: unset;
+        
+        .cp-switch__track {
+            min-width: 44px; // 最小宽度
+            width: auto;
+        }
+
+        .cp-switch__wrapper {
+            display: grid; 
+            grid-template-areas: "content";
+            
+            .wrapper-text {
+                grid-area: content;
+                display: block !important;
+                visibility: hidden; // 占位
+            }
+        }
+        
+        // Fit Text 模式下滑块和文字的定位
+        // 需重新计算 thumb 位置。
+        // 由于布局变了，Thumb 不再是 absolute left/right，而是...
+        // 实际上 Fit Text 最好的方式是 Thumb 也在流中，或者依然 absolute。
+        // 依然 absolute，但 left/right 变为 flex 的两端对齐？
+        // 保持 fixed thumb width 是最简单的。
+    }
+
+    // ===== 滑块 =====
+    @include e(thumb) {
+        position: absolute;
+        top: 1px; // border 1px
+        left: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #3c3c41 0%, #2a2a2e 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); // 弹性动画
+        z-index: 10;
+        color: var(--cp-text-muted);
+        
+        // 机甲纹理
+        &::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1px;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        // 专属 Loading Core
+        .cp-switch__loading-core {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: inherit;
+            
+            .loading-svg {
+                width: 80%;
+                height: 80%;
+            }
+            
+            .outer-ring {
+                transform-origin: center;
+                animation: cp-switch-spin 1.5s linear infinite;
+            }
+            
+            .inner-core {
+                transform-origin: center;
+                animation: cp-switch-pulse 1s ease-in-out infinite alternate;
+            }
+        }
+    }
+
+    // ===== 内嵌文字 =====
+    @include e(active-text) {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+        z-index: 1;
+        white-space: nowrap;
+        
+        .text-inner {
+            display: block;
+            line-height: 1;
+        }
+    }
+
+    @include e(inactive-text) {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+        z-index: 1;
+        white-space: nowrap;
+        
+        .text-inner {
+            display: block;
+            line-height: 1;
+        }
+    }
+    
+    @include e(active-text) {
+        left: 0;
+        padding-left: 6px; // 初始 padding
+        color: var(--cp-switch-text-color);
+        opacity: 0;
+        justify-content: flex-start;
+        width: calc(100% - 20px); // 减去 thumb 宽度的近似值
+    }
+
+    @include e(inactive-text) {
+        right: 0;
+        padding-right: 6px;
+        color: var(--cp-text-muted);
+        opacity: 1;
+        justify-content: flex-end;
+        width: calc(100% - 20px);
+    }
+
+    // ===== 尺寸 =====
+    @each $size-name, $size-config in $switch-sizes {
+        @include m(#{$size-name}) {
+            $height: map-get($size-config, height);
+            $width: map-get($size-config, width);
+            $thumb-size: map-get($size-config, thumb);
+            $padding: map-get($size-config, padding);
+            
+            // 基础固定宽度模式
+            &:not(.is-fit-text) {
+                .cp-switch__track {
+                    height: $height;
+                    width: $width;
+                }
+            }
+            
+            // Fit Text 模式
+            &.is-fit-text {
+                .cp-switch__track {
+                    height: $height;
+                    // width 由内容撑开
+                }
+                
+                // 文字边距调整
+                .cp-switch__active-text,
+                .cp-switch__inactive-text,
+                .wrapper-text {
+                    width: 100%;
+                    // 左右预留足够空间防止被 Thumb 遮挡 (Thumb宽度 + 间距)
+                    padding: 0 calc(#{$thumb-size} + 8px); 
+                    box-sizing: border-box;
+                }
+                
+                // wrapper-text 不需要 width 100%，它需要自然撑开
+                .wrapper-text {
+                    width: auto;
+                }
+                
+                .cp-switch__active-text { left: 0; }
+                .cp-switch__inactive-text { right: 0; }
+
+                // 选中时的位置修正
+                &.is-checked {
+                    .cp-switch__thumb {
+                        // 使用 left: auto, right: 1px 不支持 transition left -> right
+                        // 所以必须通过 calc(100% - size)
+                        left: calc(100% - #{$thumb-size} - 2px);
+                    }
+                }
+            }
+
+            .cp-switch__track {
+                clip-path: polygon(
+                    map-get($size-config, clip) 0,
+                    100% 0,
+                    100% calc(100% - #{map-get($size-config, clip)}),
+                    calc(100% - #{map-get($size-config, clip)}) 100%,
+                    0 100%,
+                    0 map-get($size-config, clip)
+                );
+            }
+
+            .cp-switch__thumb {
+                width: $thumb-size;
+                height: $thumb-size;
+                clip-path: polygon(
+                    3px 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%, 0 3px
+                );
+                
+                // 机甲纹理调整
+                @if $size-name == 'sm' { &::before { height: 1px; } }
+            }
+
+            .cp-switch__active-text,
+            .cp-switch__inactive-text,
+            .wrapper-text {
+                font-size: map-get($size-config, font-size);
+            }
+
+            // 基础模式的 Thumb 位置
+            &:not(.is-fit-text) {
+                &.is-checked {
+                    .cp-switch__thumb {
+                        left: calc(#{$width} - #{$thumb-size} - 2px);
+                    }
+                }
+            }
+        }
+    }
+
+    // ===== 选中状态 =====
+    @include when(checked) {
+        .cp-switch__track {
+            background: rgba(0, 0, 0, 0.4); // 半透明深色底
+            border-color: var(--cp-switch-active-color);
+            box-shadow: 
+                0 0 10px var(--cp-switch-active-color-light);
+
+            &::after { // 角落装饰
+                border-color: var(--cp-switch-active-color);
+                box-shadow: 0 0 5px var(--cp-switch-active-color);
+                background: var(--cp-switch-active-color); // 实心
+            }
+            
+            // 纹理变色 - 使用 CSS 滤镜实现染色
+            &::before {
+                background-image: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    var(--cp-switch-active-color-light) 2px,
+                    var(--cp-switch-active-color-light) 4px
+                );
+            }
+        }
+
+        .cp-switch__thumb {
+            background: var(--cp-switch-active-color);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 12px var(--cp-switch-active-color); // 强发光
+            // Loading core 颜色 - 使用深色以在亮色背景上保持可见
+            color: rgba(0, 0, 0, 0.7); 
+            
+            // Loading 动画添加发光效果增强可见度
+            .cp-switch__loading-core {
+                filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
+            }
+            
+            &::before { // 纹理
+                background: rgba(255, 255, 255, 0.6);
+                box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .cp-switch__active-text { opacity: 1; }
+        .cp-switch__inactive-text { opacity: 0; }
+    }
+    
+    // ===== Loading 状态 =====
+    @include when(loading) {
+        cursor: wait;
+        .cp-switch__thumb {
+            &::before { display: none; } // 隐藏横杠显示 Loading
+        }
+    }
+
+    // ===== 禁用状态 =====
+    @include when(disabled) {
+        opacity: 0.6;
+        cursor: not-allowed;
+        filter: grayscale(0.8);
+    }
+}
+
+// 动画定义
+@keyframes cp-switch-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes cp-switch-pulse {
+    from { opacity: 0.5; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.1); }
+}
