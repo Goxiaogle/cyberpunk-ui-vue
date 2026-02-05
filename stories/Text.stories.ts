@@ -79,6 +79,10 @@ const meta: Meta<typeof CpText> = {
       control: { type: 'range', min: 0.5, max: 5, step: 0.1 },
       description: '光波动画时长 (秒)',
     },
+    unselectable: {
+      control: 'boolean',
+      description: '禁止选中/复制',
+    },
     marker: {
       control: 'boolean',
       description: '马克笔背景效果',
@@ -122,6 +126,7 @@ const meta: Meta<typeof CpText> = {
     lightWaveDuration: 2,
     marker: false,
     markerColor: '',
+    unselectable: false,
     default: '特殊文字',
   },
 }
@@ -434,6 +439,24 @@ export const InlineMix: Story = {
         <CpText color="#ff00ff" bold italic glow>加粗斜体发光</CpText>
         来创建引人注目的文字效果。
       </p>
+    `,
+  }),
+}
+
+/**
+ * 禁止选中
+ *
+ * 使用 `unselectable` 防止文字被选中或复制。常用于 UI 标签或装饰性文字。
+ */
+export const Unselectable: Story = {
+  render: () => ({
+    components: { CpText },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <CpText type="primary" unselectable>这段文字无法被鼠标选中</CpText>
+        <CpText type="error" unselectable bold>也无法被复制 (Ctrl+C)</CpText>
+        <CpText>这段是可以正常选中的对比文字</CpText>
+      </div>
     `,
   }),
 }

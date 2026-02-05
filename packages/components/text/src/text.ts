@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
  * 文字尺寸
@@ -172,12 +173,13 @@ export const textProps = {
         default: false,
     },
     /**
-     * 光波动画时长（秒）
-     * @default 2
+     * 光波动画时长
+     * 数字默认毫秒 (ms)，字符串可指定单位 (如 '2s' 或 '2000ms')
+     * @default 2000
      */
     lightWaveDuration: {
-        type: Number,
-        default: 2,
+        type: [Number, String] as PropType<DurationValue>,
+        default: 2000,
     },
     /**
      * 马克笔背景效果
@@ -198,12 +200,22 @@ export const textProps = {
         default: '',
     },
     /**
-     * 发光心跳动画时长（秒）
-     * @default 1.5
+     * 发光心跳动画时长
+     * 数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')
+     * @default 1500
      */
     glowPulseDuration: {
-        type: Number,
-        default: 1.5,
+        type: [Number, String] as PropType<DurationValue>,
+        default: 1500,
+    },
+    /**
+     * 禁止选中/复制
+     * 开启后文字无法被鼠标选中或通过键盘复制
+     * @default false
+     */
+    unselectable: {
+        type: Boolean,
+        default: false,
     },
 } as const
 

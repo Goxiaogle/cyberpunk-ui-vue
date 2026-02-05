@@ -4,7 +4,7 @@
  * 支持多种文字效果：下划线、方框、加粗、斜体、删除线、发光、马克笔
  */
 import { computed } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { textProps } from './text'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -48,6 +48,7 @@ const classes = computed(() => [
   ns.is('marker', props.marker),
   ns.is('typed', props.type !== 'default' && !props.color),
   ns.is('custom-color', !!props.color),
+  ns.is('unselectable', props.unselectable),
 ])
 
 // 自定义样式
@@ -80,18 +81,19 @@ const customStyle = computed(() => {
 
   // 心跳动画时长
   if (props.glowPulse && props.glowPulseDuration) {
-    style['--cp-text-pulse-duration'] = `${props.glowPulseDuration}s`
+    style['--cp-text-pulse-duration'] = normalizeDuration(props.glowPulseDuration)
   }
 
   // 光波动画时长
   if (props.lightWave && props.lightWaveDuration) {
-    style['--cp-text-wave-duration'] = `${props.lightWaveDuration}s`
+    style['--cp-text-wave-duration'] = normalizeDuration(props.lightWaveDuration)
   }
 
-  // 处理动画合并 (如果同时开启心跳和光波)
   if (props.glowPulse && props.lightWave) {
-    const pulseItem = `cp-text-glow-pulse ${props.glowPulseDuration}s ease-in-out infinite`
-    const waveItem = `cp-text-light-wave ${props.lightWaveDuration}s linear infinite`
+    const pulseDur = normalizeDuration(props.glowPulseDuration)
+    const waveDur = normalizeDuration(props.lightWaveDuration)
+    const pulseItem = `cp-text-glow-pulse ${pulseDur} ease-in-out infinite`
+    const waveItem = `cp-text-light-wave ${waveDur} linear infinite`
     style['animation'] = `${pulseItem}, ${waveItem}`
   }
 
