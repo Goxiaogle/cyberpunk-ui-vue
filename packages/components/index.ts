@@ -14,4 +14,5 @@ export * from './text'
 export * from './status-indicator'
 export * from './image'
 export * from './avatar'
+export * from './spacer'
 

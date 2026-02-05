@@ -26,6 +26,8 @@ const rootClasses = computed(() => [
   // 当存在 overlay 插槽时添加 has-overlay 状态类
   ns.is('has-overlay', !!slots.overlay),
   ns.is('dimmed', props.dimmed),
+  ns.is('trigger-image-hover', props.triggerImageHover),
+  ns.is('hover-scale', props.hoverScale),
 ])
 
 const cardClasses = computed(() => [
@@ -77,11 +79,17 @@ const footerClasses = computed(() => [
   ns.is('bordered', props.footerBorder),
 ])
 
-// 覆层类名（仅用于操作区域定位和动画）
+// 计算实际应用的操作区域效果（继承逻辑）
+const realActionEffect = computed(() => props.actionEffect ?? props.overlayEffect)
+const realActionColor = computed(() => props.actionColor ?? props.overlayColor)
+const realActionBlur = computed(() => props.actionBlur ?? props.overlayBlur)
+
+// 覆层类名（操作区域定位、动画和效果）
 const overlayClasses = computed(() => [
   ns.e('overlay'),
   ns.bem('', 'overlay', props.overlayAnimation),
   ns.bem('', 'overlay', props.overlayPosition),
+  ns.bem('', 'overlay', `effect-${realActionEffect.value}`),
 ])
 
 // 背景遮罩类名（覆盖整个卡片）
@@ -91,16 +99,19 @@ const backdropClasses = computed(() => [
 ])
 
 // 规范化 blur 值
-const normalizeBlur = (value: number | string): string => {
+const normalizeBlur = (value: number | string | undefined): string => {
+  if (value === undefined) return '10px'
   if (typeof value === 'number') return `${value}px`
   return value
 }
 
-// 覆层样式（动画时长、颜色、模糊度）
+// 覆层样式（动画时长、整卡+操作区颜色/模糊度）
 const overlayStyle = computed(() => ({
   '--cp-card-overlay-duration': normalizeDuration(props.overlayDuration),
   '--cp-card-overlay-color': props.overlayColor,
   '--cp-card-overlay-blur': normalizeBlur(props.overlayBlur),
+  '--cp-card-action-color': realActionColor.value,
+  '--cp-card-action-blur': normalizeBlur(realActionBlur.value),
 }))
 </script>
 

@@ -217,6 +217,33 @@ export const cardProps = {
     default: 10,
   },
   /**
+   * 操作区域效果类型
+   * 如果未指定，则继承 overlayEffect
+   * @default undefined
+   */
+  actionEffect: {
+    type: String as PropType<CardOverlayEffect>,
+    default: undefined,
+  },
+  /**
+   * 操作区域颜色
+   * 如果未指定，则继承 overlayColor
+   * @default undefined
+   */
+  actionColor: {
+    type: String,
+    default: undefined,
+  },
+  /**
+   * 操作区域模糊程度
+   * 如果未指定，则继承 overlayBlur
+   * @default undefined
+   */
+  actionBlur: {
+    type: [Number, String] as PropType<number | string>,
+    default: undefined,
+  },
+  /**
    * 卡片的主题颜色类型
    * @default 'default'
    */
@@ -247,6 +274,22 @@ export const cardProps = {
   dimmedDuration: {
     type: [Number, String] as PropType<DurationValue>,
     default: 300,
+  },
+  /**
+   * Card hover 时是否触发内部 CpImage 的 hover 效果
+   * @default false
+   */
+  triggerImageHover: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * Card hover 时是否放大
+   * @default false
+   */
+  hoverScale: {
+    type: Boolean,
+    default: false,
   },
 } as const
 
