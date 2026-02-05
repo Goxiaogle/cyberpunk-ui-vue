@@ -1,11 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import { CpCard, CpButton } from '../packages/components'
+import type {Meta, StoryObj} from '@storybook/vue3'
+import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon} from '../packages/components'
+
+// 资产管理卡片示例所需图标 (使用 MDI 填充图标)
+import MdiCog from '~icons/mdi/cog'
+import MdiRefresh from '~icons/mdi/refresh'
+import MdiPencil from '~icons/mdi/pencil'
+import MdiMovieOpen from '~icons/mdi/movie-open'
+import MdiAutoFix from '~icons/mdi/auto-fix'
 
 /**
  * # CpCard 卡片
- * 
+ *
  * 赛博朋克风格卡片容器组件，用于展示内容分组。
- * 
+ *
  * ## 特性
  * - 🎨 4 种变体：solid、outline、semi、ghost
  * - 📐 3 种形状：clip、no-clip、round
@@ -14,94 +21,115 @@ import { CpCard, CpButton } from '../packages/components'
  * - 📦 灵活的头部/底部插槽
  */
 const meta: Meta<typeof CpCard> = {
-  title: '布局 Layout/Card 卡片',
-  component: CpCard,
-  tags: ['autodocs'],
-  argTypes: {
-    title: {
-      control: 'text',
-      description: '卡片标题',
+    title: '布局 Layout/Card 卡片',
+    component: CpCard,
+    tags: ['autodocs'],
+    argTypes: {
+        title: {
+            control: 'text',
+            description: '卡片标题',
+        },
+        variant: {
+            control: 'select',
+            options: ['solid', 'outline', 'semi', 'ghost'],
+            description: '卡片变体',
+            table: {
+                defaultValue: {summary: 'solid'},
+            },
+        },
+        shape: {
+            control: 'select',
+            options: ['clip', 'no-clip', 'round'],
+            description: '卡片形状',
+            table: {
+                defaultValue: {summary: 'clip'},
+            },
+        },
+        shadow: {
+            control: 'select',
+            options: ['hover', 'always', 'never'],
+            description: '阴影显示时机',
+            table: {
+                defaultValue: {summary: 'hover'},
+            },
+        },
+        headerBorder: {
+            control: 'boolean',
+            description: '是否显示头部分隔线',
+        },
+        footerBorder: {
+            control: 'boolean',
+            description: '是否显示底部分隔线',
+        },
+        overlayAnimation: {
+            control: 'select',
+            options: ['slide-up', 'slide-down', 'slide-left', 'slide-right', 'fade', 'scale'],
+            description: '覆层出场动画',
+            table: {
+                defaultValue: {summary: 'slide-up'},
+            },
+        },
+        overlayPosition: {
+            control: 'select',
+            options: ['bottom', 'top', 'center'],
+            description: '覆层位置',
+            table: {
+                defaultValue: {summary: 'bottom'},
+            },
+        },
+        overlayDuration: {
+            control: {type: 'number', min: 100, max: 1000, step: 50},
+            description: '覆层 animation 持续时间 (ms)',
+            table: {
+                defaultValue: {summary: '300'},
+            },
+        },
+        overlayEffect: {
+            control: 'select',
+            options: ['none', 'blur', 'color', 'blur-color'],
+            description: '覆层效果类型 (无效果/仅模糊/仅颜色/模糊+颜色)',
+            table: {
+                defaultValue: {summary: 'blur-color'},
+            },
+        },
+        overlayColor: {
+            control: 'color',
+            description: '覆层颜色 (支持任意 CSS 颜色)',
+            table: {
+                defaultValue: {summary: 'rgba(26, 26, 36, 0.8)'},
+            },
+        },
+        overlayBlur: {
+            control: {type: 'number', min: 0, max: 30, step: 1},
+            description: '覆层毛玻璃模糊程度 (px)',
+            table: {
+                defaultValue: {summary: '10'},
+            },
+        },
+        type: {
+            control: 'select',
+            options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
+            description: '主题颜色类型',
+            table: {
+                defaultValue: {summary: 'default'},
+            },
+        },
+        color: {
+            control: 'color',
+            description: '自定义主题色 (覆盖 type)',
+        },
+        dimmed: {
+            control: 'boolean',
+            description: '平常无色，悬停时显现主题颜色',
+        },
+        dimmedDuration: {
+            control: {type: 'number', min: 0, max: 2000, step: 100},
+            description: '减淡模式切换动画时长 (ms)',
+            table: {
+                defaultValue: {summary: '300'},
+            },
+        },
     },
-    variant: {
-      control: 'select',
-      options: ['solid', 'outline', 'semi', 'ghost'],
-      description: '卡片变体',
-      table: {
-        defaultValue: { summary: 'solid' },
-      },
-    },
-    shape: {
-      control: 'select',
-      options: ['clip', 'no-clip', 'round'],
-      description: '卡片形状',
-      table: {
-        defaultValue: { summary: 'clip' },
-      },
-    },
-    shadow: {
-      control: 'select',
-      options: ['always', 'hover', 'never'],
-      description: '阴影显示时机',
-      table: {
-        defaultValue: { summary: 'always' },
-      },
-    },
-    headerBorder: {
-      control: 'boolean',
-      description: '是否显示头部分隔线',
-    },
-    footerBorder: {
-      control: 'boolean',
-      description: '是否显示底部分隔线',
-    },
-    overlayAnimation: {
-      control: 'select',
-      options: ['slide-up', 'slide-down', 'slide-left', 'slide-right', 'fade', 'scale'],
-      description: '覆层出场动画',
-      table: {
-        defaultValue: { summary: 'slide-up' },
-      },
-    },
-    overlayPosition: {
-      control: 'select',
-      options: ['bottom', 'top', 'center'],
-      description: '覆层位置',
-      table: {
-        defaultValue: { summary: 'bottom' },
-      },
-    },
-    overlayDuration: {
-      control: { type: 'number', min: 100, max: 1000, step: 50 },
-      description: '覆层 animation 持续时间 (ms)',
-      table: {
-        defaultValue: { summary: '300' },
-      },
-    },
-    type: {
-      control: 'select',
-      options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
-      description: '主题颜色类型',
-      table: {
-        defaultValue: { summary: 'default' },
-      },
-    },
-    color: {
-      control: 'color',
-      description: '自定义主题色 (覆盖 type)',
-    },
-    dimmed: {
-      control: 'boolean',
-      description: '是否开启平常减淡显示',
-    },
-    dimmedType: {
-      control: 'select',
-      options: ['saturation', 'gray'],
-      description: '减淡模式类型',
-      table: {
-        defaultValue: { summary: 'saturation' },
-      },
-    },
-  },
 }
 
 export default meta
@@ -109,348 +137,570 @@ type Story = StoryObj<typeof CpCard>
 
 /** 基础用法 */
 export const 基础用法: Story = {
-  args: {
-    title: '系统监控',
-    variant: 'solid',
-    shape: 'clip',
-    shadow: 'always',
-  },
-  render: (args: any) => ({
-    components: { CpCard },
-    setup() {
-      return { args }
+    args: {
+        title: '系统监控',
+        variant: 'solid',
+        shape: 'clip',
+        shadow: 'hover',
     },
-    template: `
-      <CpCard v-bind="args" style="width: 320px;">
-        <p>CPU 使用率: 45%</p>
-        <p>内存占用: 68%</p>
-        <p>网络延迟: 12ms</p>
-      </CpCard>
-    `,
-  }),
+    render: (args: any) => ({
+        components: {CpCard},
+        setup() {
+            return {args}
+        },
+        template: `
+          <CpCard v-bind="args" style="width: 320px;">
+            <p>CPU 使用率: 45%</p>
+            <p>内存占用: 68%</p>
+            <p>网络延迟: 12ms</p>
+          </CpCard>
+        `,
+    }),
 }
 
 /** 变体展示 */
 export const 变体展示: Story = {
-  render: () => ({
-    components: { CpCard },
-    template: `
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px;">
-        <CpCard title="Solid 实心" variant="solid">
-          <p>默认的实心背景卡片，适合主要内容展示。</p>
-        </CpCard>
-        <CpCard title="Outline 描边" variant="outline">
-          <p>透明背景配合边框，适合次要信息区块。</p>
-        </CpCard>
-        <CpCard title="Semi 半透明" variant="semi">
-          <p>毛玻璃效果背景，适合叠加在图片上使用。</p>
-        </CpCard>
-        <CpCard title="Ghost 幽灵" variant="ghost">
-          <p>完全透明的背景，悬停才显示边界。</p>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px;">
+            <CpCard title="Solid 实心" variant="solid">
+              <p>默认的实心背景卡片，适合主要内容展示。</p>
+            </CpCard>
+            <CpCard title="Outline 描边" variant="outline">
+              <p>透明背景配合边框，适合次要信息区块。</p>
+            </CpCard>
+            <CpCard title="Semi 半透明" variant="semi">
+              <p>毛玻璃效果背景，适合叠加在图片上使用。</p>
+            </CpCard>
+            <CpCard title="Ghost 幽灵" variant="ghost">
+              <p>完全透明的背景，悬停才显示边界。</p>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 形状模式 */
 export const 形状模式: Story = {
-  render: () => ({
-    components: { CpCard },
-    template: `
-      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <CpCard title="Clip 切角" shape="clip" style="width: 200px;">
-          <p>机甲风格切角造型</p>
-        </CpCard>
-        <CpCard title="No-Clip 直角" shape="no-clip" style="width: 200px;">
-          <p>标准直角矩形</p>
-        </CpCard>
-        <CpCard title="Round 圆角" shape="round" style="width: 200px;">
-          <p>柔和的圆角设计</p>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <CpCard title="Clip 切角" shape="clip" style="width: 200px;">
+              <p>机甲风格切角造型</p>
+            </CpCard>
+            <CpCard title="No-Clip 直角" shape="no-clip" style="width: 200px;">
+              <p>标准直角矩形</p>
+            </CpCard>
+            <CpCard title="Round 圆角" shape="round" style="width: 200px;">
+              <p>柔和的圆角设计</p>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 阴影控制 */
 export const 阴影控制: Story = {
-  render: () => ({
-    components: { CpCard },
-    template: `
-      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <CpCard title="Always" shadow="always" style="width: 200px;">
-          <p>始终显示阴影</p>
-        </CpCard>
-        <CpCard title="Hover" shadow="hover" style="width: 200px;">
-          <p>悬停时显示阴影</p>
-        </CpCard>
-        <CpCard title="Never" shadow="never" style="width: 200px;">
-          <p>不显示阴影</p>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <CpCard title="Always" shadow="always" style="width: 200px;">
+              <p>始终显示阴影</p>
+            </CpCard>
+            <CpCard title="Hover" shadow="hover" style="width: 200px;">
+              <p>悬停时显示阴影</p>
+            </CpCard>
+            <CpCard title="Never" shadow="never" style="width: 200px;">
+              <p>不显示阴影</p>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 带额外操作 */
 export const 带额外操作: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <CpCard title="数据面板" style="width: 400px;">
-        <template #extra>
-          <CpButton size="sm" variant="ghost">刷新</CpButton>
-          <CpButton size="sm" variant="outline" type="primary">导出</CpButton>
-        </template>
-        <p>这是一个带有头部操作按钮的卡片示例。</p>
-        <p>通过 #extra 插槽可以在标题右侧放置任意内容。</p>
-      </CpCard>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <CpCard title="数据面板" style="width: 400px;">
+            <template #extra>
+              <CpButton size="sm" variant="ghost">刷新</CpButton>
+              <CpButton size="sm" variant="outline" type="primary">导出</CpButton>
+            </template>
+            <p>这是一个带有头部操作按钮的卡片示例。</p>
+            <p>通过 #extra 插槽可以在标题右侧放置任意内容。</p>
+          </CpCard>
+        `,
+    }),
 }
 
 /** 自定义头部和底部 */
 export const 自定义头部底部: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <CpCard style="width: 400px;">
-        <template #header>
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 24px;">🚀</span>
-            <div>
-              <div style="font-weight: 600; color: var(--cp-text-primary);">任务中心</div>
-              <div style="font-size: 12px; color: var(--cp-text-tertiary);">管理你的任务</div>
-            </div>
-          </div>
-        </template>
-        <p>自定义头部区域，可以放置任意内容。</p>
-        <p>包括图标、副标题、状态指示器等。</p>
-        <template #footer>
-          <CpButton variant="ghost">取消</CpButton>
-          <CpButton type="primary">确认</CpButton>
-        </template>
-      </CpCard>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <CpCard style="width: 400px;">
+            <template #header>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">🚀</span>
+                <div>
+                  <div style="font-weight: 600; color: var(--cp-text-primary);">任务中心</div>
+                  <div style="font-size: 12px; color: var(--cp-text-tertiary);">管理你的任务</div>
+                </div>
+              </div>
+            </template>
+            <p>自定义头部区域，可以放置任意内容。</p>
+            <p>包括图标、副标题、状态指示器等。</p>
+            <template #footer>
+              <CpButton variant="ghost">取消</CpButton>
+              <CpButton type="primary">确认</CpButton>
+            </template>
+          </CpCard>
+        `,
+    }),
 }
 
 /** 无头部卡片 */
 export const 无头部卡片: Story = {
-  render: () => ({
-    components: { CpCard },
-    template: `
-      <CpCard style="width: 320px;">
-        <p>这是一个没有头部的简洁卡片。</p>
-        <p>适合纯内容展示场景。</p>
-      </CpCard>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <CpCard style="width: 320px;">
+            <p>这是一个没有头部的简洁卡片。</p>
+            <p>适合纯内容展示场景。</p>
+          </CpCard>
+        `,
+    }),
 }
 
 /** 组合示例 */
 export const 组合示例: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px;">
-        <CpCard title="Primary" variant="semi" style="border-color: var(--cp-color-primary);">
-          <p style="color: var(--cp-color-primary);">主要信息卡片</p>
-        </CpCard>
-        <CpCard title="Success" variant="semi" style="border-color: var(--cp-color-success);">
-          <p style="color: var(--cp-color-success);">成功状态卡片</p>
-        </CpCard>
-        <CpCard title="Warning" variant="semi" style="border-color: var(--cp-color-warning);">
-          <p style="color: var(--cp-color-warning);">警告信息卡片</p>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px;">
+            <CpCard title="Primary" variant="semi" style="border-color: var(--cp-color-primary);">
+              <p style="color: var(--cp-color-primary);">主要信息卡片</p>
+            </CpCard>
+            <CpCard title="Success" variant="semi" style="border-color: var(--cp-color-success);">
+              <p style="color: var(--cp-color-success);">成功状态卡片</p>
+            </CpCard>
+            <CpCard title="Warning" variant="semi" style="border-color: var(--cp-color-warning);">
+              <p style="color: var(--cp-color-warning);">警告信息卡片</p>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 隐藏式覆层 */
 export const 隐藏式覆层: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <CpCard title="资产卡片" style="width: 300px; height: 200px;">
-          <p>鼠标悬停查看操作按钮</p>
-          <p style="color: var(--cp-text-tertiary); font-size: 12px;">覆层将从底部滑入</p>
-          <template #overlay>
-            <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <CpButton size="sm" variant="ghost">取消</CpButton>
-              <CpButton size="sm" type="primary">编辑资产</CpButton>
-            </div>
-          </template>
-        </CpCard>
-        <CpCard title="确认匹配" variant="outline" style="width: 300px; height: 200px; border-color: var(--cp-color-info);">
-          <p>AI 智能匹配结果</p>
-          <p style="color: var(--cp-text-tertiary); font-size: 12px;">悬停确认或拒绝</p>
-          <template #overlay>
-            <div style="display: flex; gap: 8px; justify-content: space-between;">
-              <CpButton size="sm" variant="ghost" type="danger">拒绝</CpButton>
-              <CpButton size="sm" type="info">确认匹配</CpButton>
-            </div>
-          </template>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <CpCard title="资产卡片" style="width: 300px; height: 200px;">
+              <p>鼠标悬停查看操作按钮</p>
+              <p style="color: var(--cp-text-tertiary); font-size: 12px;">覆层将从底部滑入</p>
+              <template #overlay>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                  <CpButton size="sm" variant="ghost">取消</CpButton>
+                  <CpButton size="sm" type="primary">编辑资产</CpButton>
+                </div>
+              </template>
+            </CpCard>
+            <CpCard title="确认匹配" variant="outline"
+                    style="width: 300px; height: 200px; border-color: var(--cp-color-info);">
+              <p>AI 智能匹配结果</p>
+              <p style="color: var(--cp-text-tertiary); font-size: 12px;">悬停确认或拒绝</p>
+              <template #overlay>
+                <div style="display: flex; gap: 8px; justify-content: space-between;">
+                  <CpButton size="sm" variant="ghost" type="danger">拒绝</CpButton>
+                  <CpButton size="sm" type="info">确认匹配</CpButton>
+                </div>
+              </template>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 覆层动画类型 */
 export const 覆层动画类型: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px;">
-        <CpCard title="Slide Up" overlay-animation="slide-up" style="height: 150px;">
-          <p style="font-size: 12px;">从底部滑入 (默认)</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Slide Down" overlay-animation="slide-down" overlay-position="top" style="height: 150px;">
-          <p style="font-size: 12px;">从顶部滑入</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Slide Left" overlay-animation="slide-left" style="height: 150px;">
-          <p style="font-size: 12px;">从右侧滑入</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Slide Right" overlay-animation="slide-right" style="height: 150px;">
-          <p style="font-size: 12px;">从左侧滑入</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Fade" overlay-animation="fade" style="height: 150px;">
-          <p style="font-size: 12px;">渐显效果</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Scale" overlay-animation="scale" overlay-position="center" style="height: 150px;">
-          <p style="font-size: 12px;">缩放效果</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
-          </template>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px;">
+            <CpCard title="Slide Up" overlay-animation="slide-up" style="height: 150px;">
+              <p style="font-size: 12px;">从底部滑入 (默认)</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Slide Down" overlay-animation="slide-down" overlay-position="top" style="height: 150px;">
+              <p style="font-size: 12px;">从顶部滑入</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Slide Left" overlay-animation="slide-left" style="height: 150px;">
+              <p style="font-size: 12px;">从右侧滑入</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Slide Right" overlay-animation="slide-right" style="height: 150px;">
+              <p style="font-size: 12px;">从左侧滑入</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Fade" overlay-animation="fade" style="height: 150px;">
+              <p style="font-size: 12px;">渐显效果</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Scale" overlay-animation="scale" overlay-position="center" style="height: 150px;">
+              <p style="font-size: 12px;">缩放效果</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+              </template>
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 覆层位置 */
 export const 覆层位置: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <CpCard title="Bottom" overlay-position="bottom" style="width: 250px; height: 180px;">
-          <p style="font-size: 12px;">覆层位于底部</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">底部操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Top" overlay-position="top" overlay-animation="slide-down" style="width: 250px; height: 180px;">
-          <p style="font-size: 12px;">覆层位于顶部</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">顶部操作</CpButton>
-          </template>
-        </CpCard>
-        <CpCard title="Center" overlay-position="center" overlay-animation="scale" style="width: 250px; height: 180px;">
-          <p style="font-size: 12px;">覆层居中</p>
-          <template #overlay>
-            <CpButton size="sm" type="primary" style="width: 100%;">居中操作</CpButton>
-          </template>
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <CpCard title="Bottom" overlay-position="bottom" style="width: 250px; height: 180px;">
+              <p style="font-size: 12px;">覆层位于底部</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">底部操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Top" overlay-position="top" overlay-animation="slide-down"
+                    style="width: 250px; height: 180px;">
+              <p style="font-size: 12px;">覆层位于顶部</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">顶部操作</CpButton>
+              </template>
+            </CpCard>
+            <CpCard title="Center" overlay-position="center" overlay-animation="scale"
+                    style="width: 250px; height: 180px;">
+              <p style="font-size: 12px;">覆层居中</p>
+              <template #overlay>
+                <CpButton size="sm" type="primary" style="width: 100%;">居中操作</CpButton>
+              </template>
+            </CpCard>
+          </div>
+        `,
+    }),
+}
+
+/** 覆层效果类型 */
+export const 覆层效果类型: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">覆层背景效果对比（悬停查看）</h4>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1100px;">
+              <CpCard title="无效果" overlay-effect="none" style="height: 180px;">
+                <p style="font-size: 12px;">overlayEffect="none"</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">透明背景，无模糊</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">操作</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="仅模糊" overlay-effect="blur" style="height: 180px;">
+                <p style="font-size: 12px;">overlayEffect="blur"</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">毛玻璃效果</p>
+                <template #overlay>
+                  <CpButton size="sm" type="info" style="width: 100%;">操作</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="仅颜色" overlay-effect="color" style="height: 180px;">
+                <p style="font-size: 12px;">overlayEffect="color"</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">纯色遮罩</p>
+                <template #overlay>
+                  <CpButton size="sm" type="success" style="width: 100%;">操作</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="模糊+颜色" overlay-effect="blur-color" style="height: 180px;">
+                <p style="font-size: 12px;">overlayEffect="blur-color"</p>
+                <p style="font-size: 10px; color: var(--cp-text-tertiary);">默认效果</p>
+                <template #overlay>
+                  <CpButton size="sm" type="warning" style="width: 100%;">操作</CpButton>
+                </template>
+              </CpCard>
+            </div>
+            <h4 style="color: #fff; margin: 24px 0 16px;">自定义颜色和模糊度</h4>
+            <div style="display: flex; gap: 20px;">
+              <CpCard title="红色遮罩" overlay-color="rgba(255, 0, 0, 0.6)" overlay-effect="color" style="width: 250px; height: 180px;">
+                <p style="font-size: 12px;">自定义颜色</p>
+                <template #overlay>
+                  <CpButton size="sm" type="error" style="width: 100%;">危险操作</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="强模糊" :overlay-blur="25" overlay-effect="blur" style="width: 250px; height: 180px;">
+                <p style="font-size: 12px;">overlayBlur=25</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">毛玻璃</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="紫色毛玻璃" overlay-color="rgba(188, 19, 254, 0.5)" :overlay-blur="15" style="width: 250px; height: 180px;">
+                <p style="font-size: 12px;">颜色 + 模糊</p>
+                <template #overlay>
+                  <CpButton size="sm" variant="neon" style="width: 100%;">霓虹操作</CpButton>
+                </template>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
 }
 
 /** 主题颜色展示 */
 export const 主题颜色展示: Story = {
-  render: () => ({
-    components: { CpCard },
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 30px;">
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-          <CpCard title="Primary Solid" type="primary" variant="solid">主要实心色</CpCard>
-          <CpCard title="Success Solid" type="success" variant="solid">成功实心色</CpCard>
-          <CpCard title="Warning Solid" type="warning" variant="solid">警告实心色</CpCard>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-          <CpCard title="Error Outline" type="error" variant="outline">错误描边色</CpCard>
-          <CpCard title="Info Outline" type="info" variant="outline">信息描边色</CpCard>
-          <CpCard title="Primary Outline" type="primary" variant="outline">主要描边色</CpCard>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-          <CpCard title="Success Semi" type="success" variant="semi">成功半透明</CpCard>
-          <CpCard title="Warning Semi" type="warning" variant="semi">警告半透明</CpCard>
-          <CpCard title="Error Semi" type="error" variant="semi">错误半透明</CpCard>
-        </div>
-      </div>
-    `,
-  }),
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+              <CpCard title="Primary Solid" type="primary" variant="solid">主要实心色</CpCard>
+              <CpCard title="Success Solid" type="success" variant="solid">成功实心色</CpCard>
+              <CpCard title="Warning Solid" type="warning" variant="solid">警告实心色</CpCard>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+              <CpCard title="Error Outline" type="error" variant="outline">错误描边色</CpCard>
+              <CpCard title="Info Outline" type="info" variant="outline">信息描边色</CpCard>
+              <CpCard title="Primary Outline" type="primary" variant="outline">主要描边色</CpCard>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+              <CpCard title="Success Semi" type="success" variant="semi">成功半透明</CpCard>
+              <CpCard title="Warning Semi" type="warning" variant="semi">警告半透明</CpCard>
+              <CpCard title="Error Semi" type="error" variant="semi">错误半透明</CpCard>
+            </div>
+          </div>
+        `,
+    }),
 }
 
 /** 自定义颜色 */
 export const 自定义颜色: Story = {
-  args: {
-    title: '自定义霓虹紫',
-    color: '#bc13fe',
-    variant: 'outline',
-  },
-  render: (args: any) => ({
-    components: { CpCard },
-    setup() {
-      return { args }
+    args: {
+        title: '自定义霓虹紫',
+        color: '#bc13fe',
+        variant: 'outline',
     },
-    template: `
-      <div style="display: flex; gap: 20px;">
-        <CpCard v-bind="args" style="width: 280px;">
-          使用线性注入的 CSS 变量控制颜色
-        </CpCard>
-        <CpCard title="极客金" color="#ffb000" variant="semi" style="width: 280px;">
-          自定义颜色的半透明变体
-        </CpCard>
-      </div>
-    `,
-  }),
+    render: (args: any) => ({
+        components: {CpCard},
+        setup() {
+            return {args}
+        },
+        template: `
+          <div style="display: flex; gap: 20px;">
+            <CpCard v-bind="args" style="width: 280px;">
+              使用线性注入的 CSS 变量控制颜色
+            </CpCard>
+            <CpCard title="极客金" color="#ffb000" variant="semi" style="width: 280px;">
+              自定义颜色的半透明变体
+            </CpCard>
+          </div>
+        `,
+    }),
 }
 
 /** 减淡模式演示 */
 export const 减淡模式演示: Story = {
-  render: () => ({
-    components: { CpCard, CpButton },
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 40px;">
-        <div>
-          <h4 style="color: #fff; margin-bottom: 10px;">低饱和度模式 (Saturation) - 推荐用于 UI 降噪</h4>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <CpCard title="激活状态" type="primary" :dimmed="false" style="height: 120px;">正常显示</CpCard>
-            <CpCard title="减淡状态" type="primary" dimmed dimmed-type="saturation" style="height: 120px;">悬停可恢复</CpCard>
-            <CpCard title="减淡状态" type="success" dimmed dimmed-type="saturation" style="height: 120px;">悬停可恢复</CpCard>
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">减淡模式：平常无颜色，悬停时显现主题色（支持动画时长控制）</h4>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+              <CpCard title="正常状态" type="primary" style="height: 120px;">无 dimmed</CpCard>
+              <CpCard title="减淡状态 (300ms)" type="primary" dimmed style="height: 120px;">正常过渡</CpCard>
+              <CpCard title="慢速模式 (1000ms)" type="success" dimmed :dimmed-duration="1000" style="height: 120px;">
+                丝滑过渡
+              </CpCard>
+              <CpCard title="Ghost 模式" variant="ghost" type="warning" dimmed style="height: 120px;">分割线也有过渡
+              </CpCard>
+            </div>
           </div>
-        </div>
-        
-        <div>
-          <h4 style="color: #fff; margin-bottom: 10px;">置灰模式 (Gray) - 适合表示不可用或非重点</h4>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-             <CpCard title="警告" type="warning" variant="outline" dimmed dimmed-type="gray" style="height: 120px;">平常为灰色</CpCard>
-             <CpCard title="错误" type="error" variant="outline" dimmed dimmed-type="gray" style="height: 120px;">平常为灰色</CpCard>
-             <CpCard title="信息" type="info" variant="outline" dimmed dimmed-type="gray" style="height: 120px;">平常为灰色</CpCard>
+        `,
+    }),
+}
+
+/** 组合示例：资产管理卡片 */
+export const 资产管理卡片: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon, MdiPencil, MdiMovieOpen, MdiAutoFix},
+        setup() {
+            return { MdiCog, MdiRefresh, MdiPencil, MdiMovieOpen, MdiAutoFix }
+        },
+        template: `
+          <div style="display: flex; gap: 24px; padding: 20px; background: #0f0808; min-height: 500px;">
+            <!-- 已确认资产 -->
+            <CpCard
+                style="width: 320px;"
+                variant="solid"
+                type="warning"
+                shadow="hover"
+                overlayEffect="none"
+            >
+              <!-- 封面图插槽 -->
+              <template #cover>
+                <div style="position: relative; height: 180px; overflow: hidden;">
+                  <CpImage
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4jC0ceMC1oDZlJzJYZcnIpk3gZzkcRtEX6W_QdU3ZmRyeDzkDYi6cOPM7mO95nZ00RuaZFwK9JzMzSrvz0D9D0vV55m505UwBMVaf9BENEHXWpAnv5E79zN9ol0exbM6cYO6VGLsN1Ca2YbXumreuuQwIfrAbzW6qTNcl-sX-hVAhrTY06HqaRtpLPEWag4H3xxcnHMh0PwPinGW5H4ANU5PlM3f51AS4RTx155tl4v8NqvSmdSb_OMt5HLaVnV9m7QRaeM_kgQI"
+                      fit="cover"
+                      style="width: 100%; height: 100%; opacity: 0.8;"
+                  />
+                  <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
+                    <CpTag type="warning" size="sm" effect="dark"
+                           style="font-weight: bold; box-shadow: 0 0 10px rgba(255, 159, 28, 0.4);">CONFIRMED
+                    </CpTag>
+                  </div>
+                  <!-- 底部渐变罩 -->
+                  <div
+                      style="position: absolute; inset: 0; background: linear-gradient(to top, #110708, transparent); opacity: 0.6;"></div>
+                </div>
+              </template>
+
+              <!-- 标题插槽自定义 -->
+              <template #title>
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">凯 (KAI)</CpText>
+                      <CpTag size="sm" type="warning" plain>角色</CpTag>
+                    </div>
+                    <div
+                        style="font-size: 10px; color: var(--cp-color-warning); opacity: 0.8; font-family: monospace; margin-top: 2px;">
+                      ID: CHR-001
+                    </div>
+                  </div>
+                </div>
+              </template>
+
+              <!-- 主体内容 -->
+              <div style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <CpText size="xs" bold type="info" style="text-transform: uppercase; opacity: 0.5;">
+                    <template #prefix>
+                      <MdiPencil/>
+                    </template>
+                    提示词 (PROMPT)
+                  </CpText>
+                </div>
+
+                <CpTextarea
+                    model-value="Cyberpunk protagonist, male, tactical black techwear jacket, rain-slicked neon street background, cinematic lighting, 8k render."
+                    readonly
+                    :rows="4"
+                    style="--cp-textarea-bg: rgba(0,0,0,0.4); font-size: 10px;"
+                />
+
+                <div
+                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: #666;">
+                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px;"/> 42 Scenes</span>
+                  <span>EP.01 START</span>
+                </div>
+              </div>
+
+              <!-- 悬停操作覆层 -->
+              <template #overlay>
+                <div style="display: flex; gap: 8px; width: 100%;">
+                  <CpButton type="warning" size="sm" block bold style="flex: 1;">编辑资产</CpButton>
+                  <CpButton :icon="MdiCog" type="info" size="sm" variant="outline"/>
+                </div>
+              </template>
+            </CpCard>
+
+            <!-- 智能匹配资产 -->
+            <CpCard
+                style="width: 320px;"
+                variant="solid"
+                type="info"
+                shadow="hover"
+                overlayEffect="none"
+            >
+              <template #cover>
+                <div style="position: relative; height: 180px; overflow: hidden; background: #000;">
+                  <CpImage
+                      src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600"
+                      fit="cover"
+                      style="width: 100%; height: 100%; opacity: 0.6; filter: hue-rotate(180deg);"
+                  />
+                  <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
+                    <CpTag type="info" size="sm" effect="dark" variant="outline"
+                           style="font-weight: bold; box-shadow: 0 0 10px rgba(6, 182, 212, 0.4); display: flex; align-items: center; gap: 4px;">
+                      <MdiAutoFix style="font-size: 12px;margin-right: 5px;"/>
+                      智能匹配
+                    </CpTag>
+                  </div>
+                  <!-- 全息装饰图层 -->
+                  <div
+                      style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, transparent 100%); pointer-events: none;"></div>
+                </div>
+              </template>
+
+              <template #title>
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">奥拉 (AURA)</CpText>
+                      <CpTag size="sm" type="info" variant="outline" plain>角色</CpTag>
+                    </div>
+                    <div
+                        style="font-size: 10px; color: var(--cp-color-info); opacity: 0.8; font-family: monospace; margin-top: 2px;">
+                      ID: CHR-002
+                    </div>
+                  </div>
+                </div>
+              </template>
+
+              <div style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+                <CpText size="xs" type="info" bold style="text-transform: uppercase; opacity: 0.5;">
+                  <template #prefix>
+                    <MdiPencil/>
+                  </template>
+                  提示词 (PROMPT)
+                </CpText>
+
+                <CpTextarea
+                    model-value="Holographic AI avatar, female, translucent blue skin, glowing data streams, cybernetic neural interface."
+                    readonly
+                    :rows="4"
+                    style="--cp-textarea-bg: rgba(0,0,0,0.4); font-size: 10px;"
+                />
+
+                <div
+                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: #666;">
+                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px;"/> 18 Scenes</span>
+                  <span>EP.01 START</span>
+                </div>
+              </div>
+
+              <template #overlay>
+                <div style="display: flex; gap: 8px; width: 100%;">
+                  <CpButton type="info" size="sm" block bold style="flex: 1;">确认匹配</CpButton>
+                  <CpButton :icon="MdiRefresh" type="info" size="sm" variant="outline"/>
+                </div>
+              </template>
+            </CpCard>
           </div>
-        </div>
-      </div>
-    `,
-  }),
+        `,
+    }),
 }

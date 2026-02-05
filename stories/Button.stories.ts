@@ -2,6 +2,15 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import { CpButton } from '../packages/components'
 
+// 从 unplugin-icons 导入真实图标 (mdi 图标集) - 用于 IconButton 示例
+import MdiHome from '~icons/mdi/home'
+import MdiCog from '~icons/mdi/cog'
+import MdiPlus from '~icons/mdi/plus'
+import MdiMagnify from '~icons/mdi/magnify'
+import MdiHeart from '~icons/mdi/heart'
+import MdiStar from '~icons/mdi/star'
+import MdiPencil from '~icons/mdi/pencil'
+import MdiDelete from '~icons/mdi/delete'
 
 /**
  * # CpButton 按钮
@@ -409,6 +418,171 @@ export const 自定义主题色: Story = {
         <p style="color: var(--cp-text-secondary); font-size: 12px;">
           💡 点击上方颜色按钮可实时更换全局主题色 (--cp-color-primary)
         </p>
+      </div>
+    `,
+  }),
+}
+
+/** 纯图标按钮 (IconButton) */
+export const 纯图标按钮: Story = {
+  name: 'IconButton 纯图标按钮',
+  render: () => ({
+    components: { CpButton },
+    setup() {
+      // 使用顶层导入的图标
+      return { 
+        MdiHome, MdiCog, MdiPlus, 
+        MdiSearch: MdiMagnify, // 重命名为模板中使用的名称
+        MdiHeart, MdiStar, 
+        MdiEdit: MdiPencil,   // 重命名为模板中使用的名称
+        MdiDelete 
+      }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 使用 <code style="color: var(--cp-color-primary);">:icon</code> 属性传入图标组件，按钮将变为正方形图标按钮
+        </p>
+        
+        <!-- 尺寸对比 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">尺寸 Sizes</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiHome" size="sm" />
+            <CpButton :icon="MdiHome" size="md" />
+            <CpButton :icon="MdiHome" size="lg" />
+          </div>
+        </div>
+        
+        <!-- 颜色类型 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">颜色类型 Types</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiPlus" type="primary" />
+            <CpButton :icon="MdiHeart" type="success" />
+            <CpButton :icon="MdiStar" type="warning" />
+            <CpButton :icon="MdiDelete" type="error" />
+            <CpButton :icon="MdiSearch" type="info" />
+            <CpButton :icon="MdiCog" type="default" />
+          </div>
+        </div>
+        
+        <!-- 变体 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">变体 Variants</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiEdit" type="primary" variant="solid" />
+            <CpButton :icon="MdiEdit" type="primary" variant="semi" />
+            <CpButton :icon="MdiEdit" type="primary" variant="outline" />
+            <CpButton :icon="MdiEdit" type="primary" variant="ghost" />
+            <CpButton :icon="MdiEdit" type="primary" variant="neon" />
+          </div>
+        </div>
+        
+        <!-- 形状 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">形状 Shapes</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiPlus" type="success" shape="clip" />
+            <CpButton :icon="MdiPlus" type="success" shape="no-clip" />
+            <CpButton :icon="MdiPlus" type="success" shape="round" />
+            <CpButton :icon="MdiPlus" type="success" shape="circle" />
+          </div>
+        </div>
+        
+        <!-- 状态 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">状态 States</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiCog" type="primary" />
+            <CpButton :icon="MdiCog" type="primary" disabled />
+            <CpButton :icon="MdiCog" type="primary" loading />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 前缀/后缀图标与颜色 */
+export const 前后缀图标: Story = {
+  name: '前后缀图标 & 颜色控制',
+  render: () => ({
+    components: { CpButton },
+    setup() {
+      return { MdiHome, MdiCog, MdiPlus, MdiMagnify, MdiHeart, MdiStar, MdiPencil, MdiDelete }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 使用 <code style="color: var(--cp-color-primary);">prefix-icon</code> / <code style="color: var(--cp-color-primary);">suffix-icon</code> 快捷传入图标
+        </p>
+        
+        <!-- 基础用法 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">前后缀图标</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :prefix-icon="MdiHome">首页</CpButton>
+            <CpButton :suffix-icon="MdiCog" type="success">设置</CpButton>
+            <CpButton :prefix-icon="MdiStar" :suffix-icon="MdiHeart" type="warning">收藏</CpButton>
+          </div>
+        </div>
+        
+        <!-- 图标颜色 (icon-color) -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">
+            icon-color: 统一控制所有图标颜色
+          </p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :prefix-icon="MdiHeart" icon-color="#ff6b6b">红色图标</CpButton>
+            <CpButton :icon="MdiStar" icon-color="#ffe66d" />
+            <CpButton :prefix-icon="MdiPlus" :suffix-icon="MdiCog" icon-color="#4ecdc4" type="info">统一绿色</CpButton>
+          </div>
+        </div>
+        
+        <!-- 单独控制颜色 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">
+            prefix-icon-color / suffix-icon-color: 单独控制
+          </p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :prefix-icon="MdiHeart" prefix-icon-color="#ff6b6b" type="primary">红色前缀</CpButton>
+            <CpButton :suffix-icon="MdiStar" suffix-icon-color="#ffe66d" type="success">黄色后缀</CpButton>
+            <CpButton 
+              :prefix-icon="MdiHeart" 
+              :suffix-icon="MdiStar" 
+              prefix-icon-color="#ff6b6b"
+              suffix-icon-color="#ffe66d"
+            >双色图标</CpButton>
+          </div>
+        </div>
+        
+        <!-- 颜色优先级演示 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">
+            优先级: prefix-icon-color &gt; icon-color &gt; text-color
+          </p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton 
+              :prefix-icon="MdiHeart" 
+              :suffix-icon="MdiStar"
+              text-color="#888"
+            >text-color #888</CpButton>
+            <CpButton 
+              :prefix-icon="MdiHeart" 
+              :suffix-icon="MdiStar"
+              text-color="#888"
+              icon-color="#4ecdc4"
+            >icon-color 覆盖</CpButton>
+            <CpButton 
+              :prefix-icon="MdiHeart" 
+              :suffix-icon="MdiStar"
+              text-color="#888"
+              icon-color="#4ecdc4"
+              prefix-icon-color="#ff6b6b"
+            >prefix 单独覆盖</CpButton>
+          </div>
+        </div>
       </div>
     `,
   }),

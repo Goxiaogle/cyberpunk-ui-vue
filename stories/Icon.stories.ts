@@ -342,3 +342,92 @@ export const 图标展示: Story = {
     },
   }),
 }
+
+/** 纯图标按钮 (IconButton) */
+export const IconButton纯图标按钮: Story = {
+  name: 'IconButton 纯图标按钮',
+  render: () => ({
+    components: { CpIcon, CpButton },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 通过 <code style="color: var(--cp-color-primary);">CpButton :icon</code> 属性创建纯图标按钮
+        </p>
+        
+        <!-- 基础示例 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">基础用法</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiHome" type="primary" />
+            <CpButton :icon="MdiCog" type="success" />
+            <CpButton :icon="MdiStar" type="warning" />
+            <CpButton :icon="MdiHeart" type="error" />
+            <CpButton :icon="MdiMagnify" type="info" />
+          </div>
+        </div>
+        
+        <!-- 尺寸与变体 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">尺寸与变体</p>
+          <div style="display: flex; gap: 16px; align-items: flex-end;">
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <CpButton :icon="MdiPlus" size="sm" type="primary" />
+              <CpButton :icon="MdiPlus" size="md" type="primary" />
+              <CpButton :icon="MdiPlus" size="lg" type="primary" />
+              <span style="color: var(--cp-text-tertiary); font-size: 10px;">Solid</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <CpButton :icon="MdiPlus" size="sm" type="primary" variant="outline" />
+              <CpButton :icon="MdiPlus" size="md" type="primary" variant="outline" />
+              <CpButton :icon="MdiPlus" size="lg" type="primary" variant="outline" />
+              <span style="color: var(--cp-text-tertiary); font-size: 10px;">Outline</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <CpButton :icon="MdiPlus" size="sm" type="primary" variant="ghost" />
+              <CpButton :icon="MdiPlus" size="md" type="primary" variant="ghost" />
+              <CpButton :icon="MdiPlus" size="lg" type="primary" variant="ghost" />
+              <span style="color: var(--cp-text-tertiary); font-size: 10px;">Ghost</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <CpButton :icon="MdiPlus" size="sm" type="primary" variant="neon" />
+              <CpButton :icon="MdiPlus" size="md" type="primary" variant="neon" />
+              <CpButton :icon="MdiPlus" size="lg" type="primary" variant="neon" />
+              <span style="color: var(--cp-text-tertiary); font-size: 10px;">Neon</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 不同形状 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">形状 Shapes</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiCheck" type="success" shape="clip" />
+            <CpButton :icon="MdiCheck" type="success" shape="no-clip" />
+            <CpButton :icon="MdiCheck" type="success" shape="round" />
+            <CpButton :icon="MdiCheck" type="success" shape="circle" />
+          </div>
+        </div>
+        
+        <!-- 与 prefix/suffix 对比 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">对比：icon 属性 vs prefix slot</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiRocket" type="warning" />
+            <span style="color: var(--cp-text-tertiary);">←</span>
+            <code style="color: var(--cp-color-primary); font-size: 12px;">:icon="MdiRocket"</code>
+            <span style="color: var(--cp-text-tertiary);">|</span>
+            <CpButton type="warning">
+              <template #prefix><CpIcon :icon="MdiRocket" /></template>
+              发射
+            </CpButton>
+            <span style="color: var(--cp-text-tertiary);">←</span>
+            <code style="color: var(--cp-color-primary); font-size: 12px;">#prefix + text</code>
+          </div>
+        </div>
+      </div>
+    `,
+    setup() {
+      return { MdiHome, MdiCog, MdiStar, MdiHeart, MdiMagnify, MdiPlus, MdiCheck, MdiRocket }
+    },
+  }),
+}

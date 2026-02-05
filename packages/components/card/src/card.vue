@@ -4,7 +4,7 @@
  * 支持多种变体、形状模式和灵活的插槽布局
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { cardProps } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -17,7 +17,7 @@ const slots = useSlots()
 
 const ns = useNamespace('card')
 
-const classes = computed(() => [
+const rootClasses = computed(() => [
   ns.b(),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
@@ -25,9 +25,11 @@ const classes = computed(() => [
   ns.m(props.type),
   // 当存在 overlay 插槽时添加 has-overlay 状态类
   ns.is('has-overlay', !!slots.overlay),
-  // 减淡模式状态
   ns.is('dimmed', props.dimmed),
-  props.dimmed && ns.m(`dimmed-${props.dimmedType}`),
+])
+
+const cardClasses = computed(() => [
+  ns.e('container'),
 ])
 
 // 卡片根样式 (注入颜色变量)
@@ -38,6 +40,11 @@ const cardStyle = computed(() => {
   } else if (props.type && props.type !== 'default') {
     styles['--cp-card-color'] = `var(--cp-color-${props.type})`
   }
+
+  // 注入动画时长
+  const dimmedDur = normalizeDuration(props.dimmedDuration)
+  if (dimmedDur) styles['--cp-card-dimmed-duration'] = dimmedDur
+  
   return styles
 })
 
@@ -70,46 +77,70 @@ const footerClasses = computed(() => [
   ns.is('bordered', props.footerBorder),
 ])
 
-// 覆层类名
+// 覆层类名（仅用于操作区域定位和动画）
 const overlayClasses = computed(() => [
   ns.e('overlay'),
   ns.bem('', 'overlay', props.overlayAnimation),
   ns.bem('', 'overlay', props.overlayPosition),
 ])
 
-// 覆层样式（动画时长）
+// 背景遮罩类名（覆盖整个卡片）
+const backdropClasses = computed(() => [
+  ns.e('overlay-backdrop'),
+  ns.bem('', 'overlay-backdrop', `effect-${props.overlayEffect}`),
+])
+
+// 规范化 blur 值
+const normalizeBlur = (value: number | string): string => {
+  if (typeof value === 'number') return `${value}px`
+  return value
+}
+
+// 覆层样式（动画时长、颜色、模糊度）
 const overlayStyle = computed(() => ({
-  '--cp-card-overlay-duration': `${props.overlayDuration}ms`,
+  '--cp-card-overlay-duration': normalizeDuration(props.overlayDuration),
+  '--cp-card-overlay-color': props.overlayColor,
+  '--cp-card-overlay-blur': normalizeBlur(props.overlayBlur),
 }))
 </script>
 
 <template>
-  <div :class="classes" :style="cardStyle">
-    <!-- Header -->
-    <div v-if="showHeader" :class="headerClasses">
-      <slot name="header">
-        <div :class="ns.e('title')">
-          <slot name="title">{{ title }}</slot>
-        </div>
-        <div v-if="slots.extra" :class="ns.e('extra')">
-          <slot name="extra" />
-        </div>
-      </slot>
-    </div>
+  <div :class="rootClasses" :style="cardStyle">
+    <div :class="cardClasses">
+      <!-- Cover -->
+      <div v-if="$slots.cover" :class="ns.e('cover')">
+        <slot name="cover" />
+      </div>
 
-    <!-- Body -->
-    <div :class="ns.e('body')" :style="bodyStyle">
-      <slot />
-    </div>
+      <!-- Header -->
+      <div v-if="showHeader" :class="headerClasses">
+        <slot name="header">
+          <div :class="ns.e('title')">
+            <slot name="title">{{ title }}</slot>
+          </div>
+          <div v-if="slots.extra" :class="ns.e('extra')">
+            <slot name="extra" />
+          </div>
+        </slot>
+      </div>
 
-    <!-- Footer -->
-    <div v-if="hasFooter" :class="footerClasses">
-      <slot name="footer" />
-    </div>
+      <!-- Body -->
+      <div :class="ns.e('body')" :style="bodyStyle">
+        <slot />
+      </div>
 
-    <!-- Overlay (hidden by default, shown on hover) -->
-    <div v-if="hasOverlay" :class="overlayClasses" :style="overlayStyle">
-      <slot name="overlay" />
+      <!-- Footer -->
+      <div v-if="hasFooter" :class="footerClasses">
+        <slot name="footer" />
+      </div>
+
+      <!-- Overlay Backdrop (covers entire card with blur/color effect) -->
+      <div v-if="hasOverlay" :class="backdropClasses" :style="overlayStyle" />
+
+      <!-- Overlay Actions (transparent, positioned for action buttons) -->
+      <div v-if="hasOverlay" :class="overlayClasses" :style="overlayStyle">
+        <slot name="overlay" />
+      </div>
     </div>
   </div>
 </template>

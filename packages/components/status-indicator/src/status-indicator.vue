@@ -4,7 +4,7 @@
  * 独立状态显示组件，支持多种形状和动画效果
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { statusIndicatorProps } from './status-indicator'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -38,9 +38,8 @@ const customStyle = computed(() => {
   }
 
   if (props.duration) {
-    styles['--cp-status-indicator-duration'] = typeof props.duration === 'number' 
-      ? `${props.duration}s` 
-      : props.duration
+    const dur = normalizeDuration(props.duration)
+    if (dur) styles['--cp-status-indicator-duration'] = dur
   }
 
   if (props.intensity !== 1) {

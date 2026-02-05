@@ -4,7 +4,7 @@
  * 支持懒加载、加载占位、错误处理等功能
  */
 import { ref, computed, onMounted, onBeforeUnmount, watch, toRef } from 'vue'
-import { useNamespace, useImageSrc } from '@cyberpunk-vue/hooks'
+import { useNamespace, useImageSrc, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { imageProps, imageEmits } from './image'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -77,8 +77,9 @@ const containerStyle = computed(() => {
     }
 
     // Hover 动画时间
-    if (props.hoverable && props.hoverDuration !== 0.3) {
-        style['--cp-image-hover-duration'] = `${props.hoverDuration}s`
+    if (props.hoverable && props.hoverDuration) {
+        const dur = normalizeDuration(props.hoverDuration)
+        if (dur) style['--cp-image-hover-duration'] = dur
     }
 
     return style

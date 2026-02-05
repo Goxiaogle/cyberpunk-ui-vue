@@ -56,9 +56,9 @@ const meta: Meta<typeof CpStatusIndicator> = {
     },
     duration: {
       control: { type: 'text' },
-      description: '动画持续时间 (s)',
+      description: '动画持续时间 (数字默认 ms，字符串可指定单位如 1.5s)',
       table: {
-        defaultValue: { summary: '1.5 / 1' },
+        defaultValue: { summary: '1500' },
       },
     },
     intensity: {
@@ -183,9 +183,9 @@ export const 动画时长: Story = {
     components: { CpStatusIndicator },
     template: `
       <div style="display: flex; gap: 32px; align-items: center;">
-        <CpStatusIndicator type="primary" animation="pulse" duration="0.5s" label="极速 (0.5s)" />
-        <CpStatusIndicator type="primary" animation="pulse" duration="1.5s" label="正常 (1.5s)" />
-        <CpStatusIndicator type="primary" animation="pulse" duration="3s" label="缓慢 (3s)" />
+        <CpStatusIndicator type="primary" animation="pulse" :duration="500" label="极速 (500ms)" />
+        <CpStatusIndicator type="primary" animation="pulse" :duration="1500" label="正常 (1500ms)" />
+        <CpStatusIndicator type="primary" animation="pulse" :duration="3000" label="缓慢 (3000ms)" />
       </div>
     `,
   }),

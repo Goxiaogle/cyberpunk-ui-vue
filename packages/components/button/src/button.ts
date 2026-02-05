@@ -183,6 +183,67 @@ export const buttonProps = {
         type: String,
         default: '',
     },
+    /**
+     * 图标组件 (用于纯图标按钮)
+     * 传入图标组件后按钮将变为正方形图标按钮
+     * @default undefined
+     * @example `<CpButton :icon="MdiHome" />`
+     */
+    icon: {
+        type: Object as PropType<object>,
+        default: undefined,
+    },
+    /**
+     * 图标颜色
+     * 用于控制所有图标（icon、prefixIcon、suffixIcon）的默认颜色
+     * 优先级：prefixIconColor/suffixIconColor > iconColor > textColor
+     * @default ''
+     * @example `<CpButton :icon="MdiHome" icon-color="#ff0000" />`
+     */
+    iconColor: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 前缀图标组件
+     * 快捷传入前缀图标，不使用 #prefix slot
+     * @default undefined
+     * @example `<CpButton :prefix-icon="MdiHome">首页</CpButton>`
+     */
+    prefixIcon: {
+        type: Object as PropType<object>,
+        default: undefined,
+    },
+    /**
+     * 后缀图标组件
+     * 快捷传入后缀图标，不使用 #suffix slot
+     * @default undefined
+     * @example `<CpButton :suffix-icon="MdiArrowRight">下一步</CpButton>`
+     */
+    suffixIcon: {
+        type: Object as PropType<object>,
+        default: undefined,
+    },
+    /**
+     * 前缀图标颜色
+     * 优先级：prefixIconColor > iconColor > textColor
+     * @default ''
+     * @example `<CpButton :prefix-icon="MdiHome" prefix-icon-color="#00f0ff">首页</CpButton>`
+     */
+    prefixIconColor: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 后缀图标颜色
+     * 优先级：suffixIconColor > iconColor > textColor
+     * @default ''
+     * @example `<CpButton :suffix-icon="MdiArrowRight" suffix-icon-color="#00ff00">下一步</CpButton>`
+     */
+    suffixIconColor: {
+        type: String,
+        default: '',
+    },
 } as const
 
 

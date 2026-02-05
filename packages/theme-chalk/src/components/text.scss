@@ -211,6 +211,12 @@ $text-types: (
             color: var(--cp-text-color);
         }
     }
+
+    // ===== 禁止选中 =====
+    @include when(unselectable) {
+        user-select: none;
+        cursor: default;
+    }
 }
 
 // 发光脉冲动画 (明显的心跳效果)

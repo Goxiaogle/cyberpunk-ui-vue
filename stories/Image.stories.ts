@@ -69,8 +69,8 @@ const meta: Meta<typeof CpImage> = {
             description: 'Hover 动画模式：scale-整体放大 / zoom-仅图片放大',
         },
         hoverDuration: {
-            control: { type: 'number', min: 0.1, max: 2, step: 0.1 },
-            description: 'Hover 动画持续时间（秒）',
+            control: { type: 'number', min: 50, max: 2000, step: 50 },
+            description: 'Hover 动画持续时间 (数字默认 ms，字符串可指定单位)',
         },
         srcProcessor: {
             control: 'text',
@@ -99,7 +99,7 @@ const meta: Meta<typeof CpImage> = {
         showDecor: true,
         hoverable: false,
         hoverMode: 'scale',
-        hoverDuration: 0.3,
+        hoverDuration: 300,
         srcProcessor: undefined,
         processorParams: undefined,
         draggable: false,
@@ -457,31 +457,31 @@ export const Hoverable: Story = {
                             <CpImage
                                 src="https://picsum.photos/150/100?fast"
                                 hoverable
-                                :hover-duration="0.15"
+                                :hover-duration="150"
                                 width="150px"
                                 height="100px"
                             />
-                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">0.15s (快)</div>
+                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">150ms (快)</div>
                         </div>
                         <div style="text-align: center;">
                             <CpImage
                                 src="https://picsum.photos/150/100?normal"
                                 hoverable
-                                :hover-duration="0.3"
+                                :hover-duration="300"
                                 width="150px"
                                 height="100px"
                             />
-                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">0.3s (默认)</div>
+                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">300ms (默认)</div>
                         </div>
                         <div style="text-align: center;">
                             <CpImage
                                 src="https://picsum.photos/150/100?slow"
                                 hoverable
-                                :hover-duration="0.6"
+                                :hover-duration="600"
                                 width="150px"
                                 height="100px"
                             />
-                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">0.6s (慢)</div>
+                            <div style="color: var(--cp-text-muted); margin-top: 4px; font-size: 12px;">600ms (慢)</div>
                         </div>
                     </div>
                 </div>

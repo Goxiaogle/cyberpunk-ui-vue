@@ -12,13 +12,30 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--cp-bg-elevated);
-  border: 1px solid var(--cp-border);
-  color: var(--cp-text-primary);
-  transition: all 0.3s ease, filter 0.4s ease, opacity 0.4s ease;
-  overflow: hidden;
+  transition: all var(--cp-card-dimmed-duration, 0.3s) ease;
+  // 移除 overflow: hidden，以便展示外部阴影
 
-  // 类型变体
+  @include e(container) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-primary);
+    transition: all var(--cp-card-dimmed-duration, 0.3s) ease, filter 0.4s ease, opacity 0.4s ease;
+    width: 100%;
+    height: 100%;
+    // 强制开启硬件加速，修复 backdrop-filter + clip-path 渲染问题
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: clip-path, filter;
+    
+    // 同时保留基础裁剪，防止闪烁
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+
+  // 类型变体控制颜色变量
   @each $type in (primary, success, warning, error, info) {
     &.cp-card--#{$type} {
       --cp-card-color: var(--cp-color-#{$type});
@@ -26,15 +43,8 @@
     }
   }
 
-  // 机甲风切角 (Top-Left, Bottom-Right)
-  clip-path: polygon(
-    12px 0,
-    100% 0,
-    100% calc(100% - 12px),
-    calc(100% - 12px) 100%,
-    0 100%,
-    0 12px
-  );
+  // 强制开启隔离层，确保内部 clip-path + backdrop-filter 渲染稳定
+  isolation: isolate;
 
   // 装饰性小方块 (右上角)
   &::after {
@@ -58,21 +68,27 @@
   }
 
   // ===== 变体 =====
+  // ===== 变体 =====
   @include m(solid) {
-    background: var(--cp-bg-elevated);
-    border-color: var(--cp-border);
+    .cp-card__container {
+      background: var(--cp-bg-elevated);
+      border-color: var(--cp-border);
 
-    // 顶部装饰线 (仅在非 default type 或有颜色时显示)
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--cp-card-color);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      // 顶部装饰线 + 渐变背光
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        // 2px 的实色顶线 + 渐变背景
+        background: linear-gradient(to bottom, var(--cp-card-color) 2px, var(--cp-card-color-light) 2px, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        z-index: 1;
+      }
     }
 
     &.cp-card--primary,
@@ -80,71 +96,82 @@
     &.cp-card--warning,
     &.cp-card--error,
     &.cp-card--info {
-      &::before {
+      .cp-card__container::before {
         opacity: 0.8;
       }
-      background: linear-gradient(
-        180deg,
-        var(--cp-card-color-light) 0%,
-        var(--cp-bg-elevated) 40px,
-        var(--cp-bg-elevated) 100%
-      );
     }
 
     // 自定义 color 也要显示线条
     &[style*='--cp-card-color'] {
-      &::before {
+      .cp-card__container::before {
         opacity: 0.8;
       }
     }
   }
 
   @include m(outline) {
-    background: transparent;
-    border-color: var(--cp-card-color);
+    .cp-card__container {
+      background: transparent;
+      border-color: var(--cp-card-color);
 
-    &.cp-card--default {
-      border-color: var(--cp-border);
+      &:hover {
+        border-color: var(--cp-card-color);
+        box-shadow: 0 0 10px var(--cp-card-color-light);
+      }
     }
 
-    &:hover {
-      border-color: var(--cp-card-color);
-      box-shadow: 0 0 10px var(--cp-card-color-light);
+    &.cp-card--default {
+      .cp-card__container {
+        border-color: var(--cp-border);
+      }
     }
   }
 
   @include m(semi) {
-    background: rgba(42, 42, 58, 0.5);
-    backdrop-filter: blur(10px);
-    border-color: var(--cp-border);
+    // 使用变量控制背景，方便减淡模式统一覆盖
+    --cp-card-bg: rgba(42, 42, 58, 0.5);
+    --cp-card-border: var(--cp-border);
 
-    // 类型色背景叠层
+    .cp-card__container {
+      background: var(--cp-card-bg);
+      backdrop-filter: blur(10px);
+      border-color: var(--cp-card-border);
+
+      &:hover {
+        background: rgba(42, 42, 58, 0.7);
+        box-shadow: 0 0 15px var(--cp-card-color-light);
+
+        &.cp-card--primary,
+        &.cp-card--success,
+        &.cp-card--warning,
+        &.cp-card--error,
+        &.cp-card--info {
+          background: color-mix(in srgb, var(--cp-bg-elevated) 75%, var(--cp-card-color));
+        }
+      }
+    }
+
+    // 类型色状态下的变量覆盖
     &.cp-card--primary,
     &.cp-card--success,
     &.cp-card--warning,
     &.cp-card--error,
     &.cp-card--info {
-      background: color-mix(in srgb, var(--cp-bg-elevated) 85%, var(--cp-card-color));
-      border-color: var(--cp-card-color-light);
-    }
-
-    &:hover {
-      background: rgba(42, 42, 58, 0.7);
-      box-shadow: 0 0 15px var(--cp-card-color-light);
-
-      &.cp-card--primary,
-      &.cp-card--success,
-      &.cp-card--warning,
-      &.cp-card--error,
-      &.cp-card--info {
-        background: color-mix(in srgb, var(--cp-bg-elevated) 75%, var(--cp-card-color));
-      }
+      --cp-card-bg: color-mix(in srgb, var(--cp-bg-elevated) 85%, var(--cp-card-color));
+      --cp-card-border: var(--cp-card-color-light);
     }
   }
 
   @include m(ghost) {
-    background: transparent;
-    border-color: transparent;
+    .cp-card__container {
+      background: transparent;
+      border-color: transparent;
+
+      &:hover {
+        background: var(--cp-bg-elevated);
+        border-color: var(--cp-card-color-light);
+      }
+    }
 
     // 当 ghost 配合 themed 模式时，应用主题色分割线
     &.cp-card--primary,
@@ -163,17 +190,21 @@
     &::after {
       display: none;
     }
-
-    &:hover {
-      background: var(--cp-bg-elevated);
-      border-color: var(--cp-card-color-light);
-    }
   }
 
   // ===== 形状模式 =====
+  @include m(shape-clip) {
+    .cp-card__container {
+      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    }
+  }
+
   @include m(shape-no-clip) {
-    clip-path: none;
-    border-radius: 0;
+    .cp-card__container {
+      clip-path: none;
+      border-radius: 0;
+      overflow: hidden;
+    }
 
     &::after {
       display: none;
@@ -181,8 +212,11 @@
   }
 
   @include m(shape-round) {
-    clip-path: none;
-    border-radius: var(--cp-radius-lg);
+    .cp-card__container {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+      overflow: hidden;
+    }
 
     &::after {
       display: none;
@@ -222,13 +256,50 @@
     }
   }
 
+  // Semi 变体特殊处理：禁用根部 filter，改用容器 box-shadow
+  // 原因：filter 与 backdrop-filter + clip-path 存在渲染冲突
+  &.cp-card--semi {
+    &.cp-card--shadow-always,
+    &.cp-card--shadow-hover {
+      filter: none !important;
+    }
+
+    &.cp-card--shadow-always .cp-card__container {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    &.cp-card--shadow-hover .cp-card__container {
+      transition: box-shadow 0.3s ease;
+    }
+
+    &.cp-card--shadow-hover:hover .cp-card__container {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+
   // ===== 子元素 =====
+  @include e(cover) {
+    width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--cp-border);
+    background: #000;
+    line-height: 0; // 消除图片下方的间隙
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
   @include e(header) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: var(--cp-spacing-md) var(--cp-spacing-lg);
     min-height: 48px;
+    transition: border-color var(--cp-card-dimmed-duration, 0.3s) ease;
 
     &.is-bordered {
       border-bottom: 1px solid var(--cp-card-divider-color, var(--cp-border));
@@ -263,21 +334,60 @@
     justify-content: flex-end;
     padding: var(--cp-spacing-md) var(--cp-spacing-lg);
     gap: var(--cp-spacing-sm);
+    transition: border-color var(--cp-card-dimmed-duration, 0.3s) ease;
 
     &.is-bordered {
       border-top: 1px solid var(--cp-card-divider-color, var(--cp-border));
     }
   }
 
-  // ===== 覆层 (Overlay) =====
+  // ===== 覆层背景遮罩 (Overlay Backdrop) =====
+  // 覆盖整个卡片内容区域的效果层
+  @include e(overlay-backdrop) {
+    position: absolute;
+    inset: 0;
+    z-index: 9;
+    opacity: 0;
+    pointer-events: none;
+    transition-property: opacity, backdrop-filter, background;
+    transition-duration: var(--cp-card-overlay-duration, 300ms);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+    // ===== 效果类型 =====
+    // 无效果
+    &.cp-card__overlay-backdrop--effect-none {
+      background: transparent;
+      backdrop-filter: none;
+    }
+
+    // 仅毛玻璃
+    &.cp-card__overlay-backdrop--effect-blur {
+      background: transparent;
+      backdrop-filter: blur(var(--cp-card-overlay-blur, 10px));
+    }
+
+    // 仅颜色
+    &.cp-card__overlay-backdrop--effect-color {
+      background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8));
+      backdrop-filter: none;
+    }
+
+    // 毛玻璃 + 颜色 (默认)
+    &.cp-card__overlay-backdrop--effect-blur-color {
+      background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8));
+      backdrop-filter: blur(var(--cp-card-overlay-blur, 10px));
+    }
+  }
+
+  // ===== 覆层操作区 (Overlay Actions) =====
+  // 仅用于定位和动画，背景透明
   @include e(overlay) {
     position: absolute;
     left: 0;
     right: 0;
     z-index: 10;
     padding: var(--cp-spacing-md) var(--cp-spacing-lg);
-    background: rgba(26, 26, 36, 0.95);
-    backdrop-filter: blur(10px);
+    background: transparent;
     border-top: 1px solid var(--cp-border);
     opacity: 0;
     pointer-events: none;
@@ -342,6 +452,10 @@
 
   // Hover 显示覆层
   &.is-has-overlay:hover {
+    .cp-card__overlay-backdrop {
+      opacity: 1;
+    }
+
     .cp-card__overlay {
       opacity: 1;
       pointer-events: auto;
@@ -355,15 +469,34 @@
   }
 
   // ===== 减淡模式 (Dimmed Mode) =====
+  // 减淡模式：平常以无颜色的默认形态展示，hover 时显示真正的主题色
   @include when(dimmed) {
+    // 平常状态：覆盖颜色变量为默认值
     &:not(:hover) {
-      &.cp-card--dimmed-saturation {
-        filter: saturate(0.2) brightness(0.85);
-        opacity: 0.85;
+      --cp-card-color: var(--cp-border);
+      --cp-card-color-light: rgba(255, 255, 255, 0.1);
+
+      // 针对 semi 变体，直接重置其背景变量
+      &.cp-card--semi {
+        --cp-card-bg: rgba(42, 42, 58, 0.5);
+        --cp-card-border: var(--cp-border);
       }
 
-      &.cp-card--dimmed-gray {
-        filter: grayscale(1) opacity(0.6);
+      &.cp-card--solid {
+        .cp-card__container::before {
+          opacity: 0 !important;
+        }
+      }
+
+      &.cp-card--outline {
+        .cp-card__container {
+          border-color: var(--cp-border);
+        }
+      }
+
+      // 重置 ghost 变体的分割线
+      &.cp-card--ghost {
+        --cp-card-divider-color: var(--cp-border);
       }
     }
   }

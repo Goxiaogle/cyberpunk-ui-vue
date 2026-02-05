@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
  * 卡片阴影显示时机
@@ -45,16 +46,19 @@ export type CardOverlayAnimation = 'slide-up' | 'slide-down' | 'slide-left' | 's
 export type CardOverlayPosition = 'bottom' | 'top' | 'center'
 
 /**
+ * 覆层效果类型
+ * - `none` - 无效果（透明背景）
+ * - `blur` - 仅毛玻璃模糊
+ * - `color` - 仅颜色叠加
+ * - `blur-color` - 毛玻璃 + 颜色叠加（默认）
+ */
+export type CardOverlayEffect = 'none' | 'blur' | 'color' | 'blur-color'
+
+/**
  * 卡片的主题颜色类型
  */
 export type CardType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
 
-/**
- * 减淡模式类型
- * - `saturation` - 降低饱和度
- * - `gray` - 变为灰色
- */
-export type CardDimmedType = 'saturation' | 'gray'
 
 /**
  * CpCard 组件 Props 定义
@@ -114,7 +118,7 @@ export const cardProps = {
    */
   shadow: {
     type: String as PropType<CardShadow>,
-    default: 'always',
+    default: 'hover',
   },
   /**
    * 卡片变体/形态
@@ -178,12 +182,39 @@ export const cardProps = {
     default: 'bottom',
   },
   /**
-   * 覆层动画持续时间 (ms)
+   * 覆层动画持续时间
+   * 数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')
    * @default 300
    */
   overlayDuration: {
-    type: Number,
+    type: [Number, String] as PropType<DurationValue>,
     default: 300,
+  },
+  /**
+   * 覆层效果类型
+   * @default 'blur-color'
+   */
+  overlayEffect: {
+    type: String as PropType<CardOverlayEffect>,
+    default: 'blur-color',
+  },
+  /**
+   * 覆层颜色
+   * 支持任意 CSS 颜色值
+   * @default 'rgba(26, 26, 36, 0.8)'
+   */
+  overlayColor: {
+    type: String,
+    default: 'rgba(26, 26, 36, 0.8)',
+  },
+  /**
+   * 覆层毛玻璃模糊程度
+   * 数字默认 px，字符串可指定单位
+   * @default 10
+   */
+  overlayBlur: {
+    type: [Number, String] as PropType<number | string>,
+    default: 10,
   },
   /**
    * 卡片的主题颜色类型
@@ -209,12 +240,13 @@ export const cardProps = {
     default: false,
   },
   /**
-   * 减淡模式类型
-   * @default 'saturation'
+   * 减淡模式动画持续时间
+   * 数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')
+   * @default 300
    */
-  dimmedType: {
-    type: String as PropType<CardDimmedType>,
-    default: 'saturation',
+  dimmedDuration: {
+    type: [Number, String] as PropType<DurationValue>,
+    default: 300,
   },
 } as const
 

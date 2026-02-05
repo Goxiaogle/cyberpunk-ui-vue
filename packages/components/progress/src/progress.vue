@@ -5,7 +5,7 @@
  * 支持条纹效果、流动动画、不确定状态
  */
 import { computed, type CSSProperties } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { progressProps } from './progress'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -66,7 +66,7 @@ const barStyle = computed<CSSProperties>(() => {
 // 不确定模式样式
 const indeterminateStyle = computed<CSSProperties>(() => {
   return {
-    '--cp-progress-duration': `${props.duration}s`,
+    '--cp-progress-duration': normalizeDuration(props.duration),
   }
 })
 

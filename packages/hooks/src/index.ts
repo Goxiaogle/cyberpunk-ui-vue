@@ -3,6 +3,9 @@ export type { UseNamespaceReturn } from './use-namespace'
 
 export { useDefaults } from './use-defaults'
 
+export { useDuration, normalizeDuration } from './use-duration'
+export type { DurationValue } from './use-duration'
+
 export {
     useImageSrc,
     appendProcessor,

@@ -111,13 +111,13 @@ export const statusIndicatorProps = {
 
   /**
    * 动画持续时间
-   * 支持数字 (单位秒) 或带单位的字符串 (如 '2s', '500ms')
-   * @default ''
-   * @example `<CpStatusIndicator animation="pulse" :duration="2" />`
+   * 数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')
+   * @default 1500
+   * @example `<CpStatusIndicator animation="pulse" :duration="2000" />`
    */
   duration: {
     type: [Number, String] as PropType<number | string>,
-    default: '',
+    default: 1500,
   },
 
   /**

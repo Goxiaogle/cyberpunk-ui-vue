@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
  * 进度条类型
@@ -214,12 +215,13 @@ export const progressProps = {
         default: false,
     },
     /**
-     * 不确定模式动画持续时间 (秒)
-     * @default 3
+     * 不确定模式动画持续时间
+     * 数字默认毫秒 (ms)，字符串可指定单位 (如 '3s' 或 '3000ms')
+     * @default 3000
      */
     duration: {
-        type: Number,
-        default: 3,
+        type: [Number, String] as PropType<DurationValue>,
+        default: 3000,
     },
     /**
      * 是否显示加载状态（光波扫过效果）

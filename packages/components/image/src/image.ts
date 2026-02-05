@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
  * 图片适应模式
@@ -166,12 +167,13 @@ export const imageProps = {
         default: 'scale',
     },
     /**
-     * Hover 动画持续时间（秒）
-     * @default 0.3
+     * Hover 动画持续时间
+     * 数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')
+     * @default 300
      */
     hoverDuration: {
-        type: Number,
-        default: 0.3,
+        type: [Number, String] as PropType<DurationValue>,
+        default: 300,
     },
     /**
      * URL 预处理器
