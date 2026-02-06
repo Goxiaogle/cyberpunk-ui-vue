@@ -1,0 +1,198 @@
+// CpPopover 组件样式
+// 赛博朋克/机甲风格弹出层
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// 动画
+@keyframes cp-popover-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cp-popover-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@include b(popover) {
+  display: inline-block;
+  position: relative;
+
+  // 触发器
+  @include e(trigger) {
+    display: inline-block;
+  }
+
+  // 弹层内容
+  @include e(content) {
+    position: absolute;
+    z-index: 2000;
+    padding: var(--cp-spacing-md);
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      0 0 1px var(--cp-color-primary),
+      inset 0 0 20px rgba(0, 240, 255, 0.03);
+    backdrop-filter: blur(8px);
+    
+    // 切角样式
+    clip-path: polygon(
+      8px 0, 100% 0,
+      100% calc(100% - 8px), calc(100% - 8px) 100%,
+      0 100%, 0 8px
+    );
+
+    // 入场动画
+    animation: cp-popover-fade-in 0.2s ease-out;
+
+    // 标记角
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-left: 2px solid var(--cp-color-primary);
+      border-top: 2px solid var(--cp-color-primary);
+      opacity: 0.8;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid var(--cp-color-primary);
+      border-bottom: 2px solid var(--cp-color-primary);
+      opacity: 0.8;
+    }
+
+    // Tooltip 模式 - 简化样式
+    &.is-tooltip {
+      padding: var(--cp-spacing-sm) var(--cp-spacing-md);
+      font-size: var(--cp-font-size-sm);
+      background: rgba(10, 10, 14, 0.95);
+      border-color: var(--cp-color-primary);
+      box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        0 0 8px var(--cp-color-primary-light);
+      
+      // 更小的切角
+      clip-path: polygon(
+        4px 0, 100% 0,
+        100% calc(100% - 4px), calc(100% - 4px) 100%,
+        0 100%, 0 4px
+      );
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    // 有标题时
+    &.is-has-title {
+      padding-top: 0;
+    }
+  }
+
+  // 标题
+  @include e(title) {
+    padding: var(--cp-spacing-md) 0 var(--cp-spacing-sm);
+    font-size: var(--cp-font-size-md);
+    font-weight: 600;
+    color: var(--cp-text-primary);
+    border-bottom: 1px solid var(--cp-border);
+    margin-bottom: var(--cp-spacing-sm);
+
+    // 标题装饰线
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: var(--cp-color-primary);
+      margin-right: var(--cp-spacing-sm);
+      vertical-align: middle;
+    }
+  }
+
+  // 内容区
+  @include e(body) {
+    font-size: var(--cp-font-size-sm);
+    color: var(--cp-text-secondary);
+    line-height: 1.6;
+  }
+
+  // 箭头
+  @include e(arrow) {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    transform: rotate(45deg);
+
+    // 朝上
+    @include m(top) {
+      bottom: -5px;
+      left: 50%;
+      margin-left: -4px;
+      border-top: none;
+      border-left: none;
+    }
+
+    // 朝下
+    @include m(bottom) {
+      top: -5px;
+      left: 50%;
+      margin-left: -4px;
+      border-bottom: none;
+      border-right: none;
+    }
+
+    // 朝左
+    @include m(left) {
+      right: -5px;
+      top: 50%;
+      margin-top: -4px;
+      border-bottom: none;
+      border-left: none;
+    }
+
+    // 朝右
+    @include m(right) {
+      left: -5px;
+      top: 50%;
+      margin-top: -4px;
+      border-top: none;
+      border-right: none;
+    }
+  }
+}
+
+// 过渡动画
+.cp-popover-fade-enter-active {
+  animation: cp-popover-fade-in 0.2s ease-out;
+}
+
+.cp-popover-fade-leave-active {
+  animation: cp-popover-fade-out 0.15s ease-in;
+}
