@@ -10,7 +10,8 @@ export default defineConfig({
             entryRoot: '.', // components has flat structure with index.ts at root
             outDir: 'dist',
             tsconfigPath: '../../tsconfig.json',
-            exclude: ['**/*.stories.ts', '**/*.test.ts', 'dist/**']
+            exclude: ['**/*.stories.ts', '**/*.test.ts', 'dist/**'],
+            pathsToAliases: false
         })
     ],
     build: {

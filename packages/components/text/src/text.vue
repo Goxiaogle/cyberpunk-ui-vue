@@ -105,7 +105,7 @@ const customStyle = computed(() => {
   <span
     :class="classes"
     :style="customStyle"
-    :data-text="($slots.default?.()[0]?.children as string) || ''"
+    :data-text="($slots.default?.({})[0]?.children as string) || ''"
   >
     <!-- 前缀插槽 -->
     <span v-if="$slots.prefix" :class="ns.e('prefix')">

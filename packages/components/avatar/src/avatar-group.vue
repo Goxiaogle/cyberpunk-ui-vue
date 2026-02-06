@@ -52,7 +52,9 @@ const styles = computed(() => ({
 
 // 获取默认插槽的子节点
 const getAvatarChildren = (): VNode[] => {
-    const defaultSlot = slots.default?.()
+    const slot = slots.default
+    if (!slot) return []
+    const defaultSlot = (slot as any)()
     if (!defaultSlot) return []
 
     // 展平 Fragment

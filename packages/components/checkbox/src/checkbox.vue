@@ -55,7 +55,7 @@ const isChecked = computed(() => {
   if (typeof props.modelValue === 'boolean') {
     return props.modelValue
   }
-  return props.modelValue === props.trueValue
+  return (props.modelValue as any) === props.trueValue
 })
 
 // 类型到颜色变量的映射

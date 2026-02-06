@@ -1,11 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-
-/**
- * 主题类型
- * - `dark` - 深色主题（默认），赛博朋克风格
- * - `light` - 浅色主题
- */
-export type ThemeType = 'dark' | 'light'
+import type { ThemeType } from '@cyberpunk-vue/constants'
+export type { ThemeType }
 
 /**
  * 组件默认值配置类型

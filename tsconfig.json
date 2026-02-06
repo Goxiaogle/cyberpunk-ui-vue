@@ -22,6 +22,7 @@
         "baseUrl": ".",
         "paths": {
             "@cyberpunk-vue/*": [
+                "packages/*",
                 "packages/*/src"
             ]
         },
