@@ -1,0 +1,116 @@
+# ========================
+# Development & Testing
+# ========================
+*.test.ts
+*.spec.ts
+__tests__/
+__mocks__/
+coverage/
+.nyc_output/
+vitest.config.*
+jest.config.*
+
+# ========================
+# Build Configuration
+# ========================
+tsconfig*.json
+*.tsbuildinfo
+vite.config.*
+rollup.config.*
+webpack.config.*
+esbuild.config.*
+
+# ========================
+# Storybook
+# ========================
+.storybook/
+stories/
+storybook-static/
+*.stories.ts
+*.stories.tsx
+
+# ========================
+# Play / Dev Environment
+# ========================
+play/
+
+# ========================
+# Documentation (if not needed in package)
+# ========================
+docs/
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+
+# ========================
+# IDE & Editors
+# ========================
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ========================
+# OS Generated Files
+# ========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========================
+# Environment & Secrets
+# ========================
+.env
+.env.*
+*.local
+
+# ========================
+# Package Manager
+# ========================
+node_modules/
+.pnpm-store/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# ========================
+# Git & CI
+# ========================
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# ========================
+# AI Agent Files
+# ========================
+.agent/
+.agents/
+.gemini/
+
+# ========================
+# Misc
+# ========================
+.cache/
+.temp/
+.tmp/
+*.tgz
+typings/
+eslint.config.*
+.eslintrc.*
+.prettierrc.*
+prettier.config.*

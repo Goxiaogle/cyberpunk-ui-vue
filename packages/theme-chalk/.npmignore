@@ -1,0 +1,16 @@
+# Build config
+tsconfig*.json
+*.tsbuildinfo
+vite.config.*
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+.DS_Store
+*.log
