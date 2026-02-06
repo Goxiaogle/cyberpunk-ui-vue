@@ -259,6 +259,20 @@ export const cardProps = {
     default: '',
   },
   /**
+   * 自定义背景颜色
+   * 支持任意 CSS 颜色值，包括渐变
+   * @example 'linear-gradient(135deg, #1a1a2e, #2a2a4e)'
+   */
+  bgColor: {
+    type: String,
+    default: '',
+  },
+  /**
+   * 自定义阴影颜色
+   * 默认与卡片最终主题色保持一致
+   */
+  shadowColor: String,
+  /**
    * 是否开启平常减淡显示
    * @default false
    */
@@ -284,13 +298,53 @@ export const cardProps = {
     default: false,
   },
   /**
-   * Card hover 时是否放大
+   * Card hover 时放大效果
    * @default false
    */
   hoverScale: {
     type: Boolean,
     default: false,
   },
+  /**
+   * 自定义边框颜色
+   */
+  borderColor: String,
+  /**
+   * 全局设置头尾分隔线颜色
+   */
+  dividerColor: String,
+  /**
+   * 单独设置头部分隔线颜色
+   */
+  headerDividerColor: String,
+  /**
+   * 单独设置底部分隔线颜色
+   */
+  footerDividerColor: String,
+  /**
+   * 容器/背景自定义类名
+   */
+  backgroundClass: [String, Object, Array] as PropType<any>,
+  /**
+   * 容器/背景自定义样式
+   */
+  backgroundStyle: [String, Object] as PropType<string | Record<string, any>>,
+  /**
+   * 头部自定义类名
+   */
+  headerClass: [String, Object, Array] as PropType<any>,
+  /**
+   * 头部自定义样式
+   */
+  headerStyle: [String, Object] as PropType<string | Record<string, any>>,
+  /**
+   * 主体自定义类名
+   */
+  bodyClass: [String, Object, Array] as PropType<any>,
+  /**
+   * 主体自定义样式
+   */
+  bodyStyle: [String, Object] as PropType<string | Record<string, any>>,
 } as const
 
 export type CardProps = ExtractPropTypes<typeof cardProps>

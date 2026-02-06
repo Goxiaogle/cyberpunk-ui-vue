@@ -700,24 +700,12 @@
         display: inline-flex;
         align-items: center;
         margin-right: 0.35em; // 紧凑间距，保持视觉平衡
-        // 限制图标尺寸，使其与文字协调
-        font-size: 1.1em;
-
-        .cp-icon {
-            --cp-icon-size: 1em;
-        }
     }
 
     @include e(suffix) {
         display: inline-flex;
         align-items: center;
         margin-left: 0.35em; // 紧凑间距，保持视觉平衡
-        // 限制图标尺寸，使其与文字协调
-        font-size: 1.1em;
-
-        .cp-icon {
-            --cp-icon-size: 1em;
-        }
     }
 
     @include e(content) {
@@ -731,14 +719,7 @@
         align-items: center;
         justify-content: center;
         margin-right: 0.75em; // 再次增加间距
-        // 限制 Loading 尺寸
-        font-size: 1.1em;
-        width: 1.1em;
         flex-shrink: 0;
-
-        .cp-loading {
-            --cp-loading-size: 1em;
-        }
     }
 
     // loading-placeholder 模式：通过平衡 padding 预留空间
@@ -790,28 +771,16 @@
         &.cp-button--sm {
             width: var(--cp-size-sm);
             height: var(--cp-size-sm);
-            
-            .cp-icon {
-                --cp-icon-size: 14px;
-            }
         }
         
         &.cp-button--md {
             width: var(--cp-size-md);
             height: var(--cp-size-md);
-            
-            .cp-icon {
-                --cp-icon-size: 18px;
-            }
         }
         
         &.cp-button--lg {
             width: var(--cp-size-lg);
             height: var(--cp-size-lg);
-            
-            .cp-icon {
-                --cp-icon-size: 22px;
-            }
         }
     }
 

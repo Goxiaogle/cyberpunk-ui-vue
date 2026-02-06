@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 输入框类型
@@ -16,8 +17,9 @@ export type InputType = 'text' | 'password' | 'number' | 'email' | 'tel' | 'url'
  * - `sm` - 小尺寸 (28px 高)
  * - `md` - 中等尺寸 (36px 高)，默认
  * - `lg` - 大尺寸 (44px 高)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type InputSize = 'sm' | 'md' | 'lg'
+export type InputSize = Size
 
 /**
  * 输入框形状
@@ -200,6 +202,36 @@ export const inputProps = {
     showWordLimit: {
         type: Boolean,
         default: false,
+    },
+    /**
+     * 未聚焦状态边框颜色
+     * 传入有效 CSS 颜色值，覆盖默认的 inactive 边框颜色
+     * @default ''
+     * @example `<CpInput inactive-border-color="#666" />`
+     */
+    inactiveBorderColor: {
+        type: String,
+        default: '',
+    },
+    /**
+     * Placeholder 文字颜色
+     * 传入有效 CSS 颜色值，覆盖默认的 placeholder 颜色
+     * @default ''
+     * @example `<CpInput placeholder-color="#888" />`
+     */
+    placeholderColor: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 文字颜色
+     * 传入有效 CSS 颜色值，覆盖默认的文字颜色
+     * @default ''
+     * @example `<CpInput text-color="#00ff00" />`
+     */
+    textColor: {
+        type: String,
+        default: '',
     },
 } as const
 

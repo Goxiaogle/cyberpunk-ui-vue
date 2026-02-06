@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 状态指示器颜色类型
@@ -16,8 +17,9 @@ export type StatusIndicatorType = 'primary' | 'success' | 'warning' | 'error' | 
  * - `sm` - 小尺寸 (8px)
  * - `md` - 中等尺寸 (12px)，默认
  * - `lg` - 大尺寸 (16px)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type StatusIndicatorSize = 'sm' | 'md' | 'lg'
+export type StatusIndicatorSize = Size
 
 /**
  * 状态指示器形状

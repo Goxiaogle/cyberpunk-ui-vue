@@ -1,14 +1,55 @@
 {
     "name": "@cyberpunk-vue/theme-chalk",
     "version": "0.1.0",
-    "description": "Cyberpunk Vue theme styles",
+    "description": "Cyberpunk Vue theme styles - SCSS/CSS styles for Cyberpunk Vue components",
     "type": "module",
-    "main": "src/index.scss",
+    "main": "./dist/index.css",
+    "style": "./dist/index.css",
+    "sass": "./src/index.scss",
+    "exports": {
+        ".": {
+            "style": "./dist/index.css",
+            "sass": "./src/index.scss",
+            "default": "./dist/index.css"
+        },
+        "./src/*": "./src/*",
+        "./dist/*": "./dist/*"
+    },
     "files": [
-        "src",
-        "dist"
+        "dist",
+        "src"
     ],
+    "sideEffects": [
+        "**/*.css",
+        "**/*.scss"
+    ],
+    "scripts": {
+        "build": "sass src/index.scss dist/index.css --style=compressed"
+    },
     "peerDependencies": {
         "sass": "^1.80.0"
+    },
+    "author": "Juxest",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/user/cyberpunk-vue.git",
+        "directory": "packages/theme-chalk"
+    },
+    "homepage": "https://github.com/user/cyberpunk-vue#readme",
+    "bugs": {
+        "url": "https://github.com/user/cyberpunk-vue/issues"
+    },
+    "keywords": [
+        "vue",
+        "vue3",
+        "css",
+        "scss",
+        "theme",
+        "cyberpunk",
+        "styles"
+    ],
+    "publishConfig": {
+        "access": "public"
     }
 }

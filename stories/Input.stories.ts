@@ -91,6 +91,18 @@ const meta: Meta<typeof CpInput> = {
       control: 'number',
       description: '最大输入长度',
     },
+    inactiveBorderColor: {
+      control: 'color',
+      description: '未聚焦状态边框颜色',
+    },
+    placeholderColor: {
+      control: 'color',
+      description: 'Placeholder 文字颜色',
+    },
+    textColor: {
+      control: 'color',
+      description: '文字颜色',
+    },
   },
 }
 
@@ -250,6 +262,63 @@ export const 自定义颜色: Story = {
         <CpInput color="#ff6b6b" placeholder="珊瑚红" />
         <CpInput color="#4ecdc4" placeholder="薄荷绿" variant="filled" />
         <CpInput color="#a29bfe" placeholder="薰衣草紫" variant="ghost" />
+      </div>
+    `,
+  }),
+}
+
+/** 自定义边框与占位符颜色 */
+export const 自定义边框与占位符颜色: Story = {
+  render: () => ({
+    components: { CpInput },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">自定义 Inactive 边框颜色</p>
+          <CpInput inactive-border-color="#ff6b6b" placeholder="红色边框" />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">自定义 Placeholder 颜色</p>
+          <CpInput placeholder-color="#4ecdc4" placeholder="薄荷绿提示文字" />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">同时自定义边框和占位符</p>
+          <CpInput 
+            inactive-border-color="#a29bfe" 
+            placeholder-color="rgba(162, 155, 254, 0.7)"
+            placeholder="紫色主题" 
+            variant="filled"
+          />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Ghost 变体 + 自定义颜色</p>
+          <CpInput 
+            inactive-border-color="#ffd93d" 
+            placeholder-color="#ffd93d"
+            placeholder="金色幽灵输入框" 
+            variant="ghost"
+          />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 自定义文字颜色 */
+export const 自定义文字颜色: Story = {
+  render: () => ({
+    components: { CpInput },
+    setup() {
+      const redValue = ref('珊瑚红文字')
+      const greenValue = ref('薄荷绿文字')
+      const purpleValue = ref('薰衣草紫文字')
+      return { redValue, greenValue, purpleValue }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px; width: 300px;">
+        <CpInput v-model="redValue" text-color="#ff6b6b" />
+        <CpInput v-model="greenValue" text-color="#4ecdc4" variant="filled" />
+        <CpInput v-model="purpleValue" text-color="#a29bfe" variant="ghost" />
       </div>
     `,
   }),

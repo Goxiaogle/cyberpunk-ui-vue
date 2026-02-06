@@ -4,7 +4,7 @@
  * 支持多种类型、变体、尺寸与可关闭功能
  */
 import { computed } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { tagProps, tagEmits } from './tag'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -26,10 +26,13 @@ const typeColorMap: Record<string, string> = {
   info: 'var(--cp-color-info)',
 }
 
+// 标签尺寸预设映射
+const tagSizeMap = { sm: 20, md: 24, lg: 28 }
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(`variant-${props.variant}`),
   ns.m(`shape-${props.shape}`),
   ns.m(`type-${props.type}`),  // 添加 type 类名用于精确样式匹配
@@ -40,6 +43,7 @@ const classes = computed(() => [
   ns.is('typed', props.type !== 'default' && !props.color),
   ns.is('selectable', props.selectable),
   ns.is('selected', props.selected),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
 // 自定义样式
@@ -52,6 +56,11 @@ const customStyle = computed(() => {
   } else if (props.type && props.type !== 'default' && typeColorMap[props.type]) {
     style['--cp-tag-color'] = typeColorMap[props.type]
     style['--cp-tag-color-light'] = `var(--cp-color-${props.type}-light)`
+  }
+
+  // 自定义尺寸
+  if (!isPresetSize(props.size)) {
+    style['--cp-tag-height'] = normalizeSize(props.size, tagSizeMap)
   }
 
   return style

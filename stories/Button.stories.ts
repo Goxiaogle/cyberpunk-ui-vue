@@ -587,3 +587,63 @@ export const 前后缀图标: Story = {
     `,
   }),
 }
+
+/** 图标尺寸控制 */
+export const 图标尺寸控制: Story = {
+  name: '图标尺寸控制',
+  render: () => ({
+    components: { CpButton },
+    setup() {
+      return { MdiHome, MdiCog, MdiStar, MdiHeart }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 图标尺寸默认与按钮尺寸同步 (sm/md/lg)，也可通过 <code style="color: var(--cp-color-primary);">icon-size</code> 统一覆盖，或通过各自的 size 属性精确控制。
+        </p>
+        
+        <!-- 自动同步演示 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">自动同步 (默认行为)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton size="sm" :prefix-icon="MdiHome">Small</CpButton>
+            <CpButton size="md" :prefix-icon="MdiHome">Medium</CpButton>
+            <CpButton size="lg" :prefix-icon="MdiHome">Large</CpButton>
+          </div>
+        </div>
+
+        <!-- 统一覆盖 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">统一覆盖 (icon-size="lg")</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton size="sm" :icon="MdiStar" icon-size="lg" />
+            <CpButton size="sm" :prefix-icon="MdiStar" icon-size="lg">小按钮大图标</CpButton>
+          </div>
+        </div>
+
+        <!-- 精确控制 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">精确控制 (prefix-icon-size / suffix-icon-size)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton 
+              :prefix-icon="MdiStar" 
+              :suffix-icon="MdiHeart" 
+              prefix-icon-size="lg" 
+              suffix-icon-size="sm"
+            >不同尺寸图标</CpButton>
+          </div>
+        </div>
+
+        <!-- 自定义数值 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">自定义数值 (px / rem / em)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiCog" icon-size="32" />
+            <CpButton :prefix-icon="MdiCog" icon-size="1.2rem">1.2rem 图标</CpButton>
+            <CpButton :prefix-icon="MdiCog" icon-size="1em">与文字同高 (1em)</CpButton>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}

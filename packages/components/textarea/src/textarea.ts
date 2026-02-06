@@ -1,9 +1,11 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * Textarea 尺寸
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type TextareaSize = 'sm' | 'md' | 'lg'
+export type TextareaSize = Size
 
 /**
  * Textarea 变体
@@ -66,6 +68,11 @@ export const textareaProps = {
     },
     /** 自定义颜色 */
     color: {
+        type: String,
+        default: '',
+    },
+    /** 文字颜色 */
+    textColor: {
         type: String,
         default: '',
     },

@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DurationValue } from '@cyberpunk-vue/hooks'
+import type { DurationValue, Size, CommonSize } from '@cyberpunk-vue/hooks'
 
 /**
  * 进度条类型
@@ -16,8 +16,9 @@ export type ProgressType = 'line' | 'circle' | 'dashboard'
  * - `lg` - 大尺寸
  * - `xl` - 超大尺寸
  * - `xxl` - 特大尺寸
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type ProgressSize = 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+export type ProgressSize = Size | 'xl' | 'xxl'
 
 /**
  * 进度条状态

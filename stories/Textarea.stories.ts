@@ -52,6 +52,10 @@ const meta: Meta<typeof CpTextarea> = {
       control: 'color',
       description: '自定义颜色',
     },
+    textColor: {
+      control: 'color',
+      description: '文字颜色',
+    },
   },
 }
 
@@ -159,6 +163,24 @@ export const 自定义颜色: Story = {
           <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">薰衣草紫</p>
           <CpTextarea color="#a29bfe" placeholder="薰衣草紫" />
         </div>
+      </div>
+    `,
+  }),
+}
+
+/** 自定义文字颜色 */
+export const 自定义文字颜色: Story = {
+  render: () => ({
+    components: { CpTextarea },
+    setup() {
+      const value = ref('自定义文字颜色的多行文本')
+      return { value }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 400px;">
+        <CpTextarea v-model="value" text-color="#ff6b6b" />
+        <CpTextarea v-model="value" text-color="#4ecdc4" variant="filled" />
+        <CpTextarea v-model="value" text-color="#a29bfe" />
       </div>
     `,
   }),

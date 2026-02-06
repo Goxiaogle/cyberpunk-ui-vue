@@ -5,7 +5,7 @@
  * 支持条纹效果、流动动画、不确定状态
  */
 import { computed, type CSSProperties } from 'vue'
-import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { progressProps } from './progress'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -16,6 +16,11 @@ defineOptions({
 const props = defineProps(progressProps)
 
 const ns = useNamespace('progress')
+
+// Progress 专属预设列表（包含 xl, xxl）
+const progressSizePresets = ['sm', 'md', 'lg', 'xl', 'xxl'] as const
+// Progress 尺寸预设映射（用于 strokeWidth 计算）
+const progressSizeMap: Record<string, number> = { sm: 6, md: 10, lg: 14, xl: 18, xxl: 22 }
 
 // 计算实际百分比 (0-100)
 const actualPercentage = computed(() => {
@@ -39,14 +44,13 @@ const progressColor = computed(() => {
 // 计算 stroke-width 默认值
 const strokeWidthComputed = computed(() => {
   if (props.strokeWidth !== undefined) return props.strokeWidth
-  switch (props.size) {
-    case 'sm': return 6
-    case 'md': return 10
-    case 'lg': return 14
-    case 'xl': return 18
-    case 'xxl': return 22
-    default: return 8
+  // 预设值使用映射表
+  if (isPresetSize(props.size, progressSizePresets)) {
+    return progressSizeMap[props.size] || 8
   }
+  // 自定义值：解析为数字
+  const parsed = typeof props.size === 'number' ? props.size : parseInt(props.size, 10)
+  return isNaN(parsed) ? 8 : parsed
 })
 
 // 线性进度条样式
@@ -274,7 +278,7 @@ const displayText = computed(() => {
 const classes = computed(() => [
   ns.b(),
   ns.m(props.type),
-  ns.m(props.size),
+  isPresetSize(props.size, progressSizePresets) && ns.m(props.size),
   ns.is('status', !!props.status),
   ns.is(props.status!, !!props.status),
   ns.is('text-inside', props.textInside && props.type === 'line'),
@@ -284,6 +288,7 @@ const classes = computed(() => [
   ns.is('loading', props.loading),
   ns.is('custom-color', !!progressColor.value),
   ns.m(`shape-${props.shape}`),
+  ns.is('custom-size', !isPresetSize(props.size, progressSizePresets)),
 ])
 
 // Step 模式：是否启用分段渲染

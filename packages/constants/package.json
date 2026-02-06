@@ -1,20 +1,46 @@
 {
     "name": "@cyberpunk-vue/constants",
     "version": "0.1.0",
-    "description": "Cyberpunk Vue shared constants",
+    "description": "Cyberpunk Vue shared constants and type definitions",
     "type": "module",
-    "main": "src/index.ts",
-    "module": "src/index.ts",
-    "types": "src/index.ts",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./src/index.ts",
-            "types": "./src/index.ts"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.cjs"
         },
         "./*": "./*"
     },
     "files": [
-        "src",
-        "dist"
-    ]
+        "dist",
+        "src"
+    ],
+    "sideEffects": false,
+    "scripts": {
+        "build": "vite build"
+    },
+    "author": "Juxest",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/user/cyberpunk-vue.git",
+        "directory": "packages/constants"
+    },
+    "homepage": "https://github.com/user/cyberpunk-vue#readme",
+    "bugs": {
+        "url": "https://github.com/user/cyberpunk-vue/issues"
+    },
+    "keywords": [
+        "vue",
+        "vue3",
+        "constants",
+        "types",
+        "cyberpunk"
+    ],
+    "publishConfig": {
+        "access": "public"
+    }
 }

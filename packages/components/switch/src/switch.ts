@@ -1,12 +1,14 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 开关尺寸
  * - `sm` - 小尺寸 (16px 高)
  * - `md` - 中等尺寸 (20px 高)，默认
  * - `lg` - 大尺寸 (24px 高)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type SwitchSize = 'sm' | 'md' | 'lg'
+export type SwitchSize = Size
 
 /**
  * 开关类型（颜色预设）

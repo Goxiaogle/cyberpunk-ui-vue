@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 加载器颜色类型
@@ -16,8 +17,9 @@ export type LoadingType = 'primary' | 'success' | 'warning' | 'error' | 'info' |
  * - `sm` - 小尺寸 (16px)
  * - `md` - 中等尺寸 (24px)，默认
  * - `lg` - 大尺寸 (32px)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type LoadingSize = 'sm' | 'md' | 'lg'
+export type LoadingSize = Size
 
 /**
  * CpLoading 组件 Props 定义

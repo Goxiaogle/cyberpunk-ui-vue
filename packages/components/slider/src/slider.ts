@@ -1,12 +1,14 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 滑块尺寸
  * - `sm` - 小尺寸 (轨道高度 4px)
  * - `md` - 中等尺寸 (轨道高度 6px)，默认
  * - `lg` - 大尺寸 (轨道高度 8px)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type SliderSize = 'sm' | 'md' | 'lg'
+export type SliderSize = Size
 
 /**
  * 滑块形状

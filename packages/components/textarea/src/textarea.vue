@@ -3,7 +3,7 @@
  * CpTextarea - 赛博朋克风格多行文本输入框
  */
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textareaProps, textareaEmits } from './textarea'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -16,27 +16,38 @@ const emit = defineEmits(textareaEmits)
 
 const ns = useNamespace('textarea')
 
+// 尺寸预设映射
+const textareaSizeMap = { sm: 28, md: 36, lg: 44 }
+
 const textareaRef = ref<HTMLTextAreaElement>()
 const isFocused = ref(false)
 
 // 计算样式类
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.is('disabled', props.disabled),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('custom-color', !!props.color),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
-// 自定义颜色
+// 自定义颜色/尺寸
 const customStyle = computed(() => {
-  if (!props.color) return {}
-  return {
-    '--cp-textarea-custom-color': props.color,
-    '--cp-textarea-custom-color-light': `${props.color}33`,
+  const style: Record<string, string> = {}
+  if (props.color) {
+    style['--cp-textarea-custom-color'] = props.color
+    style['--cp-textarea-custom-color-light'] = `${props.color}33`
   }
+  if (props.textColor) {
+    style['--cp-textarea-text-color'] = props.textColor
+  }
+  if (!isPresetSize(props.size)) {
+    style['--cp-textarea-font-size'] = normalizeSize(props.size, textareaSizeMap)
+  }
+  return style
 })
 
 // 字数统计

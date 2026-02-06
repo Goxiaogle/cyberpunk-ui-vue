@@ -32,15 +32,64 @@ const rootClasses = computed(() => [
 
 const cardClasses = computed(() => [
   ns.e('container'),
+  props.backgroundClass,
 ])
+
+// ========== 统一颜色计算 ==========
+// 优先级：color > type > default
+
+// 计算最终主题色
+const realColor = computed(() => {
+  if (props.color) return props.color
+  if (props.type && props.type !== 'default') return `var(--cp-color-${props.type})`
+  return null
+})
+
+// 计算最终浅色
+const realColorLight = computed(() => {
+  if (props.color) return `color-mix(in srgb, ${props.color} 30%, transparent)`
+  if (props.type && props.type !== 'default') return `var(--cp-color-${props.type}-light)`
+  return null
+})
 
 // 卡片根样式 (注入颜色变量)
 const cardStyle = computed(() => {
   const styles: Record<string, string> = {}
-  if (props.color) {
-    styles['--cp-card-color'] = props.color
-  } else if (props.type && props.type !== 'default') {
-    styles['--cp-card-color'] = `var(--cp-color-${props.type})`
+  
+  // 统一颜色
+  if (realColor.value) {
+    styles['--cp-card-color'] = realColor.value
+  }
+  if (realColorLight.value) {
+    styles['--cp-card-color-light'] = realColorLight.value
+  }
+  
+  // 背景色
+  if (props.bgColor) {
+    styles['--cp-card-bg'] = props.bgColor
+  }
+
+  // 边框与分隔线颜色
+  if (props.borderColor) {
+    styles['--cp-card-border-color'] = props.borderColor
+  }
+  if (props.dividerColor) {
+    styles['--cp-card-divider-color'] = props.dividerColor
+  }
+  if (props.headerDividerColor) {
+    styles['--cp-card-header-divider-color'] = props.headerDividerColor
+  }
+  if (props.footerDividerColor) {
+    styles['--cp-card-footer-divider-color'] = props.footerDividerColor
+  }
+
+  // 阴影颜色
+  // 优先级：shadowColor > realColor > default(rgba(0,0,0,0.4))
+  if (props.shadowColor) {
+    styles['--cp-card-shadow-color'] = props.shadowColor
+  } else if (realColor.value) {
+    // 如果有主题色，阴影颜色基于主题色，但带有透明度以保证视觉效果
+    styles['--cp-card-shadow-color'] = `color-mix(in srgb, ${realColor.value} 40%, black)`
   }
 
   // 注入动画时长
@@ -50,10 +99,13 @@ const cardStyle = computed(() => {
   return styles
 })
 
-// 自定义 body padding
-const bodyStyle = computed(() => {
-  if (!props.bodyPadding) return {}
-  return { padding: props.bodyPadding }
+// 自定义 body 样式
+const realBodyStyle = computed(() => {
+  const style = typeof props.bodyStyle === 'string' ? {} : { ...props.bodyStyle }
+  if (props.bodyPadding) {
+    style.padding = props.bodyPadding
+  }
+  return style
 })
 
 // 是否显示头部区域
@@ -71,6 +123,7 @@ const hasOverlay = computed(() => !!slots.overlay)
 const headerClasses = computed(() => [
   ns.e('header'),
   ns.is('bordered', props.headerBorder),
+  props.headerClass,
 ])
 
 // 底部类名
@@ -117,14 +170,14 @@ const overlayStyle = computed(() => ({
 
 <template>
   <div :class="rootClasses" :style="cardStyle">
-    <div :class="cardClasses">
+    <div :class="cardClasses" :style="backgroundStyle">
       <!-- Cover -->
       <div v-if="$slots.cover" :class="ns.e('cover')">
         <slot name="cover" />
       </div>
 
       <!-- Header -->
-      <div v-if="showHeader" :class="headerClasses">
+      <div v-if="showHeader" :class="headerClasses" :style="headerStyle">
         <slot name="header">
           <div :class="ns.e('title')">
             <slot name="title">{{ title }}</slot>
@@ -136,7 +189,7 @@ const overlayStyle = computed(() => ({
       </div>
 
       <!-- Body -->
-      <div :class="ns.e('body')" :style="bodyStyle">
+      <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
         <slot />
       </div>
 

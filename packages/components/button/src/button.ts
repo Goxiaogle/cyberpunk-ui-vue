@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 按钮颜色类型
@@ -16,8 +17,9 @@ export type ButtonType = 'primary' | 'success' | 'warning' | 'error' | 'info' | 
  * - `sm` - 小尺寸 (24px 高)
  * - `md` - 中等尺寸 (32px 高)，默认
  * - `lg` - 大尺寸 (40px 高)
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type ButtonSize = 'sm' | 'md' | 'lg'
+export type ButtonSize = Size
 
 /**
  * 按钮变体/形态
@@ -242,6 +244,34 @@ export const buttonProps = {
      */
     suffixIconColor: {
         type: String,
+        default: '',
+    },
+    /**
+     * 图标尺寸
+     * 优先级：prefixIconSize/suffixIconSize > iconSize > (与按钮尺寸同步)
+     * @default ''
+     * @example `<CpButton :icon="MdiHome" icon-size="24px" />`
+     */
+    iconSize: {
+        type: [String, Number] as PropType<ButtonSize>,
+        default: '',
+    },
+    /**
+     * 前缀图标尺寸
+     * 优先级：prefixIconSize > iconSize > (与按钮尺寸同步)
+     * @default ''
+     */
+    prefixIconSize: {
+        type: [String, Number] as PropType<ButtonSize>,
+        default: '',
+    },
+    /**
+     * 后缀图标尺寸
+     * 优先级：suffixIconSize > iconSize > (与按钮尺寸同步)
+     * @default ''
+     */
+    suffixIconSize: {
+        type: [String, Number] as PropType<ButtonSize>,
         default: '',
     },
 } as const

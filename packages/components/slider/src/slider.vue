@@ -4,7 +4,7 @@
  * 支持单值/范围模式、刻度标记、垂直模式
  */
 import { computed, ref, onBeforeUnmount } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { sliderProps, sliderEmits } from './slider'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -16,6 +16,9 @@ const props = defineProps(sliderProps)
 const emit = defineEmits(sliderEmits)
 
 const ns = useNamespace('slider')
+
+// 滑块尺寸预设映射
+const sliderSizeMap = { sm: 4, md: 6, lg: 8 }
 
 // Refs
 const sliderRef = ref<HTMLDivElement>()
@@ -31,20 +34,53 @@ const dragEndValue = ref<number | null>(null)
 // 计算属性
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(`shape-${props.shape}`),
   ns.is('disabled', props.disabled),
   ns.is('vertical', props.vertical),
   ns.is('range', props.range),
   ns.is('dragging', isDragging.value),
   ns.is('custom-color', !!props.color),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
 const customStyle = computed(() => {
   const style: Record<string, string> = {}
+  
+  // 确定轨道和滑块的基础尺寸
+  const sizeValue = isPresetSize(props.size) ? props.size : 'md'
+  const trackHeight = isPresetSize(props.size) 
+    ? sliderSizeMap[sizeValue as keyof typeof sliderSizeMap] 
+    : parseInt(normalizeSize(props.size, sliderSizeMap))
+  
+  const thumbSize = isPresetSize(props.size)
+    ? (sizeValue === 'sm' ? 14 : sizeValue === 'lg' ? 22 : 18)
+    : Math.max(trackHeight + 8, trackHeight * 2.5)
+
+  style['--cp-slider-track-height'] = `${trackHeight}px`
+  style['--cp-slider-thumb-size'] = `${thumbSize}px`
+  
+  // 边框宽度 (约为滑块大小的 1/10，且不小于 2px)
+  const borderWidth = Math.max(2, Math.floor(thumbSize / 10))
+  style['--cp-slider-thumb-border-width'] = `${borderWidth}px`
+  
+  // 内部装饰点大小 (约为滑块大小的 1/4.5，且保持合理比例)
+  const innerDotSize = Math.max(2, Math.floor(thumbSize / 4.5))
+  style['--cp-slider-inner-dot-size'] = `${innerDotSize}px`
+  
+  // 内部装饰点的切角大小 (约为内部点大小的 1/3，最小 1px)
+  const innerClipSize = Math.max(1, Math.floor(innerDotSize / 3))
+  style['--cp-slider-inner-clip-size'] = `${innerClipSize}px`
+
+  // 切角大小
+  const clipSize = isPresetSize(props.size)
+    ? (sizeValue === 'sm' ? 3 : sizeValue === 'lg' ? 5 : 4)
+    : Math.max(2, Math.floor(trackHeight * 0.6))
+  style['--cp-slider-clip-size'] = `${clipSize}px`
+
   if (props.color) {
     style['--cp-slider-custom-color'] = props.color
-    style['--cp-slider-custom-color-light'] = `${props.color}66`
+    style['--cp-slider-custom-color-light'] = `color-mix(in srgb, ${props.color}, transparent 60%)`
   }
   if (props.vertical && props.height) {
     style['height'] = props.height
@@ -72,15 +108,19 @@ const displayRange = computed<[number, number]>(() => {
 
 // 计算百分比位置 - 使用 displayRange
 const startPercent = computed(() => {
-  const range = props.max - props.min
+  const min = Number(props.min)
+  const max = Number(props.max)
+  const range = max - min
   if (range === 0) return 0
-  return ((displayRange.value[0] - props.min) / range) * 100
+  return ((displayRange.value[0] - min) / range) * 100
 })
 
 const endPercent = computed(() => {
-  const range = props.max - props.min
+  const min = Number(props.min)
+  const max = Number(props.max)
+  const range = max - min
   if (range === 0) return 0
-  return ((displayRange.value[1] - props.min) / range) * 100
+  return ((displayRange.value[1] - min) / range) * 100
 })
 
 // 轨道填充样式
@@ -110,23 +150,39 @@ const endThumbStyle = computed(() => {
 
 // 刻度点
 const stops = computed(() => {
-  if (!props.showStops || props.step <= 0) return []
-  const stopCount = Math.floor((props.max - props.min) / props.step)
+  const min = Number(props.min)
+  const max = Number(props.max)
+  const step = Number(props.step)
+  if (!props.showStops || step <= 0) return []
+  const stopCount = Math.floor((max - min) / step)
   const stops: number[] = []
   for (let i = 1; i < stopCount; i++) {
-    const value = props.min + i * props.step
-    const percent = ((value - props.min) / (props.max - props.min)) * 100
+    const value = min + i * step
+    const percent = ((value - min) / (max - min)) * 100
     stops.push(percent)
   }
   return stops
 })
 
+// 过滤后的刻度点 - 避开已走过的进度 (增加微小容差)
+const filteredStops = computed(() => {
+  const margin = 0.01
+  return stops.value.filter(percent => {
+    if (props.range) {
+      return percent < startPercent.value - margin || percent > endPercent.value + margin
+    }
+    return percent > endPercent.value + margin
+  })
+})
+
 // 刻度标记
 const markList = computed(() => {
+  const min = Number(props.min)
+  const max = Number(props.max)
   if (!props.marks) return []
   return Object.entries(props.marks).map(([key, value]) => {
     const numKey = Number(key)
-    const percent = ((numKey - props.min) / (props.max - props.min)) * 100
+    const percent = ((numKey - min) / (max - min)) * 100
     const label = typeof value === 'string' ? value : value.label || ''
     const style = typeof value === 'object' ? value.style : undefined
     return { value: numKey, percent, label, style }
@@ -143,7 +199,7 @@ const formatValue = (value: number) => {
 
 // 计算点击位置对应的值
 const getValueFromPosition = (clientX: number, clientY: number) => {
-  if (!sliderRef.value) return props.min
+  if (!sliderRef.value) return Number(props.min)
 
   const rect = sliderRef.value.getBoundingClientRect()
   let percent: number
@@ -155,15 +211,20 @@ const getValueFromPosition = (clientX: number, clientY: number) => {
   }
 
   percent = Math.max(0, Math.min(1, percent))
-  let value = props.min + percent * (props.max - props.min)
+  
+  const min = Number(props.min)
+  const max = Number(props.max)
+  const step = Number(props.step)
+  
+  let value = min + percent * (max - min)
 
   // 应用步长
-  if (props.step > 0) {
-    value = Math.round(value / props.step) * props.step
+  if (step > 0) {
+    value = Math.round(value / step) * step
   }
 
   // 限制范围
-  value = Math.max(props.min, Math.min(props.max, value))
+  value = Math.max(min, Math.min(max, value))
 
   return value
 }
@@ -353,15 +414,15 @@ defineExpose({
     <div :class="ns.e('runway')" @click="handleTrackClick">
       <!-- 填充条 -->
       <div :class="ns.e('bar')" :style="barStyle" />
-
-      <!-- 刻度点 -->
-      <div
-        v-for="(stop, index) in stops"
-        :key="index"
-        :class="ns.e('stop')"
-        :style="vertical ? { bottom: `${stop}%` } : { left: `${stop}%` }"
-      />
     </div>
+
+    <!-- 刻度点 (放在轨道外面，避免被 overflow:hidden 裁剪) -->
+    <div
+      v-for="(stop, index) in filteredStops"
+      :key="index"
+      :class="ns.e('stop')"
+      :style="vertical ? { bottom: `${stop}%` } : { left: `${stop}%` }"
+    />
 
     <!-- 刻度标记 -->
     <div v-if="marks" :class="ns.e('marks')">

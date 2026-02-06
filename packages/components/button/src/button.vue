@@ -5,7 +5,7 @@
  * 支持 prefix/suffix 插槽、自定义颜色、无切角、虚线边框
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { buttonProps, buttonEmits } from './button'
 import { CpLoading } from '../../loading'
 import { CpIcon } from '../../icon'
@@ -22,10 +22,14 @@ const slots = useSlots()
 
 const ns = useNamespace('button')
 
+// 按钮尺寸预设映射
+const buttonSizeMap = { sm: 24, md: 32, lg: 40 }
+
 const classes = computed(() => [
   ns.b(),
   ns.m(props.type),
-  ns.m(props.size),
+  // 只有预设值才添加 size 类名
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
   ns.is('disabled', props.disabled || (props.loading && props.loadingDisabled)),
@@ -35,6 +39,7 @@ const classes = computed(() => [
   ns.is('custom-color', !!props.color),
   ns.is('loading-placeholder', props.loadingPlaceholder),
   ns.is('icon-only', isIconOnly.value),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
 // 自定义颜色样式
@@ -48,6 +53,11 @@ const customStyle = computed(() => {
   
   if (props.textColor) {
     style['color'] = props.textColor
+  }
+
+  // 自定义尺寸：非预设值时设置 CSS 变量
+  if (!isPresetSize(props.size)) {
+    style['--cp-button-height'] = normalizeSize(props.size, buttonSizeMap)
   }
   
   return style
@@ -78,6 +88,26 @@ const suffixColor = computed(() => props.suffixIconColor || props.iconColor || p
 const iconOnlyStyle = computed(() => iconOnlyColor.value ? { color: iconOnlyColor.value } : {})
 const prefixIconStyle = computed(() => prefixColor.value ? { color: prefixColor.value } : {})
 const suffixIconStyle = computed(() => suffixColor.value ? { color: suffixColor.value } : {})
+
+// 图标尺寸计算 - 优先级：xxxIconSize > iconSize > (与按钮尺寸同步)
+// 默认图标尺寸跟随按钮尺寸
+const defaultIconSize = computed(() => {
+  if (isPresetSize(props.size)) return props.size
+  return props.size // 如果是自定义尺寸，也会传给图标
+})
+
+const finalIconOnlySize = computed(() => props.iconSize || defaultIconSize.value)
+const finalPrefixSize = computed(() => props.prefixIconSize || props.iconSize || defaultIconSize.value)
+const finalSuffixSize = computed(() => props.suffixIconSize || props.iconSize || defaultIconSize.value)
+
+// 按钮内 Loading 的尺寸 - 使用固定的较小尺寸，避免撑满按钮
+// Loading 组件的 size 定义（sm=24px, md=40px, lg=56px）远大于按钮内部空间
+const buttonLoadingSizeMap: Record<string, number> = { sm: 18, md: 20, lg: 24 }
+const loadingSize = computed(() => {
+  if (isPresetSize(props.size)) return buttonLoadingSizeMap[props.size] || 16
+  // 自定义尺寸时，使用合适的默认值
+  return 16
+})
 </script>
 
 <template>
@@ -91,29 +121,29 @@ const suffixIconStyle = computed(() => suffixColor.value ? { color: suffixColor.
     <!-- Icon-only 模式 -->
     <template v-if="isIconOnly">
       <!-- Loading 状态 -->
-      <CpLoading v-if="loading" size="sm" :stroke-width="3" />
+      <CpLoading v-if="loading" :size="loadingSize" :stroke-width="3" />
       <!-- 图标 -->
-      <CpIcon v-else :icon="icon" :style="iconOnlyStyle" />
+      <CpIcon v-else :icon="icon" :size="finalIconOnlySize" :style="iconOnlyStyle" />
     </template>
     
     <!-- 正常模式 -->
     <template v-else>
       <!-- Loading: 占位模式 - 始终存在，用 CSS 控制可见性 -->
       <span v-if="loadingPlaceholder" :class="ns.e('loader')">
-        <CpLoading size="sm" :stroke-width="3" />
+        <CpLoading :size="loadingSize" :stroke-width="3" />
       </span>
       
       <!-- Loading: 非占位模式 - 使用 Transition 动画 -->
       <Transition v-else name="cp-loader">
         <span v-if="loading" :class="ns.e('loader')">
-          <CpLoading size="sm" :stroke-width="3" />
+          <CpLoading :size="loadingSize" :stroke-width="3" />
         </span>
       </Transition>
 
       <!-- Prefix: slot 优先，其次 prefixIcon prop -->
       <span v-if="hasPrefix && !loading" :class="ns.e('prefix')">
         <slot name="prefix">
-          <CpIcon v-if="prefixIcon" :icon="prefixIcon" :style="prefixIconStyle" />
+          <CpIcon v-if="prefixIcon" :icon="prefixIcon" :size="finalPrefixSize" :style="prefixIconStyle" />
         </slot>
       </span>
       
@@ -125,7 +155,7 @@ const suffixIconStyle = computed(() => suffixColor.value ? { color: suffixColor.
       <!-- Suffix: slot 优先，其次 suffixIcon prop -->
       <span v-if="hasSuffix" :class="ns.e('suffix')">
         <slot name="suffix">
-          <CpIcon v-if="suffixIcon" :icon="suffixIcon" :style="suffixIconStyle" />
+          <CpIcon v-if="suffixIcon" :icon="suffixIcon" :size="finalSuffixSize" :style="suffixIconStyle" />
         </slot>
       </span>
     </template>

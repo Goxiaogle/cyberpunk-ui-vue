@@ -1,12 +1,14 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 标签尺寸
  * - `sm` - 小尺寸
  * - `md` - 中等尺寸，默认
  * - `lg` - 大尺寸
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type TagSize = 'sm' | 'md' | 'lg'
+export type TagSize = Size
 
 /**
  * 标签类型（颜色预设）

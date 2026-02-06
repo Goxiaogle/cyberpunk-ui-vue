@@ -5,7 +5,7 @@
  * 支持自定义颜色、加载状态、长文本自适应 (fitText)
  */
 import { computed, ref } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { switchProps, switchEmits } from './switch'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -17,6 +17,9 @@ const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 
 const ns = useNamespace('switch')
+
+// 开关尺寸预设映射
+const switchSizeMap = { sm: 16, md: 20, lg: 24 }
 
 // 内部状态
 const inputRef = ref<HTMLInputElement>()
@@ -30,11 +33,12 @@ const actualDisabled = computed(() => {
 // 计算类名
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.is('checked', props.modelValue),
   ns.is('disabled', props.disabled),
   ns.is('loading', props.loading),
   ns.is('fit-text', props.fitText),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
 // 类型到颜色变量的映射
@@ -66,6 +70,11 @@ const customStyle = computed(() => {
   
   if (props.width) {
     style['width'] = typeof props.width === 'string' ? props.width : `${props.width}px`
+  }
+
+  // 自定义尺寸
+  if (!isPresetSize(props.size)) {
+    style['--cp-switch-height'] = normalizeSize(props.size, switchSizeMap)
   }
   
   return style

@@ -1,9 +1,11 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * InputNumber 尺寸
+ * - 也支持数字 (px) 或带单位字符串 (如 '2rem')
  */
-export type InputNumberSize = 'sm' | 'md' | 'lg'
+export type InputNumberSize = Size
 
 /**
  * CpInputNumber 组件 Props 定义

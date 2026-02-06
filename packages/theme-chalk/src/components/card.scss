@@ -8,6 +8,10 @@
   // 基础样式
   --cp-card-color: var(--cp-border);
   --cp-card-color-light: rgba(255, 255, 255, 0.1);
+  --cp-card-bg: var(--cp-bg-elevated);
+  --cp-card-shadow-color: rgba(0, 0, 0, 0.4);
+  // 统一定义 clip-path 路径，方便伪元素（阴影层）同步使用
+  --cp-card-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 
   position: relative;
   display: flex;
@@ -20,8 +24,8 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background: var(--cp-bg-elevated);
-    border: 1px solid var(--cp-border);
+    background: var(--cp-card-bg);
+    border: 1px solid var(--cp-card-border-color, var(--cp-border));
     color: var(--cp-text-primary);
     transition: all var(--cp-card-dimmed-duration, 0.3s) ease, filter 0.4s ease, opacity 0.4s ease;
     width: 100%;
@@ -34,7 +38,7 @@
     will-change: clip-path, filter;
     
     // 同时保留基础裁剪，防止闪烁
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    clip-path: var(--cp-card-clip-path);
   }
 
   // 类型变体控制颜色变量
@@ -47,6 +51,21 @@
 
   // 强制开启隔离层，确保内部 clip-path + backdrop-filter 渲染稳定
   isolation: isolate;
+
+  // 阴影辅助层 (伪元素)，用于解决 Semi 模式下 backdrop-filter 与 drop-shadow 的冲突，以及 box-shadow 无法跟随 clip 的问题
+  // 默认隐藏，由变体激活
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--cp-card-shadow-color);
+    // 默认透明度0，用于渐变出现
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    display: none; // 默认不渲染，仅在需要的变体中开启
+  }
 
   // 装饰性小方块 (右上角)
   &::after {
@@ -73,7 +92,7 @@
   // ===== 变体 =====
   @include m(solid) {
     .cp-card__container {
-      background: var(--cp-bg-elevated);
+      background: var(--cp-card-bg);
       border-color: var(--cp-border);
 
       // 顶部装饰线 + 渐变背光
@@ -191,7 +210,11 @@
   // ===== 形状模式 =====
   @include m(shape-clip) {
     .cp-card__container {
-      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+      clip-path: var(--cp-card-clip-path);
+    }
+    // 同步形状给阴影层
+    &::before {
+      clip-path: var(--cp-card-clip-path);
     }
   }
 
@@ -200,6 +223,11 @@
       clip-path: none;
       border-radius: 0;
       overflow: hidden;
+    }
+
+    &::before {
+      clip-path: none;
+      border-radius: 0;
     }
 
     &::after {
@@ -214,6 +242,11 @@
       overflow: hidden;
     }
 
+    &::before {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+    }
+
     &::after {
       display: none;
     }
@@ -222,12 +255,17 @@
   // ===== 阴影 =====
   // 注意：clip-path 会裁剪 box-shadow，需要使用 filter: drop-shadow
   @include m(shadow-always) {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 4px 12px var(--cp-card-shadow-color));
   }
 
   @include m(shadow-hover) {
+    // 初始状态颜色与 hover 态一致，利用 0 偏移和 0 模糊被元素遮挡的特性隐藏
+    // 这样在过渡时颜色始终保持一致，不会出现黑色中间态
+    filter: drop-shadow(0 0 0 var(--cp-card-shadow-color));
+    transition: filter 0.3s ease;
+
     &:hover {
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 4px 12px var(--cp-card-shadow-color));
     }
   }
 
@@ -241,18 +279,22 @@
   &.cp-card--shape-round {
     &.cp-card--shadow-always {
       filter: none;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 20px var(--cp-card-shadow-color);
     }
 
     &.cp-card--shadow-hover {
       filter: none;
+      // 利用负 spread 彻底隐藏阴影，且保持颜色一致
+      box-shadow: 0 0 0 -100px var(--cp-card-shadow-color);
+      transition: box-shadow 0.3s ease;
+
       &:hover {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 20px 0 var(--cp-card-shadow-color);
       }
     }
   }
 
-  // Semi 变体特殊处理：禁用根部 filter，改用容器 box-shadow
+  // Semi 变体特殊处理：禁用根部 filter，改用伪元素阴影层
   // 原因：filter 与 backdrop-filter + clip-path 存在渲染冲突
   &.cp-card--semi {
     &.cp-card--shadow-always,
@@ -260,16 +302,32 @@
       filter: none !important;
     }
 
-    &.cp-card--shadow-always .cp-card__container {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    // 启用伪元素阴影层
+    &.cp-card--shadow-always::before,
+    &.cp-card--shadow-hover::before {
+      display: block;
+      // 在伪元素上应用 filter，不会影响 container 的 backdrop-filter（因其是兄弟元素）
+      filter: drop-shadow(0 0 12px var(--cp-card-shadow-color));
     }
 
-    &.cp-card--shadow-hover .cp-card__container {
-      transition: box-shadow 0.3s ease;
+    // Always 模式：常驻显示
+    &.cp-card--shadow-always::before {
+      opacity: 1;
     }
 
+    // Hover 模式：默认隐藏，hover 显示
+    &.cp-card--shadow-hover::before {
+      opacity: 0;
+    }
+    &.cp-card--shadow-hover:hover::before {
+      opacity: 1;
+    }
+
+    // 禁用之前的 hacky box-shadow
+    &.cp-card--shadow-always .cp-card__container,
+    &.cp-card--shadow-hover .cp-card__container,
     &.cp-card--shadow-hover:hover .cp-card__container {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      box-shadow: none !important;
     }
   }
 
@@ -298,7 +356,7 @@
     transition: border-color var(--cp-card-dimmed-duration, 0.3s) ease;
 
     &.is-bordered {
-      border-bottom: 1px solid var(--cp-card-divider-color, var(--cp-border));
+      border-bottom: 1px solid var(--cp-card-header-divider-color, var(--cp-card-divider-color, var(--cp-border)));
     }
   }
 
@@ -333,7 +391,7 @@
     transition: border-color var(--cp-card-dimmed-duration, 0.3s) ease;
 
     &.is-bordered {
-      border-top: 1px solid var(--cp-card-divider-color, var(--cp-border));
+      border-top: 1px solid var(--cp-card-footer-divider-color, var(--cp-card-divider-color, var(--cp-border)));
     }
   }
 

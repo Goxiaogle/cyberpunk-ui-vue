@@ -6,7 +6,7 @@
  * 支持密码可见性切换、字数统计
  */
 import { computed, ref, useSlots, onMounted, nextTick } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputProps, inputEmits } from './input'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -19,6 +19,9 @@ const emit = defineEmits(inputEmits)
 const slots = useSlots()
 
 const ns = useNamespace('input')
+
+// 输入框尺寸预设映射
+const inputSizeMap = { sm: 28, md: 36, lg: 44 }
 
 // 内部状态
 const inputRef = ref<HTMLInputElement>()
@@ -37,7 +40,7 @@ const inputType = computed(() => {
 // 计算属性
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
   ns.is('disabled', props.disabled),
@@ -46,16 +49,39 @@ const classes = computed(() => [
   ns.is('clearable', props.clearable && !!props.modelValue),
   ns.is('custom-color', !!props.color),
   ns.is('clearing', isClearing.value),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
-// 自定义颜色样式
+// 自定义颜色/尺寸样式
 const customStyle = computed(() => {
-  if (!props.color) return {}
+  const style: Record<string, string> = {}
   
-  return {
-    '--cp-input-custom-color': props.color,
-    '--cp-input-custom-color-light': `${props.color}33`,
+  if (props.color) {
+    style['--cp-input-custom-color'] = props.color
+    style['--cp-input-custom-color-light'] = `${props.color}33`
   }
+
+  // 自定义 inactive 边框颜色
+  if (props.inactiveBorderColor) {
+    style['--cp-input-inactive-border-color'] = props.inactiveBorderColor
+  }
+
+  // 自定义 placeholder 颜色
+  if (props.placeholderColor) {
+    style['--cp-input-placeholder-color'] = props.placeholderColor
+  }
+
+  // 自定义文字颜色
+  if (props.textColor) {
+    style['--cp-input-text-color'] = props.textColor
+  }
+
+  // 自定义尺寸
+  if (!isPresetSize(props.size)) {
+    style['--cp-input-height'] = normalizeSize(props.size, inputSizeMap)
+  }
+  
+  return style
 })
 
 // 是否显示清空按钮

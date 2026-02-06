@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType, Component } from 'vue'
+import type { Size, CommonSize } from '@cyberpunk-vue/hooks'
 
 /**
  * 头像预设尺寸
@@ -7,9 +8,9 @@ import type { ExtractPropTypes, PropType, Component } from 'vue'
  * - `md` - 40px（默认）
  * - `lg` - 48px
  * - `xl` - 64px
- * 也可传入数字，直接作为像素值
+ * - 也可传入数字 (px) 或带单位字符串 (如 '5rem')
  */
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
+export type AvatarSize = Size | 'xs' | 'xl'
 
 /**
  * 头像形状模式

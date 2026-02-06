@@ -4,7 +4,7 @@
  * 独立状态显示组件，支持多种形状和动画效果
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { statusIndicatorProps } from './status-indicator'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -17,16 +17,20 @@ const slots = useSlots()
 
 const ns = useNamespace('status-indicator')
 
+// 尺寸预设映射
+const statusSizeMap = { sm: 8, md: 12, lg: 16 }
+
 const hasLabel = computed(() => !!props.label || !!slots.default)
 
 const classes = computed(() => [
   ns.b(),
   ns.m(props.type),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(`shape-${props.shape}`),
   ns.m(`animation-${props.animation}`),
   ns.is('custom-color', !!props.color),
   ns.is('with-label', hasLabel.value),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
 // 自定义样式变量
@@ -50,6 +54,11 @@ const customStyle = computed(() => {
     styles['--cp-status-indicator-gap'] = typeof props.gap === 'number'
       ? `${props.gap}px`
       : props.gap
+  }
+
+  // 自定义尺寸
+  if (!isPresetSize(props.size)) {
+    styles['--cp-status-indicator-size'] = normalizeSize(props.size, statusSizeMap)
   }
 
   return styles

@@ -140,6 +140,53 @@ const meta: Meta<typeof CpCard> = {
             control: 'color',
             description: '自定义主题色 (覆盖 type)',
         },
+        bgColor: {
+            control: 'text',
+            description: '自定义背景色 (支持渐变)',
+            table: {
+                defaultValue: {summary: ''},
+            },
+        },
+        borderColor: {
+            control: 'color',
+            description: '自定义边框颜色',
+        },
+        dividerColor: {
+            control: 'color',
+            description: '全局设置头尾分隔线颜色',
+        },
+        headerDividerColor: {
+            control: 'color',
+            description: '单独设置头部分隔线颜色',
+        },
+        footerDividerColor: {
+            control: 'color',
+            description: '单独设置底部分隔线颜色',
+        },
+        backgroundClass: {
+            control: 'object',
+            description: '容器/背景自定义类名',
+        },
+        backgroundStyle: {
+            control: 'object',
+            description: '容器/背景自定义样式',
+        },
+        headerClass: {
+            control: 'object',
+            description: '头部自定义类名',
+        },
+        headerStyle: {
+            control: 'object',
+            description: '头部自定义样式',
+        },
+        bodyClass: {
+            control: 'object',
+            description: '主体自定义类名',
+        },
+        bodyStyle: {
+            control: 'object',
+            description: '主体自定义样式',
+        },
         dimmed: {
             control: 'boolean',
             description: '平常无色，悬停时显现主题颜色',
@@ -164,6 +211,10 @@ const meta: Meta<typeof CpCard> = {
             table: {
                 defaultValue: {summary: 'false'},
             },
+        },
+        shadowColor: {
+            control: 'color',
+            description: '自定义阴影颜色 (默认与主题色一致)',
         },
     },
 }
@@ -764,6 +815,106 @@ export const 减淡模式演示: Story = {
     }),
 }
 
+/** 自定义背景色 */
+export const 自定义背景色: Story = {
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">自定义背景色 (bgColor) - 支持纯色和渐变</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;">
+              <CpCard title="紫色背景" bgColor="#2a1a3e">
+                <p>纯色自定义背景</p>
+              </CpCard>
+              <CpCard title="深蓝背景" bgColor="#0a1628">
+                <p>深色系背景</p>
+              </CpCard>
+              <CpCard title="暗红背景" bgColor="rgba(60, 20, 20, 0.9)">
+                <p>带透明度的颜色</p>
+              </CpCard>
+            </div>
+            <h4 style="color: #fff; margin-bottom: 16px;">渐变背景</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;">
+              <CpCard title="紫色渐变" bgColor="linear-gradient(135deg, #1a1a2e, #4a2a6e)">
+                <p>斜向渐变效果</p>
+              </CpCard>
+              <CpCard title="赛博霓虹" bgColor="linear-gradient(180deg, #0f0c29, #302b63, #24243e)">
+                <p>多色渐变</p>
+              </CpCard>
+              <CpCard title="科技蓝" bgColor="linear-gradient(to bottom right, #0f2027, #203a43, #2c5364)">
+                <p>对角线渐变</p>
+              </CpCard>
+            </div>
+            <h4 style="color: #fff; margin-bottom: 16px;">bgColor + type 组合</h4>
+            <div style="display: flex; gap: 20px;">
+              <CpCard title="渐变 + Primary" type="primary" bgColor="linear-gradient(135deg, #1a1a2e, #2a2a4e)" style="width: 280px;">
+                <p>bgColor 控制背景，type 控制主题色</p>
+              </CpCard>
+              <CpCard title="渐变 + Warning" type="warning" bgColor="linear-gradient(135deg, #1a1a1a, #2a2a2a)" style="width: 280px;">
+                <p>暗色背景 + 警告主题</p>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 高级样式定制 */
+export const 高级样式定制: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+              <!-- 边框与分隔线控制 -->
+              <CpCard 
+                title="高级边框控制" 
+                borderColor="#00f0ff"
+                headerDividerColor="rgba(0, 240, 255, 0.3)"
+                footerDividerColor="#bc13fe"
+              >
+                <p>borderColor: #00f0ff</p>
+                <p>headerDividerColor: cyan (low opacity)</p>
+                <p>footerDividerColor: purple</p>
+                <template #footer>
+                  <CpButton size="sm" type="primary">确认</CpButton>
+                </template>
+              </CpCard>
+
+              <!-- Class 与 Style 控制 -->
+              <CpCard 
+                title="Class/Style 深度定制"
+                :backgroundStyle="{ 
+                  background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
+                  padding: '10px',
+                  borderRadius: '20px'
+                }"
+                :headerStyle="{ borderBottomWidth: '2px', paddingBottom: '20px' }"
+                :bodyStyle="{ color: '#00f0ff', fontSize: '18px', fontStyle: 'italic' }"
+                shape="round"
+              >
+                <p>backgroundStyle 定制容器</p>
+                <p>headerStyle 定制头部</p>
+                <p>bodyStyle 定制主体文字</p>
+              </CpCard>
+            </div>
+
+            <!-- 分隔线全局控制 -->
+            <CpCard 
+              title="全局分隔线控制" 
+              dividerColor="#ff0055"
+              style="width: 400px;"
+            >
+              <p>dividerColor: #ff0055 (统一设置头尾)</p>
+              <template #footer>
+                <div style="font-size: 10px; opacity: 0.5;">FOOTER CONTENT</div>
+              </template>
+            </CpCard>
+          </div>
+        `,
+    }),
+}
+
 /** 组合示例：资产管理卡片 */
 export const 资产管理卡片: Story = {
     render: () => ({
@@ -772,16 +923,21 @@ export const 资产管理卡片: Story = {
             return { MdiCog, MdiRefresh, MdiPencil, MdiMovieOpen, MdiAutoFix }
         },
         template: `
-          <div style="display: flex; gap: 24px; padding: 20px; background: #0f0808; min-height: 500px;">
+          <div style="display: flex; gap: 24px; padding: 20px; background: linear-gradient(135deg, #080c14 0%, #0a1018 50%, #0c1420 100%); min-height: 500px;">
             <!-- 已确认资产 -->
             <CpCard
                 style="width: 320px;"
                 variant="solid"
-                type="warning"
+                type="primary"
                 shadow="hover"
                 overlayEffect="none"
                 actionEffect="blur-color"
                 trigger-image-hover
+                bgColor="linear-gradient(135deg, #0a1120 0%, #1a2a44 60%, #243a5a 100%)"
+                borderColor="rgba(0, 240, 255, 0.4)"
+                dividerColor="rgba(0, 240, 255, 0.15)"
+                :headerStyle="{ background: 'rgba(0, 240, 255, 0.03)' }"
+                :bodyStyle="{ background: 'rgba(0, 20, 40, 0.1)' }"
             >
               <!-- 封面图插槽 -->
               <template #cover>
@@ -794,13 +950,13 @@ export const 资产管理卡片: Story = {
                       hover-mode="zoom"
                   />
                   <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
-                    <CpTag type="warning" size="sm" effect="dark"
-                           style="font-weight: bold; box-shadow: 0 0 10px rgba(255, 159, 28, 0.4);">CONFIRMED
+                    <CpTag type="primary" size="sm" effect="dark"
+                           style="font-weight: bold; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);">CONFIRMED
                     </CpTag>
                   </div>
                   <!-- 底部渐变罩 -->
                   <div
-                      style="position: absolute; inset: 0; background: linear-gradient(to top, #110708, transparent); opacity: 0.6;"></div>
+                      style="position: absolute; inset: 0; background: linear-gradient(to top, #0a0f18, transparent); opacity: 0.7;"></div>
                 </div>
               </template>
 
@@ -812,7 +968,7 @@ export const 资产管理卡片: Story = {
                       <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">凯 (KAI)</CpText>
                     </div>
                     <div
-                        style="font-size: 10px; color: var(--cp-color-warning); opacity: 0.8; font-family: monospace; margin-top: 2px;">
+                        style="font-size: 10px; color: var(--cp-color-primary); opacity: 0.8; font-family: monospace; margin-top: 2px;">
                       ID: CHR-001
                     </div>
                   </div>
@@ -820,13 +976,13 @@ export const 资产管理卡片: Story = {
               </template>
 
               <template #extra>
-                <CpTag size="sm" type="warning" plain>角色</CpTag>
+                <CpTag size="sm" type="primary" plain>角色</CpTag>
               </template>
 
               <!-- 主体内容 -->
               <div style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <CpText size="xs" bold type="info" style="text-transform: uppercase; opacity: 0.5;">
+                  <CpText size="xs" bold type="primary" style="text-transform: uppercase; opacity: 0.5;">
                     <template #prefix>
                       <MdiPencil/>
                     </template>
@@ -838,21 +994,21 @@ export const 资产管理卡片: Story = {
                     model-value="Cyberpunk protagonist, male, tactical black techwear jacket, rain-slicked neon street background, cinematic lighting, 8k render."
                     readonly
                     :rows="4"
-                    style="--cp-textarea-bg: rgba(0,0,0,0.4); font-size: 10px;"
+                    style="--cp-textarea-bg: rgba(0, 15, 30, 0.4); border: 1px solid rgba(0, 240, 255, 0.1); color: rgba(255, 255, 255, 0.7); font-size: 10px;"
                 />
 
                 <div
-                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: #666;">
-                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px;"/> 42 Scenes</span>
-                  <span>EP.01 START</span>
+                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0, 240, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: rgba(0, 240, 255, 0.4);">
+                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px; opacity: 0.8;"/> 42 Scenes</span>
+                  <span style="opacity: 0.8;">EP.01 START</span>
                 </div>
               </div>
 
               <!-- 悬停操作覆层 -->
               <template #overlay>
                 <div style="display: flex; gap: 8px; width: 100%;">
-                  <CpButton type="warning" size="sm" block bold style="flex: 1;">编辑资产</CpButton>
-                  <CpButton :icon="MdiCog" type="info" size="sm" variant="outline"/>
+                  <CpButton type="primary" size="sm" block bold style="flex: 1;">编辑资产</CpButton>
+                  <CpButton :icon="MdiCog" type="primary" size="sm" variant="outline"/>
                 </div>
               </template>
             </CpCard>
@@ -860,13 +1016,18 @@ export const 资产管理卡片: Story = {
             <!-- 智能匹配资产 -->
             <CpCard
                 style="width: 320px;"
-                variant="solid"
-                type="info"
-                shadow="hover"
-                overlayEffect="none"
+                variant="semi"
+                type="primary"
+                shadow="always"
+                hoverScale
                 actionEffect="blur-color"
                 trigger
                 trigger-image-hover
+                bgColor="rgba(10, 25, 45, 0.4)"
+                borderColor="rgba(0, 240, 255, 0.6)"
+                dividerColor="rgba(0, 240, 255, 0.15)"
+                :headerStyle="{ borderLeft: '3px solid var(--cp-color-primary)', paddingLeft: '14px', background: 'rgba(0, 240, 255, 0.05)' }"
+                :backgroundStyle="{ backdropFilter: 'blur(16px)', boxShadow: '0 0 20px rgba(0, 240, 255, 0.1)' }"
             >
               <template #cover>
                 <div style="position: relative; height: 180px; overflow: hidden; background: #000;">
@@ -878,15 +1039,15 @@ export const 资产管理卡片: Story = {
                       hover-mode="zoom"
                   />
                   <div style="position: absolute; top: 12px; right: 12px; z-index: 1;">
-                    <CpTag type="info" size="sm" effect="dark" variant="outline"
-                           style="font-weight: bold; box-shadow: 0 0 10px rgba(6, 182, 212, 0.4); display: flex; align-items: center; gap: 4px;">
+                    <CpTag type="primary" size="sm" effect="dark" variant="semi"
+                           style="font-weight: bold; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); display: flex; align-items: center; gap: 4px;">
                       <MdiAutoFix style="font-size: 12px;margin-right: 5px;"/>
                       智能匹配
                     </CpTag>
                   </div>
                   <!-- 全息装饰图层 -->
                   <div
-                      style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, transparent 100%); pointer-events: none;"></div>
+                      style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,240,255,0.1) 0%, transparent 100%); pointer-events: none;"></div>
                 </div>
               </template>
 
@@ -897,7 +1058,7 @@ export const 资产管理卡片: Story = {
                       <CpText type="primary" size="lg" bold style="letter-spacing: 1px;">奥拉 (AURA)</CpText>
                     </div>
                     <div
-                        style="font-size: 10px; color: var(--cp-color-info); opacity: 0.8; font-family: monospace; margin-top: 2px;">
+                        style="font-size: 10px; color: var(--cp-color-primary); opacity: 0.8; font-family: monospace; margin-top: 2px;">
                       ID: CHR-002
                     </div>
                   </div>
@@ -905,11 +1066,11 @@ export const 资产管理卡片: Story = {
               </template>
               
               <template #extra>
-                <CpTag size="sm" type="info" variant="outline" plain>角色</CpTag>
+                <CpTag size="sm" type="primary" variant="outline" plain>角色</CpTag>
               </template>
 
               <div style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
-                <CpText size="xs" type="info" bold style="text-transform: uppercase; opacity: 0.5;">
+                <CpText size="xs" type="primary" bold style="text-transform: uppercase; opacity: 0.5;">
                   <template #prefix>
                     <MdiPencil/>
                   </template>
@@ -920,23 +1081,56 @@ export const 资产管理卡片: Story = {
                     model-value="Holographic AI avatar, female, translucent blue skin, glowing data streams, cybernetic neural interface."
                     readonly
                     :rows="4"
-                    style="--cp-textarea-bg: rgba(0,0,0,0.4); font-size: 10px;"
+                    style="--cp-textarea-bg: rgba(0, 15, 30, 0.4); border: 1px solid rgba(0, 240, 255, 0.1); color: rgba(255, 255, 255, 0.7); font-size: 10px;"
                 />
 
                 <div
-                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: #666;">
-                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px;"/> 18 Scenes</span>
-                  <span>EP.01 START</span>
+                    style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0, 240, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-family: monospace; color: rgba(0, 240, 255, 0.4);">
+                  <span style="display: flex; align-items: center; gap: 4px;"><MdiMovieOpen style="font-size: 14px; opacity: 0.8;"/> 18 Scenes</span>
+                  <span style="opacity: 0.8;">EP.01 START</span>
                 </div>
               </div>
 
               <template #overlay>
                 <div style="display: flex; gap: 8px; width: 100%;">
-                  <CpButton type="info" size="sm" block bold style="flex: 1;">确认匹配</CpButton>
-                  <CpButton :icon="MdiRefresh" type="info" size="sm" variant="outline"/>
+                  <CpButton type="primary" size="sm" block bold style="flex: 1;">确认匹配</CpButton>
+                  <CpButton :icon="MdiRefresh" type="primary" size="sm" variant="outline"/>
                 </div>
               </template>
             </CpCard>
+          </div>
+        `,
+    }),
+}
+/** 阴影颜色定制 */
+export const 阴影颜色定制: Story = {
+    render: () => ({
+        components: {CpCard},
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 30px;">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <CpCard title="默认阴影 (Default)" shadow="always" style="width: 200px;">
+                <p>无主题色时的默认黑色阴影</p>
+              </CpCard>
+              <CpCard title="主题色阴影 (Primary)" type="primary" shadow="always" style="width: 200px;">
+                <p>阴影自动跟随 Primary 主题色</p>
+              </CpCard>
+              <CpCard title="主题色阴影 (Success)" type="success" shadow="always" style="width: 200px;">
+                <p>阴影自动跟随 Success 主题色</p>
+              </CpCard>
+            </div>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <CpCard title="自定义阴影 (霓虹粉)" shadowColor="#ff00ff" shadow="always" style="width: 200px;">
+                <p>shadowColor="#ff00ff"</p>
+              </CpCard>
+              <CpCard title="自定义阴影 (青色)" shadowColor="cyan" shadow="always" style="width: 200px;">
+                <p>shadowColor="cyan"</p>
+              </CpCard>
+              <CpCard title="非切角阴影 (Round)" shadowColor="#00ff00" shape="round" shadow="always" style="width: 200px;">
+                <p>非切角模式使用 box-shadow</p>
+              </CpCard>
+            </div>
           </div>
         `,
     }),

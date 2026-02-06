@@ -19,6 +19,14 @@
 @use 'components/image';
 @use 'components/avatar';
 @use 'components/avatar-group';
+@use 'components/popover';
+@use 'components/pattern-background';
+@use 'components/dropdown';
+@use 'components/scrollbar';
+@use 'components/checkbox';
+@use 'components/checkbox-group';
+@use 'components/radio';
+@use 'components/radio-group';
 
 // 基础样式
 *,

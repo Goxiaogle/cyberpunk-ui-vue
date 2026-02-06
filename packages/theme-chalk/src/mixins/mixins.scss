@@ -59,3 +59,99 @@ $state-prefix: 'is-' !default;
         @content;
     }
 }
+
+// ===== Scrollbar Mixins =====
+
+// 基础 scrollbar 样式
+@mixin scrollbar-base($width: 6px, $thumb: rgba(0, 240, 255, 0.3), $track: rgba(26, 26, 36, 0.8), $radius: 3px) {
+    &::-webkit-scrollbar {
+        width: $width;
+        height: $width;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $track;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $thumb;
+        border-radius: $radius;
+        
+        &:hover {
+            background: rgba(0, 240, 255, 0.5);
+        }
+    }
+
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $thumb $track;
+}
+
+// 快速应用变体
+@mixin scrollbar($variant: 'default') {
+    @if $variant == 'default' {
+        @include scrollbar-base();
+    } @else if $variant == 'rounded' {
+        @include scrollbar-base($radius: 999px);
+    } @else if $variant == 'futuristic' {
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        &::-webkit-scrollbar-track {
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        &::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.2), #00f0ff);
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+            &:hover {
+                background: linear-gradient(to bottom, #00f0ff, #00c2ce);
+            }
+        }
+        scrollbar-width: auto;
+        scrollbar-color: #00f0ff rgba(10, 10, 15, 0.9);
+    } @else if $variant == 'thin' {
+        @include scrollbar-base($width: 4px);
+    } @else if $variant == 'bordered' {
+        &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.2);
+            border: 1px solid #00f0ff;
+            border-radius: 0;
+            &:hover {
+                background: rgba(0, 240, 255, 0.4);
+            }
+        }
+    } @else if $variant == 'clipped' {
+        &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            // 使用单一强力渐变切角以确保可见性
+            background: linear-gradient(135deg, transparent 6px, rgba(0, 240, 255, 0.4) 6px);
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            border-radius: 0;
+            
+            &:hover {
+                background: linear-gradient(135deg, transparent 6px, #00f0ff 6px);
+                border-color: #00f0ff;
+            }
+        }
+    } @else if $variant == 'hidden' {
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

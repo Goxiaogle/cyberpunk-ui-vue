@@ -58,6 +58,33 @@ const meta: Meta<typeof CpSlider> = {
       description: '自定义颜色',
     },
   },
+  args: {
+    modelValue: 30,
+    min: 0,
+    max: 100,
+    step: 1,
+    size: 'md',
+    shape: 'clip',
+    disabled: false,
+    range: false,
+    showTooltip: true,
+    showStops: false,
+    vertical: false,
+  },
+  render: (args) => ({
+    components: { CpSlider },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div style="padding: 40px 20px;">
+        <CpSlider v-bind="args" v-model="args.modelValue" />
+        <div style="margin-top: 20px; color: var(--cp-text-secondary); font-family: monospace;">
+          modelValue: {{ args.modelValue }}
+        </div>
+      </div>
+    `,
+  }),
 }
 
 export default meta
@@ -66,21 +93,6 @@ type Story = StoryObj<typeof CpSlider>
 // ========== 基础用法 ==========
 export const Default: Story = {
   name: '基础用法',
-  render: () => ({
-    components: { CpSlider },
-    setup() {
-      const value = ref(30)
-      return { value }
-    },
-    template: `
-      <div style="padding: 40px 20px;">
-        <CpSlider v-model="value" />
-        <p style="margin-top: 20px; color: var(--cp-text-secondary);">
-          当前值: {{ value }}
-        </p>
-      </div>
-    `,
-  }),
 }
 
 // ========== 尺寸变体 ==========
@@ -92,7 +104,8 @@ export const Sizes: Story = {
       const valueSm = ref(25)
       const valueMd = ref(50)
       const valueLg = ref(75)
-      return { valueSm, valueMd, valueLg }
+      const valueCustom = ref(100)
+      return { valueSm, valueMd, valueLg, valueCustom }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 32px; padding: 40px 20px;">
@@ -107,6 +120,10 @@ export const Sizes: Story = {
         <div>
           <span style="color: var(--cp-text-secondary); margin-bottom: 8px; display: block;">大 (lg)</span>
           <CpSlider v-model="valueLg" size="lg" />
+        </div>
+        <div>
+          <span style="color: var(--cp-text-secondary); margin-bottom: 8px; display: block;">自定义尺寸 (20px)</span>
+          <CpSlider v-model="valueCustom" size="20px" />
         </div>
       </div>
     `,
@@ -146,15 +163,15 @@ export const Shapes: Story = {
 // ========== 范围选择 ==========
 export const Range: Story = {
   name: '范围选择',
-  render: () => ({
+  render: (args) => ({
     components: { CpSlider },
     setup() {
       const rangeValue = ref<[number, number]>([20, 80])
-      return { rangeValue }
+      return { rangeValue, args }
     },
     template: `
       <div style="padding: 40px 20px;">
-        <CpSlider v-model="rangeValue" range />
+        <CpSlider v-bind="args" v-model="rangeValue" range />
         <p style="margin-top: 20px; color: var(--cp-text-secondary);">
           范围: {{ rangeValue[0] }} - {{ rangeValue[1] }}
         </p>
@@ -166,42 +183,33 @@ export const Range: Story = {
 // ========== 步长与刻度 ==========
 export const StepsAndStops: Story = {
   name: '步长与刻度',
-  render: () => ({
-    components: { CpSlider },
-    setup() {
-      const value = ref(50)
-      return { value }
-    },
-    template: `
-      <div style="padding: 40px 20px;">
-        <CpSlider v-model="value" :step="10" show-stops />
-        <p style="margin-top: 20px; color: var(--cp-text-secondary);">
-          当前值: {{ value }} (步长: 10)
-        </p>
-      </div>
-    `,
-  }),
+  args: {
+    step: 10,
+    showStops: true,
+  },
 }
 
 // ========== 刻度标记 ==========
 export const Marks: Story = {
   name: '刻度标记',
-  render: () => ({
+  args: {
+    modelValue: 37,
+    marks: {
+      0: '0°C',
+      37: '体温',
+      100: '沸点',
+    },
+  },
+  render: (args) => ({
     components: { CpSlider },
     setup() {
-      const value = ref(37)
-      const marks = {
-        0: '0°C',
-        37: '体温',
-        100: '沸点',
-      }
-      return { value, marks }
+      return { args }
     },
     template: `
       <div style="padding: 40px 20px 60px;">
-        <CpSlider v-model="value" :marks="marks" />
+        <CpSlider v-bind="args" v-model="args.modelValue" />
         <p style="margin-top: 40px; color: var(--cp-text-secondary);">
-          当前温度: {{ value }}°C
+          当前值: {{ args.modelValue }}
         </p>
       </div>
     `,
@@ -250,7 +258,7 @@ export const CustomColors: Story = {
       return { value1, value2, value3 }
     },
     template: `
-      <div style="display: flex; flex-direction: column; gap: 32px; padding: 40px 20px;">
+      <div style="display: flex; flex-direction: column; gap: 40px; padding: 40px 20px;">
         <CpSlider v-model="value1" color="#ff00ff" />
         <CpSlider v-model="value2" color="#00ff88" />
         <CpSlider v-model="value3" color="#ff6600" />
@@ -259,44 +267,13 @@ export const CustomColors: Story = {
   }),
 }
 
-// ========== 格式化 Tooltip ==========
-export const FormatTooltip: Story = {
-  name: '格式化提示',
-  render: () => ({
-    components: { CpSlider },
-    setup() {
-      const value = ref(50)
-      const formatTooltip = (val: number) => `${val}%`
-      return { value, formatTooltip }
-    },
-    template: `
-      <div style="padding: 40px 20px;">
-        <CpSlider v-model="value" :format-tooltip="formatTooltip" />
-        <p style="margin-top: 20px; color: var(--cp-text-secondary);">
-          进度: {{ value }}%
-        </p>
-      </div>
-    `,
-  }),
-}
-
 // ========== 禁用状态 ==========
 export const Disabled: Story = {
   name: '禁用状态',
-  render: () => ({
-    components: { CpSlider },
-    setup() {
-      const value = ref(50)
-      const rangeValue = ref<[number, number]>([30, 70])
-      return { value, rangeValue }
-    },
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 32px; padding: 40px 20px;">
-        <CpSlider v-model="value" disabled />
-        <CpSlider v-model="rangeValue" range disabled />
-      </div>
-    `,
-  }),
+  args: {
+    disabled: true,
+    modelValue: 50,
+  },
 }
 
 // ========== 综合示例 ==========
@@ -308,16 +285,16 @@ export const Comprehensive: Story = {
       const volume = ref(75)
       const brightness = ref(50)
       const temperature = ref<[number, number]>([18, 26])
-      
+
       const tempMarks = {
         16: '16°',
         20: '20°',
         24: '24°',
         28: '28°',
       }
-      
+
       const formatVolume = (val: number) => val === 0 ? '静音' : `${val}%`
-      
+
       return { volume, brightness, temperature, tempMarks, formatVolume }
     },
     template: `

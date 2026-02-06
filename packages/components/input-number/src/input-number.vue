@@ -3,7 +3,7 @@
  * CpInputNumber - 赛博朋克风格数字输入框
  */
 import { computed, ref } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -15,6 +15,9 @@ const props = defineProps(inputNumberProps)
 const emit = defineEmits(inputNumberEmits)
 
 const ns = useNamespace('input-number')
+
+// 尺寸预设映射
+const inputNumberSizeMap = { sm: 28, md: 36, lg: 44 }
 
 const inputRef = ref<HTMLInputElement>()
 const isFocused = ref(false)
@@ -33,22 +36,27 @@ const displayValue = computed(() => {
 // 计算样式类
 const classes = computed(() => [
   ns.b(),
-  ns.m(props.size),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.m(`controls-${props.controlsPosition}`),
   ns.is('disabled', props.disabled),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('custom-color', !!props.color),
   ns.is('without-controls', !props.controls),
+  ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
-// 自定义颜色
+// 自定义颜色/尺寸
 const customStyle = computed(() => {
-  if (!props.color) return {}
-  return {
-    '--cp-input-number-custom-color': props.color,
-    '--cp-input-number-custom-color-light': `${props.color}33`,
+  const style: Record<string, string> = {}
+  if (props.color) {
+    style['--cp-input-number-custom-color'] = props.color
+    style['--cp-input-number-custom-color-light'] = `${props.color}33`
   }
+  if (!isPresetSize(props.size)) {
+    style['--cp-input-number-height'] = normalizeSize(props.size, inputNumberSizeMap)
+  }
+  return style
 })
 
 // 增减按钮禁用状态
