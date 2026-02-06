@@ -1,0 +1,22 @@
+// CpRadioGroup 组件样式
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(radio-group) {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  
+  // 水平布局 (默认)
+  @include m(horizontal) {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  // 垂直布局
+  @include m(vertical) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

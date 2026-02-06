@@ -1,0 +1,226 @@
+// CpCheckbox 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// Checkbox 尺寸变量
+$checkbox-sizes: (
+  sm: (
+    size: 14px,
+    font-size: 12px,
+    clip: 3px,
+    border-radius: 2px,
+  ),
+  md: (
+    size: 18px,
+    font-size: 14px,
+    clip: 4px,
+    border-radius: 2px,
+  ),
+  lg: (
+    size: 22px,
+    font-size: 16px,
+    clip: 5px,
+    border-radius: 3px,
+  ),
+);
+
+@include b(checkbox) {
+  // 基础样式
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  color: var(--cp-text-secondary);
+  transition: color 0.2s ease;
+  
+  // CSS 变量
+  --cp-checkbox-active-color: var(--cp-color-primary);
+  --cp-checkbox-active-color-light: var(--cp-color-primary-light);
+  --cp-checkbox-size: 18px;
+  
+  &:hover:not(.is-disabled) {
+    color: var(--cp-text-primary);
+    
+    .cp-checkbox__indicator {
+      border-color: var(--cp-checkbox-active-color);
+      box-shadow: 0 0 6px var(--cp-checkbox-active-color-light);
+    }
+  }
+  
+  // ===== 隐藏原生 input =====
+  @include e(input) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+  
+  // ===== 指示器 =====
+  @include e(indicator) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--cp-checkbox-size);
+    height: var(--cp-checkbox-size);
+    background: rgba(20, 20, 25, 0.8);
+    border: 1px solid var(--cp-border);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    
+    // 机甲切角装饰
+    &::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 5px;
+      height: 5px;
+      background: transparent;
+      border-top: 1px solid var(--cp-border);
+      border-right: 1px solid var(--cp-border);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+      transition: all 0.25s ease;
+    }
+  }
+  
+  // ===== 图标 =====
+  @include e(icon) {
+    width: 70%;
+    height: 70%;
+    color: var(--cp-text-inverse);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  // ===== 标签 =====
+  @include e(label) {
+    font-weight: 500;
+    line-height: 1.2;
+    transition: color 0.2s ease;
+  }
+  
+  // ===== 尺寸 =====
+  @each $size-name, $size-config in $checkbox-sizes {
+    @include m(#{$size-name}) {
+      $size: map-get($size-config, size);
+      $clip: map-get($size-config, clip);
+      
+      --cp-checkbox-size: #{$size};
+      
+      .cp-checkbox__indicator {
+        clip-path: polygon(
+          #{$clip} 0,
+          100% 0,
+          100% calc(100% - #{$clip}),
+          calc(100% - #{$clip}) 100%,
+          0 100%,
+          0 #{$clip}
+        );
+      }
+      
+      .cp-checkbox__label {
+        font-size: map-get($size-config, font-size);
+      }
+    }
+  }
+  
+  // ===== 自定义尺寸 =====
+  @include when(custom-size) {
+    .cp-checkbox__indicator {
+      clip-path: polygon(
+        3px 0,
+        100% 0,
+        100% calc(100% - 3px),
+        calc(100% - 3px) 100%,
+        0 100%,
+        0 3px
+      );
+    }
+  }
+  
+  // ===== 选中状态 =====
+  @include when(checked) {
+    .cp-checkbox__indicator {
+      background: var(--cp-checkbox-active-color);
+      border-color: var(--cp-checkbox-active-color);
+      box-shadow: 0 0 10px var(--cp-checkbox-active-color-light);
+      
+      &::before {
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+    
+    .cp-checkbox__icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  // ===== 半选状态 =====
+  @include when(indeterminate) {
+    .cp-checkbox__indicator {
+      background: var(--cp-checkbox-active-color);
+      border-color: var(--cp-checkbox-active-color);
+      box-shadow: 0 0 10px var(--cp-checkbox-active-color-light);
+      
+      &::before {
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+    
+    .cp-checkbox__icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  // ===== 边框模式 =====
+  @include when(border) {
+    padding: 8px 16px;
+    border: 1px solid var(--cp-border);
+    background: rgba(20, 20, 25, 0.6);
+    clip-path: polygon(
+      8px 0,
+      100% 0,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      0 100%,
+      0 8px
+    );
+    transition: all 0.25s ease;
+    
+    &:hover:not(.is-disabled) {
+      border-color: var(--cp-checkbox-active-color);
+      box-shadow: 0 0 8px var(--cp-checkbox-active-color-light);
+    }
+    
+    &.is-checked {
+      border-color: var(--cp-checkbox-active-color);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 12px var(--cp-checkbox-active-color-light);
+    }
+  }
+  
+  // ===== 禁用状态 =====
+  @include when(disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    
+    .cp-checkbox__indicator {
+      background: rgba(40, 40, 45, 0.8);
+    }
+  }
+}
