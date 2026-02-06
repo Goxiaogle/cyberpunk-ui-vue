@@ -33,7 +33,8 @@
     "lint:fix": "eslint . --fix",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
-    "publish:packages": "pnpm build && pnpm -r publish --access public"
+    "publish:packages": "pnpm build && pnpm -r publish --access public",
+    "release": "pnpm build && pnpm -r exec npm version patch && pnpm -r publish --access public --no-git-checks"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -58,6 +59,7 @@
     "typescript-eslint": "^8.54.0",
     "unplugin-icons": "^23.0.1",
     "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.0.0",
     "vue": "^3.5.0",
     "vue-tsc": "^2.2.0"

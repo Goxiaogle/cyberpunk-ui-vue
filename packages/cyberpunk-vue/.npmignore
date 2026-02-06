@@ -1,0 +1,19 @@
+# Source files
+*.ts
+!*.d.ts
+
+# Build config
+vite.config.*
+tsconfig*.json
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+.DS_Store
+*.log

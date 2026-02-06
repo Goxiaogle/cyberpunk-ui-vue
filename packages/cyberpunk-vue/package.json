@@ -1,7 +1,7 @@
 {
-    "name": "@cyberpunk-vue/components",
-    "version": "0.1.1",
-    "description": "Cyberpunk Vue components - A futuristic Vue 3 component library",
+    "name": "cyberpunk-ui-vue",
+    "version": "0.1.4",
+    "description": "A futuristic Vue 3 component library with cyberpunk aesthetics",
     "type": "module",
     "main": "./dist/index.cjs",
     "module": "./dist/index.mjs",
@@ -12,30 +12,33 @@
             "import": "./dist/index.mjs",
             "require": "./dist/index.cjs"
         },
-        "./*": "./*"
+        "./dist/*": "./dist/*",
+        "./styles/*": "./styles/*"
     },
     "files": [
         "dist",
-        "src"
+        "styles"
     ],
-    "sideEffects": false,
     "scripts": {
-        "build": "vite build"
+        "build": "vite build && npm run build:styles && npm run postbuild",
+        "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed",
+        "postbuild": "echo export * from '@cyberpunk-vue/components';export * from '@cyberpunk-vue/hooks';export * from '@cyberpunk-vue/constants'; > dist/index.d.ts"
     },
     "peerDependencies": {
         "vue": "^3.5.0"
     },
     "dependencies": {
-        "@cyberpunk-vue/hooks": "workspace:*",
-        "@cyberpunk-vue/constants": "workspace:*",
-        "@cyberpunk-vue/theme-chalk": "workspace:*"
+        "@cyberpunk-vue/components": "^0.1.0",
+        "@cyberpunk-vue/hooks": "^0.1.0",
+        "@cyberpunk-vue/constants": "^0.1.0",
+        "@cyberpunk-vue/theme-chalk": "^0.1.0"
     },
     "author": "Juxest",
     "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/user/cyberpunk-vue.git",
-        "directory": "packages/components"
+        "directory": "packages/cyberpunk-vue"
     },
     "homepage": "https://github.com/user/cyberpunk-vue#readme",
     "bugs": {
@@ -46,10 +49,10 @@
         "vue3",
         "components",
         "ui",
+        "design-system",
         "cyberpunk",
         "futuristic",
-        "neon",
-        "design-system"
+        "neon"
     ],
     "publishConfig": {
         "access": "public"

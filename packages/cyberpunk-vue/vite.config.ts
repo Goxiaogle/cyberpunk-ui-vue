@@ -1,24 +1,25 @@
 import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
     plugins: [
-        dts({
-            entryRoot: 'src',
-            outDir: 'dist',
-            tsconfigPath: '../../tsconfig.json'
-        })
+        vue()
     ],
     build: {
         lib: {
-            entry: resolve(__dirname, 'src/index.ts'),
-            name: 'CyberpunkVueConstants',
+            entry: resolve(__dirname, 'index.ts'),
+            name: 'CyberpunkVue',
             formats: ['es', 'cjs'],
             fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`
         },
         rollupOptions: {
+            external: ['vue'],
             output: {
+                globals: {
+                    vue: 'Vue'
+                },
                 exports: 'named'
             }
         },
