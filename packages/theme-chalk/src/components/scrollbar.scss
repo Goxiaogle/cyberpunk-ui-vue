@@ -1,0 +1,40 @@
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+:root {
+  // 基础变量，如果需要微调可以修改这里
+  --cp-scrollbar-width: 6px;
+  --cp-scrollbar-height: 6px;
+  --cp-scrollbar-thumb-bg: rgba(0, 240, 255, 0.3);
+  --cp-scrollbar-track-bg: rgba(26, 26, 36, 0.8);
+  --cp-scrollbar-radius: 3px;
+}
+
+// 导出系统级类名，方便全局或局部通过 class 应用
+.cp-scrollbar {
+  @include scrollbar('default');
+
+  @include m(rounded) {
+    @include scrollbar('rounded');
+  }
+
+  @include m(futuristic) {
+    @include scrollbar('futuristic');
+  }
+
+  @include m(thin) {
+    @include scrollbar('thin');
+  }
+
+  @include m(bordered) {
+    @include scrollbar('bordered');
+  }
+
+  @include m(clipped) {
+    @include scrollbar('clipped');
+  }
+
+  @include m(hidden) {
+    @include scrollbar('hidden');
+  }
+}
