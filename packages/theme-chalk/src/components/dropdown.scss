@@ -1,0 +1,551 @@
+// CpDropdown 组件样式
+// 赛博朋克/机甲风格下拉选择器
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// 动画
+@keyframes cp-dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes cp-dropdown-fade-out {
+  from {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  to {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+}
+
+@include b(dropdown) {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  // ===== 触发器 =====
+  @include e(trigger) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--cp-spacing-md);
+    background: transparent;
+    border: 1px solid var(--cp-dropdown-inactive-color, var(--cp-border));
+    color: var(--cp-text-primary);
+    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+
+    // 机甲风切角 (Top-Left, Bottom-Right)
+    clip-path: polygon(8px 0,
+            100% 0,
+            100% calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            0 100%,
+            0 8px);
+
+    // 装饰性小方块 (右上角)
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 6px;
+      height: 6px;
+      background: var(--cp-border);
+      opacity: 0.6;
+      z-index: 2;
+      transition: all 0.2s ease;
+    }
+
+    &:hover:not(.is-disabled) {
+      border-color: var(--cp-color-primary);
+
+      &::after {
+        background: var(--cp-color-primary);
+        opacity: 0.8;
+      }
+    }
+
+    &:focus:not(.is-disabled) {
+      border-color: var(--cp-color-primary);
+      box-shadow: 0 0 10px var(--cp-color-primary-light), inset 0 0 5px var(--cp-color-primary-light);
+
+      &::after {
+        background: var(--cp-color-primary);
+        opacity: 1;
+        box-shadow: 0 0 5px var(--cp-color-primary);
+      }
+    }
+  }
+
+  // ===== 尺寸 =====
+  @include m(sm) {
+    .cp-dropdown__trigger {
+      height: var(--cp-size-sm);
+      font-size: var(--cp-font-size-sm);
+      padding: 0 var(--cp-spacing-sm);
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+
+      &::after {
+        width: 5px;
+        height: 5px;
+      }
+    }
+  }
+
+  @include m(md) {
+    .cp-dropdown__trigger {
+      height: var(--cp-size-md);
+      font-size: var(--cp-font-size-md);
+    }
+  }
+
+  @include m(lg) {
+    .cp-dropdown__trigger {
+      height: var(--cp-size-lg);
+      font-size: var(--cp-font-size-lg);
+      padding: 0 var(--cp-spacing-lg);
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+
+      &::after {
+        width: 8px;
+        height: 8px;
+      }
+    }
+  }
+
+  // ===== 变体 =====
+  @include m(outline) {
+    .cp-dropdown__trigger {
+      background: transparent;
+      border-color: var(--cp-dropdown-inactive-color, var(--cp-border));
+    }
+  }
+
+  @include m(filled) {
+    .cp-dropdown__trigger {
+      background: var(--cp-bg-elevated);
+      border-color: var(--cp-dropdown-inactive-color, var(--cp-border));
+
+      &:hover:not(.is-disabled) {
+        background: rgba(var(--cp-color-primary-rgb), 0.05);
+      }
+
+      &:focus:not(.is-disabled) {
+        background: rgba(0, 240, 255, 0.08);
+      }
+    }
+  }
+
+  @include m(ghost) {
+    .cp-dropdown__trigger {
+      background: transparent;
+      border-color: transparent;
+      border-bottom-color: var(--cp-border);
+      clip-path: none;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover:not(.is-disabled) {
+        border-bottom-color: var(--cp-color-primary);
+      }
+
+      &:focus:not(.is-disabled) {
+        border-bottom-color: var(--cp-color-primary);
+        box-shadow: 0 2px 0 0 var(--cp-color-primary);
+      }
+    }
+  }
+
+  // ===== 形状 =====
+  @include m(shape-no-clip) {
+    .cp-dropdown__trigger {
+      clip-path: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  @include m(shape-round) {
+    .cp-dropdown__trigger {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  // ===== 状态 =====
+  @include when(disabled) {
+    .cp-dropdown__trigger {
+      cursor: not-allowed;
+      opacity: 0.5;
+      filter: grayscale(0.5);
+    }
+  }
+
+  @include when(active) {
+    .cp-dropdown__trigger {
+      border-color: var(--cp-color-primary);
+      box-shadow: 0 0 10px var(--cp-color-primary-light);
+
+      &::after {
+        background: var(--cp-color-primary);
+        opacity: 1;
+      }
+    }
+
+    .cp-dropdown__arrow {
+      color: var(--cp-color-primary);
+    }
+  }
+
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    .cp-dropdown__trigger {
+      &:hover:not(.is-disabled) {
+        border-color: var(--cp-dropdown-custom-color);
+
+        &::after {
+          background: var(--cp-dropdown-custom-color);
+        }
+      }
+
+      &:focus:not(.is-disabled) {
+        border-color: var(--cp-dropdown-custom-color);
+        box-shadow: 0 0 10px var(--cp-dropdown-custom-color-light), inset 0 0 5px var(--cp-dropdown-custom-color-light);
+
+        &::after {
+          background: var(--cp-dropdown-custom-color);
+          box-shadow: 0 0 5px var(--cp-dropdown-custom-color);
+        }
+      }
+    }
+
+    &.is-active .cp-dropdown__trigger {
+      border-color: var(--cp-dropdown-custom-color);
+      box-shadow: 0 0 10px var(--cp-dropdown-custom-color-light);
+
+      &::after {
+        background: var(--cp-dropdown-custom-color);
+      }
+    }
+
+    &.is-active .cp-dropdown__arrow {
+      color: var(--cp-dropdown-custom-color);
+    }
+
+    .cp-dropdown__option.is-selected {
+      color: var(--cp-dropdown-custom-color);
+
+      &::before {
+        background: var(--cp-dropdown-custom-color);
+      }
+    }
+  }
+
+  // ===== 自定义尺寸 =====
+  @include when(custom-size) {
+    .cp-dropdown__trigger {
+      height: var(--cp-dropdown-height);
+    }
+  }
+
+  // ===== 内部元素 =====
+  @include e(prefix) {
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(--cp-spacing-sm);
+    color: var(--cp-text-secondary);
+    font-size: 1.1em;
+  }
+
+  @include e(inline-input) {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--cp-text-primary);
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.15s ease, letter-spacing 0.15s ease;
+
+    &::placeholder {
+      color: var(--cp-dropdown-placeholder-color, var(--cp-text-muted));
+    }
+
+    @include when(active) {
+      cursor: text;
+    }
+  }
+
+  @include e(value) {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: none;
+    transition: opacity 0.15s ease, transform 0.15s ease, letter-spacing 0.15s ease;
+
+    @include when(placeholder) {
+      color: var(--cp-dropdown-placeholder-color, var(--cp-text-muted));
+    }
+  }
+
+  // 清除动画状态
+  @include when(clearing) {
+    @include e(value) {
+      opacity: 0;
+      transform: scaleX(0.8);
+      letter-spacing: -0.5em;
+      transform-origin: left center;
+    }
+    @include e(inline-input) {
+      opacity: 0;
+      transform: scaleX(0.8);
+      letter-spacing: -0.5em;
+      transform-origin: left center;
+    }
+  }
+
+  @include e(clear) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--cp-spacing-xs);
+    color: var(--cp-text-muted);
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--cp-text-secondary);
+      transform: rotate(90deg);
+    }
+
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+  @include e(arrow) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--cp-spacing-sm);
+    color: var(--cp-text-muted);
+    font-size: 0.9em;
+    transition: transform 0.2s ease, color 0.2s ease;
+
+    &.is-reverse {
+      transform: rotate(180deg);
+    }
+
+    svg {
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
+
+  // ===== 弹层 =====
+  @include e(popper) {
+    position: absolute;
+    z-index: 2000;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      0 0 1px var(--cp-color-primary),
+      inset 0 0 20px rgba(0, 240, 255, 0.03);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    
+    // 切角样式
+    clip-path: polygon(
+      8px 0, 100% 0,
+      100% calc(100% - 8px), calc(100% - 8px) 100%,
+      0 100%, 0 8px
+    );
+
+    // 入场动画
+    animation: cp-dropdown-fade-in 0.2s ease-out;
+    transform-origin: top center;
+
+    @include m(top) {
+      transform-origin: bottom center;
+    }
+
+    // 标记角
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-left: 2px solid var(--cp-color-primary);
+      border-top: 2px solid var(--cp-color-primary);
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid var(--cp-color-primary);
+      border-bottom: 2px solid var(--cp-color-primary);
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    // 形状变体
+    &.cp-dropdown--shape-no-clip {
+      clip-path: none;
+    }
+
+    &.cp-dropdown--shape-round {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  // ===== 过滤搜索 =====
+  @include e(filter) {
+    padding: var(--cp-spacing-sm);
+    border-bottom: 1px solid var(--cp-border);
+  }
+
+  @include e(filter-input) {
+    width: 100%;
+    padding: var(--cp-spacing-xs) var(--cp-spacing-sm);
+    background: var(--cp-bg-base);
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-primary);
+    font-family: inherit;
+    font-size: var(--cp-font-size-sm);
+    outline: none;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: var(--cp-color-primary);
+    }
+
+    &::placeholder {
+      color: var(--cp-text-muted);
+    }
+  }
+
+  // ===== 选项列表 =====
+  @include e(options) {
+    list-style: none;
+    margin: 0;
+    padding: var(--cp-spacing-xs) 0;
+    overflow-y: auto;
+    max-height: inherit;
+
+    @include scrollbar();
+  }
+
+  @include e(option) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--cp-spacing-sm) var(--cp-spacing-md);
+    color: var(--cp-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    // 左侧装饰线 (选中时)
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 60%;
+      background: transparent;
+      transition: background 0.15s ease;
+    }
+
+    &:hover:not(.is-disabled),
+    &.is-hover:not(.is-disabled) {
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--cp-text-primary);
+    }
+
+    &.is-selected {
+      color: var(--cp-color-primary);
+      font-weight: 500;
+
+      &::before {
+        background: var(--cp-color-primary);
+      }
+    }
+
+    &.is-disabled {
+      color: var(--cp-text-muted);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  @include e(check) {
+    display: inline-flex;
+    align-items: center;
+    color: var(--cp-color-primary);
+    font-size: 1em;
+
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+  @include e(empty) {
+    padding: var(--cp-spacing-lg) var(--cp-spacing-md);
+    text-align: center;
+    color: var(--cp-text-muted);
+    font-size: var(--cp-font-size-sm);
+  }
+}
+
+// 过渡动画
+.cp-dropdown-fade-enter-active {
+  animation: cp-dropdown-fade-in 0.2s ease-out;
+}
+
+.cp-dropdown-fade-leave-active {
+  animation: cp-dropdown-fade-out 0.15s ease-in;
+}
