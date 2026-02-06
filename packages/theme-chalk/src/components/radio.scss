@@ -1,0 +1,182 @@
+// CpRadio 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// Radio 尺寸变量
+$radio-sizes: (
+  sm: (
+    size: 14px,
+    inner: 6px,
+    font-size: 12px,
+  ),
+  md: (
+    size: 18px,
+    inner: 8px,
+    font-size: 14px,
+  ),
+  lg: (
+    size: 22px,
+    inner: 10px,
+    font-size: 16px,
+  ),
+);
+
+@include b(radio) {
+  // 基础样式
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  color: var(--cp-text-secondary);
+  transition: color 0.2s ease;
+  
+  // CSS 变量
+  --cp-radio-active-color: var(--cp-color-primary);
+  --cp-radio-active-color-light: var(--cp-color-primary-light);
+  --cp-radio-size: 18px;
+  --cp-radio-inner-size: 8px;
+  
+  &:hover:not(.is-disabled) {
+    color: var(--cp-text-primary);
+    
+    .cp-radio__indicator {
+      border-color: var(--cp-radio-active-color);
+      box-shadow: 0 0 6px var(--cp-radio-active-color-light);
+    }
+  }
+  
+  // ===== 隐藏原生 input =====
+  @include e(input) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+  
+  // ===== 指示器 =====
+  @include e(indicator) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--cp-radio-size);
+    height: var(--cp-radio-size);
+    background: rgba(20, 20, 25, 0.8);
+    border: 1px solid var(--cp-border);
+    border-radius: 50%;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    
+    // 外圈装饰环
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px dashed transparent;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  // ===== 内核圆点 =====
+  @include e(inner) {
+    width: var(--cp-radio-inner-size);
+    height: var(--cp-radio-inner-size);
+    background: var(--cp-radio-active-color);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 6px var(--cp-radio-active-color);
+  }
+  
+  // ===== 标签 =====
+  @include e(label) {
+    font-weight: 500;
+    line-height: 1.2;
+    transition: color 0.2s ease;
+  }
+  
+  // ===== 尺寸 =====
+  @each $size-name, $size-config in $radio-sizes {
+    @include m(#{$size-name}) {
+      --cp-radio-size: #{map-get($size-config, size)};
+      --cp-radio-inner-size: #{map-get($size-config, inner)};
+      
+      .cp-radio__label {
+        font-size: map-get($size-config, font-size);
+      }
+    }
+  }
+  
+  // ===== 选中状态 =====
+  @include when(checked) {
+    .cp-radio__indicator {
+      border-color: var(--cp-radio-active-color);
+      box-shadow: 0 0 10px var(--cp-radio-active-color-light);
+      background: rgba(0, 0, 0, 0.4);
+      
+      // 激活外圈扫描环
+      &::before {
+        border-color: var(--cp-radio-active-color-light);
+        animation: cp-radio-pulse 2s ease-in-out infinite;
+      }
+    }
+    
+    .cp-radio__inner {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  // ===== 边框模式 =====
+  @include when(border) {
+    padding: 8px 16px;
+    border: 1px solid var(--cp-border);
+    background: rgba(20, 20, 25, 0.6);
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    
+    &:hover:not(.is-disabled) {
+      border-color: var(--cp-radio-active-color);
+      box-shadow: 0 0 8px var(--cp-radio-active-color-light);
+    }
+    
+    &.is-checked {
+      border-color: var(--cp-radio-active-color);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 12px var(--cp-radio-active-color-light);
+    }
+  }
+  
+  // ===== 禁用状态 =====
+  @include when(disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    
+    .cp-radio__indicator {
+      background: rgba(40, 40, 45, 0.8);
+    }
+  }
+}
+
+// 动画定义
+@keyframes cp-radio-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
