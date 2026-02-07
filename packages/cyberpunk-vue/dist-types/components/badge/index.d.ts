@@ -17,7 +17,7 @@
 export declare const CpBadge: import("../utils").SFCWithInstall<{
     new (...args: any[]): import("vue").CreateComponentPublicInstanceWithMixins<Readonly<import("vue").ExtractPropTypes<{
         readonly value: {
-            readonly type: import("vue").PropType<number | string>;
+            readonly type: import("vue").PropType<string | number>;
             readonly default: "";
         };
         readonly max: {
@@ -26,6 +26,7 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         };
         readonly min: {
             readonly type: NumberConstructor;
+            readonly default: undefined;
         };
         readonly dot: {
             readonly type: BooleanConstructor;
@@ -51,12 +52,13 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
-        readonly offset: {
-            readonly type: import("vue").PropType<[number, number]>;
-        };
         readonly variant: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeVariant>;
             readonly default: "solid";
+        };
+        readonly offset: {
+            readonly type: import("vue").PropType<[number, number]>;
+            readonly default: undefined;
         };
         readonly size: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeSize>;
@@ -70,8 +72,10 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         readonly color: string;
         readonly textColor: string;
         readonly hidden: boolean;
+        readonly min: number;
         readonly max: number;
         readonly dot: boolean;
+        readonly offset: [number, number];
         readonly showZero: boolean;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
@@ -82,7 +86,7 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         Defaults: {};
     }, Readonly<import("vue").ExtractPropTypes<{
         readonly value: {
-            readonly type: import("vue").PropType<number | string>;
+            readonly type: import("vue").PropType<string | number>;
             readonly default: "";
         };
         readonly max: {
@@ -91,6 +95,7 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         };
         readonly min: {
             readonly type: NumberConstructor;
+            readonly default: undefined;
         };
         readonly dot: {
             readonly type: BooleanConstructor;
@@ -116,12 +121,13 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
-        readonly offset: {
-            readonly type: import("vue").PropType<[number, number]>;
-        };
         readonly variant: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeVariant>;
             readonly default: "solid";
+        };
+        readonly offset: {
+            readonly type: import("vue").PropType<[number, number]>;
+            readonly default: undefined;
         };
         readonly size: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeSize>;
@@ -135,8 +141,10 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         readonly color: string;
         readonly textColor: string;
         readonly hidden: boolean;
+        readonly min: number;
         readonly max: number;
         readonly dot: boolean;
+        readonly offset: [number, number];
         readonly showZero: boolean;
     }>;
     __isFragment?: never;
@@ -144,7 +152,7 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
     __isSuspense?: never;
 } & import("vue").ComponentOptionsBase<Readonly<import("vue").ExtractPropTypes<{
     readonly value: {
-        readonly type: import("vue").PropType<number | string>;
+        readonly type: import("vue").PropType<string | number>;
         readonly default: "";
     };
     readonly max: {
@@ -153,6 +161,7 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
     };
     readonly min: {
         readonly type: NumberConstructor;
+        readonly default: undefined;
     };
     readonly dot: {
         readonly type: BooleanConstructor;
@@ -178,12 +187,13 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: "";
     };
-    readonly offset: {
-        readonly type: import("vue").PropType<[number, number]>;
-    };
     readonly variant: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeVariant>;
         readonly default: "solid";
+    };
+    readonly offset: {
+        readonly type: import("vue").PropType<[number, number]>;
+        readonly default: undefined;
     };
     readonly size: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeSize>;
@@ -197,8 +207,10 @@ export declare const CpBadge: import("../utils").SFCWithInstall<{
     readonly color: string;
     readonly textColor: string;
     readonly hidden: boolean;
+    readonly min: number;
     readonly max: number;
     readonly dot: boolean;
+    readonly offset: [number, number];
     readonly showZero: boolean;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {

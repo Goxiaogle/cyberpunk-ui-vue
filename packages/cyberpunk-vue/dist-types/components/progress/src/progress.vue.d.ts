@@ -98,6 +98,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: undefined;
     };
+    readonly showInnerStripe: {
+        readonly type: BooleanConstructor;
+        readonly default: undefined;
+    };
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     readonly percentage: {
         readonly type: NumberConstructor;
@@ -188,6 +192,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: undefined;
     };
+    readonly showInnerStripe: {
+        readonly type: BooleanConstructor;
+        readonly default: undefined;
+    };
 }>> & Readonly<{}>, {
     readonly size: import("packages/cyberpunk-vue").ProgressSize;
     readonly width: number;
@@ -211,6 +219,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly steps: boolean;
     readonly stepGap: number;
     readonly stepColors: string[];
+    readonly showInnerStripe: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;

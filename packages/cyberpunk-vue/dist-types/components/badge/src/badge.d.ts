@@ -1,19 +1,19 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 /**
  * 徽章颜色类型
- * - `primary` - 主色调 (赛博青)
- * - `success` - 成功 (霓虹绿)
- * - `warning` - 警告 (橙黄)
- * - `error` - 错误/危险 (洋红) - 默认
- * - `info` - 信息 (紫罗兰)
- * - `default` - 默认 (深灰/中性)
+ * - `primary` - 主要色（赛博蓝）
+ * - `success` - 成功色（霓虹绿）
+ * - `warning` - 警告色（赛博黄）
+ * - `error` - 错误色（霓虹红）
+ * - `info` - 信息色（中性蓝）
+ * - `default` - 默认中性色
  */
 export type BadgeType = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'default';
 /**
- * 徽章变体
+ * 徽章变体样式
  * - `solid` - 实心填充（默认）
  * - `outline` - 边框描边
- * - `glow` - 发光效果（赛博朋克风格）
+ * - `glow` - 发光效果
  */
 export type BadgeVariant = 'solid' | 'outline' | 'glow';
 /**
@@ -30,30 +30,22 @@ export type BadgeSize = 'small' | 'default' | 'large';
  *
  * @example
  * ```vue
- * <!-- 基础用法 -->
  * <CpBadge :value="5">
  *   <CpButton>消息</CpButton>
- * </CpBadge>
- *
- * <!-- 最小值限制 -->
- * <CpBadge :value="2" :min="10">
- *   <CpButton>库存</CpButton>
  * </CpBadge>
  * ```
  */
 export declare const badgeProps: {
     /**
-     * 徽章显示内容
-     * 可以是数字或字符串
+     * 徽章显示内容（数字或字符串）
      * @default ''
      */
     readonly value: {
-        readonly type: PropType<number | string>;
+        readonly type: PropType<string | number>;
         readonly default: "";
     };
     /**
-     * 最大显示数值
-     * 超出时显示 `{max}+`
+     * 最大显示数值，超出显示 `{max}+`
      * @default 99
      */
     readonly max: {
@@ -61,16 +53,15 @@ export declare const badgeProps: {
         readonly default: 99;
     };
     /**
-     * 最小显示数值
-     * 低于时显示 `{min}-`
-     * @default -Infinity
+     * 最小显示数值，低于时显示 `{min}-`
+     * @default undefined
      */
     readonly min: {
         readonly type: NumberConstructor;
+        readonly default: undefined;
     };
     /**
      * 小红点模式
-     * 开启后仅显示一个小圆点，忽略 value
      * @default false
      */
     readonly dot: {
@@ -103,7 +94,6 @@ export declare const badgeProps: {
     };
     /**
      * 自定义背景颜色
-     * 传入有效 CSS 颜色值，覆盖 type 的颜色
      * @default ''
      */
     readonly color: {
@@ -119,19 +109,20 @@ export declare const badgeProps: {
         readonly default: "";
     };
     /**
-     * 自定义偏移量 [x, y]
-     * 正值向右/下偏移，负值向左/上偏移
-     */
-    readonly offset: {
-        readonly type: PropType<[number, number]>;
-    };
-    /**
-     * 徽章变体样式
+     * 变体样式
      * @default 'solid'
      */
     readonly variant: {
         readonly type: PropType<BadgeVariant>;
         readonly default: "solid";
+    };
+    /**
+     * 自定义偏移量 [x, y]
+     * @default undefined
+     */
+    readonly offset: {
+        readonly type: PropType<[number, number]>;
+        readonly default: undefined;
     };
     /**
      * 徽章尺寸

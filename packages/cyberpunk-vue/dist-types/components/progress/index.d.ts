@@ -106,6 +106,10 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: undefined;
         };
+        readonly showInnerStripe: {
+            readonly type: BooleanConstructor;
+            readonly default: undefined;
+        };
     }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, import("vue").PublicProps, {
         readonly size: import("packages/cyberpunk-vue").ProgressSize;
         readonly width: number;
@@ -129,6 +133,7 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
         readonly steps: boolean;
         readonly stepGap: number;
         readonly stepColors: string[];
+        readonly showInnerStripe: boolean;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
         B: {};
@@ -226,6 +231,10 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: undefined;
         };
+        readonly showInnerStripe: {
+            readonly type: BooleanConstructor;
+            readonly default: undefined;
+        };
     }>> & Readonly<{}>, {}, {}, {}, {}, {
         readonly size: import("packages/cyberpunk-vue").ProgressSize;
         readonly width: number;
@@ -249,6 +258,7 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
         readonly steps: boolean;
         readonly stepGap: number;
         readonly stepColors: string[];
+        readonly showInnerStripe: boolean;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
@@ -343,6 +353,10 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: undefined;
     };
+    readonly showInnerStripe: {
+        readonly type: BooleanConstructor;
+        readonly default: undefined;
+    };
 }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, {
     readonly size: import("packages/cyberpunk-vue").ProgressSize;
     readonly width: number;
@@ -366,6 +380,7 @@ export declare const CpProgress: import("../utils").SFCWithInstall<{
     readonly steps: boolean;
     readonly stepGap: number;
     readonly stepColors: string[];
+    readonly showInnerStripe: boolean;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         default?: (props: {}) => any;

@@ -4,7 +4,7 @@ type __VLS_Slots = {} & {
 };
 declare const __VLS_component: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     readonly value: {
-        readonly type: import("vue").PropType<number | string>;
+        readonly type: import("vue").PropType<string | number>;
         readonly default: "";
     };
     readonly max: {
@@ -13,6 +13,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     };
     readonly min: {
         readonly type: NumberConstructor;
+        readonly default: undefined;
     };
     readonly dot: {
         readonly type: BooleanConstructor;
@@ -38,12 +39,13 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
-    readonly offset: {
-        readonly type: import("vue").PropType<[number, number]>;
-    };
     readonly variant: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeVariant>;
         readonly default: "solid";
+    };
+    readonly offset: {
+        readonly type: import("vue").PropType<[number, number]>;
+        readonly default: undefined;
     };
     readonly size: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeSize>;
@@ -51,7 +53,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     };
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     readonly value: {
-        readonly type: import("vue").PropType<number | string>;
+        readonly type: import("vue").PropType<string | number>;
         readonly default: "";
     };
     readonly max: {
@@ -60,6 +62,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     };
     readonly min: {
         readonly type: NumberConstructor;
+        readonly default: undefined;
     };
     readonly dot: {
         readonly type: BooleanConstructor;
@@ -85,12 +88,13 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
-    readonly offset: {
-        readonly type: import("vue").PropType<[number, number]>;
-    };
     readonly variant: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeVariant>;
         readonly default: "solid";
+    };
+    readonly offset: {
+        readonly type: import("vue").PropType<[number, number]>;
+        readonly default: undefined;
     };
     readonly size: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").BadgeSize>;
@@ -104,8 +108,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly color: string;
     readonly textColor: string;
     readonly hidden: boolean;
+    readonly min: number;
     readonly max: number;
     readonly dot: boolean;
+    readonly offset: [number, number];
     readonly showZero: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;

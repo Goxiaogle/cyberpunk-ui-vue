@@ -272,5 +272,15 @@ export declare const progressProps: {
         readonly type: StringConstructor;
         readonly default: undefined;
     };
+    /**
+     * 是否显示内圈虚线装饰
+     * 仅在 type="circle" 或 type="dashboard" 时有效
+     * 默认在 circle 时显示，dashboard 时关闭
+     * @default undefined
+     */
+    readonly showInnerStripe: {
+        readonly type: BooleanConstructor;
+        readonly default: undefined;
+    };
 };
 export type ProgressProps = ExtractPropTypes<typeof progressProps>;
