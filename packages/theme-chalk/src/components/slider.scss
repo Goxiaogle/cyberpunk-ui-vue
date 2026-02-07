@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -287,9 +288,9 @@ $slider-sizes: (
   // ========== 尺寸变体 ==========
   @each $size, $values in $slider-sizes {
     @include m($size) {
-      $track-height: map-get($values, 'track-height');
-      $thumb-size: map-get($values, 'thumb-size');
-      $clip-size: map-get($values, 'clip-size');
+      $track-height: map.get($values, 'track-height');
+      $thumb-size: map.get($values, 'thumb-size');
+      $clip-size: map.get($values, 'clip-size');
 
       .#{$namespace}-slider__runway {
         height: $track-height;

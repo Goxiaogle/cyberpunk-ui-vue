@@ -1,6 +1,7 @@
 // CpSwitch 组件样式
 // 赛博朋克/机甲风格 - 升级版
 
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -271,10 +272,10 @@ $switch-sizes: (
     // ===== 尺寸 =====
     @each $size-name, $size-config in $switch-sizes {
         @include m(#{$size-name}) {
-            $height: map-get($size-config, height);
-            $width: map-get($size-config, width);
-            $thumb-size: map-get($size-config, thumb);
-            $padding: map-get($size-config, padding);
+            $height: map.get($size-config, height);
+            $width: map.get($size-config, width);
+            $thumb-size: map.get($size-config, thumb);
+            $padding: map.get($size-config, padding);
             
             // 基础固定宽度模式
             &:not(.is-fit-text) {
@@ -321,12 +322,12 @@ $switch-sizes: (
 
             .cp-switch__track {
                 clip-path: polygon(
-                    map-get($size-config, clip) 0,
+                    map.get($size-config, clip) 0,
                     100% 0,
-                    100% calc(100% - #{map-get($size-config, clip)}),
-                    calc(100% - #{map-get($size-config, clip)}) 100%,
+                    100% calc(100% - #{map.get($size-config, clip)}),
+                    calc(100% - #{map.get($size-config, clip)}) 100%,
                     0 100%,
-                    0 map-get($size-config, clip)
+                    0 map.get($size-config, clip)
                 );
             }
 
@@ -344,7 +345,7 @@ $switch-sizes: (
             .cp-switch__active-text,
             .cp-switch__inactive-text,
             .wrapper-text {
-                font-size: map-get($size-config, font-size);
+                font-size: map.get($size-config, font-size);
             }
 
             // 基础模式的 Thumb 位置

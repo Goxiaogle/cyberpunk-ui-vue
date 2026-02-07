@@ -1,6 +1,7 @@
 // CpCheckbox 组件样式
 // 赛博朋克/机甲风格
 
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -112,8 +113,8 @@ $checkbox-sizes: (
   // ===== 尺寸 =====
   @each $size-name, $size-config in $checkbox-sizes {
     @include m(#{$size-name}) {
-      $size: map-get($size-config, size);
-      $clip: map-get($size-config, clip);
+      $size: map.get($size-config, size);
+      $clip: map.get($size-config, clip);
       
       --cp-checkbox-size: #{$size};
       
@@ -129,7 +130,7 @@ $checkbox-sizes: (
       }
       
       .cp-checkbox__label {
-        font-size: map-get($size-config, font-size);
+        font-size: map.get($size-config, font-size);
       }
     }
   }

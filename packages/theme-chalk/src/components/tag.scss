@@ -1,6 +1,7 @@
 // CpTag 组件样式
 // 赛博朋克/机甲风格
 
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -111,18 +112,18 @@ $tag-types: (
     // ===== 尺寸变体 =====
     @each $size-name, $size-config in $tag-sizes {
         @include m(#{$size-name}) {
-            height: map-get($size-config, height);
-            padding: map-get($size-config, padding);
-            font-size: map-get($size-config, font-size);
+            height: map.get($size-config, height);
+            padding: map.get($size-config, padding);
+            font-size: map.get($size-config, font-size);
 
             .cp-tag__close {
-                width: map-get($size-config, close-size);
-                height: map-get($size-config, close-size);
+                width: map.get($size-config, close-size);
+                height: map.get($size-config, close-size);
             }
 
             // Clip 形状
             &.cp-tag--shape-clip {
-                $clip: map-get($size-config, clip);
+                $clip: map.get($size-config, clip);
                 clip-path: polygon(
                     $clip 0,
                     100% 0,

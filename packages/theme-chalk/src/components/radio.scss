@@ -1,6 +1,7 @@
 // CpRadio 组件样式
 // 赛博朋克/机甲风格
 
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -108,11 +109,11 @@ $radio-sizes: (
   // ===== 尺寸 =====
   @each $size-name, $size-config in $radio-sizes {
     @include m(#{$size-name}) {
-      --cp-radio-size: #{map-get($size-config, size)};
-      --cp-radio-inner-size: #{map-get($size-config, inner)};
+      --cp-radio-size: #{map.get($size-config, size)};
+      --cp-radio-inner-size: #{map.get($size-config, inner)};
       
       .cp-radio__label {
-        font-size: map-get($size-config, font-size);
+        font-size: map.get($size-config, font-size);
       }
     }
   }

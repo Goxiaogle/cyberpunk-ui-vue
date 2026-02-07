@@ -1,6 +1,7 @@
 // CpStatusIndicator 组件样式
 // 赛博朋克风格独立状态指示器
 
+@use 'sass:map';
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
@@ -64,7 +65,7 @@ $status-indicator-gaps: (
   // ===== 尺寸 =====
   @each $name, $size in $status-indicator-sizes {
     @include m($name) {
-      gap: var(--cp-status-indicator-gap, map-get($status-indicator-gaps, $name));
+      gap: var(--cp-status-indicator-gap, map.get($status-indicator-gaps, $name));
 
       .cp-status-indicator__dot {
         width: $size;
@@ -72,7 +73,7 @@ $status-indicator-gaps: (
       }
 
       .cp-status-indicator__label {
-        font-size: map-get($status-indicator-label-sizes, $name);
+        font-size: map.get($status-indicator-label-sizes, $name);
       }
     }
   }
