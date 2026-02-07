@@ -335,6 +335,69 @@ description: Cyberpunk Vue 所有组件的详细属性参考。包含每个组�
 
 ---
 
+## CpBadge 徽章
+
+赛博朋克风格徽章组件，用于在另一个元素上显示数字、小红点或状态标识。
+
+### Props
+
+| 属性        | 类型                                                                    | 默认值      | 说明                        |
+| ----------- | ----------------------------------------------------------------------- | ----------- | --------------------------- |
+| `value`     | `number \| string`                                                      | `''`        | 显示内容（数字或文本）      |
+| `max`       | `number`                                                                | `99`        | 最大值，超出显示 `{max}+`   |
+| `min`       | `number`                                                                | -           | 最小值，低于显示 `{min}-`   |
+| `dot`       | `boolean`                                                               | `false`     | 小红点模式                  |
+| `hidden`    | `boolean`                                                               | `false`     | 是否隐藏                    |
+| `showZero`  | `boolean`                                                               | `false`     | 值为 0 时是否显示           |
+| `type`      | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'default'` | `'error'`   | 颜色类型                    |
+| `variant`   | `'solid' \| 'outline' \| 'glow'`                                        | `'solid'`   | 变体（glow 为赛博发光风格） |
+| `size`      | `'small' \| 'default' \| 'large'`                                       | `'default'` | 尺寸                        |
+| `color`     | `string`                                                                | `''`        | 自定义背景色（覆盖 type）   |
+| `textColor` | `string`                                                                | `''`        | 自定义文本颜色              |
+| `offset`    | `[number, number]`                                                      | -           | 偏移量 `[x, y]`，单位 px    |
+
+### 插槽
+
+| 名称      | 说明             |
+| --------- | ---------------- |
+| `default` | 被徽章包裹的内容 |
+
+### 示例
+
+```vue
+<!-- 基础用法 -->
+<CpBadge :value="5">
+  <CpButton>消息</CpButton>
+</CpBadge>
+
+<!-- 小红点 -->
+<CpBadge dot>
+  <CpButton>通知</CpButton>
+</CpBadge>
+
+<!-- 最大值限制 -->
+<CpBadge :value="200" :max="99">
+  <CpButton>邮件</CpButton>
+</CpBadge>
+
+<!-- 最小值提示 -->
+<CpBadge :value="2" :min="10">
+  <CpButton>库存</CpButton>
+</CpBadge>
+
+<!-- 发光变体 -->
+<CpBadge value="NEW" variant="glow" type="primary">
+  <CpButton>功能</CpButton>
+</CpBadge>
+
+<!-- 自定义颜色和偏移 -->
+<CpBadge :value="3" color="#ff00ff" :offset="[5, -5]">
+  <CpButton>自定义</CpButton>
+</CpBadge>
+```
+
+---
+
 ## CpCard 卡片
 
 赛博朋克风格卡片容器。

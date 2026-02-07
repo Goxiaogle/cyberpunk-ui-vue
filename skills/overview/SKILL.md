@@ -51,6 +51,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpIcon`   | 图标显示                 |
 | `CpText`   | 文本排版                 |
 | `CpTag`    | 标签/徽章                |
+| `CpBadge`  | 徽章/角标，数字或小红点  |
 | `CpSpacer` | 弹性间距占位             |
 
 ### 表单输入
