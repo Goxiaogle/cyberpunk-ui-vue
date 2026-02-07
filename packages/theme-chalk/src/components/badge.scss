@@ -1,0 +1,212 @@
+// CpBadge 组件样式
+// 赛博朋克/机甲风格
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// Badge 颜色映射
+$badge-types: (
+    primary: var(--cp-color-primary),
+    success: var(--cp-color-success),
+    warning: var(--cp-color-warning),
+    error: var(--cp-color-error),
+    info: var(--cp-color-info),
+    default: var(--cp-text-secondary),
+);
+
+// 需要使用深色文字的亮色类型
+$badge-dark-text-types: (primary, success, warning);
+
+@include b(badge) {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+
+    // CSS 变量默认值
+    --cp-badge-color: var(--cp-color-error);
+    --cp-badge-text-color: #fff;
+    --cp-badge-offset-x: 0px;
+    --cp-badge-offset-y: 0px;
+
+    // ===== 徽章内容元素 =====
+    @include e(content) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(
+            calc(50% + var(--cp-badge-offset-x)),
+            calc(-50% + var(--cp-badge-offset-y))
+        );
+        z-index: 1;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        border-radius: 9px;
+
+        font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+
+        box-sizing: border-box;
+        transition: all 0.2s ease;
+        
+        // 渲染优先：自定义颜色变量
+        background: var(--cp-badge-color);
+        color: var(--cp-badge-text-color);
+        border: 1px solid transparent;
+    }
+    
+    // ===== 尺寸 =====
+    @include m(size-small) {
+        .cp-badge__content {
+            min-width: 14px;
+            height: 14px;
+            padding: 0 3px;
+            border-radius: 7px;
+            font-size: 9px;
+        }
+        
+        &.is-dot .cp-badge__content {
+            min-width: 6px;
+            width: 6px;
+            height: 6px;
+        }
+    }
+    
+    @include m(size-default) {
+        // 默认尺寸，使用基础样式
+    }
+    
+    @include m(size-large) {
+        .cp-badge__content {
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            border-radius: 11px;
+            font-size: 13px;
+        }
+        
+        &.is-dot .cp-badge__content {
+            min-width: 10px;
+            width: 10px;
+            height: 10px;
+        }
+    }
+    
+    // ===== 自定义文字颜色 (Pattern 153: Root-First Modifier Placement) =====
+    // Move this to a place where it can win over variants
+    @include when(custom-text-color) {
+        .cp-badge__content {
+            color: var(--cp-badge-text-color) !important;
+        }
+    }
+
+    // ===== 变体样式 (由根部 modifier 驱动) =====
+    
+    // Solid - 实心填充 (默认)
+    @include m(variant-solid) {
+        .cp-badge__content {
+            background: var(--cp-badge-color);
+            border-color: transparent;
+        }
+        
+        // 亮色类型（primary, success, warning）使用对应的文字颜色变量
+        &.cp-badge--type-primary:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-primary-text);
+        }
+        &.cp-badge--type-success:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-success-text);
+        }
+        &.cp-badge--type-warning:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-warning-text);
+        }
+    }
+
+    // Outline - 边框描边
+    @include m(variant-outline) {
+        .cp-badge__content {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            color: var(--cp-badge-color);
+            border: 1px solid var(--cp-badge-color);
+        }
+    }
+
+    // Glow - 发光效果 (赛博朋克风格)
+    @include m(variant-glow) {
+        .cp-badge__content {
+            background: var(--cp-badge-color);
+            border-color: transparent;
+            box-shadow:
+                0 0 6px var(--cp-badge-color),
+                0 0 12px color-mix(in srgb, var(--cp-badge-color) 40%, transparent),
+                inset 0 0 4px rgba(255, 255, 255, 0.3);
+            animation: cp-badge-pulse 2s ease-in-out infinite;
+        }
+        
+        // 亮色类型使用对应的文字颜色变量
+        &.cp-badge--type-primary:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-primary-text);
+        }
+        &.cp-badge--type-success:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-success-text);
+        }
+        &.cp-badge--type-warning:not(.is-custom-text-color) .cp-badge__content {
+            color: var(--cp-color-warning-text);
+        }
+    }
+
+    // ===== Dot 模式 (由根部 is-dot 驱动) =====
+    @include when(dot) {
+        .cp-badge__content {
+            min-width: 8px;
+            width: 8px;
+            height: 8px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        // Glow 变体在 dot 模式下的特殊效果
+        &.cp-badge--variant-glow .cp-badge__content {
+            box-shadow:
+                0 0 4px var(--cp-badge-color),
+                0 0 8px color-mix(in srgb, var(--cp-badge-color) 60%, transparent);
+        }
+    }
+}
+
+// ===== 动画定义 =====
+@keyframes cp-badge-pulse {
+    0%,
+    100% {
+        box-shadow:
+            0 0 6px var(--cp-badge-color),
+            0 0 12px color-mix(in srgb, var(--cp-badge-color) 40%, transparent),
+            inset 0 0 4px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 0 10px var(--cp-badge-color),
+            0 0 20px color-mix(in srgb, var(--cp-badge-color) 50%, transparent),
+            inset 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+}
+
+// ===== 过渡动画 =====
+.cp-badge-fade-enter-active,
+.cp-badge-fade-leave-active {
+    transition: all 0.2s ease;
+}
+
+.cp-badge-fade-enter-from,
+.cp-badge-fade-leave-to {
+    opacity: 0;
+    transform: translate(calc(50% + var(--cp-badge-offset-x, 0px)), calc(-50% + var(--cp-badge-offset-y, 0px))) scale(0.5);
+}
