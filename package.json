@@ -8,11 +8,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/user/cyberpunk-vue.git"
+    "url": "https://github.com/Goxiaogle/cyberpunk-ui-vue.git"
   },
-  "homepage": "https://github.com/user/cyberpunk-vue#readme",
+  "homepage": "https://github.com/Goxiaogle/cyberpunk-ui-vue#readme",
   "bugs": {
-    "url": "https://github.com/user/cyberpunk-vue/issues"
+    "url": "https://github.com/Goxiaogle/cyberpunk-ui-vue/issues"
   },
   "keywords": [
     "vue",
