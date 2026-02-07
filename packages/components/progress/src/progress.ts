@@ -280,6 +280,16 @@ export const progressProps = {
         type: String,
         default: undefined,
     },
+    /**
+     * 是否显示内圈虚线装饰
+     * 仅在 type="circle" 或 type="dashboard" 时有效
+     * 默认在 circle 时显示，dashboard 时关闭
+     * @default undefined
+     */
+    showInnerStripe: {
+        type: Boolean,
+        default: undefined,
+    },
 } as const
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>

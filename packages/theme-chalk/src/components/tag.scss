@@ -351,10 +351,9 @@ $tag-types: (
 
     // ===== 有 type 设置的标签 (is-typed) =====
     @include when(typed) {
-        // Solid 变体: 大部分预设 type 颜色都是亮色，使用固定深色文字
-        // 使用 #111 而非 var(--cp-bg-deep)，避免主题切换时文字颜色变化
+        // Solid 变体: 大部分预设 type 颜色都是亮色，使用统一的深色文字变量
         &.cp-tag--variant-solid {
-            color: #111;
+            color: var(--cp-text-on-bright);
 
             // 关闭按钮根据深色文字调整
             .cp-tag__close:hover {
@@ -366,7 +365,7 @@ $tag-types: (
     // ===== error 和 info 类型需要亮色文字 (背景色偏暗) =====
     &.cp-tag--type-error.cp-tag--variant-solid,
     &.cp-tag--type-info.cp-tag--variant-solid {
-        color: #fff;
+        color: var(--cp-text-on-dark);
 
         .cp-tag__close:hover {
             background: rgba(255, 255, 255, 0.2);

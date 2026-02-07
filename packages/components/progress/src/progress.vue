@@ -124,10 +124,27 @@ const circleTrackStyle = computed<CSSProperties>(() => {
   }
 })
 
+// 是否显示内圈虚线
+const shouldShowInnerStripe = computed(() => {
+  if (props.showInnerStripe !== undefined) return props.showInnerStripe
+  return props.type === 'circle'
+})
+
 // 内圈装饰样式
 const innerCircleStyle = computed<CSSProperties>(() => {
+  const { innerDashLength, innerGapLength } = circleParams.value
+
+  // 基础虚线效果 (4px 填色, 8px 空白)
+  let dashArray = `4 8`
+
+  // 如果是仪表盘模式，我们需要让虚线也只在 3/4 圆弧内显示
+  // 方案：使用 stroke-dasharray 的多值特性或 path。
+  // 为了简单且效果统一，这里直接利用 dashArray 叠加。
+  // 但更简单的办法是：仪表盘模式下，inner-track 也应该是一个 path。
+  
   return {
-    strokeDasharray: `4 8`, // 虚线效果
+    strokeDasharray: dashArray,
+    strokeDashoffset: '0',
     strokeWidth: '2', // 固定细线
     opacity: 0.5,
   }
@@ -393,6 +410,7 @@ const stepItems = computed<StepItem[]>(() => {
 
         <!-- 内圈装饰 (Mecha) -->
         <circle
+          v-if="shouldShowInnerStripe"
           :class="ns.e('inner-track')"
           :cx="circleParams.center"
           :cy="circleParams.center"

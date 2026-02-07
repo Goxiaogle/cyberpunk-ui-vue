@@ -126,8 +126,8 @@
         padding: 0 var(--cp-spacing-xs);
         font-size: 0.75em; // 相对于进度条高度，保持文字不会撑满
         line-height: 1;
-        // 优先使用用户自定义颜色，其次使用 color-contrast() 自动计算，最后回退到 black
-        color: var(--cp-progress-text-color, color-contrast(var(--cp-progress-color, var(--cp-color-primary)) vs #000, #fff, black));
+        // 优先使用用户自定义颜色，其次回退到亮色背景文字变量
+        color: var(--cp-progress-text-color, var(--cp-text-on-bright));
         white-space: nowrap;
         font-weight: bold;
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);

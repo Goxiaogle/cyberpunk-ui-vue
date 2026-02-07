@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/vue3'
+import type {Meta, StoryObj} from '@storybook/vue3-vite'
 import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon} from '../packages/components'
 
 // 资产管理卡片示例所需图标 (使用 MDI 填充图标)

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { CpIcon } from '../packages/components'
 import { CpButton } from '../packages/components'
 

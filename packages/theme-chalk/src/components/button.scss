@@ -78,7 +78,7 @@
         &.cp-button--primary {
             background: var(--cp-color-primary);
             border-color: var(--cp-color-primary);
-            color: #000;
+            color: var(--cp-color-primary-text);
 
             &::after {
                 background: rgba(0, 0, 0, 0.3);
@@ -97,7 +97,7 @@
         &.cp-button--success {
             background: var(--cp-color-success);
             border-color: var(--cp-color-success);
-            color: #000;
+            color: var(--cp-color-success-text);
 
             &::after {
                 background: rgba(0, 0, 0, 0.3);
@@ -116,7 +116,7 @@
         &.cp-button--warning {
             background: var(--cp-color-warning);
             border-color: var(--cp-color-warning);
-            color: var(--cp-bg-deep);
+            color: var(--cp-color-warning-text);
 
             &::after {
                 background: rgba(0, 0, 0, 0.3);
@@ -135,7 +135,7 @@
         &.cp-button--error {
             background: var(--cp-color-error);
             border-color: var(--cp-color-error);
-            color: var(--cp-bg-deep);
+            color: var(--cp-color-error-text);
 
             &::after {
                 background: rgba(0, 0, 0, 0.3);
@@ -154,7 +154,7 @@
         &.cp-button--info {
             background: var(--cp-color-info);
             border-color: var(--cp-color-info);
-            color: var(--cp-bg-deep);
+            color: var(--cp-color-info-text);
 
             &::after {
                 background: rgba(0, 0, 0, 0.3);

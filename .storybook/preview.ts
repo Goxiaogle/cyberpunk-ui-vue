@@ -1,4 +1,4 @@
-import type {Preview} from '@storybook/vue3'
+import type {Preview} from '@storybook/vue3-vite'
 import '../packages/theme-chalk/src/index.scss'
 
 // 动态注入 CSS 的函数
@@ -26,6 +26,11 @@ function injectThemeCss(theme: 'dark' | 'light') {
         toggleTrack: '#2a2a3a',
         toggleThumb: '#ffffff',
         barBg: '#12121a',
+        primary: '#00f0ff',
+        success: '#39ff14',
+        warning: '#ff9f1c',
+        error: '#ff0055',
+        info: '#7b68ee',
     } : {
         bg: '#f5f5f8',
         docBg: '#ffffff',
@@ -39,10 +44,23 @@ function injectThemeCss(theme: 'dark' | 'light') {
         toggleTrack: '#e0e0e8',
         toggleThumb: '#ffffff',
         barBg: '#ffffff',
+        primary: '#00f0ff',
+        success: '#39ff14',
+        warning: '#ff9f1c',
+        error: '#ffb0c5',
+        info: '#7b68ee',
     }
 
     // 生成 CSS
     styleEl.innerHTML = `
+        :root {
+            --cp-color-primary: ${vars.primary};
+            --cp-color-success: ${vars.success};
+            --cp-color-warning: ${vars.warning};
+            --cp-color-error: ${vars.error};
+            --cp-color-info: ${vars.info};
+        }
+
         /* 全局背景和文字 */
         .sb-show-main, .docs-story {
             background-color: ${vars.bg} !important;
@@ -253,7 +271,7 @@ const preview: Preview = {
         },
         // 禁用默认的 backgrounds 工具栏，由 theme 统一控制
         backgrounds: {
-            disable: true,
+            disabled: true,
         },
         docs: {
             toc: true,

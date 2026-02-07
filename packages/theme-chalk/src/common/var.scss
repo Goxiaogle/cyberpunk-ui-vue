@@ -1,5 +1,5 @@
 // Cyberpunk Vue Design Tokens
-// 赛博朋克配色系统
+// 赛博朋克配色系统 - 扩展版
 
 @use 'sass:map';
 @use 'sass:color';
@@ -18,6 +18,9 @@ $cp-colors: (
   // 紫罗兰 - 信息
 );
 
+// 需要深色文字的亮色类型 (用于组件自动判断)
+$cp-bright-colors: (primary, success, warning);
+
 // ===== 中性色 =====
 $cp-neutrals: (
   'bg-deep': #0a0a0f,
@@ -27,6 +30,44 @@ $cp-neutrals: (
   'text-primary': #ffffff,
   'text-secondary': #a0a0b0,
   'text-muted': #606070,
+);
+
+// ===== 语义表面色 (Surface) =====
+$cp-semantic: (
+  'surface': #12121a,
+  'surface-variant': #1a1a24,
+  'surface-bright': #2a2a3a,
+  'overlay': rgba(0, 0, 0, 0.5),
+  'scrim': rgba(10, 10, 15, 0.8),
+);
+
+// ===== 文字层级 (Typography) =====
+$cp-typography: (
+  'on-bright': #0a0a0f,         // 亮色背景上的文字
+  'on-dark': #ffffff,           // 深色背景上的文字
+  'disabled': #606070,
+  'placeholder': #808090,
+  'inverse': #0a0a0f,           // 反转文字
+);
+
+// ===== 边框状态 (Borders) =====
+$cp-borders: (
+  'default': #2a2a3a,
+  'active': #00f0ff,            // 映射到 primary
+  'inactive': #404050,
+  'focus': #00f0ff,             // 映射到 primary
+  'hover': #505060,
+  'error': #ff0055,
+  'disabled': #303040,
+);
+
+// ===== 交互状态 (States) =====
+$cp-states: (
+  'hover': rgba(255, 255, 255, 0.05),
+  'pressed': rgba(255, 255, 255, 0.1),
+  'selected': rgba(0, 240, 255, 0.15),
+  'disabled': rgba(128, 128, 128, 0.3),
+  'focus-ring': rgba(0, 240, 255, 0.4),
 );
 
 // ===== 尺寸 =====
@@ -72,6 +113,26 @@ $cp-radius: (
     --cp-#{$name}: #{$value};
   }
 
+  // 语义表面色
+  @each $name, $value in $cp-semantic {
+    --cp-#{$name}: #{$value};
+  }
+
+  // 文字层级
+  @each $name, $value in $cp-typography {
+    --cp-text-#{$name}: #{$value};
+  }
+
+  // 边框状态
+  @each $name, $value in $cp-borders {
+    --cp-border-#{$name}: #{$value};
+  }
+
+  // 交互状态
+  @each $name, $value in $cp-states {
+    --cp-state-#{$name}: #{$value};
+  }
+
   // 尺寸
   @each $name, $value in $cp-sizes {
     --cp-size-#{$name}: #{$value};
@@ -89,6 +150,32 @@ $cp-radius: (
     --cp-radius-#{$name}: #{$value};
   }
 
+  // ===== 每个主题色的配套变量 =====
+  // primary (亮色 - 用深色文字)
+  --cp-color-primary-text: var(--cp-text-on-bright);
+  --cp-color-primary-border: var(--cp-color-primary);
+  --cp-color-primary-hover: #{rgba(#00f0ff, 0.1)};
+
+  // success (亮色 - 用深色文字)
+  --cp-color-success-text: var(--cp-text-on-bright);
+  --cp-color-success-border: var(--cp-color-success);
+  --cp-color-success-hover: #{rgba(#39ff14, 0.1)};
+
+  // warning (亮色 - 用深色文字)
+  --cp-color-warning-text: var(--cp-text-on-bright);
+  --cp-color-warning-border: var(--cp-color-warning);
+  --cp-color-warning-hover: #{rgba(#ff9f1c, 0.1)};
+
+  // error (深色 - 用亮色文字)
+  --cp-color-error-text: var(--cp-text-on-dark);
+  --cp-color-error-border: var(--cp-color-error);
+  --cp-color-error-hover: #{rgba(#ff0055, 0.1)};
+
+  // info (深色 - 用亮色文字)
+  --cp-color-info-text: var(--cp-text-on-dark);
+  --cp-color-info-border: var(--cp-color-info);
+  --cp-color-info-hover: #{rgba(#7b68ee, 0.1)};
+
   // 特效
   --cp-glow-primary: 0 0 10px var(--cp-color-primary),
   0 0 20px var(--cp-color-primary-light);
@@ -98,11 +185,34 @@ $cp-radius: (
 
 // ===== 暗色/亮色主题切换 =====
 [data-theme="light"] {
+  // 背景
   --cp-bg-deep: #f5f5f8;
   --cp-bg-base: #ffffff;
   --cp-bg-elevated: #fafafa;
+
+  // 表面色
+  --cp-surface: #ffffff;
+  --cp-surface-variant: #fafafa;
+  --cp-surface-bright: #f0f0f5;
+  --cp-overlay: rgba(0, 0, 0, 0.3);
+  --cp-scrim: rgba(255, 255, 255, 0.8);
+
+  // 边框
   --cp-border: #e0e0e8;
+  --cp-border-default: #e0e0e8;
+  --cp-border-inactive: #c0c0c8;
+  --cp-border-hover: #b0b0b8;
+  --cp-border-disabled: #d0d0d8;
+
+  // 文字
   --cp-text-primary: #1a1a24;
   --cp-text-secondary: #606070;
   --cp-text-muted: #a0a0b0;
+  --cp-text-on-bright: #1a1a24;
+  --cp-text-inverse: #ffffff;
+
+  // 交互状态
+  --cp-state-hover: rgba(0, 0, 0, 0.04);
+  --cp-state-pressed: rgba(0, 0, 0, 0.08);
+  --cp-state-selected: rgba(0, 240, 255, 0.12);
 }

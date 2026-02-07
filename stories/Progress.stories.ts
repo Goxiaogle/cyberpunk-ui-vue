@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 import { CpProgress } from '../packages/components'
 
@@ -133,6 +133,13 @@ const meta: Meta<typeof CpProgress> = {
         textColor: {
             control: 'color',
             description: '内部文字颜色（仅 textInside 时生效）',
+        },
+        showInnerStripe: {
+            control: 'boolean',
+            description: '是否显示内圈虚线装饰（用于 circle/dashboard）',
+            table: {
+                defaultValue: { summary: 'auto' },
+            },
         },
     },
 }

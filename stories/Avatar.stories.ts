@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { CpAvatar, CpAvatarGroup } from '@cyberpunk-vue/components'
 import MdiAccount from '~icons/mdi/account'
 import MdiAccountCircle from '~icons/mdi/account-circle'
