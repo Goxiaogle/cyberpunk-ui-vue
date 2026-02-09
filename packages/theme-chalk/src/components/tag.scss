@@ -59,6 +59,7 @@ $tag-types: (
   --cp-tag-color-light: rgba(255, 255, 255, 0.1);
   --cp-tag-bg: var(--cp-tag-color);
   --cp-tag-border: var(--cp-tag-color);
+  --cp-tag-clip: 5px;
   // 使用 color-contrast 自动选择最佳对比色 (黑或白)
   --cp-tag-text: color-contrast(var(--cp-tag-color) vs #000, #fff);
 
@@ -115,29 +116,27 @@ $tag-types: (
       height: map.get($size-config, height);
       padding: map.get($size-config, padding);
       font-size: map.get($size-config, font-size);
+      --cp-tag-clip: #{map.get($size-config, clip)};
 
       .cp-tag__close {
         width: map.get($size-config, close-size);
         height: map.get($size-config, close-size);
       }
-
-      // Clip 形状
-      &.cp-tag--shape-clip {
-        $clip: map.get($size-config, clip);
-        clip-path: polygon(
-          $clip 0,
-          100% 0,
-          100% calc(100% - #{$clip}),
-          calc(100% - #{$clip}) 100%,
-          0 100%,
-          0 $clip
-        );
-      }
     }
   }
 
   // ===== 形状模式 =====
-  // shape-clip 的 clip-path 已在尺寸循环中定义
+  @include m(shape-clip) {
+    $clip: var(--cp-tag-clip);
+    clip-path: polygon(
+      $clip 0,
+      100% 0,
+      100% calc(100% - #{$clip}),
+      calc(100% - #{$clip}) 100%,
+      0 100%,
+      0 $clip
+    );
+  }
 
   @include m(shape-no-clip) {
     clip-path: none;
@@ -185,20 +184,14 @@ $tag-types: (
   }
 
   // Semi - 半透明填充
-  // 注意: backdrop-filter 与 clip-path 不兼容，只在 no-clip/round 形状下启用
   @include m(variant-semi) {
     background: var(--cp-tag-color-light);
     color: var(--cp-tag-color);
     border: 1px solid var(--cp-tag-color);
+    backdrop-filter: blur(4px);
 
     .cp-tag__decor {
       background: var(--cp-tag-color);
-    }
-
-    // 仅在无 clip-path 的形状下启用 backdrop-filter
-    &.cp-tag--shape-no-clip,
-    &.cp-tag--shape-round {
-      backdrop-filter: blur(4px);
     }
   }
 
