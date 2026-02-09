@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
-import { CpCheckbox, CpCheckboxGroup } from '../packages/components'
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { ref } from "vue";
+import { CpCheckbox, CpCheckboxGroup } from "../packages/components";
 
 /**
  * # CpCheckbox 复选框
- * 
+ *
  * 赛博朋克风格复选框组件，支持半选状态、分组使用。
- * 
+ *
  * ## 特性
  * - 🎨 切角几何边框设计
  * - ✨ 霓虹发光选中效果
@@ -15,62 +15,62 @@ import { CpCheckbox, CpCheckboxGroup } from '../packages/components'
  * - 🎭 支持边框模式 (border)
  */
 const meta: Meta<typeof CpCheckbox> = {
-  title: '表单 Form/Checkbox 复选框',
+  title: "表单 Form/Checkbox 复选框",
   component: CpCheckbox,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     modelValue: {
-      control: 'boolean',
-      description: '绑定值',
+      control: "boolean",
+      description: "绑定值",
     },
     size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: '复选框尺寸',
+      control: "select",
+      options: ["sm", "md", "lg"],
+      description: "复选框尺寸",
     },
     type: {
-      control: 'select',
-      options: ['primary', 'success', 'warning', 'error', 'info'],
-      description: '颜色类型预设',
+      control: "select",
+      options: ["primary", "success", "warning", "error", "info"],
+      description: "颜色类型预设",
     },
     disabled: {
-      control: 'boolean',
-      description: '是否禁用',
+      control: "boolean",
+      description: "是否禁用",
     },
     indeterminate: {
-      control: 'boolean',
-      description: '半选状态',
+      control: "boolean",
+      description: "半选状态",
     },
     border: {
-      control: 'boolean',
-      description: '边框模式',
+      control: "boolean",
+      description: "边框模式",
     },
     color: {
-      control: 'color',
-      description: '自定义选中颜色',
+      control: "color",
+      description: "自定义选中颜色",
     },
   },
   args: {
     modelValue: false,
-    size: 'md',
-    type: 'primary',
+    size: "md",
+    type: "primary",
     disabled: false,
     indeterminate: false,
     border: false,
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof CpCheckbox>
+export default meta;
+type Story = StoryObj<typeof CpCheckbox>;
 
-/** 
- * Playground - 使用右侧 Controls 面板调整所有属性 
+/**
+ * Playground - 使用右侧 Controls 面板调整所有属性
  */
 export const Playground: Story = {
   render: (args) => ({
     components: { CpCheckbox },
     setup() {
-      return { args }
+      return { args };
     },
     template: `
       <CpCheckbox 
@@ -86,15 +86,15 @@ export const Playground: Story = {
       </CpCheckbox>
     `,
   }),
-}
+};
 
 /** 基础用法 */
 export const 基础用法: Story = {
   render: () => ({
     components: { CpCheckbox },
     setup() {
-      const checked = ref(false)
-      return { checked }
+      const checked = ref(false);
+      return { checked };
     },
     template: `
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -105,17 +105,17 @@ export const 基础用法: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 尺寸 */
 export const 尺寸: Story = {
   render: () => ({
     components: { CpCheckbox },
     setup() {
-      const sm = ref(true)
-      const md = ref(true)
-      const lg = ref(true)
-      return { sm, md, lg }
+      const sm = ref(true);
+      const md = ref(true);
+      const lg = ref(true);
+      return { sm, md, lg };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -127,7 +127,7 @@ export const 尺寸: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 颜色类型 */
 export const 颜色类型: Story = {
@@ -140,8 +140,8 @@ export const 颜色类型: Story = {
         warning: true,
         error: true,
         info: true,
-      })
-      return { checks }
+      });
+      return { checks };
     },
     template: `
       <div style="display: flex; flex-wrap: wrap; gap: 20px;">
@@ -153,41 +153,42 @@ export const 颜色类型: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 半选状态 (Indeterminate) */
 export const 半选状态: Story = {
   render: () => ({
     components: { CpCheckbox },
     setup() {
-      const allChecked = ref(false)
-      const indeterminate = ref(true)
-      const items = ref([true, false, false])
-      
+      const allChecked = ref(false);
+      const indeterminate = ref(true);
+      const items = ref([true, false, false]);
+
       const handleAll = () => {
+        // 半选状态 或 未全选 → 全选；已全选 → 取消全选
         if (indeterminate.value || !allChecked.value) {
-          items.value = [true, true, true]
-          allChecked.value = true
-          indeterminate.value = false
+          items.value = [true, true, true];
+          allChecked.value = true;
         } else {
-          items.value = [false, false, false]
-          allChecked.value = false
-          indeterminate.value = false
+          items.value = [false, false, false];
+          allChecked.value = false;
         }
-      }
-      
+        indeterminate.value = false;
+      };
+
       const updateAll = () => {
-        const checkedCount = items.value.filter(Boolean).length
-        allChecked.value = checkedCount === items.value.length
-        indeterminate.value = checkedCount > 0 && checkedCount < items.value.length
-      }
-      
-      return { allChecked, indeterminate, items, handleAll, updateAll }
+        const checkedCount = items.value.filter(Boolean).length;
+        allChecked.value = checkedCount === items.value.length;
+        indeterminate.value =
+          checkedCount > 0 && checkedCount < items.value.length;
+      };
+
+      return { allChecked, indeterminate, items, handleAll, updateAll };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <CpCheckbox 
-          v-model="allChecked" 
+          :modelValue="allChecked" 
           :indeterminate="indeterminate"
           @change="handleAll"
         >
@@ -201,17 +202,17 @@ export const 半选状态: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 边框模式 */
 export const 边框模式: Story = {
   render: () => ({
     components: { CpCheckbox },
     setup() {
-      const c1 = ref(true)
-      const c2 = ref(false)
-      const c3 = ref(false)
-      return { c1, c2, c3 }
+      const c1 = ref(true);
+      const c2 = ref(false);
+      const c3 = ref(false);
+      return { c1, c2, c3 };
     },
     template: `
       <div style="display: flex; flex-wrap: wrap; gap: 12px;">
@@ -221,15 +222,15 @@ export const 边框模式: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 分组使用 */
 export const 分组使用: Story = {
   render: () => ({
     components: { CpCheckbox, CpCheckboxGroup },
     setup() {
-      const selected = ref(['A', 'C'])
-      return { selected }
+      const selected = ref(["A", "C"]);
+      return { selected };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -245,15 +246,15 @@ export const 分组使用: Story = {
       </div>
     `,
   }),
-}
+};
 
 /** 垂直分组 */
 export const 垂直分组: Story = {
   render: () => ({
     components: { CpCheckbox, CpCheckboxGroup },
     setup() {
-      const selected = ref(['attack'])
-      return { selected }
+      const selected = ref(["attack"]);
+      return { selected };
     },
     template: `
       <CpCheckboxGroup v-model="selected" direction="vertical" type="error">
@@ -264,15 +265,15 @@ export const 垂直分组: Story = {
       </CpCheckboxGroup>
     `,
   }),
-}
+};
 
 /** 限制选择数量 */
 export const 限制选择数量: Story = {
   render: () => ({
     components: { CpCheckbox, CpCheckboxGroup },
     setup() {
-      const selected = ref(['gpu'])
-      return { selected }
+      const selected = ref(["gpu"]);
+      return { selected };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -289,4 +290,4 @@ export const 限制选择数量: Story = {
       </div>
     `,
   }),
-}
+};
