@@ -86,6 +86,13 @@ const meta: Meta<typeof CpDropdown> = {
       control: 'color',
       description: '自定义颜色',
     },
+    clearDuration: {
+      control: { type: 'number', min: 50, max: 1000, step: 50 },
+      description: '清除动画持续时间 (ms)',
+      table: {
+        defaultValue: { summary: '150' },
+      },
+    },
   },
 }
 
@@ -228,6 +235,38 @@ export const 可清空: Story = {
         <CpDropdown v-model="value" :options="basicOptions" clearable placeholder="选择后可清空" />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           💡 选择后，悬停时右侧会出现清空按钮
+        </p>
+      </div>
+    `,
+  }),
+}
+
+/** 清除动画速度 */
+export const 清除动画速度: Story = {
+  render: () => ({
+    components: { CpDropdown },
+    setup() {
+      const fast = ref('netrunner')
+      const normal = ref('solo')
+      const slow = ref('techie')
+      return { fast, normal, slow, basicOptions }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">快速 (80ms)</p>
+          <CpDropdown v-model="fast" :options="basicOptions" clearable :clear-duration="80" />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">默认 (150ms)</p>
+          <CpDropdown v-model="normal" :options="basicOptions" clearable />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">慢速 (500ms)</p>
+          <CpDropdown v-model="slow" :options="basicOptions" clearable :clear-duration="500" />
+        </div>
+        <p style="color: var(--cp-text-secondary); font-size: 12px;">
+          ⏱ 通过 clear-duration 属性控制清除动画的速度
         </p>
       </div>
     `,

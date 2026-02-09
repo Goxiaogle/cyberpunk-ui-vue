@@ -111,6 +111,11 @@ const customStyle = computed(() => {
   if (!isPresetSize(props.size)) {
     style['--cp-dropdown-height'] = normalizeSize(props.size, sizeMap)
   }
+
+  // 清除动画时长
+  if (props.clearDuration !== 150) {
+    style['--cp-dropdown-clear-duration'] = `${props.clearDuration}ms`
+  }
   
   return style
 })
@@ -210,14 +215,15 @@ const handleSelect = (option: DropdownOption) => {
 // 清空
 const handleClear = (event: MouseEvent) => {
   event.stopPropagation()
+  // 触发清除动画
   isClearing.value = true
+  
+  // 动画结束后清空值 (与 CSS 动画时长匹配)
   setTimeout(() => {
     emit('update:modelValue', '')
     emit('clear')
-    setTimeout(() => {
-      isClearing.value = false
-    }, 150)
-  }, 150)
+    isClearing.value = false
+  }, props.clearDuration)
 }
 
 // 检查选项是否选中

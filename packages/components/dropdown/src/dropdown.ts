@@ -230,6 +230,16 @@ export const dropdownProps = {
     type: String,
     default: '无数据',
   },
+  /**
+   * 清除动画持续时间 (ms)
+   * 控制点击清空按钮时文字消失动画的速度
+   * @default 150
+   * @example `<CpDropdown :clear-duration="300" />`
+   */
+  clearDuration: {
+    type: Number,
+    default: 150,
+  },
 } as const
 
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>
