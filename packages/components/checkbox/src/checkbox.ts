@@ -120,6 +120,15 @@ export const checkboxProps = {
     default: '',
   },
   /**
+   * 自定义勾选标记（√）颜色
+   * 用于在暗色背景下提高勾的可见度
+   * 不传时默认跟随当前 type 的文字颜色（参考 Button 文字颜色）
+   */
+  checkColor: {
+    type: String,
+    default: '',
+  },
+  /**
    * 是否使用边框样式
    * 开启后整个标签区域带有边框
    * @default false

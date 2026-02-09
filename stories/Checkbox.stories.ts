@@ -49,6 +49,10 @@ const meta: Meta<typeof CpCheckbox> = {
       control: "color",
       description: "自定义选中颜色",
     },
+    checkColor: {
+      control: "color",
+      description: "自定义勾选标记（√）颜色，默认跟随 type 文字颜色",
+    },
   },
   args: {
     modelValue: false,
@@ -81,6 +85,7 @@ export const Playground: Story = {
         :indeterminate="args.indeterminate"
         :border="args.border"
         :color="args.color"
+        :check-color="args.checkColor"
       >
         神经连接协议
       </CpCheckbox>
@@ -287,6 +292,68 @@ export const 限制选择数量: Story = {
         <div style="font-family: 'Rajdhani'; color: var(--cp-text-secondary);">
           已选 ({{ selected.length }}/2): {{ selected.join(', ') }}
         </div>
+      </div>
+    `,
+  }),
+};
+
+/** 自定义勾选颜色 - 不同 type 默认使用对应文字色，也可手动指定 */
+export const 自定义勾选颜色: Story = {
+  render: () => ({
+    components: { CpCheckbox },
+    setup() {
+      const checks = ref({
+        primary: true,
+        success: true,
+        warning: true,
+        error: true,
+        info: true,
+        custom: true,
+      });
+      return { checks };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--cp-text-muted); font-size: 12px;">各 type 默认勾选颜色自动适配背景（与 Button 文字色一致）</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+          <CpCheckbox v-model="checks.primary" type="primary">Primary</CpCheckbox>
+          <CpCheckbox v-model="checks.success" type="success">Success</CpCheckbox>
+          <CpCheckbox v-model="checks.warning" type="warning">Warning</CpCheckbox>
+          <CpCheckbox v-model="checks.error" type="error">Error</CpCheckbox>
+          <CpCheckbox v-model="checks.info" type="info">Info</CpCheckbox>
+        </div>
+        <p style="color: var(--cp-text-muted); font-size: 12px; margin-top: 8px;">手动指定勾选颜色（checkColor）</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+          <CpCheckbox v-model="checks.custom" type="error" check-color="#ffd700">金色勾 ✨</CpCheckbox>
+          <CpCheckbox v-model="checks.custom" type="info" check-color="#ff00ff">粉色勾</CpCheckbox>
+          <CpCheckbox v-model="checks.custom" type="primary" check-color="#ffffff">白色勾</CpCheckbox>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** 自定义半选颜色 */
+export const 自定义半选颜色: Story = {
+  render: () => ({
+    components: { CpCheckbox },
+    setup() {
+      const halfDefault = ref(false);
+      const halfCustom = ref(false);
+      const checkedCustom = ref(true);
+      return { halfDefault, halfCustom, checkedCustom };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <CpCheckbox v-model="checkedCustom" type="info" check-color="#ffffff">
+          已选自定义颜色（checkColor）
+        </CpCheckbox>
+        <CpCheckbox v-model="halfDefault" indeterminate type="success">
+          半选默认颜色（随 type 变化）
+        </CpCheckbox>
+        <CpCheckbox v-model="halfCustom" indeterminate type="warning" check-color="#ffd700">
+          半选自定义颜色（checkColor）
+        </CpCheckbox>
       </div>
     `,
   }),

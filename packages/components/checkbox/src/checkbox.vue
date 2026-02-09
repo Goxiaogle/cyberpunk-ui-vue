@@ -67,6 +67,15 @@ const typeColorMap: Record<string, string> = {
   info: 'var(--cp-color-info)',
 }
 
+// 类型到文字颜色的映射（与 Button 一致）
+const typeTextColorMap: Record<string, string> = {
+  primary: 'var(--cp-color-primary-text)',
+  success: 'var(--cp-color-success-text)',
+  warning: 'var(--cp-color-warning-text)',
+  error: 'var(--cp-color-error-text)',
+  info: 'var(--cp-color-info-text)',
+}
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
@@ -89,6 +98,13 @@ const customStyle = computed(() => {
   } else if (actualType.value && typeColorMap[actualType.value]) {
     style['--cp-checkbox-active-color'] = typeColorMap[actualType.value]
     style['--cp-checkbox-active-color-light'] = `var(--cp-color-${actualType.value}-light)`
+  }
+  
+  // 勾选/半选标记颜色（优先自定义，其次跟随 type 文字色）
+  if (props.checkColor) {
+    style['--cp-checkbox-check-color'] = props.checkColor
+  } else if (actualType.value && typeTextColorMap[actualType.value]) {
+    style['--cp-checkbox-check-color'] = typeTextColorMap[actualType.value]
   }
   
   // 自定义尺寸
@@ -149,7 +165,6 @@ defineExpose({
         :class="ns.e('icon')"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
         stroke-width="3"
         stroke-linecap="square"
       >
@@ -161,7 +176,6 @@ defineExpose({
         :class="ns.e('icon')"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
         stroke-width="3"
         stroke-linecap="square"
       >

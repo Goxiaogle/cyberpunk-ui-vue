@@ -43,6 +43,7 @@ $checkbox-sizes: (
   // CSS 变量
   --cp-checkbox-active-color: var(--cp-color-primary);
   --cp-checkbox-active-color-light: var(--cp-color-primary-light);
+  --cp-checkbox-check-color: var(--cp-color-primary-text);
   --cp-checkbox-size: 18px;
   
   &:hover:not(.is-disabled) {
@@ -97,10 +98,19 @@ $checkbox-sizes: (
   @include e(icon) {
     width: 70%;
     height: 70%;
-    color: var(--cp-text-inverse);
+    color: var(--cp-checkbox-check-color);
+    stroke: var(--cp-checkbox-check-color);
     opacity: 0;
     transform: scale(0.5);
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    // 确保 SVG 子元素使用同一颜色（避免继承差异）
+    polyline,
+    line {
+      stroke: var(--cp-checkbox-check-color);
+      stroke-width: 3px;
+      stroke-linecap: square;
+    }
   }
   
   // ===== 标签 =====

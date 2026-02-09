@@ -59,6 +59,15 @@ const typeColorMap: Record<string, string> = {
   info: 'var(--cp-color-info)',
 }
 
+// 类型到文字颜色的映射（与 Button 一致）
+const typeTextColorMap: Record<string, string> = {
+  primary: 'var(--cp-color-primary-text)',
+  success: 'var(--cp-color-success-text)',
+  warning: 'var(--cp-color-warning-text)',
+  error: 'var(--cp-color-error-text)',
+  info: 'var(--cp-color-info-text)',
+}
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
@@ -81,6 +90,13 @@ const customStyle = computed(() => {
   } else if (actualType.value && typeColorMap[actualType.value]) {
     style['--cp-radio-active-color'] = typeColorMap[actualType.value]
     style['--cp-radio-active-color-light'] = `var(--cp-color-${actualType.value}-light)`
+  }
+  
+  // 菱形点颜色
+  if (props.dotColor) {
+    style['--cp-radio-dot-color'] = props.dotColor
+  } else if (actualType.value && typeTextColorMap[actualType.value]) {
+    style['--cp-radio-dot-color'] = typeTextColorMap[actualType.value]
   }
   
   // 自定义尺寸

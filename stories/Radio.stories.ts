@@ -34,6 +34,10 @@ const meta: Meta<typeof CpRadio> = {
       control: 'color',
       description: '自定义颜色',
     },
+    dotColor: {
+      control: 'color',
+      description: '自定义中间装饰块（菱形点）颜色，默认跟随 type 文字颜色',
+    },
   },
   args: {
     type: 'primary',
@@ -291,6 +295,42 @@ export const CustomColor: Story = {
         <CpRadio v-model="picked" value="neon" color="#ff00ff">霓虹粉</CpRadio>
         <CpRadio v-model="picked" value="gold" color="#ffd700">赛博金</CpRadio>
         <CpRadio v-model="picked" value="lime" color="#39ff14">荧光绿</CpRadio>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 自定义装饰块颜色 — 不同 type 默认使用对应文字色，也可手动指定
+ */
+export const CustomDotColor: Story = {
+  render: () => ({
+    components: { CpRadio },
+    setup() {
+      const values = ref<Record<string, string>>({
+        primary: 'on',
+        success: 'on',
+        warning: 'on',
+        error: 'on',
+        info: 'on',
+      })
+      const custom = ref('a')
+      return { values, custom }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--cp-text-muted); font-size: 12px;">各 type 默认菱形点颜色自动适配背景（与 Button 文字色一致）</p>
+        <div v-for="t in ['primary', 'success', 'warning', 'error', 'info']" :key="t"
+             style="display: flex; gap: 16px; align-items: center;">
+          <CpRadio v-model="values[t]" value="on" :type="t">{{ t }} - 开启</CpRadio>
+          <CpRadio v-model="values[t]" value="off" :type="t">{{ t }} - 关闭</CpRadio>
+        </div>
+        <p style="color: var(--cp-text-muted); font-size: 12px; margin-top: 8px;">手动指定菱形点颜色（dotColor）</p>
+        <div style="display: flex; gap: 16px;">
+          <CpRadio v-model="custom" value="a" type="error" dot-color="#ffd700">金色点 ✨</CpRadio>
+          <CpRadio v-model="custom" value="b" type="info" dot-color="#ff00ff">粉色点</CpRadio>
+          <CpRadio v-model="custom" value="c" type="primary" dot-color="#ffffff">白色点</CpRadio>
+        </div>
       </div>
     `,
   }),

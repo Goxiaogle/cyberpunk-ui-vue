@@ -107,6 +107,15 @@ export const radioProps = {
     default: true,
   },
   /**
+   * 自定义中间装饰块（菱形点）颜色
+   * 用于在暗色背景下提高可见度
+   * 不传时默认跟随当前 type 的文字颜色（参考 Button 文字颜色）
+   */
+  dotColor: {
+    type: String,
+    default: '',
+  },
+  /**
    * 是否使用边框样式
    * 开启后整个标签区域带有边框
    * @default false
