@@ -1,0 +1,250 @@
+// CpDivider 组件样式
+// 赛博朋克/机甲风格分割线
+
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
+
+@include b(divider) {
+  // CSS 变量默认值
+  --cp-divider-color: var(--cp-border);
+  --cp-divider-thickness: 1px;
+  --cp-divider-margin: 16px;
+  --cp-divider-text-padding: 16px;
+  --cp-divider-text-color: var(--cp-text-secondary);
+  --cp-divider-text-bg: var(--cp-bg-base);
+
+  box-sizing: border-box;
+
+  // ===== 水平方向 =====
+  @include m(horizontal) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: var(--cp-divider-margin) 0;
+    border: none;
+    clear: both;
+
+    // 无内容时 — 单条线
+    &:not(.is-with-content) {
+      border-top: var(--cp-divider-thickness) solid var(--cp-divider-color);
+    }
+
+    // 有内容时 — 用伪元素画两侧线条
+    &.is-with-content {
+      &::before,
+      &::after {
+        content: "";
+        flex: 1;
+        border-top: var(--cp-divider-thickness) solid var(--cp-divider-color);
+      }
+    }
+  }
+
+  // ===== 垂直方向 =====
+  @include m(vertical) {
+    display: inline-block;
+    position: relative;
+    width: var(--cp-divider-thickness);
+    min-height: 1em;
+    height: auto;
+    margin: 0 var(--cp-divider-margin);
+    vertical-align: middle;
+    border: none;
+    border-left: var(--cp-divider-thickness) solid var(--cp-divider-color);
+    align-self: stretch;
+  }
+
+  // ===== 文字内容 =====
+  @include e(text) {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--cp-divider-text-padding);
+    color: var(--cp-divider-text-color);
+    font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  // ===== 文字位置 =====
+  @include m(position-left) {
+    &.is-with-content::before {
+      flex: 0 0 5%;
+      max-width: 5%;
+    }
+  }
+
+  @include m(position-right) {
+    &.is-with-content::after {
+      flex: 0 0 5%;
+      max-width: 5%;
+    }
+  }
+
+  // ===== 线条样式 =====
+  @include when(dashed) {
+    &.cp-divider--horizontal:not(.is-with-content) {
+      border-top-style: dashed;
+    }
+    &.cp-divider--horizontal.is-with-content {
+      &::before, &::after {
+        border-top-style: dashed;
+      }
+    }
+    &.cp-divider--vertical {
+      border-left-style: dashed;
+    }
+  }
+
+  @include when(dotted) {
+    &.cp-divider--horizontal:not(.is-with-content) {
+      border-top-style: dotted;
+    }
+    &.cp-divider--horizontal.is-with-content {
+      &::before, &::after {
+        border-top-style: dotted;
+      }
+    }
+    &.cp-divider--vertical {
+      border-left-style: dotted;
+    }
+  }
+
+  @include when(double) {
+    --cp-divider-thickness: 3px;
+
+    &.cp-divider--horizontal:not(.is-with-content) {
+      border-top-style: double;
+    }
+    &.cp-divider--horizontal.is-with-content {
+      &::before, &::after {
+        border-top-style: double;
+      }
+    }
+    &.cp-divider--vertical {
+      border-left-style: double;
+    }
+  }
+
+  // ===== 颜色类型 =====
+  @include m(type-primary) {
+    --cp-divider-color: var(--cp-color-primary);
+    --cp-divider-text-color: var(--cp-color-primary);
+  }
+
+  @include m(type-success) {
+    --cp-divider-color: var(--cp-color-success);
+    --cp-divider-text-color: var(--cp-color-success);
+  }
+
+  @include m(type-warning) {
+    --cp-divider-color: var(--cp-color-warning);
+    --cp-divider-text-color: var(--cp-color-warning);
+  }
+
+  @include m(type-error) {
+    --cp-divider-color: var(--cp-color-error);
+    --cp-divider-text-color: var(--cp-color-error);
+  }
+
+  @include m(type-info) {
+    --cp-divider-color: var(--cp-color-info);
+    --cp-divider-text-color: var(--cp-color-info);
+  }
+
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    .cp-divider__text {
+      color: var(--cp-divider-color);
+    }
+  }
+
+  // ===== Gradient 变体 =====
+  @include m(variant-gradient) {
+    // 水平
+    &.cp-divider--horizontal:not(.is-with-content) {
+      border-top: none;
+      height: var(--cp-divider-thickness);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--cp-divider-color) 30%,
+        var(--cp-divider-color) 70%,
+        transparent 100%
+      );
+    }
+
+    &.cp-divider--horizontal.is-with-content {
+      &::before, &::after {
+        border-top: none;
+        height: var(--cp-divider-thickness);
+      }
+
+      &::before {
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          var(--cp-divider-color) 100%
+        );
+      }
+
+      &::after {
+        background: linear-gradient(
+          90deg,
+          var(--cp-divider-color) 0%,
+          transparent 100%
+        );
+      }
+    }
+
+    // 垂直
+    &.cp-divider--vertical {
+      border-left: none;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--cp-divider-color) 30%,
+        var(--cp-divider-color) 70%,
+        transparent 100%
+      );
+    }
+  }
+
+  // ===== Glow 变体 =====
+  @include m(variant-glow) {
+    // 水平
+    &.cp-divider--horizontal:not(.is-with-content) {
+      border-top-color: var(--cp-divider-color);
+      box-shadow:
+        0 0 4px var(--cp-divider-color),
+        0 0 10px color-mix(in srgb, var(--cp-divider-color) 40%, transparent);
+    }
+
+    &.cp-divider--horizontal.is-with-content {
+      &::before, &::after {
+        border-top-color: var(--cp-divider-color);
+        box-shadow:
+          0 0 4px var(--cp-divider-color),
+          0 0 10px color-mix(in srgb, var(--cp-divider-color) 40%, transparent);
+      }
+    }
+
+    // 垂直
+    &.cp-divider--vertical {
+      border-left-color: var(--cp-divider-color);
+      box-shadow:
+        0 0 4px var(--cp-divider-color),
+        0 0 10px color-mix(in srgb, var(--cp-divider-color) 40%, transparent);
+    }
+
+    // 文字也发光
+    .cp-divider__text {
+      text-shadow:
+        0 0 6px var(--cp-divider-color),
+        0 0 12px color-mix(in srgb, var(--cp-divider-color) 30%, transparent);
+    }
+  }
+}
