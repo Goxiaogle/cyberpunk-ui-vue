@@ -1,0 +1,132 @@
+@use '../mixins/mixins' as *;
+
+// ===== CpContainer 页面布局容器 =====
+
+@include b(container) {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    flex-basis: auto;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+
+    @include when(vertical) {
+        flex-direction: column;
+    }
+}
+
+// ===== CpHeader 头部 =====
+
+@include b(header) {
+    --cp-header-height: 60px;
+
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: var(--cp-header-height);
+    padding: 0 var(--cp-spacing-lg, 16px);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--cp-border, #2a2a3a);
+    background: var(--cp-bg-elevated, #1a1a24);
+    color: var(--cp-text-primary, #ffffff);
+    position: relative;
+
+    // 赛博朋克底边发光线
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--cp-color-primary, #00f0ff) 20%,
+            var(--cp-color-primary, #00f0ff) 80%,
+            transparent 100%
+        );
+        opacity: 0.4;
+    }
+}
+
+// ===== CpFooter 底部 =====
+
+@include b(footer) {
+    --cp-footer-height: 60px;
+
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: var(--cp-footer-height);
+    padding: 0 var(--cp-spacing-lg, 16px);
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--cp-border, #2a2a3a);
+    background: var(--cp-bg-elevated, #1a1a24);
+    color: var(--cp-text-secondary, #a0a0b0);
+    position: relative;
+
+    // 赛博朋克顶边发光线
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -1px;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--cp-color-primary, #00f0ff) 20%,
+            var(--cp-color-primary, #00f0ff) 80%,
+            transparent 100%
+        );
+        opacity: 0.3;
+    }
+}
+
+// ===== CpMain 主内容 =====
+
+@include b(main) {
+    display: block;
+    flex: 1;
+    flex-basis: auto;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: var(--cp-spacing-lg, 16px);
+    min-height: 0;
+}
+
+// ===== CpAside 侧边栏 =====
+
+@include b(aside) {
+    --cp-aside-width: 300px;
+
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: var(--cp-aside-width);
+    overflow: auto;
+    padding: var(--cp-spacing-md, 12px);
+    background: var(--cp-bg-base, #12121a);
+    border-right: 1px solid var(--cp-border, #2a2a3a);
+    position: relative;
+
+    // 赛博朋克右侧发光线
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -1px;
+        width: 1px;
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            var(--cp-color-primary, #00f0ff) 30%,
+            var(--cp-color-primary, #00f0ff) 70%,
+            transparent 100%
+        );
+        opacity: 0.3;
+    }
+}

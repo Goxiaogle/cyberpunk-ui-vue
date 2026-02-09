@@ -1,0 +1,43 @@
+@use 'sass:math';
+@use '../mixins/mixins' as *;
+
+// ===== CpCol 栅格列 =====
+
+@include b(col) {
+    box-sizing: border-box;
+    position: relative;
+
+    // 0 = display:none
+    @include m(0) {
+        display: none;
+    }
+
+    // span 1-24
+    @for $i from 1 through 24 {
+        @include m(#{$i}) {
+            max-width: math.percentage(math.div($i, 24));
+            flex: 0 0 math.percentage(math.div($i, 24));
+        }
+    }
+
+    // offset 1-24
+    @for $i from 1 through 24 {
+        @include m(offset-#{$i}) {
+            margin-left: math.percentage(math.div($i, 24));
+        }
+    }
+
+    // push 1-24
+    @for $i from 1 through 24 {
+        @include m(push-#{$i}) {
+            left: math.percentage(math.div($i, 24));
+        }
+    }
+
+    // pull 1-24
+    @for $i from 1 through 24 {
+        @include m(pull-#{$i}) {
+            right: math.percentage(math.div($i, 24));
+        }
+    }
+}
