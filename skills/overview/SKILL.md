@@ -97,6 +97,8 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 请根据需要查阅以下专项文档：
 
-- [组件详细参数](./components-props/SKILL.md) - 每个组件的完整 Props 列表
+- [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
+- [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio 的完整 Props
+- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover 等的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置
 - [尺寸映射](./size-mapping/SKILL.md) - Size 预设值和自定义尺寸
