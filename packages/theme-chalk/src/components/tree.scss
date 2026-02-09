@@ -1,0 +1,341 @@
+// CpTree 组件样式
+// 赛博朋克/机甲风格 — 电路连接线 + 霓虹发光
+
+@use 'sass:map';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ===== 颜色映射 =====
+$tree-type-colors: (
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
+);
+
+@include b(tree) {
+  --cp-tree-active-color: var(--cp-color-primary);
+  --cp-tree-active-color-light: var(--cp-color-primary-light);
+  --cp-tree-connector-color: var(--cp-border);
+  --cp-tree-connector-active-color: var(--cp-color-primary);
+  --cp-tree-node-height: 32px;
+  --cp-tree-indent: 16px;
+
+  position: relative;
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  color: var(--cp-text-secondary);
+  font-size: 14px;
+
+  // ===== 空状态 =====
+  @include e(empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    min-height: 100px;
+  }
+
+  @include e(empty-text) {
+    font-family: 'Rajdhani', 'Inter', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cp-text-muted);
+    position: relative;
+    padding: 4px 12px;
+    border: 1px solid var(--cp-border);
+    clip-path: polygon(
+      6px 0, 100% 0,
+      100% calc(100% - 6px),
+      calc(100% - 6px) 100%,
+      0 100%, 0 6px
+    );
+    background: rgba(20, 20, 25, 0.4);
+
+    // 扫描线纹理
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.015) 2px,
+        rgba(255, 255, 255, 0.015) 4px
+      );
+      pointer-events: none;
+    }
+  }
+
+  // ===== 节点 =====
+  @include e(node) {
+    position: relative;
+  }
+
+  // ===== 节点内容行 =====
+  @include e(node-content) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--cp-tree-node-height);
+    padding-right: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border-left: 2px solid transparent;
+
+    &:hover:not(.is-disabled) {
+      background: var(--cp-state-hover);
+      color: var(--cp-text-primary);
+      border-left-color: var(--cp-tree-active-color);
+    }
+
+    // 禁用状态
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+
+    // 当前高亮节点
+    &.is-current {
+      background: rgba(0, 240, 255, 0.06);
+      color: var(--cp-text-primary);
+      border-left-color: var(--cp-tree-active-color);
+      box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.03);
+
+      // 左侧发光条
+      &::before {
+        content: '';
+        position: absolute;
+        left: -2px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--cp-tree-active-color);
+        box-shadow: 0 0 6px var(--cp-tree-active-color),
+                    0 0 12px var(--cp-tree-active-color-light);
+      }
+    }
+  }
+
+  // ===== 展开箭头 =====
+  @include e(expand-icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--cp-text-muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &.is-expanded svg {
+      transform: rotate(90deg);
+    }
+
+    &:not(.is-leaf):hover {
+      color: var(--cp-tree-active-color);
+    }
+
+    // 叶子节点箭头隐藏
+    &.is-leaf {
+      svg {
+        display: none;
+      }
+    }
+
+    // 自定义图标模式：调整容器
+    &.is-custom-icon {
+      svg {
+        // 自定义图标不应用默认旋转
+        transform: none;
+      }
+
+      // 只有 expandIcon 无 collapseIcon 时，展开态通过旋转实现
+      &.is-rotate-expand {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  // 叶子节点小点
+  @include e(leaf-dot) {
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: var(--cp-border);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    transition: background 0.2s ease;
+
+    .cp-tree__node-content:hover & {
+      background: var(--cp-tree-active-color);
+    }
+  }
+
+  // ===== 节点前缀图标 =====
+  @include e(node-icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--cp-text-secondary);
+    transition: color 0.2s ease;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .cp-tree__node-content:hover & {
+      color: var(--cp-tree-active-color);
+    }
+  }
+
+  // ===== 复选框 =====
+  @include e(checkbox) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: rgba(20, 20, 25, 0.8);
+    border: 1px solid var(--cp-border);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    clip-path: polygon(
+      3px 0, 100% 0,
+      100% calc(100% - 3px),
+      calc(100% - 3px) 100%,
+      0 100%, 0 3px
+    );
+
+    &:hover:not(.is-disabled) {
+      border-color: var(--cp-tree-active-color);
+      box-shadow: 0 0 6px var(--cp-tree-active-color-light);
+    }
+
+    // 选中
+    &.is-checked {
+      background: var(--cp-tree-active-color);
+      border-color: var(--cp-tree-active-color);
+      box-shadow: 0 0 8px var(--cp-tree-active-color-light);
+    }
+
+    // 半选
+    &.is-indeterminate {
+      background: var(--cp-tree-active-color);
+      border-color: var(--cp-tree-active-color);
+      box-shadow: 0 0 8px var(--cp-tree-active-color-light);
+    }
+
+    // 禁用
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+  }
+
+  @include e(checkbox-icon) {
+    width: 70%;
+    height: 70%;
+    color: var(--cp-text-inverse);
+  }
+
+  // ===== 标签 =====
+  @include e(label) {
+    font-weight: 500;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+
+  // ===== 子节点容器 =====
+  @include e(children) {
+    position: relative;
+  }
+
+  // ===== 连接线模式 =====
+  @include when(connector-line) {
+    .cp-tree__children {
+      position: relative;
+
+      // 竖向连接线
+      &::before {
+        content: '';
+        position: absolute;
+        left: calc(var(--cp-tree-indent, 16px) * 0.5 + 9px);
+        top: 0;
+        bottom: 12px;
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          var(--cp-tree-connector-color),
+          var(--cp-tree-connector-color) 70%,
+          transparent
+        );
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+    }
+
+    // 横向连接线由 padding-left 自然定位，无需额外伪元素
+
+    // hover 时连接线高亮
+    .cp-tree__node:hover > .cp-tree__children::before {
+      opacity: 1;
+      background: linear-gradient(
+        to bottom,
+        var(--cp-tree-active-color),
+        var(--cp-tree-active-color) 70%,
+        transparent
+      );
+      box-shadow: 0 0 4px var(--cp-tree-active-color-light);
+    }
+  }
+
+  // ===== 颜色变体 =====
+  @each $type, $color in $tree-type-colors {
+    &.cp-tree--#{$type} {  // 通过外部 class 控制
+      --cp-tree-active-color: #{$color};
+      --cp-tree-active-color-light: var(--cp-color-#{$type}-light);
+    }
+  }
+}
+
+// ===== 展开/收起动画 =====
+.cp-tree-expand-enter-active,
+.cp-tree-expand-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.cp-tree-expand-enter-from,
+.cp-tree-expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+}
+
+.cp-tree-expand-enter-to,
+.cp-tree-expand-leave-from {
+  opacity: 1;
+}
