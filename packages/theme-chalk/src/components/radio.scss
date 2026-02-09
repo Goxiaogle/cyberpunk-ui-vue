@@ -1,5 +1,5 @@
 // CpRadio 组件样式
-// 赛博朋克/机甲风格
+// 赛博朋克/机甲风格 — 八边形指示器 + 菱形内点
 
 @use 'sass:map';
 @use '../common/var' as *;
@@ -9,20 +9,31 @@
 $radio-sizes: (
   sm: (
     size: 14px,
-    inner: 6px,
+    dot-size: 6px,
     font-size: 12px,
   ),
   md: (
     size: 18px,
-    inner: 8px,
+    dot-size: 8px,
     font-size: 14px,
   ),
   lg: (
     size: 22px,
-    inner: 10px,
+    dot-size: 10px,
     font-size: 16px,
   ),
 );
+
+// 八边形 clip-path（通用函数）
+// 切掉四个角，形成八边形外框
+@function octagon-clip($cut: 30%) {
+  @return polygon(
+    #{$cut} 0%, #{100% - $cut} 0%,
+    100% #{$cut}, 100% #{100% - $cut},
+    #{100% - $cut} 100%, #{$cut} 100%,
+    0% #{100% - $cut}, 0% #{$cut}
+  );
+}
 
 @include b(radio) {
   // 基础样式
@@ -37,18 +48,30 @@ $radio-sizes: (
   color: var(--cp-text-secondary);
   transition: color 0.2s ease;
   
-  // CSS 变量
+  // CSS 变量默认值
   --cp-radio-active-color: var(--cp-color-primary);
   --cp-radio-active-color-light: var(--cp-color-primary-light);
   --cp-radio-size: 18px;
-  --cp-radio-inner-size: 8px;
+  --cp-radio-dot-size: 8px;
   
   &:hover:not(.is-disabled) {
     color: var(--cp-text-primary);
     
     .cp-radio__indicator {
       border-color: var(--cp-radio-active-color);
-      box-shadow: 0 0 6px var(--cp-radio-active-color-light);
+      
+      &::before {
+        opacity: 1;
+        border-color: var(--cp-radio-active-color);
+      }
+    }
+  }
+  
+  // 带辉光的 hover 效果 — 使用 drop-shadow 跟随八边形形状
+  &.is-glow:hover:not(.is-disabled) {
+    .cp-radio__indicator-wrap {
+      filter: drop-shadow(0 0 4px var(--cp-radio-active-color-light))
+              drop-shadow(0 0 8px var(--cp-radio-active-color-light));
     }
   }
   
@@ -62,7 +85,17 @@ $radio-sizes: (
     pointer-events: none;
   }
   
-  // ===== 指示器 =====
+  // ===== 指示器外层包裹 =====
+  // drop-shadow 应用在此层，跟随子元素 clip-path 的八边形形状
+  @include e(indicator-wrap) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: filter 0.25s ease;
+  }
+  
+  // ===== 八边形指示器 =====
   @include e(indicator) {
     position: relative;
     display: flex;
@@ -72,31 +105,49 @@ $radio-sizes: (
     height: var(--cp-radio-size);
     background: rgba(20, 20, 25, 0.8);
     border: 1px solid var(--cp-border);
-    border-radius: 50%;
+    clip-path: #{octagon-clip(28%)};
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
+    overflow: hidden;
     
-    // 外圈装饰环
+    // 角落强调线装饰
     &::before {
       content: '';
       position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      border: 1px dashed transparent;
-      transition: all 0.3s ease;
+      inset: 0;
+      clip-path: #{octagon-clip(28%)};
+      border: 1px solid transparent;
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+    
+    // 扫描线纹理
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.02) 2px,
+        rgba(255, 255, 255, 0.02) 4px
+      );
+      clip-path: #{octagon-clip(28%)};
+      pointer-events: none;
     }
   }
   
-  // ===== 内核圆点 =====
-  @include e(inner) {
-    width: var(--cp-radio-inner-size);
-    height: var(--cp-radio-inner-size);
-    background: var(--cp-radio-active-color);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 0 6px var(--cp-radio-active-color);
+  // ===== 选中时的菱形内点 =====
+  @include e(dot) {
+    position: absolute;
+    width: var(--cp-radio-dot-size);
+    height: var(--cp-radio-dot-size);
+    background: currentColor;
+    color: var(--cp-text-inverse);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: cp-radio-dot-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    z-index: 1;
   }
   
   // ===== 标签 =====
@@ -104,13 +155,14 @@ $radio-sizes: (
     font-weight: 500;
     line-height: 1.2;
     transition: color 0.2s ease;
+    letter-spacing: 0.02em;
   }
   
-  // ===== 尺寸 =====
+  // ===== 尺寸变体 =====
   @each $size-name, $size-config in $radio-sizes {
     @include m(#{$size-name}) {
       --cp-radio-size: #{map.get($size-config, size)};
-      --cp-radio-inner-size: #{map.get($size-config, inner)};
+      --cp-radio-dot-size: #{map.get($size-config, dot-size)};
       
       .cp-radio__label {
         font-size: map.get($size-config, font-size);
@@ -118,23 +170,43 @@ $radio-sizes: (
     }
   }
   
+  // ===== 自定义尺寸 =====
+  @include when(custom-size) {
+    .cp-radio__indicator {
+      clip-path: #{octagon-clip(28%)};
+    }
+  }
+  
   // ===== 选中状态 =====
   @include when(checked) {
     .cp-radio__indicator {
+      background: var(--cp-radio-active-color);
       border-color: var(--cp-radio-active-color);
-      box-shadow: 0 0 10px var(--cp-radio-active-color-light);
-      background: rgba(0, 0, 0, 0.4);
       
-      // 激活外圈扫描环
       &::before {
-        border-color: var(--cp-radio-active-color-light);
-        animation: cp-radio-pulse 2s ease-in-out infinite;
+        opacity: 1;
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+      
+      // 选中时扫描线更强
+      &::after {
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.06) 2px,
+          rgba(255, 255, 255, 0.06) 4px
+        );
       }
     }
     
-    .cp-radio__inner {
-      opacity: 1;
-      transform: scale(1);
+    color: var(--cp-text-primary);
+    
+    // 选中 + 辉光 — drop-shadow 跟随八边形
+    &.is-glow .cp-radio__indicator-wrap {
+      filter: drop-shadow(0 0 3px var(--cp-radio-active-color))
+              drop-shadow(0 0 8px var(--cp-radio-active-color-light))
+              drop-shadow(0 0 14px var(--cp-radio-active-color-light));
     }
   }
   
@@ -143,26 +215,60 @@ $radio-sizes: (
     padding: 8px 16px;
     border: 1px solid var(--cp-border);
     background: rgba(20, 20, 25, 0.6);
-    border-radius: 4px;
+    clip-path: polygon(
+      10px 0,
+      100% 0,
+      100% calc(100% - 10px),
+      calc(100% - 10px) 100%,
+      0 100%,
+      0 10px
+    );
     transition: all 0.25s ease;
+    
+    // 切角装饰线
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      border-left: 1px solid var(--cp-border);
+      border-top: 1px solid var(--cp-border);
+      clip-path: polygon(0 0, 0 100%, 100% 0);
+      opacity: 0.6;
+      transition: all 0.25s ease;
+    }
     
     &:hover:not(.is-disabled) {
       border-color: var(--cp-radio-active-color);
-      box-shadow: 0 0 8px var(--cp-radio-active-color-light);
+      
+      &::before {
+        border-color: var(--cp-radio-active-color);
+        opacity: 1;
+      }
     }
     
     &.is-checked {
       border-color: var(--cp-radio-active-color);
       background: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 12px var(--cp-radio-active-color-light);
+      
+      &::before {
+        border-color: var(--cp-radio-active-color);
+        opacity: 1;
+      }
     }
+    
+    // 边框模式不用 indicator drop-shadow，改用自身 drop-shadow
+    // 但 border 模式自身也带 clip-path，所以 box-shadow 同样失效
+    // 这里的辉光靠外层容器或不加
   }
   
   // ===== 禁用状态 =====
   @include when(disabled) {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
-    filter: grayscale(0.6);
+    filter: grayscale(0.7);
     
     .cp-radio__indicator {
       background: rgba(40, 40, 45, 0.8);
@@ -170,14 +276,18 @@ $radio-sizes: (
   }
 }
 
-// 动画定义
-@keyframes cp-radio-pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
+// ===== 动画 =====
+@keyframes cp-radio-dot-in {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
   }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
+  60% {
+    opacity: 1;
+    transform: scale(1.2) rotate(45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
   }
 }

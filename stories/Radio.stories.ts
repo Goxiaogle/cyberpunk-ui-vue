@@ -1,37 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
-import { CpRadio, CpRadioGroup } from '../packages/components'
+import { CpRadio } from '../packages/components/radio'
+import { CpRadioGroup } from '../packages/components/radio-group'
 
-/**
- * # CpRadio 单选框
- * 
- * 赛博朋克风格单选框组件，通常配合 RadioGroup 使用。
- * 
- * ## 特性
- * - 🔘 圆形指示器设计
- * - ✨ 霓虹发光选中效果
- * - 💫 脉冲扫描动画
- * - 📐 支持 sm/md/lg 及自定义尺寸
- * - 🎭 支持边框模式 (border)
- */
 const meta: Meta<typeof CpRadio> = {
   title: '表单 Form/Radio 单选框',
   component: CpRadio,
   tags: ['autodocs'],
   argTypes: {
-    modelValue: {
-      control: 'text',
-      description: '绑定值',
+    type: {
+      control: 'select',
+      options: ['primary', 'success', 'warning', 'error', 'info'],
+      description: '颜色预设类型',
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '单选框尺寸',
-    },
-    type: {
-      control: 'select',
-      options: ['primary', 'success', 'warning', 'error', 'info'],
-      description: '颜色类型预设',
+      description: '尺寸',
     },
     disabled: {
       control: 'boolean',
@@ -41,224 +26,271 @@ const meta: Meta<typeof CpRadio> = {
       control: 'boolean',
       description: '边框模式',
     },
+    glow: {
+      control: 'boolean',
+      description: '霓虹辉光效果',
+    },
     color: {
       control: 'color',
-      description: '自定义选中颜色',
+      description: '自定义颜色',
     },
   },
   args: {
-    size: 'md',
     type: 'primary',
+    size: 'md',
     disabled: false,
     border: false,
+    glow: true,
   },
 }
 
 export default meta
-type Story = StoryObj<typeof CpRadio>
+type Story = StoryObj<typeof meta>
 
-/** 基础用法 (配合 RadioGroup) */
-export const 基础用法: Story = {
-  render: () => ({
-    components: { CpRadio, CpRadioGroup },
+/**
+ * 基础用法 — 单独使用
+ */
+export const Default: Story = {
+  render: (args) => ({
+    components: { CpRadio },
     setup() {
-      const selected = ref('A')
-      return { selected }
+      const picked = ref('A')
+      return { args, picked }
+    },
+    template: `
+      <div style="display: flex; gap: 24px; align-items: center;">
+        <CpRadio v-model="picked" value="A" v-bind="args">选项 A</CpRadio>
+        <CpRadio v-model="picked" value="B" v-bind="args">选项 B</CpRadio>
+        <CpRadio v-model="picked" value="C" v-bind="args">选项 C</CpRadio>
+      </div>
+      <p style="margin-top: 16px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+        当前选中: <span style="color: var(--cp-color-primary);">{{ picked }}</span>
+      </p>
+    `,
+  }),
+}
+
+/**
+ * 颜色类型 — primary / success / warning / error / info
+ */
+export const Types: Story = {
+  render: () => ({
+    components: { CpRadio },
+    setup() {
+      const values = ref<Record<string, string>>({
+        primary: 'on',
+        success: 'on',
+        warning: 'on',
+        error: 'on',
+        info: 'on',
+      })
+      return { values }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <CpRadioGroup v-model="selected">
-          <CpRadio label="A">选项 A</CpRadio>
-          <CpRadio label="B">选项 B</CpRadio>
-          <CpRadio label="C">选项 C</CpRadio>
-        </CpRadioGroup>
-        <div style="font-family: 'Rajdhani'; color: var(--cp-text-secondary);">
-          已选: {{ selected }}
+        <div v-for="t in ['primary', 'success', 'warning', 'error', 'info']" :key="t"
+             style="display: flex; gap: 16px; align-items: center;">
+          <CpRadio v-model="values[t]" value="on" :type="t">{{ t }} - 开启</CpRadio>
+          <CpRadio v-model="values[t]" value="off" :type="t">{{ t }} - 关闭</CpRadio>
         </div>
       </div>
     `,
   }),
 }
 
-/** 尺寸 */
-export const 尺寸: Story = {
+/**
+ * 尺寸 — sm / md / lg
+ */
+export const Sizes: Story = {
   render: () => ({
-    components: { CpRadio, CpRadioGroup },
+    components: { CpRadio },
     setup() {
-      const sm = ref('sm')
-      const md = ref('md')
-      const lg = ref('lg')
+      const sm = ref('A')
+      const md = ref('A')
+      const lg = ref('A')
       return { sm, md, lg }
     },
     template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <span style="width: 40px; color: var(--cp-text-muted); font-family: monospace;">SM</span>
+          <CpRadio v-model="sm" value="A" size="sm">选项 A</CpRadio>
+          <CpRadio v-model="sm" value="B" size="sm">选项 B</CpRadio>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <span style="width: 40px; color: var(--cp-text-muted); font-family: monospace;">MD</span>
+          <CpRadio v-model="md" value="A" size="md">选项 A</CpRadio>
+          <CpRadio v-model="md" value="B" size="md">选项 B</CpRadio>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <span style="width: 40px; color: var(--cp-text-muted); font-family: monospace;">LG</span>
+          <CpRadio v-model="lg" value="A" size="lg">选项 A</CpRadio>
+          <CpRadio v-model="lg" value="B" size="lg">选项 B</CpRadio>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 禁用状态
+ */
+export const Disabled: Story = {
+  render: () => ({
+    components: { CpRadio },
+    setup() {
+      const picked = ref('A')
+      return { picked }
+    },
+    template: `
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <CpRadio v-model="picked" value="A" disabled>禁用已选</CpRadio>
+        <CpRadio v-model="picked" value="B" disabled>禁用未选</CpRadio>
+        <CpRadio v-model="picked" value="C">正常选项</CpRadio>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 边框模式 — 卡片式选择
+ */
+export const Border: Story = {
+  render: () => ({
+    components: { CpRadio },
+    setup() {
+      const picked = ref('standard')
+      return { picked }
+    },
+    template: `
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <CpRadio v-model="picked" value="standard" border>标准模式</CpRadio>
+        <CpRadio v-model="picked" value="performance" border type="warning">性能模式</CpRadio>
+        <CpRadio v-model="picked" value="stealth" border type="info">隐匿模式</CpRadio>
+        <CpRadio v-model="picked" value="locked" border disabled>锁定模式</CpRadio>
+      </div>
+      <p style="margin-top: 12px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+        已选择: <span style="color: var(--cp-color-primary);">{{ picked }}</span>
+      </p>
+    `,
+  }),
+}
+
+/**
+ * RadioGroup 分组 — 水平布局
+ */
+export const Group: Story = {
+  render: () => ({
+    components: { CpRadio, CpRadioGroup },
+    setup() {
+      const picked = ref('netrunner')
+      return { picked }
+    },
+    template: `
       <div style="display: flex; flex-direction: column; gap: 24px;">
-        <div>
-          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Small</p>
-          <CpRadioGroup v-model="sm" size="sm">
-            <CpRadio label="sm">选项一</CpRadio>
-            <CpRadio label="sm2">选项二</CpRadio>
-          </CpRadioGroup>
-        </div>
-        <div>
-          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Medium</p>
-          <CpRadioGroup v-model="md" size="md">
-            <CpRadio label="md">选项一</CpRadio>
-            <CpRadio label="md2">选项二</CpRadio>
-          </CpRadioGroup>
-        </div>
-        <div>
-          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Large</p>
-          <CpRadioGroup v-model="lg" size="lg">
-            <CpRadio label="lg">选项一</CpRadio>
-            <CpRadio label="lg2">选项二</CpRadio>
-          </CpRadioGroup>
-        </div>
+        <CpRadioGroup v-model="picked">
+          <CpRadio value="netrunner">NET::RUNNER</CpRadio>
+          <CpRadio value="solo">SOLO</CpRadio>
+          <CpRadio value="techie">TECHIE</CpRadio>
+          <CpRadio value="fixer">FIXER</CpRadio>
+        </CpRadioGroup>
+        <p style="color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+          职业: <span style="color: var(--cp-color-primary); text-transform: uppercase;">{{ picked }}</span>
+        </p>
       </div>
     `,
   }),
 }
 
-/** 颜色类型 */
-export const 颜色类型: Story = {
+/**
+ * RadioGroup 垂直布局
+ */
+export const GroupVertical: Story = {
   render: () => ({
     components: { CpRadio, CpRadioGroup },
     setup() {
-      const selected = ref({
-        primary: 'yes',
-        success: 'yes',
-        warning: 'yes',
-        error: 'yes',
-        info: 'yes',
+      const difficulty = ref('normal')
+      return { difficulty }
+    },
+    template: `
+      <CpRadioGroup v-model="difficulty" direction="vertical" type="warning">
+        <CpRadio value="easy">轻松模式 — 敌人 AI 降级</CpRadio>
+        <CpRadio value="normal">标准模式 — 推荐难度</CpRadio>
+        <CpRadio value="hard">困难模式 — 增强探测</CpRadio>
+        <CpRadio value="nightmare" disabled>噩梦模式 — 需要解锁</CpRadio>
+      </CpRadioGroup>
+    `,
+  }),
+}
+
+/**
+ * RadioGroup 各类型颜色
+ */
+export const GroupTypes: Story = {
+  render: () => ({
+    components: { CpRadio, CpRadioGroup },
+    setup() {
+      const values = ref<Record<string, string>>({
+        primary: 'A',
+        success: 'A',
+        warning: 'A',
+        error: 'A',
+        info: 'A',
       })
-      return { selected }
+      return { values }
     },
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <CpRadioGroup v-model="selected.primary" type="primary">
-          <CpRadio label="yes">Primary Yes</CpRadio>
-          <CpRadio label="no">Primary No</CpRadio>
-        </CpRadioGroup>
-        <CpRadioGroup v-model="selected.success" type="success">
-          <CpRadio label="yes">Success Yes</CpRadio>
-          <CpRadio label="no">Success No</CpRadio>
-        </CpRadioGroup>
-        <CpRadioGroup v-model="selected.warning" type="warning">
-          <CpRadio label="yes">Warning Yes</CpRadio>
-          <CpRadio label="no">Warning No</CpRadio>
-        </CpRadioGroup>
-        <CpRadioGroup v-model="selected.error" type="error">
-          <CpRadio label="yes">Error Yes</CpRadio>
-          <CpRadio label="no">Error No</CpRadio>
-        </CpRadioGroup>
-        <CpRadioGroup v-model="selected.info" type="info">
-          <CpRadio label="yes">Info Yes</CpRadio>
-          <CpRadio label="no">Info No</CpRadio>
-        </CpRadioGroup>
-      </div>
-    `,
-  }),
-}
-
-/** 边框模式 */
-export const 边框模式: Story = {
-  render: () => ({
-    components: { CpRadio, CpRadioGroup },
-    setup() {
-      const selected = ref('normal')
-      return { selected }
-    },
-    template: `
-      <CpRadioGroup v-model="selected">
-        <CpRadio label="normal" border>普通模式</CpRadio>
-        <CpRadio label="turbo" border type="success">涡轮增压</CpRadio>
-        <CpRadio label="stealth" border type="info">隐身模式</CpRadio>
-        <CpRadio label="combat" border type="error">战斗模式</CpRadio>
-      </CpRadioGroup>
-    `,
-  }),
-}
-
-/** 禁用状态 */
-export const 禁用状态: Story = {
-  render: () => ({
-    components: { CpRadio, CpRadioGroup },
-    setup() {
-      const selected = ref('enabled')
-      return { selected }
-    },
-    template: `
-      <CpRadioGroup v-model="selected">
-        <CpRadio label="enabled">可用选项</CpRadio>
-        <CpRadio label="disabled" disabled>禁用选项</CpRadio>
-        <CpRadio label="another">另一个可用选项</CpRadio>
-      </CpRadioGroup>
-    `,
-  }),
-}
-
-/** 垂直布局 */
-export const 垂直布局: Story = {
-  render: () => ({
-    components: { CpRadio, CpRadioGroup },
-    setup() {
-      const mode = ref('stealth')
-      return { mode }
-    },
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <p style="color: var(--cp-text-primary); font-family: 'Rajdhani'; font-size: 14px;">
-          选择作战模式:
-        </p>
-        <CpRadioGroup v-model="mode" direction="vertical" type="error">
-          <CpRadio label="assault">突击模式 - 最大输出</CpRadio>
-          <CpRadio label="defense">防御模式 - 最大护盾</CpRadio>
-          <CpRadio label="stealth">潜行模式 - 隐身增强</CpRadio>
-          <CpRadio label="recon">侦察模式 - 扫描增强</CpRadio>
-        </CpRadioGroup>
-        <div style="font-family: 'Rajdhani'; color: var(--cp-color-error);">
-          当前模式: {{ mode.toUpperCase() }}
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div v-for="t in ['primary', 'success', 'warning', 'error', 'info']" :key="t">
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px; text-transform: uppercase;">
+            {{ t }}
+          </p>
+          <CpRadioGroup v-model="values[t]" :type="t">
+            <CpRadio value="A">选项 A</CpRadio>
+            <CpRadio value="B">选项 B</CpRadio>
+            <CpRadio value="C">选项 C</CpRadio>
+          </CpRadioGroup>
         </div>
       </div>
     `,
   }),
 }
 
-/** 自定义颜色 */
-export const 自定义颜色: Story = {
+/**
+ * 边框模式 + 分组
+ */
+export const GroupBorder: Story = {
   render: () => ({
     components: { CpRadio, CpRadioGroup },
     setup() {
-      const selected = ref('pink')
-      return { selected }
+      const plan = ref('basic')
+      return { plan }
     },
     template: `
-      <CpRadioGroup v-model="selected">
-        <CpRadio label="pink" color="#ff00ff">霓虹粉</CpRadio>
-        <CpRadio label="gold" color="#ffd700">赛博金</CpRadio>
-        <CpRadio label="lime" color="#00ff88">矩阵绿</CpRadio>
+      <CpRadioGroup v-model="plan" type="info">
+        <CpRadio value="basic" border>基础套餐</CpRadio>
+        <CpRadio value="pro" border>专业套餐</CpRadio>
+        <CpRadio value="enterprise" border>企业套餐</CpRadio>
       </CpRadioGroup>
     `,
   }),
 }
 
-/** 整组禁用 */
-export const 整组禁用: Story = {
+/**
+ * 自定义颜色
+ */
+export const CustomColor: Story = {
   render: () => ({
-    components: { CpRadio, CpRadioGroup },
+    components: { CpRadio },
     setup() {
-      const selected = ref('locked')
-      return { selected }
+      const picked = ref('neon')
+      return { picked }
     },
     template: `
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <p style="color: var(--cp-text-muted); font-size: 12px;">
-          ⚠️ 系统锁定中，无法更改设置
-        </p>
-        <CpRadioGroup v-model="selected" disabled>
-          <CpRadio label="locked">当前配置</CpRadio>
-          <CpRadio label="alt1">备用配置 1</CpRadio>
-          <CpRadio label="alt2">备用配置 2</CpRadio>
-        </CpRadioGroup>
+      <div style="display: flex; gap: 16px;">
+        <CpRadio v-model="picked" value="neon" color="#ff00ff">霓虹粉</CpRadio>
+        <CpRadio v-model="picked" value="gold" color="#ffd700">赛博金</CpRadio>
+        <CpRadio v-model="picked" value="lime" color="#39ff14">荧光绿</CpRadio>
       </div>
     `,
   }),

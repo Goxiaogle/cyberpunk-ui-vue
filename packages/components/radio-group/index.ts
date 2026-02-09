@@ -8,9 +8,9 @@ import RadioGroup from './src/radio-group.vue'
  *
  * @example
  * ```vue
- * <CpRadioGroup v-model="selected">
- *   <CpRadio label="A">选项 A</CpRadio>
- *   <CpRadio label="B">选项 B</CpRadio>
+ * <CpRadioGroup v-model="picked">
+ *   <CpRadio value="A">选项 A</CpRadio>
+ *   <CpRadio value="B">选项 B</CpRadio>
  * </CpRadioGroup>
  * ```
  *

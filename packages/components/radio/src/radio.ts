@@ -28,14 +28,17 @@ export type RadioValueType = string | number | boolean
 /**
  * CpRadio 组件 Props 定义
  *
- * @description 赛博朋克风格单选框组件，支持分组、自定义颜色。
+ * @description 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。
  *
  * @example
  * ```vue
+ * <!-- 基础用法 -->
+ * <CpRadio v-model="picked" value="A">选项 A</CpRadio>
+ *
  * <!-- 分组使用 -->
- * <CpRadioGroup v-model="selected">
- *   <CpRadio label="A">选项 A</CpRadio>
- *   <CpRadio label="B">选项 B</CpRadio>
+ * <CpRadioGroup v-model="picked">
+ *   <CpRadio value="A">选项 A</CpRadio>
+ *   <CpRadio value="B">选项 B</CpRadio>
  * </CpRadioGroup>
  * ```
  */
@@ -48,12 +51,20 @@ export const radioProps = {
     default: undefined,
   },
   /**
-   * 选项值
-   * @example `<CpRadio label="option1">选项1</CpRadio>`
+   * 此单选框对应的值
+   * 在 RadioGroup 中用于标识选中项
+   * @example `<CpRadio value="option1">选项1</CpRadio>`
    */
-  label: {
+  value: {
     type: [String, Number, Boolean] as PropType<RadioValueType>,
     default: undefined,
+  },
+  /**
+   * 显示标签（也作为默认 slot fallback）
+   */
+  label: {
+    type: [String, Number] as PropType<string | number>,
+    default: '',
   },
   /**
    * 是否禁用
@@ -88,7 +99,16 @@ export const radioProps = {
     default: '',
   },
   /**
+   * 是否启用霓虹辉光效果
+   * @default true
+   */
+  glow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * 是否使用边框样式
+   * 开启后整个标签区域带有边框
    * @default false
    */
   border: {

@@ -27,6 +27,8 @@ const classes = computed(() => [
 
 // 处理子 Radio 变化
 const handleChange = (value: RadioValueType) => {
+  if (value === props.modelValue) return // 相同值忽略
+  
   emit('update:modelValue', value)
   emit('change', value)
 }
@@ -37,7 +39,6 @@ const context: RadioGroupContext = {
   disabled: toRef(props, 'disabled'),
   size: toRef(props, 'size'),
   type: toRef(props, 'type'),
-  name: toRef(props, 'name'),
   handleChange,
 }
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 /**
  * CpRadio - 赛博朋克风格单选框
- * 支持多种尺寸、分组使用
+ * 八边形指示器，菱形内点，霓虹辉光效果
  */
 import { computed, inject, ref } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
-import { radioProps, radioEmits } from './radio'
+import { radioProps, radioEmits, type RadioValueType } from './radio'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { radioGroupContextKey } from '../../radio-group/src/constants'
 
@@ -45,9 +45,9 @@ const actualType = computed(() => {
 // 是否选中
 const isChecked = computed(() => {
   if (isGroup.value && radioGroup) {
-    return radioGroup.modelValue?.value === props.label
+    return radioGroup.modelValue?.value === props.value
   }
-  return props.modelValue === props.label
+  return props.modelValue === props.value
 })
 
 // 类型到颜色变量的映射
@@ -66,6 +66,7 @@ const classes = computed(() => [
   ns.is('checked', isChecked.value),
   ns.is('disabled', actualDisabled.value),
   ns.is('border', props.border),
+  ns.is('glow', props.glow),
   ns.is('custom-size', !isPresetSize(actualSize.value)),
 ])
 
@@ -90,18 +91,18 @@ const customStyle = computed(() => {
   return style
 })
 
-// 处理变化
+// 处理选择
 const handleChange = () => {
   if (actualDisabled.value) return
-  if (props.label === undefined) return
+  if (isChecked.value) return // 已选中，不重复触发
+  
+  const newValue = props.value as RadioValueType
   
   if (isGroup.value && radioGroup) {
-    // Group 模式
-    radioGroup.handleChange(props.label)
+    radioGroup.handleChange(newValue)
   } else {
-    // 单独模式
-    emit('update:modelValue', props.label)
-    emit('change', props.label)
+    emit('update:modelValue', newValue)
+    emit('change', newValue)
   }
 }
 
@@ -126,16 +127,22 @@ defineExpose({
       ref="inputRef"
       type="radio"
       :class="ns.e('input')"
-      :name="props.name || radioGroup?.name?.value"
+      :name="props.name"
+      :value="props.value"
       :checked="isChecked"
       :disabled="actualDisabled"
       @change="handleChange"
     />
     
-    <!-- 指示器 -->
-    <span :class="ns.e('indicator')">
-      <!-- 选中内核 -->
-      <span :class="ns.e('inner')" />
+    <!-- 八边形指示器（外层包裹用于 drop-shadow 辉光） -->
+    <span :class="ns.e('indicator-wrap')">
+      <span :class="ns.e('indicator')">
+        <!-- 选中时的内部菱形点 -->
+        <span
+          v-if="isChecked"
+          :class="ns.e('dot')"
+        />
+      </span>
     </span>
     
     <!-- 标签文字 -->
