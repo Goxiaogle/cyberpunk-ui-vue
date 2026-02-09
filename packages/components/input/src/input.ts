@@ -233,6 +233,16 @@ export const inputProps = {
         type: String,
         default: '',
     },
+    /**
+     * 清除动画持续时间 (ms)
+     * 控制点击清空按钮时文字消失动画的速度
+     * @default 150
+     * @example `<CpInput :clear-duration="300" />`
+     */
+    clearDuration: {
+        type: Number,
+        default: 150,
+    },
 } as const
 
 export type InputProps = ExtractPropTypes<typeof inputProps>

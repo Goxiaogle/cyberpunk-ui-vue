@@ -80,6 +80,11 @@ const customStyle = computed(() => {
   if (!isPresetSize(props.size)) {
     style['--cp-input-height'] = normalizeSize(props.size, inputSizeMap)
   }
+
+  // 清除动画时长
+  if (props.clearDuration !== 150) {
+    style['--cp-input-clear-duration'] = `${props.clearDuration}ms`
+  }
   
   return style
 })
@@ -133,7 +138,7 @@ const handleClear = () => {
   // 触发清除动画
   isClearing.value = true
   
-  // 动画结束后清空值
+  // 动画结束后清空值 (与 CSS 动画时长匹配)
   setTimeout(() => {
     emit('update:modelValue', '')
     emit('clear')
@@ -141,7 +146,7 @@ const handleClear = () => {
     nextTick(() => {
       inputRef.value?.focus()
     })
-  }, 150) // 与 CSS 动画时长匹配
+  }, props.clearDuration)
 }
 
 const togglePasswordVisibility = () => {

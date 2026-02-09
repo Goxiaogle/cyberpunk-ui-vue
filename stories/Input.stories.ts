@@ -103,6 +103,13 @@ const meta: Meta<typeof CpInput> = {
       control: 'color',
       description: '文字颜色',
     },
+    clearDuration: {
+      control: { type: 'number', min: 50, max: 1000, step: 50 },
+      description: '清除动画持续时间 (ms)',
+      table: {
+        defaultValue: { summary: '150' },
+      },
+    },
   },
 }
 
@@ -247,6 +254,38 @@ export const 可清空: Story = {
         <CpInput v-model="value" clearable placeholder="输入后可清空" />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           💡 输入内容后，右侧会出现清空按钮
+        </p>
+      </div>
+    `,
+  }),
+}
+
+/** 清除动画速度 */
+export const 清除动画速度: Story = {
+  render: () => ({
+    components: { CpInput },
+    setup() {
+      const fast = ref('快速清除 (80ms)')
+      const normal = ref('默认速度 (150ms)')
+      const slow = ref('慢速清除 (500ms)')
+      return { fast, normal, slow }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">快速 (80ms)</p>
+          <CpInput v-model="fast" clearable :clear-duration="80" />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">默认 (150ms)</p>
+          <CpInput v-model="normal" clearable />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">慢速 (500ms)</p>
+          <CpInput v-model="slow" clearable :clear-duration="500" />
+        </div>
+        <p style="color: var(--cp-text-secondary); font-size: 12px;">
+          ⏱ 通过 clear-duration 属性控制清除动画的速度
         </p>
       </div>
     `,
