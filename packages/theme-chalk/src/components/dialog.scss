@@ -1,0 +1,416 @@
+// CpDialog 组件样式
+// 赛博朋克/机甲风格模态对话框
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ===== 动画 =====
+@keyframes cp-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cp-dialog-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cp-dialog-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes cp-dialog-panel-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.92) translateY(-10px);
+  }
+}
+
+// 抖动动画 — 禁止关闭时的反馈
+@keyframes cp-dialog-shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-6px); }
+  30%  { transform: translateX(5px); }
+  45%  { transform: translateX(-4px); }
+  60%  { transform: translateX(3px); }
+  75%  { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
+}
+
+// Transition classes
+.cp-dialog-fade-enter-active {
+  animation: cp-dialog-fade-in 0.25s ease-out;
+
+  .cp-dialog__panel {
+    animation: cp-dialog-panel-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.cp-dialog-fade-leave-active {
+  animation: cp-dialog-fade-out 0.2s ease-in forwards;
+
+  .cp-dialog__panel {
+    animation: cp-dialog-panel-out 0.2s ease-in forwards;
+  }
+}
+
+@include b(dialog) {
+
+  // ===== 遮罩层 =====
+  @include e(overlay) {
+    position: fixed;
+    inset: 0;
+    background: var(--cp-dialog-overlay-color, var(--cp-scrim));
+    overflow: auto;
+  }
+
+  // ===== 定位容器 =====
+  @include e(wrapper) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100%;
+    padding: 16px;
+
+    &.is-fullscreen {
+      align-items: stretch;
+      padding: 0;
+    }
+
+    &.is-align-center {
+      align-items: center;
+      min-height: 100vh;
+    }
+  }
+
+  // ===== 面板 =====
+  @include e(panel) {
+    --cp-dialog-color: var(--cp-border);
+    --cp-dialog-color-light: rgba(255, 255, 255, 0.1);
+    --cp-dialog-bg: var(--cp-bg-elevated);
+    --cp-dialog-clip-path: polygon(
+      12px 0, 100% 0,
+      100% calc(100% - 12px), calc(100% - 12px) 100%,
+      0 100%, 0 12px
+    );
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    background: var(--cp-dialog-bg);
+    border: 1px solid var(--cp-dialog-border-color, var(--cp-border));
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 0 1px var(--cp-dialog-color),
+      inset 0 0 30px rgba(0, 240, 255, 0.02);
+    clip-path: var(--cp-dialog-clip-path);
+    color: var(--cp-dialog-text-color, var(--cp-text-primary));
+    transition: transform 0s;
+
+    // 全屏
+    &.is-fullscreen {
+      width: 100% !important;
+      max-width: 100vw;
+      max-height: 100vh;
+      height: 100vh;
+      margin-top: 0 !important;
+      clip-path: none;
+      border-radius: 0;
+    }
+
+    // 居中对齐模式
+    &.is-center {
+      .cp-dialog__title {
+        text-align: center;
+        justify-content: center;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    // 可拖拽光标
+    &.is-draggable {
+      will-change: transform;
+    }
+
+    // 拖拽中 — 禁止文字选中
+    &.is-dragging {
+      user-select: none;
+    }
+
+    // 抖动反馈 — 禁止关闭时触发
+    &.is-shaking {
+      animation: cp-dialog-shake 0.4s ease-out !important;
+      // 闪烁边框高亮
+      border-color: var(--cp-dialog-color, var(--cp-color-primary));
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 12px var(--cp-dialog-color-light, var(--cp-color-primary-light)),
+        inset 0 0 30px rgba(0, 240, 255, 0.04);
+    }
+
+
+  // ===== 类型变体 =====
+  @each $type in (primary, success, warning, error, info) {
+    &.cp-dialog--#{$type} {
+      --cp-dialog-color: var(--cp-color-#{$type});
+      --cp-dialog-color-light: var(--cp-color-#{$type}-light);
+    }
+  }
+
+    // ===== 变体样式 =====
+
+    // Solid
+    &.cp-dialog--solid {
+      background: var(--cp-dialog-bg);
+
+      // 顶部荧光线
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        background: linear-gradient(to bottom, var(--cp-dialog-color) 2px, var(--cp-dialog-color-light) 2px, transparent 100%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.3s ease;
+      }
+
+      // 有主题色时显示荧光线
+      &.cp-dialog--primary::before,
+      &.cp-dialog--success::before,
+      &.cp-dialog--warning::before,
+      &.cp-dialog--error::before,
+      &.cp-dialog--info::before {
+        opacity: 0.8;
+      }
+
+      // 自定义 color 也显示
+      &[style*='--cp-dialog-color']::before {
+        opacity: 0.8;
+      }
+    }
+
+    // Semi (毛玻璃)
+    &.cp-dialog--semi {
+      --cp-dialog-bg: rgba(42, 42, 58, 0.6);
+      backdrop-filter: blur(12px);
+      border-color: var(--cp-dialog-color-light);
+
+      &.cp-dialog--primary,
+      &.cp-dialog--success,
+      &.cp-dialog--warning,
+      &.cp-dialog--error,
+      &.cp-dialog--info {
+        --cp-dialog-bg: color-mix(in srgb, var(--cp-bg-elevated) 80%, var(--cp-dialog-color));
+      }
+    }
+
+    // Outline
+    &.cp-dialog--outline {
+      background: transparent;
+      border-color: var(--cp-dialog-color);
+      backdrop-filter: blur(6px);
+
+      &.cp-dialog--default {
+        border-color: var(--cp-border);
+      }
+    }
+
+    // ===== 形状 =====
+    &.cp-dialog--shape-clip {
+      clip-path: var(--cp-dialog-clip-path);
+    }
+
+    &.cp-dialog--shape-no-clip {
+      clip-path: none;
+      border-radius: 0;
+
+      .cp-dialog__decor {
+        display: none;
+      }
+    }
+
+    &.cp-dialog--shape-round {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+      overflow: hidden;
+
+      .cp-dialog__decor {
+        display: none;
+      }
+    }
+  }
+
+  // ===== 装饰方块 (右上角) =====
+  @include e(decor) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--cp-dialog-color);
+    opacity: 0.5;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+
+    .cp-dialog__panel:hover & {
+      opacity: 1;
+    }
+  }
+  // ===== 头部 =====
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+    min-height: 52px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+
+    &.is-bordered {
+      border-bottom: 1px solid var(--cp-dialog-header-divider-color, var(--cp-border));
+    }
+
+    &.is-draggable {
+      cursor: move;
+      user-select: none;
+    }
+  }
+
+  // ===== 标题 =====
+  @include e(title) {
+    display: flex;
+    align-items: center;
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: var(--cp-font-size-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--cp-dialog-title-color, var(--cp-text-primary));
+    flex: 1;
+    min-width: 0;
+
+    // 左侧竖线装饰
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background: var(--cp-dialog-color);
+      margin-right: var(--cp-spacing-sm);
+      flex-shrink: 0;
+    }
+  }
+
+  // ===== 关闭按钮 =====
+  @include e(close) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--cp-dialog-close-color, var(--cp-dialog-color));
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-left: var(--cp-spacing-sm);
+    padding: 0;
+
+    &:hover {
+      color: var(--cp-dialog-color);
+      border-color: var(--cp-dialog-color);
+      background: var(--cp-dialog-color-light);
+      box-shadow: 0 0 8px var(--cp-dialog-color-light);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+
+  // ===== 内容区 =====
+  @include e(body) {
+    flex: 1;
+    padding: var(--cp-spacing-lg);
+    overflow-y: auto;
+    color: var(--cp-dialog-text-color, var(--cp-text-secondary));
+    line-height: 1.6;
+    font-size: var(--cp-font-size-md);
+
+    // 赛博朋克滚动条
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(26, 26, 36, 0.8);
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 240, 255, 0.3);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(0, 240, 255, 0.5);
+      }
+    }
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 240, 255, 0.3) rgba(26, 26, 36, 0.8);
+  }
+
+  // ===== 底部 =====
+  @include e(footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+    gap: var(--cp-spacing-sm);
+    flex-shrink: 0;
+
+    &.is-bordered {
+      border-top: 1px solid var(--cp-dialog-footer-divider-color, var(--cp-border));
+    }
+
+    &.is-center {
+      justify-content: center;
+    }
+  }
+
+  // ===== 内置取消按钮 =====
+  @include e(cancel-btn) {
+    // 用户可通过 .cp-dialog__cancel-btn 覆盖样式
+  }
+
+  // ===== 内置确认按钮 =====
+  @include e(confirm-btn) {
+    // 用户可通过 .cp-dialog__confirm-btn 覆盖样式
+  }
+}

@@ -10,8 +10,15 @@ export const DEFAULTS_KEY: InjectionKey<Record<string, any>> = Symbol('cp-defaul
 /** 主题注入 Key */
 export const THEME_KEY: InjectionKey<Ref<ThemeType>> = Symbol('cp-theme')
 
+/** Dialog 上下文注入 Key — 子组件可继承 Dialog 的 type / color */
+export const DIALOG_CONTEXT_KEY: InjectionKey<{
+  type: Ref<string>
+  color: Ref<string>
+}> = Symbol('cp-dialog-context')
+
 /** 组件前缀 */
 export const COMPONENT_PREFIX = 'Cp'
 
 /** CSS 命名空间 */
 export const CSS_NAMESPACE = 'cp'
+
