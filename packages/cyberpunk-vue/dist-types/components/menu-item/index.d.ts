@@ -16,6 +16,10 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
             readonly type: BooleanConstructor;
             readonly default: false;
         };
+        readonly icon: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+            readonly default: undefined;
+        };
         readonly route: {
             readonly type: import("vue").PropType<string | Record<string, any>>;
             readonly default: undefined;
@@ -26,6 +30,7 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
         click: (index: string) => void;
     }, import("vue").PublicProps, {
         readonly disabled: boolean;
+        readonly icon: import("packages/cyberpunk-vue").IconValue;
         readonly route: string | Record<string, any>;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
@@ -43,6 +48,10 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
             readonly type: BooleanConstructor;
             readonly default: false;
         };
+        readonly icon: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+            readonly default: undefined;
+        };
         readonly route: {
             readonly type: import("vue").PropType<string | Record<string, any>>;
             readonly default: undefined;
@@ -51,6 +60,7 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
         onClick?: ((index: string) => any) | undefined;
     }>, {}, {}, {}, {}, {
         readonly disabled: boolean;
+        readonly icon: import("packages/cyberpunk-vue").IconValue;
         readonly route: string | Record<string, any>;
     }>;
     __isFragment?: never;
@@ -65,6 +75,10 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
         readonly type: BooleanConstructor;
         readonly default: false;
     };
+    readonly icon: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+        readonly default: undefined;
+    };
     readonly route: {
         readonly type: import("vue").PropType<string | Record<string, any>>;
         readonly default: undefined;
@@ -75,6 +89,7 @@ export declare const CpMenuItem: import("../utils").SFCWithInstall<{
     click: (index: string) => void;
 }, string, {
     readonly disabled: boolean;
+    readonly icon: import("packages/cyberpunk-vue").IconValue;
     readonly route: string | Record<string, any>;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {

@@ -92,6 +92,16 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpStatusIndicator` | 状态点                     |
 | `CpPopover`         | 气泡弹出层                 |
 
+### 导航
+
+| 组件              | 说明                         |
+| ----------------- | ---------------------------- |
+| `CpMenu`          | 导航菜单，水平/垂直/折叠     |
+| `CpMenuItem`      | 菜单项，支持 icon/route      |
+| `CpSubMenu`       | 子菜单，hover/click 展开     |
+| `CpMenuItemGroup` | 菜单分组                     |
+| `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[]) |
+
 ### 容器
 
 | 组件                  | 说明           |
@@ -121,5 +131,6 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
 - [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio 的完整 Props
 - [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification 等的完整 Props
+- [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav 的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置
 - [尺寸映射](./size-mapping/SKILL.md) - Size 预设值和自定义尺寸

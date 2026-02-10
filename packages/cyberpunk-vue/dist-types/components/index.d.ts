@@ -33,3 +33,5 @@ export * from './menu';
 export * from './menu-item';
 export * from './sub-menu';
 export * from './menu-item-group';
+export * from './notification';
+export * from './menu-nav';

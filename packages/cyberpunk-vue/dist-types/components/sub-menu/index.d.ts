@@ -19,8 +19,13 @@ export declare const CpSubMenu: import("../utils").SFCWithInstall<{
             readonly type: BooleanConstructor;
             readonly default: false;
         };
+        readonly icon: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+            readonly default: undefined;
+        };
     }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, import("vue").PublicProps, {
         readonly disabled: boolean;
+        readonly icon: import("packages/cyberpunk-vue").IconValue;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
         B: {};
@@ -37,8 +42,13 @@ export declare const CpSubMenu: import("../utils").SFCWithInstall<{
             readonly type: BooleanConstructor;
             readonly default: false;
         };
+        readonly icon: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+            readonly default: undefined;
+        };
     }>> & Readonly<{}>, {}, {}, {}, {}, {
         readonly disabled: boolean;
+        readonly icon: import("packages/cyberpunk-vue").IconValue;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
@@ -52,8 +62,13 @@ export declare const CpSubMenu: import("../utils").SFCWithInstall<{
         readonly type: BooleanConstructor;
         readonly default: false;
     };
+    readonly icon: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+        readonly default: undefined;
+    };
 }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, {
     readonly disabled: boolean;
+    readonly icon: import("packages/cyberpunk-vue").IconValue;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         icon?: (props: {}) => any;

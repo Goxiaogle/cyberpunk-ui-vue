@@ -6,6 +6,8 @@ import type { MenuMode, MenuType } from './menu';
 export interface MenuContext {
     /** 当前激活项 index */
     activeIndex: Ref<string>;
+    /** 当前激活项的完整索引路径 */
+    activeIndexPath: Ref<string[]>;
     /** 当前展开的子菜单 index 集合 */
     openedMenus: Ref<Set<string>>;
     /** 菜单模式 */

@@ -1,8 +1,8 @@
-declare var __VLS_1: {}, __VLS_3: {};
+declare var __VLS_5: {}, __VLS_7: {};
 type __VLS_Slots = {} & {
-    icon?: (props: typeof __VLS_1) => any;
+    icon?: (props: typeof __VLS_5) => any;
 } & {
-    default?: (props: typeof __VLS_3) => any;
+    default?: (props: typeof __VLS_7) => any;
 };
 declare const __VLS_component: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     readonly index: {
@@ -12,6 +12,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly disabled: {
         readonly type: BooleanConstructor;
         readonly default: false;
+    };
+    readonly icon: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+        readonly default: undefined;
     };
     readonly route: {
         readonly type: import("vue").PropType<string | Record<string, any>>;
@@ -28,6 +32,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: BooleanConstructor;
         readonly default: false;
     };
+    readonly icon: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").IconValue>;
+        readonly default: undefined;
+    };
     readonly route: {
         readonly type: import("vue").PropType<string | Record<string, any>>;
         readonly default: undefined;
@@ -36,6 +44,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     onClick?: ((index: string) => any) | undefined;
 }>, {
     readonly disabled: boolean;
+    readonly icon: import("packages/cyberpunk-vue").IconValue;
     readonly route: string | Record<string, any>;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
