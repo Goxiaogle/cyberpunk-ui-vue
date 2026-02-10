@@ -241,7 +241,7 @@
         color: inherit;
         font-family: inherit;
         font-size: inherit;
-        transition: opacity 0.15s ease, transform 0.15s ease, letter-spacing 0.15s ease;
+        transition: opacity var(--cp-input-clear-duration, 150ms) ease, transform var(--cp-input-clear-duration, 150ms) ease, letter-spacing var(--cp-input-clear-duration, 150ms) ease;
 
         &::placeholder {
             color: var(--cp-input-placeholder-color, var(--cp-text-muted));
