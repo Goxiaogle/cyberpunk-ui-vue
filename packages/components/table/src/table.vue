@@ -81,6 +81,9 @@ const getSortClass = (col: TableColumnConfig) => {
   return sortState.value.order === 'ascending' ? 'is-ascending' : sortState.value.order === 'descending' ? 'is-descending' : ''
 }
 
+const isSortActive = (col: TableColumnConfig, order: Exclude<SortOrder, null>) =>
+  sortState.value.prop === col.prop && sortState.value.order === order
+
 // ===== 选择 =====
 const selectedRows = ref<Set<any>>(new Set())
 
@@ -288,13 +291,13 @@ defineExpose({
                 <!-- 排序指示器 -->
                 <span v-if="col.sortable" :class="ns.e('sort-icon')">
                   <svg
-                    :class="[ns.e('sort-caret'), ns.m('ascending')]"
+                    :class="[ns.e('sort-caret'), ns.is('ascending'), ns.is('active', isSortActive(col, 'ascending'))]"
                     viewBox="0 0 8 5" width="8" height="5"
                   >
                     <path d="M4 0l4 5H0z" fill="currentColor" />
                   </svg>
                   <svg
-                    :class="[ns.e('sort-caret'), ns.m('descending')]"
+                    :class="[ns.e('sort-caret'), ns.is('descending'), ns.is('active', isSortActive(col, 'descending'))]"
                     viewBox="0 0 8 5" width="8" height="5"
                   >
                     <path d="M4 5L0 0h8z" fill="currentColor" />

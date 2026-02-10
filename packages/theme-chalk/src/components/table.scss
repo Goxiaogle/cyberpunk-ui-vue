@@ -147,22 +147,42 @@ $table-sizes: (
     position: relative;
     z-index: 1;
 
-    // 可排序表头
+    // 排序激活状态 - 表头文字
+    &.is-ascending,
+    &.is-descending {
+      color: var(--cp-text-primary);
+      text-shadow: 0 0 8px var(--cp-table-color);
+    }
+
+    // 排序激活的 caret
+    &.is-ascending {
+      .cp-table__sort-caret.is-ascending {
+        opacity: 1;
+        color: var(--cp-table-color);
+        filter: drop-shadow(0 0 4px var(--cp-table-color));
+      }
+    }
+    
+    &.is-descending {
+      .cp-table__sort-caret.is-descending {
+        opacity: 1;
+        color: var(--cp-table-color);
+        filter: drop-shadow(0 0 4px var(--cp-table-color));
+      }
+    }
+
     @include when(sortable) {
       cursor: pointer;
 
       &:hover {
-        color: var(--cp-table-color);
+        color: var(--cp-text-primary);
+        text-shadow: 0 0 12px var(--cp-table-color);
         background: rgba(255, 255, 255, 0.03);
-        text-shadow: 0 0 8px currentColor;
-      }
-    }
 
-    // 排序激活状态
-    &.is-ascending,
-    &.is-descending {
-      color: var(--cp-table-color);
-      text-shadow: 0 0 6px currentColor;
+        .cp-table__sort-caret {
+          opacity: 0.6;
+        }
+      }
     }
   }
 
@@ -183,24 +203,20 @@ $table-sizes: (
   }
 
   @include e(sort-caret) {
-    opacity: 0.3;
-    transition: opacity 0.2s ease, color 0.2s ease;
+    opacity: 0.2;
+    transition: all 0.2s ease;
     display: block;
     line-height: 0;
+    color: var(--cp-text-muted);
+
+    &.is-active {
+      opacity: 1;
+      color: var(--cp-table-color);
+      filter: drop-shadow(0 0 4px var(--cp-table-color));
+    }
   }
 
-  // 排序激活的 caret
-  .cp-table__header-cell.is-ascending .cp-table__sort-caret--ascending {
-    opacity: 1;
-    color: var(--cp-table-color);
-    filter: drop-shadow(0 0 3px currentColor);
-  }
 
-  .cp-table__header-cell.is-descending .cp-table__sort-caret--descending {
-    opacity: 1;
-    color: var(--cp-table-color);
-    filter: drop-shadow(0 0 3px currentColor);
-  }
 
   // ===== 表体 =====
   @include e(body) {
