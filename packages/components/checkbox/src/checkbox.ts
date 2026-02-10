@@ -51,7 +51,7 @@ export const checkboxProps = {
    * 单独使用时为 boolean，在 Group 中使用时为数组
    */
   modelValue: {
-    type: [Boolean, Array] as PropType<boolean | CheckboxValueType[]>,
+    type: [String, Number, Boolean, Array] as PropType<CheckboxValueType | CheckboxValueType[]>,
     default: undefined,
   },
   /**
@@ -155,13 +155,13 @@ export const checkboxEmits = {
   /**
    * 值变化时触发 (v-model 绑定)
    */
-  'update:modelValue': (value: boolean | CheckboxValueType[]) =>
-    typeof value === 'boolean' || Array.isArray(value),
+  'update:modelValue': (value: CheckboxValueType | CheckboxValueType[]) =>
+    typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || Array.isArray(value),
   /**
    * 值变化时触发
    */
-  change: (value: boolean | CheckboxValueType[]) =>
-    typeof value === 'boolean' || Array.isArray(value),
+  change: (value: CheckboxValueType | CheckboxValueType[]) =>
+    typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || Array.isArray(value),
 }
 
 export type CheckboxEmits = typeof checkboxEmits

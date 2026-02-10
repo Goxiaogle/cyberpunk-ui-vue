@@ -1,5 +1,4 @@
 import type { Component, ExtractPropTypes, PropType } from 'vue'
-import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 树节点数据模型
@@ -18,7 +17,7 @@ export interface TreeNodeData {
   /** 自定义图标名称 */
   icon?: string
   /** 允许用户扩展的任意数据 */
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**

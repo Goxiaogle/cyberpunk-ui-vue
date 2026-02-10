@@ -173,60 +173,60 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div
-        ref="containerRef"
-        :class="classes"
-        :style="containerStyle"
-    >
-        <!-- 加载占位符 -->
-        <div v-if="isLoading" :class="ns.e('placeholder')">
-            <slot name="placeholder">
-                <div :class="ns.e('skeleton')">
-                    <svg
-                        :class="ns.e('skeleton-icon')"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                    >
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
-                        <path d="M21 15l-5-5L5 21" />
-                    </svg>
-                </div>
-            </slot>
+  <div
+    ref="containerRef"
+    :class="classes"
+    :style="containerStyle"
+  >
+    <!-- 加载占位符 -->
+    <div v-if="isLoading" :class="ns.e('placeholder')">
+      <slot name="placeholder">
+        <div :class="ns.e('skeleton')">
+          <svg
+            :class="ns.e('skeleton-icon')"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
+            <path d="M21 15l-5-5L5 21" />
+          </svg>
         </div>
-
-        <!-- 错误状态 -->
-        <div v-else-if="isError" :class="ns.e('error')">
-            <slot name="error">
-                <svg
-                    :class="ns.e('error-icon')"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                >
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M9 9l6 6M15 9l-6 6" />
-                </svg>
-                <span :class="ns.e('error-text')">加载失败</span>
-            </slot>
-        </div>
-
-        <!-- 实际图片 -->
-        <img
-            v-show="!isLoading && !isError"
-            ref="imageRef"
-            :class="ns.e('inner')"
-            :src="currentSrc"
-            :alt="alt"
-            :draggable="props.draggable"
-            @load="handleLoad"
-            @error="handleError"
-        />
-
-        <!-- 装饰块 (clip 模式) -->
-        <span v-if="props.shape === 'clip' && props.showDecor" :class="ns.e('decor')" />
+      </slot>
     </div>
+
+    <!-- 错误状态 -->
+    <div v-else-if="isError" :class="ns.e('error')">
+      <slot name="error">
+        <svg
+          :class="ns.e('error-icon')"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M9 9l6 6M15 9l-6 6" />
+        </svg>
+        <span :class="ns.e('error-text')">加载失败</span>
+      </slot>
+    </div>
+
+    <!-- 实际图片 -->
+    <img
+      v-show="!isLoading && !isError"
+      ref="imageRef"
+      :class="ns.e('inner')"
+      :src="currentSrc"
+      :alt="alt"
+      :draggable="props.draggable"
+      @load="handleLoad"
+      @error="handleError"
+    />
+
+    <!-- 装饰块 (clip 模式) -->
+    <span v-if="props.shape === 'clip' && props.showDecor" :class="ns.e('decor')" />
+  </div>
 </template>

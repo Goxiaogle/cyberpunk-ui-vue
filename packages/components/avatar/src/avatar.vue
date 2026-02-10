@@ -109,40 +109,40 @@ watch(
 </script>
 
 <template>
-    <span :class="classes" :style="styles">
-        <!-- 图片 -->
-        <img
-            v-if="showImage"
-            :class="ns.e('image')"
-            :src="currentSrc"
-            :alt="alt"
-            :style="{ objectFit: fit }"
-            :draggable="props.draggable"
-            @load="handleLoad"
-            @error="handleError"
-        />
+  <span :class="classes" :style="styles">
+    <!-- 图片 -->
+    <img
+      v-if="showImage"
+      :class="ns.e('image')"
+      :src="currentSrc"
+      :alt="alt"
+      :style="{ objectFit: fit }"
+      :draggable="props.draggable"
+      @load="handleLoad"
+      @error="handleError"
+    />
 
-        <!-- 图标 -->
-        <CpIcon
-            v-else-if="showIcon"
-            :class="ns.e('icon')"
-            :icon="icon!"
-        />
+    <!-- 图标 -->
+    <CpIcon
+      v-else-if="showIcon"
+      :class="ns.e('icon')"
+      :icon="icon!"
+    />
 
-        <!-- 默认插槽（文字等） -->
-        <span v-else-if="slots.default" :class="ns.e('text')">
-            <slot />
-        </span>
-
-        <!-- 占位符（用户轮廓） -->
-        <svg
-            v-else-if="showPlaceholder"
-            :class="ns.e('placeholder')"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-        >
-            <circle cx="12" cy="8" r="4" />
-            <path d="M12 14c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z" />
-        </svg>
+    <!-- 默认插槽（文字等） -->
+    <span v-else-if="slots.default" :class="ns.e('text')">
+      <slot />
     </span>
+
+    <!-- 占位符（用户轮廓） -->
+    <svg
+      v-else-if="showPlaceholder"
+      :class="ns.e('placeholder')"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M12 14c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z" />
+    </svg>
+  </span>
 </template>

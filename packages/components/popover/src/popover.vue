@@ -3,7 +3,7 @@
  * CpPopover - 赛博朋克风格弹出提示层
  * 支持多种弹出位置、触发方式，可作为 Tooltip 或 Popover 使用
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { popoverProps, popoverEmits } from './popover'
@@ -14,7 +14,6 @@ defineOptions({
 
 const props = defineProps(popoverProps)
 const emit = defineEmits(popoverEmits)
-const slots = useSlots()
 
 const ns = useNamespace('popover')
 

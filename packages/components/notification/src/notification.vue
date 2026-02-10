@@ -100,7 +100,7 @@ const cssVars = computed<Record<string, string>>(() => {
 // ===== 容器样式 =====
 const containerStyle = computed<CSSProperties>(() => {
   const width = typeof props.width === 'number' ? `${props.width}px` : props.width
-  const style: Record<string, any> = {
+  const style: CSSProperties = {
     ...cssVars.value,
     width,
     zIndex: props.zIndex,
@@ -119,7 +119,7 @@ const containerStyle = computed<CSSProperties>(() => {
     style.bottom = `${props.offset}px`
   }
 
-  return style as CSSProperties
+  return style
 })
 
 // ===== 类名 =====
@@ -254,8 +254,8 @@ defineExpose({
         <button
           v-if="showClose"
           :class="ns.e('close')"
-          @click="handleClose"
           aria-label="Close"
+          @click="handleClose"
         >
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12" />

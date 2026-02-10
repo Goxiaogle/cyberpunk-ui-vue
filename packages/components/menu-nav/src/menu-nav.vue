@@ -5,7 +5,6 @@
  * 接收 MenuNavItem[] 数据自动递归生成嵌套菜单结构。
  * 有 children → SubMenu，有 group → MenuItemGroup，否则 → MenuItem
  */
-import { useNamespace } from '@cyberpunk-vue/hooks'
 import { CpMenu } from '../../menu'
 import { CpMenuItem } from '../../menu-item'
 import { CpSubMenu } from '../../sub-menu'
@@ -16,7 +15,7 @@ import type { MenuNavItem } from './menu-nav'
 
 defineOptions({ name: 'CpMenuNav' })
 
-const props = defineProps(menuNavProps)
+defineProps(menuNavProps)
 const emit = defineEmits(menuNavEmits)
 
 const handleSelect = (index: string, indexPath: string[]) => {

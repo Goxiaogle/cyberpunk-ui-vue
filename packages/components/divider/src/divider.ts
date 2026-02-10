@@ -1,5 +1,4 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 分割线方向

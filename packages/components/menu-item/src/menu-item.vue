@@ -45,9 +45,10 @@ const handleClick = () => {
     const router = instance?.appContext.config.globalProperties.$router
     if (router) {
       const target = props.route ?? props.index
-      router.push(target).catch((err: any) => {
+      router.push(target).catch((err: unknown) => {
+        const error = err as { name?: string }
         // NavigationDuplicated 等错误静默处理
-        if (err.name !== 'NavigationDuplicated') {
+        if (error.name !== 'NavigationDuplicated') {
           console.warn('[CpMenuItem] Router navigation failed:', err)
         }
       })

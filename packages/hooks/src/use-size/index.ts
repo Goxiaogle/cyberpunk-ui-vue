@@ -46,13 +46,6 @@ function isNumericString(value: string): boolean {
 }
 
 /**
- * 检测字符串是否已包含 CSS 单位
- */
-function hasUnit(value: string): boolean {
-    return /^-?\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc)$/i.test(value.trim())
-}
-
-/**
  * 将尺寸值标准化为 CSS 可用的尺寸字符串
  *
  * @param value - 尺寸值（数字、字符串或预设）

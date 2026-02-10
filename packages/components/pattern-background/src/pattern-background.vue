@@ -75,8 +75,6 @@ const generateStripesPattern = (): string => {
 const generateCrossPattern = (): string => {
   const lineWidth = normalizeSize(props.lineWidth)
   const color = props.color
-  const size = getSizeNumber(props.size)
-  const crossHalfSize = size * 0.15 // 十字架臂长占格子 15%
   
   // 使用多层渐变合成离散十字架
   // 注意：线性渐变需要配合 background-size 才能形成不覆盖全格的效果
@@ -109,7 +107,6 @@ const backgroundPosition = computed((): string => {
   switch (props.pattern) {
     case 'checkerboard': {
       const halfSize = sizeNum / 2
-      const quarterSize = sizeNum / 4
       // 棋盘格 4 层定位
       return `0 0, 0 ${halfSize}px, ${halfSize}px -${halfSize}px, -${halfSize}px 0`
     }

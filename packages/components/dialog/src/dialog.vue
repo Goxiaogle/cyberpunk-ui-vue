@@ -153,7 +153,7 @@ const dialogCssVars = computed<Record<string, string>>(() => {
 // ===== 面板样式 =====
 const dialogStyle = computed<CSSProperties>(() => {
   const width = typeof props.width === 'number' ? `${props.width}px` : props.width
-  const style: Record<string, any> = {
+  const style: CSSProperties = {
     ...dialogCssVars.value,
     width: props.fullscreen ? undefined : width,
   }
@@ -169,12 +169,12 @@ const dialogStyle = computed<CSSProperties>(() => {
     }
   }
 
-  return style as CSSProperties
+  return style
 })
 
 // ===== 遮罩样式 =====
 const overlayStyleObj = computed<CSSProperties>(() => {
-  const style: Record<string, any> = {
+  const style: CSSProperties = {
     zIndex: props.zIndex,
   }
   if (props.overlayColor) {
@@ -185,7 +185,7 @@ const overlayStyleObj = computed<CSSProperties>(() => {
       Object.assign(style, props.overlayStyle)
     }
   }
-  return style as CSSProperties
+  return style
 })
 
 // ===== 类名 =====
@@ -433,10 +433,10 @@ defineExpose({
             v-bind="$attrs"
             :class="panelClasses"
             :style="dialogStyle"
-            @click="handlePanelClick"
-            @animationend="handleShakeEnd"
             role="dialog"
             aria-modal="true"
+            @click="handlePanelClick"
+            @animationend="handleShakeEnd"
           >
             <!-- 装饰方块 (右上角) -->
             <div :class="ns.e('decor')" />
@@ -456,8 +456,8 @@ defineExpose({
                 <button
                   v-if="showClose"
                   :class="ns.e('close')"
-                  @click="handleClose"
                   aria-label="Close"
+                  @click="handleClose"
                 >
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6L6 18M6 6l12 12" />
@@ -486,14 +486,18 @@ defineExpose({
                   v-if="showCancelButton"
                   :class="ns.e('cancel-btn')"
                   @click="handleCancel"
-                >{{ cancelText || '取消' }}</CpButton>
+                >
+                  {{ cancelText || '取消' }}
+                </CpButton>
                 <CpButton
                   v-if="showConfirmButton"
                   :class="ns.e('confirm-btn')"
                   :type="confirmButtonType"
                   :color="confirmButtonColor"
                   @click="handleConfirm"
-                >{{ confirmText || '确认' }}</CpButton>
+                >
+                  {{ confirmText || '确认' }}
+                </CpButton>
               </slot>
             </div>
           </div>

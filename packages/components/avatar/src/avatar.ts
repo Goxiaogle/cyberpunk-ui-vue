@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType, Component } from 'vue'
-import type { Size, CommonSize } from '@cyberpunk-vue/hooks'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 头像预设尺寸

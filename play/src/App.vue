@@ -1,51 +1,21 @@
 <script setup lang="ts">
-// Playground - 导入组件通过全局注册
+
 </script>
 
 <template>
   <div class="playground">
     <header class="playground-header">
-      <h1>⚡ Cyberpunk Vue Playground</h1>
-      <p>自由测试组件的地方</p>
+      <h1>Cyberpunk Vue Playground</h1>
+      <p>Dialog before-close behavior test</p>
     </header>
 
     <main class="playground-content">
-      <div class="element">
-        123
-      </div>
-
-      <div class="element2">
-        123
-      </div>
+      <section class="demo-section" />
     </main>
   </div>
 </template>
 
 <style scoped lang="scss">
-.element {
-  /* 假设背景色是动态的（可以用 CSS 变量） */
-  --bg-color: #fff2f2; /* 示例背景色，可随意改 */
-
-  background-color: var(--bg-color);
-
-  /* 自动选择对比度最高的文字颜色（这里在白色和黑色之间选） */
-  color: color-contrast(var(--bg-color));
-}
-
-.element2 {
-  /* 假设背景色是动态的（可以用 CSS 变量） */
-  --bg-color: #3e3e3e; /* 示例背景色，可随意改 */
-
-  background-color: var(--bg-color);
-
-  /* 自动选择对比度最高的文字颜色（这里在白色和黑色之间选） */
-  color: color-contrast(var(--bg-color) vs black, white);
-}
-
-:root {
-  interpolate-size: allow-keywords;
-}
-
 .playground {
   min-height: 100vh;
   padding: 24px;
@@ -58,10 +28,7 @@
   padding: 32px;
   background: rgba(0, 255, 255, 0.05);
   border: 1px solid rgba(0, 255, 255, 0.2);
-  clip-path: polygon(
-          0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%,
-          20px 100%, 0 calc(100% - 20px)
-  );
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
 
   h1 {
     font-size: 2.5rem;
@@ -99,20 +66,20 @@
   }
 }
 
-.demo-group {
-  margin-bottom: 24px;
-
-  h3 {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 12px;
-  }
-}
-
 .demo-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
+}
+
+.tips {
+  margin: 16px 0;
+  opacity: 0.8;
+}
+
+.dialog-desc {
+  margin-top: 8px;
+  opacity: 0.7;
 }
 </style>

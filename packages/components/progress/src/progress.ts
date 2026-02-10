@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DurationValue, Size, CommonSize } from '@cyberpunk-vue/hooks'
+import type { DurationValue, Size } from '@cyberpunk-vue/hooks'
 
 /**
  * 进度条类型

@@ -5,7 +5,7 @@
  * 支持条纹效果、流动动画、不确定状态
  */
 import { computed, type CSSProperties } from 'vue'
-import { useNamespace, normalizeDuration, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration, isPresetSize } from '@cyberpunk-vue/hooks'
 import { progressProps } from './progress'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -132,8 +132,6 @@ const shouldShowInnerStripe = computed(() => {
 
 // 内圈装饰样式
 const innerCircleStyle = computed<CSSProperties>(() => {
-  const { innerDashLength, innerGapLength } = circleParams.value
-
   // 基础虚线效果 (4px 填色, 8px 空白)
   let dashArray = `4 8`
 

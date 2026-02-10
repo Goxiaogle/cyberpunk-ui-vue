@@ -1,4 +1,4 @@
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { IconValue } from '../../icon/src/icon'
 
 /**
@@ -32,7 +32,7 @@ export const menuItemProps = {
    * vue-router 路由对象或路径
    */
   route: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | Record<string, unknown>>,
     default: undefined,
   },
 } as const

@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync, cpSync, rmSync } from 'fs'
+import { readFileSync, mkdirSync, existsSync, cpSync, rmSync } from 'fs'
 import { resolve } from 'path'
 import { execSync } from 'child_process'
 
@@ -19,7 +19,7 @@ async function main() {
       cwd: root,
       stdio: 'inherit'
     })
-  } catch (e) {
+  } catch (_error) {
     console.error('vue-tsc failed, but continuing...')
   }
 

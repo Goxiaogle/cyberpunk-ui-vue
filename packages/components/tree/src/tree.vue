@@ -3,7 +3,7 @@
  * CpTree - 赛博朋克风格树形控件
  * 支持展开/收起、复选框级联、手风琴、连接线、过滤等功能
  */
-import { computed, provide, ref, watch, useSlots, toRef } from 'vue'
+import { computed, provide, ref, watch, useSlots } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { treeProps, treeEmits, type TreeNode, type TreeNodeData } from './tree'
@@ -31,7 +31,8 @@ const getIsLeaf = (data: TreeNodeData) =>
   data[props.props?.isLeaf || 'isLeaf'] as boolean | undefined
 const getNodeKey = (data: TreeNodeData) => {
   const key = data[props.nodeKey]
-  return key !== undefined ? key : data.label
+  if (typeof key === 'string' || typeof key === 'number') return key
+  return data.label
 }
 
 // ===== 节点映射 =====
@@ -148,38 +149,6 @@ const updateIndeterminateKeys = () => {
 
   const newIndeterminate = new Set<string | number>()
   const checked = checkedKeysSet.value
-
-  // 自底向上遍历
-  const checkParent = (node: TreeNode) => {
-    if (!node.parent) return
-
-    const parent = node.parent
-    const siblings = parent.children
-    const allChecked = siblings.every(
-      (s) => checked.has(s.key) && !s.disabled
-    )
-    const someChecked = siblings.some(
-      (s) => checked.has(s.key) || newIndeterminate.has(s.key)
-    )
-
-    if (allChecked && !siblings.some((s) => s.disabled && !checked.has(s.key))) {
-      // 所有非禁用子节点都选中了 → 父节点选中
-      // 不在这里修改 checked，只标记 indeterminate
-    } else if (someChecked) {
-      newIndeterminate.add(parent.key)
-    }
-
-    checkParent(parent)
-  }
-
-  // 遍历所有节点
-  const traverse = (nodes: TreeNode[]) => {
-    for (const node of nodes) {
-      if (node.children.length > 0) {
-        traverse(node.children)
-      }
-    }
-  }
 
   // 从叶子节点开始向上计算
   const computeFromBottom = (nodes: TreeNode[]) => {
@@ -389,8 +358,8 @@ const customStyle = computed(() => {
 
 // ===== Provide 上下文 =====
 const context: TreeContext = {
-  expandedKeys: expandedKeysSet as any,
-  checkedKeys: checkedKeysSet as any,
+  expandedKeys: expandedKeysSet,
+  checkedKeys: checkedKeysSet,
   indeterminateKeys,
   currentNodeKey,
   showCheckbox: props.showCheckbox,

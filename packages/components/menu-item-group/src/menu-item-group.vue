@@ -6,7 +6,7 @@ import { menuContextKey, subMenuContextKey } from '../../menu/src/constants'
 
 defineOptions({ name: 'CpMenuItemGroup' })
 
-const props = defineProps(menuItemGroupProps)
+defineProps(menuItemGroupProps)
 const ns = useNamespace('menu-item-group')
 
 const menuCtx = inject(menuContextKey, undefined)

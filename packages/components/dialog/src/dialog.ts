@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue'
 
 /**
  * 关闭前回调函数类型
@@ -28,6 +28,10 @@ export type DialogShape = 'clip' | 'no-clip' | 'round'
  * 对话框主题颜色类型
  */
 export type DialogType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+export type DialogCustomClass =
+  | string
+  | Record<string, boolean>
+  | Array<string | Record<string, boolean>>
 
 /**
  * CpDialog Props 定义
@@ -305,35 +309,35 @@ export const dialogProps = {
    * 对话框根容器自定义 class
    */
   dialogClass: {
-    type: [String, Object, Array] as PropType<any>,
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
     default: undefined,
   },
   /**
    * 头部区域自定义 class
    */
   headerClass: {
-    type: [String, Object, Array] as PropType<any>,
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
     default: undefined,
   },
   /**
    * 主体内容区域自定义 class
    */
   bodyClass: {
-    type: [String, Object, Array] as PropType<any>,
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
     default: undefined,
   },
   /**
    * 底部区域自定义 class
    */
   footerClass: {
-    type: [String, Object, Array] as PropType<any>,
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
     default: undefined,
   },
   /**
    * 遮罩层自定义 class
    */
   overlayClass: {
-    type: [String, Object, Array] as PropType<any>,
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
     default: undefined,
   },
   /**
@@ -350,35 +354,35 @@ export const dialogProps = {
    * 对话框面板自定义 style
    */
   dialogStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },
   /**
    * 头部区域自定义 style
    */
   headerStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },
   /**
    * 主体内容区域自定义 style
    */
   bodyStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },
   /**
    * 底部区域自定义 style
    */
   footerStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },
   /**
    * 遮罩层自定义 style
    */
   overlayStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },
 

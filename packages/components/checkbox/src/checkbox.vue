@@ -5,7 +5,7 @@
  */
 import { computed, inject, ref } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
-import { checkboxProps, checkboxEmits, type CheckboxValueType } from './checkbox'
+import { checkboxProps, checkboxEmits } from './checkbox'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { checkboxGroupContextKey } from '../../checkbox-group/src/constants'
 
@@ -55,7 +55,7 @@ const isChecked = computed(() => {
   if (typeof props.modelValue === 'boolean') {
     return props.modelValue
   }
-  return (props.modelValue as any) === props.trueValue
+  return props.modelValue === props.trueValue
 })
 
 // 类型到颜色变量的映射
@@ -125,8 +125,8 @@ const handleChange = () => {
   } else {
     // 单独模式
     const newValue = isChecked.value ? props.falseValue : props.trueValue
-    emit('update:modelValue', newValue as boolean)
-    emit('change', newValue as boolean)
+    emit('update:modelValue', newValue)
+    emit('change', newValue)
   }
 }
 

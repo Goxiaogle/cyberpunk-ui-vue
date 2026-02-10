@@ -16,7 +16,8 @@ import { computed, inject, ref, type Component } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { treeNodeProps } from './tree-node'
-import { treeContextKey, type TreeIconProp, type TreeNodeIconProp } from './constants'
+import type { TreeNode } from './tree'
+import { treeContextKey, type TreeIconProp } from './constants'
 import CpIcon from '../../icon/src/icon.vue'
 
 defineOptions({
@@ -34,7 +35,7 @@ function resolveIconProp(iconProp: TreeIconProp | undefined): Component | null {
   if (!iconProp) return null
   if (typeof iconProp === 'function') {
     try {
-      return (iconProp as (node: any) => Component)(props.node)
+      return (iconProp as (node: TreeNode) => Component)(props.node)
     } catch {
       return null
     }
@@ -113,7 +114,7 @@ const nodeIconResolved = computed<{ component: Component | null; iconString: str
   if (ctx.nodeIcon) {
     if (typeof ctx.nodeIcon === 'function') {
       try {
-        const result = (ctx.nodeIcon as (node: any) => Component | string | undefined)(props.node)
+        const result = (ctx.nodeIcon as (node: TreeNode) => Component | string | undefined)(props.node)
         if (!result) return { component: null, iconString: null }
         if (typeof result === 'string') return { component: null, iconString: result }
         return { component: result as Component, iconString: null }
@@ -230,7 +231,7 @@ const childrenRef = ref<HTMLElement>()
         :class="ns.e('node-icon')"
       >
         <!-- 组件形式直接渲染 -->
-        <component v-if="nodeIconResolved.component" :is="nodeIconResolved.component" />
+        <component :is="nodeIconResolved.component" v-if="nodeIconResolved.component" />
         <!-- 字符串形式通过 CpIcon 渲染 -->
         <CpIcon v-else-if="nodeIconResolved.iconString" :icon="nodeIconResolved.iconString" size="sm" />
       </span>

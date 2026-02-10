@@ -3,7 +3,7 @@
  * CpAvatarGroup - 头像组组件
  * 用于展示一组头像，支持堆叠和折叠模式
  */
-import { computed, provide, useSlots, VNode } from 'vue'
+import { computed, provide, useSlots, type Slot, type VNode } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { avatarGroupProps, AVATAR_GROUP_INJECTION_KEY, type AvatarGroupContext } from './avatar-group'
@@ -54,7 +54,7 @@ const styles = computed(() => ({
 const getAvatarChildren = (): VNode[] => {
     const slot = slots.default
     if (!slot) return []
-    const defaultSlot = (slot as any)()
+    const defaultSlot = (slot as Slot)()
     if (!defaultSlot) return []
 
     // 展平 Fragment
@@ -101,23 +101,23 @@ const counterClasses = computed(() => [
 </script>
 
 <template>
-    <div :class="classes" :style="styles">
-        <!-- 渲染子头像 -->
-        <template v-for="(child, index) in getAvatarChildren()" :key="index">
-            <component
-                v-if="index < visibleCount"
-                :is="child"
-            />
-        </template>
+  <div :class="classes" :style="styles">
+    <!-- 渲染子头像 -->
+    <template v-for="(child, index) in getAvatarChildren()" :key="index">
+      <component
+        :is="child"
+        v-if="index < visibleCount"
+      />
+    </template>
 
-        <!-- 折叠计数器 -->
-        <span
-            v-if="hiddenCount > 0"
-            :class="counterClasses"
-            :style="props.collapseStyle"
-            :title="props.collapseAvatarsTooltip"
-        >
-            +{{ hiddenCount }}
-        </span>
-    </div>
+    <!-- 折叠计数器 -->
+    <span
+      v-if="hiddenCount > 0"
+      :class="counterClasses"
+      :style="props.collapseStyle"
+      :title="props.collapseAvatarsTooltip"
+    >
+      +{{ hiddenCount }}
+    </span>
+  </div>
 </template>
