@@ -38,7 +38,7 @@ export const inputNumberProps = {
     },
     /** 尺寸 */
     size: {
-        type: String as PropType<InputNumberSize>,
+        type: [String, Number] as PropType<InputNumberSize>,
         default: 'md',
     },
     /** 是否禁用 */

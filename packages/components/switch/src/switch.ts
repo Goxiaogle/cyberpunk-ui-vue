@@ -55,7 +55,7 @@ export const switchProps = {
      * @example `<CpSwitch size="lg" />`
      */
     size: {
-        type: String as PropType<SwitchSize>,
+        type: [String, Number] as PropType<SwitchSize>,
         default: 'md',
     },
     /**

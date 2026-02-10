@@ -77,6 +77,11 @@ $cp-sizes: (
   'lg': 44px,
 );
 
+// Button 专属高度变量
+$cp-button-height-sm: map.get($cp-sizes, 'sm');
+$cp-button-height-md: map.get($cp-sizes, 'md');
+$cp-button-height-lg: map.get($cp-sizes, 'lg');
+
 $cp-font-sizes: (
   'sm': 12px,
   'md': 14px,
@@ -137,6 +142,11 @@ $cp-radius: (
   @each $name, $value in $cp-sizes {
     --cp-size-#{$name}: #{$value};
   }
+
+  // Button 尺寸
+  --cp-button-height-sm: #{$cp-button-height-sm};
+  --cp-button-height-md: #{$cp-button-height-md};
+  --cp-button-height-lg: #{$cp-button-height-lg};
 
   @each $name, $value in $cp-font-sizes {
     --cp-font-size-#{$name}: #{$value};

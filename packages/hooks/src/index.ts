@@ -25,3 +25,6 @@ export type {
     UseImageSrcReturn,
 } from './use-image-src'
 
+export { usePagination } from './use-pagination'
+export type { UsePaginationOptions, UsePaginationReturn } from './use-pagination'
+

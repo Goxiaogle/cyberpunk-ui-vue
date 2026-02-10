@@ -38,6 +38,9 @@
 
   // 弹层内容
   @include e(content) {
+    --cp-popover-base-color: var(--cp-popover-color, var(--cp-color-primary));
+    --cp-popover-base-color-light: var(--cp-popover-color-light, var(--cp-color-primary-light));
+
     position: absolute;
     z-index: 2000;
     padding: var(--cp-spacing-md);
@@ -45,11 +48,11 @@
     border: 1px solid var(--cp-border);
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.4),
-      0 0 1px var(--cp-color-primary),
+      0 0 1px var(--cp-popover-base-color),
       inset 0 0 20px rgba(0, 240, 255, 0.03);
     backdrop-filter: blur(8px);
     
-    // 切角样式
+    // 默认切角样式
     clip-path: polygon(
       8px 0, 100% 0,
       100% calc(100% - 8px), calc(100% - 8px) 100%,
@@ -59,7 +62,7 @@
     // 入场动画
     animation: cp-popover-fade-in 0.2s ease-out;
 
-    // 标记角 — 放在未被 clip-path 切掉的角上
+    // 标记角
     &::before {
       content: '';
       position: absolute;
@@ -67,9 +70,10 @@
       right: 0;
       width: 12px;
       height: 12px;
-      border-right: 2px solid var(--cp-color-primary);
-      border-top: 2px solid var(--cp-color-primary);
+      border-right: 2px solid var(--cp-popover-base-color);
+      border-top: 2px solid var(--cp-popover-base-color);
       opacity: 0.8;
+      transition: border-color 0.3s ease;
     }
 
     &::after {
@@ -79,9 +83,60 @@
       left: 0;
       width: 12px;
       height: 12px;
-      border-left: 2px solid var(--cp-color-primary);
-      border-bottom: 2px solid var(--cp-color-primary);
+      border-left: 2px solid var(--cp-popover-base-color);
+      border-bottom: 2px solid var(--cp-popover-base-color);
       opacity: 0.8;
+      transition: border-color 0.3s ease;
+    }
+
+    // ===== Variant Styles =====
+
+    // Solid (默认)
+    @include m(solid) {
+      // 默认样式已包含 solid 的基本属性
+    }
+
+    // Outline
+    @include m(outline) {
+      background: rgba(10, 10, 14, 0.6);
+      border-color: var(--cp-popover-base-color);
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 10px var(--cp-popover-base-color-light),
+        inset 0 0 15px var(--cp-popover-base-color-light);
+      
+      &::before, &::after {
+        opacity: 1;
+      }
+    }
+
+    // Neon
+    @include m(neon) {
+      background: rgba(var(--cp-bg-elevated-rgb), 0.95);
+      border-color: var(--cp-popover-base-color);
+      box-shadow: 
+        0 0 15px var(--cp-popover-base-color-light),
+        0 0 30px var(--cp-popover-base-color-light),
+        inset 0 0 10px var(--cp-popover-base-color-light);
+      
+      &::before, &::after {
+        border-width: 3px;
+        opacity: 1;
+        filter: drop-shadow(0 0 5px var(--cp-popover-base-color));
+      }
+    }
+
+    // Ghost
+    @include m(ghost) {
+      background: rgba(20, 20, 25, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      clip-path: none;
+      border-radius: var(--cp-radius-sm);
+      
+      &::before, &::after {
+        display: none;
+      }
     }
 
     // Tooltip 模式 - 简化样式
@@ -89,10 +144,10 @@
       padding: var(--cp-spacing-sm) var(--cp-spacing-md);
       font-size: var(--cp-font-size-sm);
       background: rgba(10, 10, 14, 0.95);
-      border-color: var(--cp-color-primary);
+      border-color: var(--cp-popover-base-color);
       box-shadow: 
         0 2px 8px rgba(0, 0, 0, 0.5),
-        0 0 8px var(--cp-color-primary-light);
+        0 0 8px var(--cp-popover-base-color-light);
       
       // 更小的切角
       clip-path: polygon(
@@ -104,6 +159,11 @@
       &::before,
       &::after {
         display: none;
+      }
+      
+      &.cp-popover__content--ghost {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
       }
     }
 
@@ -128,9 +188,10 @@
       display: inline-block;
       width: 3px;
       height: 1em;
-      background: var(--cp-color-primary);
+      background: var(--cp-popover-color, var(--cp-color-primary));
       margin-right: var(--cp-spacing-sm);
       vertical-align: middle;
+      transition: background-color 0.3s ease;
     }
   }
 
@@ -150,7 +211,18 @@
     transform: rotate(45deg);
     z-index: 1;
     // 增强微光效果，去除描边
-    box-shadow: 0 0 6px var(--cp-color-primary);
+    box-shadow: 0 0 6px var(--cp-popover-color, var(--cp-color-primary));
+    transition: box-shadow 0.3s ease;
+
+    // 某些 variant 需要调整箭头背景
+    .cp-popover__content--outline \u0026,
+    .cp-popover__content--ghost \u0026 {
+      background: rgba(10, 10, 14, 0.95);
+    }
+
+    .cp-popover__content--neon \u0026 {
+       box-shadow: 0 0 10px var(--cp-popover-color-light, var(--cp-color-primary-light));
+    }
 
     // 弹层在目标上方 → 箭头在弹层底部
     @include m(top) {

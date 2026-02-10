@@ -56,7 +56,7 @@ export const loadingProps = {
      * @example `<CpLoading size="lg" />`
      */
     size: {
-        type: String as PropType<LoadingSize>,
+        type: [String, Number] as PropType<LoadingSize>,
         default: 'md',
     },
     /**

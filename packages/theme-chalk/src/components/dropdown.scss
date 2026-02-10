@@ -391,15 +391,15 @@
       transform-origin: bottom center;
     }
 
-    // 标记角
+    // 标记角 (右上 & 左下)
     &::before {
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       width: 12px;
       height: 12px;
-      border-left: 2px solid var(--cp-color-primary);
+      border-right: 2px solid var(--cp-color-primary);
       border-top: 2px solid var(--cp-color-primary);
       opacity: 0.8;
       z-index: 1;
@@ -409,10 +409,10 @@
       content: '';
       position: absolute;
       bottom: 0;
-      right: 0;
+      left: 0;
       width: 12px;
       height: 12px;
-      border-right: 2px solid var(--cp-color-primary);
+      border-left: 2px solid var(--cp-color-primary);
       border-bottom: 2px solid var(--cp-color-primary);
       opacity: 0.8;
       z-index: 1;
@@ -480,6 +480,7 @@
     color: var(--cp-text-secondary);
     cursor: pointer;
     transition: all 0.15s ease;
+    white-space: nowrap;
 
     // 左侧装饰线 (选中时)
     &::before {

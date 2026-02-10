@@ -75,7 +75,7 @@ export const tagProps = {
      * @example `<CpTag size="lg" />`
      */
     size: {
-        type: String as PropType<TagSize>,
+        type: [String, Number] as PropType<TagSize>,
         default: 'md',
     },
     /**

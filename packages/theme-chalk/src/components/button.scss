@@ -56,21 +56,26 @@
 
     // ===== 尺寸 =====
     @include m(sm) {
-        height: var(--cp-size-sm);
+        height: var(--cp-button-height-sm);
         font-size: var(--cp-font-size-sm);
         padding: 0 var(--cp-spacing-md);
         clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
     }
 
     @include m(md) {
-        height: var(--cp-size-md);
+        height: var(--cp-button-height-md);
         font-size: var(--cp-font-size-md);
     }
 
     @include m(lg) {
-        height: var(--cp-size-lg);
+        height: var(--cp-button-height-lg);
         font-size: var(--cp-font-size-lg);
         padding: 0 var(--cp-spacing-xl);
+    }
+
+    // 自定义尺寸
+    @include when(custom-size) {
+        height: var(--cp-button-height);
     }
 
     // ===== Solid 变体 =====
@@ -769,18 +774,23 @@
 
         // 不同尺寸的正方形大小
         &.cp-button--sm {
-            width: var(--cp-size-sm);
-            height: var(--cp-size-sm);
+            width: var(--cp-button-height-sm);
+            height: var(--cp-button-height-sm);
         }
         
         &.cp-button--md {
-            width: var(--cp-size-md);
-            height: var(--cp-size-md);
+            width: var(--cp-button-height-md);
+            height: var(--cp-button-height-md);
         }
         
         &.cp-button--lg {
-            width: var(--cp-size-lg);
-            height: var(--cp-size-lg);
+            width: var(--cp-button-height-lg);
+            height: var(--cp-button-height-lg);
+        }
+
+        &.is-custom-size {
+            width: var(--cp-button-height);
+            height: var(--cp-button-height);
         }
     }
 

@@ -101,6 +101,26 @@ const meta: Meta<typeof CpPopover> = {
         defaultValue: { summary: '300' },
       },
     },
+    variant: {
+      control: 'select',
+      options: ['solid', 'outline', 'neon', 'ghost'],
+      description: '变体样式',
+      table: {
+        defaultValue: { summary: 'solid' },
+      },
+    },
+    type: {
+      control: 'select',
+      options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
+      description: '主题颜色类型',
+      table: {
+        defaultValue: { summary: 'default' },
+      },
+    },
+    color: {
+      control: 'color',
+      description: '自定义主色调',
+    },
   },
 }
 
@@ -351,3 +371,80 @@ export const 滚动跟随: Story = {
   }),
 }
 
+/** 变体样式 */
+export const 变体样式: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 60px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+        <CpPopover title="Solid (Default)" content="这是默认的实心变体样式" variant="solid" trigger="click">
+          <CpButton>Solid 变体</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Outline" content="这是边框发光变体样式" variant="outline" trigger="click">
+          <CpButton type="primary">Outline 变体</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Neon" content="这是霓虹超级发光变体样式" variant="neon" trigger="click">
+          <CpButton type="success">Neon 变体</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Ghost" content="这是极简虚幻变体样式" variant="ghost" trigger="click">
+          <CpButton type="info">Ghost 变体</CpButton>
+        </CpPopover>
+      </div>
+    `,
+  }),
+}
+
+/** 主题颜色 */
+export const 主题颜色: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 60px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        <CpPopover content="Primary 类型" type="primary" tooltip>
+          <CpButton type="primary">Primary</CpButton>
+        </CpPopover>
+        
+        <CpPopover content="Success 类型" type="success" tooltip>
+          <CpButton type="success">Success</CpButton>
+        </CpPopover>
+        
+        <CpPopover content="Warning 类型" type="warning" tooltip>
+          <CpButton type="warning">Warning</CpButton>
+        </CpPopover>
+        
+        <CpPopover content="Error 类型" type="error" tooltip>
+          <CpButton type="error">Error</CpButton>
+        </CpPopover>
+        
+        <CpPopover content="自定义紫色" color="#bf00ff" tooltip>
+          <CpButton color="#bf00ff">Custom Color</CpButton>
+        </CpPopover>
+      </div>
+    `,
+  }),
+}
+
+/** 混合演示 */
+export const 混合演示: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 60px; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+        <CpPopover title="Neon Warning" content="高能警告：探测到未知信号" variant="neon" type="warning" trigger="click">
+          <CpButton type="warning">Neon Warning</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Outline Success" content="系统自检完成，一切正常" variant="outline" type="success" trigger="click">
+          <CpButton type="success" variant="outline">Outline Success</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Solid Error" content="核心熔毁警告，立即撤离！" variant="solid" type="error" trigger="click">
+          <CpButton type="error" variant="semi">Solid Error</CpButton>
+        </CpPopover>
+      </div>
+    `,
+  }),
+}

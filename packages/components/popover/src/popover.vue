@@ -4,6 +4,7 @@
  * 支持多种弹出位置、触发方式，可作为 Tooltip 或 Popover 使用
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties } from 'vue'
+import type { PopoverVariant } from './popover'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { popoverProps, popoverEmits } from './popover'
@@ -167,12 +168,29 @@ const updatePosition = () => {
   })
 }
 
+// ===== 颜色变量 =====
+const realColor = computed(() => {
+  if (props.color) return props.color
+  if (props.type && props.type !== 'default') return `var(--cp-color-${props.type})`
+  return null
+})
+
+const realColorLight = computed(() => {
+  if (props.color) return `color-mix(in srgb, ${props.color} 30%, transparent)`
+  if (props.type && props.type !== 'default') return `var(--cp-color-${props.type}-light)`
+  return null
+})
+
 // 弹层样式
 const popoverStyle = computed<CSSProperties>(() => {
   const width = typeof props.width === 'number' ? `${props.width}px` : props.width
   const maxWidth = typeof props.maxWidth === 'number' ? `${props.maxWidth}px` : props.maxWidth
-  
+  const vars: Record<string, string> = {}
+  if (realColor.value) vars['--cp-popover-color'] = realColor.value
+  if (realColorLight.value) vars['--cp-popover-color-light'] = realColorLight.value
+
   return {
+    ...vars,
     top: `${popoverPosition.value.top}px`,
     left: `${popoverPosition.value.left}px`,
     width: width === 'auto' ? undefined : width,
@@ -184,6 +202,8 @@ const popoverStyle = computed<CSSProperties>(() => {
 const popoverClasses = computed(() => [
   ns.e('content'),
   `${ns.e('content')}--${props.placement.split('-')[0]}`,
+  `${ns.e('content')}--${props.variant}`,
+  props.type !== 'default' ? `${ns.e('content')}--${props.type}` : '',
   ns.is('tooltip', props.tooltip),
   ns.is('has-title', !!props.title && !props.tooltip),
 ])

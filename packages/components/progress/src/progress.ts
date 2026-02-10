@@ -109,7 +109,7 @@ export const progressProps = {
      * @example `<CpProgress size="lg" :percentage="50" />`
      */
     size: {
-        type: String as PropType<ProgressSize>,
+        type: [String, Number] as PropType<ProgressSize>,
         default: 'md',
     },
     /**

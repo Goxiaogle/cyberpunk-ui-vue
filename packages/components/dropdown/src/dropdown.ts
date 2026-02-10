@@ -139,7 +139,7 @@ export const dropdownProps = {
    * @default 'md'
    */
   size: {
-    type: String as PropType<DropdownSize>,
+    type: [String, Number] as PropType<DropdownSize>,
     default: 'md',
   },
   /**

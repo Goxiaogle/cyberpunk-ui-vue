@@ -93,7 +93,7 @@ export const inputProps = {
      * @example `<CpInput size="lg" />`
      */
     size: {
-        type: String as PropType<InputSize>,
+        type: [String, Number] as PropType<InputSize>,
         default: 'md',
     },
     /**

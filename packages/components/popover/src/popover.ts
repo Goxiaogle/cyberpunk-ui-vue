@@ -1,6 +1,20 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /**
+ * 弹层变体
+ * - `solid` - 实心背景（默认）
+ * - `outline` - 透明背景 + 发光边框
+ * - `neon` - 霓虹发光效果
+ * - `ghost` - 极简风格，无装饰
+ */
+export type PopoverVariant = 'solid' | 'outline' | 'neon' | 'ghost'
+
+/**
+ * 弹层主题颜色类型
+ */
+export type PopoverType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+
+/**
  * 弹出位置
  * - 主轴：top | bottom | left | right
  * - 对齐：-start | 无 (居中) | -end
@@ -173,6 +187,31 @@ export const popoverProps = {
   teleportTo: {
     type: [String, Object] as PropType<string | HTMLElement>,
     default: 'body',
+  },
+  /**
+   * 弹层变体
+   * @default 'solid'
+   */
+  variant: {
+    type: String as PropType<PopoverVariant>,
+    default: 'solid',
+  },
+  /**
+   * 主题颜色类型
+   * @default 'default'
+   */
+  type: {
+    type: String as PropType<PopoverType>,
+    default: 'default',
+  },
+  /**
+   * 自定义主色调，优先于 type
+   * 支持任意 CSS 颜色值
+   * @default ''
+   */
+  color: {
+    type: String,
+    default: '',
   },
 } as const
 

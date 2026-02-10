@@ -28,7 +28,7 @@ export const textareaProps = {
     },
     /** 尺寸 */
     size: {
-        type: String as PropType<TextareaSize>,
+        type: [String, Number] as PropType<TextareaSize>,
         default: 'md',
     },
     /** 形态变体 */

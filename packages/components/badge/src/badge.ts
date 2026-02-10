@@ -133,7 +133,7 @@ export const badgeProps = {
      * @default 'default'
      */
     size: {
-        type: String as PropType<BadgeSize>,
+        type: [String, Number] as PropType<BadgeSize>,
         default: 'default',
     },
 } as const

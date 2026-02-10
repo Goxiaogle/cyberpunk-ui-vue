@@ -76,7 +76,7 @@ export const statusIndicatorProps = {
    * @example `<CpStatusIndicator size="lg" />`
    */
   size: {
-    type: String as PropType<StatusIndicatorSize>,
+    type: [String, Number] as PropType<StatusIndicatorSize>,
     default: 'md',
   },
 

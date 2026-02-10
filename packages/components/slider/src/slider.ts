@@ -89,7 +89,7 @@ export const sliderProps = {
      * @default 'md'
      */
     size: {
-        type: String as PropType<SliderSize>,
+        type: [String, Number] as PropType<SliderSize>,
         default: 'md',
     },
     /**
