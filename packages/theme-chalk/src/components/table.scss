@@ -1,0 +1,324 @@
+// CpTable 组件样式
+// 赛博朋克/机甲风格数据表格
+
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
+
+// 颜色映射
+$table-types: (
+  default: var(--cp-text-muted),
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
+);
+
+// 尺寸配置
+$table-sizes: (
+  sm: (
+    cell-padding: 6px 10px,
+    font-size: 12px,
+    header-height: 32px,
+  ),
+  md: (
+    cell-padding: 10px 14px,
+    font-size: 13px,
+    header-height: 40px,
+  ),
+  lg: (
+    cell-padding: 14px 18px,
+    font-size: 14px,
+    header-height: 48px,
+  ),
+);
+
+@include b(table) {
+  --cp-table-color: var(--cp-text-secondary);
+  --cp-table-border: var(--cp-border);
+  --cp-table-header-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  --cp-table-header-border-color: var(--cp-border);
+  --cp-table-row-bg: transparent;
+  --cp-table-row-stripe-bg: var(--cp-surface-variant);
+  --cp-table-row-hover-bg: var(--cp-state-hover);
+  --cp-table-row-current-bg: var(--cp-state-selected);
+  --cp-table-row-selected-bg: var(--cp-state-selected);
+  --cp-table-cell-padding: 10px 14px;
+  --cp-table-font-size: 13px;
+  --cp-table-header-height: 40px;
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-size: var(--cp-table-font-size);
+  color: var(--cp-text-primary);
+
+  // ===== 尺寸 =====
+  @each $size-name, $size-config in $table-sizes {
+    @include m(#{$size-name}) {
+      --cp-table-cell-padding: #{map.get($size-config, cell-padding)};
+      --cp-table-font-size: #{map.get($size-config, font-size)};
+      --cp-table-header-height: #{map.get($size-config, header-height)};
+    }
+  }
+
+  // ===== 颜色类型 =====
+  @each $type-name, $type-color in $table-types {
+    @include m(type-#{$type-name}) {
+      --cp-table-color: #{$type-color};
+      --cp-table-header-bg: linear-gradient(
+        180deg,
+        color-mix(in srgb, #{$type-color} 18%, transparent) 0%,
+        color-mix(in srgb, #{$type-color} 6%, transparent) 100%
+      );
+      --cp-table-header-border-color: color-mix(in srgb, #{$type-color} 40%, transparent);
+      --cp-table-row-hover-bg: color-mix(in srgb, #{$type-color} 6%, transparent);
+      --cp-table-row-current-bg: color-mix(in srgb, #{$type-color} 10%, transparent);
+      --cp-table-row-selected-bg: color-mix(in srgb, #{$type-color} 8%, transparent);
+
+      .cp-table__sort-caret {
+        &.is-ascending,
+        &.is-descending {
+          color: #{$type-color};
+        }
+      }
+    }
+  }
+
+  // ===== Wrapper =====
+  @include e(wrapper) {
+    width: 100%;
+    overflow: auto;
+    @include scrollbar('thin');
+  }
+
+  // ===== Inner Table =====
+  @include e(inner) {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: auto;
+  }
+
+  // ===== 表头 =====
+  @include e(header) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  @include e(header-row) {
+    background: var(--cp-table-header-bg);
+    position: relative;
+    border-top: 1px solid var(--cp-table-header-border-color);
+
+    // 赛博朋克扫描线纹理 - 使用多重背景实现，避免 ::before 破坏 tr 布局
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.015) 2px,
+        rgba(255, 255, 255, 0.015) 4px
+      ),
+      var(--cp-table-header-bg);
+  }
+
+  @include e(header-cell) {
+    padding: var(--cp-table-cell-padding);
+    height: var(--cp-table-header-height);
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--cp-table-header-border-color);
+    color: var(--cp-text-primary);
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    transition: color 0.2s ease, background 0.2s ease, text-shadow 0.2s ease;
+    user-select: none;
+    vertical-align: middle;
+    background: transparent; // 确保透过背景看背景图
+    position: relative;
+    z-index: 1;
+
+    // 可排序表头
+    @include when(sortable) {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--cp-table-color);
+        background: rgba(255, 255, 255, 0.03);
+        text-shadow: 0 0 8px currentColor;
+      }
+    }
+
+    // 排序激活状态
+    &.is-ascending,
+    &.is-descending {
+      color: var(--cp-table-color);
+      text-shadow: 0 0 6px currentColor;
+    }
+  }
+
+  @include e(header-label) {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // ===== 排序图标 =====
+  @include e(sort-icon) {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 4px;
+    vertical-align: middle;
+    gap: 2px;
+    line-height: 0;
+  }
+
+  @include e(sort-caret) {
+    opacity: 0.3;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    display: block;
+    line-height: 0;
+  }
+
+  // 排序激活的 caret
+  .cp-table__header-cell.is-ascending .cp-table__sort-caret--ascending {
+    opacity: 1;
+    color: var(--cp-table-color);
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+
+  .cp-table__header-cell.is-descending .cp-table__sort-caret--descending {
+    opacity: 1;
+    color: var(--cp-table-color);
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+
+  // ===== 表体 =====
+  @include e(body) {
+    // 可滚动时
+    .cp-table.is-scrollable & {
+      overflow-y: auto;
+      @include scrollbar('thin');
+    }
+  }
+
+  @include e(row) {
+    background: var(--cp-table-row-bg);
+    transition: background 0.2s ease;
+    border-bottom: 1px solid var(--cp-table-border);
+
+    &:hover {
+      background: var(--cp-table-row-hover-bg);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // 条纹
+    @include when(striped) {
+      background: var(--cp-table-row-stripe-bg);
+
+      &:hover {
+        background: var(--cp-table-row-hover-bg);
+      }
+    }
+
+    // 当前行高亮
+    @include when(current) {
+      background: var(--cp-table-row-current-bg);
+      box-shadow: inset 2px 0 0 var(--cp-table-color);
+    }
+
+    // 选中行
+    @include when(selected) {
+      background: var(--cp-table-row-selected-bg);
+    }
+  }
+
+  @include e(cell) {
+    padding: var(--cp-table-cell-padding);
+    vertical-align: middle;
+    border-bottom: 1px solid var(--cp-table-border);
+    transition: background 0.2s ease;
+    line-height: 1.5;
+  }
+
+  // ===== 对齐 =====
+  @include m(align-center) {
+    text-align: center;
+  }
+
+  @include m(align-right) {
+    text-align: right;
+  }
+
+  // ===== 条纹 =====
+  @include when(stripe) {
+    // handled via row .is-striped class
+  }
+
+  // ===== 边框 =====
+  @include when(border) {
+    border: 1px solid var(--cp-table-border);
+
+    .cp-table__header-cell,
+    .cp-table__cell {
+      border-right: 1px solid var(--cp-table-border);
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    .cp-table__header-cell {
+      border-bottom: 1px solid var(--cp-table-border);
+    }
+  }
+
+
+  // ===== 空状态 =====
+  @include e(empty-row) {
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  @include e(empty-cell) {
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  @include e(empty) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--cp-text-muted);
+  }
+
+  @include e(empty-icon) {
+    opacity: 0.3;
+  }
+
+  @include e(empty-text) {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  // ===== 高亮当前行 =====
+  @include when(highlight-current-row) {
+    .cp-table__row {
+      cursor: pointer;
+    }
+  }
+}
