@@ -1,0 +1,257 @@
+// CpPagination 组件样式
+// 赛博朋克/机甲风格分页
+
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
+
+// 分页尺寸配置
+$pagination-sizes: (
+  sm: (
+    height: 24px,
+    font-size: 12px,
+    btn-size: 24px,
+    clip: 4px,
+    section-gap: 6px,
+    pager-gap: 6px,
+  ),
+  md: (
+    height: 32px,
+    font-size: 13px,
+    btn-size: 32px,
+    clip: 5px,
+    section-gap: 10px,
+    pager-gap: 10px,
+  ),
+  lg: (
+    height: 40px,
+    font-size: 14px,
+    btn-size: 40px,
+    clip: 6px,
+    section-gap: 14px,
+    pager-gap: 12px,
+  ),
+);
+
+// 颜色类型映射
+$pagination-types: (
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
+);
+
+@include b(pagination) {
+  display: flex;
+  align-items: center;
+  gap: var(--cp-pagination-section-gap);
+  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  user-select: none;
+
+  // CSS 变量默认值
+  --cp-pagination-color: var(--cp-color-primary);
+  --cp-pagination-color-light: var(--cp-color-primary-light);
+  --cp-pagination-height: 32px;
+  --cp-pagination-btn-size: 32px;
+  --cp-pagination-font-size: 13px;
+  --cp-pagination-clip: 5px;
+  --cp-pagination-section-gap: 10px;
+  --cp-pagination-pager-gap: 10px;
+  --cp-pagination-sizes-width: 115px;
+
+  // ===== 尺寸变体 =====
+  @each $size-name, $size-config in $pagination-sizes {
+    @include m(#{$size-name}) {
+      --cp-pagination-height: #{map.get($size-config, height)};
+      --cp-pagination-btn-size: #{map.get($size-config, btn-size)};
+      --cp-pagination-font-size: #{map.get($size-config, font-size)};
+      --cp-pagination-clip: #{map.get($size-config, clip)};
+      --cp-pagination-section-gap: #{map.get($size-config, section-gap)};
+      --cp-pagination-pager-gap: #{map.get($size-config, pager-gap)};
+      font-size: map.get($size-config, font-size);
+    }
+  }
+
+  // ===== 颜色类型 =====
+  @each $type-name, $type-color in $pagination-types {
+    @include m(type-#{$type-name}) {
+      --cp-pagination-color: #{$type-color};
+      --cp-pagination-color-light: var(--cp-color-#{$type-name}-light);
+    }
+  }
+
+  @include m(type-default) {
+    --cp-pagination-color: var(--cp-color-primary);
+    --cp-pagination-color-light: var(--cp-color-primary-light);
+  }
+
+  // ===== Spacer (弹性占位，实现左右分离布局) =====
+  @include e(spacer) {
+    flex: 1;
+  }
+
+  // ===== Total =====
+  @include e(total) {
+    font-size: var(--cp-pagination-font-size);
+    color: var(--cp-text-secondary);
+    white-space: nowrap;
+  }
+
+  @include e(total-count) {
+    color: var(--cp-pagination-color);
+    font-weight: 600;
+  }
+
+  // ===== Sizes (uses CpDropdown) =====
+  @include e(sizes) {
+    display: inline-flex;
+    align-items: center;
+    width: var(--cp-pagination-sizes-width);
+  }
+
+  // ===== Prev / Next (CpButton) =====
+  // CpButton 自带完整的尺寸/形状/颜色/禁用样式，
+  // 这里只需要确保 SVG 图标的尺寸正确。
+  @include e(prev) {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @include e(next) {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // ===== Pager 页码组 =====
+  @include e(pager) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cp-pagination-pager-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @include e(pager-item) {
+    display: inline-flex;
+
+    // CpButton 内字体继承
+    .cp-button {
+      font-family: inherit;
+      font-weight: 700;
+    }
+  }
+
+  // 省略号按钮（透明背景 + 半透明圆点图标）
+  @include e(ellipsis-btn) {
+    svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+    }
+
+    &:hover:not(:disabled) {
+      svg {
+        opacity: 1;
+        color: var(--cp-pagination-color);
+      }
+    }
+  }
+
+  // ===== Jumper =====
+  @include e(jumper) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--cp-pagination-font-size);
+    color: var(--cp-text-secondary);
+    white-space: nowrap;
+  }
+
+  @include e(jumper-input) {
+    width: 50px;
+    height: var(--cp-pagination-btn-size);
+    padding: 0 6px;
+    font-size: var(--cp-pagination-font-size);
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--cp-text-primary);
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    text-align: center;
+    outline: none;
+    transition: all 0.2s ease;
+
+    // 隐藏 number input 的 spinners
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    -moz-appearance: textfield;
+
+    &:hover:not(:disabled) {
+      border-color: var(--cp-pagination-color);
+    }
+
+    &:focus {
+      border-color: var(--cp-pagination-color);
+      box-shadow: 0 0 8px var(--cp-pagination-color-light);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ===== 形状变体 (仅 jumper-input，CpButton 自带形状) =====
+  @include m(shape-clip) {
+    $clip: var(--cp-pagination-clip);
+
+    .cp-pagination__jumper-input {
+      clip-path: polygon(
+        $clip 0,
+        100% 0,
+        100% calc(100% - #{$clip}),
+        calc(100% - #{$clip}) 100%,
+        0 100%,
+        0 $clip
+      );
+    }
+  }
+
+  @include m(shape-no-clip) {
+    .cp-pagination__jumper-input {
+      clip-path: none;
+      border-radius: 2px;
+    }
+  }
+
+  @include m(shape-round) {
+    .cp-pagination__jumper-input {
+      clip-path: none;
+      border-radius: 9999px;
+    }
+  }
+
+  @include m(shape-circle) {
+    .cp-pagination__jumper-input {
+      clip-path: none;
+      border-radius: 9999px;
+    }
+  }
+
+  // ===== 禁用状态 =====
+  @include when(disabled) {
+    opacity: 0.6;
+    pointer-events: none;
+    filter: grayscale(0.4);
+  }
+}
