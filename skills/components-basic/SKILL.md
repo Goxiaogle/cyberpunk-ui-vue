@@ -1,6 +1,6 @@
 ---
 name: components-basic
-description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Badge、Spacer。
+description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Badge、Spacer、Divider。
 ---
 
 # 基础组件属性参考
@@ -131,4 +131,59 @@ description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Ba
   variant="glow"
   type="primary"
 ><CpButton>功能</CpButton></CpBadge>
+```
+
+---
+
+## CpDivider 分割线
+
+赛博朋克风格分割线，用于分隔内容区块。支持水平/垂直方向、文字嵌入和多种变体。
+
+### Props
+
+| 属性              | 类型                                                                    | 默认值         | 说明                               |
+| ----------------- | ----------------------------------------------------------------------- | -------------- | ---------------------------------- |
+| `direction`       | `'horizontal' \| 'vertical'`                                            | `'horizontal'` | 方向                               |
+| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`    | 颜色类型                           |
+| `color`           | `string`                                                                | `''`           | 自定义颜色（覆盖 type）            |
+| `contentPosition` | `'left' \| 'center' \| 'right'`                                         | `'center'`     | 文字位置（仅水平方向）             |
+| `variant`         | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`      | 变体样式                           |
+| `borderStyle`     | `'solid' \| 'dashed' \| 'dotted' \| 'double'`                           | `'solid'`      | 线条样式                           |
+| `dashed`          | `boolean`                                                               | `false`        | 虚线（快捷方式，等同 borderStyle） |
+| `thickness`       | `number \| string`                                                      | `1`            | 线条粗细 (px)                      |
+| `glow`            | `boolean`                                                               | `false`        | 发光效果（快捷方式，等同 variant） |
+| `margin`          | `number \| string`                                                      | `''`           | 间距（水平：上下，垂直：左右）     |
+
+### 插槽
+
+| 名称      | 说明                               |
+| --------- | ---------------------------------- |
+| `default` | 分割线文字内容（仅水平方向时有效） |
+
+### 示例
+
+```vue
+<!-- 基础分割线 -->
+<CpDivider />
+
+<!-- 带文字 -->
+<CpDivider>SECTION</CpDivider>
+<CpDivider content-position="left">LEFT</CpDivider>
+
+<!-- 垂直方向 -->
+<span>首页</span>
+<CpDivider direction="vertical" />
+<span>产品</span>
+
+<!-- 发光效果 -->
+<CpDivider type="primary" variant="glow">NEON</CpDivider>
+
+<!-- 渐变 -->
+<CpDivider variant="gradient" type="success" />
+
+<!-- 虚线 -->
+<CpDivider dashed />
+
+<!-- 自定义颜色和粗细 -->
+<CpDivider color="#ff00ff" :thickness="2" />
 ```

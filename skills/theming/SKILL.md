@@ -70,6 +70,7 @@ Cyberpunk Vue 采用赛博朋克风格的霓虹配色系统。
 <CpButton color="#ff00ff">自定义按钮</CpButton>
 <CpProgress :percentage="50" color="#9945ff" />
 <CpSwitch v-model="enabled" color="#39ff14" />
+<CpTree :data="treeData" color="#ff6600" />
 ```
 
 ### 方式三：渐变色

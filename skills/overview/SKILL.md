@@ -45,14 +45,15 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 基础组件
 
-| 组件       | 说明                     |
-| ---------- | ------------------------ |
-| `CpButton` | 按钮，支持多种变体和图标 |
-| `CpIcon`   | 图标显示                 |
-| `CpText`   | 文本排版                 |
-| `CpTag`    | 标签/徽章                |
-| `CpBadge`  | 徽章/角标，数字或小红点  |
-| `CpSpacer` | 弹性间距占位             |
+| 组件        | 说明                       |
+| ----------- | -------------------------- |
+| `CpButton`  | 按钮，支持多种变体和图标   |
+| `CpIcon`    | 图标显示                   |
+| `CpText`    | 文本排版                   |
+| `CpTag`     | 标签/徽章                  |
+| `CpBadge`   | 徽章/角标，数字或小红点    |
+| `CpSpacer`  | 弹性间距占位               |
+| `CpDivider` | 分割线，支持文字嵌入和发光 |
 
 ### 表单输入
 
@@ -74,10 +75,18 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpImage`  | 图片展示，支持懒加载和hover效果 |
 | `CpAvatar` | 用户头像                        |
 
+### 数据展示
+
+| 组件     | 说明                               |
+| -------- | ---------------------------------- |
+| `CpTree` | 树形控件，支持勾选/过滤/自定义图标 |
+
 ### 反馈与状态
 
 | 组件                | 说明                       |
 | ------------------- | -------------------------- |
+| `CpDialog`          | 模态对话框，支持拖拽/嵌套  |
+| `CpNotification`    | 通知提醒，四角定位自动关闭 |
 | `CpLoading`         | 加载指示器                 |
 | `CpProgress`        | 进度条（线性/环形/仪表盘） |
 | `CpStatusIndicator` | 状态点                     |
@@ -91,6 +100,18 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpPatternBackground` | 动画图案背景   |
 | `CpConfigProvider`    | 全局配置提供者 |
 
+### 布局
+
+| 组件          | 说明                       |
+| ------------- | -------------------------- |
+| `CpContainer` | 布局容器，自动检测子组件   |
+| `CpHeader`    | 顶栏容器                   |
+| `CpFooter`    | 底栏容器                   |
+| `CpMain`      | 主要区域                   |
+| `CpAside`     | 侧边栏，支持 position 属性 |
+| `CpRow`       | Flex 行容器                |
+| `CpCol`       | Flex 列容器                |
+
 ---
 
 ## 相关技能文档
@@ -99,6 +120,6 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
 - [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio 的完整 Props
-- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover 等的完整 Props
+- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification 等的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置
 - [尺寸映射](./size-mapping/SKILL.md) - Size 预设值和自定义尺寸

@@ -11,25 +11,26 @@ description: 表单组件的详细属性参考：Input、InputNumber、Textarea�
 
 ### Props
 
-| 属性                  | 类型                                                            | 默认值      | 说明             |
-| --------------------- | --------------------------------------------------------------- | ----------- | ---------------- |
-| `v-model`             | `string \| number`                                              | `''`        | 绑定值           |
-| `type`                | `'text' \| 'password' \| 'number' \| 'email' \| 'tel' \| 'url'` | `'text'`    | 输入类型         |
-| `size`                | `'sm' \| 'md' \| 'lg' \| number \| string`                      | `'md'`      | 尺寸             |
-| `shape`               | `'clip' \| 'no-clip' \| 'round'`                                | `'clip'`    | 形状             |
-| `variant`             | `'outline' \| 'filled' \| 'ghost'`                              | `'outline'` | 变体             |
-| `placeholder`         | `string`                                                        | `''`        | 占位文本         |
-| `disabled`            | `boolean`                                                       | `false`     | 禁用             |
-| `readonly`            | `boolean`                                                       | `false`     | 只读             |
-| `clearable`           | `boolean`                                                       | `false`     | 可清空           |
-| `maxlength`           | `number`                                                        | -           | 最大长度         |
-| `showPassword`        | `boolean`                                                       | `false`     | 显示密码切换按钮 |
-| `showWordLimit`       | `boolean`                                                       | `false`     | 显示字数统计     |
-| `color`               | `string`                                                        | `''`        | 聚焦颜色         |
-| `textColor`           | `string`                                                        | `''`        | 文字颜色         |
-| `placeholderColor`    | `string`                                                        | `''`        | 占位符颜色       |
-| `inactiveBorderColor` | `string`                                                        | `''`        | 未聚焦边框颜色   |
-| `autofocus`           | `boolean`                                                       | `false`     | 自动聚焦         |
+| 属性                  | 类型                                                            | 默认值      | 说明              |
+| --------------------- | --------------------------------------------------------------- | ----------- | ----------------- |
+| `v-model`             | `string \| number`                                              | `''`        | 绑定值            |
+| `type`                | `'text' \| 'password' \| 'number' \| 'email' \| 'tel' \| 'url'` | `'text'`    | 输入类型          |
+| `size`                | `'sm' \| 'md' \| 'lg' \| number \| string`                      | `'md'`      | 尺寸              |
+| `shape`               | `'clip' \| 'no-clip' \| 'round'`                                | `'clip'`    | 形状              |
+| `variant`             | `'outline' \| 'filled' \| 'ghost'`                              | `'outline'` | 变体              |
+| `placeholder`         | `string`                                                        | `''`        | 占位文本          |
+| `disabled`            | `boolean`                                                       | `false`     | 禁用              |
+| `readonly`            | `boolean`                                                       | `false`     | 只读              |
+| `clearable`           | `boolean`                                                       | `false`     | 可清空            |
+| `clearDuration`       | `number`                                                        | `150`       | 清除动画时长 (ms) |
+| `maxlength`           | `number`                                                        | -           | 最大长度          |
+| `showPassword`        | `boolean`                                                       | `false`     | 显示密码切换按钮  |
+| `showWordLimit`       | `boolean`                                                       | `false`     | 显示字数统计      |
+| `color`               | `string`                                                        | `''`        | 聚焦颜色          |
+| `textColor`           | `string`                                                        | `''`        | 文字颜色          |
+| `placeholderColor`    | `string`                                                        | `''`        | 占位符颜色        |
+| `inactiveBorderColor` | `string`                                                        | `''`        | 未聚焦边框颜色    |
+| `autofocus`           | `boolean`                                                       | `false`     | 自动聚焦          |
 
 ### 插槽
 
@@ -62,6 +63,7 @@ description: 表单组件的详细属性参考：Input、InputNumber、Textarea�
 <CpInput v-model="username" placeholder="请输入用户名" />
 <CpInput v-model="password" type="password" show-password />
 <CpInput v-model="value" clearable />
+<CpInput v-model="value" clearable :clear-duration="300" />
 ```
 
 ---
@@ -137,21 +139,22 @@ description: 表单组件的详细属性参考：Input、InputNumber、Textarea�
 
 ### Props
 
-| 属性          | 类型                                                         | 默认值           | 说明             |
-| ------------- | ------------------------------------------------------------ | ---------------- | ---------------- |
-| `v-model`     | `string \| number`                                           | `''`             | 选中值           |
-| `options`     | `{ label, value, disabled? }[]`                              | `[]`             | 选项列表         |
-| `placeholder` | `string`                                                     | `'请选择'`       | 占位文本         |
-| `size`        | `'sm' \| 'md' \| 'lg' \| number \| string`                   | `'md'`           | 尺寸             |
-| `shape`       | `'clip' \| 'no-clip' \| 'round'`                             | `'clip'`         | 形状             |
-| `variant`     | `'outline' \| 'filled' \| 'ghost'`                           | `'outline'`      | 变体             |
-| `disabled`    | `boolean`                                                    | `false`          | 禁用             |
-| `clearable`   | `boolean`                                                    | `false`          | 可清空           |
-| `filterable`  | `boolean`                                                    | `false`          | 可搜索           |
-| `inline`      | `boolean`                                                    | `false`          | 行内搜索模式     |
-| `color`       | `string`                                                     | `''`             | 聚焦颜色         |
-| `placement`   | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| ...` | `'bottom-start'` | 弹出位置         |
-| `maxHeight`   | `number`                                                     | `256`            | 下拉面板最大高度 |
+| 属性            | 类型                                                         | 默认值           | 说明              |
+| --------------- | ------------------------------------------------------------ | ---------------- | ----------------- |
+| `v-model`       | `string \| number`                                           | `''`             | 选中值            |
+| `options`       | `{ label, value, disabled? }[]`                              | `[]`             | 选项列表          |
+| `placeholder`   | `string`                                                     | `'请选择'`       | 占位文本          |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                   | `'md'`           | 尺寸              |
+| `shape`         | `'clip' \| 'no-clip' \| 'round'`                             | `'clip'`         | 形状              |
+| `variant`       | `'outline' \| 'filled' \| 'ghost'`                           | `'outline'`      | 变体              |
+| `disabled`      | `boolean`                                                    | `false`          | 禁用              |
+| `clearable`     | `boolean`                                                    | `false`          | 可清空            |
+| `clearDuration` | `number`                                                     | `150`            | 清除动画时长 (ms) |
+| `filterable`    | `boolean`                                                    | `false`          | 可搜索            |
+| `inline`        | `boolean`                                                    | `false`          | 行内搜索模式      |
+| `color`         | `string`                                                     | `''`             | 聚焦颜色          |
+| `placement`     | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| ...` | `'bottom-start'` | 弹出位置          |
+| `maxHeight`     | `number`                                                     | `256`            | 下拉面板最大高度  |
 
 ### 示例
 
@@ -159,6 +162,12 @@ description: 表单组件的详细属性参考：Input、InputNumber、Textarea�
 <CpDropdown v-model="selected" :options="options" />
 <CpDropdown v-model="selected" :options="options" filterable />
 <CpDropdown v-model="selected" :options="options" clearable />
+<CpDropdown
+  v-model="selected"
+  :options="options"
+  clearable
+  :clear-duration="300"
+/>
 ```
 
 ---
