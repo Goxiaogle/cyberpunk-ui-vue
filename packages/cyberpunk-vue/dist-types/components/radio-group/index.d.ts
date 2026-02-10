@@ -5,9 +5,9 @@
  *
  * @example
  * ```vue
- * <CpRadioGroup v-model="selected">
- *   <CpRadio label="A">选项 A</CpRadio>
- *   <CpRadio label="B">选项 B</CpRadio>
+ * <CpRadioGroup v-model="picked">
+ *   <CpRadio value="A">选项 A</CpRadio>
+ *   <CpRadio value="B">选项 B</CpRadio>
  * </CpRadioGroup>
  * ```
  *
@@ -31,10 +31,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioType>;
             readonly default: "primary";
         };
-        readonly name: {
-            readonly type: StringConstructor;
-            readonly default: "";
-        };
         readonly direction: {
             readonly type: import("vue").PropType<"horizontal" | "vertical">;
             readonly default: "horizontal";
@@ -49,7 +45,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
         change: (value: import("packages/cyberpunk-vue").RadioValueType) => void;
     }, import("vue").PublicProps, {
         readonly size: import("@cyberpunk-vue/hooks").Size;
-        readonly name: string;
         readonly type: import("packages/cyberpunk-vue").RadioType;
         readonly disabled: boolean;
         readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;
@@ -78,10 +73,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioType>;
             readonly default: "primary";
         };
-        readonly name: {
-            readonly type: StringConstructor;
-            readonly default: "";
-        };
         readonly direction: {
             readonly type: import("vue").PropType<"horizontal" | "vertical">;
             readonly default: "horizontal";
@@ -93,7 +84,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
         modelValue: import("vue").Ref<import("packages/cyberpunk-vue").RadioValueType | undefined, import("packages/cyberpunk-vue").RadioValueType | undefined>;
     }, {}, {}, {}, {
         readonly size: import("@cyberpunk-vue/hooks").Size;
-        readonly name: string;
         readonly type: import("packages/cyberpunk-vue").RadioType;
         readonly disabled: boolean;
         readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;
@@ -119,10 +109,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioType>;
         readonly default: "primary";
     };
-    readonly name: {
-        readonly type: StringConstructor;
-        readonly default: "";
-    };
     readonly direction: {
         readonly type: import("vue").PropType<"horizontal" | "vertical">;
         readonly default: "horizontal";
@@ -137,7 +123,6 @@ export declare const CpRadioGroup: import("../utils").SFCWithInstall<{
     change: (value: import("packages/cyberpunk-vue").RadioValueType) => void;
 }, string, {
     readonly size: import("@cyberpunk-vue/hooks").Size;
-    readonly name: string;
     readonly type: import("packages/cyberpunk-vue").RadioType;
     readonly disabled: boolean;
     readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;

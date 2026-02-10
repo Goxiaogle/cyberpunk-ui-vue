@@ -1,14 +1,11 @@
 /**
  * CpRadio 赛博朋克风格单选框
  *
- * 用于单选场景，通常配合 CpRadioGroup 使用。
+ * 用于单选场景，支持分组、自定义颜色、八边形指示器设计。
  *
  * @example
  * ```vue
- * <CpRadioGroup v-model="selected">
- *   <CpRadio label="A">选项 A</CpRadio>
- *   <CpRadio label="B">选项 B</CpRadio>
- * </CpRadioGroup>
+ * <CpRadio v-model="picked" value="A">选项 A</CpRadio>
  * ```
  *
  * @see {@link RadioProps} 查看所有可用属性
@@ -19,9 +16,13 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
             readonly default: undefined;
         };
-        readonly label: {
+        readonly value: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
             readonly default: undefined;
+        };
+        readonly label: {
+            readonly type: import("vue").PropType<string | number>;
+            readonly default: "";
         };
         readonly disabled: {
             readonly type: BooleanConstructor;
@@ -36,6 +37,14 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
             readonly default: "primary";
         };
         readonly color: {
+            readonly type: StringConstructor;
+            readonly default: "";
+        };
+        readonly glow: {
+            readonly type: BooleanConstructor;
+            readonly default: true;
+        };
+        readonly dotColor: {
             readonly type: StringConstructor;
             readonly default: "";
         };
@@ -59,12 +68,15 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
     }, import("vue").PublicProps, {
         readonly size: import("@cyberpunk-vue/hooks").Size;
         readonly name: string;
+        readonly value: import("packages/cyberpunk-vue").RadioValueType;
         readonly type: import("packages/cyberpunk-vue").RadioType;
         readonly disabled: boolean;
         readonly color: string;
-        readonly label: import("packages/cyberpunk-vue").RadioValueType;
+        readonly label: string | number;
         readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;
         readonly border: boolean;
+        readonly glow: boolean;
+        readonly dotColor: string;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
         B: {};
@@ -77,9 +89,13 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
             readonly default: undefined;
         };
-        readonly label: {
+        readonly value: {
             readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
             readonly default: undefined;
+        };
+        readonly label: {
+            readonly type: import("vue").PropType<string | number>;
+            readonly default: "";
         };
         readonly disabled: {
             readonly type: BooleanConstructor;
@@ -94,6 +110,14 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
             readonly default: "primary";
         };
         readonly color: {
+            readonly type: StringConstructor;
+            readonly default: "";
+        };
+        readonly glow: {
+            readonly type: BooleanConstructor;
+            readonly default: true;
+        };
+        readonly dotColor: {
             readonly type: StringConstructor;
             readonly default: "";
         };
@@ -114,12 +138,15 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
     }, {}, {}, {}, {
         readonly size: import("@cyberpunk-vue/hooks").Size;
         readonly name: string;
+        readonly value: import("packages/cyberpunk-vue").RadioValueType;
         readonly type: import("packages/cyberpunk-vue").RadioType;
         readonly disabled: boolean;
         readonly color: string;
-        readonly label: import("packages/cyberpunk-vue").RadioValueType;
+        readonly label: string | number;
         readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;
         readonly border: boolean;
+        readonly glow: boolean;
+        readonly dotColor: string;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
@@ -129,9 +156,13 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
         readonly default: undefined;
     };
-    readonly label: {
+    readonly value: {
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioValueType>;
         readonly default: undefined;
+    };
+    readonly label: {
+        readonly type: import("vue").PropType<string | number>;
+        readonly default: "";
     };
     readonly disabled: {
         readonly type: BooleanConstructor;
@@ -146,6 +177,14 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
         readonly default: "primary";
     };
     readonly color: {
+        readonly type: StringConstructor;
+        readonly default: "";
+    };
+    readonly glow: {
+        readonly type: BooleanConstructor;
+        readonly default: true;
+    };
+    readonly dotColor: {
         readonly type: StringConstructor;
         readonly default: "";
     };
@@ -169,12 +208,15 @@ export declare const CpRadio: import("../utils").SFCWithInstall<{
 }, string, {
     readonly size: import("@cyberpunk-vue/hooks").Size;
     readonly name: string;
+    readonly value: import("packages/cyberpunk-vue").RadioValueType;
     readonly type: import("packages/cyberpunk-vue").RadioType;
     readonly disabled: boolean;
     readonly color: string;
-    readonly label: import("packages/cyberpunk-vue").RadioValueType;
+    readonly label: string | number;
     readonly modelValue: import("packages/cyberpunk-vue").RadioValueType;
     readonly border: boolean;
+    readonly glow: boolean;
+    readonly dotColor: string;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         default?: (props: {}) => any;

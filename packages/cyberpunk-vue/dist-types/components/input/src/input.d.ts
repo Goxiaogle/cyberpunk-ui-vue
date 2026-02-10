@@ -228,6 +228,16 @@ export declare const inputProps: {
         readonly type: StringConstructor;
         readonly default: "";
     };
+    /**
+     * 清除动画持续时间 (ms)
+     * 控制点击清空按钮时文字消失动画的速度
+     * @default 150
+     * @example `<CpInput :clear-duration="300" />`
+     */
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 };
 export type InputProps = ExtractPropTypes<typeof inputProps>;
 /**

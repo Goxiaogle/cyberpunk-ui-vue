@@ -40,6 +40,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly checkColor: {
+        readonly type: StringConstructor;
+        readonly default: "";
+    };
     readonly border: {
         readonly type: BooleanConstructor;
         readonly default: false;
@@ -93,6 +97,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly checkColor: {
+        readonly type: StringConstructor;
+        readonly default: "";
+    };
     readonly border: {
         readonly type: BooleanConstructor;
         readonly default: false;
@@ -116,6 +124,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly border: boolean;
     readonly trueValue: CheckboxValueType;
     readonly falseValue: CheckboxValueType;
+    readonly checkColor: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;

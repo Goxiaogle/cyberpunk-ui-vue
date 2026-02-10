@@ -93,6 +93,10 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "无数据";
         };
+        readonly clearDuration: {
+            readonly type: NumberConstructor;
+            readonly default: 150;
+        };
     }>> & Readonly<{
         onClear?: (() => any) | undefined;
         "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
@@ -123,6 +127,7 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
         readonly modelValue: string | number;
         readonly clearable: boolean;
         readonly placeholderColor: string;
+        readonly clearDuration: number;
         readonly maxHeight: number;
         readonly inline: boolean;
         readonly inactiveColor: string;
@@ -217,6 +222,10 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "无数据";
         };
+        readonly clearDuration: {
+            readonly type: NumberConstructor;
+            readonly default: 150;
+        };
     }>> & Readonly<{
         onClear?: (() => any) | undefined;
         "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
@@ -240,6 +249,7 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
         readonly modelValue: string | number;
         readonly clearable: boolean;
         readonly placeholderColor: string;
+        readonly clearDuration: number;
         readonly maxHeight: number;
         readonly inline: boolean;
         readonly inactiveColor: string;
@@ -331,6 +341,10 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: "无数据";
     };
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 }>> & Readonly<{
     onClear?: (() => any) | undefined;
     "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
@@ -361,6 +375,7 @@ export declare const CpDropdown: import("../utils").SFCWithInstall<{
     readonly modelValue: string | number;
     readonly clearable: boolean;
     readonly placeholderColor: string;
+    readonly clearDuration: number;
     readonly maxHeight: number;
     readonly inline: boolean;
     readonly inactiveColor: string;

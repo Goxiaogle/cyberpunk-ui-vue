@@ -73,6 +73,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 }>, {
     focus: () => void | undefined;
     blur: () => void | undefined;
@@ -153,6 +157,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 }>> & Readonly<{
     onClear?: (() => any) | undefined;
     onInput?: ((value: string | number, event: Event) => any) | undefined;
@@ -178,6 +186,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly showWordLimit: boolean;
     readonly inactiveBorderColor: string;
     readonly placeholderColor: string;
+    readonly clearDuration: number;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;

@@ -5,6 +5,11 @@ export type ThemeType = 'dark' | 'light';
 export declare const DEFAULTS_KEY: InjectionKey<Record<string, any>>;
 /** 主题注入 Key */
 export declare const THEME_KEY: InjectionKey<Ref<ThemeType>>;
+/** Dialog 上下文注入 Key — 子组件可继承 Dialog 的 type / color */
+export declare const DIALOG_CONTEXT_KEY: InjectionKey<{
+    type: Ref<string>;
+    color: Ref<string>;
+}>;
 /** 组件前缀 */
 export declare const COMPONENT_PREFIX = "Cp";
 /** CSS 命名空间 */

@@ -8,10 +8,10 @@ import type { RadioValueType, RadioType } from '../../radio/src/radio';
  *
  * @example
  * ```vue
- * <CpRadioGroup v-model="selected">
- *   <CpRadio label="A">选项 A</CpRadio>
- *   <CpRadio label="B">选项 B</CpRadio>
- *   <CpRadio label="C">选项 C</CpRadio>
+ * <CpRadioGroup v-model="picked">
+ *   <CpRadio value="A">选项 A</CpRadio>
+ *   <CpRadio value="B">选项 B</CpRadio>
+ *   <CpRadio value="C">选项 C</CpRadio>
  * </CpRadioGroup>
  * ```
  */
@@ -46,13 +46,6 @@ export declare const radioGroupProps: {
     readonly type: {
         readonly type: PropType<RadioType>;
         readonly default: "primary";
-    };
-    /**
-     * 原生 name 属性，应用于所有子 Radio
-     */
-    readonly name: {
-        readonly type: StringConstructor;
-        readonly default: "";
     };
     /**
      * 布局方向

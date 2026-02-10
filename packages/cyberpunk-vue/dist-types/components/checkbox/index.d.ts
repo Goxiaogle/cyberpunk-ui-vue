@@ -48,6 +48,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly checkColor: {
+            readonly type: StringConstructor;
+            readonly default: "";
+        };
         readonly border: {
             readonly type: BooleanConstructor;
             readonly default: false;
@@ -77,6 +81,7 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly border: boolean;
         readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;
         readonly falseValue: import("packages/cyberpunk-vue").CheckboxValueType;
+        readonly checkColor: string;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
         B: {};
@@ -121,6 +126,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly checkColor: {
+            readonly type: StringConstructor;
+            readonly default: "";
+        };
         readonly border: {
             readonly type: BooleanConstructor;
             readonly default: false;
@@ -147,6 +156,7 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly border: boolean;
         readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;
         readonly falseValue: import("packages/cyberpunk-vue").CheckboxValueType;
+        readonly checkColor: string;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
@@ -188,6 +198,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly checkColor: {
+        readonly type: StringConstructor;
+        readonly default: "";
+    };
     readonly border: {
         readonly type: BooleanConstructor;
         readonly default: false;
@@ -217,6 +231,7 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
     readonly border: boolean;
     readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;
     readonly falseValue: import("packages/cyberpunk-vue").CheckboxValueType;
+    readonly checkColor: string;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         default?: (props: {}) => any;

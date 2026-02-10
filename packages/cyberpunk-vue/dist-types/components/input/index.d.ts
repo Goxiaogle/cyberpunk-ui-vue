@@ -86,6 +86,10 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly clearDuration: {
+            readonly type: NumberConstructor;
+            readonly default: 150;
+        };
     }>> & Readonly<{
         onClear?: (() => any) | undefined;
         onInput?: ((value: string | number, event: Event) => any) | undefined;
@@ -122,6 +126,7 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
         readonly showWordLimit: boolean;
         readonly inactiveBorderColor: string;
         readonly placeholderColor: string;
+        readonly clearDuration: number;
     }, true, {}, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, {}, any, import("vue").ComponentProvideOptions, {
         P: {};
         B: {};
@@ -198,6 +203,10 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly clearDuration: {
+            readonly type: NumberConstructor;
+            readonly default: 150;
+        };
     }>> & Readonly<{
         onClear?: (() => any) | undefined;
         onInput?: ((value: string | number, event: Event) => any) | undefined;
@@ -227,6 +236,7 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
         readonly showWordLimit: boolean;
         readonly inactiveBorderColor: string;
         readonly placeholderColor: string;
+        readonly clearDuration: number;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
@@ -300,6 +310,10 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 }>> & Readonly<{
     onClear?: (() => any) | undefined;
     onInput?: ((value: string | number, event: Event) => any) | undefined;
@@ -336,6 +350,7 @@ export declare const CpInput: import("../utils").SFCWithInstall<{
     readonly showWordLimit: boolean;
     readonly inactiveBorderColor: string;
     readonly placeholderColor: string;
+    readonly clearDuration: number;
 }, {}, string, {}, import("vue").GlobalComponents, import("vue").GlobalDirectives, string, import("vue").ComponentProvideOptions> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         prefix?: (props: {}) => any;

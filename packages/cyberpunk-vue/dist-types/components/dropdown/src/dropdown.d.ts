@@ -224,6 +224,16 @@ export declare const dropdownProps: {
         readonly type: StringConstructor;
         readonly default: "无数据";
     };
+    /**
+     * 清除动画持续时间 (ms)
+     * 控制点击清空按钮时文字消失动画的速度
+     * @default 150
+     * @example `<CpDropdown :clear-duration="300" />`
+     */
+    readonly clearDuration: {
+        readonly type: NumberConstructor;
+        readonly default: 150;
+    };
 };
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>;
 /**

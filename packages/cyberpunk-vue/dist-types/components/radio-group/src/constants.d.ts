@@ -5,7 +5,6 @@ export interface RadioGroupContext {
     disabled: Ref<boolean>;
     size: Ref<RadioSize>;
     type: Ref<RadioType>;
-    name: Ref<string>;
     handleChange: (value: RadioValueType) => void;
 }
 export declare const radioGroupContextKey: InjectionKey<RadioGroupContext>;

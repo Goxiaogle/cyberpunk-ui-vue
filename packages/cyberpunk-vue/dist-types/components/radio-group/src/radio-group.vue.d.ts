@@ -20,10 +20,6 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioType>;
         readonly default: "primary";
     };
-    readonly name: {
-        readonly type: StringConstructor;
-        readonly default: "";
-    };
     readonly direction: {
         readonly type: import("vue").PropType<"horizontal" | "vertical">;
         readonly default: "horizontal";
@@ -51,10 +47,6 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").RadioType>;
         readonly default: "primary";
     };
-    readonly name: {
-        readonly type: StringConstructor;
-        readonly default: "";
-    };
     readonly direction: {
         readonly type: import("vue").PropType<"horizontal" | "vertical">;
         readonly default: "horizontal";
@@ -64,7 +56,6 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     onChange?: ((value: RadioValueType) => any) | undefined;
 }>, {
     readonly size: import("@cyberpunk-vue/hooks").Size;
-    readonly name: string;
     readonly type: import("packages/cyberpunk-vue").RadioType;
     readonly disabled: boolean;
     readonly modelValue: RadioValueType;
