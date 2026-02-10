@@ -148,23 +148,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
             default: string;
         };
         dialogClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         headerClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         bodyClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         footerClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         overlayClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         modalClass: {
@@ -172,23 +172,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
             default: string;
         };
         dialogStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         headerStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         bodyStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         footerStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         overlayStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         zIndex: {
@@ -251,11 +251,11 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         bgColor: string;
         headerDividerColor: string;
         footerDividerColor: string;
-        headerClass: any;
-        headerStyle: string | Record<string, any>;
-        bodyClass: any;
-        bodyStyle: string | Record<string, any>;
-        overlayStyle: string | Record<string, any>;
+        headerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        headerStyle: string | import("vue").CSSProperties;
+        bodyClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        bodyStyle: string | import("vue").CSSProperties;
+        overlayStyle: string | import("vue").CSSProperties;
         draggable: boolean;
         closeOnEscape: boolean;
         fullscreen: boolean;
@@ -269,12 +269,12 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         alignCenter: boolean;
         titleColor: string;
         closeColor: string;
-        dialogClass: any;
-        footerClass: any;
-        overlayClass: any;
+        dialogClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        footerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        overlayClass: import("packages/cyberpunk-vue").DialogCustomClass;
         modalClass: string;
-        dialogStyle: string | Record<string, any>;
-        footerStyle: string | Record<string, any>;
+        dialogStyle: string | import("vue").CSSProperties;
+        footerStyle: string | import("vue").CSSProperties;
         showConfirmButton: boolean;
         showCancelButton: boolean;
         confirmText: string;
@@ -412,23 +412,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
             default: string;
         };
         dialogClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         headerClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         bodyClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         footerClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         overlayClass: {
-            type: import("vue").PropType<any>;
+            type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
             default: undefined;
         };
         modalClass: {
@@ -436,23 +436,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
             default: string;
         };
         dialogStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         headerStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         bodyStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         footerStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         overlayStyle: {
-            type: import("vue").PropType<string | Record<string, any>>;
+            type: import("vue").PropType<string | import("vue").CSSProperties>;
             default: undefined;
         };
         zIndex: {
@@ -507,11 +507,11 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         bgColor: string;
         headerDividerColor: string;
         footerDividerColor: string;
-        headerClass: any;
-        headerStyle: string | Record<string, any>;
-        bodyClass: any;
-        bodyStyle: string | Record<string, any>;
-        overlayStyle: string | Record<string, any>;
+        headerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        headerStyle: string | import("vue").CSSProperties;
+        bodyClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        bodyStyle: string | import("vue").CSSProperties;
+        overlayStyle: string | import("vue").CSSProperties;
         draggable: boolean;
         closeOnEscape: boolean;
         fullscreen: boolean;
@@ -525,12 +525,12 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         alignCenter: boolean;
         titleColor: string;
         closeColor: string;
-        dialogClass: any;
-        footerClass: any;
-        overlayClass: any;
+        dialogClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        footerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+        overlayClass: import("packages/cyberpunk-vue").DialogCustomClass;
         modalClass: string;
-        dialogStyle: string | Record<string, any>;
-        footerStyle: string | Record<string, any>;
+        dialogStyle: string | import("vue").CSSProperties;
+        footerStyle: string | import("vue").CSSProperties;
         showConfirmButton: boolean;
         showCancelButton: boolean;
         confirmText: string;
@@ -665,23 +665,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         default: string;
     };
     dialogClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     headerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     bodyClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     footerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     overlayClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     modalClass: {
@@ -689,23 +689,23 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
         default: string;
     };
     dialogStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | import("vue").CSSProperties>;
         default: undefined;
     };
     headerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | import("vue").CSSProperties>;
         default: undefined;
     };
     bodyStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | import("vue").CSSProperties>;
         default: undefined;
     };
     footerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | import("vue").CSSProperties>;
         default: undefined;
     };
     overlayStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | import("vue").CSSProperties>;
         default: undefined;
     };
     zIndex: {
@@ -768,11 +768,11 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
     bgColor: string;
     headerDividerColor: string;
     footerDividerColor: string;
-    headerClass: any;
-    headerStyle: string | Record<string, any>;
-    bodyClass: any;
-    bodyStyle: string | Record<string, any>;
-    overlayStyle: string | Record<string, any>;
+    headerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    headerStyle: string | import("vue").CSSProperties;
+    bodyClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    bodyStyle: string | import("vue").CSSProperties;
+    overlayStyle: string | import("vue").CSSProperties;
     draggable: boolean;
     closeOnEscape: boolean;
     fullscreen: boolean;
@@ -786,12 +786,12 @@ export declare const CpDialog: import("../utils").SFCWithInstall<{
     alignCenter: boolean;
     titleColor: string;
     closeColor: string;
-    dialogClass: any;
-    footerClass: any;
-    overlayClass: any;
+    dialogClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    footerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    overlayClass: import("packages/cyberpunk-vue").DialogCustomClass;
     modalClass: string;
-    dialogStyle: string | Record<string, any>;
-    footerStyle: string | Record<string, any>;
+    dialogStyle: string | import("vue").CSSProperties;
+    footerStyle: string | import("vue").CSSProperties;
     showConfirmButton: boolean;
     showCancelButton: boolean;
     confirmText: string;

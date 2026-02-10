@@ -63,6 +63,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<object>;
         readonly default: undefined;
     };
+    readonly square: {
+        readonly type: BooleanConstructor;
+        readonly default: false;
+    };
     readonly iconColor: {
         readonly type: StringConstructor;
         readonly default: "";
@@ -154,6 +158,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<object>;
         readonly default: undefined;
     };
+    readonly square: {
+        readonly type: BooleanConstructor;
+        readonly default: false;
+    };
     readonly iconColor: {
         readonly type: StringConstructor;
         readonly default: "";
@@ -203,6 +211,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly loadingDisabled: boolean;
     readonly textColor: string;
     readonly icon: object;
+    readonly square: boolean;
     readonly iconColor: string;
     readonly prefixIcon: object;
     readonly suffixIcon: object;

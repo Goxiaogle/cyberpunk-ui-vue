@@ -1,6 +1,7 @@
+import type { TreeNode } from './tree';
 declare const _default: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     readonly node: {
-        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").TreeNode>;
+        readonly type: import("vue").PropType<TreeNode>;
         readonly required: true;
     };
     readonly isLast: {
@@ -9,7 +10,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     readonly node: {
-        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").TreeNode>;
+        readonly type: import("vue").PropType<TreeNode>;
         readonly required: true;
     };
     readonly isLast: {

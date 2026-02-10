@@ -31,7 +31,7 @@ export declare const menuItemProps: {
      * vue-router 路由对象或路径
      */
     readonly route: {
-        readonly type: PropType<string | Record<string, any>>;
+        readonly type: PropType<string | Record<string, unknown>>;
         readonly default: undefined;
     };
 };

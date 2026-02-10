@@ -108,7 +108,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         label: string;
         level: number;
         data: {
-            [x: string]: any;
+            [x: string]: unknown;
             label: string;
             value?: string | number | undefined;
             children?: /*elided*/ any[] | undefined;
@@ -127,7 +127,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         label: string;
         level: number;
         data: {
-            [x: string]: any;
+            [x: string]: unknown;
             label: string;
             value?: string | number | undefined;
             children?: /*elided*/ any[] | undefined;

@@ -35,7 +35,7 @@ export interface MenuNavItem {
     /** 是否禁用 */
     disabled?: boolean;
     /** vue-router 路由 */
-    route?: string | Record<string, any>;
+    route?: string | Record<string, unknown>;
     /** 子菜单项（有 children 渲染为 SubMenu） */
     children?: MenuNavItem[];
     /** 分组标题（有 group 渲染为 MenuItemGroup） */

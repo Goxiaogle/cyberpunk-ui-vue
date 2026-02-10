@@ -16,7 +16,7 @@ export interface TreeNodeData {
     /** 自定义图标名称 */
     icon?: string;
     /** 允许用户扩展的任意数据 */
-    [key: string]: any;
+    [key: string]: unknown;
 }
 /**
  * 字段映射配置

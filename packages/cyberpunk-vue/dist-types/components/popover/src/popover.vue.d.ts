@@ -1,3 +1,4 @@
+import type { PopoverVariant } from './popover';
 declare var __VLS_1: {}, __VLS_11: {};
 type __VLS_Slots = {} & {
     default?: (props: typeof __VLS_1) => any;
@@ -68,6 +69,18 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly teleportTo: {
         readonly type: import("vue").PropType<string | HTMLElement>;
         readonly default: "body";
+    };
+    readonly variant: {
+        readonly type: import("vue").PropType<PopoverVariant>;
+        readonly default: "solid";
+    };
+    readonly type: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").PopoverType>;
+        readonly default: "default";
+    };
+    readonly color: {
+        readonly type: StringConstructor;
+        readonly default: "";
     };
 }>, {
     /** @description 打开弹层 */
@@ -147,13 +160,28 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<string | HTMLElement>;
         readonly default: "body";
     };
+    readonly variant: {
+        readonly type: import("vue").PropType<PopoverVariant>;
+        readonly default: "solid";
+    };
+    readonly type: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").PopoverType>;
+        readonly default: "default";
+    };
+    readonly color: {
+        readonly type: StringConstructor;
+        readonly default: "";
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
     onClose?: (() => any) | undefined;
     onOpen?: (() => any) | undefined;
 }>, {
     readonly width: string | number;
+    readonly type: import("packages/cyberpunk-vue").PopoverType;
+    readonly variant: PopoverVariant;
     readonly disabled: boolean;
+    readonly color: string;
     readonly title: string;
     readonly content: string;
     readonly modelValue: boolean;

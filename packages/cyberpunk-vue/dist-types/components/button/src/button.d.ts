@@ -192,6 +192,16 @@ export declare const buttonProps: {
         readonly default: undefined;
     };
     /**
+     * 是否为正方形按钮
+     * 开启后按钮宽度等于高度，表现与 icon-only 一致
+     * @default false
+     * @example `<CpButton square>A</CpButton>`
+     */
+    readonly square: {
+        readonly type: BooleanConstructor;
+        readonly default: false;
+    };
+    /**
      * 图标颜色
      * 用于控制所有图标（icon、prefixIcon、suffixIcon）的默认颜色
      * 优先级：prefixIconColor/suffixIconColor > iconColor > textColor

@@ -7,3 +7,5 @@ export { useSize, normalizeSize, isPresetSize } from './use-size';
 export type { SizeValue, CommonSize, Size } from './use-size';
 export { useImageSrc, appendProcessor, replaceProcessor, tosProcessor, builtinProcessors, } from './use-image-src';
 export type { ImageSrcProcessor, ImageProcessorParams, TosProcessorParams, BuiltinProcessorName, UseImageSrcOptions, UseImageSrcReturn, } from './use-image-src';
+export { usePagination } from './use-pagination';
+export type { UsePaginationOptions, UsePaginationReturn } from './use-pagination';

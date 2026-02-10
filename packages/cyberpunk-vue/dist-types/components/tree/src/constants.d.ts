@@ -11,9 +11,9 @@ export type TreeIconProp = Component | ((node: TreeNode) => Component);
 export type TreeNodeIconProp = Component | ((node: TreeNode) => Component | string | undefined);
 export interface TreeContext {
     /** 展开的 key 集合 */
-    expandedKeys: Ref<Set<string | number>>;
+    expandedKeys: Readonly<Ref<Set<string | number>>>;
     /** 勾选的 key 集合 */
-    checkedKeys: Ref<Set<string | number>>;
+    checkedKeys: Readonly<Ref<Set<string | number>>>;
     /** 半选的 key 集合 */
     indeterminateKeys: Ref<Set<string | number>>;
     /** 当前高亮节点 key */

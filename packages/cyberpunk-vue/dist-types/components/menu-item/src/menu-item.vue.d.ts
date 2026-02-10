@@ -18,7 +18,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly default: undefined;
     };
     readonly route: {
-        readonly type: import("vue").PropType<string | Record<string, any>>;
+        readonly type: import("vue").PropType<string | Record<string, unknown>>;
         readonly default: undefined;
     };
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
@@ -37,7 +37,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly default: undefined;
     };
     readonly route: {
-        readonly type: import("vue").PropType<string | Record<string, any>>;
+        readonly type: import("vue").PropType<string | Record<string, unknown>>;
         readonly default: undefined;
     };
 }>> & Readonly<{
@@ -45,7 +45,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
 }>, {
     readonly disabled: boolean;
     readonly icon: import("packages/cyberpunk-vue").IconValue;
-    readonly route: string | Record<string, any>;
+    readonly route: string | Record<string, unknown>;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;

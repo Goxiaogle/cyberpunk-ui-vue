@@ -10,6 +10,11 @@ export declare const DIALOG_CONTEXT_KEY: InjectionKey<{
     type: Ref<string>;
     color: Ref<string>;
 }>;
+/** Table 上下文注入 Key — CpTableColumn 注册到父 CpTable */
+export declare const TABLE_CONTEXT_KEY: InjectionKey<{
+    registerColumn: (config: any) => void;
+    unregisterColumn: (id: string) => void;
+}>;
 /** 组件前缀 */
 export declare const COMPONENT_PREFIX = "Cp";
 /** CSS 命名空间 */

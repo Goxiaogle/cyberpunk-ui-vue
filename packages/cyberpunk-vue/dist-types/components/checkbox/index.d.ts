@@ -13,7 +13,7 @@
 export declare const CpCheckbox: import("../utils").SFCWithInstall<{
     new (...args: any[]): import("vue").CreateComponentPublicInstanceWithMixins<Readonly<import("vue").ExtractPropTypes<{
         readonly modelValue: {
-            readonly type: import("vue").PropType<boolean | import("packages/cyberpunk-vue").CheckboxValueType[]>;
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]>;
             readonly default: undefined;
         };
         readonly label: {
@@ -52,6 +52,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly shape: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxShape>;
+            readonly default: "clip";
+        };
         readonly border: {
             readonly type: BooleanConstructor;
             readonly default: false;
@@ -61,22 +65,23 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly default: "";
         };
     }>> & Readonly<{
-        "onUpdate:modelValue"?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
-        onChange?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+        onChange?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
     }>, {
         inputRef: import("vue").Ref<HTMLInputElement | undefined, HTMLInputElement | undefined>;
         checked: import("vue").ComputedRef<boolean>;
     }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-        "update:modelValue": (value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
-        change: (value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
+        "update:modelValue": (value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
+        change: (value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
     }, import("vue").PublicProps, {
         readonly size: import("@cyberpunk-vue/hooks").Size;
         readonly name: string;
         readonly type: import("packages/cyberpunk-vue").CheckboxType;
         readonly disabled: boolean;
         readonly color: string;
+        readonly shape: import("packages/cyberpunk-vue").CheckboxShape;
         readonly label: import("packages/cyberpunk-vue").CheckboxValueType;
-        readonly modelValue: boolean | import("packages/cyberpunk-vue").CheckboxValueType[];
+        readonly modelValue: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[];
         readonly indeterminate: boolean;
         readonly border: boolean;
         readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;
@@ -91,7 +96,7 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         Defaults: {};
     }, Readonly<import("vue").ExtractPropTypes<{
         readonly modelValue: {
-            readonly type: import("vue").PropType<boolean | import("packages/cyberpunk-vue").CheckboxValueType[]>;
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]>;
             readonly default: undefined;
         };
         readonly label: {
@@ -130,6 +135,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly type: StringConstructor;
             readonly default: "";
         };
+        readonly shape: {
+            readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxShape>;
+            readonly default: "clip";
+        };
         readonly border: {
             readonly type: BooleanConstructor;
             readonly default: false;
@@ -139,8 +148,8 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
             readonly default: "";
         };
     }>> & Readonly<{
-        "onUpdate:modelValue"?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
-        onChange?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+        onChange?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
     }>, {
         inputRef: import("vue").Ref<HTMLInputElement | undefined, HTMLInputElement | undefined>;
         checked: import("vue").ComputedRef<boolean>;
@@ -150,8 +159,9 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly type: import("packages/cyberpunk-vue").CheckboxType;
         readonly disabled: boolean;
         readonly color: string;
+        readonly shape: import("packages/cyberpunk-vue").CheckboxShape;
         readonly label: import("packages/cyberpunk-vue").CheckboxValueType;
-        readonly modelValue: boolean | import("packages/cyberpunk-vue").CheckboxValueType[];
+        readonly modelValue: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[];
         readonly indeterminate: boolean;
         readonly border: boolean;
         readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;
@@ -163,7 +173,7 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
     __isSuspense?: never;
 } & import("vue").ComponentOptionsBase<Readonly<import("vue").ExtractPropTypes<{
     readonly modelValue: {
-        readonly type: import("vue").PropType<boolean | import("packages/cyberpunk-vue").CheckboxValueType[]>;
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]>;
         readonly default: undefined;
     };
     readonly label: {
@@ -202,6 +212,10 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly type: StringConstructor;
         readonly default: "";
     };
+    readonly shape: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxShape>;
+        readonly default: "clip";
+    };
     readonly border: {
         readonly type: BooleanConstructor;
         readonly default: false;
@@ -211,22 +225,23 @@ export declare const CpCheckbox: import("../utils").SFCWithInstall<{
         readonly default: "";
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
-    onChange?: ((value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
+    onChange?: ((value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => any) | undefined;
 }>, {
     inputRef: import("vue").Ref<HTMLInputElement | undefined, HTMLInputElement | undefined>;
     checked: import("vue").ComputedRef<boolean>;
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "update:modelValue": (value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
-    change: (value: boolean | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
+    "update:modelValue": (value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
+    change: (value: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[]) => void;
 }, string, {
     readonly size: import("@cyberpunk-vue/hooks").Size;
     readonly name: string;
     readonly type: import("packages/cyberpunk-vue").CheckboxType;
     readonly disabled: boolean;
     readonly color: string;
+    readonly shape: import("packages/cyberpunk-vue").CheckboxShape;
     readonly label: import("packages/cyberpunk-vue").CheckboxValueType;
-    readonly modelValue: boolean | import("packages/cyberpunk-vue").CheckboxValueType[];
+    readonly modelValue: import("packages/cyberpunk-vue").CheckboxValueType | import("packages/cyberpunk-vue").CheckboxValueType[];
     readonly indeterminate: boolean;
     readonly border: boolean;
     readonly trueValue: import("packages/cyberpunk-vue").CheckboxValueType;

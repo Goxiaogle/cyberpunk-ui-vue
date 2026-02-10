@@ -112,12 +112,12 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly dividerColor: StringConstructor;
     readonly headerDividerColor: StringConstructor;
     readonly footerDividerColor: StringConstructor;
-    readonly backgroundClass: import("vue").PropType<any>;
-    readonly backgroundStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly headerClass: import("vue").PropType<any>;
-    readonly headerStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly bodyClass: import("vue").PropType<any>;
-    readonly bodyStyle: import("vue").PropType<string | Record<string, any>>;
+    readonly backgroundClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly backgroundStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly headerClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly headerStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly bodyClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly bodyStyle: import("vue").PropType<string | import("vue").CSSProperties>;
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     readonly title: {
         readonly type: StringConstructor;
@@ -216,12 +216,12 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly dividerColor: StringConstructor;
     readonly headerDividerColor: StringConstructor;
     readonly footerDividerColor: StringConstructor;
-    readonly backgroundClass: import("vue").PropType<any>;
-    readonly backgroundStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly headerClass: import("vue").PropType<any>;
-    readonly headerStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly bodyClass: import("vue").PropType<any>;
-    readonly bodyStyle: import("vue").PropType<string | Record<string, any>>;
+    readonly backgroundClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly backgroundStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly headerClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly headerStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly bodyClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly bodyStyle: import("vue").PropType<string | import("vue").CSSProperties>;
 }>> & Readonly<{}>, {
     readonly type: import("packages/cyberpunk-vue").CardType;
     readonly variant: import("packages/cyberpunk-vue").CardVariant;

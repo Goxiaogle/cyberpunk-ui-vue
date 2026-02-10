@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { Size } from '@cyberpunk-vue/hooks';
-import type { CheckboxValueType, CheckboxType } from '../../checkbox/src/checkbox';
+import type { CheckboxValueType, CheckboxType, CheckboxShape } from '../../checkbox/src/checkbox';
 /**
  * CpCheckboxGroup 组件 Props 定义
  *
@@ -46,6 +46,14 @@ export declare const checkboxGroupProps: {
     readonly type: {
         readonly type: PropType<CheckboxType>;
         readonly default: "primary";
+    };
+    /**
+     * 子复选框形状
+     * @default 'clip'
+     */
+    readonly shape: {
+        readonly type: PropType<CheckboxShape>;
+        readonly default: "clip";
     };
     /**
      * 最少选中数量

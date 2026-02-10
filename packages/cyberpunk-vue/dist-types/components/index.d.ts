@@ -35,3 +35,7 @@ export * from './sub-menu';
 export * from './menu-item-group';
 export * from './notification';
 export * from './menu-nav';
+export * from './pagination';
+export * from './segmented';
+export * from './table';
+export * from './table-column';

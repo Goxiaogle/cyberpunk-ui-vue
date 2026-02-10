@@ -18,6 +18,13 @@ export type CheckboxSize = Size;
  */
 export type CheckboxType = 'primary' | 'success' | 'warning' | 'error' | 'info';
 /**
+ * 复选框形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type CheckboxShape = 'clip' | 'no-clip' | 'round';
+/**
  * 复选框值类型
  */
 export type CheckboxValueType = string | number | boolean;
@@ -47,7 +54,7 @@ export declare const checkboxProps: {
      * 单独使用时为 boolean，在 Group 中使用时为数组
      */
     readonly modelValue: {
-        readonly type: PropType<boolean | CheckboxValueType[]>;
+        readonly type: PropType<CheckboxValueType | CheckboxValueType[]>;
         readonly default: undefined;
     };
     /**
@@ -125,6 +132,17 @@ export declare const checkboxProps: {
         readonly default: "";
     };
     /**
+     * 复选框形状
+     * - `clip` - 切角样式（默认，赛博朋克特色）
+     * - `no-clip` - 直角矩形
+     * - `round` - 圆角矩形
+     * @default 'clip'
+     */
+    readonly shape: {
+        readonly type: PropType<CheckboxShape>;
+        readonly default: "clip";
+    };
+    /**
      * 是否使用边框样式
      * 开启后整个标签区域带有边框
      * @default false
@@ -149,10 +167,10 @@ export declare const checkboxEmits: {
     /**
      * 值变化时触发 (v-model 绑定)
      */
-    'update:modelValue': (value: boolean | CheckboxValueType[]) => boolean;
+    'update:modelValue': (value: CheckboxValueType | CheckboxValueType[]) => value is string | number | boolean | CheckboxValueType[];
     /**
      * 值变化时触发
      */
-    change: (value: boolean | CheckboxValueType[]) => boolean;
+    change: (value: CheckboxValueType | CheckboxValueType[]) => value is string | number | boolean | CheckboxValueType[];
 };
 export type CheckboxEmits = typeof checkboxEmits;

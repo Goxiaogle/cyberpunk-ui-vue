@@ -116,12 +116,12 @@ export declare const CpCard: import("../utils").SFCWithInstall<{
         readonly dividerColor: StringConstructor;
         readonly headerDividerColor: StringConstructor;
         readonly footerDividerColor: StringConstructor;
-        readonly backgroundClass: import("vue").PropType<any>;
-        readonly backgroundStyle: import("vue").PropType<string | Record<string, any>>;
-        readonly headerClass: import("vue").PropType<any>;
-        readonly headerStyle: import("vue").PropType<string | Record<string, any>>;
-        readonly bodyClass: import("vue").PropType<any>;
-        readonly bodyStyle: import("vue").PropType<string | Record<string, any>>;
+        readonly backgroundClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly backgroundStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+        readonly headerClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly headerStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+        readonly bodyClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly bodyStyle: import("vue").PropType<string | import("vue").CSSProperties>;
     }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, import("vue").PublicProps, {
         readonly type: import("packages/cyberpunk-vue").CardType;
         readonly variant: import("packages/cyberpunk-vue").CardVariant;
@@ -251,12 +251,12 @@ export declare const CpCard: import("../utils").SFCWithInstall<{
         readonly dividerColor: StringConstructor;
         readonly headerDividerColor: StringConstructor;
         readonly footerDividerColor: StringConstructor;
-        readonly backgroundClass: import("vue").PropType<any>;
-        readonly backgroundStyle: import("vue").PropType<string | Record<string, any>>;
-        readonly headerClass: import("vue").PropType<any>;
-        readonly headerStyle: import("vue").PropType<string | Record<string, any>>;
-        readonly bodyClass: import("vue").PropType<any>;
-        readonly bodyStyle: import("vue").PropType<string | Record<string, any>>;
+        readonly backgroundClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly backgroundStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+        readonly headerClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly headerStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+        readonly bodyClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+        readonly bodyStyle: import("vue").PropType<string | import("vue").CSSProperties>;
     }>> & Readonly<{}>, {}, {}, {}, {}, {
         readonly type: import("packages/cyberpunk-vue").CardType;
         readonly variant: import("packages/cyberpunk-vue").CardVariant;
@@ -383,12 +383,12 @@ export declare const CpCard: import("../utils").SFCWithInstall<{
     readonly dividerColor: StringConstructor;
     readonly headerDividerColor: StringConstructor;
     readonly footerDividerColor: StringConstructor;
-    readonly backgroundClass: import("vue").PropType<any>;
-    readonly backgroundStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly headerClass: import("vue").PropType<any>;
-    readonly headerStyle: import("vue").PropType<string | Record<string, any>>;
-    readonly bodyClass: import("vue").PropType<any>;
-    readonly bodyStyle: import("vue").PropType<string | Record<string, any>>;
+    readonly backgroundClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly backgroundStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly headerClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly headerStyle: import("vue").PropType<string | import("vue").CSSProperties>;
+    readonly bodyClass: import("vue").PropType<import("packages/cyberpunk-vue").CardCustomClass>;
+    readonly bodyStyle: import("vue").PropType<string | import("vue").CSSProperties>;
 }>> & Readonly<{}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, {
     readonly type: import("packages/cyberpunk-vue").CardType;
     readonly variant: import("packages/cyberpunk-vue").CardVariant;

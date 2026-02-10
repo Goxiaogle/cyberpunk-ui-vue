@@ -1,3 +1,8 @@
+/**
+ * CpDialog - 赛博朋克风格模态对话框
+ * 支持多种变体、形状、主题色、拖拽，以及各区域的颜色/样式/class 自定义
+ */
+import { type CSSProperties } from 'vue';
 import { type DialogBeforeCloseFn } from './dialog';
 declare var __VLS_14: {}, __VLS_16: {}, __VLS_18: {}, __VLS_20: {};
 type __VLS_Slots = {} & {
@@ -135,23 +140,23 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         default: string;
     };
     dialogClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     headerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     bodyClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     footerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     overlayClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     modalClass: {
@@ -159,23 +164,23 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         default: string;
     };
     dialogStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     headerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     bodyStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     footerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     overlayStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     zIndex: {
@@ -339,23 +344,23 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         default: string;
     };
     dialogClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     headerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     bodyClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     footerClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     overlayClass: {
-        type: import("vue").PropType<any>;
+        type: import("vue").PropType<import("packages/cyberpunk-vue").DialogCustomClass>;
         default: undefined;
     };
     modalClass: {
@@ -363,23 +368,23 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         default: string;
     };
     dialogStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     headerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     bodyStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     footerStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     overlayStyle: {
-        type: import("vue").PropType<string | Record<string, any>>;
+        type: import("vue").PropType<string | CSSProperties>;
         default: undefined;
     };
     zIndex: {
@@ -430,11 +435,11 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     bgColor: string;
     headerDividerColor: string;
     footerDividerColor: string;
-    headerClass: any;
-    headerStyle: string | Record<string, any>;
-    bodyClass: any;
-    bodyStyle: string | Record<string, any>;
-    overlayStyle: string | Record<string, any>;
+    headerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    headerStyle: string | CSSProperties;
+    bodyClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    bodyStyle: string | CSSProperties;
+    overlayStyle: string | CSSProperties;
     draggable: boolean;
     closeOnEscape: boolean;
     fullscreen: boolean;
@@ -448,12 +453,12 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     alignCenter: boolean;
     titleColor: string;
     closeColor: string;
-    dialogClass: any;
-    footerClass: any;
-    overlayClass: any;
+    dialogClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    footerClass: import("packages/cyberpunk-vue").DialogCustomClass;
+    overlayClass: import("packages/cyberpunk-vue").DialogCustomClass;
     modalClass: string;
-    dialogStyle: string | Record<string, any>;
-    footerStyle: string | Record<string, any>;
+    dialogStyle: string | CSSProperties;
+    footerStyle: string | CSSProperties;
     showConfirmButton: boolean;
     showCancelButton: boolean;
     confirmText: string;

@@ -20,6 +20,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxType>;
         readonly default: "primary";
     };
+    readonly shape: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxShape>;
+        readonly default: "clip";
+    };
     readonly min: {
         readonly type: NumberConstructor;
         readonly default: undefined;
@@ -55,6 +59,10 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxType>;
         readonly default: "primary";
     };
+    readonly shape: {
+        readonly type: import("vue").PropType<import("packages/cyberpunk-vue").CheckboxShape>;
+        readonly default: "clip";
+    };
     readonly min: {
         readonly type: NumberConstructor;
         readonly default: undefined;
@@ -74,6 +82,7 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     readonly size: import("@cyberpunk-vue/hooks").Size;
     readonly type: import("packages/cyberpunk-vue").CheckboxType;
     readonly disabled: boolean;
+    readonly shape: import("packages/cyberpunk-vue").CheckboxShape;
     readonly modelValue: CheckboxValueType[];
     readonly min: number;
     readonly max: number;

@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { DurationValue } from '@cyberpunk-vue/hooks';
 /**
  * 卡片阴影显示时机
@@ -51,6 +51,7 @@ export type CardOverlayEffect = 'none' | 'blur' | 'color' | 'blur-color';
  * 卡片的主题颜色类型
  */
 export type CardType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
+export type CardCustomClass = string | Record<string, boolean> | Array<string | Record<string, boolean>>;
 /**
  * CpCard 组件 Props 定义
  *
@@ -315,26 +316,26 @@ export declare const cardProps: {
     /**
      * 容器/背景自定义类名
      */
-    readonly backgroundClass: PropType<any>;
+    readonly backgroundClass: PropType<CardCustomClass>;
     /**
      * 容器/背景自定义样式
      */
-    readonly backgroundStyle: PropType<string | Record<string, any>>;
+    readonly backgroundStyle: PropType<string | CSSProperties>;
     /**
      * 头部自定义类名
      */
-    readonly headerClass: PropType<any>;
+    readonly headerClass: PropType<CardCustomClass>;
     /**
      * 头部自定义样式
      */
-    readonly headerStyle: PropType<string | Record<string, any>>;
+    readonly headerStyle: PropType<string | CSSProperties>;
     /**
      * 主体自定义类名
      */
-    readonly bodyClass: PropType<any>;
+    readonly bodyClass: PropType<CardCustomClass>;
     /**
      * 主体自定义样式
      */
-    readonly bodyStyle: PropType<string | Record<string, any>>;
+    readonly bodyStyle: PropType<string | CSSProperties>;
 };
 export type CardProps = ExtractPropTypes<typeof cardProps>;

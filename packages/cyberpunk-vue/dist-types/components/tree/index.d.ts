@@ -123,7 +123,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
             label: string;
             level: number;
             data: {
-                [x: string]: any;
+                [x: string]: unknown;
                 label: string;
                 value?: string | number | undefined;
                 children?: /*elided*/ any[] | undefined;
@@ -142,7 +142,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
             label: string;
             level: number;
             data: {
-                [x: string]: any;
+                [x: string]: unknown;
                 label: string;
                 value?: string | number | undefined;
                 children?: /*elided*/ any[] | undefined;
@@ -307,7 +307,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
             label: string;
             level: number;
             data: {
-                [x: string]: any;
+                [x: string]: unknown;
                 label: string;
                 value?: string | number | undefined;
                 children?: /*elided*/ any[] | undefined;
@@ -326,7 +326,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
             label: string;
             level: number;
             data: {
-                [x: string]: any;
+                [x: string]: unknown;
                 label: string;
                 value?: string | number | undefined;
                 children?: /*elided*/ any[] | undefined;
@@ -481,7 +481,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
         label: string;
         level: number;
         data: {
-            [x: string]: any;
+            [x: string]: unknown;
             label: string;
             value?: string | number | undefined;
             children?: /*elided*/ any[] | undefined;
@@ -500,7 +500,7 @@ export declare const CpTree: import("../utils").SFCWithInstall<{
         label: string;
         level: number;
         data: {
-            [x: string]: any;
+            [x: string]: unknown;
             label: string;
             value?: string | number | undefined;
             children?: /*elided*/ any[] | undefined;
