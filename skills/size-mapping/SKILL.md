@@ -81,6 +81,14 @@ type Size = "sm" | "md" | "lg" | number | string;
 | `md` | 18px   | 8px      | 14px (默认) |
 | `lg` | 22px   | 10px     | 16px        |
 
+### Segmented 分段选择器
+
+| 预设 | 高度 | 字号                     | item 内边距 |
+| ---- | ---- | ------------------------ | ----------- |
+| `sm` | 24px | `var(--cp-font-size-sm)` | `0 8px`     |
+| `md` | 32px | `var(--cp-font-size-md)` | `0 12px`    |
+| `lg` | 40px | `var(--cp-font-size-lg)` | `0 20px`    |
+
 ---
 
 ## 使用示例
@@ -187,6 +195,16 @@ type Size = "sm" | "md" | "lg" | number | string;
 | `outline` | 边框样式 (默认) |
 | `filled`  | 带背景填充      |
 | `ghost`   | 无边框无背景    |
+
+### Segmented 变体
+
+| 值        | 说明                             |
+| --------- | -------------------------------- |
+| `solid`   | 实心填充 (默认)，滑块高亮 + 辉光 |
+| `outline` | 边框描边，滑块边框 + 浅底色      |
+| `semi`    | 半透明背景 + 实心滑块            |
+| `ghost`   | 无 track 背景，仅选中项高亮      |
+| `neon`    | 霓虹辉光脉冲，赛博朋克特有风格   |
 
 ---
 

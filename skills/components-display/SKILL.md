@@ -1,6 +1,6 @@
 ---
 name: components-display
-description: 展示与反馈组件的详细属性参考：Card、Image、Avatar、Progress、Loading、StatusIndicator、Dialog、Notification、Popover、Tree。
+description: 展示与反馈组件的详细属性参考：Card、Image、Avatar、Progress、Loading、StatusIndicator、Dialog、Notification、Popover、Tree、Table。
 ---
 
 # 展示与反馈组件属性参考
@@ -505,4 +505,122 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
   message="消息内容"
   color="#ff6ec7"
 />
+```
+
+---
+
+## CpTable 数据表格
+
+赛博朋克风格数据表格，支持排序、多选、条纹、边框、固定表头。
+配合 `CpTableColumn` 声明式定义列。
+
+### Props
+
+| 属性                  | 类型                                                                    | 默认值       | 说明                      |
+| --------------------- | ----------------------------------------------------------------------- | ------------ | ------------------------- |
+| `data`                | `any[]`                                                                 | `[]`         | 表格数据                  |
+| `size`                | `'sm' \| 'md' \| 'lg' \| number`                                        | `'md'`       | 尺寸                      |
+| `type`                | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`  | 颜色类型                  |
+| `color`               | `string`                                                                | `''`         | 自定义主题色（覆盖 type） |
+| `stripe`              | `boolean`                                                               | `false`      | 条纹行                    |
+| `border`              | `boolean`                                                               | `false`      | 边框                      |
+| `highlightCurrentRow` | `boolean`                                                               | `false`      | 高亮当前行                |
+| `height`              | `string \| number`                                                      | -            | 固定高度（启用固定表头）  |
+| `maxHeight`           | `string \| number`                                                      | -            | 最大高度                  |
+| `emptyText`           | `string`                                                                | `'暂无数据'` | 空数据文案                |
+| `rowKey`              | `string \| (row) => string \| number`                                   | `'id'`       | 行唯一标识字段            |
+| `defaultSort`         | `{ prop: string, order: SortOrder }`                                    | -            | 默认排序                  |
+| `showHeader`          | `boolean`                                                               | `true`       | 是否显示表头              |
+
+### 事件
+
+| 事件名             | 参数                           | 说明       |
+| ------------------ | ------------------------------ | ---------- |
+| `sort-change`      | `(sortState: { prop, order })` | 排序变化   |
+| `row-click`        | `(row, index, event)`          | 行点击     |
+| `selection-change` | `(selection: any[])`           | 选中行变化 |
+| `select-all`       | `(selection: any[])`           | 全选       |
+| `select`           | `(selection: any[], row)`      | 单行选中   |
+| `current-change`   | `(currentRow, oldRow)`         | 当前行变化 |
+
+### 暴露方法
+
+| 方法               | 参数                    | 说明           |
+| ------------------ | ----------------------- | -------------- |
+| `clearSelection`   | -                       | 清空选择       |
+| `getSelectionRows` | -                       | 获取选中行数组 |
+| `sort`             | `(prop: string, order)` | 编程式排序     |
+| `setCurrentRow`    | `(row: any)`            | 设置当前行     |
+
+### 插槽
+
+| 名称      | 说明                 |
+| --------- | -------------------- |
+| `default` | CpTableColumn 列定义 |
+| `empty`   | 空数据自定义内容     |
+
+---
+
+## CpTableColumn 表格列
+
+声明式列定义，配合 `CpTable` 使用。
+
+### Props
+
+| 属性          | 类型                                  | 默认值      | 说明                           |
+| ------------- | ------------------------------------- | ----------- | ------------------------------ |
+| `type`        | `'default' \| 'selection' \| 'index'` | `'default'` | 列类型                         |
+| `prop`        | `string`                              | `''`        | 数据字段名（支持嵌套如 `a.b`） |
+| `label`       | `string`                              | `''`        | 列标题                         |
+| `width`       | `string \| number`                    | -           | 列宽                           |
+| `minWidth`    | `string \| number`                    | -           | 最小列宽                       |
+| `sortable`    | `boolean`                             | `false`     | 是否可排序                     |
+| `align`       | `'left' \| 'center' \| 'right'`       | `'left'`    | 内容对齐                       |
+| `headerAlign` | `'left' \| 'center' \| 'right' \| ''` | `''`        | 表头对齐（默认跟随 align）     |
+
+### 插槽
+
+| 名称      | 作用域参数                | 说明         |
+| --------- | ------------------------- | ------------ |
+| `default` | `{ row, column, $index }` | 自定义单元格 |
+| `header`  | `{ column, $index }`      | 自定义表头   |
+
+### 示例
+
+```vue
+<!-- 基础用法 -->
+<CpTable :data="tableData" stripe border>
+  <CpTableColumn prop="name" label="姓名" sortable />
+  <CpTableColumn prop="age" label="年龄" sortable />
+</CpTable>
+
+<!-- 多选 + 序号 -->
+<CpTable :data="tableData" type="primary" @selection-change="onSelect">
+  <CpTableColumn type="selection" />
+  <CpTableColumn type="index" label="#" :width="50" />
+  <CpTableColumn prop="name" label="姓名" />
+</CpTable>
+
+<!-- 自定义颜色 -->
+<CpTable :data="tableData" color="#e040fb" stripe>
+  <CpTableColumn type="selection" />
+  <CpTableColumn prop="name" label="姓名" />
+</CpTable>
+
+<!-- 自定义列模板 -->
+<CpTable :data="tableData">
+  <CpTableColumn prop="status" label="状态" align="center">
+    <template #default="{ row }">
+      <CpTag :type="row.status === 'active' ? 'success' : 'error'" size="sm">
+        {{ row.status }}
+      </CpTag>
+    </template>
+  </CpTableColumn>
+</CpTable>
+
+<!-- 分页 (配合 usePagination) -->
+<CpTable :data="pagedData" stripe type="primary">
+  <CpTableColumn prop="name" label="姓名" />
+</CpTable>
+<CpPagination v-model:current-page="page" :total="total" />
 ```

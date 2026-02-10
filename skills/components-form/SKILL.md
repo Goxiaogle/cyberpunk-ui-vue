@@ -1,6 +1,6 @@
 ---
 name: components-form
-description: 表单组件的详细属性参考：Input、InputNumber、Textarea、Switch、Slider、Dropdown、Checkbox、Radio。
+description: 表单组件的详细属性参考：Input、InputNumber、Textarea、Switch、Slider、Dropdown、Checkbox、Radio、Segmented。
 ---
 
 # 表单组件属性参考
@@ -287,4 +287,90 @@ description: 表单组件的详细属性参考：Input、InputNumber、Textarea�
   <CpRadio value="A">确认</CpRadio>
   <CpRadio value="B">取消</CpRadio>
 </CpRadioGroup>
+```
+
+---
+
+## CpSegmented 分段选择器
+
+赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。
+
+### Props
+
+| 属性       | 类型                                                                    | 默认值      | 说明                    |
+| ---------- | ----------------------------------------------------------------------- | ----------- | ----------------------- |
+| `v-model`  | `string \| number`                                                      | —           | 绑定值                  |
+| `options`  | `(string \| number \| SegmentedOption)[]`                               | `[]`        | 选项数组                |
+| `type`     | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色预设                |
+| `variant`  | `'solid' \| 'outline' \| 'semi' \| 'ghost' \| 'neon'`                   | `'solid'`   | 变体样式                |
+| `size`     | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 尺寸                    |
+| `shape`    | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`    | 形状模式                |
+| `color`    | `string`                                                                | `''`        | 自定义主题色，覆盖 type |
+| `disabled` | `boolean`                                                               | `false`     | 全局禁用                |
+| `block`    | `boolean`                                                               | `false`     | 撑满父容器宽度          |
+
+### SegmentedOption 接口
+
+```typescript
+interface SegmentedOption {
+  label: string;
+  value: string | number;
+  disabled?: boolean;
+  icon?: Component;
+}
+```
+
+### 事件
+
+| 名称                | 参数                        | 说明         |
+| ------------------- | --------------------------- | ------------ |
+| `update:modelValue` | `(value: string \| number)` | v-model 绑定 |
+| `change`            | `(value: string \| number)` | 值发生变化   |
+
+### CSS 变量
+
+| 变量                              | 默认值                     | 说明             |
+| --------------------------------- | -------------------------- | ---------------- |
+| `--cp-segmented-bg`               | `var(--cp-bg-elevated)`    | track 背景       |
+| `--cp-segmented-border-color`     | `var(--cp-border)`         | track 边框色     |
+| `--cp-segmented-padding`          | `3px`                      | track 垂直内边距 |
+| `--cp-segmented-padding-x`        | `4px`                      | track 水平内边距 |
+| `--cp-segmented-gap`              | `2px`                      | item 间距        |
+| `--cp-segmented-height`           | `36px`                     | 组件高度         |
+| `--cp-segmented-font-size`        | `var(--cp-font-size-md)`   | 字号             |
+| `--cp-segmented-item-color`       | `var(--cp-text-secondary)` | item 文字色      |
+| `--cp-segmented-item-hover-bg`    | `var(--cp-state-hover)`    | item hover 背景  |
+| `--cp-segmented-item-padding`     | `0 12px`                   | item 内边距      |
+| `--cp-segmented-indicator-bg`     | `var(--cp-surface-bright)` | 滑块背景         |
+| `--cp-segmented-indicator-border` | `transparent`              | 滑块边框色       |
+| `--cp-segmented-indicator-shadow` | `none`                     | 滑块辉光         |
+| `--cp-segmented-indicator-offset` | `-2px`                     | 滑块水平偏移     |
+| `--cp-segmented-active-color`     | `var(--cp-text-primary)`   | 选中文字色       |
+| `--cp-segmented-transition`       | `0.3s cubic-bezier(...)`   | 动画时长         |
+
+### 示例
+
+```vue
+<!-- 基础 -->
+<CpSegmented v-model="active" :options="['日', '周', '月']" type="primary" />
+
+<!-- 霓虹变体 -->
+<CpSegmented
+  v-model="mode"
+  variant="neon"
+  type="warning"
+  :options="[
+    { label: 'SCAN', value: 'scan' },
+    { label: 'BREACH', value: 'breach' },
+    { label: 'LOCKED', value: 'locked', disabled: true },
+  ]"
+/>
+
+<!-- 自定义颜色 + 胶囊形状 -->
+<CpSegmented
+  v-model="val"
+  :options="['A', 'B', 'C']"
+  color="#ff00ff"
+  shape="circle"
+/>
 ```

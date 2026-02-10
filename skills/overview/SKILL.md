@@ -57,16 +57,17 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 表单输入
 
-| 组件                             | 说明         |
-| -------------------------------- | ------------ |
-| `CpInput`                        | 单行文本输入 |
-| `CpInputNumber`                  | 数值输入     |
-| `CpTextarea`                     | 多行文本输入 |
-| `CpSwitch`                       | 开关切换     |
-| `CpSlider`                       | 滑块选择器   |
-| `CpDropdown`                     | 下拉选择器   |
-| `CpCheckbox` / `CpCheckboxGroup` | 复选框       |
-| `CpRadio` / `CpRadioGroup`       | 单选框       |
+| 组件                             | 说明                       |
+| -------------------------------- | -------------------------- |
+| `CpInput`                        | 单行文本输入               |
+| `CpInputNumber`                  | 数值输入                   |
+| `CpTextarea`                     | 多行文本输入               |
+| `CpSwitch`                       | 开关切换                   |
+| `CpSlider`                       | 滑块选择器                 |
+| `CpDropdown`                     | 下拉选择器                 |
+| `CpCheckbox` / `CpCheckboxGroup` | 复选框                     |
+| `CpRadio` / `CpRadioGroup`       | 单选框                     |
+| `CpSegmented`                    | 分段选择器，互斥选项控件条 |
 
 ### 媒体展示
 
@@ -77,9 +78,11 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 数据展示
 
-| 组件     | 说明                               |
-| -------- | ---------------------------------- |
-| `CpTree` | 树形控件，支持勾选/过滤/自定义图标 |
+| 组件            | 说明                                   |
+| --------------- | -------------------------------------- |
+| `CpTree`        | 树形控件，支持勾选/过滤/自定义图标     |
+| `CpTable`       | 数据表格，排序/多选/条纹/边框/固定表头 |
+| `CpTableColumn` | 声明式列定义，配合 CpTable 使用        |
 
 ### 反馈与状态
 
@@ -94,13 +97,14 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 导航
 
-| 组件              | 说明                         |
-| ----------------- | ---------------------------- |
-| `CpMenu`          | 导航菜单，水平/垂直/折叠     |
-| `CpMenuItem`      | 菜单项，支持 icon/route      |
-| `CpSubMenu`       | 子菜单，hover/click 展开     |
-| `CpMenuItemGroup` | 菜单分组                     |
-| `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[]) |
+| 组件              | 说明                                      |
+| ----------------- | ----------------------------------------- |
+| `CpMenu`          | 导航菜单，水平/垂直/折叠                  |
+| `CpMenuItem`      | 菜单项，支持 icon/route                   |
+| `CpSubMenu`       | 子菜单，hover/click 展开                  |
+| `CpMenuItemGroup` | 菜单分组                                  |
+| `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[])              |
+| `CpPagination`    | 分页导航，支持 spacer/CpButton/自定义插槽 |
 
 ### 容器
 
@@ -129,8 +133,8 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 请根据需要查阅以下专项文档：
 
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
-- [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio 的完整 Props
-- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification 等的完整 Props
-- [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav 的完整 Props
+- [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented 的完整 Props
+- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
+- [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置
 - [尺寸映射](./size-mapping/SKILL.md) - Size 预设值和自定义尺寸
