@@ -16,6 +16,12 @@ export const DIALOG_CONTEXT_KEY: InjectionKey<{
   color: Ref<string>
 }> = Symbol('cp-dialog-context')
 
+/** Table 上下文注入 Key — CpTableColumn 注册到父 CpTable */
+export const TABLE_CONTEXT_KEY: InjectionKey<{
+  registerColumn: (config: any) => void
+  unregisterColumn: (id: string) => void
+}> = Symbol('cp-table-context')
+
 /** 组件前缀 */
 export const COMPONENT_PREFIX = 'Cp'
 

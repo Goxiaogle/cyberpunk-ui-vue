@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpSwitch } from '../packages/components'
+import { CpSwitch } from '@cyberpunk-vue/components'
 
 /**
  * # CpSwitch 开关 (V2)

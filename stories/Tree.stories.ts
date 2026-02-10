@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref, markRaw } from "vue";
-import { CpTree } from "../packages/components";
+import { CpTree } from '@cyberpunk-vue/components';
 
 // 从 unplugin-icons 导入真实图标 (MDI 图标集)
 import MdiPlus from '~icons/mdi/plus'

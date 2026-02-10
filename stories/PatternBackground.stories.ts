@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpPatternBackground, CpCard, CpText, CpButton } from '../packages/components'
+import { CpPatternBackground, CpCard, CpText, CpButton } from '@cyberpunk-vue/components'
 
 /**
  * # CpPatternBackground 图案背景

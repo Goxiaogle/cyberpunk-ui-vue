@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpTextarea } from '../packages/components'
+import { CpTextarea } from '@cyberpunk-vue/components'
 
 /**
  * # CpTextarea 多行输入框

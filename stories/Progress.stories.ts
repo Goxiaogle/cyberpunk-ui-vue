@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpProgress } from '../packages/components'
+import { CpProgress } from '@cyberpunk-vue/components'
 
 /**
  * # CpProgress 进度条

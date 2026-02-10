@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpButton } from '../packages/components'
+import { CpButton } from '@cyberpunk-vue/components'
 
 // 从 unplugin-icons 导入真实图标 (mdi 图标集) - 用于 IconButton 示例
 import MdiHome from '~icons/mdi/home'
@@ -14,9 +14,9 @@ import MdiDelete from '~icons/mdi/delete'
 
 /**
  * # CpButton 按钮
- * 
+ *
  * 赛博朋克风格按钮组件，支持多种颜色、尺寸和形态变体。
- * 
+ *
  * ## 特性
  * - 🎨 5 种颜色类型：primary、success、warning、error、info
  * - 📐 3 种尺寸：sm、md、lg
@@ -65,6 +65,10 @@ const meta: Meta<typeof CpButton> = {
     block: {
       control: 'boolean',
       description: '是否为块级按钮（占满宽度）',
+    },
+    square: {
+      control: 'boolean',
+      description: '是否为正方形按钮（宽度等于高度，与 icon-only 一致）',
     },
     textColor: {
       control: 'color',
@@ -430,12 +434,12 @@ export const 纯图标按钮: Story = {
     components: { CpButton },
     setup() {
       // 使用顶层导入的图标
-      return { 
-        MdiHome, MdiCog, MdiPlus, 
+      return {
+        MdiHome, MdiCog, MdiPlus,
         MdiSearch: MdiMagnify, // 重命名为模板中使用的名称
-        MdiHeart, MdiStar, 
+        MdiHeart, MdiStar,
         MdiEdit: MdiPencil,   // 重命名为模板中使用的名称
-        MdiDelete 
+        MdiDelete
       }
     },
     template: `
@@ -497,6 +501,82 @@ export const 纯图标按钮: Story = {
             <CpButton :icon="MdiCog" type="primary" />
             <CpButton :icon="MdiCog" type="primary" disabled />
             <CpButton :icon="MdiCog" type="primary" loading />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 正方形按钮 (Square) */
+export const 正方形按钮: Story = {
+  name: 'Square 正方形按钮',
+  render: () => ({
+    components: { CpButton },
+    setup() {
+      return { MdiHome, MdiCog, MdiPlus, MdiHeart, MdiStar }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 使用 <code style="color: var(--cp-color-primary);">square</code> 属性让按钮变为正方形，表现与 icon-only 一致，但可自由放置任意内容
+        </p>
+        
+        <!-- 尺寸对比 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">尺寸 Sizes</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton square size="sm">A</CpButton>
+            <CpButton square size="md">B</CpButton>
+            <CpButton square size="lg">C</CpButton>
+          </div>
+        </div>
+        
+        <!-- 颜色类型 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">颜色类型 Types</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton square type="primary">1</CpButton>
+            <CpButton square type="success">2</CpButton>
+            <CpButton square type="warning">3</CpButton>
+            <CpButton square type="error">4</CpButton>
+            <CpButton square type="info">5</CpButton>
+            <CpButton square type="default">6</CpButton>
+          </div>
+        </div>
+        
+        <!-- 变体 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">变体 Variants</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton square type="primary" variant="solid">S</CpButton>
+            <CpButton square type="primary" variant="semi">Se</CpButton>
+            <CpButton square type="primary" variant="outline">O</CpButton>
+            <CpButton square type="primary" variant="ghost">G</CpButton>
+            <CpButton square type="primary" variant="neon">N</CpButton>
+          </div>
+        </div>
+        
+        <!-- 形状 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">形状 Shapes</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton square type="success" shape="clip">✦</CpButton>
+            <CpButton square type="success" shape="no-clip">✦</CpButton>
+            <CpButton square type="success" shape="round">✦</CpButton>
+            <CpButton square type="success" shape="circle">✦</CpButton>
+          </div>
+        </div>
+
+        <!-- 与 icon-only 对比 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">与 icon-only 对比</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiHome" type="primary" />
+            <CpButton square type="primary">
+              <template #prefix>🏠</template>
+            </CpButton>
+            <span style="color: var(--cp-text-tertiary); font-size: 12px;">← 两者尺寸一致</span>
           </div>
         </div>
       </div>
@@ -641,6 +721,51 @@ export const 图标尺寸控制: Story = {
             <CpButton :icon="MdiCog" icon-size="32" />
             <CpButton :prefix-icon="MdiCog" icon-size="1.2rem">1.2rem 图标</CpButton>
             <CpButton :prefix-icon="MdiCog" icon-size="1em">与文字同高 (1em)</CpButton>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 高度控制 */
+export const 高度控制: Story = {
+  render: () => ({
+    components: { CpButton },
+    setup() {
+      return { MdiPlus, MdiCog }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 现在可以通过 SCSS/CSS 变量或 size 属性精确控制按钮高度。
+        </p>
+        
+        <!-- CSS 变量覆盖 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">1. CSS 变量覆盖 (Preset size overrides)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton size="md" style="--cp-button-height-md: 48px;">MD 变为 48px</CpButton>
+            <CpButton size="sm" style="--cp-button-height-sm: 40px;">SM 变为 40px</CpButton>
+          </div>
+        </div>
+
+        <!-- size 属性自定义 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">2. size 属性自定义 (Custom size prop)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton size="60px">60px 按钮</CpButton>
+            <CpButton size="24px" :icon="MdiPlus" shape="circle" />
+            <CpButton size="2rem">2rem 按钮</CpButton>
+          </div>
+        </div>
+
+        <!-- IconOnly 模式同步 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">3. IconButton 尺寸同步</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :icon="MdiCog" size="50px" type="primary" />
+            <CpButton :icon="MdiCog" size="30px" type="success" />
           </div>
         </div>
       </div>

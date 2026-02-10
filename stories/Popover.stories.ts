@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpPopover, CpButton, CpText } from '../packages/components'
+import { CpPopover, CpButton, CpText } from '@cyberpunk-vue/components'
 
 /**
  * # CpPopover 弹出提示层

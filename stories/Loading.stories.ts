@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpLoading } from '../packages/components'
+import { CpLoading } from '@cyberpunk-vue/components'
 
 /**
  * # CpLoading 加载

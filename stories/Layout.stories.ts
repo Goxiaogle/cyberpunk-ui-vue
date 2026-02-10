@@ -3,7 +3,7 @@ import {
   CpRow, CpCol,
   CpContainer, CpHeader, CpFooter, CpMain, CpAside,
   CpText, CpButton, CpDivider, CpTag,
-} from '../packages/components'
+} from '@cyberpunk-vue/components'
 
 /**
  * # Layout 布局

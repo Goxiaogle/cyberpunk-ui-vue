@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpStatusIndicator } from '../packages/components'
+import { CpStatusIndicator } from '@cyberpunk-vue/components'
 
 /**
  * # CpStatusIndicator 状态指示器

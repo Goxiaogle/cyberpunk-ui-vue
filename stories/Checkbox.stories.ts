@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
-import { CpCheckbox, CpCheckboxGroup } from "../packages/components";
+import { CpCheckbox, CpCheckboxGroup } from '@cyberpunk-vue/components';
 
 /**
  * # CpCheckbox 复选框

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpDivider, CpButton, CpText, CpTag } from '../packages/components'
+import { CpDivider, CpButton, CpText, CpTag } from '@cyberpunk-vue/components'
 
 /**
  * # CpDivider 分割线

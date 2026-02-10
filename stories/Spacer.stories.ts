@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpSpacer, CpButton, CpText } from '../packages/components'
+import { CpSpacer, CpButton, CpText } from '@cyberpunk-vue/components'
 
 /**
  * # CpSpacer 弹性空间

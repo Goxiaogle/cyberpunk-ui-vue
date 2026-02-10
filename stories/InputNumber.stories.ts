@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpInputNumber } from '../packages/components'
+import { CpInputNumber } from '@cyberpunk-vue/components'
 
 /**
  * # CpInputNumber 数字输入框

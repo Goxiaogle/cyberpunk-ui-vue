@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpInput } from '../packages/components'
+import { CpInput } from '@cyberpunk-vue/components'
 import MdiMagnify from '~icons/mdi/magnify'
 import MdiAccount from '~icons/mdi/account'
 import MdiLock from '~icons/mdi/lock'

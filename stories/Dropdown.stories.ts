@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpDropdown } from '../packages/components'
-import type { DropdownOption } from '../packages/components'
+import { CpDropdown } from '@cyberpunk-vue/components'
+import type { DropdownOption } from '@cyberpunk-vue/components'
 
 /**
  * # CpDropdown 下拉选择器

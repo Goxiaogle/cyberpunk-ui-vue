@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpIcon } from '../packages/components'
-import { CpButton } from '../packages/components'
+import { CpIcon } from '@cyberpunk-vue/components'
+import { CpButton } from '@cyberpunk-vue/components'
 
 // 从 unplugin-icons 导入真实图标 (MDI 图标集)
 import MdiHome from '~icons/mdi/home'
