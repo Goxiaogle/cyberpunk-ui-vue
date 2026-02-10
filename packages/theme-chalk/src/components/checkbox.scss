@@ -73,12 +73,12 @@ $checkbox-sizes: (
     justify-content: center;
     width: var(--cp-checkbox-size);
     height: var(--cp-checkbox-size);
-    background: rgba(20, 20, 25, 0.8);
+    background: var(--cp-surface-variant);
     border: 1px solid var(--cp-border);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
     
-    // 机甲切角装饰
+    // 机甲切角装饰（仅 clip 形状时显示，通过 shape 控制）
     &::before {
       content: '';
       position: absolute;
@@ -91,6 +91,7 @@ $checkbox-sizes: (
       border-right: 1px solid var(--cp-border);
       clip-path: polygon(0 0, 100% 0, 100% 100%);
       transition: all 0.25s ease;
+      display: none; // 默认隐藏，shape-clip 时显示
     }
   }
   
@@ -124,20 +125,8 @@ $checkbox-sizes: (
   @each $size-name, $size-config in $checkbox-sizes {
     @include m(#{$size-name}) {
       $size: map.get($size-config, size);
-      $clip: map.get($size-config, clip);
       
       --cp-checkbox-size: #{$size};
-      
-      .cp-checkbox__indicator {
-        clip-path: polygon(
-          #{$clip} 0,
-          100% 0,
-          100% calc(100% - #{$clip}),
-          calc(100% - #{$clip}) 100%,
-          0 100%,
-          0 #{$clip}
-        );
-      }
       
       .cp-checkbox__label {
         font-size: map.get($size-config, font-size);
@@ -145,9 +134,28 @@ $checkbox-sizes: (
     }
   }
   
-  // ===== 自定义尺寸 =====
   @include when(custom-size) {
+    // custom-size 无特殊 clip-path，由 shape modifier 控制
+  }
+  
+  // ===== 形状 =====
+  @include m(shape-clip) {
     .cp-checkbox__indicator {
+      clip-path: polygon(
+        4px 0,
+        100% 0,
+        100% calc(100% - 4px),
+        calc(100% - 4px) 100%,
+        0 100%,
+        0 4px
+      );
+      
+      &::before {
+        display: block;
+      }
+    }
+    
+    &.cp-checkbox--sm .cp-checkbox__indicator {
       clip-path: polygon(
         3px 0,
         100% 0,
@@ -156,6 +164,38 @@ $checkbox-sizes: (
         0 100%,
         0 3px
       );
+    }
+    
+    &.cp-checkbox--lg .cp-checkbox__indicator {
+      clip-path: polygon(
+        5px 0,
+        100% 0,
+        100% calc(100% - 5px),
+        calc(100% - 5px) 100%,
+        0 100%,
+        0 5px
+      );
+    }
+  }
+  
+  @include m(shape-no-clip) {
+    .cp-checkbox__indicator {
+      clip-path: none;
+      
+      &::before {
+        display: none;
+      }
+    }
+  }
+  
+  @include m(shape-round) {
+    .cp-checkbox__indicator {
+      clip-path: none;
+      border-radius: 4px;
+      
+      &::before {
+        display: none;
+      }
     }
   }
   
@@ -201,15 +241,7 @@ $checkbox-sizes: (
   @include when(border) {
     padding: 8px 16px;
     border: 1px solid var(--cp-border);
-    background: rgba(20, 20, 25, 0.6);
-    clip-path: polygon(
-      8px 0,
-      100% 0,
-      100% calc(100% - 8px),
-      calc(100% - 8px) 100%,
-      0 100%,
-      0 8px
-    );
+    background: var(--cp-surface);
     transition: all 0.25s ease;
     
     &:hover:not(.is-disabled) {
@@ -219,9 +251,30 @@ $checkbox-sizes: (
     
     &.is-checked {
       border-color: var(--cp-checkbox-active-color);
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--cp-state-selected);
       box-shadow: 0 0 12px var(--cp-checkbox-active-color-light);
     }
+  }
+  
+  // border + shape 联动
+  &.cp-checkbox--shape-clip.is-border {
+    clip-path: polygon(
+      8px 0,
+      100% 0,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      0 100%,
+      0 8px
+    );
+  }
+  
+  &.cp-checkbox--shape-no-clip.is-border {
+    clip-path: none;
+  }
+  
+  &.cp-checkbox--shape-round.is-border {
+    clip-path: none;
+    border-radius: 6px;
   }
   
   // ===== 禁用状态 =====
@@ -231,7 +284,7 @@ $checkbox-sizes: (
     filter: grayscale(0.6);
     
     .cp-checkbox__indicator {
-      background: rgba(40, 40, 45, 0.8);
+      background: var(--cp-surface-bright);
     }
   }
 }

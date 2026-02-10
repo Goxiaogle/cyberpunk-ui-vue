@@ -104,7 +104,7 @@ $radio-sizes: (
     justify-content: center;
     width: var(--cp-radio-size);
     height: var(--cp-radio-size);
-    background: rgba(20, 20, 25, 0.8);
+    background: var(--cp-surface-variant);
     border: 1px solid var(--cp-border);
     clip-path: #{octagon-clip(28%)};
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -215,7 +215,7 @@ $radio-sizes: (
   @include when(border) {
     padding: 8px 16px;
     border: 1px solid var(--cp-border);
-    background: rgba(20, 20, 25, 0.6);
+    background: var(--cp-surface);
     clip-path: polygon(
       10px 0,
       100% 0,
@@ -252,7 +252,7 @@ $radio-sizes: (
     
     &.is-checked {
       border-color: var(--cp-radio-active-color);
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--cp-state-selected);
       
       &::before {
         border-color: var(--cp-radio-active-color);
@@ -272,7 +272,7 @@ $radio-sizes: (
     filter: grayscale(0.7);
     
     .cp-radio__indicator {
-      background: rgba(40, 40, 45, 0.8);
+      background: var(--cp-surface-bright);
     }
   }
 }

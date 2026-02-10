@@ -21,6 +21,14 @@ export type CheckboxSize = Size
 export type CheckboxType = 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
+ * 复选框形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type CheckboxShape = 'clip' | 'no-clip' | 'round'
+
+/**
  * 复选框值类型
  */
 export type CheckboxValueType = string | number | boolean
@@ -127,6 +135,17 @@ export const checkboxProps = {
   checkColor: {
     type: String,
     default: '',
+  },
+  /**
+   * 复选框形状
+   * - `clip` - 切角样式（默认，赛博朋克特色）
+   * - `no-clip` - 直角矩形
+   * - `round` - 圆角矩形
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<CheckboxShape>,
+    default: 'clip',
   },
   /**
    * 是否使用边框样式

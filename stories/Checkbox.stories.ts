@@ -45,6 +45,11 @@ const meta: Meta<typeof CpCheckbox> = {
       control: "boolean",
       description: "边框模式",
     },
+    shape: {
+      control: "select",
+      options: ["clip", "no-clip", "round"],
+      description: "复选框形状",
+    },
     color: {
       control: "color",
       description: "自定义选中颜色",
@@ -61,6 +66,7 @@ const meta: Meta<typeof CpCheckbox> = {
     disabled: false,
     indeterminate: false,
     border: false,
+    shape: "clip",
   },
 };
 
@@ -86,6 +92,7 @@ export const Playground: Story = {
         :border="args.border"
         :color="args.color"
         :check-color="args.checkColor"
+        :shape="args.shape"
       >
         神经连接协议
       </CpCheckbox>
@@ -128,6 +135,34 @@ export const 尺寸: Story = {
           <CpCheckbox v-model="sm" size="sm">Small</CpCheckbox>
           <CpCheckbox v-model="md" size="md">Medium</CpCheckbox>
           <CpCheckbox v-model="lg" size="lg">Large</CpCheckbox>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** 形状 */
+export const 形状: Story = {
+  render: () => ({
+    components: { CpCheckbox },
+    setup() {
+      const clip = ref(true);
+      const noClip = ref(true);
+      const round = ref(true);
+      return { clip, noClip, round };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <CpCheckbox v-model="clip" shape="clip">Clip（切角）</CpCheckbox>
+          <CpCheckbox v-model="noClip" shape="no-clip">No-clip（直角）</CpCheckbox>
+          <CpCheckbox v-model="round" shape="round">Round（圆角）</CpCheckbox>
+        </div>
+        <p style="color: var(--cp-text-muted); font-size: 12px;">边框模式 + 形状</p>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <CpCheckbox v-model="clip" shape="clip" border>Clip</CpCheckbox>
+          <CpCheckbox v-model="noClip" shape="no-clip" border>No-clip</CpCheckbox>
+          <CpCheckbox v-model="round" shape="round" border>Round</CpCheckbox>
         </div>
       </div>
     `,

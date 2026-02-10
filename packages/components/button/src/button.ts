@@ -75,7 +75,7 @@ export const buttonProps = {
      * @example `<CpButton size="lg">大按钮</CpButton>`
      */
     size: {
-        type: String as PropType<ButtonSize>,
+        type: [String, Number] as PropType<ButtonSize>,
         default: 'md',
     },
     /**
@@ -194,6 +194,16 @@ export const buttonProps = {
     icon: {
         type: Object as PropType<object>,
         default: undefined,
+    },
+    /**
+     * 是否为正方形按钮
+     * 开启后按钮宽度等于高度，表现与 icon-only 一致
+     * @default false
+     * @example `<CpButton square>A</CpButton>`
+     */
+    square: {
+        type: Boolean,
+        default: false,
     },
     /**
      * 图标颜色

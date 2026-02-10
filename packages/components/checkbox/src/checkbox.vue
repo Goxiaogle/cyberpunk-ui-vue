@@ -42,6 +42,11 @@ const actualType = computed(() => {
   return checkboxGroup?.type?.value || props.type
 })
 
+// 实际形状
+const actualShape = computed(() => {
+  return checkboxGroup?.shape?.value || props.shape
+})
+
 // 是否选中
 const isChecked = computed(() => {
   if (isGroup.value && checkboxGroup) {
@@ -80,6 +85,7 @@ const typeTextColorMap: Record<string, string> = {
 const classes = computed(() => [
   ns.b(),
   isPresetSize(actualSize.value) && ns.m(actualSize.value),
+  ns.m(`shape-${actualShape.value}`),
   ns.is('checked', isChecked.value),
   ns.is('disabled', actualDisabled.value),
   ns.is('indeterminate', props.indeterminate),

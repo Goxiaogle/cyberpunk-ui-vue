@@ -54,6 +54,7 @@ const context: CheckboxGroupContext = {
   disabled: toRef(props, 'disabled'),
   size: toRef(props, 'size'),
   type: toRef(props, 'type'),
+  shape: toRef(props, 'shape'),
   min: toRef(props, 'min'),
   max: toRef(props, 'max'),
   handleChange,

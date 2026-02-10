@@ -38,7 +38,7 @@ const classes = computed(() => [
   ns.is('dashed', props.dashed),
   ns.is('custom-color', !!props.color),
   ns.is('loading-placeholder', props.loadingPlaceholder),
-  ns.is('icon-only', isIconOnly.value),
+  ns.is('icon-only', isIconOnly.value || props.square),
   ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
