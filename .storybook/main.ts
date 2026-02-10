@@ -42,7 +42,7 @@ const config: StorybookConfig = {
         config.resolve = config.resolve || {}
         config.resolve.alias = {
             ...config.resolve.alias,
-            '@cyberpunk-vue/components': path.resolve(rootDir, 'packages/components'),
+            '@cyberpunk-vue/components': path.resolve(rootDir, 'packages/components/index.ts'),
             '@cyberpunk-vue/hooks': path.resolve(rootDir, 'packages/hooks/src'),
             '@cyberpunk-vue/constants': path.resolve(rootDir, 'packages/constants/src'),
             '@cyberpunk-vue/theme-chalk': path.resolve(rootDir, 'packages/theme-chalk/src'),
