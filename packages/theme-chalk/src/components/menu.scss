@@ -1,0 +1,457 @@
+// CpMenu 组件样式
+// 赛博朋克/机甲风格 — 左侧发光条 + 霓虹高亮
+
+@use 'sass:map';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ===== 颜色映射 =====
+$menu-type-colors: (
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
+);
+
+// ===== CpMenu 主容器 =====
+@include b(menu) {
+  // CSS 变量默认值（可通过 props 覆盖）
+  --cp-menu-bg: var(--cp-bg-base);
+  --cp-menu-text: var(--cp-text-secondary);
+  --cp-menu-active-text: var(--cp-menu-active-color);
+  --cp-menu-active-color: var(--cp-color-primary);
+  --cp-menu-active-color-light: var(--cp-color-primary-light);
+  --cp-menu-hover-bg: var(--cp-state-hover);
+  --cp-menu-border: var(--cp-border);
+  --cp-menu-item-height: 40px;
+
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--cp-menu-text);
+  background: var(--cp-menu-bg);
+
+  // ===== 垂直模式 =====
+  @include m(vertical) {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cp-menu-border);
+    width: 200px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // ===== 水平模式 =====
+  @include m(horizontal) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid var(--cp-menu-border);
+
+    // 水平模式一级子菜单弹出定位
+    > .cp-sub-menu {
+      position: relative;
+
+      > .cp-sub-menu__popup {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 100;
+      }
+    }
+
+    // 水平模式多级嵌套：右侧弹出
+    .cp-sub-menu .cp-sub-menu {
+      position: relative;
+
+      > .cp-sub-menu__popup {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        z-index: 101;
+      }
+    }
+
+    // 水平模式下的菜单项 & 标题
+    > .cp-menu-item,
+    > .cp-sub-menu > .cp-sub-menu__title {
+      height: 100%;
+      min-height: 48px;
+      border-bottom: 2px solid transparent;
+      border-left: none;
+      padding: 0 16px !important;
+    }
+
+    > .cp-menu-item.is-active {
+      color: var(--cp-menu-active-text);
+      background: var(--cp-menu-active-color-light);
+      border-bottom-color: var(--cp-menu-active-color);
+      border-left-color: transparent;
+      font-weight: 600;
+
+      // 底部发光条（覆盖垂直模式的左侧发光条）
+      &::before {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: -2px;
+        width: auto;
+        height: 2px;
+        box-shadow: 0 0 6px var(--cp-menu-active-color),
+                    0 -4px 12px var(--cp-menu-active-color-light);
+      }
+    }
+
+    // 水平模式下，子元素激活时父级标签高亮
+    > .cp-sub-menu.is-active > .cp-sub-menu__title {
+      color: var(--cp-menu-active-text);
+      background: var(--cp-menu-active-color-light);
+      border-bottom-color: var(--cp-menu-active-color);
+    }
+
+    // 水平模式箭头朝下
+    > .cp-sub-menu > .cp-sub-menu__title .cp-sub-menu__arrow {
+      transform: rotate(90deg);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    > .cp-sub-menu.is-opened > .cp-sub-menu__title .cp-sub-menu__arrow {
+      transform: rotate(-90deg);
+    }
+
+    // 水平模式多级嵌套：箭头指向右，展开时指向左
+    .cp-sub-menu .cp-sub-menu > .cp-sub-menu__title .cp-sub-menu__arrow {
+      transform: rotate(0deg);
+    }
+
+    .cp-sub-menu .cp-sub-menu.is-opened > .cp-sub-menu__title .cp-sub-menu__arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  // ===== 折叠模式 =====
+  @include when(collapse) {
+    width: 56px;
+
+    .cp-menu-item,
+    .cp-sub-menu__title {
+      padding: 0 !important;
+      justify-content: center;
+    }
+
+    // 折叠时隐藏文字，只显示图标
+    .cp-menu-item__content,
+    .cp-sub-menu__title-content {
+      display: none;
+    }
+
+    .cp-sub-menu__arrow {
+      display: none;
+    }
+
+    // 图标居中且大一点
+    .cp-menu-item__icon,
+    .cp-sub-menu__icon {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    // 折叠时隐藏子菜单和分组标题
+    .cp-sub-menu__content {
+      display: none;
+    }
+
+    .cp-menu-item-group__title {
+      display: none;
+    }
+  }
+
+  // ===== 颜色变体 =====
+  @each $type, $color in $menu-type-colors {
+    &.cp-menu--#{$type} {
+      --cp-menu-active-color: #{$color};
+      --cp-menu-active-color-light: var(--cp-color-#{$type}-light);
+      --cp-menu-active-text: #{$color};
+    }
+  }
+}
+
+// ===== CpMenuItem =====
+@include b(menu-item) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--cp-menu-item-height);
+  padding: 0 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border-left: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  list-style: none;
+  color: var(--cp-menu-text);
+
+  &:hover:not(.is-disabled) {
+    background: var(--cp-menu-hover-bg);
+    color: var(--cp-text-primary);
+    border-left-color: var(--cp-menu-active-color);
+  }
+
+  // ===== 激活态 =====
+  @include when(active) {
+    color: var(--cp-menu-active-text);
+    background: rgba(0, 240, 255, 0.06);
+    border-left-color: var(--cp-menu-active-color);
+    font-weight: 600;
+
+    // 左侧发光条
+    &::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--cp-menu-active-color);
+      box-shadow: 0 0 6px var(--cp-menu-active-color),
+                  0 0 12px var(--cp-menu-active-color-light);
+    }
+  }
+
+  // ===== 禁用态 =====
+  @include when(disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+  }
+
+  // ===== 图标 =====
+  @include e(icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    font-size: 16px;
+    transition: color 0.2s ease;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // ===== 内容 =====
+  @include e(content) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+}
+
+// ===== CpSubMenu =====
+@include b(sub-menu) {
+  list-style: none;
+
+  // ===== 标题行 =====
+  @include e(title) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: var(--cp-menu-item-height);
+    padding: 0 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border-left: 2px solid transparent;
+    color: var(--cp-menu-text);
+
+    &:hover:not(.is-disabled \u003e &) {
+      background: var(--cp-menu-hover-bg);
+      color: var(--cp-text-primary);
+      border-left-color: var(--cp-menu-active-color);
+    }
+  }
+
+  // ===== 展开态标题高亮 =====
+  @include when(opened) {
+    > .cp-sub-menu__title {
+      color: var(--cp-text-primary);
+    }
+  }
+
+  // ===== 子元素激活时父级高亮 =====
+  @include when(active) {
+    > .cp-sub-menu__title {
+      color: var(--cp-menu-active-text);
+    }
+  }
+
+  // ===== 禁用态 =====
+  @include when(disabled) {
+    .cp-sub-menu__title {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+  }
+
+  // ===== 图标 =====
+  @include e(icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    font-size: 16px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // ===== 标题内容 =====
+  @include e(title-content) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  // ===== 箭头 =====
+  @include e(arrow) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: currentColor;
+    opacity: 0.6;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.2s ease;
+
+    &.is-open {
+      transform: rotate(90deg);
+    }
+  }
+
+  // ===== 弹出层包裹 (仅水平模式) =====
+  @include e(popup) {
+    .cp-menu--horizontal & {
+      min-width: 180px;
+      background: var(--cp-menu-bg);
+      border: 1px solid var(--cp-menu-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                  0 0 10px var(--cp-menu-active-color-light);
+      padding: 4px 0;
+    }
+  }
+
+  // ===== 子内容容器 =====
+  @include e(content) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+
+    // 水平模式下需要 overflow visible 才能显示嵌套弹出
+    .cp-menu--horizontal & {
+      overflow: visible;
+    }
+
+    // 左侧连接线装饰（仅垂直模式）
+    .cp-menu--vertical &::before {
+      content: '';
+      position: absolute;
+      left: 30px;
+      top: 0;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        var(--cp-menu-border),
+        var(--cp-menu-border) 70%,
+        transparent
+      );
+      opacity: 0.4;
+    }
+  }
+}
+
+// ===== CpMenuItemGroup =====
+@include b(menu-item-group) {
+  list-style: none;
+
+  // ===== 分组标题 =====
+  @include e(title) {
+    padding: 8px 20px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cp-text-muted);
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+
+    // 微妙的底部分隔线
+    &::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        var(--cp-menu-border),
+        transparent
+      );
+      opacity: 0.5;
+    }
+  }
+
+  // ===== 内容 =====
+  @include e(content) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// ===== 展开/收起动画 =====
+.cp-sub-menu-enter-active,
+.cp-sub-menu-leave-active {
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cp-sub-menu-enter-from,
+.cp-sub-menu-leave-to {
+  opacity: 0;
+  transform: scaleY(0.9);
+  transform-origin: top center;
+}
+
+.cp-sub-menu-enter-to,
+.cp-sub-menu-leave-from {
+  opacity: 1;
+  transform: scaleY(1);
+  transform-origin: top center;
+}
