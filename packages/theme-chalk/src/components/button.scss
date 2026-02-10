@@ -635,9 +635,16 @@
             border-color: var(--cp-button-custom-color);
             color: var(--cp-bg-deep);
 
+            &::after {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
             &:hover:not(.is-disabled) {
+                background: var(--cp-button-custom-color);
+                border-color: var(--cp-button-custom-color);
+                color: var(--cp-bg-deep);
                 filter: brightness(1.2);
-                box-shadow: 0 0 20px var(--cp-button-custom-color-light);
+                box-shadow: 0 0 20px var(--cp-button-custom-color-light), 0 0 40px var(--cp-button-custom-color-light);
             }
         }
 
@@ -649,6 +656,8 @@
 
             &:hover:not(.is-disabled) {
                 background: var(--cp-button-custom-color-light);
+                border-color: var(--cp-button-custom-color);
+                color: var(--cp-button-custom-color);
                 box-shadow: 0 0 15px var(--cp-button-custom-color-light);
             }
         }
@@ -661,11 +670,16 @@
 
             &::after {
                 background: var(--cp-button-custom-color);
+                opacity: 0.8;
             }
 
             &:hover:not(.is-disabled) {
+                background: var(--cp-button-custom-color-light);
+                border-color: var(--cp-button-custom-color);
+                color: var(--cp-button-custom-color);
                 filter: brightness(1.3);
                 box-shadow: 0 0 20px var(--cp-button-custom-color-light);
+                text-shadow: 0 0 8px var(--cp-button-custom-color);
             }
         }
 
@@ -675,8 +689,15 @@
             border-color: transparent;
             color: var(--cp-button-custom-color);
 
+            &::after {
+                display: none;
+            }
+
             &:hover:not(.is-disabled) {
                 background: var(--cp-button-custom-color-light);
+                border-color: transparent;
+                color: var(--cp-button-custom-color);
+                text-shadow: 0 0 5px var(--cp-button-custom-color);
             }
         }
 
@@ -695,7 +716,9 @@
 
             &:hover:not(.is-disabled) {
                 background: var(--cp-button-custom-color-light);
-                box-shadow: 0 0 15px var(--cp-button-custom-color), 0 0 30px var(--cp-button-custom-color-light);
+                border-color: var(--cp-button-custom-color);
+                color: var(--cp-button-custom-color);
+                box-shadow: 0 0 15px var(--cp-button-custom-color), 0 0 30px var(--cp-button-custom-color-light), inset 0 0 10px var(--cp-button-custom-color-light);
             }
         }
     }
