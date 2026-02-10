@@ -102,23 +102,25 @@
 
 @include b(aside) {
     --cp-aside-width: 300px;
+    --cp-aside-border: 1px solid var(--cp-border, #2a2a3a);
 
     box-sizing: border-box;
     flex-shrink: 0;
     width: var(--cp-aside-width);
-    overflow: auto;
     padding: var(--cp-spacing-md, 12px);
     background: var(--cp-bg-base, #12121a);
-    border-right: 1px solid var(--cp-border, #2a2a3a);
     position: relative;
 
-    // 赛博朋克右侧发光线
+    // 默认样式: 左侧位 (右边框)
+    border-right: var(--cp-aside-border);
+    border-left: none;
+
+    // 赛博朋克边缘发光线
     &::after {
         content: '';
         position: absolute;
         top: 0;
         bottom: 0;
-        right: -1px;
         width: 1px;
         background: linear-gradient(
             180deg,
@@ -128,5 +130,40 @@
             transparent 100%
         );
         opacity: 0.3;
+        right: -1px;
+        left: auto;
+    }
+
+    // 右侧位切换: border and ::after moved to left
+    &.is-right, &[data-position="right"] {
+        border-right: none;
+        border-left: var(--cp-aside-border);
+
+        &::after {
+            left: -1px;
+            right: auto;
+        }
+    }
+
+    // 显式支持 is-left (保持默认)
+    &.is-left {
+        border-right: var(--cp-aside-border);
+        border-left: none;
+
+        &::after {
+            right: -1px;
+            left: auto;
+        }
+    }
+
+    // 自动识别右侧边栏: 当 Aside 紧跟在 Main 后时，分割线应在左侧
+    .cp-main + & {
+        border-right: none;
+        border-left: var(--cp-aside-border);
+
+        &::after {
+            left: -1px;
+            right: auto;
+        }
     }
 }

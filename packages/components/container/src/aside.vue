@@ -20,7 +20,11 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <aside :class="ns.b()" :style="style">
+  <aside 
+    :class="[ns.b(), ns.is(props.position)]" 
+    :style="style"
+    :data-position="props.position"
+  >
     <slot />
   </aside>
 </template>

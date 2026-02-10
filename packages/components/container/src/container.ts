@@ -79,6 +79,14 @@ export const asideProps = {
         type: String,
         default: '300px',
     },
+    /**
+     * 侧边栏位置，可选值：left / right
+     * @default 'left'
+     */
+    position: {
+        type: String as PropType<'left' | 'right'>,
+        default: 'left',
+    },
 } as const
 
 export type AsideProps = ExtractPropTypes<typeof asideProps>
