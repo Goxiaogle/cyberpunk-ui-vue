@@ -1,0 +1,327 @@
+// CpNotification 组件样式
+// 赛博朋克/机甲风格通知提醒
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ===== 动画 =====
+
+// 右侧滑入
+@keyframes cp-notification-right-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cp-notification-right-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+// 左侧滑入
+@keyframes cp-notification-left-in {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cp-notification-left-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+// 自动关闭进度条倒计时
+@keyframes cp-notification-countdown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+// ===== Transition classes =====
+.cp-notification-right-enter-active {
+  animation: cp-notification-right-in var(--cp-notification-animation-duration, 300ms) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-notification-right-leave-active {
+  animation: cp-notification-right-out var(--cp-notification-animation-duration, 300ms) ease-in forwards;
+}
+
+.cp-notification-left-enter-active {
+  animation: cp-notification-left-in var(--cp-notification-animation-duration, 300ms) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-notification-left-leave-active {
+  animation: cp-notification-left-out var(--cp-notification-animation-duration, 300ms) ease-in forwards;
+}
+
+@include b(notification) {
+  --cp-notification-color: var(--cp-border);
+  --cp-notification-color-light: rgba(255, 255, 255, 0.1);
+  --cp-notification-bg: var(--cp-bg-elevated);
+  --cp-notification-clip-path: polygon(
+    8px 0, 100% 0,
+    100% calc(100% - 8px), calc(100% - 8px) 100%,
+    0 100%, 0 8px
+  );
+
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cp-spacing-md);
+  padding: var(--cp-spacing-md) var(--cp-spacing-lg);
+  min-height: 60px;
+  overflow: hidden;
+  background: var(--cp-notification-bg);
+  border: 1px solid var(--cp-notification-border-color, var(--cp-border));
+  color: var(--cp-notification-text-color, var(--cp-text-secondary));
+  clip-path: var(--cp-notification-clip-path);
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.5),
+    0 0 1px var(--cp-notification-color),
+    inset 0 0 20px rgba(0, 240, 255, 0.02);
+  transition: transform 0s;
+  font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+
+  // ===== 类型变体颜色 =====
+  @each $type in (primary, success, warning, error, info) {
+    &.cp-notification--#{$type} {
+      --cp-notification-color: var(--cp-color-#{$type});
+      --cp-notification-color-light: var(--cp-color-#{$type}-light);
+    }
+  }
+
+  // ===== 变体样式 =====
+
+  // Solid
+  @include m(solid) {
+    background: var(--cp-notification-bg);
+
+    // 顶部荧光线
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--cp-notification-color) 2px, var(--cp-notification-color-light) 2px, transparent 100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    // 有类型色时显示
+    &.cp-notification--primary::before,
+    &.cp-notification--success::before,
+    &.cp-notification--warning::before,
+    &.cp-notification--error::before,
+    &.cp-notification--info::before {
+      opacity: 0.8;
+    }
+
+    // 自定义 color
+    &[style*='--cp-notification-color']::before {
+      opacity: 0.8;
+    }
+  }
+
+  // Semi (毛玻璃)
+  @include m(semi) {
+    --cp-notification-bg: rgba(42, 42, 58, 0.6);
+    backdrop-filter: blur(12px);
+    border-color: var(--cp-notification-color-light);
+
+    &.cp-notification--primary,
+    &.cp-notification--success,
+    &.cp-notification--warning,
+    &.cp-notification--error,
+    &.cp-notification--info {
+      --cp-notification-bg: color-mix(in srgb, var(--cp-bg-elevated) 80%, var(--cp-notification-color));
+    }
+  }
+
+  // Outline
+  @include m(outline) {
+    background: transparent;
+    border-color: var(--cp-notification-color);
+    backdrop-filter: blur(6px);
+
+    &.cp-notification--default {
+      border-color: var(--cp-border);
+    }
+  }
+
+  // ===== 形状 =====
+  @include m(shape-clip) {
+    clip-path: var(--cp-notification-clip-path);
+  }
+
+  @include m(shape-no-clip) {
+    clip-path: none;
+    border-radius: 0;
+
+    .cp-notification__decor {
+      display: none;
+    }
+  }
+
+  @include m(shape-round) {
+    clip-path: none;
+    border-radius: var(--cp-radius-lg);
+    overflow: hidden;
+
+    .cp-notification__decor {
+      display: none;
+    }
+  }
+
+  // ===== 装饰方块 (右上角) =====
+  @include e(decor) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--cp-notification-color);
+    opacity: 0.5;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover .cp-notification__decor {
+    opacity: 1;
+  }
+
+  // ===== 图标区域 =====
+  @include e(icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: var(--cp-notification-color);
+    margin-top: 2px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // ===== 内容组 =====
+  @include e(group) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  // ===== 标题 =====
+  @include e(title) {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: var(--cp-font-size-md);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cp-notification-title-color, var(--cp-text-primary));
+    line-height: 1.4;
+    margin-bottom: 4px;
+
+    // 标题文字截断
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // ===== 消息内容 =====
+  @include e(content) {
+    font-size: var(--cp-font-size-sm);
+    line-height: 1.5;
+    color: var(--cp-notification-text-color, var(--cp-text-secondary));
+    word-break: break-word;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  // ===== 关闭按钮 =====
+  @include e(close) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--cp-notification-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    padding: 0;
+    margin-top: 2px;
+
+    &:hover {
+      color: var(--cp-notification-color);
+      border-color: var(--cp-notification-color);
+      background: var(--cp-notification-color-light);
+      box-shadow: 0 0 8px var(--cp-notification-color-light);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  // ===== 自动关闭进度条 =====
+  @include e(progress) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--cp-notification-color);
+    opacity: 0.7;
+    animation: cp-notification-countdown var(--cp-notification-duration, 4500ms) linear forwards;
+    z-index: 2;
+  }
+
+  // Hover 时暂停进度条
+  &:hover .cp-notification__progress {
+    animation-play-state: paused;
+  }
+
+  // ===== Hover 效果 =====
+  &:hover {
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      0 0 4px var(--cp-notification-color),
+      inset 0 0 30px rgba(0, 240, 255, 0.03);
+  }
+}
