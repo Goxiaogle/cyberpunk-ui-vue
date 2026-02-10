@@ -1,0 +1,531 @@
+// CpSegmented 组件样式
+// 赛博朋克风格分段选择器
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// ===== 类型颜色列表（用于批量生成） =====
+$segmented-types: (primary, success, warning, error, info);
+
+@include b(segmented) {
+  // ===== CSS 变量默认值 =====
+  --cp-segmented-bg: var(--cp-bg-elevated);
+  --cp-segmented-border-color: var(--cp-border);
+  --cp-segmented-padding: 3px;
+  --cp-segmented-padding-x: 4px;
+  --cp-segmented-gap: 2px;
+  --cp-segmented-item-color: var(--cp-text-secondary);
+  --cp-segmented-item-hover-bg: var(--cp-state-hover);
+  --cp-segmented-item-padding: 0 12px;
+  --cp-segmented-indicator-bg: var(--cp-surface-bright);
+  --cp-segmented-indicator-border: transparent;
+  --cp-segmented-indicator-shadow: none;
+  --cp-segmented-active-color: var(--cp-text-primary);
+  --cp-segmented-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --cp-segmented-height: 36px;
+  --cp-segmented-font-size: var(--cp-font-size-md);
+  --cp-segmented-indicator-offset: -2px;
+
+  // ===== 基础样式 =====
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--cp-segmented-padding) var(--cp-segmented-padding-x);
+  background: var(--cp-segmented-bg);
+  border: 1px solid var(--cp-segmented-border-color);
+  gap: var(--cp-segmented-gap);
+  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+  user-select: none;
+
+  // 默认 clip 形状
+  clip-path: polygon(
+    8px 0, 100% 0,
+    100% calc(100% - 8px), calc(100% - 8px) 100%,
+    0 100%, 0 8px
+  );
+
+  // ===== 滑块指示器 =====
+  @include e(indicator) {
+    position: absolute;
+    top: var(--cp-segmented-padding);
+    bottom: var(--cp-segmented-padding);
+    left: 0;
+    background: var(--cp-segmented-indicator-bg);
+    border: 1px solid var(--cp-segmented-indicator-border);
+    box-shadow: var(--cp-segmented-indicator-shadow);
+    transition:
+      transform var(--cp-segmented-transition),
+      width var(--cp-segmented-transition),
+      opacity var(--cp-segmented-transition);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+
+    // clip 形状下滑块也带切角
+    clip-path: polygon(
+      6px 0, 100% 0,
+      100% calc(100% - 6px), calc(100% - 6px) 100%,
+      0 100%, 0 6px
+    );
+  }
+
+  // ===== 选项按钮 =====
+  @include e(item) {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: var(--cp-segmented-height);
+    padding: var(--cp-segmented-item-padding);
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--cp-segmented-item-color);
+    font-family: inherit;
+    font-size: var(--cp-segmented-font-size);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+    white-space: nowrap;
+
+    &:hover:not(.is-disabled):not(.is-active) {
+      background: var(--cp-segmented-item-hover-bg);
+    }
+
+    // 默认 clip 形状下 item 也带切角 (用于 hover 背景)
+    clip-path: polygon(
+      6px 0, 100% 0,
+      100% calc(100% - 6px), calc(100% - 6px) 100%,
+      0 100%, 0 6px
+    );
+
+    // 选中态文字色
+    &.is-active {
+      color: var(--cp-segmented-active-color);
+    }
+
+    // 禁用态
+    &.is-disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+      filter: grayscale(0.5);
+    }
+  }
+
+  // 图标
+  @include e(item-icon) {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.1em;
+  }
+
+  // 文本
+  @include e(item-label) {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  // ===== 尺寸 =====
+  @include m(sm) {
+    --cp-segmented-height: 24px;
+    --cp-segmented-font-size: var(--cp-font-size-sm);
+    --cp-segmented-item-padding: 0 8px;
+    --cp-segmented-padding: 2px;
+    --cp-segmented-padding-x: 3px;
+
+    clip-path: polygon(
+      6px 0, 100% 0,
+      100% calc(100% - 6px), calc(100% - 6px) 100%,
+      0 100%, 0 6px
+    );
+
+    .cp-segmented__indicator {
+      clip-path: polygon(
+        4px 0, 100% 0,
+        100% calc(100% - 4px), calc(100% - 4px) 100%,
+        0 100%, 0 4px
+      );
+    }
+
+    .cp-segmented__item {
+      clip-path: polygon(
+        4px 0, 100% 0,
+        100% calc(100% - 4px), calc(100% - 4px) 100%,
+        0 100%, 0 4px
+      );
+    }
+  }
+
+  @include m(md) {
+    --cp-segmented-height: 32px;
+    --cp-segmented-font-size: var(--cp-font-size-md);
+    --cp-segmented-item-padding: 0 12px;
+  }
+
+  @include m(lg) {
+    --cp-segmented-height: 40px;
+    --cp-segmented-font-size: var(--cp-font-size-lg);
+    --cp-segmented-item-padding: 0 20px;
+  }
+
+  // 自定义尺寸
+  @include when(custom-size) {
+    // height 通过 CSS 变量注入
+  }
+
+  // ===== Solid 变体 =====
+  @include m(solid) {
+    @each $type in $segmented-types {
+      &.cp-segmented--#{$type} {
+        .cp-segmented__indicator {
+          background: var(--cp-color-#{$type});
+          border-color: var(--cp-color-#{$type});
+          box-shadow: 0 0 8px var(--cp-color-#{$type}-light),
+                      0 0 16px var(--cp-color-#{$type}-light);
+        }
+
+        .cp-segmented__item.is-active {
+          color: var(--cp-color-#{$type}-text);
+          text-shadow: none;
+        }
+      }
+    }
+
+    &.cp-segmented--default {
+      .cp-segmented__indicator {
+        background: var(--cp-surface-bright);
+        border-color: var(--cp-border);
+      }
+
+      .cp-segmented__item.is-active {
+        color: var(--cp-text-primary);
+      }
+    }
+  }
+
+  // ===== Outline 变体 =====
+  @include m(outline) {
+    background: transparent;
+
+    .cp-segmented__indicator {
+      background: transparent;
+    }
+
+    @each $type in $segmented-types {
+      &.cp-segmented--#{$type} {
+        border-color: var(--cp-color-#{$type});
+
+        .cp-segmented__indicator {
+          border-color: var(--cp-color-#{$type});
+          background: var(--cp-color-#{$type}-light);
+          box-shadow: 0 0 8px var(--cp-color-#{$type}-light);
+        }
+
+        .cp-segmented__item {
+          color: var(--cp-color-#{$type});
+
+          &.is-active {
+            color: var(--cp-color-#{$type});
+            text-shadow: 0 0 5px var(--cp-color-#{$type});
+          }
+        }
+      }
+    }
+
+    &.cp-segmented--default {
+      border-color: var(--cp-border);
+
+      .cp-segmented__indicator {
+        border-color: var(--cp-border);
+        background: var(--cp-bg-elevated);
+      }
+
+      .cp-segmented__item.is-active {
+        color: var(--cp-text-primary);
+      }
+    }
+  }
+
+  // ===== Semi 变体 =====
+  @include m(semi) {
+    background: transparent;
+    border-color: transparent;
+
+    @each $type in $segmented-types {
+      &.cp-segmented--#{$type} {
+        background: var(--cp-color-#{$type}-light);
+        border-color: var(--cp-color-#{$type});
+
+        .cp-segmented__indicator {
+          background: var(--cp-color-#{$type});
+          border-color: var(--cp-color-#{$type});
+          box-shadow: 0 0 8px var(--cp-color-#{$type}-light);
+        }
+
+        .cp-segmented__item {
+          color: var(--cp-color-#{$type});
+
+          &.is-active {
+            color: var(--cp-color-#{$type}-text);
+          }
+        }
+      }
+    }
+
+    &.cp-segmented--default {
+      background: rgba(42, 42, 58, 0.3);
+      border-color: var(--cp-border);
+
+      .cp-segmented__indicator {
+        background: var(--cp-surface-bright);
+        border-color: var(--cp-border);
+      }
+
+      .cp-segmented__item.is-active {
+        color: var(--cp-text-primary);
+      }
+    }
+  }
+
+  // ===== Ghost 变体 =====
+  @include m(ghost) {
+    background: transparent;
+    border-color: transparent;
+    clip-path: none;
+    padding: 0;
+
+    .cp-segmented__indicator {
+      clip-path: none;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    @each $type in $segmented-types {
+      &.cp-segmented--#{$type} {
+        .cp-segmented__indicator {
+          background: var(--cp-color-#{$type}-light);
+        }
+
+        .cp-segmented__item {
+          color: var(--cp-text-secondary);
+
+          &.is-active {
+            color: var(--cp-color-#{$type});
+            text-shadow: 0 0 5px var(--cp-color-#{$type});
+          }
+
+          &:hover:not(.is-disabled):not(.is-active) {
+            color: var(--cp-color-#{$type});
+          }
+        }
+      }
+    }
+
+    &.cp-segmented--default {
+      .cp-segmented__indicator {
+        background: var(--cp-bg-elevated);
+      }
+
+      .cp-segmented__item.is-active {
+        color: var(--cp-text-primary);
+      }
+    }
+  }
+
+  // ===== Neon 变体 =====
+  @include m(neon) {
+    background: transparent;
+
+    @each $type in $segmented-types {
+      &.cp-segmented--#{$type} {
+        border-color: var(--cp-color-#{$type});
+        box-shadow: 0 0 4px var(--cp-color-#{$type}-light),
+                    inset 0 0 4px var(--cp-color-#{$type}-light);
+
+        .cp-segmented__indicator {
+          background: var(--cp-color-#{$type}-light);
+          border-color: var(--cp-color-#{$type});
+          box-shadow:
+            0 0 8px var(--cp-color-#{$type}),
+            0 0 20px var(--cp-color-#{$type}-light),
+            inset 0 0 6px var(--cp-color-#{$type}-light);
+        }
+
+        .cp-segmented__item {
+          color: var(--cp-color-#{$type});
+          text-shadow: 0 0 3px var(--cp-color-#{$type});
+
+          &.is-active {
+            color: var(--cp-color-#{$type});
+            text-shadow: 0 0 8px var(--cp-color-#{$type});
+          }
+        }
+      }
+    }
+
+    &.cp-segmented--default {
+      border-color: var(--cp-border);
+      box-shadow: 0 0 4px var(--cp-border);
+
+      .cp-segmented__indicator {
+        background: var(--cp-bg-elevated);
+        border-color: var(--cp-border);
+        box-shadow: 0 0 8px var(--cp-border);
+      }
+
+      .cp-segmented__item.is-active {
+        color: var(--cp-text-primary);
+      }
+    }
+  }
+
+  // ===== 形状 =====
+  // clip 为默认（在基础样式中定义）
+
+  @include m(shape-no-clip) {
+    clip-path: none;
+    border-radius: 0;
+
+    .cp-segmented__indicator {
+      clip-path: none;
+      border-radius: 0;
+    }
+
+    .cp-segmented__item {
+      clip-path: none;
+      border-radius: 0;
+    }
+  }
+
+  @include m(shape-round) {
+    clip-path: none;
+    border-radius: var(--cp-radius-lg);
+
+    .cp-segmented__indicator {
+      clip-path: none;
+      border-radius: var(--cp-radius-md);
+    }
+
+    .cp-segmented__item {
+      clip-path: none;
+      border-radius: var(--cp-radius-md);
+    }
+  }
+
+  @include m(shape-circle) {
+    clip-path: none;
+    border-radius: 9999px;
+
+    .cp-segmented__indicator {
+      clip-path: none;
+      border-radius: 9999px;
+    }
+
+    .cp-segmented__item {
+      clip-path: none;
+      border-radius: 9999px;
+    }
+  }
+
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    // Solid
+    &.cp-segmented--solid {
+      .cp-segmented__indicator {
+        background: var(--cp-segmented-color);
+        border-color: var(--cp-segmented-color);
+        box-shadow: 0 0 8px var(--cp-segmented-color-light),
+                    0 0 16px var(--cp-segmented-color-light);
+      }
+      .cp-segmented__item.is-active {
+        color: var(--cp-bg-deep);
+      }
+    }
+
+    // Outline
+    &.cp-segmented--outline {
+      border-color: var(--cp-segmented-color);
+
+      .cp-segmented__indicator {
+        border-color: var(--cp-segmented-color);
+        background: var(--cp-segmented-color-light);
+        box-shadow: 0 0 8px var(--cp-segmented-color-light);
+      }
+      .cp-segmented__item {
+        color: var(--cp-segmented-color);
+      }
+    }
+
+    // Semi
+    &.cp-segmented--semi {
+      background: var(--cp-segmented-color-light);
+      border-color: var(--cp-segmented-color);
+
+      .cp-segmented__indicator {
+        background: var(--cp-segmented-color);
+        border-color: var(--cp-segmented-color);
+      }
+      .cp-segmented__item {
+        color: var(--cp-segmented-color);
+        &.is-active {
+          color: var(--cp-bg-deep);
+        }
+      }
+    }
+
+    // Ghost
+    &.cp-segmented--ghost {
+      .cp-segmented__indicator {
+        background: var(--cp-segmented-color-light);
+      }
+      .cp-segmented__item.is-active {
+        color: var(--cp-segmented-color);
+        text-shadow: 0 0 5px var(--cp-segmented-color);
+      }
+    }
+
+    // Neon
+    &.cp-segmented--neon {
+      border-color: var(--cp-segmented-color);
+      box-shadow: 0 0 4px var(--cp-segmented-color-light),
+                  inset 0 0 4px var(--cp-segmented-color-light);
+
+      .cp-segmented__indicator {
+        background: var(--cp-segmented-color-light);
+        border-color: var(--cp-segmented-color);
+        box-shadow:
+          0 0 8px var(--cp-segmented-color),
+          0 0 20px var(--cp-segmented-color-light),
+          inset 0 0 6px var(--cp-segmented-color-light);
+      }
+      .cp-segmented__item {
+        color: var(--cp-segmented-color);
+        text-shadow: 0 0 3px var(--cp-segmented-color);
+      }
+    }
+  }
+
+  // ===== Block 模式 =====
+  @include when(block) {
+    display: flex;
+    width: 100%;
+
+    .cp-segmented__item {
+      flex: 1;
+    }
+  }
+
+  // ===== 禁用状态 =====
+  @include when(disabled) {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(0.5);
+    pointer-events: none;
+  }
+}
