@@ -14,11 +14,14 @@ const ns = useNamespace('menu-item')
 const menuCtx = inject(menuContextKey, undefined)
 const subMenuCtx = inject(subMenuContextKey, undefined)
 
-const isActive = computed(() => menuCtx?.activeIndex.value === props.index)
+// 自动生成 index（未传时使用 menuCtx 的计数器）
+const resolvedIndex = props.index ?? menuCtx?.generateIndex() ?? `__cp_auto_fallback_${Math.random().toString(36).slice(2)}`
+
+const isActive = computed(() => menuCtx?.activeIndex.value === resolvedIndex)
 
 const indexPath = computed(() => {
   const parentPath = subMenuCtx?.indexPath ?? []
-  return [...parentPath, props.index]
+  return [...parentPath, resolvedIndex]
 })
 
 const paddingStyle = computed(() => {
@@ -36,15 +39,15 @@ const classes = computed(() => [
 
 const handleClick = () => {
   if (props.disabled) return
-  menuCtx?.handleSelect(props.index, indexPath.value)
-  emit('click', props.index)
+  menuCtx?.handleSelect(resolvedIndex, indexPath.value)
+  emit('click', resolvedIndex)
 
   // Router 模式
   if (menuCtx?.router) {
     const instance = getCurrentInstance()
     const router = instance?.appContext.config.globalProperties.$router
     if (router) {
-      const target = props.route ?? props.index
+      const target = props.route ?? resolvedIndex
       router.push(target).catch((err: unknown) => {
         const error = err as { name?: string }
         // NavigationDuplicated 等错误静默处理

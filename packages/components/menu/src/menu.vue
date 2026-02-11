@@ -62,6 +62,10 @@ const handleSubMenuClick = (index: string, indexPath: string[]) => {
   }
 }
 
+// ===== 自动 index 生成 =====
+let autoIndexCounter = 0
+const generateIndex = () => `__cp_auto_${++autoIndexCounter}`
+
 // ===== 样式 =====
 const classes = computed(() => [
   ns.b(),
@@ -91,6 +95,7 @@ const menuStyle = computed(() => {
 
 // ===== 注入上下文 =====
 const ctx: MenuContext = {
+  generateIndex,
   activeIndex,
   activeIndexPath,
   openedMenus,

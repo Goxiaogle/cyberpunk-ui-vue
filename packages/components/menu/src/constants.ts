@@ -5,6 +5,8 @@ import type { MenuMode, MenuType } from './menu'
  * Menu → MenuItem / SubMenu 的上下文
  */
 export interface MenuContext {
+  /** 获取下一个自动生成的唯一 index */
+  generateIndex: () => string
   /** 当前激活项 index */
   activeIndex: Ref<string>
   /** 当前激活项的完整索引路径 */

@@ -3,49 +3,208 @@
 declare module 'vue' {
   export interface GlobalComponents {
     CpAside: typeof import('cyberpunk-ui-vue')['CpAside']
+    /**
+     * CpAvatar 头像组件
+     */
     CpAvatar: typeof import('cyberpunk-ui-vue')['CpAvatar']
+    /**
+     * CpAvatarGroup 头像组组件
+     */
     CpAvatarGroup: typeof import('cyberpunk-ui-vue')['CpAvatarGroup']
+    /**
+     * CpBadge 徽章组件
+     */
     CpBadge: typeof import('cyberpunk-ui-vue')['CpBadge']
+    /**
+     * CpButton 赛博朋克风格按钮
+     * 
+     * 支持多种颜色类型、尺寸、形态变体。具有特色的切角造型和霓虹发光效果。
+     */
     CpButton: typeof import('cyberpunk-ui-vue')['CpButton']
+    /**
+     * CpCard 赛博朋克风格卡片容器
+     * 
+     * 用于展示内容分组，支持多种变体、形状模式和灵活的头部/底部布局。
+     */
     CpCard: typeof import('cyberpunk-ui-vue')['CpCard']
+    /**
+     * CpCheckbox 赛博朋克风格复选框
+     * 
+     * 用于多选场景，支持半选状态、分组、自定义颜色。
+     */
     CpCheckbox: typeof import('cyberpunk-ui-vue')['CpCheckbox']
+    /**
+     * CpCheckboxGroup 复选框组
+     * 
+     * 用于管理多个 CpCheckbox 的选中状态。
+     */
     CpCheckboxGroup: typeof import('cyberpunk-ui-vue')['CpCheckboxGroup']
+    /**
+     * CpCol 栅格列组件
+     */
     CpCol: typeof import('cyberpunk-ui-vue')['CpCol']
+    /**
+     * CpConfigProvider 全局配置提供者
+     * 
+     * 用于设置组件库的全局默认值和主题，通常放在应用根组件中包裹所有子组件。
+     */
     CpConfigProvider: typeof import('cyberpunk-ui-vue')['CpConfigProvider']
+    /**
+     * CpContainer 页面布局容器
+     */
     CpContainer: typeof import('cyberpunk-ui-vue')['CpContainer']
+    /**
+     * CpDialog 赛博朋克风格模态对话框
+     * 
+     * 用于在保留页面上下文的情况下展示重要交互内容，支持多种变体、形状和主题色。
+     */
     CpDialog: typeof import('cyberpunk-ui-vue')['CpDialog']
+    /**
+     * CpDivider 分割线组件
+     */
     CpDivider: typeof import('cyberpunk-ui-vue')['CpDivider']
+    /**
+     * CpDropdown 赛博朋克风格下拉选择器
+     * 
+     * 支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。
+     */
     CpDropdown: typeof import('cyberpunk-ui-vue')['CpDropdown']
     CpFooter: typeof import('cyberpunk-ui-vue')['CpFooter']
     CpHeader: typeof import('cyberpunk-ui-vue')['CpHeader']
+    /**
+     * CpIcon 统一图标组件
+     * 
+     * 支持多种图标来源：Vue 组件、原始 SVG、Iconify 图标名。
+     * 自动处理 SVG 尺寸归一化，保证图标在不同来源下表现一致。
+     */
     CpIcon: typeof import('cyberpunk-ui-vue')['CpIcon']
+    /**
+     * CpImage 图片组件
+     */
     CpImage: typeof import('cyberpunk-ui-vue')['CpImage']
+    /**
+     * CpInput 赛博朋克风格输入框
+     * 
+     * 支持多种尺寸、形态变体、可清空功能。具有特色的切角造型。
+     */
     CpInput: typeof import('cyberpunk-ui-vue')['CpInput']
     CpInputNumber: typeof import('cyberpunk-ui-vue')['CpInputNumber']
+    /**
+     * CpLoading 赛博朋克风格加载器
+     * 
+     * 环形 SVG 动画效果，可用于按钮内置加载、页面加载、异步操作等场景。
+     */
     CpLoading: typeof import('cyberpunk-ui-vue')['CpLoading']
     CpMain: typeof import('cyberpunk-ui-vue')['CpMain']
+    /**
+     * CpMenu 赛博朋克风格导航菜单
+     * 
+     * 支持水平/垂直布局、折叠模式、多色彩类型、自定义背景/文字颜色。
+     */
     CpMenu: typeof import('cyberpunk-ui-vue')['CpMenu']
+    /**
+     * CpMenuItem 赛博朋克风格菜单项
+     */
     CpMenuItem: typeof import('cyberpunk-ui-vue')['CpMenuItem']
+    /**
+     * CpMenuItemGroup 赛博朋克风格菜单分组
+     */
     CpMenuItemGroup: typeof import('cyberpunk-ui-vue')['CpMenuItemGroup']
+    /**
+     * CpMenuNav 数据驱动导航菜单
+     * 
+     * 通过结构化数据自动生成嵌套菜单，无需手动编写 slot。
+     */
     CpMenuNav: typeof import('cyberpunk-ui-vue')['CpMenuNav']
+    /**
+     * CpNotification 赛博朋克风格通知提醒
+     * 
+     * 用于在页面角落显示全局通知消息，支持多种类型、位置和变体。
+     */
     CpNotification: typeof import('cyberpunk-ui-vue')['CpNotification']
+    /**
+     * CpPagination 分页组件
+     */
     CpPagination: typeof import('cyberpunk-ui-vue')['CpPagination']
+    /**
+     * CpPatternBackground 图案背景组件
+     * 
+     * 用于展示各种装饰性背景图案，如网格、棋盘格、点阵、条纹等。
+     */
     CpPatternBackground: typeof import('cyberpunk-ui-vue')['CpPatternBackground']
+    /**
+     * CpProgress 赛博朋克风格进度条
+     * 
+     * 支持线性、环形、仪表盘三种模式。具有条纹流动效果和不确定状态动画。
+     */
     CpProgress: typeof import('cyberpunk-ui-vue')['CpProgress']
+    /**
+     * CpRadio 赛博朋克风格单选框
+     * 
+     * 用于单选场景，支持分组、自定义颜色、八边形指示器设计。
+     */
     CpRadio: typeof import('cyberpunk-ui-vue')['CpRadio']
+    /**
+     * CpRadioGroup 单选框组
+     * 
+     * 用于管理多个 CpRadio 的选中状态。
+     */
     CpRadioGroup: typeof import('cyberpunk-ui-vue')['CpRadioGroup']
+    /**
+     * CpRow 栅格行容器
+     */
     CpRow: typeof import('cyberpunk-ui-vue')['CpRow']
+    /**
+     * CpSegmented 分段选择器
+     * 
+     * 一组按钮式互斥选项，选中项带滑块高亮效果。
+     */
     CpSegmented: typeof import('cyberpunk-ui-vue')['CpSegmented']
+    /**
+     * CpSlider 赛博朋克风格滑块
+     * 
+     * 用于在给定的数值范围内进行选择，支持单值和范围模式。
+     */
     CpSlider: typeof import('cyberpunk-ui-vue')['CpSlider']
+    /**
+     * CpSpacer 弹性空间占位组件
+     * 
+     * 在 Flex 布局中填充剩余空间，实现元素的间距分布。
+     */
     CpSpacer: typeof import('cyberpunk-ui-vue')['CpSpacer']
     CpStatusIndicator: typeof import('cyberpunk-ui-vue')['CpStatusIndicator']
+    /**
+     * CpSubMenu 赛博朋克风格子菜单
+     */
     CpSubMenu: typeof import('cyberpunk-ui-vue')['CpSubMenu']
+    /**
+     * CpSwitch 赛博朋克风格开关
+     * 
+     * 用于二态选择场景，支持异步切换、内嵌文字、自定义颜色。
+     */
     CpSwitch: typeof import('cyberpunk-ui-vue')['CpSwitch']
+    /**
+     * CpTable 数据表格组件
+     */
     CpTable: typeof import('cyberpunk-ui-vue')['CpTable']
+    /**
+     * CpTableColumn 表格列定义组件
+     */
     CpTableColumn: typeof import('cyberpunk-ui-vue')['CpTableColumn']
+    /**
+     * CpTag 标签组件
+     */
     CpTag: typeof import('cyberpunk-ui-vue')['CpTag']
+    /**
+     * CpText 特殊文字组件
+     */
     CpText: typeof import('cyberpunk-ui-vue')['CpText']
     CpTextarea: typeof import('cyberpunk-ui-vue')['CpTextarea']
+    /**
+     * CpTree 赛博朋克风格树形控件
+     * 
+     * 用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。
+     */
     CpTree: typeof import('cyberpunk-ui-vue')['CpTree']
   }
 }

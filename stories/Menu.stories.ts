@@ -724,3 +724,71 @@ export const DataDrivenGroups: Story = {
     `,
   }),
 }
+
+/**
+ * 自动 Index — 无需手动指定 index，组件自动生成唯一标识
+ */
+export const AutoIndex: Story = {
+  render: () => ({
+    components: { CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const active = ref('')
+      return {
+        active,
+        MdiHome, MdiAccountGroup, MdiCog, MdiTune, MdiShieldLock, MdiChartLine, MdiConsole,
+      }
+    },
+    template: `
+      <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+        <!-- 全部省略 index -->
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px; text-transform: uppercase;">
+            无需手动 index
+          </p>
+          <div style="width: 240px;">
+            <CpMenu type="primary" @select="(idx) => active = idx">
+              <CpMenuItem :icon="MdiHome">首页</CpMenuItem>
+              <CpMenuItem :icon="MdiAccountGroup">用户管理</CpMenuItem>
+              <CpSubMenu :icon="MdiCog">
+                <template #title>系统设置</template>
+                <CpMenuItem :icon="MdiTune">通用</CpMenuItem>
+                <CpMenuItem :icon="MdiShieldLock">安全</CpMenuItem>
+              </CpSubMenu>
+              <CpSubMenu :icon="MdiChartLine">
+                <template #title>数据面板</template>
+                <CpMenuItem>实时监控</CpMenuItem>
+                <CpMenuItem>日志分析</CpMenuItem>
+              </CpSubMenu>
+              <CpMenuItem :icon="MdiConsole">终端</CpMenuItem>
+            </CpMenu>
+          </div>
+          <p style="margin-top: 12px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+            当前激活: <span style="color: var(--cp-color-primary);">{{ active || '(未选择)' }}</span>
+          </p>
+          <p style="margin-top: 4px; color: var(--cp-text-muted); font-family: monospace; font-size: 11px;">
+            提示: index 自动生成，不再需要手动指定
+          </p>
+        </div>
+
+        <!-- 混合模式：部分手动 + 部分自动 -->
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px; text-transform: uppercase;">
+            混合模式（手动 + 自动）
+          </p>
+          <div style="width: 240px;">
+            <CpMenu type="success" default-active="home" @select="(idx) => active = idx">
+              <CpMenuItem index="home" :icon="MdiHome">首页（手动 index）</CpMenuItem>
+              <CpMenuItem :icon="MdiAccountGroup">用户（自动 index）</CpMenuItem>
+              <CpSubMenu index="settings" :icon="MdiCog">
+                <template #title>设置（手动 index）</template>
+                <CpMenuItem>通用（自动）</CpMenuItem>
+                <CpMenuItem index="security">安全（手动）</CpMenuItem>
+              </CpSubMenu>
+            </CpMenu>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+

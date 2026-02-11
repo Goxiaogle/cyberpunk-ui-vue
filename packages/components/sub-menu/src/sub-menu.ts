@@ -10,7 +10,7 @@ export const subMenuProps = {
    */
   index: {
     type: String,
-    required: true as const,
+    default: undefined,
   },
   /**
    * 是否禁用

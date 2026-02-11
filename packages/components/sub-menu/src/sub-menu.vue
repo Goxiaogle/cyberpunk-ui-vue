@@ -14,20 +14,23 @@ const ns = useNamespace('sub-menu')
 const menuCtx = inject(menuContextKey, undefined)
 const parentSubMenuCtx = inject(subMenuContextKey, undefined)
 
+// 自动生成 index（未传时使用 menuCtx 的计数器）
+const resolvedIndex = props.index ?? menuCtx?.generateIndex() ?? `__cp_sub_auto_${Math.random().toString(36).slice(2)}`
+
 const mouseInChild = ref(false)
 
 const level = computed(() => (parentSubMenuCtx?.level ?? 0))
 const indexPath = computed(() => {
   const parentPath = parentSubMenuCtx?.indexPath ?? []
-  return [...parentPath, props.index]
+  return [...parentPath, resolvedIndex]
 })
 
-const isOpen = computed(() => menuCtx?.openedMenus.value.has(props.index) ?? false)
+const isOpen = computed(() => menuCtx?.openedMenus.value.has(resolvedIndex) ?? false)
 
 // 子元素被选中时，父级 SubMenu 高亮
 const isActive = computed(() => {
   if (!menuCtx) return false
-  return menuCtx.activeIndexPath.value.includes(props.index)
+  return menuCtx.activeIndexPath.value.includes(resolvedIndex)
 })
 
 // 是否使用 hover 模式（水平模式使用 hover，垂直非折叠使用 click）
@@ -65,7 +68,7 @@ const handleClick = () => {
   if (props.disabled) return
   // 在 hover 模式下点击标题不做处理
   if (isHoverMode.value) return
-  menuCtx?.handleSubMenuClick(props.index, indexPath.value)
+  menuCtx?.handleSubMenuClick(resolvedIndex, indexPath.value)
 }
 
 // ===== Hover 模式处理 =====
@@ -73,7 +76,7 @@ const handleMouseenter = () => {
   if (props.disabled || !isHoverMode.value) return
   clearTimers()
   openTimer = setTimeout(() => {
-    menuCtx?.openMenu(props.index, indexPath.value)
+    menuCtx?.openMenu(resolvedIndex, indexPath.value)
   }, showTimeout)
   // 通知父级 sub-menu 鼠标在子内容中
   if (parentSubMenuCtx) {
@@ -89,7 +92,7 @@ const handleMouseleave = (deepDispatch = false) => {
   }
   closeTimer = setTimeout(() => {
     if (!mouseInChild.value) {
-      menuCtx?.closeMenu(props.index, indexPath.value)
+      menuCtx?.closeMenu(resolvedIndex, indexPath.value)
     }
   }, hideTimeout)
   // 向父级传播

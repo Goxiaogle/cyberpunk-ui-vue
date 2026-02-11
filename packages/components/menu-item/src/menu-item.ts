@@ -6,11 +6,11 @@ import type { IconValue } from '../../icon/src/icon'
  */
 export const menuItemProps = {
   /**
-   * 菜单项唯一标识
+   * 菜单项唯一标识（可选，不传时自动生成）
    */
   index: {
     type: String,
-    required: true as const,
+    default: undefined,
   },
   /**
    * 是否禁用

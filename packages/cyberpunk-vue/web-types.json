@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -16,6 +16,7 @@
         },
         {
           "name": "cp-avatar",
+          "description": "CpAvatar 头像组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatar"
@@ -23,6 +24,7 @@
         },
         {
           "name": "cp-avatar-group",
+          "description": "CpAvatarGroup 头像组组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatarGroup"
@@ -30,6 +32,7 @@
         },
         {
           "name": "cp-badge",
+          "description": "CpBadge 徽章组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpBadge"
@@ -37,6 +40,7 @@
         },
         {
           "name": "cp-button",
+          "description": "CpButton 赛博朋克风格按钮\n\n支持多种颜色类型、尺寸、形态变体。具有特色的切角造型和霓虹发光效果。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpButton"
@@ -44,6 +48,7 @@
         },
         {
           "name": "cp-card",
+          "description": "CpCard 赛博朋克风格卡片容器\n\n用于展示内容分组，支持多种变体、形状模式和灵活的头部/底部布局。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpCard"
@@ -51,6 +56,7 @@
         },
         {
           "name": "cp-checkbox",
+          "description": "CpCheckbox 赛博朋克风格复选框\n\n用于多选场景，支持半选状态、分组、自定义颜色。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckbox"
@@ -58,6 +64,7 @@
         },
         {
           "name": "cp-checkbox-group",
+          "description": "CpCheckboxGroup 复选框组\n\n用于管理多个 CpCheckbox 的选中状态。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckboxGroup"
@@ -65,6 +72,7 @@
         },
         {
           "name": "cp-col",
+          "description": "CpCol 栅格列组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpCol"
@@ -72,6 +80,7 @@
         },
         {
           "name": "cp-config-provider",
+          "description": "CpConfigProvider 全局配置提供者\n\n用于设置组件库的全局默认值和主题，通常放在应用根组件中包裹所有子组件。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpConfigProvider"
@@ -79,6 +88,7 @@
         },
         {
           "name": "cp-container",
+          "description": "CpContainer 页面布局容器",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpContainer"
@@ -86,6 +96,7 @@
         },
         {
           "name": "cp-dialog",
+          "description": "CpDialog 赛博朋克风格模态对话框\n\n用于在保留页面上下文的情况下展示重要交互内容，支持多种变体、形状和主题色。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpDialog"
@@ -93,6 +104,7 @@
         },
         {
           "name": "cp-divider",
+          "description": "CpDivider 分割线组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpDivider"
@@ -100,6 +112,7 @@
         },
         {
           "name": "cp-dropdown",
+          "description": "CpDropdown 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpDropdown"
@@ -121,6 +134,7 @@
         },
         {
           "name": "cp-icon",
+          "description": "CpIcon 统一图标组件\n\n支持多种图标来源：Vue 组件、原始 SVG、Iconify 图标名。\n自动处理 SVG 尺寸归一化，保证图标在不同来源下表现一致。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpIcon"
@@ -128,6 +142,7 @@
         },
         {
           "name": "cp-image",
+          "description": "CpImage 图片组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpImage"
@@ -135,6 +150,7 @@
         },
         {
           "name": "cp-input",
+          "description": "CpInput 赛博朋克风格输入框\n\n支持多种尺寸、形态变体、可清空功能。具有特色的切角造型。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpInput"
@@ -149,6 +165,7 @@
         },
         {
           "name": "cp-loading",
+          "description": "CpLoading 赛博朋克风格加载器\n\n环形 SVG 动画效果，可用于按钮内置加载、页面加载、异步操作等场景。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpLoading"
@@ -163,6 +180,7 @@
         },
         {
           "name": "cp-menu",
+          "description": "CpMenu 赛博朋克风格导航菜单\n\n支持水平/垂直布局、折叠模式、多色彩类型、自定义背景/文字颜色。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpMenu"
@@ -170,6 +188,7 @@
         },
         {
           "name": "cp-menu-item",
+          "description": "CpMenuItem 赛博朋克风格菜单项",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItem"
@@ -177,6 +196,7 @@
         },
         {
           "name": "cp-menu-item-group",
+          "description": "CpMenuItemGroup 赛博朋克风格菜单分组",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItemGroup"
@@ -184,6 +204,7 @@
         },
         {
           "name": "cp-menu-nav",
+          "description": "CpMenuNav 数据驱动导航菜单\n\n通过结构化数据自动生成嵌套菜单，无需手动编写 slot。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuNav"
@@ -191,6 +212,7 @@
         },
         {
           "name": "cp-notification",
+          "description": "CpNotification 赛博朋克风格通知提醒\n\n用于在页面角落显示全局通知消息，支持多种类型、位置和变体。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpNotification"
@@ -198,6 +220,7 @@
         },
         {
           "name": "cp-pagination",
+          "description": "CpPagination 分页组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpPagination"
@@ -205,6 +228,7 @@
         },
         {
           "name": "cp-pattern-background",
+          "description": "CpPatternBackground 图案背景组件\n\n用于展示各种装饰性背景图案，如网格、棋盘格、点阵、条纹等。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpPatternBackground"
@@ -212,6 +236,7 @@
         },
         {
           "name": "cp-progress",
+          "description": "CpProgress 赛博朋克风格进度条\n\n支持线性、环形、仪表盘三种模式。具有条纹流动效果和不确定状态动画。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpProgress"
@@ -219,6 +244,7 @@
         },
         {
           "name": "cp-radio",
+          "description": "CpRadio 赛博朋克风格单选框\n\n用于单选场景，支持分组、自定义颜色、八边形指示器设计。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpRadio"
@@ -226,6 +252,7 @@
         },
         {
           "name": "cp-radio-group",
+          "description": "CpRadioGroup 单选框组\n\n用于管理多个 CpRadio 的选中状态。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpRadioGroup"
@@ -233,6 +260,7 @@
         },
         {
           "name": "cp-row",
+          "description": "CpRow 栅格行容器",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpRow"
@@ -240,6 +268,7 @@
         },
         {
           "name": "cp-segmented",
+          "description": "CpSegmented 分段选择器\n\n一组按钮式互斥选项，选中项带滑块高亮效果。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpSegmented"
@@ -247,6 +276,7 @@
         },
         {
           "name": "cp-slider",
+          "description": "CpSlider 赛博朋克风格滑块\n\n用于在给定的数值范围内进行选择，支持单值和范围模式。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpSlider"
@@ -254,6 +284,7 @@
         },
         {
           "name": "cp-spacer",
+          "description": "CpSpacer 弹性空间占位组件\n\n在 Flex 布局中填充剩余空间，实现元素的间距分布。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpSpacer"
@@ -268,6 +299,7 @@
         },
         {
           "name": "cp-sub-menu",
+          "description": "CpSubMenu 赛博朋克风格子菜单",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpSubMenu"
@@ -275,6 +307,7 @@
         },
         {
           "name": "cp-switch",
+          "description": "CpSwitch 赛博朋克风格开关\n\n用于二态选择场景，支持异步切换、内嵌文字、自定义颜色。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpSwitch"
@@ -282,6 +315,7 @@
         },
         {
           "name": "cp-table",
+          "description": "CpTable 数据表格组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpTable"
@@ -289,6 +323,7 @@
         },
         {
           "name": "cp-table-column",
+          "description": "CpTableColumn 表格列定义组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpTableColumn"
@@ -296,6 +331,7 @@
         },
         {
           "name": "cp-tag",
+          "description": "CpTag 标签组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpTag"
@@ -303,6 +339,7 @@
         },
         {
           "name": "cp-text",
+          "description": "CpText 特殊文字组件",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpText"
@@ -317,6 +354,7 @@
         },
         {
           "name": "cp-tree",
+          "description": "CpTree 赛博朋克风格树形控件\n\n用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。",
           "source": {
             "module": "cyberpunk-ui-vue",
             "symbol": "CpTree"
@@ -335,19 +373,17 @@
               "name": "width",
               "description": "侧边栏宽度",
               "default": "'300px'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "position",
               "description": "侧边栏位置，可选值：left / right",
               "default": "'left'",
-              "value": {
-                "kind": "expression",
-                "type": "'left' | 'right'"
-              }
+              "type": [
+                "'left' | 'right'"
+              ]
             }
           ]
         },
@@ -363,88 +399,78 @@
               "name": "src",
               "description": "头像图片地址",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "alt",
               "description": "图片描述/替代文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "size",
               "description": "头像尺寸\n可传入预设值 'xs' | 'sm' | 'md' | 'lg' | 'xl'\n或数字（像素）",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "AvatarSize"
-              }
+              "type": [
+                "AvatarSize"
+              ]
             },
             {
               "name": "shape",
               "description": "头像形状\n- `circle`: 圆形（默认）\n- `square`: 圆角方形\n- `clip`: 机甲切角",
               "default": "'circle'",
-              "value": {
-                "kind": "expression",
-                "type": "AvatarShape"
-              }
+              "type": [
+                "AvatarShape"
+              ]
             },
             {
               "name": "icon",
               "description": "默认图标（无图片时显示）\n传入图标组件",
-              "value": {
-                "kind": "expression",
-                "type": "Component"
-              }
+              "type": [
+                "Component"
+              ]
             },
             {
               "name": "fallbackSrc",
               "description": "加载失败时的回退图片地址",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "fit",
               "description": "图片适应模式",
               "default": "'cover'",
-              "value": {
-                "kind": "expression",
-                "type": "'cover' | 'contain' | 'fill'"
-              }
+              "type": [
+                "'cover' | 'contain' | 'fill'"
+              ]
             },
             {
               "name": "srcProcessor",
               "description": "URL 预处理器\n可传入预设处理器名称（append/replace/tos）或自定义函数\n函数签名: (src: string, params?: T) => string",
-              "value": {
-                "kind": "expression",
-                "type": "string | ((src: string, params?: unknown) ="
-              }
+              "type": [
+                "string | ((src: string, params?: unknown) ="
+              ]
             },
             {
               "name": "processorParams",
               "description": "处理器参数\n传递给 srcProcessor 的参数，类型由处理器决定\n若未指定 srcProcessor 但传入了此参数，默认使用 append 处理器",
-              "value": {
-                "kind": "expression",
-                "type": "string | Record<string, unknown> | unknown[]"
-              }
+              "type": [
+                "string | Record<string, unknown> | unknown[]"
+              ]
             },
             {
               "name": "draggable",
               "description": "是否允许拖拽图片\n默认禁止拖拽，设为 true 开启",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -471,81 +497,72 @@
             {
               "name": "max",
               "description": "最多显示数量\n超出的头像将折叠为 +N 计数器",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "size",
               "description": "统一尺寸\n会通过 provide 注入到子 Avatar",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "AvatarSize"
-              }
+              "type": [
+                "AvatarSize"
+              ]
             },
             {
               "name": "shape",
               "description": "统一形状\n会通过 provide 注入到子 Avatar",
               "default": "'circle'",
-              "value": {
-                "kind": "expression",
-                "type": "AvatarShape"
-              }
+              "type": [
+                "AvatarShape"
+              ]
             },
             {
               "name": "spacing",
               "description": "头像间距\n负值实现堆叠重叠效果，正值实现间距",
               "default": "-8",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "collapseAvatars",
               "description": "是否开启折叠模式（堆叠显示）\n开启后头像会重叠显示，并带有边框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "collapseClass",
               "description": "折叠计数器自定义类名",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "collapseStyle",
               "description": "折叠计数器自定义样式",
               "default": "() => ({})",
-              "value": {
-                "kind": "expression",
-                "type": "CSSProperties"
-              }
+              "type": [
+                "CSSProperties"
+              ]
             },
             {
               "name": "collapseAvatarsTooltip",
               "description": "折叠提示文本（鼠标悬停显示）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "collapseShape",
               "description": "折叠计数器形状\n默认与 shape 保持一致，可单独设置",
-              "value": {
-                "kind": "expression",
-                "type": "AvatarShape"
-              }
+              "type": [
+                "AvatarShape"
+              ]
             }
           ]
         },
@@ -561,107 +578,95 @@
               "name": "value",
               "description": "徽章显示内容（数字或字符串）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "max",
               "description": "最大显示数值，超出显示 `{max}+`",
               "default": "99",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "min",
               "description": "最小显示数值，低于时显示 `{min}-`",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "dot",
               "description": "小红点模式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "hidden",
               "description": "是否隐藏徽章",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showZero",
               "description": "值为 0 时是否显示",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "徽章颜色类型",
               "default": "'error'",
-              "value": {
-                "kind": "expression",
-                "type": "BadgeType"
-              }
+              "type": [
+                "BadgeType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义背景颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "自定义文本颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "variant",
               "description": "变体样式",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "BadgeVariant"
-              }
+              "type": [
+                "BadgeVariant"
+              ]
             },
             {
               "name": "offset",
               "description": "自定义偏移量 [x, y]",
-              "value": {
-                "kind": "expression",
-                "type": "[number, number]"
-              }
+              "type": [
+                "[number, number]"
+              ]
             },
             {
               "name": "size",
               "description": "徽章尺寸",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "BadgeSize"
-              }
+              "type": [
+                "BadgeSize"
+              ]
             }
           ]
         },
@@ -677,205 +682,182 @@
               "name": "type",
               "description": "按钮颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonType"
-              }
+              "type": [
+                "ButtonType"
+              ]
             },
             {
               "name": "size",
               "description": "按钮尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonSize"
-              }
+              "type": [
+                "ButtonSize"
+              ]
             },
             {
               "name": "variant",
               "description": "按钮变体/形态",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonVariant"
-              }
+              "type": [
+                "ButtonVariant"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用按钮\n禁用后按钮不可点击，样式变为灰色",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "loading",
               "description": "是否显示加载状态\n加载时会显示 Loading 动画，按钮不可点击",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "block",
               "description": "是否为块级按钮\n块级按钮会占满父容器宽度",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "nativeType",
               "description": "原生 button type 属性\n- `button` - 普通按钮（默认）\n- `submit` - 表单提交按钮\n- `reset` - 表单重置按钮",
               "default": "'button'",
-              "value": {
-                "kind": "expression",
-                "type": "'button' | 'submit' | 'reset'"
-              }
+              "type": [
+                "'button' | 'submit' | 'reset'"
+              ]
             },
             {
               "name": "color",
               "description": "自定义按钮颜色\n传入有效 CSS 颜色值会覆盖 `type` 的预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "shape",
               "description": "按钮形状\n- `clip` - 切角样式（默认，赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形\n- `circle` - 胶囊形状（完全圆角）",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "'clip' | 'no-clip' | 'round' | 'circle'"
-              }
+              "type": [
+                "'clip' | 'no-clip' | 'round' | 'circle'"
+              ]
             },
             {
               "name": "dashed",
               "description": "是否使用虚线边框\n仅在 `variant=\"outline\"` 时生效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "loadingPlaceholder",
               "description": "是否为 Loading 预留空间\n开启后按钮宽度固定，Loading 出现/消失时不会导致布局抖动",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "loadingDisabled",
               "description": "加载时是否同时禁用按钮\n设为 true 后，loading 状态下按钮会显示禁用样式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "textColor",
               "description": "自定义文字颜色\n传入有效 CSS 颜色值会覆盖默认的文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "icon",
               "description": "图标组件 (用于纯图标按钮)\n传入图标组件后按钮将变为正方形图标按钮",
-              "value": {
-                "kind": "expression",
-                "type": "object"
-              }
+              "type": [
+                "object"
+              ]
             },
             {
               "name": "square",
               "description": "是否为正方形按钮\n开启后按钮宽度等于高度，表现与 icon-only 一致",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "iconColor",
               "description": "图标颜色\n用于控制所有图标（icon、prefixIcon、suffixIcon）的默认颜色\n优先级：prefixIconColor/suffixIconColor > iconColor > textColor",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "prefixIcon",
               "description": "前缀图标组件\n快捷传入前缀图标，不使用 #prefix slot",
-              "value": {
-                "kind": "expression",
-                "type": "object"
-              }
+              "type": [
+                "object"
+              ]
             },
             {
               "name": "suffixIcon",
               "description": "后缀图标组件\n快捷传入后缀图标，不使用 #suffix slot",
-              "value": {
-                "kind": "expression",
-                "type": "object"
-              }
+              "type": [
+                "object"
+              ]
             },
             {
               "name": "prefixIconColor",
               "description": "前缀图标颜色\n优先级：prefixIconColor > iconColor > textColor",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "suffixIconColor",
               "description": "后缀图标颜色\n优先级：suffixIconColor > iconColor > textColor",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "iconSize",
               "description": "图标尺寸\n优先级：prefixIconSize/suffixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonSize"
-              }
+              "type": [
+                "ButtonSize"
+              ]
             },
             {
               "name": "prefixIconSize",
               "description": "前缀图标尺寸\n优先级：prefixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonSize"
-              }
+              "type": [
+                "ButtonSize"
+              ]
             },
             {
               "name": "suffixIconSize",
               "description": "后缀图标尺寸\n优先级：suffixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonSize"
-              }
+              "type": [
+                "ButtonSize"
+              ]
             }
           ],
           "slots": [
@@ -913,292 +895,258 @@
               "name": "title",
               "description": "卡片标题",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "shadow",
               "description": "阴影显示时机\n- `always` - 始终显示\n- `hover` - 悬停时显示\n- `never` - 不显示",
               "default": "'hover'",
-              "value": {
-                "kind": "expression",
-                "type": "CardShadow"
-              }
+              "type": [
+                "CardShadow"
+              ]
             },
             {
               "name": "variant",
               "description": "卡片变体/形态",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "CardVariant"
-              }
+              "type": [
+                "CardVariant"
+              ]
             },
             {
               "name": "shape",
               "description": "卡片形状\n- `clip` - 切角样式（默认）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "CardShape"
-              }
+              "type": [
+                "CardShape"
+              ]
             },
             {
               "name": "bodyPadding",
               "description": "自定义内容区内边距\n传入有效 CSS 值，如 '20px' 或 '1rem 2rem'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "headerBorder",
               "description": "是否显示头部分隔线",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "footerBorder",
               "description": "是否显示底部分隔线",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "overlayAnimation",
               "description": "覆层出场动画类型",
               "default": "'slide-up'",
-              "value": {
-                "kind": "expression",
-                "type": "CardOverlayAnimation"
-              }
+              "type": [
+                "CardOverlayAnimation"
+              ]
             },
             {
               "name": "overlayPosition",
               "description": "覆层位置",
               "default": "'bottom'",
-              "value": {
-                "kind": "expression",
-                "type": "CardOverlayPosition"
-              }
+              "type": [
+                "CardOverlayPosition"
+              ]
             },
             {
               "name": "overlayDuration",
               "description": "覆层动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "overlayEffect",
               "description": "覆层效果类型",
               "default": "'blur-color'",
-              "value": {
-                "kind": "expression",
-                "type": "CardOverlayEffect"
-              }
+              "type": [
+                "CardOverlayEffect"
+              ]
             },
             {
               "name": "overlayColor",
               "description": "覆层颜色\n支持任意 CSS 颜色值",
               "default": "'rgba(26, 26, 36, 0.8)'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "overlayBlur",
               "description": "覆层毛玻璃模糊程度\n数字默认 px，字符串可指定单位",
               "default": "10",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "actionEffect",
               "description": "操作区域效果类型\n如果未指定，则继承 overlayEffect",
-              "value": {
-                "kind": "expression",
-                "type": "CardOverlayEffect"
-              }
+              "type": [
+                "CardOverlayEffect"
+              ]
             },
             {
               "name": "actionColor",
               "description": "操作区域颜色\n如果未指定，则继承 overlayColor",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "actionBlur",
               "description": "操作区域模糊程度\n如果未指定，则继承 overlayBlur",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "type",
               "description": "卡片的主题颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "CardType"
-              }
+              "type": [
+                "CardType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色，优先于 type",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "bgColor",
               "description": "自定义背景颜色\n支持任意 CSS 颜色值，包括渐变",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "shadowColor",
               "description": "自定义阴影颜色\n默认与卡片最终主题色保持一致",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dimmed",
               "description": "是否开启平常减淡显示",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "dimmedDuration",
               "description": "减淡模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "triggerImageHover",
               "description": "Card hover 时是否触发内部 CpImage 的 hover 效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "hoverScale",
               "description": "Card hover 时放大效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "borderColor",
               "description": "自定义边框颜色",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dividerColor",
               "description": "全局设置头尾分隔线颜色",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "headerDividerColor",
               "description": "单独设置头部分隔线颜色",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "footerDividerColor",
               "description": "单独设置底部分隔线颜色",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "backgroundClass",
               "description": "容器/背景自定义类名",
-              "value": {
-                "kind": "expression",
-                "type": "CardCustomClass"
-              }
+              "type": [
+                "CardCustomClass"
+              ]
             },
             {
               "name": "backgroundStyle",
               "description": "容器/背景自定义样式",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "headerClass",
               "description": "头部自定义类名",
-              "value": {
-                "kind": "expression",
-                "type": "CardCustomClass"
-              }
+              "type": [
+                "CardCustomClass"
+              ]
             },
             {
               "name": "headerStyle",
               "description": "头部自定义样式",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "bodyClass",
               "description": "主体自定义类名",
-              "value": {
-                "kind": "expression",
-                "type": "CardCustomClass"
-              }
+              "type": [
+                "CardCustomClass"
+              ]
             },
             {
               "name": "bodyStyle",
               "description": "主体自定义样式",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             }
           ],
           "slots": [
@@ -1235,117 +1183,104 @@
             {
               "name": "modelValue",
               "description": "绑定值 (v-model)\n单独使用时为 boolean，在 Group 中使用时为数组",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxValueType | CheckboxValueType[]"
-              }
+              "type": [
+                "CheckboxValueType | CheckboxValueType[]"
+              ]
             },
             {
               "name": "label",
               "description": "选项值，在 CheckboxGroup 中使用",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxValueType"
-              }
+              "type": [
+                "CheckboxValueType"
+              ]
             },
             {
               "name": "trueValue",
               "description": "选中时的值（仅单独使用时有效）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxValueType"
-              }
+              "type": [
+                "CheckboxValueType"
+              ]
             },
             {
               "name": "falseValue",
               "description": "未选中时的值（仅单独使用时有效）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxValueType"
-              }
+              "type": [
+                "CheckboxValueType"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "indeterminate",
               "description": "是否半选（indeterminate）状态\n常用于全选场景，表示部分选中",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "复选框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxSize"
-              }
+              "type": [
+                "CheckboxSize"
+              ]
             },
             {
               "name": "type",
               "description": "复选框类型（颜色预设）",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxType"
-              }
+              "type": [
+                "CheckboxType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义选中颜色\n优先级高于 type",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "checkColor",
               "description": "自定义勾选标记（√）颜色\n用于在暗色背景下提高勾的可见度\n不传时默认跟随当前 type 的文字颜色（参考 Button 文字颜色）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "shape",
               "description": "复选框形状\n- `clip` - 切角样式（默认，赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxShape"
-              }
+              "type": [
+                "CheckboxShape"
+              ]
             },
             {
               "name": "border",
               "description": "是否使用边框样式\n开启后整个标签区域带有边框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "name",
               "description": "原生 name 属性",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "js": {
@@ -1373,71 +1308,63 @@
               "name": "modelValue",
               "description": "绑定值数组 (v-model)",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxValueType[]"
-              }
+              "type": [
+                "CheckboxValueType[]"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用所有子复选框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "子复选框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "Size"
-              }
+              "type": [
+                "Size"
+              ]
             },
             {
               "name": "type",
               "description": "子复选框类型（颜色预设）",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxType"
-              }
+              "type": [
+                "CheckboxType"
+              ]
             },
             {
               "name": "shape",
               "description": "子复选框形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "CheckboxShape"
-              }
+              "type": [
+                "CheckboxShape"
+              ]
             },
             {
               "name": "min",
               "description": "最少选中数量",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "max",
               "description": "最多选中数量",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "direction",
               "description": "布局方向",
               "default": "'horizontal'",
-              "value": {
-                "kind": "expression",
-                "type": "'horizontal' | 'vertical'"
-              }
+              "type": [
+                "'horizontal' | 'vertical'"
+              ]
             }
           ],
           "js": {
@@ -1465,46 +1392,41 @@
               "name": "span",
               "description": "栅格占据的列数 (0-24)",
               "default": "24",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "offset",
               "description": "栅格左侧偏移列数",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "push",
               "description": "栅格向右移动列数",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "pull",
               "description": "栅格向左移动列数",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "tag",
               "description": "自定义元素标签",
               "default": "'div'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ]
         },
@@ -1520,19 +1442,17 @@
               "name": "defaults",
               "description": "组件默认值配置\n\n统一设置组件的 props 默认值，避免在每个组件上重复配置。\n格式: `{ componentName: { propName: value } }`\n\n组件名使用小写驼峰命名（不带 `Cp` 前缀）",
               "default": "() => ({})",
-              "value": {
-                "kind": "expression",
-                "type": "ComponentDefaults"
-              }
+              "type": [
+                "ComponentDefaults"
+              ]
             },
             {
               "name": "theme",
               "description": "主题设置\n\n- `dark` - 深色主题，赛博朋克风格（默认）\n- `light` - 浅色主题",
               "default": "'dark'",
-              "value": {
-                "kind": "expression",
-                "type": "ThemeType"
-              }
+              "type": [
+                "ThemeType"
+              ]
             }
           ],
           "slots": [
@@ -1554,10 +1474,9 @@
               "name": "direction",
               "description": "排列方向，可选值：horizontal / vertical\n不设置时根据子元素自动判断",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "ContainerDirection"
-              }
+              "type": [
+                "ContainerDirection"
+              ]
             }
           ]
         },
@@ -1573,413 +1492,366 @@
               "name": "modelValue",
               "description": "是否显示对话框 (v-model)",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "title",
               "description": "对话框标题",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "width",
               "description": "对话框宽度\n数字则为 px，字符串可以是任意 CSS 值",
               "default": "'520px'",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "top",
               "description": "距离顶部的距离",
               "default": "'15vh'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "fullscreen",
               "description": "是否全屏显示",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "modal",
               "description": "是否显示遮罩",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "appendToBody",
               "description": "是否将对话框挂载到 body\n嵌套 Dialog 时建议设为 true",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "closeOnClickModal",
               "description": "点击遮罩是否关闭",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "closeOnEscape",
               "description": "按下 ESC 是否关闭",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showClose",
               "description": "是否显示关闭按钮",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "beforeClose",
               "description": "关闭前回调，调用 done() 才真正关闭\ndone(true) 表示取消关闭\n可用于关闭前二次确认",
-              "value": {
-                "kind": "expression",
-                "type": "DialogBeforeCloseFn"
-              }
+              "type": [
+                "DialogBeforeCloseFn"
+              ]
             },
             {
               "name": "draggable",
               "description": "是否可拖拽移动",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "overflow",
               "description": "拖拽时是否允许超出视口边界",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "lockScroll",
               "description": "打开时是否锁定页面滚动",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "variant",
               "description": "对话框变体",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "DialogVariant"
-              }
+              "type": [
+                "DialogVariant"
+              ]
             },
             {
               "name": "shape",
               "description": "对话框形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "DialogShape"
-              }
+              "type": [
+                "DialogShape"
+              ]
             },
             {
               "name": "type",
               "description": "主题颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "DialogType"
-              }
+              "type": [
+                "DialogType"
+              ]
             },
             {
               "name": "destroyOnClose",
               "description": "关闭时销毁内容",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "center",
               "description": "居中布局（标题和 footer 对齐方式居中）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "alignCenter",
               "description": "垂直居中布局（容器在屏幕中垂直居中）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "headerBorder",
               "description": "是否显示头部分隔线",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "footerBorder",
               "description": "是否显示底部分隔线",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主色调，优先于 type\n支持任意 CSS 颜色值",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "bgColor",
               "description": "自定义背景颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "borderColor",
               "description": "自定义边框颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "titleColor",
               "description": "自定义标题文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "自定义内容区文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "overlayColor",
               "description": "自定义遮罩颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "closeColor",
               "description": "自定义关闭按钮颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "headerDividerColor",
               "description": "自定义头部分隔线颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "footerDividerColor",
               "description": "自定义底部分隔线颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dialogClass",
               "description": "对话框根容器自定义 class",
-              "value": {
-                "kind": "expression",
-                "type": "DialogCustomClass"
-              }
+              "type": [
+                "DialogCustomClass"
+              ]
             },
             {
               "name": "headerClass",
               "description": "头部区域自定义 class",
-              "value": {
-                "kind": "expression",
-                "type": "DialogCustomClass"
-              }
+              "type": [
+                "DialogCustomClass"
+              ]
             },
             {
               "name": "bodyClass",
               "description": "主体内容区域自定义 class",
-              "value": {
-                "kind": "expression",
-                "type": "DialogCustomClass"
-              }
+              "type": [
+                "DialogCustomClass"
+              ]
             },
             {
               "name": "footerClass",
               "description": "底部区域自定义 class",
-              "value": {
-                "kind": "expression",
-                "type": "DialogCustomClass"
-              }
+              "type": [
+                "DialogCustomClass"
+              ]
             },
             {
               "name": "overlayClass",
               "description": "遮罩层自定义 class",
-              "value": {
-                "kind": "expression",
-                "type": "DialogCustomClass"
-              }
+              "type": [
+                "DialogCustomClass"
+              ]
             },
             {
               "name": "modalClass",
               "description": "遮罩层追加 class（与 overlayClass 合并使用）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dialogStyle",
               "description": "对话框面板自定义 style",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "headerStyle",
               "description": "头部区域自定义 style",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "bodyStyle",
               "description": "主体内容区域自定义 style",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "footerStyle",
               "description": "底部区域自定义 style",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "overlayStyle",
               "description": "遮罩层自定义 style",
-              "value": {
-                "kind": "expression",
-                "type": "string | CSSProperties"
-              }
+              "type": [
+                "string | CSSProperties"
+              ]
             },
             {
               "name": "zIndex",
               "description": "z-index",
               "default": "2000",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "showConfirmButton",
               "description": "是否显示确认按钮（当无 #footer 插槽时生效）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showCancelButton",
               "description": "是否显示取消按钮（当无 #footer 插槽时生效）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "confirmText",
               "description": "确认按钮文本",
               "default": "'确认'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "cancelText",
               "description": "取消按钮文本",
               "default": "'取消'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "slots": [
@@ -2045,91 +1917,81 @@
               "name": "direction",
               "description": "分割线方向",
               "default": "'horizontal'",
-              "value": {
-                "kind": "expression",
-                "type": "DividerDirection"
-              }
+              "type": [
+                "DividerDirection"
+              ]
             },
             {
               "name": "type",
               "description": "分割线类型（颜色预设）",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "DividerType"
-              }
+              "type": [
+                "DividerType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "contentPosition",
               "description": "文字内容位置（仅水平方向有效）",
               "default": "'center'",
-              "value": {
-                "kind": "expression",
-                "type": "DividerContentPosition"
-              }
+              "type": [
+                "DividerContentPosition"
+              ]
             },
             {
               "name": "variant",
               "description": "分割线变体",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "DividerVariant"
-              }
+              "type": [
+                "DividerVariant"
+              ]
             },
             {
               "name": "borderStyle",
               "description": "线条样式",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "DividerBorderStyle"
-              }
+              "type": [
+                "DividerBorderStyle"
+              ]
             },
             {
               "name": "dashed",
               "description": "虚线（快捷方式，等同于 borderStyle=\"dashed\"）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "thickness",
               "description": "线条粗细 (px)",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "glow",
               "description": "发光效果（快捷方式，等同于 variant=\"glow\"）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "margin",
               "description": "上下间距（水平方向）或左右间距（垂直方向）\n数字默认 px，支持带单位字符串",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             }
           ]
         },
@@ -2145,181 +2007,161 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "options",
               "description": "选项列表",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "DropdownOption[]"
-              }
+              "type": [
+                "DropdownOption[]"
+              ]
             },
             {
               "name": "placeholder",
               "description": "占位文本",
               "default": "'请选择'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "filterPlaceholder",
               "description": "搜索框占位文本 (仅在面板开启搜索时有效)",
               "default": "'搜索...'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "clearable",
               "description": "是否可清空",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "filterable",
               "description": "是否可搜索过滤",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "下拉框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "DropdownSize"
-              }
+              "type": [
+                "DropdownSize"
+              ]
             },
             {
               "name": "shape",
               "description": "下拉框形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "DropdownShape"
-              }
+              "type": [
+                "DropdownShape"
+              ]
             },
             {
               "name": "variant",
               "description": "下拉框变体",
               "default": "'outline'",
-              "value": {
-                "kind": "expression",
-                "type": "DropdownVariant"
-              }
+              "type": [
+                "DropdownVariant"
+              ]
             },
             {
               "name": "color",
               "description": "自定义聚焦颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "inactiveColor",
               "description": "未激活状态边框颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "placeholderColor",
               "description": "Placeholder 文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "inline",
               "description": "是否启用行内搜索 (直接在触发器输入)",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "placement",
               "description": "弹出位置",
               "default": "'bottom-start'",
-              "value": {
-                "kind": "expression",
-                "type": "DropdownPlacement"
-              }
+              "type": [
+                "DropdownPlacement"
+              ]
             },
             {
               "name": "teleportTo",
               "description": "Teleport 目标",
               "default": "'body'",
-              "value": {
-                "kind": "expression",
-                "type": "string | HTMLElement"
-              }
+              "type": [
+                "string | HTMLElement"
+              ]
             },
             {
               "name": "maxHeight",
               "description": "下拉面板最大高度 (px)",
               "default": "256",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "noMatchText",
               "description": "无匹配时的文本",
               "default": "'无匹配数据'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "noDataText",
               "description": "无数据时的文本",
               "default": "'无数据'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "clearDuration",
               "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
               "default": "150",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             }
           ],
           "slots": [
@@ -2376,10 +2218,9 @@
               "name": "height",
               "description": "底部高度",
               "default": "'60px'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ]
         },
@@ -2394,10 +2235,9 @@
               "name": "height",
               "description": "头部高度",
               "default": "'60px'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ]
         },
@@ -2412,55 +2252,49 @@
             {
               "name": "icon",
               "description": "图标来源\n\n支持以下格式：\n- **Vue Component**: 通过 unplugin-icons 导入的图标组件\n- **Iconify 名称**: `'mdi:home'`、`'ph:user-bold'` 等\n- **原始 SVG 字符串**: `'<svg>...</svg>'`\n- **CSS 类名**: `'iconfont icon-home'` (字体图标)",
-              "value": {
-                "kind": "expression",
-                "type": "IconValue"
-              }
+              "type": [
+                "IconValue"
+              ]
             },
             {
               "name": "size",
               "description": "图标尺寸\n\n预设值: `'sm'` | `'md'` | `'lg'`\n也可传入数值 (px) 或 CSS 尺寸字符串 (如 `'2rem'`)",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "IconSize | string | number"
-              }
+              "type": [
+                "IconSize | string | number"
+              ]
             },
             {
               "name": "type",
               "description": "图标颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "IconType"
-              }
+              "type": [
+                "IconType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义图标颜色\n传入有效 CSS 颜色值，覆盖 `type` 的预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "tag",
               "description": "渲染的 HTML 标签",
               "default": "'i'",
-              "value": {
-                "kind": "expression",
-                "type": "'i' | 'span' | 'div'"
-              }
+              "type": [
+                "'i' | 'span' | 'div'"
+              ]
             },
             {
               "name": "spin",
               "description": "是否启用旋转动画\n适用于加载图标，如 `mdi:loading`",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ]
         },
@@ -2476,161 +2310,143 @@
               "name": "src",
               "description": "图片源地址",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "alt",
               "description": "图片描述/替代文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "fit",
               "description": "图片适应模式\n设置图片如何适应容器，与 CSS object-fit 一致",
               "default": "'cover'",
-              "value": {
-                "kind": "expression",
-                "type": "ImageFit"
-              }
+              "type": [
+                "ImageFit"
+              ]
             },
             {
               "name": "shape",
               "description": "图片形状模式\n- `clip`: 机甲切角效果（默认）\n- `no-clip`: 标准直角\n- `round`: 圆角效果\n- `circle`: 圆形",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "ImageShape"
-              }
+              "type": [
+                "ImageShape"
+              ]
             },
             {
               "name": "lazy",
               "description": "是否懒加载\n开启后图片进入可视区域时才加载",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "previewSrc",
               "description": "预览大图地址\n为未来的图片预览功能预留",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "fallbackSrc",
               "description": "加载失败时的回退图片地址",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "width",
               "description": "图片宽度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "height",
               "description": "图片高度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "type",
               "description": "颜色类型（影响装饰块颜色）",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
-              }
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
             },
             {
               "name": "color",
               "description": "自定义装饰块颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "showDecor",
               "description": "是否显示装饰块（仅 clip 形状生效）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "hoverable",
               "description": "是否开启 hover 动画效果\n开启后鼠标悬停时有缩放和发光效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "hoverMode",
               "description": "Hover 动画模式\n- `scale` - 整体放大（默认）\n- `zoom` - 容器不变，仅图片放大（溢出裁切）",
               "default": "'scale'",
-              "value": {
-                "kind": "expression",
-                "type": "'scale' | 'zoom'"
-              }
+              "type": [
+                "'scale' | 'zoom'"
+              ]
             },
             {
               "name": "hoverDuration",
               "description": "Hover 动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "srcProcessor",
               "description": "URL 预处理器\n可传入预设处理器名称（append/replace/tos）或自定义函数\n函数签名: (src: string, params?: T) => string",
-              "value": {
-                "kind": "expression",
-                "type": "string | ((src: string, params?: unknown) ="
-              }
+              "type": [
+                "string | ((src: string, params?: unknown) ="
+              ]
             },
             {
               "name": "processorParams",
               "description": "处理器参数\n传递给 srcProcessor 的参数，类型由处理器决定\n若未指定 srcProcessor 但传入了此参数，默认使用 append 处理器",
-              "value": {
-                "kind": "expression",
-                "type": "string | Record<string, unknown> | unknown[]"
-              }
+              "type": [
+                "string | Record<string, unknown> | unknown[]"
+              ]
             },
             {
               "name": "draggable",
               "description": "是否允许拖拽图片\n默认禁止拖拽，设为 true 开启",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -2658,162 +2474,144 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)\n支持字符串或数字，type=\"number\" 时返回 number 类型",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "type",
               "description": "输入类型",
               "default": "'text'",
-              "value": {
-                "kind": "expression",
-                "type": "InputType"
-              }
+              "type": [
+                "InputType"
+              ]
             },
             {
               "name": "size",
               "description": "输入框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "InputSize"
-              }
+              "type": [
+                "InputSize"
+              ]
             },
             {
               "name": "shape",
               "description": "输入框形状\n- `clip` - 切角样式（赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "InputShape"
-              }
+              "type": [
+                "InputShape"
+              ]
             },
             {
               "name": "variant",
               "description": "输入框变体\n- `outline` - 边框样式\n- `filled` - 填充背景\n- `ghost` - 无边框无背景",
               "default": "'outline'",
-              "value": {
-                "kind": "expression",
-                "type": "InputVariant"
-              }
+              "type": [
+                "InputVariant"
+              ]
             },
             {
               "name": "placeholder",
               "description": "占位文本\n输入框为空时显示的提示文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用输入框\n禁用后不可编辑，样式变为灰色",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "readonly",
               "description": "是否只读\n只读状态下内容可选中复制但不可编辑",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "clearable",
               "description": "是否可清空\n开启后，有内容时输入框右侧显示清空按钮",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "color",
               "description": "自定义聚焦颜色\n传入有效 CSS 颜色值，覆盖默认的聚焦边框颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "maxlength",
               "description": "最大输入长度限制",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "autofocus",
               "description": "是否自动获取焦点\n组件挂载后自动调用 focus()",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showPassword",
               "description": "是否显示密码切换按钮\n仅在 type=\"password\" 时有效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showWordLimit",
               "description": "是否显示字数统计\n需配合 maxlength 使用，显示 \"当前/最大\" 格式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "inactiveBorderColor",
               "description": "未聚焦状态边框颜色\n传入有效 CSS 颜色值，覆盖默认的 inactive 边框颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "placeholderColor",
               "description": "Placeholder 文字颜色\n传入有效 CSS 颜色值，覆盖默认的 placeholder 颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "文字颜色\n传入有效 CSS 颜色值，覆盖默认的文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "clearDuration",
               "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
               "default": "150",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             }
           ],
           "slots": [
@@ -2866,108 +2664,96 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "min",
               "description": "最小值",
               "default": "-Infinity",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "max",
               "description": "最大值",
               "default": "Infinity",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "step",
               "description": "步长",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "precision",
               "description": "精度 (小数位数)",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "size",
               "description": "尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "InputNumberSize"
-              }
+              "type": [
+                "InputNumberSize"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "readonly",
               "description": "是否只读",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "placeholder",
               "description": "占位文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "controls",
               "description": "是否使用控制按钮",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "controlsPosition",
               "description": "控制按钮位置",
               "default": "'both'",
-              "value": {
-                "kind": "expression",
-                "type": "'right' | 'both'"
-              }
+              "type": [
+                "'right' | 'both'"
+              ]
             }
           ],
           "js": {
@@ -2999,37 +2785,33 @@
               "name": "type",
               "description": "加载器颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "LoadingType"
-              }
+              "type": [
+                "LoadingType"
+              ]
             },
             {
               "name": "size",
               "description": "加载器尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "LoadingSize"
-              }
+              "type": [
+                "LoadingSize"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 `type` 的预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "strokeWidth",
               "description": "SVG 描边宽度\n数值越大，圆环越粗",
               "default": "4",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             }
           ]
         },
@@ -3052,100 +2834,89 @@
               "name": "mode",
               "description": "菜单布局方向",
               "default": "'vertical'",
-              "value": {
-                "kind": "expression",
-                "type": "MenuMode"
-              }
+              "type": [
+                "MenuMode"
+              ]
             },
             {
               "name": "defaultActive",
               "description": "默认激活的菜单项 index",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "defaultOpeneds",
               "description": "默认展开的子菜单 index 数组",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "string[]"
-              }
+              "type": [
+                "string[]"
+              ]
             },
             {
               "name": "uniqueOpened",
               "description": "是否只保持一个子菜单展开（手风琴模式）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "collapse",
               "description": "是否折叠菜单（仅 vertical 模式有效）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "颜色预设类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "MenuType"
-              }
+              "type": [
+                "MenuType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义高亮颜色（覆盖 type 预设）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "backgroundColor",
               "description": "菜单背景色，默认使用 --cp-bg-base",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "菜单文字颜色，默认使用 --cp-text-secondary",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "activeTextColor",
               "description": "激活项文字颜色，默认跟随高亮色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "router",
               "description": "是否启用 vue-router 模式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -3176,35 +2947,31 @@
             {
               "name": "index",
               "description": "菜单项唯一标识",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "icon",
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
-              "value": {
-                "kind": "expression",
-                "type": "IconValue"
-              }
+              "type": [
+                "IconValue"
+              ]
             },
             {
               "name": "route",
               "description": "vue-router 路由对象或路径",
-              "value": {
-                "kind": "expression",
-                "type": "string | Record<string, unknown>"
-              }
+              "type": [
+                "string | Record<string, unknown>"
+              ]
             }
           ],
           "js": {
@@ -3227,10 +2994,9 @@
               "name": "title",
               "description": "分组标题",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ]
         },
@@ -3245,109 +3011,97 @@
             {
               "name": "data",
               "description": "菜单数据",
-              "value": {
-                "kind": "expression",
-                "type": "MenuNavItem[]"
-              }
+              "type": [
+                "MenuNavItem[]"
+              ]
             },
             {
               "name": "mode",
               "description": "菜单模式",
               "default": "'vertical'",
-              "value": {
-                "kind": "expression",
-                "type": "MenuMode"
-              }
+              "type": [
+                "MenuMode"
+              ]
             },
             {
               "name": "defaultActive",
               "description": "默认激活项 index",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "defaultOpeneds",
               "description": "默认展开的 sub-menu index 列表",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "string[]"
-              }
+              "type": [
+                "string[]"
+              ]
             },
             {
               "name": "uniqueOpened",
               "description": "是否只展开一个 sub-menu",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "collapse",
               "description": "是否折叠（仅 vertical 有效）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "MenuType"
-              }
+              "type": [
+                "MenuType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义高亮颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "backgroundColor",
               "description": "菜单背景色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "菜单文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "activeTextColor",
               "description": "激活文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "router",
               "description": "是否启用 vue-router 模式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -3376,172 +3130,153 @@
               "name": "modelValue",
               "description": "是否显示通知 (v-model)",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "title",
               "description": "通知标题",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "message",
               "description": "通知消息文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dangerouslyUseHTMLString",
               "description": "是否将 message 作为 HTML 渲染",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "主题颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "NotificationType"
-              }
+              "type": [
+                "NotificationType"
+              ]
             },
             {
               "name": "position",
               "description": "弹出位置",
               "default": "'top-right'",
-              "value": {
-                "kind": "expression",
-                "type": "NotificationPosition"
-              }
+              "type": [
+                "NotificationPosition"
+              ]
             },
             {
               "name": "duration",
               "description": "自动关闭延迟 (ms)，设为 0 则不自动关闭",
               "default": "4500",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "showClose",
               "description": "是否显示关闭按钮",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "offset",
               "description": "距离窗口边缘偏移量 (px)",
               "default": "16",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "variant",
               "description": "通知变体",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "NotificationVariant"
-              }
+              "type": [
+                "NotificationVariant"
+              ]
             },
             {
               "name": "shape",
               "description": "通知形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "NotificationShape"
-              }
+              "type": [
+                "NotificationShape"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主色调，优先于 type",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "bgColor",
               "description": "自定义背景颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "borderColor",
               "description": "自定义边框颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "titleColor",
               "description": "自定义标题文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "自定义消息文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "zIndex",
               "description": "z-index",
               "default": "9999",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "width",
               "description": "通知宽度",
               "default": "'330px'",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "animationDuration",
               "description": "动画时长 (ms)",
               "default": "300",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             }
           ],
           "slots": [
@@ -3587,136 +3322,121 @@
               "name": "currentPage",
               "description": "当前页码 (v-model:currentPage)",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "pageSize",
               "description": "每页显示条数 (v-model:pageSize)",
               "default": "10",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "total",
               "description": "总条数",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "pageSizes",
               "description": "可选的每页条数列表",
               "default": "() => [10, 20, 50, 100]",
-              "value": {
-                "kind": "expression",
-                "type": "number[]"
-              }
+              "type": [
+                "number[]"
+              ]
             },
             {
               "name": "pagerCount",
               "description": "最大可见页码按钮数（应为奇数 >= 5）",
               "default": "7",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "layout",
               "description": "布局配置，逗号分隔\n可选模块: total, sizes, prev, pager, next, jumper",
               "default": "'prev, pager, next'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "hideOnSinglePage",
               "description": "只有一页时隐藏",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "PaginationType"
-              }
+              "type": [
+                "PaginationType"
+              ]
             },
             {
               "name": "shape",
               "description": "形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "PaginationShape"
-              }
+              "type": [
+                "PaginationShape"
+              ]
             },
             {
               "name": "size",
               "description": "尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "PaginationSize"
-              }
+              "type": [
+                "PaginationSize"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色（CSS 颜色值）\n优先级高于 type，覆盖主题色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "buttonVariant",
               "description": "分页按钮变体\n控制 CpButton 的显示风格",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "ButtonVariant"
-              }
+              "type": [
+                "ButtonVariant"
+              ]
             },
             {
               "name": "totalTemplate",
               "description": "总条数文案模板\n使用 `{total}` 作为占位符",
               "default": "'共 {total} 条'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "sizeTemplate",
               "description": "每页条数选项文案模板\n使用 `{size}` 作为占位符",
               "default": "'{size} 条/页'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "js": {
@@ -3752,91 +3472,81 @@
               "name": "pattern",
               "description": "图案类型",
               "default": "'grid'",
-              "value": {
-                "kind": "expression",
-                "type": "PatternType"
-              }
+              "type": [
+                "PatternType"
+              ]
             },
             {
               "name": "size",
               "description": "图案尺寸（格子大小/点间距）\n数字默认 px，字符串可指定单位",
               "default": "20",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "color",
               "description": "图案颜色，支持 CSS 颜色值和渐变",
               "default": "'currentColor'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "backgroundColor",
               "description": "背景颜色",
               "default": "'transparent'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "direction",
               "description": "图案方向（仅对 stripes 有效）",
               "default": "'diagonal'",
-              "value": {
-                "kind": "expression",
-                "type": "PatternDirection"
-              }
+              "type": [
+                "PatternDirection"
+              ]
             },
             {
               "name": "opacity",
               "description": "图案透明度 0-1",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "lineWidth",
               "description": "线条粗细（仅对 grid/stripes/cross 有效）\n数字默认 px，字符串可指定单位",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "dotScale",
               "description": "点大小比例（仅对 dots 有效）\n相对于 size 的比例，如 0.1 表示点直径为 size 的 10%",
               "default": "0.1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "cover",
               "description": "是否覆盖整个父容器（绝对定位）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "decorative",
               "description": "是否作为装饰层（禁用鼠标事件）",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ]
         },
@@ -3852,203 +3562,180 @@
               "name": "percentage",
               "description": "当前进度值\n取值范围 0 到 max（默认 100）",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "max",
               "description": "进度最大值\n实际百分比 = percentage / max * 100\n在 Step 模式下，max 同时决定分段数量",
               "default": "100",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "type",
               "description": "进度条类型\n- `line` - 线性进度条\n- `circle` - 环形进度条\n- `dashboard` - 仪表盘式",
               "default": "'line'",
-              "value": {
-                "kind": "expression",
-                "type": "ProgressType"
-              }
+              "type": [
+                "ProgressType"
+              ]
             },
             {
               "name": "size",
               "description": "进度条尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "ProgressSize"
-              }
+              "type": [
+                "ProgressSize"
+              ]
             },
             {
               "name": "status",
               "description": "进度条状态\n设置后会覆盖默认的主题色",
-              "value": {
-                "kind": "expression",
-                "type": "ProgressStatus"
-              }
+              "type": [
+                "ProgressStatus"
+              ]
             },
             {
               "name": "color",
               "description": "自定义进度条颜色\n支持 CSS 颜色值，会覆盖 status 颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | string[] | ((percentage: number) ="
-              }
+              "type": [
+                "string | string[] | ((percentage: number) ="
+              ]
             },
             {
               "name": "strokeWidth",
               "description": "进度条轨道宽度 (像素)",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "showText",
               "description": "是否显示进度文字",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "textInside",
               "description": "进度文字是否在进度条内部显示\n仅在 type=\"line\" 时有效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "format",
               "description": "自定义进度文字格式化函数",
-              "value": {
-                "kind": "expression",
-                "type": "(percentage: number) ="
-              }
+              "type": [
+                "(percentage: number) ="
+              ]
             },
             {
               "name": "strokeLinecap",
               "description": "环形进度条的线端样式",
               "default": "'round'",
-              "value": {
-                "kind": "expression",
-                "type": "ProgressLinecap"
-              }
+              "type": [
+                "ProgressLinecap"
+              ]
             },
             {
               "name": "width",
               "description": "环形进度条的宽度 (像素)\n仅在 type=\"circle\" 或 type=\"dashboard\" 时有效",
               "default": "126",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "striped",
               "description": "是否显示条纹效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "stripedFlow",
               "description": "条纹是否流动\n需配合 striped 使用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "indeterminate",
               "description": "是否为不确定进度模式\n开启后显示加载动画，忽略 percentage 值",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "duration",
               "description": "不确定模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '3s' 或 '3000ms')",
               "default": "3000",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "loading",
               "description": "是否显示加载状态（光波扫过效果）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "shape",
               "description": "进度条形状",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "ProgressShape"
-              }
+              "type": [
+                "ProgressShape"
+              ]
             },
             {
               "name": "steps",
               "description": "是否启用分段模式\n启用后，进度条将显示为分段样式，分段数量由 max 决定",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "stepGap",
               "description": "分段间距（像素）",
               "default": "2",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "stepColors",
               "description": "各分段自定义颜色数组\n可为每个分段指定独立颜色，未指定的分段使用默认颜色",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "string[]"
-              }
+              "type": [
+                "string[]"
+              ]
             },
             {
               "name": "textColor",
               "description": "进度条内部文字颜色\n仅在 textInside 为 true 时生效\n如未设置则根据进度条背景色自动计算对比度选择黑白",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "showInnerStripe",
               "description": "是否显示内圈虚线装饰\n仅在 type=\"circle\" 或 type=\"dashboard\" 时有效\n默认在 circle 时显示，dashboard 时关闭",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "slots": [
@@ -4069,99 +3756,88 @@
             {
               "name": "modelValue",
               "description": "绑定值 (v-model)",
-              "value": {
-                "kind": "expression",
-                "type": "RadioValueType"
-              }
+              "type": [
+                "RadioValueType"
+              ]
             },
             {
               "name": "value",
               "description": "此单选框对应的值\n在 RadioGroup 中用于标识选中项",
-              "value": {
-                "kind": "expression",
-                "type": "RadioValueType"
-              }
+              "type": [
+                "RadioValueType"
+              ]
             },
             {
               "name": "label",
               "description": "显示标签（也作为默认 slot fallback）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "单选框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "RadioSize"
-              }
+              "type": [
+                "RadioSize"
+              ]
             },
             {
               "name": "type",
               "description": "单选框类型（颜色预设）",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "RadioType"
-              }
+              "type": [
+                "RadioType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义选中颜色\n优先级高于 type",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "glow",
               "description": "是否启用霓虹辉光效果",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "dotColor",
               "description": "自定义中间装饰块（菱形点）颜色\n用于在暗色背景下提高可见度\n不传时默认跟随当前 type 的文字颜色（参考 Button 文字颜色）",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "border",
               "description": "是否使用边框样式\n开启后整个标签区域带有边框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "name",
               "description": "原生 name 属性",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "js": {
@@ -4188,46 +3864,41 @@
             {
               "name": "modelValue",
               "description": "绑定值 (v-model)",
-              "value": {
-                "kind": "expression",
-                "type": "RadioValueType"
-              }
+              "type": [
+                "RadioValueType"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用所有子单选框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "子单选框尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "Size"
-              }
+              "type": [
+                "Size"
+              ]
             },
             {
               "name": "type",
               "description": "子单选框类型（颜色预设）",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "RadioType"
-              }
+              "type": [
+                "RadioType"
+              ]
             },
             {
               "name": "direction",
               "description": "布局方向",
               "default": "'horizontal'",
-              "value": {
-                "kind": "expression",
-                "type": "'horizontal' | 'vertical'"
-              }
+              "type": [
+                "'horizontal' | 'vertical'"
+              ]
             }
           ],
           "js": {
@@ -4255,46 +3926,41 @@
               "name": "gutter",
               "description": "栅格间隔 (px)",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "justify",
               "description": "水平排列方式",
               "default": "'start'",
-              "value": {
-                "kind": "expression",
-                "type": "RowJustify"
-              }
+              "type": [
+                "RowJustify"
+              ]
             },
             {
               "name": "align",
               "description": "垂直对齐方式",
               "default": "'top'",
-              "value": {
-                "kind": "expression",
-                "type": "RowAlign"
-              }
+              "type": [
+                "RowAlign"
+              ]
             },
             {
               "name": "tag",
               "description": "自定义元素标签",
               "default": "'div'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "wrap",
               "description": "是否自动换行",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ]
         },
@@ -4309,82 +3975,73 @@
             {
               "name": "modelValue",
               "description": "绑定值 (v-model)",
-              "value": {
-                "kind": "expression",
-                "type": "SegmentedValueType"
-              }
+              "type": [
+                "SegmentedValueType"
+              ]
             },
             {
               "name": "options",
               "description": "选项数组\n支持 string/number 简写或 SegmentedOption 对象",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "(string | number | SegmentedOption)[]"
-              }
+              "type": [
+                "(string | number | SegmentedOption)[]"
+              ]
             },
             {
               "name": "type",
               "description": "颜色预设类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "SegmentedType"
-              }
+              "type": [
+                "SegmentedType"
+              ]
             },
             {
               "name": "variant",
               "description": "变体样式",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "SegmentedVariant"
-              }
+              "type": [
+                "SegmentedVariant"
+              ]
             },
             {
               "name": "size",
               "description": "尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "SegmentedSize"
-              }
+              "type": [
+                "SegmentedSize"
+              ]
             },
             {
               "name": "shape",
               "description": "形状模式",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "SegmentedShape"
-              }
+              "type": [
+                "SegmentedShape"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主题色\n传入有效 CSS 颜色值会覆盖 type 的预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用所有选项",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "block",
               "description": "是否撑满父容器宽度（选项等宽）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -4412,133 +4069,118 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)\n普通模式为 number，范围模式为 [number, number]",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number | [number, number]"
-              }
+              "type": [
+                "number | [number, number]"
+              ]
             },
             {
               "name": "min",
               "description": "最小值",
               "default": "0",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "max",
               "description": "最大值",
               "default": "100",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "step",
               "description": "步长",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "size",
               "description": "滑块尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "SliderSize"
-              }
+              "type": [
+                "SliderSize"
+              ]
             },
             {
               "name": "shape",
               "description": "滑块形状\n- `clip` - 切角样式（赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "SliderShape"
-              }
+              "type": [
+                "SliderShape"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "range",
               "description": "是否为范围选择模式\n开启后 modelValue 类型变为 [number, number]",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showTooltip",
               "description": "是否显示数值提示",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "showStops",
               "description": "是否显示刻度点\n仅在 step 大于 1 时有效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "marks",
               "description": "标记刻度\nkey 为数值，value 为标签文本或配置对象",
-              "value": {
-                "kind": "expression",
-                "type": "SliderMarks"
-              }
+              "type": [
+                "SliderMarks"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖默认的主题色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "vertical",
               "description": "是否垂直模式",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "height",
               "description": "滑块高度（垂直模式必需）",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "formatTooltip",
               "description": "格式化 tooltip 显示内容",
-              "value": {
-                "kind": "expression",
-                "type": "(value: number) ="
-              }
+              "type": [
+                "(value: number) ="
+              ]
             }
           ],
           "js": {
@@ -4577,82 +4219,73 @@
               "name": "type",
               "description": "状态指示器颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "StatusIndicatorType"
-              }
+              "type": [
+                "StatusIndicatorType"
+              ]
             },
             {
               "name": "size",
               "description": "状态指示器尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "StatusIndicatorSize"
-              }
+              "type": [
+                "StatusIndicatorSize"
+              ]
             },
             {
               "name": "shape",
               "description": "状态指示器形状",
               "default": "'dot'",
-              "value": {
-                "kind": "expression",
-                "type": "StatusIndicatorShape"
-              }
+              "type": [
+                "StatusIndicatorShape"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 `type` 的预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "animation",
               "description": "动画效果",
               "default": "'none'",
-              "value": {
-                "kind": "expression",
-                "type": "StatusIndicatorAnimation"
-              }
+              "type": [
+                "StatusIndicatorAnimation"
+              ]
             },
             {
               "name": "duration",
               "description": "动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')",
               "default": "1500",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "intensity",
               "description": "动画激烈程度\n控制波纹大小、发光强度或闪烁幅度",
               "default": "1",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "gap",
               "description": "指示点与文字间的间隙\n支持数字 (单位px) 或带单位的字符串 (如 '12px', '1rem')",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "number | string"
-              }
+              "type": [
+                "number | string"
+              ]
             },
             {
               "name": "label",
               "description": "文字标签\n显示在指示器右侧的文字描述，也可通过默认插槽设置",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ]
         },
@@ -4667,27 +4300,24 @@
             {
               "name": "index",
               "description": "子菜单唯一标识",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "icon",
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
-              "value": {
-                "kind": "expression",
-                "type": "IconValue"
-              }
+              "type": [
+                "IconValue"
+              ]
             }
           ]
         },
@@ -4703,117 +4333,104 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "size",
               "description": "开关尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "SwitchSize"
-              }
+              "type": [
+                "SwitchSize"
+              ]
             },
             {
               "name": "type",
               "description": "开关类型（颜色预设）\n设置后会使用主题颜色，优先级低于 color 属性",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "SwitchType"
-              }
+              "type": [
+                "SwitchType"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用开关\n禁用后不可切换，样式变为灰色",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "loading",
               "description": "是否加载中\n加载中状态时显示 loading 动画，且不可切换",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "color",
               "description": "自定义选中状态颜色\n传入有效 CSS 颜色值，覆盖默认的选中态颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "inactiveColor",
               "description": "自定义未选中状态颜色\n传入有效 CSS 颜色值，覆盖默认的未选中态颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "width",
               "description": "强制指定宽度",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "fitText",
               "description": "是否适应文字宽度\n开启后，Switch 宽度将随内部文字内容自适应撑开（支持长文本）",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "activeText",
               "description": "选中时内嵌显示的文字",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "inactiveText",
               "description": "未选中时内嵌显示的文字",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "beforeChange",
               "description": "切换前钩子，返回 false 或 Promise reject 时阻止切换",
-              "value": {
-                "kind": "expression",
-                "type": "() ="
-              }
+              "type": [
+                "() ="
+              ]
             },
             {
               "name": "name",
               "description": "原生 name 属性\n用于表单提交",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "js": {
@@ -4841,115 +4458,102 @@
               "name": "data",
               "description": "表格数据",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "any[]"
-              }
+              "type": [
+                "any[]"
+              ]
             },
             {
               "name": "size",
               "description": "尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "TableSize"
-              }
+              "type": [
+                "TableSize"
+              ]
             },
             {
               "name": "type",
               "description": "颜色类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "TableType"
-              }
+              "type": [
+                "TableType"
+              ]
             },
             {
               "name": "stripe",
               "description": "是否显示条纹行",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "border",
               "description": "是否显示边框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "highlightCurrentRow",
               "description": "是否高亮当前行",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "height",
               "description": "固定高度 (启用固定表头)",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "maxHeight",
               "description": "最大高度",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "emptyText",
               "description": "空数据文案",
               "default": "'暂无数据'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "rowKey",
               "description": "行唯一标识字段名",
               "default": "'id'",
-              "value": {
-                "kind": "expression",
-                "type": "string | ((row: any) ="
-              }
+              "type": [
+                "string | ((row: any) ="
+              ]
             },
             {
               "name": "defaultSort",
               "description": "默认排序",
-              "value": {
-                "kind": "expression",
-                "type": "SortState"
-              }
+              "type": [
+                "SortState"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "showHeader",
               "description": "是否显示表头",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -4993,71 +4597,63 @@
               "name": "type",
               "description": "列特殊类型",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "ColumnType"
-              }
+              "type": [
+                "ColumnType"
+              ]
             },
             {
               "name": "prop",
               "description": "数据字段名",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "label",
               "description": "列标题",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "width",
               "description": "列宽 (px 或百分比)",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "minWidth",
               "description": "最小列宽",
-              "value": {
-                "kind": "expression",
-                "type": "string | number"
-              }
+              "type": [
+                "string | number"
+              ]
             },
             {
               "name": "sortable",
               "description": "是否可排序",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "align",
               "description": "内容对齐方式",
               "default": "'left'",
-              "value": {
-                "kind": "expression",
-                "type": "'left' | 'center' | 'right'"
-              }
+              "type": [
+                "'left' | 'center' | 'right'"
+              ]
             },
             {
               "name": "headerAlign",
               "description": "表头对齐方式 (默认跟随 align)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "'left' | 'center' | 'right' | ''"
-              }
+              "type": [
+                "'left' | 'center' | 'right' | ''"
+              ]
             }
           ]
         },
@@ -5073,91 +4669,81 @@
               "name": "type",
               "description": "标签类型（颜色预设）",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "TagType"
-              }
+              "type": [
+                "TagType"
+              ]
             },
             {
               "name": "size",
               "description": "标签尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "TagSize"
-              }
+              "type": [
+                "TagSize"
+              ]
             },
             {
               "name": "variant",
               "description": "标签变体样式",
               "default": "'solid'",
-              "value": {
-                "kind": "expression",
-                "type": "TagVariant"
-              }
+              "type": [
+                "TagVariant"
+              ]
             },
             {
               "name": "shape",
               "description": "标签形状模式\n- `clip`: 机甲切角效果（默认）\n- `no-clip`: 标准直角\n- `round`: 圆角效果",
               "default": "'clip'",
-              "value": {
-                "kind": "expression",
-                "type": "TagShape"
-              }
+              "type": [
+                "TagShape"
+              ]
             },
             {
               "name": "closable",
               "description": "是否可关闭\n开启后显示关闭按钮，点击触发 close 事件",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主题色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "dashed",
               "description": "虚线边框\n仅在 variant=\"outline\" 时生效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "selectable",
               "description": "是否可选中\n开启后点击标签可切换选中状态",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "selected",
               "description": "选中状态 (v-model:selected)\n仅在 selectable 为 true 时有效",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {
@@ -5189,208 +4775,185 @@
               "name": "type",
               "description": "文字类型（颜色预设）",
               "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "TextType"
-              }
+              "type": [
+                "TextType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "size",
               "description": "文字尺寸\n可以是预设值 (sm/md/lg) 或数字 (像素)",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "TextSize"
-              }
+              "type": [
+                "TextSize"
+              ]
             },
             {
               "name": "align",
               "description": "垂直对齐方式",
               "default": "'middle'",
-              "value": {
-                "kind": "expression",
-                "type": "TextAlign"
-              }
+              "type": [
+                "TextAlign"
+              ]
             },
             {
               "name": "underline",
               "description": "下划线效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "boxed",
               "description": "方框边框效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "dashed",
               "description": "虚线样式\n应用于下划线或方框边框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "bold",
               "description": "加粗效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "italic",
               "description": "斜体效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "strikethrough",
               "description": "删除线效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "glow",
               "description": "发光效果\n赛博朋克霓虹发光效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "glowIntensity",
               "description": "发光强度\n1-10 的数值，控制发光的扩散范围",
               "default": "3",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "glowPulse",
               "description": "发光心跳动画\n开启后发光效果会有呼吸脉冲动画",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "lightWave",
               "description": "光波扫射动画\n斜向高光扫过文字的动态效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "lightWaveDuration",
               "description": "光波动画时长\n数字默认毫秒 (ms)，字符串可指定单位 (如 '2s' 或 '2000ms')",
               "default": "2000",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "marker",
               "description": "马克笔背景效果\n荧光笔高亮效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "markerColor",
               "description": "马克笔自定义颜色\n不设置则使用文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "glowPulseDuration",
               "description": "发光心跳动画时长\n数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')",
               "default": "1500",
-              "value": {
-                "kind": "expression",
-                "type": "DurationValue"
-              }
+              "type": [
+                "DurationValue"
+              ]
             },
             {
               "name": "overlap",
               "description": "重叠文字效果\n通过 text-shadow 实现错位重影的赛博朋克视觉效果",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "overlapOffsetX",
               "description": "重叠文字 X 轴偏移量 (px)\n正值向右偏移，负值向左偏移",
               "default": "2",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "overlapOffsetY",
               "description": "重叠文字 Y 轴偏移量 (px)\n正值向下偏移，负值向上偏移",
               "default": "2",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "overlapColor",
               "description": "重叠文字颜色\n不设置则使用文字颜色的明暗调整版本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "unselectable",
               "description": "禁止选中/复制\n开启后文字无法被鼠标选中或通过键盘复制",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ]
         },
@@ -5405,108 +4968,96 @@
               "name": "modelValue",
               "description": "绑定值 (v-model)",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "placeholder",
               "description": "占位文本",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "size",
               "description": "尺寸",
               "default": "'md'",
-              "value": {
-                "kind": "expression",
-                "type": "TextareaSize"
-              }
+              "type": [
+                "TextareaSize"
+              ]
             },
             {
               "name": "variant",
               "description": "形态变体",
               "default": "'outline'",
-              "value": {
-                "kind": "expression",
-                "type": "TextareaVariant"
-              }
+              "type": [
+                "TextareaVariant"
+              ]
             },
             {
               "name": "disabled",
               "description": "是否禁用",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "readonly",
               "description": "是否只读",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "maxlength",
               "description": "最大输入长度",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "showWordLimit",
               "description": "显示字数统计",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "rows",
               "description": "行数",
               "default": "3",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "autosize",
               "description": "自适应高度",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean | { minRows?: number; maxRows?: number }"
-              }
+              "type": [
+                "boolean | { minRows?: number; maxRows?: number }"
+              ]
             },
             {
               "name": "color",
               "description": "自定义颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "textColor",
               "description": "文字颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             }
           ],
           "js": {
@@ -5541,199 +5092,176 @@
               "name": "data",
               "description": "树节点数据",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "TreeNodeData[]"
-              }
+              "type": [
+                "TreeNodeData[]"
+              ]
             },
             {
               "name": "showCheckbox",
               "description": "是否显示复选框",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "checkStrictly",
               "description": "严格模式：父子节点互不关联\n- `false`（默认）：勾选父节点自动勾选所有子节点，子节点全选时自动勾上父节点，部分选中显示半选\n- `true`：父子独立勾选，互不影响",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "defaultExpandAll",
               "description": "默认展开所有节点",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "defaultExpandedKeys",
               "description": "默认展开的节点 key",
               "default": "() => []",
-              "value": {
-                "kind": "expression",
-                "type": "(string | number)[]"
-              }
+              "type": [
+                "(string | number)[]"
+              ]
             },
             {
               "name": "expandedKeys",
               "description": "受控展开的节点 key (v-model:expandedKeys)",
-              "value": {
-                "kind": "expression",
-                "type": "(string | number)[]"
-              }
+              "type": [
+                "(string | number)[]"
+              ]
             },
             {
               "name": "checkedKeys",
               "description": "受控勾选的节点 key (v-model:checkedKeys)",
-              "value": {
-                "kind": "expression",
-                "type": "(string | number)[]"
-              }
+              "type": [
+                "(string | number)[]"
+              ]
             },
             {
               "name": "accordion",
               "description": "手风琴模式：同级只展开一个节点",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "indent",
               "description": "每级缩进像素",
               "default": "16",
-              "value": {
-                "kind": "expression",
-                "type": "number"
-              }
+              "type": [
+                "number"
+              ]
             },
             {
               "name": "nodeKey",
               "description": "节点唯一标识字段名",
               "default": "'value'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "props",
               "description": "字段映射 { label, children, disabled, isLeaf }",
-              "value": {
-                "kind": "expression",
-                "type": "TreeFieldProps"
-              }
+              "type": [
+                "TreeFieldProps"
+              ]
             },
             {
               "name": "highlightCurrent",
               "description": "是否高亮当前点击节点",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "type",
               "description": "颜色类型",
               "default": "'primary'",
-              "value": {
-                "kind": "expression",
-                "type": "TreeType"
-              }
+              "type": [
+                "TreeType"
+              ]
             },
             {
               "name": "color",
               "description": "自定义主题颜色\n传入有效 CSS 颜色值，覆盖 type 预设颜色",
               "default": "''",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
+              "type": [
+                "string"
+              ]
             },
             {
               "name": "connectorLine",
               "description": "是否显示连接线",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "lazy",
               "description": "是否懒加载",
               "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             },
             {
               "name": "load",
               "description": "懒加载回调",
-              "value": {
-                "kind": "expression",
-                "type": "(node: TreeNode, resolve: (data: TreeNodeData[]) ="
-              }
+              "type": [
+                "(node: TreeNode, resolve: (data: TreeNodeData[]) ="
+              ]
             },
             {
               "name": "filterMethod",
               "description": "过滤方法",
-              "value": {
-                "kind": "expression",
-                "type": "(value: string, data: TreeNodeData, node: TreeNode) ="
-              }
+              "type": [
+                "(value: string, data: TreeNodeData, node: TreeNode) ="
+              ]
             },
             {
               "name": "expandIcon",
               "description": "自定义展开图标（节点未展开时显示）\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
-              "value": {
-                "kind": "expression",
-                "type": "Component | ((node: TreeNode) ="
-              }
+              "type": [
+                "Component | ((node: TreeNode) ="
+              ]
             },
             {
               "name": "collapseIcon",
               "description": "自定义收起图标（节点已展开时显示）\n如果未提供，则复用 expandIcon（带旋转动画）\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
-              "value": {
-                "kind": "expression",
-                "type": "Component | ((node: TreeNode) ="
-              }
+              "type": [
+                "Component | ((node: TreeNode) ="
+              ]
             },
             {
               "name": "leafIcon",
               "description": "自定义叶子节点图标\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
-              "value": {
-                "kind": "expression",
-                "type": "Component | ((node: TreeNode) ="
-              }
+              "type": [
+                "Component | ((node: TreeNode) ="
+              ]
             },
             {
               "name": "nodeIcon",
               "description": "自定义节点前缀图标\n在展开箭头之后、复选框之前显示\n- `Component`: 统一图标\n- `(node: TreeNode) => Component | string | undefined`: 按节点返回不同图标\n当 showNodeIcon 为 true 时，如果未设置此 prop，则自动读取 `TreeNodeData.icon` 字段",
-              "value": {
-                "kind": "expression",
-                "type": "Component | ((node: TreeNode) ="
-              }
+              "type": [
+                "Component | ((node: TreeNode) ="
+              ]
             },
             {
               "name": "showNodeIcon",
               "description": "是否自动显示节点数据中的 icon 字段\n当为 true 且未设置 nodeIcon 时，自动读取 TreeNodeData.icon 并通过 CpIcon 渲染",
               "default": "true",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
+              "type": [
+                "boolean"
+              ]
             }
           ],
           "js": {

@@ -251,8 +251,6 @@ $menu-type-colors: (
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
   }
 }
 
@@ -401,9 +399,7 @@ $menu-type-colors: (
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: var(--cp-text-muted);
-    line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
