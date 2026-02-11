@@ -17,6 +17,16 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | ----------- | ---------------------------- | ------ | ------------------------------------ |
 | `direction` | `'horizontal' \| 'vertical'` | `''`   | 排列方向，不设置时根据子元素自动判断 |
 
+#### CSS 变量
+
+| 变量                       | 默认值                         | 说明                   |
+| -------------------------- | ------------------------------ | ---------------------- |
+| `--cp-layout-border-color` | `var(--cp-border, #282830)`    | 全局分割线边框颜色     |
+| `--cp-layout-glow-color`   | `var(--cp-color-primary, ...)` | 全局发光线颜色（保留） |
+
+> [!TIP]
+> 在 `CpContainer` 层设置这些变量，会影响所有子级 Header/Footer/Aside 的分割线样式。
+
 #### 行为说明
 
 - 默认水平排列（`flex-direction: row`）
@@ -54,13 +64,16 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 
 ### CpHeader 顶栏容器
 
-顶部容器，带赛博朋克底边发光线装饰。
+顶部容器，底部嵌入 CpDivider 作为分割线装饰。支持通过 divider props 控制分割线样式。
 
 #### Props
 
-| 属性     | 类型     | 默认值   | 说明     |
-| -------- | -------- | -------- | -------- |
-| `height` | `string` | `'60px'` | 顶栏高度 |
+| 属性             | 类型                                                                    | 默认值      | 说明               |
+| ---------------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
+| `height`         | `string`                                                                | `'60px'`    | 顶栏高度           |
+| `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设 |
+| `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色   |
+| `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体         |
 
 #### 插槽
 
@@ -68,17 +81,37 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | --------- | -------- |
 | `default` | 顶栏内容 |
 
+#### 示例
+
+```vue
+<!-- 默认分割线 -->
+<CpHeader>Logo / 导航</CpHeader>
+
+<!-- 主色发光分割线 -->
+<CpHeader divider-type="primary" divider-variant="glow">
+  <span>◆ CONTROL PANEL</span>
+</CpHeader>
+
+<!-- 自定义颜色渐变分割线 -->
+<CpHeader divider-color="#ff0055" divider-variant="gradient">
+  <span>⚠ ALERT MODE</span>
+</CpHeader>
+```
+
 ---
 
 ### CpFooter 底栏容器
 
-底部容器，带赛博朋克顶边发光线装饰。
+底部容器，顶部嵌入 CpDivider 作为分割线装饰。支持通过 divider props 控制分割线样式。
 
 #### Props
 
-| 属性     | 类型     | 默认值   | 说明     |
-| -------- | -------- | -------- | -------- |
-| `height` | `string` | `'60px'` | 底栏高度 |
+| 属性             | 类型                                                                    | 默认值      | 说明               |
+| ---------------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
+| `height`         | `string`                                                                | `'60px'`    | 底栏高度           |
+| `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设 |
+| `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色   |
+| `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体         |
 
 #### 插槽
 
@@ -106,19 +139,22 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 
 ### CpAside 侧边栏
 
-侧边栏容器，带赛博朋克边缘发光线装饰。支持左右位置切换。
+侧边栏容器，边缘嵌入垂直 CpDivider 作为分割线装饰。支持左右位置切换和分割线样式定制。
 
 #### Props
 
-| 属性       | 类型                | 默认值    | 说明                               |
-| ---------- | ------------------- | --------- | ---------------------------------- |
-| `width`    | `string`            | `'300px'` | 侧边栏宽度                         |
-| `position` | `'left' \| 'right'` | `'left'`  | 侧边栏位置，控制分割线和发光线方向 |
+| 属性             | 类型                                                                    | 默认值      | 说明                       |
+| ---------------- | ----------------------------------------------------------------------- | ----------- | -------------------------- |
+| `width`          | `string`                                                                | `'300px'`   | 侧边栏宽度                 |
+| `position`       | `'left' \| 'right'`                                                     | `'left'`    | 侧边栏位置，控制分割线方向 |
+| `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设         |
+| `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色           |
+| `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体                 |
 
 #### 行为说明
 
-- `position="left"`（默认）：分割线和发光装饰在右侧
-- `position="right"`：分割线和发光装饰在左侧
+- `position="left"`（默认）：CpDivider 渲染在右侧
+- `position="right"`：CpDivider 渲染在左侧
 - 右侧边栏需将 `CpAside` 放在 `CpMain` 之后
 
 #### 插槽
@@ -136,10 +172,12 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
   <CpMain>主内容</CpMain>
 </CpContainer>
 
-<!-- 右侧边栏 -->
+<!-- 右侧边栏 + 发光分割线 -->
 <CpContainer>
   <CpMain>主内容</CpMain>
-  <CpAside width="240px" position="right">信息面板</CpAside>
+  <CpAside width="240px" position="right" divider-variant="glow" divider-type="primary">
+    信息面板
+  </CpAside>
 </CpContainer>
 ```
 

@@ -6,21 +6,40 @@
     "main": "./dist/index.cjs",
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
+    "web-types": "./web-types.json",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
             "import": "./dist/index.mjs",
             "require": "./dist/index.cjs"
         },
+        "./global": {
+            "types": "./global.d.ts",
+            "default": "./global.mjs"
+        },
+        "./resolver": {
+            "types": "./resolver.d.ts",
+            "import": "./resolver.mjs",
+            "require": "./resolver.cjs",
+            "default": "./resolver.mjs"
+        },
+        "./web-types.json": "./web-types.json",
         "./dist/*": "./dist/*",
         "./styles/*": "./styles/*"
     },
     "files": [
         "dist",
-        "styles"
+        "styles",
+        "global.d.ts",
+        "global.mjs",
+        "resolver.mjs",
+        "resolver.cjs",
+        "resolver.d.ts",
+        "web-types.json"
     ],
     "scripts": {
-        "build": "vite build && npm run build:types && npm run build:styles",
+        "build": "npm run build:meta && vite build && npm run build:types && npm run build:styles",
+        "build:meta": "node scripts/generate-meta.mjs",
         "build:types": "node scripts/build-types.mjs",
         "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed"
     },

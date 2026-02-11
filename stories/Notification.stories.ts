@@ -147,16 +147,23 @@ export const 主题色变体: Story = {
     return {
       components: { CpNotification, CpButton },
       setup() {
-        const show = ref({ success: false, warning: false, error: false, info: false })
+        const show = ref({ primary: false, success: false, warning: false, error: false, info: false })
         return { show }
       },
       template: `
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <CpButton type="primary" @click="show.primary = true">Primary</CpButton>
           <CpButton type="success" @click="show.success = true">Success</CpButton>
           <CpButton type="warning" @click="show.warning = true">Warning</CpButton>
           <CpButton type="error" @click="show.error = true">Error</CpButton>
           <CpButton type="info" @click="show.info = true">Info</CpButton>
 
+          <CpNotification
+            v-model="show.primary"
+            title="主要通知"
+            message="这是一条主要类型的通知消息。"
+            type="primary"
+          />
           <CpNotification
             v-model="show.success"
             title="操作成功"
@@ -359,3 +366,73 @@ export const HTML内容: Story = {
     }
   },
 }
+
+/** 插槽用法 — 自定义 title / default / icon */
+export const 插槽用法: Story = {
+  render() {
+    return {
+      components: { CpNotification, CpButton },
+      setup() {
+        const show = ref({ title: false, content: false, icon: false, all: false })
+        return { show }
+      },
+      template: `
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <CpButton type="primary" @click="show.title = true">#title 插槽</CpButton>
+          <CpButton type="success" @click="show.content = true">#default 插槽</CpButton>
+          <CpButton type="warning" @click="show.icon = true">#icon 插槽</CpButton>
+          <CpButton type="error"   @click="show.all = true">组合使用</CpButton>
+
+          <!-- #title 插槽 -->
+          <CpNotification v-model="show.title" message="标题由插槽渲染" type="primary">
+            <template #title>
+              <span style="display:inline-flex;align-items:center;gap:6px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                自定义标题
+              </span>
+            </template>
+          </CpNotification>
+
+          <!-- #default 插槽 -->
+          <CpNotification v-model="show.content" title="内容插槽" type="success" position="top-left">
+            <template #default>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <span>✅ 文件 <code>main.ts</code> 编译完成</span>
+                <span>✅ 静态资源已同步至 CDN</span>
+                <span style="opacity:0.6;font-size:12px;">耗时 1.2s</span>
+              </div>
+            </template>
+          </CpNotification>
+
+          <!-- #icon 插槽 -->
+          <CpNotification v-model="show.icon" title="自定义图标" message="使用插槽替换默认图标" type="warning" position="bottom-right">
+            <template #icon>
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+              </svg>
+            </template>
+          </CpNotification>
+
+          <!-- 组合使用 -->
+          <CpNotification v-model="show.all" type="error" position="bottom-left" :duration="0">
+            <template #icon>
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+              </svg>
+            </template>
+            <template #title>
+              <span style="color:#ff4757;font-weight:700;">⚠ 严重告警</span>
+            </template>
+            <template #default>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <span>节点 <b>CN-SH-03</b> 已离线超过 5 分钟</span>
+                <span style="opacity:0.6;font-size:12px;">请立即检查网络连接</span>
+              </div>
+            </template>
+          </CpNotification>
+        </div>
+      `,
+    }
+  },
+}
+

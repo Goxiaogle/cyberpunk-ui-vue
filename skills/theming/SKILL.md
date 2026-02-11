@@ -33,10 +33,10 @@ Cyberpunk Vue 采用赛博朋克风格的霓虹配色系统。
 
 | CSS 变量              | 默认值    | 用途     |
 | --------------------- | --------- | -------- |
-| `--cp-bg-deep`        | `#0a0a0f` | 最深背景 |
-| `--cp-bg-base`        | `#12121a` | 基础背景 |
-| `--cp-bg-elevated`    | `#1a1a24` | 抬升背景 |
-| `--cp-border`         | `#2a2a3a` | 边框颜色 |
+| `--cp-bg-deep`        | `#0a0a0e` | 最深背景 |
+| `--cp-bg-base`        | `#101014` | 基础背景 |
+| `--cp-bg-elevated`    | `#18181c` | 抬升背景 |
+| `--cp-border`         | `#282830` | 边框颜色 |
 | `--cp-text-primary`   | `#ffffff` | 主要文字 |
 | `--cp-text-secondary` | `#a0a0b0` | 次要文字 |
 | `--cp-text-muted`     | `#606070` | 辅助文字 |
@@ -115,10 +115,10 @@ function toggleTheme() {
 
 | CSS 变量              | 暗色      | 亮色      |
 | --------------------- | --------- | --------- |
-| `--cp-bg-deep`        | `#0a0a0f` | `#f5f5f8` |
-| `--cp-bg-base`        | `#12121a` | `#ffffff` |
-| `--cp-bg-elevated`    | `#1a1a24` | `#fafafa` |
-| `--cp-border`         | `#2a2a3a` | `#e0e0e8` |
+| `--cp-bg-deep`        | `#0a0a0e` | `#f5f5f8` |
+| `--cp-bg-base`        | `#101014` | `#ffffff` |
+| `--cp-bg-elevated`    | `#18181c` | `#fafafa` |
+| `--cp-border`         | `#282830` | `#e0e0e8` |
 | `--cp-text-primary`   | `#ffffff` | `#1a1a24` |
 | `--cp-text-secondary` | `#a0a0b0` | `#606070` |
 | `--cp-text-muted`     | `#606070` | `#a0a0b0` |

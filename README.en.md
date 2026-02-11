@@ -57,6 +57,14 @@ app.use(CyberpunkVue);
 app.mount("#app");
 ```
 
+### Template IntelliSense (Recommended)
+
+Import global component types in `src/env.d.ts` (or any `*.d.ts`):
+
+```ts
+import "cyberpunk-ui-vue/global";
+```
+
 ### On-demand Import
 
 ```vue
@@ -71,6 +79,22 @@ import "cyberpunk-ui-vue/styles/index.css";
     <CpButton type="primary">Login</CpButton>
   </CpCard>
 </template>
+```
+
+### Auto On-demand Import (unplugin-vue-components)
+
+```ts
+// vite.config.ts
+import Components from "unplugin-vue-components/vite";
+import { CyberpunkVueResolver } from "cyberpunk-ui-vue/resolver";
+
+export default defineConfig({
+  plugins: [
+    Components({
+      resolvers: [CyberpunkVueResolver()],
+    }),
+  ],
+});
 ```
 
 ## 🧩 Components

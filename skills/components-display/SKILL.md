@@ -145,23 +145,116 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ## CpPopover 气泡弹层
 
+赛博朋克风格弹出提示层，支持 Tooltip / Popover 两种模式、多种变体和形状。
+
 ### Props
 
-| 属性        | 类型                                            | 默认值    | 说明     |
-| ----------- | ----------------------------------------------- | --------- | -------- |
-| `placement` | `'top' \| 'bottom' \| 'left' \| 'right' \| ...` | `'top'`   | 弹出位置 |
-| `trigger`   | `'hover' \| 'click' \| 'focus' \| 'manual'`     | `'hover'` | 触发方式 |
-| `content`   | `string`                                        | `''`      | 内容文本 |
-| `title`     | `string`                                        | `''`      | 标题     |
-| `disabled`  | `boolean`                                       | `false`   | 禁用     |
-| `offset`    | `number`                                        | `8`       | 偏移距离 |
-| `showArrow` | `boolean`                                       | `true`    | 显示箭头 |
+| 属性                  | 类型                                                                    | 默认值      | 说明                                       |
+| --------------------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------------ |
+| `v-model`             | `boolean`                                                               | -           | 是否显示（手动控制时使用）                 |
+| `placement`           | `PopoverPlacement`                                                      | `'top'`     | 弹出位置（见下方 Placement 列表）          |
+| `trigger`             | `'hover' \| 'click' \| 'focus' \| 'manual'`                             | `'hover'`   | 触发方式                                   |
+| `content`             | `string`                                                                | `''`        | 内容文本（优先级低于 `#content` 插槽）     |
+| `title`               | `string`                                                                | `''`        | 标题（Tooltip 模式下不显示）               |
+| `variant`             | `'solid' \| 'outline' \| 'neon' \| 'ghost'`                             | `'solid'`   | 变体                                       |
+| `type`                | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 主题颜色类型                               |
+| `shape`               | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                                       |
+| `color`               | `string`                                                                | `''`        | 自定义主色调（覆盖 type）                  |
+| `showArrow`           | `boolean`                                                               | `true`      | 显示箭头                                   |
+| `flipArrow`           | `boolean`                                                               | `false`     | 翻转箭头（true=内嵌缺角，false=外凸指向）  |
+| `tooltip`             | `boolean`                                                               | `false`     | Tooltip 简化模式（小尺寸、无标题、小切角） |
+| `offset`              | `number`                                                                | `8`         | 与触发器的间距 (px)                        |
+| `disabled`            | `boolean`                                                               | `false`     | 禁用弹出                                   |
+| `openDelay`           | `number`                                                                | `100`       | 打开延迟 (ms)，仅 hover 模式               |
+| `closeDelay`          | `number`                                                                | `100`       | 关闭延迟 (ms)，仅 hover 模式               |
+| `width`               | `number \| string`                                                      | `'auto'`    | 弹层宽度                                   |
+| `maxWidth`            | `number \| string`                                                      | `300`       | 弹层最大宽度                               |
+| `closeOnClickOutside` | `boolean`                                                               | `true`      | 点击外部关闭                               |
+| `closeOnEscape`       | `boolean`                                                               | `true`      | Escape 键关闭                              |
+| `teleportTo`          | `string \| HTMLElement`                                                 | `'body'`    | Teleport 目标                              |
+
+### Placement 可选值
+
+`top` · `top-start` · `top-end` · `bottom` · `bottom-start` · `bottom-end` · `left` · `left-start` · `left-end` · `right` · `right-start` · `right-end`
+
+### 事件
+
+| 事件名              | 参数               | 说明         |
+| ------------------- | ------------------ | ------------ |
+| `update:modelValue` | `(value: boolean)` | v-model 绑定 |
+| `open`              | -                  | 打开时触发   |
+| `close`             | -                  | 关闭时触发   |
+
+### 插槽
+
+| 名称      | 说明                                                   |
+| --------- | ------------------------------------------------------ |
+| `default` | 触发器内容                                             |
+| `content` | 弹层内容区域（替代 `content` prop）                    |
+| `popover` | 完全自定义弹层内部（使用时替换默认 title + body 结构） |
+
+### 暴露方法
+
+| 方法               | 说明     |
+| ------------------ | -------- |
+| `open()`           | 打开弹层 |
+| `close()`          | 关闭弹层 |
+| `toggle()`         | 切换弹层 |
+| `updatePosition()` | 更新位置 |
+
+### CSS 变量
+
+| 变量                       | 默认值                                                     | 说明                                |
+| -------------------------- | ---------------------------------------------------------- | ----------------------------------- |
+| `--cp-popover-glow-spread` | `0`（solid）/ `10px`（outline）/ `15px`（neon）            | 外发光扩散半径，设为 `0` 可关闭发光 |
+| `--cp-popover-glow-color`  | `transparent`（solid）/ `base-color-light`（outline/neon） | 外发光颜色                          |
+| `--cp-popover-color`       | -                                                          | 主色调覆盖                          |
+| `--cp-popover-color-light` | -                                                          | 浅色调覆盖                          |
 
 ### 示例
 
 ```vue
-<CpPopover content="提示文本">
+<!-- 基础 Tooltip -->
+<CpPopover content="提示文本" tooltip>
   <CpButton>悬停提示</CpButton>
+</CpPopover>
+
+<!-- Click Popover + 标题 -->
+<CpPopover title="系统通知" trigger="click">
+  <template #content>
+    <p>这是弹出层的详细内容</p>
+  </template>
+  <CpButton>点击打开</CpButton>
+</CpPopover>
+
+<!-- 变体 + 颜色 -->
+<CpPopover content="霓虹风格" variant="neon" type="success">
+  <CpButton>Neon</CpButton>
+</CpPopover>
+
+<!-- 圆角形状 -->
+<CpPopover content="圆角弹层" shape="round">
+  <CpButton>Round</CpButton>
+</CpPopover>
+
+<!-- 完全自定义内容 -->
+<CpPopover trigger="click" :width="300">
+  <template #popover>
+    <div style="padding: 16px">
+      <h3>自定义面板</h3>
+      <p>完全自由布局，不受 title/body 约束</p>
+    </div>
+  </template>
+  <CpButton>自定义</CpButton>
+</CpPopover>
+
+<!-- 调节发光强度 -->
+<CpPopover
+  content="强发光"
+  variant="outline"
+  style="--cp-popover-glow-spread: 20px"
+>
+  <CpButton>强发光</CpButton>
 </CpPopover>
 ```
 
@@ -505,6 +598,52 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
   message="消息内容"
   color="#ff6ec7"
 />
+
+<!-- #title 插槽：自定义标题 -->
+<CpNotification v-model="visible" message="内容" type="primary">
+  <template #title>
+    <span style="display:inline-flex;align-items:center;gap:6px;">
+      ⚡ 自定义标题
+    </span>
+  </template>
+</CpNotification>
+
+<!-- #default 插槽：自定义消息内容 -->
+<CpNotification v-model="visible" title="构建完成" type="success">
+  <template #default>
+    <div>
+      <p>✅ main.ts 编译完成</p>
+      <p style="opacity:0.6;font-size:12px;">耗时 1.2s</p>
+    </div>
+  </template>
+</CpNotification>
+
+<!-- #icon 插槽：自定义图标 -->
+<CpNotification
+  v-model="visible"
+  title="收藏成功"
+  message="已添加至收藏列表"
+  type="warning"
+>
+  <template #icon>
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+    </svg>
+  </template>
+</CpNotification>
+
+<!-- 组合：同时自定义 icon + title + default -->
+<CpNotification v-model="visible" type="error" :duration="0">
+  <template #icon>
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+    </svg>
+  </template>
+  <template #title><span style="font-weight:700;">⚠ 严重告警</span></template>
+  <template #default>
+    <span>节点 <b>CN-SH-03</b> 已离线超过 5 分钟</span>
+  </template>
+</CpNotification>
 ```
 
 ---

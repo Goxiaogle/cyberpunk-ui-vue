@@ -9,7 +9,7 @@ import { paginationProps, paginationEmits } from './pagination'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpButton from '../../button/src/button.vue'
 import CpDropdown from '../../dropdown/src/dropdown.vue'
-import type { DropdownOption } from '../../dropdown/src/dropdown'
+import type { DropdownOption, DropdownShape } from '../../dropdown/src/dropdown'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Pagination`,
@@ -105,6 +105,9 @@ const dropdownColor = computed(() => {
   if (props.type !== 'default') return typeColorMap[props.type] || ''
   return ''
 })
+
+// CpDropdown 不支持 circle，分页传入 circle 时回退为 round
+const dropdownShape = computed<DropdownShape>(() => (props.shape === 'circle' ? 'round' : props.shape))
 
 // Total 文案渲染
 const totalParts = computed(() => {
@@ -263,7 +266,7 @@ const handleJump = () => {
               :model-value="innerPageSize"
               :options="sizeOptions"
               :disabled="disabled"
-              :shape="shape"
+              :shape="dropdownShape"
               :size="size"
               variant="filled"
               :color="dropdownColor"

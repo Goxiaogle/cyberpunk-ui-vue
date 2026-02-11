@@ -121,6 +121,21 @@ const meta: Meta<typeof CpPopover> = {
       control: 'color',
       description: '自定义主色调',
     },
+    flipArrow: {
+      control: 'boolean',
+      description: '翻转箭头方向（true 为内嵌缺角，false 为外凸箭头）',
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
+    shape: {
+      control: 'select',
+      options: ['clip', 'no-clip', 'round'],
+      description: '弹层形状',
+      table: {
+        defaultValue: { summary: 'clip' },
+      },
+    },
   },
 }
 
@@ -440,9 +455,82 @@ export const 混合演示: Story = {
         <CpPopover title="Outline Success" content="系统自检完成，一切正常" variant="outline" type="success" trigger="click">
           <CpButton type="success" variant="outline">Outline Success</CpButton>
         </CpPopover>
-        
         <CpPopover title="Solid Error" content="核心熔毁警告，立即撤离！" variant="solid" type="error" trigger="click">
           <CpButton type="error" variant="semi">Solid Error</CpButton>
+        </CpPopover>
+      </div>
+    `,
+  }),
+}
+
+/** 翻转箭头 (Flip Arrow) */
+export const 翻转箭头: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 100px; display: flex; gap: 60px; justify-content: center; align-items: center;">
+        <div style="display: flex; flex-direction: column; gap: 24px; align-items: center;">
+          <CpButton size="sm" style="pointer-events: none;">内嵌缺角 (flipArrow=true)</CpButton>
+          
+          <CpPopover content="箭头内嵌成缺角" placement="top" :flip-arrow="true" tooltip>
+            <CpButton type="primary">Top ▲</CpButton>
+          </CpPopover>
+
+          <CpPopover content="箭头内嵌成缺角" placement="bottom" :flip-arrow="true" tooltip>
+            <CpButton type="primary">Bottom ▼</CpButton>
+          </CpPopover>
+          
+          <div style="display: flex; gap: 16px;">
+            <CpPopover content="箭头内嵌成缺角" placement="left" :flip-arrow="true" tooltip>
+              <CpButton type="primary">Left ◀</CpButton>
+            </CpPopover>
+            <CpPopover content="箭头内嵌成缺角" placement="right" :flip-arrow="true" tooltip>
+              <CpButton type="primary">Right ▶</CpButton>
+            </CpPopover>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 24px; align-items: center;">
+          <CpButton size="sm" style="pointer-events: none;">指向触发器 (flipArrow=false)</CpButton>
+          
+          <CpPopover content="箭头指向触发器" placement="top" :flip-arrow="false" tooltip>
+            <CpButton>Top ▲</CpButton>
+          </CpPopover>
+          
+          <CpPopover content="箭头指向触发器" placement="bottom" :flip-arrow="false" tooltip>
+            <CpButton>Bottom ▼</CpButton>
+          </CpPopover>
+
+          <div style="display: flex; gap: 16px;">
+            <CpPopover content="箭头指向触发器" placement="left" :flip-arrow="false" tooltip>
+              <CpButton>Left ◀</CpButton>
+            </CpPopover>
+            <CpPopover content="箭头指向触发器" placement="right" :flip-arrow="false" tooltip>
+              <CpButton>Right ▶</CpButton>
+            </CpPopover>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 弹层形状 */
+export const 弹层形状: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 80px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+        <CpPopover title="Clip (默认)" content="赛博朋克切角样式" shape="clip" trigger="click">
+          <CpButton type="primary">Shape: clip</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="No-Clip" content="直角矩形样式，无切角" shape="no-clip" trigger="click">
+          <CpButton type="primary" variant="outline">Shape: no-clip</CpButton>
+        </CpPopover>
+        
+        <CpPopover title="Round" content="圆角矩形样式" shape="round" trigger="click">
+          <CpButton type="primary" variant="outline">Shape: round</CpButton>
         </CpPopover>
       </div>
     `,

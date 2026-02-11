@@ -116,15 +116,15 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 布局
 
-| 组件          | 说明                       |
-| ------------- | -------------------------- |
-| `CpContainer` | 布局容器，自动检测子组件   |
-| `CpHeader`    | 顶栏容器                   |
-| `CpFooter`    | 底栏容器                   |
-| `CpMain`      | 主要区域                   |
-| `CpAside`     | 侧边栏，支持 position 属性 |
-| `CpRow`       | Flex 行容器                |
-| `CpCol`       | Flex 列容器                |
+| 组件          | 说明                                                 |
+| ------------- | ---------------------------------------------------- |
+| `CpContainer` | 布局容器，自动检测子组件，提供分割线颜色 CSS 变量    |
+| `CpHeader`    | 顶栏容器，内嵌 CpDivider 分割线（可定制颜色/变体）   |
+| `CpFooter`    | 底栏容器，内嵌 CpDivider 分割线（可定制颜色/变体）   |
+| `CpMain`      | 主要区域                                             |
+| `CpAside`     | 侧边栏，内嵌垂直 CpDivider（支持 position + 分割线） |
+| `CpRow`       | Flex 行容器                                          |
+| `CpCol`       | Flex 列容器                                          |
 
 ---
 

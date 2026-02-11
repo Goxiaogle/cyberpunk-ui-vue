@@ -57,6 +57,14 @@ app.use(CyberpunkVue);
 app.mount("#app");
 ```
 
+### 模板智能提示（推荐）
+
+在项目的 `src/env.d.ts`（或任意 `*.d.ts`）中引入全局组件类型：
+
+```ts
+import "cyberpunk-ui-vue/global";
+```
+
 ### 按需导入
 
 ```vue
@@ -71,6 +79,22 @@ import "cyberpunk-ui-vue/styles/index.css";
     <CpButton type="primary">登录</CpButton>
   </CpCard>
 </template>
+```
+
+### 自动按需导入（unplugin-vue-components）
+
+```ts
+// vite.config.ts
+import Components from "unplugin-vue-components/vite";
+import { CyberpunkVueResolver } from "cyberpunk-ui-vue/resolver";
+
+export default defineConfig({
+  plugins: [
+    Components({
+      resolvers: [CyberpunkVueResolver()],
+    }),
+  ],
+});
 ```
 
 ## 🧩 组件列表

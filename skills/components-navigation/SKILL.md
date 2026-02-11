@@ -9,6 +9,9 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 
 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、手风琴。
 
+> [!NOTE]
+> CpMenu 默认背景色为 `transparent`，自动继承父容器背景。嵌入 CpAside / CpHeader 时无需手动设置背景色。
+
 ### Props
 
 | 属性              | 类型                                                                    | 默认值       | 说明                           |
@@ -38,6 +41,18 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 | 名称      | 说明                                      |
 | --------- | ----------------------------------------- |
 | `default` | 菜单内容（CpMenuItem / CpSubMenu 等组合） |
+
+### CSS 变量
+
+| 变量                     | 默认值                     | 说明                   |
+| ------------------------ | -------------------------- | ---------------------- |
+| `--cp-menu-bg`           | `transparent`              | 菜单主体背景色         |
+| `--cp-menu-popup-bg`     | `var(--cp-bg-elevated)`    | 水平模式弹出面板背景色 |
+| `--cp-menu-item-height`  | `46px`                     | 菜单项高度             |
+| `--cp-menu-text`         | `var(--cp-text-secondary)` | 菜单文字颜色           |
+| `--cp-menu-active-color` | `var(--cp-color-primary)`  | 激活色                 |
+| `--cp-menu-hover-bg`     | `var(--cp-state-hover)`    | 悬停背景色             |
+| `--cp-menu-border`       | `var(--cp-border)`         | 边框颜色               |
 
 ### 示例
 

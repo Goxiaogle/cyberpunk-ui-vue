@@ -18,7 +18,7 @@ export const DIALOG_CONTEXT_KEY: InjectionKey<{
 
 /** Table 上下文注入 Key — CpTableColumn 注册到父 CpTable */
 export const TABLE_CONTEXT_KEY: InjectionKey<{
-  registerColumn: (config: any) => void
+  registerColumn: (config: any) => string
   unregisterColumn: (id: string) => void
 }> = Symbol('cp-table-context')
 

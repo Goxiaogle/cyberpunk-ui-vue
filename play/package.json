@@ -12,6 +12,8 @@
         "@cyberpunk-vue/components": "workspace:*",
         "@cyberpunk-vue/hooks": "workspace:*",
         "@cyberpunk-vue/theme-chalk": "workspace:*",
+        "@vicons/carbon": "^0.13.0",
+        "@vicons/ionicons5": "^0.13.0",
         "vue": "^3.5.0"
     },
     "devDependencies": {

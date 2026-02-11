@@ -26,6 +26,14 @@ export type PopoverPlacement =
   | 'right' | 'right-start' | 'right-end'
 
 /**
+ * 弹层形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type PopoverShape = 'clip' | 'no-clip' | 'round'
+
+/**
  * 触发方式
  * - `hover` - 鼠标悬停
  * - `click` - 点击触发
@@ -109,8 +117,18 @@ export const popoverProps = {
     default: true,
   },
   /**
+   * 是否翻转箭头方向
+   * - false: 箭头指向触发器 (外凸)
+   * - true: 箭头内嵌进弹层本体 (缺角感)
+   * @default false
+   */
+  flipArrow: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * 弹层与触发器的偏移距离 (px)
-   * @default 8
+   * @default 12
    */
   offset: {
     type: Number,
@@ -203,6 +221,17 @@ export const popoverProps = {
   type: {
     type: String as PropType<PopoverType>,
     default: 'default',
+  },
+  /**
+   * 弹层形状
+   * - clip: 切角 (默认，赛博朋克风)
+   * - no-clip: 直角矩形
+   * - round: 圆角矩形
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<PopoverShape>,
+    default: 'clip',
   },
   /**
    * 自定义主色调，优先于 type

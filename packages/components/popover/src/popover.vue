@@ -3,8 +3,7 @@
  * CpPopover - 赛博朋克风格弹出提示层
  * 支持多种弹出位置、触发方式，可作为 Tooltip 或 Popover 使用
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties } from 'vue'
-import type { PopoverVariant } from './popover'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { popoverProps, popoverEmits } from './popover'
@@ -17,6 +16,7 @@ const props = defineProps(popoverProps)
 const emit = defineEmits(popoverEmits)
 
 const ns = useNamespace('popover')
+const slots = useSlots()
 
 // 内部显示状态
 const internalVisible = ref(false)
@@ -110,7 +110,11 @@ const updatePosition = () => {
     }
 
     const triggerRect = triggerRef.value.getBoundingClientRect()
-    const offset = props.offset
+    // 动态调整 offset: 如果显示箭头且不开翻转，增加 4px 间距 (8+4=12)，否则保持默认 8px
+    const dynamicOffset = (props.showArrow && !props.flipArrow && props.offset === 8) 
+      ? 12 
+      : props.offset
+
     // 使用 offsetWidth/Height 测量布局尺寸，不受 transform (scale) 影响
     const popoverWidth = popoverRef.value.offsetWidth
     const popoverHeight = popoverRef.value.offsetHeight
@@ -125,16 +129,16 @@ const updatePosition = () => {
 
     switch (mainAxis) {
       case 'top':
-        top = triggerRect.top - popoverHeight - offset + window.scrollY
+        top = triggerRect.top - popoverHeight - dynamicOffset + window.scrollY
         break
       case 'bottom':
-        top = triggerRect.bottom + offset + window.scrollY
+        top = triggerRect.bottom + dynamicOffset + window.scrollY
         break
       case 'left':
-        left = triggerRect.left - popoverWidth - offset + window.scrollX
+        left = triggerRect.left - popoverWidth - dynamicOffset + window.scrollX
         break
       case 'right':
-        left = triggerRect.right + offset + window.scrollX
+        left = triggerRect.right + dynamicOffset + window.scrollX
         break
     }
 
@@ -142,15 +146,15 @@ const updatePosition = () => {
     if (mainAxis === 'top' || mainAxis === 'bottom') {
       switch (align) {
         case 'start':
-          left = triggerRect.left + window.scrollX
+          left = triggerRect.right - popoverWidth + window.scrollX
           break
         case 'end':
-          left = triggerRect.right - popoverWidth + window.scrollX
+          left = triggerRect.left + window.scrollX
           break
         default: // center
           left = triggerRect.left + (triggerRect.width - popoverWidth) / 2 + window.scrollX
       }
-    } else {
+    } else if (mainAxis === 'left' || mainAxis === 'right') {
       switch (align) {
         case 'start':
           top = triggerRect.top + window.scrollY
@@ -203,9 +207,12 @@ const popoverClasses = computed(() => [
   ns.e('content'),
   `${ns.e('content')}--${props.placement.split('-')[0]}`,
   `${ns.e('content')}--${props.variant}`,
+  `${ns.e('content')}--shape-${props.shape}`,
   props.type !== 'default' ? `${ns.e('content')}--${props.type}` : '',
   ns.is('tooltip', props.tooltip),
   ns.is('has-title', !!props.title && !props.tooltip),
+  ns.is('has-arrow', props.showArrow),
+  ns.is('flipped', props.flipArrow),
 ])
 
 // 箭头位置类名
@@ -345,18 +352,27 @@ onBeforeUnmount(() => {
           @mouseenter="handlePopoverMouseEnter"
           @mouseleave="handlePopoverMouseLeave"
         >
+          <!-- 背景层 (新增) -->
+          <div :class="ns.e('background')" />
+
           <!-- 箭头 -->
           <div v-if="showArrow" :class="arrowClasses" />
           
-          <!-- 标题 (非 Tooltip 模式) -->
-          <div v-if="title && !tooltip" :class="ns.e('title')">
-            {{ title }}
-          </div>
-          
-          <!-- 内容 -->
-          <div :class="ns.e('body')">
-            <slot name="content">{{ content }}</slot>
-          </div>
+          <!-- 自定义弹层内容 (完全替换默认结构) -->
+          <template v-if="slots.popover">
+            <slot name="popover" />
+          </template>
+          <template v-else>
+            <!-- 标题 (非 Tooltip 模式) -->
+            <div v-if="title && !tooltip" :class="ns.e('title')">
+              {{ title }}
+            </div>
+            
+            <!-- 内容 -->
+            <div :class="ns.e('body')">
+              <slot name="content">{{ content }}</slot>
+            </div>
+          </template>
         </div>
       </Transition>
     </Teleport>
