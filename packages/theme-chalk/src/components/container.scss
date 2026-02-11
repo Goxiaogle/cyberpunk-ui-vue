@@ -3,6 +3,10 @@
 // ===== CpContainer 页面布局容器 =====
 
 @include b(container) {
+    // 可控的分割线颜色和发光线颜色
+    --cp-layout-border-color: var(--cp-border, #282830);
+    --cp-layout-glow-color: var(--cp-color-primary, #00f0ff);
+
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -27,27 +31,17 @@
     padding: 0 var(--cp-spacing-lg, 16px);
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--cp-border, #2a2a3a);
-    background: var(--cp-bg-elevated, #1a1a24);
+    background: var(--cp-bg-elevated, #18181c);
     color: var(--cp-text-primary, #ffffff);
     position: relative;
 
-    // 赛博朋克底边发光线
-    &::after {
-        content: '';
+    // 底部嵌入的 CpDivider 定位
+    @include e(divider) {
+        --cp-divider-margin: 0;
         position: absolute;
         left: 0;
         right: 0;
-        bottom: -1px;
-        height: 1px;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            var(--cp-color-primary, #00f0ff) 20%,
-            var(--cp-color-primary, #00f0ff) 80%,
-            transparent 100%
-        );
-        opacity: 0.4;
+        bottom: 0px; // 强制贴合底部
     }
 }
 
@@ -62,27 +56,17 @@
     padding: 0 var(--cp-spacing-lg, 16px);
     display: flex;
     align-items: center;
-    border-top: 1px solid var(--cp-border, #2a2a3a);
-    background: var(--cp-bg-elevated, #1a1a24);
+    background: var(--cp-bg-elevated, #18181c);
     color: var(--cp-text-secondary, #a0a0b0);
     position: relative;
 
-    // 赛博朋克顶边发光线
-    &::after {
-        content: '';
+    // 顶部嵌入的 CpDivider 定位
+    @include e(divider) {
+        --cp-divider-margin: 0;
         position: absolute;
         left: 0;
         right: 0;
-        top: -1px;
-        height: 1px;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            var(--cp-color-primary, #00f0ff) 20%,
-            var(--cp-color-primary, #00f0ff) 80%,
-            transparent 100%
-        );
-        opacity: 0.3;
+        top: 0px; // 强制贴合顶部
     }
 }
 
@@ -102,68 +86,25 @@
 
 @include b(aside) {
     --cp-aside-width: 300px;
-    --cp-aside-border: 1px solid var(--cp-border, #2a2a3a);
 
     box-sizing: border-box;
     flex-shrink: 0;
     width: var(--cp-aside-width);
-    padding: var(--cp-spacing-md, 12px);
-    background: var(--cp-bg-base, #12121a);
+    display: flex;
+    background: var(--cp-bg-base, #101014);
     position: relative;
 
-    // 默认样式: 左侧位 (右边框)
-    border-right: var(--cp-aside-border);
-    border-left: none;
-
-    // 赛博朋克边缘发光线
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: linear-gradient(
-            180deg,
-            transparent 0%,
-            var(--cp-color-primary, #00f0ff) 30%,
-            var(--cp-color-primary, #00f0ff) 70%,
-            transparent 100%
-        );
-        opacity: 0.3;
-        right: -1px;
-        left: auto;
+    // 内容区撑满
+    @include e(content) {
+        flex: 1;
+        min-width: 0;
+        padding: var(--cp-spacing-md, 12px);
+        overflow: auto;
     }
 
-    // 右侧位切换: border and ::after moved to left
-    &.is-right, &[data-position="right"] {
-        border-right: none;
-        border-left: var(--cp-aside-border);
-
-        &::after {
-            left: -1px;
-            right: auto;
-        }
-    }
-
-    // 显式支持 is-left (保持默认)
-    &.is-left {
-        border-right: var(--cp-aside-border);
-        border-left: none;
-
-        &::after {
-            right: -1px;
-            left: auto;
-        }
-    }
-
-    // 自动识别右侧边栏: 当 Aside 紧跟在 Main 后时，分割线应在左侧
-    .cp-main + & {
-        border-right: none;
-        border-left: var(--cp-aside-border);
-
-        &::after {
-            left: -1px;
-            right: auto;
-        }
+    // 嵌入的垂直 CpDivider
+    @include e(divider) {
+        --cp-divider-margin: 0;
+        flex-shrink: 0;
     }
 }

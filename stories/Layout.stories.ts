@@ -1,9 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { ref } from 'vue'
 import {
   CpRow, CpCol,
   CpContainer, CpHeader, CpFooter, CpMain, CpAside,
   CpText, CpButton, CpDivider, CpTag,
+  CpMenu, CpMenuItem, CpSubMenu,
 } from '@cyberpunk-vue/components'
+
+import MdiHome from '~icons/mdi/home'
+import MdiViewDashboard from '~icons/mdi/view-dashboard'
+import MdiAccountGroup from '~icons/mdi/account-group'
+import MdiCog from '~icons/mdi/cog'
+import MdiTune from '~icons/mdi/tune'
+import MdiShieldLock from '~icons/mdi/shield-lock'
+import MdiAccessPointNetwork from '~icons/mdi/access-point-network'
+import MdiChartLine from '~icons/mdi/chart-line'
+import MdiPulse from '~icons/mdi/pulse'
+import MdiTextBoxSearch from '~icons/mdi/text-box-search'
+import MdiConsole from '~icons/mdi/console'
+import MdiFormatListBulleted from '~icons/mdi/format-list-bulleted'
+import MdiDatabase from '~icons/mdi/database'
+import MdiWrench from '~icons/mdi/wrench'
+import MdiBell from '~icons/mdi/bell'
+import MdiFileDocument from '~icons/mdi/file-document'
 
 /**
  * # Layout 布局
@@ -200,21 +219,37 @@ export const 对齐方式: Story = {
 
 // ===== Container 页面布局 Stories =====
 
-/** 基础容器布局 — Header + Main + Footer */
+/** 基础容器布局 — Header 水平菜单 + Main + Footer */
 export const 基础容器布局: Story = {
   render: () => ({
-    components: { CpContainer, CpHeader, CpMain, CpFooter, CpText, CpTag },
+    components: { CpContainer, CpHeader, CpMain, CpFooter, CpText, CpTag, CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const active = ref('home')
+      return {
+        active,
+        MdiHome, MdiFormatListBulleted, MdiDatabase, MdiWrench,
+      }
+    },
     template: `
       <div style="width: 100%; height: 400px; border: 1px solid var(--cp-border);">
         <CpContainer>
-          <CpHeader>
-            <CpText type="primary" bold :size="16">CYBERPUNK SYSTEM</CpText>
-            <div style="flex: 1;" />
+          <CpHeader style="padding: 0 16px; gap: 16px;">
+            <CpText type="primary" bold :size="16" style="white-space: nowrap;">◆ CYBERPUNK</CpText>
+            <CpMenu mode="horizontal" :default-active="active" type="primary" @select="(idx) => active = idx" style="flex: 1; border: none;">
+              <CpMenuItem index="home" :icon="MdiHome">首页</CpMenuItem>
+              <CpMenuItem index="tasks" :icon="MdiFormatListBulleted">任务中心</CpMenuItem>
+              <CpSubMenu index="data" :icon="MdiDatabase">
+                <template #title>数据终端</template>
+                <CpMenuItem index="data-stream">实时流</CpMenuItem>
+                <CpMenuItem index="data-archive">归档库</CpMenuItem>
+              </CpSubMenu>
+              <CpMenuItem index="tools" :icon="MdiWrench">工具箱</CpMenuItem>
+            </CpMenu>
             <CpTag type="success" size="sm">ONLINE</CpTag>
           </CpHeader>
           <CpMain>
-            <CpText>主内容区域 — 这里放置页面的核心内容。</CpText>
-            <CpText type="secondary" style="margin-top: 8px;">Container 会自动检测到 Header/Footer 子组件并切换为垂直布局。</CpText>
+            <CpText bold :size="16" style="margin-bottom: 8px; display: block;">{{ active.toUpperCase() }}</CpText>
+            <CpText type="secondary">Header 中嵌入水平 CpMenu，实现顶部导航栏 + 内容区的经典布局。</CpText>
           </CpMain>
           <CpFooter>
             <CpText type="muted" :size="12">© 2026 CYBERPUNK SYSTEM v2.0.0</CpText>
@@ -225,12 +260,21 @@ export const 基础容器布局: Story = {
   }),
 }
 
-/** 侧边栏布局 — Header + Aside + Main + Footer */
+/** 侧边栏布局 — Header + Aside(CpMenu) + Main + Footer */
 export const 侧边栏布局: Story = {
   render: () => ({
-    components: { CpContainer, CpHeader, CpMain, CpFooter, CpAside, CpText, CpTag, CpDivider },
+    components: { CpContainer, CpHeader, CpMain, CpFooter, CpAside, CpText, CpTag, CpDivider, CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const active = ref('dashboard')
+      return {
+        active,
+        MdiViewDashboard, MdiAccountGroup, MdiCog, MdiTune,
+        MdiShieldLock, MdiAccessPointNetwork, MdiChartLine,
+        MdiPulse, MdiTextBoxSearch, MdiConsole,
+      }
+    },
     template: `
-      <div style="width: 100%; height: 480px; border: 1px solid var(--cp-border);">
+      <div style="width: 100%; height: 520px; border: 1px solid var(--cp-border);">
         <CpContainer>
           <CpHeader>
             <CpText type="primary" bold :size="16">◆ CONTROL PANEL</CpText>
@@ -239,20 +283,28 @@ export const 侧边栏布局: Story = {
           </CpHeader>
           <CpContainer>
             <CpAside width="220px">
-              <CpText type="primary" bold :size="14" style="margin-bottom: 12px;">▸ NAVIGATION</CpText>
-              <CpDivider type="primary" />
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
-                <CpText style="cursor: pointer; padding: 6px 8px; border-left: 2px solid var(--cp-color-primary);">Dashboard</CpText>
-                <CpText style="cursor: pointer; padding: 6px 8px; opacity: 0.7;">Analytics</CpText>
-                <CpText style="cursor: pointer; padding: 6px 8px; opacity: 0.7;">Settings</CpText>
-                <CpText style="cursor: pointer; padding: 6px 8px; opacity: 0.7;">Network</CpText>
-              </div>
+              <CpMenu :default-active="active" type="primary" :default-openeds="['system']" @select="(idx) => active = idx">
+                <CpMenuItem index="dashboard" :icon="MdiViewDashboard">DASHBOARD</CpMenuItem>
+                <CpMenuItem index="users" :icon="MdiAccountGroup">用户管理</CpMenuItem>
+                <CpSubMenu index="system" :icon="MdiCog">
+                  <template #title>系统配置</template>
+                  <CpMenuItem index="system-general" :icon="MdiTune">基础设置</CpMenuItem>
+                  <CpMenuItem index="system-security" :icon="MdiShieldLock">安全策略</CpMenuItem>
+                  <CpMenuItem index="system-network" :icon="MdiAccessPointNetwork">网络配置</CpMenuItem>
+                </CpSubMenu>
+                <CpSubMenu index="monitor" :icon="MdiChartLine">
+                  <template #title>监控面板</template>
+                  <CpMenuItem index="monitor-realtime" :icon="MdiPulse">实时监控</CpMenuItem>
+                  <CpMenuItem index="monitor-log" :icon="MdiTextBoxSearch">日志分析</CpMenuItem>
+                </CpSubMenu>
+                <CpMenuItem index="terminal" :icon="MdiConsole">TERMINAL</CpMenuItem>
+              </CpMenu>
             </CpAside>
             <CpMain>
-              <CpText bold :size="16" style="margin-bottom: 12px;">DASHBOARD</CpText>
-              <CpText type="secondary">系统运行正常，所有模块已加载。</CpText>
+              <CpText bold :size="16" style="margin-bottom: 12px; display: block;">{{ active.toUpperCase() }}</CpText>
+              <CpText type="secondary">Aside 内嵌入垂直 CpMenu，实现侧边导航 + 内容区的后台管理布局。</CpText>
               <CpDivider dashed style="margin: 16px 0;" />
-              <CpText type="secondary">在这个布局中，Container 内嵌套了 Aside 和 Main。外层 Container 检测到 Header 后垂直排列，内层 Container 水平排列 Aside 和 Main。</CpText>
+              <CpText type="muted" :size="12">当前激活: {{ active }}</CpText>
             </CpMain>
           </CpContainer>
           <CpFooter height="48px">
@@ -264,25 +316,41 @@ export const 侧边栏布局: Story = {
   }),
 }
 
-/** 右侧边栏 — 侧边栏在右侧 */
+/** 右侧边栏 — Main + 右侧 CpMenu 列表 */
 export const 右侧边栏: Story = {
   render: () => ({
-    components: { CpContainer, CpHeader, CpMain, CpAside, CpText, CpDivider },
+    components: { CpContainer, CpHeader, CpMain, CpAside, CpText, CpDivider, CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const active = ref('alerts')
+      return {
+        active,
+        MdiBell, MdiFileDocument, MdiChartLine, MdiPulse,
+      }
+    },
     template: `
-      <div style="width: 100%; height: 380px; border: 1px solid var(--cp-border);">
+      <div style="width: 100%; height: 420px; border: 1px solid var(--cp-border);">
         <CpContainer>
           <CpHeader>
             <CpText type="primary" bold :size="16">◆ DATA MONITOR</CpText>
           </CpHeader>
           <CpContainer>
             <CpMain>
-              <CpText bold :size="16">MAIN CONTENT</CpText>
-              <CpText type="secondary" style="margin-top: 8px;">主内容区域在左侧，侧边栏在右侧。</CpText>
+              <CpText bold :size="16" style="display: block;">MAIN CONTENT</CpText>
+              <CpText type="secondary" style="margin-top: 8px;">主内容区域在左侧，右侧 Aside 嵌入 CpMenu 作为辅助导航或快速操作面板。</CpText>
+              <CpDivider dashed style="margin: 16px 0;" />
+              <CpText type="muted" :size="12">当前面板: {{ active }}</CpText>
             </CpMain>
-            <CpAside width="240px" style="border-right: none; border-left: 1px solid var(--cp-border);">
-              <CpText type="primary" bold :size="14">▸ INFO PANEL</CpText>
-              <CpDivider type="info" />
-              <CpText type="secondary" :size="13" style="margin-top: 8px;">在这里放置辅助信息、属性面板或附加操作。</CpText>
+            <CpAside width="200px" style="border-right: none; border-left: 1px solid var(--cp-border);">
+              <CpMenu :default-active="active" type="info" @select="(idx) => active = idx">
+                <CpMenuItem index="alerts" :icon="MdiBell">告警列表</CpMenuItem>
+                <CpSubMenu index="reports" :icon="MdiFileDocument">
+                  <template #title>报表</template>
+                  <CpMenuItem index="reports-daily">日报</CpMenuItem>
+                  <CpMenuItem index="reports-weekly">周报</CpMenuItem>
+                </CpSubMenu>
+                <CpMenuItem index="trends" :icon="MdiChartLine">趋势图</CpMenuItem>
+                <CpMenuItem index="heartbeat" :icon="MdiPulse">心跳检测</CpMenuItem>
+              </CpMenu>
             </CpAside>
           </CpContainer>
         </CpContainer>
@@ -305,19 +373,19 @@ export const 栅格与容器组合: Story = {
             <CpRow :gutter="16">
               <CpCol :span="8">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 120px;">
-                  <CpText type="primary" bold :size="14">MODULE A</CpText>
+                  <CpText type="primary" bold :size="14" style="display: block;">MODULE A</CpText>
                   <CpText type="secondary" :size="12" style="margin-top: 8px;">CPU Usage: 45%</CpText>
                 </div>
               </CpCol>
               <CpCol :span="8">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 120px;">
-                  <CpText type="success" bold :size="14">MODULE B</CpText>
+                  <CpText type="success" bold :size="14" style="display: block;">MODULE B</CpText>
                   <CpText type="secondary" :size="12" style="margin-top: 8px;">Memory: 67%</CpText>
                 </div>
               </CpCol>
               <CpCol :span="8">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 120px;">
-                  <CpText type="warning" bold :size="14">MODULE C</CpText>
+                  <CpText type="warning" bold :size="14" style="display: block;">MODULE C</CpText>
                   <CpText type="secondary" :size="12" style="margin-top: 8px;">Disk: 82%</CpText>
                 </div>
               </CpCol>
@@ -326,13 +394,13 @@ export const 栅格与容器组合: Story = {
             <CpRow :gutter="16">
               <CpCol :span="16">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 160px;">
-                  <CpText type="info" bold :size="14">DATA STREAM</CpText>
+                  <CpText type="info" bold :size="14" style="display: block;">DATA STREAM</CpText>
                   <CpText type="secondary" :size="12" style="margin-top: 8px;">实时数据流监控面板</CpText>
                 </div>
               </CpCol>
               <CpCol :span="8">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 160px;">
-                  <CpText type="error" bold :size="14">ALERTS</CpText>
+                  <CpText type="error" bold :size="14" style="display: block;">ALERTS</CpText>
                   <CpText type="secondary" :size="12" style="margin-top: 8px;">3 个未处理警报</CpText>
                 </div>
               </CpCol>

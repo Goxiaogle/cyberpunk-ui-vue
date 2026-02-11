@@ -8,6 +8,46 @@ import type { ExtractPropTypes, PropType } from 'vue'
 export type ContainerDirection = 'horizontal' | 'vertical'
 
 /**
+ * 布局分割线颜色类型
+ */
+export type LayoutDividerType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+
+/**
+ * 布局分割线变体
+ */
+export type LayoutDividerVariant = 'solid' | 'gradient' | 'glow'
+
+/**
+ * 布局组件共用的分割线 props
+ */
+const layoutDividerProps = {
+    /**
+     * 分割线颜色类型预设
+     * @default 'default'
+     */
+    dividerType: {
+        type: String as PropType<LayoutDividerType>,
+        default: 'default',
+    },
+    /**
+     * 自定义分割线颜色，覆盖 dividerType
+     * @default ''
+     */
+    dividerColor: {
+        type: String,
+        default: '',
+    },
+    /**
+     * 分割线变体
+     * @default 'solid'
+     */
+    dividerVariant: {
+        type: String as PropType<LayoutDividerVariant>,
+        default: 'solid',
+    },
+} as const
+
+/**
  * CpContainer 组件 Props 定义
  *
  * @description 赛博朋克风格页面布局容器。
@@ -47,6 +87,7 @@ export const headerProps = {
         type: String,
         default: '60px',
     },
+    ...layoutDividerProps,
 } as const
 
 export type HeaderProps = ExtractPropTypes<typeof headerProps>
@@ -63,6 +104,7 @@ export const footerProps = {
         type: String,
         default: '60px',
     },
+    ...layoutDividerProps,
 } as const
 
 export type FooterProps = ExtractPropTypes<typeof footerProps>
@@ -87,6 +129,7 @@ export const asideProps = {
         type: String as PropType<'left' | 'right'>,
         default: 'left',
     },
+    ...layoutDividerProps,
 } as const
 
 export type AsideProps = ExtractPropTypes<typeof asideProps>
