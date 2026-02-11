@@ -28,10 +28,10 @@
         "vue": "^3.5.0"
     },
     "dependencies": {
-        "@cyberpunk-vue/components": "^0.1.0",
-        "@cyberpunk-vue/hooks": "^0.1.0",
-        "@cyberpunk-vue/constants": "^0.1.0",
-        "@cyberpunk-vue/theme-chalk": "^0.1.0"
+        "@cyberpunk-vue/components": "workspace:*",
+        "@cyberpunk-vue/hooks": "workspace:*",
+        "@cyberpunk-vue/constants": "workspace:*",
+        "@cyberpunk-vue/theme-chalk": "workspace:*"
     },
     "author": "Juxest",
     "license": "MIT",

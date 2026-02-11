@@ -104,17 +104,17 @@ importers:
   packages/cyberpunk-vue:
     dependencies:
       '@cyberpunk-vue/components':
-        specifier: ^0.1.0
-        version: 0.1.0(sass@1.97.3)(vue@3.5.27(typescript@5.9.3))
+        specifier: workspace:*
+        version: link:../components
       '@cyberpunk-vue/constants':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: workspace:*
+        version: link:../constants
       '@cyberpunk-vue/hooks':
-        specifier: ^0.1.0
-        version: 0.1.0(vue@3.5.27(typescript@5.9.3))
+        specifier: workspace:*
+        version: link:../hooks
       '@cyberpunk-vue/theme-chalk':
-        specifier: ^0.1.0
-        version: 0.1.0(sass@1.97.3)
+        specifier: workspace:*
+        version: link:../theme-chalk
       vue:
         specifier: ^3.5.0
         version: 3.5.27(typescript@5.9.3)
@@ -191,24 +191,6 @@ packages:
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
-
-  '@cyberpunk-vue/components@0.1.0':
-    resolution: {integrity: sha512-hbfZNQKbePWqukzMOrUfRb00Dxez5b8Xlp7FdbuAD8LJWtko5glEs8zAysIM9IENCHMx1ooZVzm1hmsROi71sQ==}
-    peerDependencies:
-      vue: ^3.5.0
-
-  '@cyberpunk-vue/constants@0.1.0':
-    resolution: {integrity: sha512-23up8o4Zn76ROTQ+3q/3JDycL9AAOjBaOOmL56MWkURA1KySOCX8eM/YMLDNkQxvRaAhWJI+axIYkrThqJDJEw==}
-
-  '@cyberpunk-vue/hooks@0.1.0':
-    resolution: {integrity: sha512-j5agaKn6sC22mQDggWIC1mKwIusGPqNPuzolrYoInUCp9o1T6bsf1FiXivh1uRns6muPAHXZGXyfO18tyllmlw==}
-    peerDependencies:
-      vue: ^3.5.0
-
-  '@cyberpunk-vue/theme-chalk@0.1.0':
-    resolution: {integrity: sha512-Yeg5k75Y131SdiSToVADpC+ZRcDH4zLiJ8DnIoGuUmTM8pZkQUOggX/7bKX+VSDBM2iXQMjG4NmJqd0354BdhQ==}
-    peerDependencies:
-      sass: ^1.80.0
 
   '@esbuild/aix-ppc64@0.25.12':
     resolution: {integrity: sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==}
@@ -2307,26 +2289,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
-
-  '@cyberpunk-vue/components@0.1.0(sass@1.97.3)(vue@3.5.27(typescript@5.9.3))':
-    dependencies:
-      '@cyberpunk-vue/constants': 0.1.0
-      '@cyberpunk-vue/hooks': 0.1.0(vue@3.5.27(typescript@5.9.3))
-      '@cyberpunk-vue/theme-chalk': 0.1.0(sass@1.97.3)
-      vue: 3.5.27(typescript@5.9.3)
-    transitivePeerDependencies:
-      - sass
-
-  '@cyberpunk-vue/constants@0.1.0': {}
-
-  '@cyberpunk-vue/hooks@0.1.0(vue@3.5.27(typescript@5.9.3))':
-    dependencies:
-      '@cyberpunk-vue/constants': 0.1.0
-      vue: 3.5.27(typescript@5.9.3)
-
-  '@cyberpunk-vue/theme-chalk@0.1.0(sass@1.97.3)':
-    dependencies:
-      sass: 1.97.3
 
   '@esbuild/aix-ppc64@0.25.12':
     optional: true
