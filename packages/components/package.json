@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/components",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "Cyberpunk Vue components - A futuristic Vue 3 component library",
     "type": "module",
     "main": "./dist/index.cjs",

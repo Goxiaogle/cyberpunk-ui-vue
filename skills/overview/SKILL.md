@@ -136,5 +136,6 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 - [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented 的完整 Props
 - [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
 - [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
+- [布局组件参数](./components-layout/SKILL.md) - Container、Header、Footer、Main、Aside、Row、Col 的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置
 - [尺寸映射](./size-mapping/SKILL.md) - Size 预设值和自定义尺寸
