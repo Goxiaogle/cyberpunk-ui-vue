@@ -22,8 +22,9 @@
         "baseUrl": ".",
         "paths": {
             "@cyberpunk-vue/*": [
-                "packages/*",
-                "packages/*/src"
+                "packages/*/src",
+                "packages/*/index.ts",
+                "packages/*"
             ]
         },
         "types": [

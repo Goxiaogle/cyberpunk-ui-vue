@@ -1,0 +1,328 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "cyberpunk-ui-vue",
+  "version": "0.1.9",
+  "framework": "vue",
+  "js-types-syntax": "typescript",
+  "contributions": {
+    "html": {
+      "tags": [
+        {
+          "name": "cp-aside",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpAside"
+          }
+        },
+        {
+          "name": "cp-avatar",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpAvatar"
+          }
+        },
+        {
+          "name": "cp-avatar-group",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpAvatarGroup"
+          }
+        },
+        {
+          "name": "cp-badge",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpBadge"
+          }
+        },
+        {
+          "name": "cp-button",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpButton"
+          }
+        },
+        {
+          "name": "cp-card",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpCard"
+          }
+        },
+        {
+          "name": "cp-checkbox",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpCheckbox"
+          }
+        },
+        {
+          "name": "cp-checkbox-group",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpCheckboxGroup"
+          }
+        },
+        {
+          "name": "cp-col",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpCol"
+          }
+        },
+        {
+          "name": "cp-config-provider",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpConfigProvider"
+          }
+        },
+        {
+          "name": "cp-container",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpContainer"
+          }
+        },
+        {
+          "name": "cp-dialog",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpDialog"
+          }
+        },
+        {
+          "name": "cp-divider",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpDivider"
+          }
+        },
+        {
+          "name": "cp-dropdown",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpDropdown"
+          }
+        },
+        {
+          "name": "cp-footer",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpFooter"
+          }
+        },
+        {
+          "name": "cp-header",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpHeader"
+          }
+        },
+        {
+          "name": "cp-icon",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpIcon"
+          }
+        },
+        {
+          "name": "cp-image",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpImage"
+          }
+        },
+        {
+          "name": "cp-input",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpInput"
+          }
+        },
+        {
+          "name": "cp-input-number",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpInputNumber"
+          }
+        },
+        {
+          "name": "cp-loading",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpLoading"
+          }
+        },
+        {
+          "name": "cp-main",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpMain"
+          }
+        },
+        {
+          "name": "cp-menu",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpMenu"
+          }
+        },
+        {
+          "name": "cp-menu-item",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpMenuItem"
+          }
+        },
+        {
+          "name": "cp-menu-item-group",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpMenuItemGroup"
+          }
+        },
+        {
+          "name": "cp-menu-nav",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpMenuNav"
+          }
+        },
+        {
+          "name": "cp-notification",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpNotification"
+          }
+        },
+        {
+          "name": "cp-pagination",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpPagination"
+          }
+        },
+        {
+          "name": "cp-pattern-background",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpPatternBackground"
+          }
+        },
+        {
+          "name": "cp-progress",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpProgress"
+          }
+        },
+        {
+          "name": "cp-radio",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpRadio"
+          }
+        },
+        {
+          "name": "cp-radio-group",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpRadioGroup"
+          }
+        },
+        {
+          "name": "cp-row",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpRow"
+          }
+        },
+        {
+          "name": "cp-segmented",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpSegmented"
+          }
+        },
+        {
+          "name": "cp-slider",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpSlider"
+          }
+        },
+        {
+          "name": "cp-spacer",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpSpacer"
+          }
+        },
+        {
+          "name": "cp-status-indicator",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpStatusIndicator"
+          }
+        },
+        {
+          "name": "cp-sub-menu",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpSubMenu"
+          }
+        },
+        {
+          "name": "cp-switch",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpSwitch"
+          }
+        },
+        {
+          "name": "cp-table",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpTable"
+          }
+        },
+        {
+          "name": "cp-table-column",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpTableColumn"
+          }
+        },
+        {
+          "name": "cp-tag",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpTag"
+          }
+        },
+        {
+          "name": "cp-text",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpText"
+          }
+        },
+        {
+          "name": "cp-textarea",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpTextarea"
+          }
+        },
+        {
+          "name": "cp-tree",
+          "source": {
+            "module": "cyberpunk-ui-vue",
+            "symbol": "CpTree"
+          }
+        }
+      ]
+    }
+  }
+}
