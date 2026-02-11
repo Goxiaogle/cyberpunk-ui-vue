@@ -286,6 +286,30 @@ export const CustomColor: Story = {
 }
 
 /**
+ * 变量覆盖
+ *
+ * 验证覆盖 `--cp-color-primary` 时，半透明背景和边框是否同步更新。
+ */
+export const PrimaryOverride: Story = {
+  render: () => ({
+    components: { CpTag },
+    template: `
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <CpTag type="primary" variant="semi" style="--cp-color-primary: #ff00ff">
+          Magenta Override
+        </CpTag>
+        <CpTag type="primary" variant="outline" style="--cp-color-primary: #ff00ff">
+          Magenta Outline
+        </CpTag>
+        <CpTag type="primary" variant="solid" style="--cp-color-primary: #ff00ff">
+          Magenta Solid
+        </CpTag>
+      </div>
+    `,
+  }),
+}
+
+/**
  * 禁用状态
  */
 export const Disabled: Story = {

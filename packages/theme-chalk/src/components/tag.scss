@@ -56,7 +56,7 @@ $tag-types: (
 
   // CSS 变量默认值
   --cp-tag-color: var(--cp-text-secondary);
-  --cp-tag-color-light: rgba(255, 255, 255, 0.1);
+  --cp-tag-color-light: color-mix(in srgb, var(--cp-tag-color) 10%, transparent);
   --cp-tag-bg: var(--cp-tag-color);
   --cp-tag-border: var(--cp-tag-color);
   --cp-tag-clip: 5px;

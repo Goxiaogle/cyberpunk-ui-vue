@@ -52,10 +52,10 @@ const customStyle = computed(() => {
 
   if (props.color) {
     style['--cp-tag-color'] = props.color
-    style['--cp-tag-color-light'] = `${props.color}33`
+    style['--cp-tag-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   } else if (props.type && props.type !== 'default' && typeColorMap[props.type]) {
     style['--cp-tag-color'] = typeColorMap[props.type]
-    style['--cp-tag-color-light'] = `var(--cp-color-${props.type}-light)`
+    style['--cp-tag-color-light'] = `color-mix(in srgb, var(--cp-tag-color) 20%, transparent)`
   }
 
   // 自定义尺寸
