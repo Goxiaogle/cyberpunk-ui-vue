@@ -56,7 +56,6 @@ $status-indicator-gaps: (
   // ===== 标签 =====
   @include e(label) {
     font-size: 14px;
-    line-height: 1.2;
     color: var(--cp-text-primary);
     white-space: nowrap;
     transition: all 0.3s ease;

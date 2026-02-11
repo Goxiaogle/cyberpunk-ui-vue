@@ -154,7 +154,6 @@ $radio-sizes: (
   // ===== 标签 =====
   @include e(label) {
     font-weight: 500;
-    line-height: 1.2;
     transition: color 0.2s ease;
     letter-spacing: 0.02em;
   }

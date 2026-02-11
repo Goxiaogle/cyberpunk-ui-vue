@@ -127,7 +127,6 @@ $segmented-types: (primary, success, warning, error, info);
   @include e(item-label) {
     display: inline-flex;
     align-items: center;
-    line-height: 1;
   }
 
   // ===== 尺寸 =====

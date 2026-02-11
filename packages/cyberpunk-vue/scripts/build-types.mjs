@@ -1,4 +1,4 @@
-import { readFileSync, mkdirSync, existsSync, cpSync, rmSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'fs'
 import { resolve } from 'path'
 import { execSync } from 'child_process'
 
@@ -6,6 +6,7 @@ async function main() {
   const root = resolve(import.meta.dirname, '..')
   const distTypesDir = resolve(root, 'dist-types')
   const distDir = resolve(root, 'dist')
+  const globalTypesReference = '/// <reference path="../global.d.ts" />'
 
   console.log('Step 1: Generating type definitions with vue-tsc...')
   
@@ -35,12 +36,16 @@ async function main() {
   }
   const destIndex = resolve(distDir, 'index.d.ts')
   if (existsSync(srcIndex)) {
-    // Read and copy, no path rewriting needed - dependencies will be resolved via node_modules
-    cpSync(srcIndex, destIndex)
+    // Ensure root types also include module augmentation from global.d.ts.
+    const srcContent = readFileSync(srcIndex, 'utf8')
+    const content = srcContent.startsWith(globalTypesReference)
+      ? srcContent
+      : `${globalTypesReference}\n${srcContent}`
+    writeFileSync(destIndex, content, 'utf8')
     console.log(`Copied: ${srcIndex} -> ${destIndex}`)
-    
+    console.log('Injected global type reference:', globalTypesReference)
+
     // Verify the content
-    const content = readFileSync(destIndex, 'utf8')
     console.log('Generated index.d.ts content:')
     console.log(content)
   } else {

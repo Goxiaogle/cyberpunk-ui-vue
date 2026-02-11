@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -10,7 +10,6 @@
         {
           "name": "cp-aside",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAside"
           }
         },
@@ -18,7 +17,6 @@
           "name": "cp-avatar",
           "description": "CpAvatar 头像组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatar"
           }
         },
@@ -26,7 +24,6 @@
           "name": "cp-avatar-group",
           "description": "CpAvatarGroup 头像组组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatarGroup"
           }
         },
@@ -34,7 +31,6 @@
           "name": "cp-badge",
           "description": "CpBadge 徽章组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpBadge"
           }
         },
@@ -42,7 +38,6 @@
           "name": "cp-button",
           "description": "CpButton 赛博朋克风格按钮\n\n支持多种颜色类型、尺寸、形态变体。具有特色的切角造型和霓虹发光效果。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpButton"
           }
         },
@@ -50,7 +45,6 @@
           "name": "cp-card",
           "description": "CpCard 赛博朋克风格卡片容器\n\n用于展示内容分组，支持多种变体、形状模式和灵活的头部/底部布局。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCard"
           }
         },
@@ -58,7 +52,6 @@
           "name": "cp-checkbox",
           "description": "CpCheckbox 赛博朋克风格复选框\n\n用于多选场景，支持半选状态、分组、自定义颜色。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckbox"
           }
         },
@@ -66,7 +59,6 @@
           "name": "cp-checkbox-group",
           "description": "CpCheckboxGroup 复选框组\n\n用于管理多个 CpCheckbox 的选中状态。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckboxGroup"
           }
         },
@@ -74,7 +66,6 @@
           "name": "cp-col",
           "description": "CpCol 栅格列组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCol"
           }
         },
@@ -82,7 +73,6 @@
           "name": "cp-config-provider",
           "description": "CpConfigProvider 全局配置提供者\n\n用于设置组件库的全局默认值和主题，通常放在应用根组件中包裹所有子组件。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpConfigProvider"
           }
         },
@@ -90,7 +80,6 @@
           "name": "cp-container",
           "description": "CpContainer 页面布局容器",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpContainer"
           }
         },
@@ -98,7 +87,6 @@
           "name": "cp-dialog",
           "description": "CpDialog 赛博朋克风格模态对话框\n\n用于在保留页面上下文的情况下展示重要交互内容，支持多种变体、形状和主题色。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDialog"
           }
         },
@@ -106,7 +94,6 @@
           "name": "cp-divider",
           "description": "CpDivider 分割线组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDivider"
           }
         },
@@ -114,21 +101,18 @@
           "name": "cp-dropdown",
           "description": "CpDropdown 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDropdown"
           }
         },
         {
           "name": "cp-footer",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpFooter"
           }
         },
         {
           "name": "cp-header",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpHeader"
           }
         },
@@ -136,7 +120,6 @@
           "name": "cp-icon",
           "description": "CpIcon 统一图标组件\n\n支持多种图标来源：Vue 组件、原始 SVG、Iconify 图标名。\n自动处理 SVG 尺寸归一化，保证图标在不同来源下表现一致。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpIcon"
           }
         },
@@ -144,7 +127,6 @@
           "name": "cp-image",
           "description": "CpImage 图片组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpImage"
           }
         },
@@ -152,14 +134,12 @@
           "name": "cp-input",
           "description": "CpInput 赛博朋克风格输入框\n\n支持多种尺寸、形态变体、可清空功能。具有特色的切角造型。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpInput"
           }
         },
         {
           "name": "cp-input-number",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpInputNumber"
           }
         },
@@ -167,14 +147,12 @@
           "name": "cp-loading",
           "description": "CpLoading 赛博朋克风格加载器\n\n环形 SVG 动画效果，可用于按钮内置加载、页面加载、异步操作等场景。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpLoading"
           }
         },
         {
           "name": "cp-main",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMain"
           }
         },
@@ -182,7 +160,6 @@
           "name": "cp-menu",
           "description": "CpMenu 赛博朋克风格导航菜单\n\n支持水平/垂直布局、折叠模式、多色彩类型、自定义背景/文字颜色。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenu"
           }
         },
@@ -190,7 +167,6 @@
           "name": "cp-menu-item",
           "description": "CpMenuItem 赛博朋克风格菜单项",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItem"
           }
         },
@@ -198,7 +174,6 @@
           "name": "cp-menu-item-group",
           "description": "CpMenuItemGroup 赛博朋克风格菜单分组",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItemGroup"
           }
         },
@@ -206,7 +181,6 @@
           "name": "cp-menu-nav",
           "description": "CpMenuNav 数据驱动导航菜单\n\n通过结构化数据自动生成嵌套菜单，无需手动编写 slot。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuNav"
           }
         },
@@ -214,7 +188,6 @@
           "name": "cp-notification",
           "description": "CpNotification 赛博朋克风格通知提醒\n\n用于在页面角落显示全局通知消息，支持多种类型、位置和变体。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpNotification"
           }
         },
@@ -222,7 +195,6 @@
           "name": "cp-pagination",
           "description": "CpPagination 分页组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpPagination"
           }
         },
@@ -230,7 +202,6 @@
           "name": "cp-pattern-background",
           "description": "CpPatternBackground 图案背景组件\n\n用于展示各种装饰性背景图案，如网格、棋盘格、点阵、条纹等。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpPatternBackground"
           }
         },
@@ -238,7 +209,6 @@
           "name": "cp-progress",
           "description": "CpProgress 赛博朋克风格进度条\n\n支持线性、环形、仪表盘三种模式。具有条纹流动效果和不确定状态动画。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpProgress"
           }
         },
@@ -246,7 +216,6 @@
           "name": "cp-radio",
           "description": "CpRadio 赛博朋克风格单选框\n\n用于单选场景，支持分组、自定义颜色、八边形指示器设计。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRadio"
           }
         },
@@ -254,7 +223,6 @@
           "name": "cp-radio-group",
           "description": "CpRadioGroup 单选框组\n\n用于管理多个 CpRadio 的选中状态。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRadioGroup"
           }
         },
@@ -262,7 +230,6 @@
           "name": "cp-row",
           "description": "CpRow 栅格行容器",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRow"
           }
         },
@@ -270,7 +237,6 @@
           "name": "cp-segmented",
           "description": "CpSegmented 分段选择器\n\n一组按钮式互斥选项，选中项带滑块高亮效果。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSegmented"
           }
         },
@@ -278,7 +244,6 @@
           "name": "cp-slider",
           "description": "CpSlider 赛博朋克风格滑块\n\n用于在给定的数值范围内进行选择，支持单值和范围模式。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSlider"
           }
         },
@@ -286,14 +251,12 @@
           "name": "cp-spacer",
           "description": "CpSpacer 弹性空间占位组件\n\n在 Flex 布局中填充剩余空间，实现元素的间距分布。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSpacer"
           }
         },
         {
           "name": "cp-status-indicator",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpStatusIndicator"
           }
         },
@@ -301,7 +264,6 @@
           "name": "cp-sub-menu",
           "description": "CpSubMenu 赛博朋克风格子菜单",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSubMenu"
           }
         },
@@ -309,7 +271,6 @@
           "name": "cp-switch",
           "description": "CpSwitch 赛博朋克风格开关\n\n用于二态选择场景，支持异步切换、内嵌文字、自定义颜色。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSwitch"
           }
         },
@@ -317,7 +278,6 @@
           "name": "cp-table",
           "description": "CpTable 数据表格组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTable"
           }
         },
@@ -325,7 +285,6 @@
           "name": "cp-table-column",
           "description": "CpTableColumn 表格列定义组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTableColumn"
           }
         },
@@ -333,7 +292,6 @@
           "name": "cp-tag",
           "description": "CpTag 标签组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTag"
           }
         },
@@ -341,14 +299,12 @@
           "name": "cp-text",
           "description": "CpText 特殊文字组件",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpText"
           }
         },
         {
           "name": "cp-textarea",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTextarea"
           }
         },
@@ -356,7 +312,6 @@
           "name": "cp-tree",
           "description": "CpTree 赛博朋克风格树形控件\n\n用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTree"
           }
         }
@@ -365,7 +320,6 @@
         {
           "name": "cp-aside",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAside"
           },
           "props": [
@@ -390,7 +344,6 @@
         {
           "name": "cp-avatar",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatar"
           },
           "description": "CpAvatar 头像组件",
@@ -489,7 +442,6 @@
         {
           "name": "cp-avatar-group",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpAvatarGroup"
           },
           "description": "CpAvatarGroup 头像组组件",
@@ -569,7 +521,6 @@
         {
           "name": "cp-badge",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpBadge"
           },
           "description": "CpBadge 徽章组件",
@@ -673,7 +624,6 @@
         {
           "name": "cp-button",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpButton"
           },
           "description": "CpButton 赛博朋克风格按钮\n\n支持多种颜色类型、尺寸、形态变体。具有特色的切角造型和霓虹发光效果。",
@@ -886,7 +836,6 @@
         {
           "name": "cp-card",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCard"
           },
           "description": "CpCard 赛博朋克风格卡片容器\n\n用于展示内容分组，支持多种变体、形状模式和灵活的头部/底部布局。",
@@ -1175,7 +1124,6 @@
         {
           "name": "cp-checkbox",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckbox"
           },
           "description": "CpCheckbox 赛博朋克风格复选框\n\n用于多选场景，支持半选状态、分组、自定义颜色。",
@@ -1299,7 +1247,6 @@
         {
           "name": "cp-checkbox-group",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCheckboxGroup"
           },
           "description": "CpCheckboxGroup 复选框组\n\n用于管理多个 CpCheckbox 的选中状态。",
@@ -1383,7 +1330,6 @@
         {
           "name": "cp-col",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpCol"
           },
           "description": "CpCol 栅格列组件",
@@ -1433,7 +1379,6 @@
         {
           "name": "cp-config-provider",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpConfigProvider"
           },
           "description": "CpConfigProvider 全局配置提供者\n\n用于设置组件库的全局默认值和主题，通常放在应用根组件中包裹所有子组件。",
@@ -1465,7 +1410,6 @@
         {
           "name": "cp-container",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpContainer"
           },
           "description": "CpContainer 页面布局容器",
@@ -1483,7 +1427,6 @@
         {
           "name": "cp-dialog",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDialog"
           },
           "description": "CpDialog 赛博朋克风格模态对话框\n\n用于在保留页面上下文的情况下展示重要交互内容，支持多种变体、形状和主题色。",
@@ -1908,7 +1851,6 @@
         {
           "name": "cp-divider",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDivider"
           },
           "description": "CpDivider 分割线组件",
@@ -1998,7 +1940,6 @@
         {
           "name": "cp-dropdown",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpDropdown"
           },
           "description": "CpDropdown 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。",
@@ -2210,7 +2151,6 @@
         {
           "name": "cp-footer",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpFooter"
           },
           "props": [
@@ -2227,7 +2167,6 @@
         {
           "name": "cp-header",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpHeader"
           },
           "props": [
@@ -2244,7 +2183,6 @@
         {
           "name": "cp-icon",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpIcon"
           },
           "description": "CpIcon 统一图标组件\n\n支持多种图标来源：Vue 组件、原始 SVG、Iconify 图标名。\n自动处理 SVG 尺寸归一化，保证图标在不同来源下表现一致。",
@@ -2301,7 +2239,6 @@
         {
           "name": "cp-image",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpImage"
           },
           "description": "CpImage 图片组件",
@@ -2465,7 +2402,6 @@
         {
           "name": "cp-input",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpInput"
           },
           "description": "CpInput 赛博朋克风格输入框\n\n支持多种尺寸、形态变体、可清空功能。具有特色的切角造型。",
@@ -2656,7 +2592,6 @@
         {
           "name": "cp-input-number",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpInputNumber"
           },
           "props": [
@@ -2776,7 +2711,6 @@
         {
           "name": "cp-loading",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpLoading"
           },
           "description": "CpLoading 赛博朋克风格加载器\n\n环形 SVG 动画效果，可用于按钮内置加载、页面加载、异步操作等场景。",
@@ -2818,14 +2752,12 @@
         {
           "name": "cp-main",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMain"
           }
         },
         {
           "name": "cp-menu",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenu"
           },
           "description": "CpMenu 赛博朋克风格导航菜单\n\n支持水平/垂直布局、折叠模式、多色彩类型、自定义背景/文字颜色。",
@@ -2939,14 +2871,13 @@
         {
           "name": "cp-menu-item",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItem"
           },
           "description": "CpMenuItem 赛博朋克风格菜单项",
           "props": [
             {
               "name": "index",
-              "description": "菜单项唯一标识",
+              "description": "菜单项唯一标识（可选，不传时自动生成）",
               "type": [
                 "string"
               ]
@@ -2985,7 +2916,6 @@
         {
           "name": "cp-menu-item-group",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuItemGroup"
           },
           "description": "CpMenuItemGroup 赛博朋克风格菜单分组",
@@ -3003,7 +2933,6 @@
         {
           "name": "cp-menu-nav",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpMenuNav"
           },
           "description": "CpMenuNav 数据驱动导航菜单\n\n通过结构化数据自动生成嵌套菜单，无需手动编写 slot。",
@@ -3121,7 +3050,6 @@
         {
           "name": "cp-notification",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpNotification"
           },
           "description": "CpNotification 赛博朋克风格通知提醒\n\n用于在页面角落显示全局通知消息，支持多种类型、位置和变体。",
@@ -3313,7 +3241,6 @@
         {
           "name": "cp-pagination",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpPagination"
           },
           "description": "CpPagination 分页组件",
@@ -3463,7 +3390,6 @@
         {
           "name": "cp-pattern-background",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpPatternBackground"
           },
           "description": "CpPatternBackground 图案背景组件\n\n用于展示各种装饰性背景图案，如网格、棋盘格、点阵、条纹等。",
@@ -3553,7 +3479,6 @@
         {
           "name": "cp-progress",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpProgress"
           },
           "description": "CpProgress 赛博朋克风格进度条\n\n支持线性、环形、仪表盘三种模式。具有条纹流动效果和不确定状态动画。",
@@ -3748,7 +3673,6 @@
         {
           "name": "cp-radio",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRadio"
           },
           "description": "CpRadio 赛博朋克风格单选框\n\n用于单选场景，支持分组、自定义颜色、八边形指示器设计。",
@@ -3856,7 +3780,6 @@
         {
           "name": "cp-radio-group",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRadioGroup"
           },
           "description": "CpRadioGroup 单选框组\n\n用于管理多个 CpRadio 的选中状态。",
@@ -3917,7 +3840,6 @@
         {
           "name": "cp-row",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpRow"
           },
           "description": "CpRow 栅格行容器",
@@ -3967,7 +3889,6 @@
         {
           "name": "cp-segmented",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSegmented"
           },
           "description": "CpSegmented 分段选择器\n\n一组按钮式互斥选项，选中项带滑块高亮效果。",
@@ -4060,7 +3981,6 @@
         {
           "name": "cp-slider",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSlider"
           },
           "description": "CpSlider 赛博朋克风格滑块\n\n用于在给定的数值范围内进行选择，支持单值和范围模式。",
@@ -4203,7 +4123,6 @@
         {
           "name": "cp-spacer",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSpacer"
           },
           "description": "CpSpacer 弹性空间占位组件\n\n在 Flex 布局中填充剩余空间，实现元素的间距分布。"
@@ -4211,7 +4130,6 @@
         {
           "name": "cp-status-indicator",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpStatusIndicator"
           },
           "props": [
@@ -4292,7 +4210,6 @@
         {
           "name": "cp-sub-menu",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSubMenu"
           },
           "description": "CpSubMenu 赛博朋克风格子菜单",
@@ -4324,7 +4241,6 @@
         {
           "name": "cp-switch",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpSwitch"
           },
           "description": "CpSwitch 赛博朋克风格开关\n\n用于二态选择场景，支持异步切换、内嵌文字、自定义颜色。",
@@ -4449,7 +4365,6 @@
         {
           "name": "cp-table",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTable"
           },
           "description": "CpTable 数据表格组件",
@@ -4588,7 +4503,6 @@
         {
           "name": "cp-table-column",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTableColumn"
           },
           "description": "CpTableColumn 表格列定义组件",
@@ -4660,7 +4574,6 @@
         {
           "name": "cp-tag",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTag"
           },
           "description": "CpTag 标签组件",
@@ -4766,7 +4679,6 @@
         {
           "name": "cp-text",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpText"
           },
           "description": "CpText 特殊文字组件",
@@ -4960,7 +4872,6 @@
         {
           "name": "cp-textarea",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTextarea"
           },
           "props": [
@@ -5083,7 +4994,6 @@
         {
           "name": "cp-tree",
           "source": {
-            "module": "cyberpunk-ui-vue",
             "symbol": "CpTree"
           },
           "description": "CpTree 赛博朋克风格树形控件\n\n用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。",

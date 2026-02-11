@@ -1,255 +1,271 @@
 // CpText 特殊文字组件样式
 // 赛博朋克/机甲风格
 
-@use '../common/var' as *;
-@use '../mixins/mixins' as *;
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
 
 // 尺寸配置
 $text-sizes: (
-    sm: 12px,
-    md: 14px,
-    lg: 16px,
+  sm: 12px,
+  md: 14px,
+  lg: 16px,
 );
 
 // 颜色映射
 $text-types: (
-    primary: var(--cp-color-primary),
-    success: var(--cp-color-success),
-    warning: var(--cp-color-warning),
-    error: var(--cp-color-error),
-    info: var(--cp-color-info),
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
 );
 
 @include b(text) {
-    // 基础样式 - 内联元素
+  // 基础样式 - 内联元素
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-family: inherit;
+  font-size: var(--cp-text-size, 14px);
+  vertical-align: middle;
+  transition: all 0.2s ease;
+
+  // CSS 变量默认值
+  --cp-text-color: inherit;
+
+  // ===== 内容区域 =====
+  @include e(content) {
+    display: inline-block; // 保证动画和滤镜正常工作
+    color: var(--cp-text-color);
+    vertical-align: middle;
+  }
+
+  // ===== 前缀元素 =====
+  @include e(prefix) {
     display: inline-flex;
     align-items: center;
-    position: relative;
-    font-family: inherit;
-    font-size: var(--cp-text-size, 14px);
-    line-height: 1.5;
+    margin-right: 4px;
+  }
+
+  // ===== 后缀元素 =====
+  @include e(suffix) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+  }
+
+  // ===== 垂直对齐 =====
+  @include m(align-top) {
+    vertical-align: top;
+  }
+
+  @include m(align-middle) {
     vertical-align: middle;
-    transition: all 0.2s ease;
+  }
 
-    // CSS 变量默认值
-    --cp-text-color: inherit;
+  @include m(align-bottom) {
+    vertical-align: bottom;
+  }
 
-    // ===== 内容区域 =====
-    @include e(content) {
-        display: inline-block; // 保证动画和滤镜正常工作
-        color: var(--cp-text-color);
-        vertical-align: middle;
+  // ===== 文字效果 =====
+
+  // 下划线
+  @include when(underline) {
+    .cp-text__content {
+      text-decoration: underline;
+      text-decoration-color: var(--cp-text-color);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 2px;
     }
 
-    // ===== 前缀元素 =====
-    @include e(prefix) {
-        display: inline-flex;
-        align-items: center;
-        margin-right: 4px;
+    // 虚线下划线
+    &.is-dashed .cp-text__content {
+      text-decoration-style: dashed;
+    }
+  }
+
+  // 方框边框
+  @include when(boxed) {
+    .cp-text__content {
+      border: 1px solid var(--cp-text-color);
+      padding: 0 4px;
+      border-radius: 2px;
     }
 
-    // ===== 后缀元素 =====
-    @include e(suffix) {
-        display: inline-flex;
-        align-items: center;
-        margin-left: 4px;
+    // 虚线边框
+    &.is-dashed .cp-text__content {
+      border-style: dashed;
+    }
+  }
+
+  // 加粗
+  @include when(bold) {
+    .cp-text__content {
+      font-weight: 700;
+    }
+  }
+
+  // 斜体
+  @include when(italic) {
+    .cp-text__content {
+      font-style: italic;
+    }
+  }
+
+  // 删除线
+  @include when(strikethrough) {
+    .cp-text__content {
+      text-decoration: line-through;
+      text-decoration-color: var(--cp-text-color);
+      text-decoration-thickness: 2px;
     }
 
-    // ===== 垂直对齐 =====
-    @include m(align-top) {
-        vertical-align: top;
+    // 与下划线组合
+    &.is-underline .cp-text__content {
+      text-decoration: underline line-through;
+      text-decoration-color: var(--cp-text-color);
     }
+  }
 
-    @include m(align-middle) {
-        vertical-align: middle;
+  // 发光效果 (强度可控)
+  @include when(glow) {
+    --cp-text-glow-intensity: 3px; // 默认强度
+
+    .cp-text__content {
+      $intensity: var(--cp-text-glow-intensity);
+      text-shadow:
+        0 0 $intensity var(--cp-text-color),
+        0 0 calc(#{$intensity} * 2)
+          color-mix(in srgb, var(--cp-text-color) 50%, transparent);
     }
+  }
 
-    @include m(align-bottom) {
-        vertical-align: bottom;
+  // 发光心跳动画
+  @include when(glow-pulse) {
+    --cp-text-pulse-duration: 1.5s;
+
+    .cp-text__content {
+      // 注意：如果同时开启 light-wave，需要在 Vue 中处理动画合并
+      animation: cp-text-glow-pulse var(--cp-text-pulse-duration) ease-in-out
+        infinite;
     }
+  }
 
-    // ===== 文字效果 =====
+  // 光波扫射动画 (仅在文字上显示白色高光)
+  @include when(light-wave) {
+    --cp-text-wave-duration: 2s; // 默认时长
 
-    // 下划线
-    @include when(underline) {
-        .cp-text__content {
-            text-decoration: underline;
-            text-decoration-color: var(--cp-text-color);
-            text-underline-offset: 3px;
-            text-decoration-thickness: 2px;
-        }
-
-        // 虚线下划线
-        &.is-dashed .cp-text__content {
-            text-decoration-style: dashed;
-        }
+    .cp-text__content {
+      position: relative;
+      // 使用渐变背景裁剪到文字
+      background:
+        linear-gradient(
+          105deg,
+          transparent 0%,
+          transparent 35%,
+          rgba(255, 255, 255, 0.8) 45%,
+          rgba(255, 255, 255, 0.9) 50%,
+          rgba(255, 255, 255, 0.8) 55%,
+          transparent 65%,
+          transparent 100%
+        ),
+        linear-gradient(
+          var(--cp-text-color, currentColor),
+          var(--cp-text-color, currentColor)
+        );
+      background-size:
+        250% 100%,
+        100% 100%;
+      background-position:
+        150% 0,
+        0 0;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: cp-text-light-wave var(--cp-text-wave-duration) linear infinite;
     }
+  }
 
-    // 方框边框
-    @include when(boxed) {
-        .cp-text__content {
-            border: 1px solid var(--cp-text-color);
-            padding: 0 4px;
-            border-radius: 2px;
-        }
+  // 马克笔背景效果 (支持自定义颜色)
+  @include when(marker) {
+    --cp-text-marker-color: var(--cp-text-color); // 默认使用文字颜色
 
-        // 虚线边框
-        &.is-dashed .cp-text__content {
-            border-style: dashed;
-        }
+    .cp-text__content {
+      background: linear-gradient(
+        to bottom,
+        transparent 40%,
+        color-mix(in srgb, var(--cp-text-marker-color) 40%, transparent) 40%,
+        color-mix(in srgb, var(--cp-text-marker-color) 40%, transparent) 90%,
+        transparent 90%
+      );
+      padding: 0 2px;
     }
+  }
 
-    // 加粗
-    @include when(bold) {
-        .cp-text__content {
-            font-weight: 700;
-        }
+  // 重叠文字效果 (text-shadow 错位重影)
+  @include when(overlap) {
+    --cp-text-overlap-offset-x: 2px;
+    --cp-text-overlap-offset-y: 2px;
+    --cp-text-overlap-color: color-mix(
+      in srgb,
+      var(--cp-text-color) 60%,
+      black
+    );
+
+    .cp-text__content {
+      text-shadow: var(--cp-text-overlap-offset-x)
+        var(--cp-text-overlap-offset-y) 0 var(--cp-text-overlap-color);
     }
+  }
 
-    // 斜体
-    @include when(italic) {
-        .cp-text__content {
-            font-style: italic;
-        }
+  // ===== 颜色类型 =====
+  @include when(typed) {
+    color: var(--cp-text-color);
+
+    .cp-text__content {
+      color: var(--cp-text-color);
     }
+  }
 
-    // 删除线
-    @include when(strikethrough) {
-        .cp-text__content {
-            text-decoration: line-through;
-            text-decoration-color: var(--cp-text-color);
-            text-decoration-thickness: 2px;
-        }
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    color: var(--cp-text-color);
 
-        // 与下划线组合
-        &.is-underline .cp-text__content {
-            text-decoration: underline line-through;
-            text-decoration-color: var(--cp-text-color);
-        }
+    .cp-text__content {
+      color: var(--cp-text-color);
     }
+  }
 
-    // 发光效果 (强度可控)
-    @include when(glow) {
-        --cp-text-glow-intensity: 3px; // 默认强度
-
-        .cp-text__content {
-            $intensity: var(--cp-text-glow-intensity);
-            text-shadow:
-                0 0 $intensity var(--cp-text-color),
-                0 0 calc(#{$intensity} * 2) color-mix(in srgb, var(--cp-text-color) 50%, transparent);
-        }
-    }
-
-    // 发光心跳动画
-    @include when(glow-pulse) {
-        --cp-text-pulse-duration: 1.5s;
-
-        .cp-text__content {
-            // 注意：如果同时开启 light-wave，需要在 Vue 中处理动画合并
-            animation: cp-text-glow-pulse var(--cp-text-pulse-duration) ease-in-out infinite;
-        }
-    }
-
-    // 光波扫射动画 (仅在文字上显示白色高光)
-    @include when(light-wave) {
-        --cp-text-wave-duration: 2s; // 默认时长
-
-        .cp-text__content {
-            position: relative;
-            // 使用渐变背景裁剪到文字
-            background: 
-                linear-gradient(
-                    105deg,
-                    transparent 0%,
-                    transparent 35%,
-                    rgba(255, 255, 255, 0.8) 45%,
-                    rgba(255, 255, 255, 0.9) 50%,
-                    rgba(255, 255, 255, 0.8) 55%,
-                    transparent 65%,
-                    transparent 100%
-                ),
-                linear-gradient(var(--cp-text-color, currentColor), var(--cp-text-color, currentColor));
-            background-size: 250% 100%, 100% 100%;
-            background-position: 150% 0, 0 0;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: cp-text-light-wave var(--cp-text-wave-duration) linear infinite;
-        }
-    }
-
-    // 马克笔背景效果 (支持自定义颜色)
-    @include when(marker) {
-        --cp-text-marker-color: var(--cp-text-color); // 默认使用文字颜色
-
-        .cp-text__content {
-            background: linear-gradient(
-                to bottom,
-                transparent 40%,
-                color-mix(in srgb, var(--cp-text-marker-color) 40%, transparent) 40%,
-                color-mix(in srgb, var(--cp-text-marker-color) 40%, transparent) 90%,
-                transparent 90%
-            );
-            padding: 0 2px;
-        }
-    }
-
-    // 重叠文字效果 (text-shadow 错位重影)
-    @include when(overlap) {
-        --cp-text-overlap-offset-x: 2px;
-        --cp-text-overlap-offset-y: 2px;
-        --cp-text-overlap-color: color-mix(in srgb, var(--cp-text-color) 60%, black);
-
-        .cp-text__content {
-            text-shadow:
-                var(--cp-text-overlap-offset-x) var(--cp-text-overlap-offset-y) 0 var(--cp-text-overlap-color);
-        }
-    }
-
-    // ===== 颜色类型 =====
-    @include when(typed) {
-        color: var(--cp-text-color);
-
-        .cp-text__content {
-            color: var(--cp-text-color);
-        }
-    }
-
-    // ===== 自定义颜色 =====
-    @include when(custom-color) {
-        color: var(--cp-text-color);
-
-        .cp-text__content {
-            color: var(--cp-text-color);
-        }
-    }
-
-    // ===== 禁止选中 =====
-    @include when(unselectable) {
-        user-select: none;
-        cursor: default;
-    }
+  // ===== 禁止选中 =====
+  @include when(unselectable) {
+    user-select: none;
+    cursor: default;
+  }
 }
 
 // 发光脉冲动画 (明显的心跳效果)
 @keyframes cp-text-glow-pulse {
-    0%,
-    100% {
-        opacity: 1;
-        filter: brightness(1) drop-shadow(0 0 2px currentColor);
-    }
-    50% {
-        opacity: 0.85;
-        filter: brightness(1.4) drop-shadow(0 0 10px currentColor);
-    }
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.4) drop-shadow(0 0 10px currentColor);
+  }
 }
 
 // 光波扫射动画 (完整扫过文字)
 @keyframes cp-text-light-wave {
-    0% {
-        background-position: 150% 0, 0 0;
-    }
-    100% {
-        background-position: -50% 0, 0 0;
-    }
+  0% {
+    background-position:
+      150% 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      -50% 0,
+      0 0;
+  }
 }

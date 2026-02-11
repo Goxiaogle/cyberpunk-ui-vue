@@ -32,7 +32,6 @@ $avatar-transition-duration: 0.2s;
     width: var(--cp-avatar-size, 40px);
     height: var(--cp-avatar-size, 40px);
     font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-font-ratio});
-    line-height: 1;
 
     // 默认禁止选中和拖拽
     user-select: none;

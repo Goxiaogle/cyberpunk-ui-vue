@@ -456,7 +456,6 @@ function generateWebTypes(packageName, packageVersion, components) {
     name: item.tagName,
     ...(item.description ? { description: item.description } : {}),
     source: {
-      module: packageName,
       symbol: item.componentName
     }
   }))
@@ -465,7 +464,6 @@ function generateWebTypes(packageName, packageVersion, components) {
     const component = {
       name: item.tagName,
       source: {
-        module: packageName,
         symbol: item.componentName
       }
     }

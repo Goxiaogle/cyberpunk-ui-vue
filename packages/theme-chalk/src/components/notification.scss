@@ -261,7 +261,6 @@
   // ===== 消息内容 =====
   @include e(content) {
     font-size: var(--cp-font-size-sm);
-    line-height: 1.5;
     color: var(--cp-notification-text-color, var(--cp-text-secondary));
     word-break: break-word;
 

@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/theme-chalk",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Cyberpunk Vue theme styles - SCSS/CSS styles for Cyberpunk Vue components",
     "type": "module",
     "main": "./dist/index.css",

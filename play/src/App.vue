@@ -231,7 +231,6 @@ body {
   .logo {
     display: flex;
     flex-direction: column;
-    line-height: 1;
 
     .logo-text {
       font-size: 1.5rem;

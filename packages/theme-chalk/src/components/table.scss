@@ -199,14 +199,12 @@ $table-sizes: (
     margin-left: 4px;
     vertical-align: middle;
     gap: 2px;
-    line-height: 0;
   }
 
   @include e(sort-caret) {
     opacity: 0.2;
     transition: all 0.2s ease;
     display: block;
-    line-height: 0;
     color: var(--cp-text-muted);
 
     &.is-active {
@@ -266,7 +264,6 @@ $table-sizes: (
     vertical-align: middle;
     border-bottom: 1px solid var(--cp-table-border);
     transition: background 0.2s ease;
-    line-height: 1.5;
   }
 
   // ===== 对齐 =====

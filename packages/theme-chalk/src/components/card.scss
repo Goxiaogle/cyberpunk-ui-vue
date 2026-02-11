@@ -338,7 +338,6 @@
     flex-shrink: 0;
     border-bottom: 1px solid var(--cp-border);
     background: #000;
-    line-height: 0; // 消除图片下方的间隙
 
     img {
       width: 100%;
@@ -379,7 +378,6 @@
     flex: 1;
     padding: var(--cp-spacing-lg);
     color: var(--cp-text-secondary);
-    line-height: 1.6;
   }
 
   @include e(footer) {

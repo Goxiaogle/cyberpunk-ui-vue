@@ -67,7 +67,6 @@ $tag-types: (
   @include e(content) {
     display: inline-flex;
     align-items: center;
-    line-height: 1;
   }
 
   // ===== 关闭按钮 =====
@@ -235,7 +234,6 @@ $tag-types: (
     .cp-tag__suffix {
       font-size: 18px;
       font-weight: 700;
-      line-height: 1;
       font-family: system-ui, sans-serif;
     }
 
