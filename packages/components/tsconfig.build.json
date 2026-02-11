@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "noEmit": false,
+    "paths": {
+      "@cyberpunk-vue/hooks": ["packages/hooks/src/index.ts"],
+      "@cyberpunk-vue/hooks/*": ["packages/hooks/src/*"],
+      "@cyberpunk-vue/constants": ["packages/constants/src/index.ts"],
+      "@cyberpunk-vue/constants/*": ["packages/constants/src/*"],
+      "@cyberpunk-vue/theme-chalk": ["packages/theme-chalk/src/index.ts"],
+      "@cyberpunk-vue/theme-chalk/*": ["packages/theme-chalk/src/*"]
+    }
+  },
+  "include": [
+    "index.ts",
+    "**/*.ts",
+    "**/*.vue"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.stories.ts",
+    "**/*.test.ts"
+  ]
+}

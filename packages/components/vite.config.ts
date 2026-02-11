@@ -9,7 +9,7 @@ export default defineConfig({
         dts({
             entryRoot: '.', // components has flat structure with index.ts at root
             outDir: 'dist',
-            tsconfigPath: '../../tsconfig.json',
+            tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
             exclude: ['**/*.stories.ts', '**/*.test.ts', 'dist/**'],
             pathsToAliases: false
         })
