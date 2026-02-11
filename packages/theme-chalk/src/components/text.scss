@@ -194,6 +194,18 @@ $text-types: (
         }
     }
 
+    // 重叠文字效果 (text-shadow 错位重影)
+    @include when(overlap) {
+        --cp-text-overlap-offset-x: 2px;
+        --cp-text-overlap-offset-y: 2px;
+        --cp-text-overlap-color: color-mix(in srgb, var(--cp-text-color) 60%, black);
+
+        .cp-text__content {
+            text-shadow:
+                var(--cp-text-overlap-offset-x) var(--cp-text-overlap-offset-y) 0 var(--cp-text-overlap-color);
+        }
+    }
+
     // ===== 颜色类型 =====
     @include when(typed) {
         color: var(--cp-text-color);

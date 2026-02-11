@@ -46,6 +46,7 @@ const classes = computed(() => [
   ns.is('glow-pulse', props.glowPulse),
   ns.is('light-wave', props.lightWave),
   ns.is('marker', props.marker),
+  ns.is('overlap', props.overlap),
   ns.is('typed', props.type !== 'default' && !props.color),
   ns.is('custom-color', !!props.color),
   ns.is('unselectable', props.unselectable),
@@ -95,6 +96,15 @@ const customStyle = computed(() => {
     const pulseItem = `cp-text-glow-pulse ${pulseDur} ease-in-out infinite`
     const waveItem = `cp-text-light-wave ${waveDur} linear infinite`
     style['animation'] = `${pulseItem}, ${waveItem}`
+  }
+
+  // 重叠文字效果
+  if (props.overlap) {
+    style['--cp-text-overlap-offset-x'] = `${props.overlapOffsetX}px`
+    style['--cp-text-overlap-offset-y'] = `${props.overlapOffsetY}px`
+    if (props.overlapColor) {
+      style['--cp-text-overlap-color'] = props.overlapColor
+    }
   }
 
   return style

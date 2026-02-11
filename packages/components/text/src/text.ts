@@ -209,6 +209,42 @@ export const textProps = {
         default: 1500,
     },
     /**
+     * 重叠文字效果
+     * 通过 text-shadow 实现错位重影的赛博朋克视觉效果
+     * @default false
+     */
+    overlap: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 重叠文字 X 轴偏移量 (px)
+     * 正值向右偏移，负值向左偏移
+     * @default 2
+     */
+    overlapOffsetX: {
+        type: Number,
+        default: 2,
+    },
+    /**
+     * 重叠文字 Y 轴偏移量 (px)
+     * 正值向下偏移，负值向上偏移
+     * @default 2
+     */
+    overlapOffsetY: {
+        type: Number,
+        default: 2,
+    },
+    /**
+     * 重叠文字颜色
+     * 不设置则使用文字颜色的明暗调整版本
+     * @default ''
+     */
+    overlapColor: {
+        type: String,
+        default: '',
+    },
+    /**
      * 禁止选中/复制
      * 开启后文字无法被鼠标选中或通过键盘复制
      * @default false

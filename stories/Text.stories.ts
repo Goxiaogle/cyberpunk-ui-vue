@@ -91,6 +91,22 @@ const meta: Meta<typeof CpText> = {
       control: 'color',
       description: '马克笔自定义颜色',
     },
+    overlap: {
+      control: 'boolean',
+      description: '重叠文字效果',
+    },
+    overlapOffsetX: {
+      control: { type: 'range', min: -10, max: 10, step: 1 },
+      description: '重叠文字 X 偏移量 (px)',
+    },
+    overlapOffsetY: {
+      control: { type: 'range', min: -10, max: 10, step: 1 },
+      description: '重叠文字 Y 偏移量 (px)',
+    },
+    overlapColor: {
+      control: 'color',
+      description: '重叠文字颜色',
+    },
     default: {
       control: 'text',
       description: '文字内容',
@@ -126,6 +142,10 @@ const meta: Meta<typeof CpText> = {
     lightWaveDuration: 2,
     marker: false,
     markerColor: '',
+    overlap: false,
+    overlapOffsetX: 2,
+    overlapOffsetY: 2,
+    overlapColor: '',
     unselectable: false,
     default: '特殊文字',
   },
@@ -338,6 +358,51 @@ export const Marker: Story = {
         <CpText type="warning" marker>Warning 马克笔</CpText>
         <CpText type="error" marker>Error 马克笔</CpText>
         <CpText type="info" marker>Info 马克笔</CpText>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 重叠文字效果
+ *
+ * 使用 `overlap` 开启重叠文字效果，通过 text-shadow 实现错位重影。
+ * 支持自定义偏移量和颜色。
+ */
+export const Overlap: Story = {
+  render: () => ({
+    components: { CpText },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px; padding: 16px; background: var(--cp-bg-deep);">
+        <div style="color: var(--cp-text-muted); font-size: 12px;">各类型颜色重叠</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+          <CpText type="primary" overlap size="lg" bold>Primary</CpText>
+          <CpText type="success" overlap size="lg" bold>Success</CpText>
+          <CpText type="warning" overlap size="lg" bold>Warning</CpText>
+          <CpText type="error" overlap size="lg" bold>Error</CpText>
+          <CpText type="info" overlap size="lg" bold>Info</CpText>
+        </div>
+        <div style="color: var(--cp-text-muted); font-size: 12px;">偏移量对比</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+          <CpText type="primary" overlap :overlap-offset-x="1" :overlap-offset-y="1" size="lg" bold>1px</CpText>
+          <CpText type="primary" overlap :overlap-offset-x="2" :overlap-offset-y="2" size="lg" bold>2px</CpText>
+          <CpText type="primary" overlap :overlap-offset-x="4" :overlap-offset-y="4" size="lg" bold>4px</CpText>
+          <CpText type="primary" overlap :overlap-offset-x="-2" :overlap-offset-y="2" size="lg" bold>X:-2 Y:2</CpText>
+          <CpText type="primary" overlap :overlap-offset-x="3" :overlap-offset-y="-1" size="lg" bold>X:3 Y:-1</CpText>
+        </div>
+        <div style="color: var(--cp-text-muted); font-size: 12px;">自定义重叠颜色</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+          <CpText type="primary" overlap overlap-color="rgba(0,255,255,0.5)" :overlap-offset-x="3" :overlap-offset-y="3" size="lg" bold>Cyan 阴影</CpText>
+          <CpText type="error" overlap overlap-color="rgba(255,0,255,0.4)" :overlap-offset-x="2" :overlap-offset-y="2" size="lg" bold>Magenta 阴影</CpText>
+          <CpText color="#ff6b35" overlap overlap-color="rgba(255,107,53,0.3)" :overlap-offset-x="3" :overlap-offset-y="2" size="lg" bold>Orange 阴影</CpText>
+        </div>
+        <div style="color: var(--cp-text-muted); font-size: 12px;">与其他效果组合</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+          <CpText type="primary" overlap glow size="lg" bold>重叠 + 发光</CpText>
+          <CpText type="success" overlap underline size="lg" bold>重叠 + 下划线</CpText>
+          <CpText type="warning" overlap marker size="lg" bold>重叠 + 马克笔</CpText>
+          <CpText type="error" overlap boxed size="lg" bold>重叠 + 方框</CpText>
+        </div>
       </div>
     `,
   }),
