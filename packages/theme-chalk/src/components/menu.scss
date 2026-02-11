@@ -17,14 +17,14 @@ $menu-type-colors: (
 // ===== CpMenu 主容器 =====
 @include b(menu) {
   // CSS 变量默认值（可通过 props 覆盖）
-  --cp-menu-bg: var(--cp-bg-base);
+  --cp-menu-bg: transparent;
   --cp-menu-text: var(--cp-text-secondary);
   --cp-menu-active-text: var(--cp-menu-active-color);
   --cp-menu-active-color: var(--cp-color-primary);
   --cp-menu-active-color-light: var(--cp-color-primary-light);
   --cp-menu-hover-bg: var(--cp-state-hover);
   --cp-menu-border: var(--cp-border);
-  --cp-menu-item-height: 40px;
+  --cp-menu-item-height: 46px;
 
   position: relative;
   list-style: none;
@@ -39,8 +39,7 @@ $menu-type-colors: (
   @include m(vertical) {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--cp-menu-border);
-    width: 200px;
+    width: 100%;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -352,7 +351,7 @@ $menu-type-colors: (
   @include e(popup) {
     .cp-menu--horizontal & {
       min-width: 180px;
-      background: var(--cp-menu-bg);
+      background: var(--cp-menu-popup-bg, var(--cp-bg-elevated));
       border: 1px solid var(--cp-menu-border);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
                   0 0 10px var(--cp-menu-active-color-light);
