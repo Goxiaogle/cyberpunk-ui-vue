@@ -71,7 +71,7 @@ const customStyle = computed(() => {
   }
 
   // 间距
-  if (props.margin) {
+  if (props.margin !== undefined && props.margin !== '') {
     style['--cp-divider-margin'] = normalizeValue(props.margin)
   }
 
