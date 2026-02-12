@@ -141,6 +141,7 @@
         letter-spacing: 0.05em;
         min-width: 50px; // 保持 100% 宽度稳定，防止抖动
         flex-shrink: 0;
+        user-select: none;
     }
 
     // ===== 尺寸变体 =====
@@ -349,7 +350,8 @@
             transform: translate(-50%, -50%);
             margin: 0;
             text-align: center;
-            font-size: var(--cp-font-size-lg);
+            // 优先级：SCSS 覆盖 > JS 按 width 动态计算 > 默认 lg
+            font-size: var(--cp-progress-circle-font-size, var(--cp-font-size-lg));
             font-weight: 700;
             color: var(--cp-text-primary);
         }

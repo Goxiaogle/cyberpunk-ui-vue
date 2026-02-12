@@ -21,6 +21,8 @@ const ns = useNamespace('progress')
 const progressSizePresets = ['sm', 'md', 'lg', 'xl', 'xxl'] as const
 // Progress 尺寸预设映射（用于 strokeWidth 计算）
 const progressSizeMap: Record<string, number> = { sm: 6, md: 10, lg: 14, xl: 18, xxl: 22 }
+// 环形/仪表盘基准直径（与 width prop 默认值一致，用于 strokeWidth 比例缩放）
+const BASE_WIDTH = 126
 
 // 计算实际百分比 (0-100)
 const actualPercentage = computed(() => {
@@ -41,15 +43,23 @@ const progressColor = computed(() => {
   return props.color || undefined
 })
 
+// 按 width 比例缩放 strokeWidth（仅用于 circle/dashboard）
+const scaleStroke = (base: number): number => {
+  const scale = props.width / BASE_WIDTH
+  return Math.round(Math.max(2, Math.min(base * scale, props.width / 4)))
+}
+
 // 计算 stroke-width 默认值
 const strokeWidthComputed = computed(() => {
   if (props.strokeWidth !== undefined) return props.strokeWidth
   // 预设值使用映射表
   if (isPresetSize(props.size, progressSizePresets)) {
-    return progressSizeMap[props.size] || 8
+    const base = progressSizeMap[props.size] || 8
+    return props.type !== 'line' ? scaleStroke(base) : base
   }
   // 自定义值：解析为数字
-  return parseSizeNumber(props.size, progressSizeMap, 8)
+  const base = parseSizeNumber(props.size, progressSizeMap, 8)
+  return props.type !== 'line' ? scaleStroke(base) : base
 })
 
 // 线性进度条样式
@@ -276,6 +286,15 @@ const circleSvgStyle = computed<CSSProperties>(() => {
   }
 })
 
+// 环形/仪表盘文字大小：按 width 比例缩放，设置上下限
+// 基准：width=126 → 19px，线性系数 ≈ 0.15
+// 下限 10px（避免不可读），上限 20px（避免过大）
+const circleTextFontSize = computed(() => {
+  if (props.type === 'line') return undefined
+  const scaled = Math.round(props.width * 0.15)
+  return `${Math.max(10, Math.min(scaled, 20))}px`
+})
+
 // 格式化显示文字
 const displayText = computed(() => {
   if (props.format) {
@@ -336,7 +355,13 @@ const stepItems = computed<StepItem[]>(() => {
 </script>
 
 <template>
-  <div :class="classes" :style="indeterminate ? indeterminateStyle : undefined">
+  <div
+    :class="classes"
+    :style="[
+      indeterminate ? indeterminateStyle : undefined,
+      circleTextFontSize ? { '--cp-progress-circle-font-size': circleTextFontSize } : undefined,
+    ]"
+  >
     <!-- 线性进度条 -->
     <template v-if="type === 'line'">
       <!-- Step 模式：分段进度条 -->

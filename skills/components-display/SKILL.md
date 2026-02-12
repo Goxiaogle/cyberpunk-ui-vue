@@ -140,33 +140,70 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ## CpProgress 进度条
 
-赛博朋克风格进度展示。
+赛博朋克风格进度展示，支持线性、环形、仪表盘三种模式。
 
 ### Props
 
-| 属性            | 类型                                              | 默认值   | 说明       |
-| --------------- | ------------------------------------------------- | -------- | ---------- |
-| `percentage`    | `number`                                          | `0`      | 当前进度值 |
-| `max`           | `number`                                          | `100`    | 最大值     |
-| `type`          | `'line' \| 'circle' \| 'dashboard'`               | `'line'` | 进度条类型 |
-| `size`          | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| number` | `'md'`   | 尺寸       |
-| `shape`         | `'clip' \| 'no-clip' \| 'round'`                  | `'clip'` | 形状       |
-| `status`        | `'success' \| 'warning' \| 'error'`               | -        | 状态       |
-| `color`         | `string \| string[] \| ((percentage) => string)`  | `''`     | 自定义颜色 |
-| `showText`      | `boolean`                                         | `true`   | 显示文字   |
-| `textInside`    | `boolean`                                         | `false`  | 文字在内部 |
-| `striped`       | `boolean`                                         | `false`  | 条纹效果   |
-| `stripedFlow`   | `boolean`                                         | `false`  | 条纹流动   |
-| `indeterminate` | `boolean`                                         | `false`  | 不确定进度 |
-| `steps`         | `boolean`                                         | `false`  | 分段模式   |
+| 属性              | 类型                                              | 默认值   | 说明                                            |
+| ----------------- | ------------------------------------------------- | -------- | ----------------------------------------------- |
+| `percentage`      | `number`                                          | `0`      | 当前进度值                                      |
+| `max`             | `number`                                          | `100`    | 最大值（Step 模式下同时决定分段数量）           |
+| `type`            | `'line' \| 'circle' \| 'dashboard'`               | `'line'` | 进度条类型                                      |
+| `size`            | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| number` | `'md'`   | 尺寸                                            |
+| `shape`           | `'clip' \| 'no-clip' \| 'round'`                  | `'clip'` | 形状                                            |
+| `status`          | `'success' \| 'warning' \| 'error'`               | -        | 状态                                            |
+| `color`           | `string \| string[] \| ((percentage) => string)`  | `''`     | 自定义颜色                                      |
+| `strokeWidth`     | `number`                                          | -        | 进度条轨道宽度 (px)，默认根据 size 自动计算     |
+| `width`           | `number`                                          | `126`    | 环形直径 (px)，仅 circle/dashboard 有效         |
+| `showText`        | `boolean`                                         | `true`   | 显示文字                                        |
+| `textInside`      | `boolean`                                         | `false`  | 文字在内部（仅 line）                           |
+| `textColor`       | `string`                                          | -        | 内部文字颜色（仅 textInside 时）                |
+| `format`          | `(percentage: number) => string`                  | -        | 自定义文字格式                                  |
+| `striped`         | `boolean`                                         | `false`  | 条纹效果                                        |
+| `stripedFlow`     | `boolean`                                         | `false`  | 条纹流动                                        |
+| `indeterminate`   | `boolean`                                         | `false`  | 不确定进度                                      |
+| `duration`        | `number \| string`                                | `3000`   | 不确定模式动画时长                              |
+| `loading`         | `boolean`                                         | `false`  | 加载状态（光波扫过）                            |
+| `steps`           | `boolean`                                         | `false`  | 分段模式                                        |
+| `stepGap`         | `number`                                          | `2`      | 分段间距 (px)                                   |
+| `stepColors`      | `string[]`                                        | `[]`     | 各分段自定义颜色                                |
+| `showInnerStripe` | `boolean`                                         | -        | 内圈虚线装饰（circle 默认开，dashboard 默认关） |
+
+### 自适应行为
+
+circle/dashboard 模式下，当 `strokeWidth` 未显式设置时：
+
+- **环形条宽度**按 `width / 126` 比例自动缩放，范围 2px ~ width/4
+- **文字大小**按 `width * 0.15` 自动缩放，范围 10px ~ 20px
+
+### CSS 变量
+
+| 变量                             | 默认值                    | 说明                                    |
+| -------------------------------- | ------------------------- | --------------------------------------- |
+| `--cp-progress-color`            | `var(--cp-color-primary)` | 进度条颜色                              |
+| `--cp-progress-circle-font-size` | 按 width 自动计算         | 环形/仪表盘文字大小，可覆盖禁用自动缩放 |
+
+### 插槽
+
+| 名称      | 说明                                 |
+| --------- | ------------------------------------ |
+| `default` | 自定义进度文字内容（覆盖默认百分比） |
 
 ### 示例
 
 ```vue
 <CpProgress :percentage="60" />
 <CpProgress type="circle" :percentage="75" />
+<CpProgress type="circle" :percentage="75" :width="80" />
 <CpProgress :percentage="50" striped striped-flow />
 <CpProgress indeterminate />
+
+<!-- 自定义环形文字大小 -->
+<CpProgress
+  type="circle"
+  :percentage="60"
+  style="--cp-progress-circle-font-size: 14px"
+/>
 ```
 
 ---

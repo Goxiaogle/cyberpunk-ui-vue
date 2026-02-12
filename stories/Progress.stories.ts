@@ -404,10 +404,27 @@ export const 环形尺寸: Story = {
     render: () => ({
         components: { CpProgress },
         template: `
-      <div style="display: flex; gap: 24px; align-items: center;">
-        <CpProgress type="circle" :percentage="60" :width="80" />
-        <CpProgress type="circle" :percentage="60" :width="126" />
-        <CpProgress type="circle" :percentage="60" :width="180" />
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div>
+          <div style="margin-bottom: 8px; color: var(--cp-text-secondary); font-size: 12px;">不同直径下 strokeWidth 自动缩放 (size=md)</div>
+          <div style="display: flex; gap: 24px; align-items: center;">
+            <CpProgress type="circle" :percentage="60" :width="60" />
+            <CpProgress type="circle" :percentage="60" :width="80" />
+            <CpProgress type="circle" :percentage="60" :width="126" />
+            <CpProgress type="circle" :percentage="60" :width="180" />
+            <CpProgress type="circle" :percentage="60" :width="240" />
+          </div>
+        </div>
+        <div>
+          <div style="margin-bottom: 8px; color: var(--cp-text-secondary); font-size: 12px;">Dashboard 同理</div>
+          <div style="display: flex; gap: 24px; align-items: center;">
+            <CpProgress type="dashboard" :percentage="60" :width="60" />
+            <CpProgress type="dashboard" :percentage="60" :width="80" />
+            <CpProgress type="dashboard" :percentage="60" :width="126" />
+            <CpProgress type="dashboard" :percentage="60" :width="180" />
+            <CpProgress type="dashboard" :percentage="60" :width="240" />
+          </div>
+        </div>
       </div>
     `,
     }),
