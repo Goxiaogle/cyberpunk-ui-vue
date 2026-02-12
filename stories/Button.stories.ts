@@ -394,16 +394,20 @@ export const 自定义主题色: Story = {
     setup() {
       const setThemeColor = (color: string) => {
         document.documentElement.style.setProperty('--cp-color-primary', color)
-        document.documentElement.style.setProperty('--cp-color-primary-light', color + '33')
       }
       const resetTheme = () => {
         document.documentElement.style.removeProperty('--cp-color-primary')
-        document.documentElement.style.removeProperty('--cp-color-primary-light')
       }
       return { setThemeColor, resetTheme }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 12px; margin: 0;">
+          💡 只需覆盖 <code style="color: var(--cp-color-primary);">--cp-color-primary</code>，
+          <code style="color: var(--cp-color-primary);">-light</code> 和
+          <code style="color: var(--cp-color-primary);">-dark</code> 会通过 color-mix() 自动推导，
+          无需手动设置。其它颜色（success / warning / error / info）同理。
+        </p>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <CpButton @click="setThemeColor('#ff6b6b')" color="#ff6b6b" size="sm">珊瑚红</CpButton>
           <CpButton @click="setThemeColor('#4ecdc4')" color="#4ecdc4" size="sm">薄荷绿</CpButton>
@@ -414,13 +418,14 @@ export const 自定义主题色: Story = {
           <CpButton @click="resetTheme()" variant="outline" size="sm">🔄 重置</CpButton>
         </div>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <CpButton type="primary">Primary 按钮</CpButton>
+          <CpButton type="primary">Solid</CpButton>
           <CpButton type="primary" variant="outline">Outline</CpButton>
           <CpButton type="primary" variant="semi">Semi</CpButton>
-          <CpButton type="primary" variant="neon">Neon</CpButton>
+          <CpButton type="primary" variant="ghost">Ghost</CpButton>
+          <CpButton type="primary" variant="neon">Neon ✨</CpButton>
         </div>
-        <p style="color: var(--cp-text-secondary); font-size: 12px;">
-          💡 点击上方颜色按钮可实时更换全局主题色 (--cp-color-primary)
+        <p style="color: var(--cp-text-muted); font-size: 11px; margin: 0;">
+          观察 Neon 的发光效果和 Semi 的半透明背景均自动跟随主色变化
         </p>
       </div>
     `,

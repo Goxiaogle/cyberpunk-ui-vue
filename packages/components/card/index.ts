@@ -19,6 +19,8 @@ import Card from './src/card.vue'
  * @slot title - 仅标题区域
  * @slot extra - 头部右侧额外操作区
  * @slot footer - 卡片底部区域
+ * @slot cover - 卡片封面区域（位于头部前）
+ * @slot overlay - 卡片悬停操作层
  */
 export const CpCard = withInstall(Card)
 export default CpCard

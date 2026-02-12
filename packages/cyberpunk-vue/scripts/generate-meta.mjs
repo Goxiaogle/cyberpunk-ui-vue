@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { resolve } from 'path'
+import { relative, resolve } from 'path'
 import ts from 'typescript'
 
 function toKebabCase(name) {
@@ -97,6 +97,10 @@ function getSourceText(node, sourceText) {
 function simplifyTypeText(typeText) {
   return typeText.replace(/\s+/g, ' ').trim()
 }
+
+const TYPE_FORMAT_FLAGS = ts.TypeFormatFlags.NoTruncation
+  | ts.TypeFormatFlags.InTypeAlias
+  | ts.TypeFormatFlags.UseSingleQuotesForStringLiteralType
 
 function extractGenericType(typeExpression, marker) {
   const start = typeExpression.indexOf(marker)
@@ -211,6 +215,64 @@ function resolveImportTsPath(filePath, importPath) {
   return candidates.find((candidate) => existsSync(candidate)) || ''
 }
 
+function formatWebTypesPath(packageRoot, filePath) {
+  const normalized = relative(packageRoot, filePath).replace(/\\/g, '/')
+  if (normalized.startsWith('.') || normalized.startsWith('/')) return normalized
+  return `./${normalized}`
+}
+
+function createSourceMeta(packageRoot, filePath, offset) {
+  return {
+    file: formatWebTypesPath(packageRoot, filePath),
+    offset
+  }
+}
+
+function loadCompilerOptions(workspaceRoot) {
+  const configPath = ts.findConfigFile(workspaceRoot, ts.sys.fileExists, 'tsconfig.json')
+  if (!configPath) return {}
+
+  const readResult = ts.readConfigFile(configPath, ts.sys.readFile)
+  if (readResult.error) return {}
+
+  const parsed = ts.parseJsonConfigFileContent(
+    readResult.config,
+    ts.sys,
+    resolve(configPath, '..')
+  )
+  return parsed.options || {}
+}
+
+function createTypeAnalyzer(compilerOptions) {
+  let cachedPath = ''
+  let cachedContext = null
+
+  function getSourceFileFromProgram(program, sourceFilePath) {
+    const resolvedPath = resolve(sourceFilePath)
+    return program.getSourceFiles().find((sourceFile) => resolve(sourceFile.fileName) === resolvedPath) || null
+  }
+
+  return {
+    getContext(sourceFilePath) {
+      const resolvedPath = resolve(sourceFilePath)
+      if (!cachedContext || cachedPath !== resolvedPath) {
+        const program = ts.createProgram([resolvedPath], compilerOptions)
+        cachedContext = {
+          program,
+          checker: program.getTypeChecker()
+        }
+        cachedPath = resolvedPath
+      }
+
+      const { program, checker } = cachedContext
+      return {
+        checker,
+        sourceFile: getSourceFileFromProgram(program, resolvedPath)
+      }
+    }
+  }
+}
+
 function extractScriptSetup(vueContent) {
   const match = vueContent.match(/<script\b[^>]*\bsetup\b[^>]*>([\s\S]*?)<\/script>/i)
   return match?.[1] || ''
@@ -260,11 +322,44 @@ function extractMacroBinding(vueFilePath, macroName) {
   return { identifier: macroIdentifier, sourcePath }
 }
 
-function parsePropsFromSource(sourceFilePath, propsIdentifier) {
+function getPropTypeNode(typeExpressionNode) {
+  if (!typeExpressionNode) return undefined
+
+  if (ts.isParenthesizedExpression(typeExpressionNode)) {
+    return getPropTypeNode(typeExpressionNode.expression)
+  }
+
+  if (ts.isAsExpression(typeExpressionNode) || ts.isTypeAssertionExpression(typeExpressionNode)) {
+    if (
+      ts.isTypeReferenceNode(typeExpressionNode.type)
+      && ts.isIdentifier(typeExpressionNode.type.typeName)
+      && typeExpressionNode.type.typeName.text === 'PropType'
+      && typeExpressionNode.type.typeArguments?.length === 1
+    ) {
+      return typeExpressionNode.type.typeArguments[0]
+    }
+
+    return getPropTypeNode(typeExpressionNode.expression)
+  }
+
+  return undefined
+}
+
+function formatTypeFromTypeNode(typeNode, checker) {
+  if (!typeNode || !checker) return ''
+  const type = checker.getTypeFromTypeNode(typeNode)
+  if (!type) return ''
+  return simplifyTypeText(checker.typeToString(type, typeNode, TYPE_FORMAT_FLAGS))
+}
+
+function parsePropsFromSource(sourceFilePath, propsIdentifier, context) {
   if (!sourceFilePath || !existsSync(sourceFilePath)) return []
 
   const sourceText = readFileSync(sourceFilePath, 'utf8')
-  const sourceFile = ts.createSourceFile(sourceFilePath, sourceText, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const analyzeContext = context.typeAnalyzer.getContext(sourceFilePath)
+  const sourceFile = analyzeContext.sourceFile
+    || ts.createSourceFile(sourceFilePath, sourceText, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const checker = analyzeContext.checker
 
   const declarationMatch = propsIdentifier
     ? findExportedConstDeclaration(sourceFile, (name) => name === propsIdentifier)
@@ -284,6 +379,7 @@ function parsePropsFromSource(sourceFilePath, propsIdentifier) {
 
     const jsDoc = parseJsDoc(getLeadingJsDocText(sourceText, property))
     let typeExpression = ''
+    let typeNode
     let required = false
     let defaultValue
 
@@ -293,6 +389,7 @@ function parsePropsFromSource(sourceFilePath, propsIdentifier) {
         const optionName = getPropertyName(optionProperty.name)
         if (optionName === 'type') {
           typeExpression = getSourceText(optionProperty.initializer, sourceText)
+          typeNode = getPropTypeNode(optionProperty.initializer)
         }
         if (optionName === 'required' && optionProperty.initializer.kind === ts.SyntaxKind.TrueKeyword) {
           required = true
@@ -305,13 +402,20 @@ function parsePropsFromSource(sourceFilePath, propsIdentifier) {
       typeExpression = getSourceText(property.initializer, sourceText)
     }
 
-    const propItem = { name }
+    const propItem = {
+      name,
+      source: createSourceMeta(
+        context.packageRoot,
+        sourceFilePath,
+        property.name.getStart(sourceFile)
+      )
+    }
     const description = jsDoc.description
     if (description) propItem.description = description
     if (required) propItem.required = true
     if (defaultValue !== undefined) propItem.default = defaultValue
 
-    const parsedType = parsePropType(typeExpression)
+    const parsedType = formatTypeFromTypeNode(typeNode, checker) || parsePropType(typeExpression)
     if (parsedType) {
       propItem.type = [parsedType]
     }
@@ -322,11 +426,13 @@ function parsePropsFromSource(sourceFilePath, propsIdentifier) {
   return props
 }
 
-function parseEmitsFromSource(sourceFilePath, emitsIdentifier) {
+function parseEmitsFromSource(sourceFilePath, emitsIdentifier, context) {
   if (!sourceFilePath || !existsSync(sourceFilePath)) return []
 
   const sourceText = readFileSync(sourceFilePath, 'utf8')
-  const sourceFile = ts.createSourceFile(sourceFilePath, sourceText, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const analyzeContext = context.typeAnalyzer.getContext(sourceFilePath)
+  const sourceFile = analyzeContext.sourceFile
+    || ts.createSourceFile(sourceFilePath, sourceText, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
 
   const declarationMatch = emitsIdentifier
     ? findExportedConstDeclaration(sourceFile, (name) => name === emitsIdentifier)
@@ -345,7 +451,14 @@ function parseEmitsFromSource(sourceFilePath, emitsIdentifier) {
     if (!name) continue
 
     const jsDoc = parseJsDoc(getLeadingJsDocText(sourceText, property))
-    const eventItem = { name }
+    const eventItem = {
+      name,
+      source: createSourceMeta(
+        context.packageRoot,
+        sourceFilePath,
+        property.name.getStart(sourceFile)
+      )
+    }
     if (jsDoc.description) eventItem.description = jsDoc.description
     events.push(eventItem)
   }
@@ -353,7 +466,7 @@ function parseEmitsFromSource(sourceFilePath, emitsIdentifier) {
   return events
 }
 
-function collectComponentMeta(componentsRoot) {
+function collectComponentMeta(componentsRoot, context) {
   const exportModules = getExportModules(componentsRoot)
   const allComponents = []
 
@@ -404,8 +517,8 @@ function collectComponentMeta(componentsRoot) {
         const propsSourcePath = propsBinding.sourcePath || (existsSync(defaultSourcePath) ? defaultSourcePath : '')
         const emitsSourcePath = emitsBinding.sourcePath || propsSourcePath
 
-        const props = parsePropsFromSource(propsSourcePath, propsBinding.identifier)
-        const events = parseEmitsFromSource(emitsSourcePath, emitsBinding.identifier)
+        const props = parsePropsFromSource(propsSourcePath, propsBinding.identifier, context)
+        const events = parseEmitsFromSource(emitsSourcePath, emitsBinding.identifier, context)
 
         allComponents.push({
           componentName,
@@ -495,11 +608,17 @@ function generateWebTypes(packageName, packageVersion, components) {
 
 function main() {
   const packageRoot = resolve(import.meta.dirname, '..')
+  const workspaceRoot = resolve(packageRoot, '../..')
   const componentsRoot = resolve(packageRoot, '../components')
   const packageJsonPath = resolve(packageRoot, 'package.json')
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+  const compilerOptions = loadCompilerOptions(workspaceRoot)
+  const typeAnalyzer = createTypeAnalyzer(compilerOptions)
 
-  const components = collectComponentMeta(componentsRoot)
+  const components = collectComponentMeta(componentsRoot, {
+    packageRoot,
+    typeAnalyzer
+  })
   if (components.length === 0) {
     throw new Error('No installable components found in packages/components.')
   }

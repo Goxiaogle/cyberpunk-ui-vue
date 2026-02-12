@@ -104,6 +104,8 @@ export type CardCustomClass =
  * - `title` - 仅标题区域
  * - `extra` - 头部右侧额外操作区
  * - `footer` - 卡片底部区域
+ * - `cover` - 卡片封面区域（位于头部前）
+ * - `overlay` - 卡片悬停操作层
  */
 export const cardProps = {
   /**
