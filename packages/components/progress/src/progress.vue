@@ -5,7 +5,7 @@
  * 支持条纹效果、流动动画、不确定状态
  */
 import { computed, type CSSProperties } from 'vue'
-import { useNamespace, normalizeDuration, isPresetSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration, isPresetSize, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { progressProps } from './progress'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -49,8 +49,7 @@ const strokeWidthComputed = computed(() => {
     return progressSizeMap[props.size] || 8
   }
   // 自定义值：解析为数字
-  const parsed = typeof props.size === 'number' ? props.size : parseInt(props.size, 10)
-  return isNaN(parsed) ? 8 : parsed
+  return parseSizeNumber(props.size, progressSizeMap, 8)
 })
 
 // 线性进度条样式

@@ -6,7 +6,7 @@ export { useDefaults } from './use-defaults'
 export { useDuration, normalizeDuration } from './use-duration'
 export type { DurationValue } from './use-duration'
 
-export { useSize, normalizeSize, isPresetSize } from './use-size'
+export { useSize, normalizeSize, isPresetSize, parseSizeNumber } from './use-size'
 export type { SizeValue, CommonSize, Size } from './use-size'
 
 export {

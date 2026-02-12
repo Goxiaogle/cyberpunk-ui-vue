@@ -4,7 +4,7 @@
  * 支持多种文字效果：下划线、方框、加粗、斜体、删除线、发光、马克笔
  */
 import { computed } from 'vue'
-import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textProps } from './text'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -26,10 +26,10 @@ const typeColorMap: Record<string, string> = {
 }
 
 // 尺寸映射
-const sizeMap: Record<string, string> = {
-  sm: '12px',
-  md: '14px',
-  lg: '16px',
+const sizeMap: Record<string, number> = {
+  sm: 12,
+  md: 14,
+  lg: 16,
 }
 
 // 计算类名
@@ -64,10 +64,9 @@ const customStyle = computed(() => {
   }
 
   // 尺寸处理
-  if (typeof props.size === 'number') {
-    style['--cp-text-size'] = `${props.size}px`
-  } else if (props.size && sizeMap[props.size]) {
-    style['--cp-text-size'] = sizeMap[props.size]
+  const sizeStr = normalizeSize(props.size, sizeMap)
+  if (sizeStr) {
+    style['--cp-text-size'] = sizeStr
   }
 
   // 发光强度 (1-10 映射到 1px-10px)

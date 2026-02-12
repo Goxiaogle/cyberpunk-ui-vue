@@ -4,7 +4,7 @@
  * 支持懒加载、加载占位、错误处理等功能
  */
 import { ref, computed, onMounted, onBeforeUnmount, watch, toRef } from 'vue'
-import { useNamespace, useImageSrc, normalizeDuration } from '@cyberpunk-vue/hooks'
+import { useNamespace, useImageSrc, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { imageProps, imageEmits } from './image'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -64,10 +64,10 @@ const containerStyle = computed(() => {
     const style: Record<string, string> = {}
 
     if (props.width) {
-        style.width = typeof props.width === 'number' ? `${props.width}px` : props.width
+        style.width = normalizeSize(props.width)
     }
     if (props.height) {
-        style.height = typeof props.height === 'number' ? `${props.height}px` : props.height
+        style.height = normalizeSize(props.height)
     }
 
     // 装饰块颜色 - 所有 type 都映射颜色

@@ -4,7 +4,7 @@
  * 支持 Vue 组件 (unplugin-icons)、SVG 字符串、CSS 字体图标
  */
 import { computed } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, normalizeSize } from '@cyberpunk-vue/hooks'
 import { iconProps } from './icon'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -32,12 +32,7 @@ const iconType = computed(() => {
 })
 
 // 计算尺寸样式
-const sizeStyle = computed(() => {
-  const size = props.size
-  if (typeof size === 'number') return `${size}px`
-  if (size in sizeMap) return `${sizeMap[size]}px`
-  return size
-})
+const sizeStyle = computed(() => normalizeSize(props.size, sizeMap))
 
 const classes = computed(() => [
   ns.b(),

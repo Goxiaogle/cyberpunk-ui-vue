@@ -5,7 +5,7 @@
  * 支持弧线伸缩 + 旋转双重动画
  */
 import { computed } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, isPresetSize, normalizeSize, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { loadingProps } from './loading'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -27,11 +27,7 @@ const sizeMap: Record<string, number> = {
 
 // 计算 SVG 尺寸 - 支持自定义值
 const svgSize = computed(() => {
-  if (typeof props.size === 'number') return props.size
-  if (typeof props.size === 'string' && props.size in sizeMap) return sizeMap[props.size]
-  // 对于自定义字符串值，解析为数字或返回默认值
-  const parsed = parseInt(props.size as string, 10)
-  return isNaN(parsed) ? sizeMap.md : parsed
+  return parseSizeNumber(props.size, sizeMap, sizeMap.md)
 })
 const radius = computed(() => (svgSize.value - props.strokeWidth) / 2)
 

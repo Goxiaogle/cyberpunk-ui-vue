@@ -4,7 +4,7 @@
  * 用于展示一组头像，支持堆叠和折叠模式
  */
 import { computed, provide, useSlots, type Slot, type VNode } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { avatarGroupProps, AVATAR_GROUP_INJECTION_KEY, type AvatarGroupContext } from './avatar-group'
 import { avatarSizeMap } from './avatar'
@@ -20,9 +20,7 @@ const ns = useNamespace('avatar-group')
 
 // 计算实际尺寸值（px）
 const sizeValue = computed(() => {
-    const size = props.size
-    if (typeof size === 'number') return size
-    return avatarSizeMap[size] ?? avatarSizeMap.md
+    return parseSizeNumber(props.size, avatarSizeMap, avatarSizeMap.md)
 })
 
 // 计算间距值

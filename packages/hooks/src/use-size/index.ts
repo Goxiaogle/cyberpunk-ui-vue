@@ -82,6 +82,60 @@ export function normalizeSize(
 }
 
 /**
+ * 将尺寸值解析为数字（px 值）
+ *
+ * 用于需要数字而非 CSS 字符串的场景（如 SVG viewBox、数学计算）
+ *
+ * @param value - 尺寸值
+ * @param sizeMap - 预设值映射表
+ * @param fallback - 解析失败时的默认值
+ * @returns 数字 px 值
+ *
+ * @example
+ * ```ts
+ * parseSizeNumber(32)                    // => 32
+ * parseSizeNumber('32')                  // => 32
+ * parseSizeNumber('32px')                // => 32
+ * parseSizeNumber('md', { md: 40 })      // => 40
+ * parseSizeNumber('2rem')                // => 0 (无法解析为 px)
+ * parseSizeNumber('2rem', undefined, 24) // => 24
+ * ```
+ */
+export function parseSizeNumber(
+    value: SizeValue,
+    sizeMap?: Record<string, number>,
+    fallback: number = 0
+): number {
+    // 空值返回 fallback
+    if (value === undefined || value === '') return fallback
+
+    // 数字直接返回
+    if (typeof value === 'number') return value
+
+    // 字符串处理
+    const trimmed = value.trim()
+
+    // 1. 检查是否为预设值
+    if (sizeMap && trimmed in sizeMap) {
+        return sizeMap[trimmed]
+    }
+
+    // 2. 纯数字字符串
+    if (isNumericString(trimmed)) {
+        return parseFloat(trimmed)
+    }
+
+    // 3. 尝试解析带 px 单位的值
+    const pxMatch = trimmed.match(/^(-?\d+(\.\d+)?)px$/)
+    if (pxMatch) {
+        return parseFloat(pxMatch[1])
+    }
+
+    // 4. 无法解析，返回 fallback
+    return fallback
+}
+
+/**
  * 检测 size 值是否为 CommonSize 预设值
  * 用于组件判断是否应用 CSS 类名还是内联样式
  *

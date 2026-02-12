@@ -4,7 +4,7 @@
  * 支持多种尺寸、形状，可显示图片、图标或文字
  */
 import { ref, computed, inject, useSlots, toRef, watch } from 'vue'
-import { useNamespace, useImageSrc } from '@cyberpunk-vue/hooks'
+import { useNamespace, useImageSrc, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { CpIcon } from '../../icon'
 import { avatarProps, avatarEmits, avatarSizeMap } from './avatar'
@@ -49,9 +49,7 @@ const mergedShape = computed(() => {
 
 // 计算实际尺寸值（px）
 const sizeValue = computed(() => {
-    const size = mergedSize.value
-    if (typeof size === 'number') return size
-    return avatarSizeMap[size] ?? avatarSizeMap.md
+    return parseSizeNumber(mergedSize.value, avatarSizeMap, avatarSizeMap.md)
 })
 
 // 类名
