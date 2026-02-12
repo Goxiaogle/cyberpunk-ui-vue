@@ -30,7 +30,7 @@ const meta: Meta<typeof CpTag> = {
     },
     shape: {
       control: 'select',
-      options: ['clip', 'no-clip', 'round'],
+      options: ['clip', 'no-clip', 'round', 'circle'],
       description: '形状模式',
     },
     closable: {
@@ -208,6 +208,7 @@ export const Variants: Story = {
  * - **Clip**: 机甲切角效果（默认）
  * - **No-clip**: 标准直角
  * - **Round**: 圆角效果
+ * - **Circle**: 全圆角胶囊形
  */
 export const Shapes: Story = {
   render: () => ({
@@ -217,6 +218,7 @@ export const Shapes: Story = {
         <CpTag type="primary" shape="clip">Clip 切角</CpTag>
         <CpTag type="primary" shape="no-clip">No-clip 直角</CpTag>
         <CpTag type="primary" shape="round">Round 圆角</CpTag>
+        <CpTag type="primary" shape="circle">Circle 胶囊</CpTag>
       </div>
     `,
   }),

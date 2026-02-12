@@ -35,8 +35,9 @@ export type TagVariant = 'solid' | 'outline' | 'semi' | 'note'
  * - `clip` - 机甲切角（默认）
  * - `no-clip` - 标准直角
  * - `round` - 圆角
+ * - `circle` - 全圆角（胶囊形）
  */
-export type TagShape = 'clip' | 'no-clip' | 'round'
+export type TagShape = 'clip' | 'no-clip' | 'round' | 'circle'
 
 /**
  * CpTag 组件 Props 定义
@@ -92,6 +93,7 @@ export const tagProps = {
      * - `clip`: 机甲切角效果（默认）
      * - `no-clip`: 标准直角
      * - `round`: 圆角效果
+     * - `circle`: 全圆角胶囊形
      * @default 'clip'
      */
     shape: {
