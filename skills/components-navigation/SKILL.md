@@ -14,19 +14,23 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 
 ### Props
 
-| 属性              | 类型                                                                    | 默认值       | 说明                           |
-| ----------------- | ----------------------------------------------------------------------- | ------------ | ------------------------------ |
-| `mode`            | `'horizontal' \| 'vertical'`                                            | `'vertical'` | 菜单布局方向                   |
-| `defaultActive`   | `string`                                                                | `''`         | 默认激活的菜单项 index         |
-| `defaultOpeneds`  | `string[]`                                                              | `[]`         | 默认展开的子菜单 index 数组    |
-| `uniqueOpened`    | `boolean`                                                               | `false`      | 手风琴模式（只展开一个子菜单） |
-| `collapse`        | `boolean`                                                               | `false`      | 折叠菜单（仅 vertical 有效）   |
-| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`  | 颜色预设类型                   |
-| `color`           | `string`                                                                | `''`         | 自定义高亮颜色（覆盖 type）    |
-| `backgroundColor` | `string`                                                                | `''`         | 菜单背景色                     |
-| `textColor`       | `string`                                                                | `''`         | 菜单文字颜色                   |
-| `activeTextColor` | `string`                                                                | `''`         | 激活项文字颜色                 |
-| `router`          | `boolean`                                                               | `false`      | 启用 vue-router 模式           |
+| 属性             | 类型                                                                    | 默认值       | 说明                           |
+| ---------------- | ----------------------------------------------------------------------- | ------------ | ------------------------------ |
+| `mode`           | `'horizontal' \| 'vertical'`                                            | `'vertical'` | 菜单布局方向                   |
+| `shape`          | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`     | 菜单项形状                     |
+| `variant`        | `'solid' \| 'outline' \| 'note'`                                        | `'solid'`    | 菜单变体                       |
+| `defaultActive`  | `string`                                                                | `''`         | 默认激活的菜单项 index         |
+| `defaultOpeneds` | `string[]`                                                              | `[]`         | 默认展开的子菜单 index 数组    |
+| `uniqueOpened`   | `boolean`                                                               | `false`      | 手风琴模式（只展开一个子菜单） |
+| `collapse`       | `boolean`                                                               | `false`      | 折叠菜单（仅 vertical 有效）   |
+| `type`           | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`  | 颜色预设类型                   |
+| `color`          | `string`                                                                | `''`         | 自定义高亮颜色（覆盖 type）    |
+| `router`         | `boolean`                                                               | `false`      | 启用 vue-router 模式           |
+
+> [!TIP]
+>
+> - **shape**: `clip` 切角（赛博朋克特色）、`no-clip` 直角、`round` 圆角、`circle` 全圆角胶囊形
+> - **variant**: `solid` 实心填充背景（默认）、`outline` 边框样式、`note` 透明背景 + 发光条高亮
 
 ### 事件
 
@@ -44,19 +48,26 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 
 ### CSS 变量
 
-| 变量                     | 默认值                     | 说明                   |
-| ------------------------ | -------------------------- | ---------------------- |
-| `--cp-menu-bg`           | `transparent`              | 菜单主体背景色         |
-| `--cp-menu-popup-bg`     | `var(--cp-bg-elevated)`    | 水平模式弹出面板背景色 |
-| `--cp-menu-item-height`  | `46px`                     | 菜单项高度             |
-| `--cp-menu-text`         | `var(--cp-text-secondary)` | 菜单文字颜色           |
-| `--cp-menu-active-color` | `var(--cp-color-primary)`  | 激活色                 |
-| `--cp-menu-hover-bg`     | `var(--cp-state-hover)`    | 悬停背景色             |
-| `--cp-menu-border`       | `var(--cp-border)`         | 边框颜色               |
+| 变量                           | 默认值                              | 说明           |
+| ------------------------------ | ----------------------------------- | -------------- |
+| `--cp-menu-bg`                 | `transparent`                       | 菜单主体背景色 |
+| `--cp-menu-popup-bg`           | `var(--cp-bg-elevated)`             | 弹出面板背景色 |
+| `--cp-menu-item-height`        | `46px`                              | 菜单项高度     |
+| `--cp-menu-text`               | `var(--cp-text-secondary)`          | 未选中文字颜色 |
+| `--cp-menu-hover-text`         | `var(--cp-text-primary)`            | hover 文字颜色 |
+| `--cp-menu-active-text`        | `var(--cp-menu-active-color)`       | 选中文字颜色   |
+| `--cp-menu-icon`               | `var(--cp-menu-text)`               | 未选中图标颜色 |
+| `--cp-menu-active-icon`        | `var(--cp-menu-active-text)`        | 选中图标颜色   |
+| `--cp-menu-active-bg`          | `var(--cp-menu-active-color-light)` | 选中项背景色   |
+| `--cp-menu-active-font-weight` | `600`                               | 选中项字重     |
+| `--cp-menu-active-color`       | `var(--cp-color-primary)`           | 激活色         |
+| `--cp-menu-hover-bg`           | `var(--cp-state-hover)`             | 悬停背景色     |
+| `--cp-menu-border`             | `var(--cp-border)`                  | 边框颜色       |
 
 ### 示例
 
 ```vue
+<!-- 基础用法 -->
 <CpMenu default-active="1" @select="handleSelect">
   <CpMenuItem index="1" :icon="HomeIcon">首页</CpMenuItem>
   <CpSubMenu index="2" :icon="SettingsIcon">
@@ -64,6 +75,20 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
     <CpMenuItem index="2-1">用户管理</CpMenuItem>
     <CpMenuItem index="2-2">角色管理</CpMenuItem>
   </CpSubMenu>
+</CpMenu>
+
+<!-- 通过 CSS 变量自定义颜色 -->
+<CpMenu
+  default-active="1"
+  color="#ff00ff"
+  style="--cp-menu-bg: #1a1025; --cp-menu-text: #c0b0d0;"
+>
+  <CpMenuItem index="1">自定义配色</CpMenuItem>
+</CpMenu>
+
+<!-- 取消选中加粗 -->
+<CpMenu style="--cp-menu-active-font-weight: normal;">
+  <CpMenuItem index="1">不加粗</CpMenuItem>
 </CpMenu>
 ```
 

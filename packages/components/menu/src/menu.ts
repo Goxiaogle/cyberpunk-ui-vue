@@ -11,6 +11,23 @@ export type MenuType = 'default' | 'primary' | 'success' | 'warning' | 'error' |
 export type MenuMode = 'horizontal' | 'vertical'
 
 /**
+ * Menu 形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ * - `circle` - 全圆角胶囊形
+ */
+export type MenuShape = 'clip' | 'no-clip' | 'round' | 'circle'
+
+/**
+ * Menu 变体
+ * - `solid` - 实心填充背景，默认
+ * - `outline` - 边框样式
+ * - `note` - 透明背景 + 发光条高亮（旧默认样式）
+ */
+export type MenuVariant = 'solid' | 'outline' | 'note'
+
+/**
  * CpMenu 组件 Props 定义
  *
  * @description 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
@@ -34,6 +51,28 @@ export const menuProps = {
   mode: {
     type: String as PropType<MenuMode>,
     default: 'vertical',
+  },
+  /**
+   * 菜单形状
+   * - `clip` - 切角样式（默认，赛博朋克特色）
+   * - `no-clip` - 直角矩形
+   * - `round` - 圆角矩形
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<MenuShape>,
+    default: 'clip',
+  },
+  /**
+   * 菜单变体
+   * - `solid` - 实心填充背景（默认）
+   * - `outline` - 边框样式
+   * - `note` - 透明背景 + 发光条高亮
+   * @default 'solid'
+   */
+  variant: {
+    type: String as PropType<MenuVariant>,
+    default: 'solid',
   },
   /**
    * 默认激活的菜单项 index
@@ -80,30 +119,6 @@ export const menuProps = {
    * @default ''
    */
   color: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 菜单背景色，默认使用 --cp-bg-base
-   * @default ''
-   */
-  backgroundColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 菜单文字颜色，默认使用 --cp-text-secondary
-   * @default ''
-   */
-  textColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 激活项文字颜色，默认跟随高亮色
-   * @default ''
-   */
-  activeTextColor: {
     type: String,
     default: '',
   },

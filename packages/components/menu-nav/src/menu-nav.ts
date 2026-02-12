@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { IconValue } from '../../icon/src/icon'
-import type { MenuType, MenuMode } from '../../menu/src/menu'
+import type { MenuType, MenuMode, MenuShape, MenuVariant } from '../../menu/src/menu'
 
 /**
  * 菜单项数据结构
@@ -105,34 +105,26 @@ export const menuNavProps = {
     default: 'default',
   },
   /**
+   * 菜单形状
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<MenuShape>,
+    default: 'clip',
+  },
+  /**
+   * 菜单变体
+   * @default 'solid'
+   */
+  variant: {
+    type: String as PropType<MenuVariant>,
+    default: 'solid',
+  },
+  /**
    * 自定义高亮颜色
    * @default ''
    */
   color: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 菜单背景色
-   * @default ''
-   */
-  backgroundColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 菜单文字颜色
-   * @default ''
-   */
-  textColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 激活文字颜色
-   * @default ''
-   */
-  activeTextColor: {
     type: String,
     default: '',
   },

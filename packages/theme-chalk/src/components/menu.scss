@@ -1,9 +1,9 @@
 // CpMenu 组件样式
 // 赛博朋克/机甲风格 — 左侧发光条 + 霓虹高亮
 
-@use 'sass:map';
-@use '../common/var' as *;
-@use '../mixins/mixins' as *;
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
 
 // ===== 颜色映射 =====
 $menu-type-colors: (
@@ -16,10 +16,15 @@ $menu-type-colors: (
 
 // ===== CpMenu 主容器 =====
 @include b(menu) {
-  // CSS 变量默认值（可通过 props 覆盖）
+  // CSS 变量默认值（可通过 SCSS 变量覆盖）
   --cp-menu-bg: transparent;
   --cp-menu-text: var(--cp-text-secondary);
+  --cp-menu-hover-text: var(--cp-text-primary);
   --cp-menu-active-text: var(--cp-menu-active-color);
+  --cp-menu-icon: var(--cp-menu-text);
+  --cp-menu-active-icon: var(--cp-menu-active-text);
+  --cp-menu-active-bg: var(--cp-menu-active-color-light);
+  --cp-menu-active-font-weight: 600;
   --cp-menu-active-color: var(--cp-color-primary);
   --cp-menu-active-color-light: var(--cp-color-primary-light);
   --cp-menu-hover-bg: var(--cp-state-hover);
@@ -30,10 +35,11 @@ $menu-type-colors: (
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-family: "Rajdhani", "Inter", sans-serif;
   font-size: 14px;
   color: var(--cp-menu-text);
   background: var(--cp-menu-bg);
+  user-select: none;
 
   // ===== 垂直模式 =====
   @include m(vertical) {
@@ -48,7 +54,6 @@ $menu-type-colors: (
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-bottom: 1px solid var(--cp-menu-border);
 
     // 水平模式一级子菜单弹出定位
     > .cp-sub-menu {
@@ -86,10 +91,10 @@ $menu-type-colors: (
 
     > .cp-menu-item.is-active {
       color: var(--cp-menu-active-text);
-      background: var(--cp-menu-active-color-light);
+      background: var(--cp-menu-active-bg);
       border-bottom-color: var(--cp-menu-active-color);
       border-left-color: transparent;
-      font-weight: 600;
+      font-weight: var(--cp-menu-active-font-weight);
 
       // 底部发光条（覆盖垂直模式的左侧发光条）
       &::before {
@@ -99,15 +104,16 @@ $menu-type-colors: (
         bottom: -2px;
         width: auto;
         height: 2px;
-        box-shadow: 0 0 6px var(--cp-menu-active-color),
-                    0 -4px 12px var(--cp-menu-active-color-light);
+        box-shadow:
+          0 0 6px var(--cp-menu-active-color),
+          0 -4px 12px var(--cp-menu-active-color-light);
       }
     }
 
     // 水平模式下，子元素激活时父级标签高亮
     > .cp-sub-menu.is-active > .cp-sub-menu__title {
       color: var(--cp-menu-active-text);
-      background: var(--cp-menu-active-color-light);
+      background: var(--cp-menu-active-bg);
       border-bottom-color: var(--cp-menu-active-color);
     }
 
@@ -126,7 +132,10 @@ $menu-type-colors: (
       transform: rotate(0deg);
     }
 
-    .cp-sub-menu .cp-sub-menu.is-opened > .cp-sub-menu__title .cp-sub-menu__arrow {
+    .cp-sub-menu
+      .cp-sub-menu.is-opened
+      > .cp-sub-menu__title
+      .cp-sub-menu__arrow {
       transform: rotate(180deg);
     }
   }
@@ -176,6 +185,163 @@ $menu-type-colors: (
       --cp-menu-active-text: #{$color};
     }
   }
+
+  // ===== 形状 =====
+  @include m(shape-clip) {
+    .cp-menu-item,
+    .cp-sub-menu__title {
+      clip-path: polygon(
+        8px 0, 100% 0,
+        100% calc(100% - 8px), calc(100% - 8px) 100%,
+        0 100%, 0 8px
+      );
+    }
+
+    // solid / outline 时整个容器也切角（仅垂直模式，水平模式会裁切 popup）
+    &.cp-menu--solid.cp-menu--vertical,
+    &.cp-menu--outline.cp-menu--vertical {
+      clip-path: polygon(
+        12px 0, 100% 0,
+        100% calc(100% - 12px), calc(100% - 12px) 100%,
+        0 100%, 0 12px
+      );
+    }
+  }
+
+  @include m(shape-no-clip) {
+    .cp-menu-item,
+    .cp-sub-menu__title {
+      border-radius: 0;
+    }
+  }
+
+  @include m(shape-round) {
+    .cp-menu-item,
+    .cp-sub-menu__title {
+      border-radius: var(--cp-radius-lg);
+    }
+  }
+
+  @include m(shape-circle) {
+    .cp-menu-item,
+    .cp-sub-menu__title {
+      border-radius: 9999px;
+    }
+  }
+
+  // ===== Solid 变体（默认）=====
+  @include m(solid) {
+    --cp-menu-bg: var(--cp-bg-elevated);
+
+    .cp-menu-item {
+      border-left: none;
+
+      &:hover:not(.is-disabled):not(.is-active) {
+        background: var(--cp-menu-hover-bg);
+        color: var(--cp-menu-hover-text);
+      }
+
+      &.is-active {
+        background: var(--cp-menu-active-bg);
+        color: var(--cp-menu-active-text);
+        font-weight: var(--cp-menu-active-font-weight);
+
+        &:hover {
+          filter: brightness(1.15);
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    .cp-sub-menu__title {
+      border-left: none;
+    }
+
+    // 水平模式 solid
+    &.cp-menu--horizontal {
+      background: var(--cp-menu-bg);
+
+      > .cp-menu-item,
+      > .cp-sub-menu > .cp-sub-menu__title {
+        border-bottom: none;
+      }
+
+      > .cp-menu-item.is-active {
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: auto;
+          bottom: -2px;
+          width: auto;
+          height: 2px;
+          box-shadow:
+            0 0 6px var(--cp-menu-active-color),
+            0 -4px 12px var(--cp-menu-active-color-light);
+        }
+      }
+    }
+  }
+
+  // ===== Outline 变体 =====
+  @include m(outline) {
+    --cp-menu-bg: transparent;
+
+    .cp-menu-item {
+      border-left: none;
+
+      &:hover:not(.is-disabled):not(.is-active) {
+        background: var(--cp-menu-hover-bg);
+        color: var(--cp-menu-hover-text);
+      }
+
+      &.is-active {
+        background: var(--cp-menu-active-bg);
+        color: var(--cp-menu-active-text);
+        font-weight: var(--cp-menu-active-font-weight);
+        border-bottom: 2px solid var(--cp-menu-active-color);
+
+        &:hover {
+          filter: brightness(1.15);
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    .cp-sub-menu__title {
+      border-left: none;
+    }
+
+
+
+    // 水平模式
+    &.cp-menu--horizontal {
+      border: none;
+
+      > .cp-menu-item.is-active {
+        border-right: none;
+        border-bottom: 2px solid var(--cp-menu-active-color);
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+
+  // ===== Note 变体（旧默认样式）=====
+  // note 变体不需要额外样式，因为 menu-item 本身默认就有
+  // 左侧 border + 激活发光条，这些定义在 menu-item 基础样式中
+  @include m(note) {
+    --cp-menu-bg: transparent;
+  }
 }
 
 // ===== CpMenuItem =====
@@ -194,30 +360,44 @@ $menu-type-colors: (
   list-style: none;
   color: var(--cp-menu-text);
 
-  &:hover:not(.is-disabled) {
+  // 图标颜色
+  .cp-icon {
+    color: var(--cp-menu-icon);
+  }
+
+  &:hover:not(.is-disabled):not(.is-active) {
     background: var(--cp-menu-hover-bg);
-    color: var(--cp-text-primary);
+    color: var(--cp-menu-hover-text);
     border-left-color: var(--cp-menu-active-color);
   }
 
   // ===== 激活态 =====
   @include when(active) {
     color: var(--cp-menu-active-text);
-    background: rgba(0, 240, 255, 0.06);
+    background: var(--cp-menu-active-bg);
     border-left-color: var(--cp-menu-active-color);
-    font-weight: 600;
+    font-weight: var(--cp-menu-active-font-weight);
+
+    .cp-icon {
+      color: var(--cp-menu-active-icon);
+    }
+
+    &:hover {
+      filter: brightness(1.15);
+    }
 
     // 左侧发光条
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: -2px;
       top: 0;
       bottom: 0;
       width: 2px;
       background: var(--cp-menu-active-color);
-      box-shadow: 0 0 6px var(--cp-menu-active-color),
-                  0 0 12px var(--cp-menu-active-color-light);
+      box-shadow:
+        0 0 6px var(--cp-menu-active-color),
+        0 0 12px var(--cp-menu-active-color-light);
     }
   }
 
@@ -273,7 +453,7 @@ $menu-type-colors: (
 
     &:hover:not(.is-disabled \u003e &) {
       background: var(--cp-menu-hover-bg);
-      color: var(--cp-text-primary);
+      color: var(--cp-menu-hover-text);
       border-left-color: var(--cp-menu-active-color);
     }
   }
@@ -281,7 +461,7 @@ $menu-type-colors: (
   // ===== 展开态标题高亮 =====
   @include when(opened) {
     > .cp-sub-menu__title {
-      color: var(--cp-text-primary);
+      color: var(--cp-menu-hover-text);
     }
   }
 
@@ -337,8 +517,9 @@ $menu-type-colors: (
     flex-shrink: 0;
     color: currentColor;
     opacity: 0.6;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.2s ease;
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.2s ease;
 
     &.is-open {
       transform: rotate(90deg);
@@ -351,9 +532,10 @@ $menu-type-colors: (
       min-width: 180px;
       background: var(--cp-menu-popup-bg, var(--cp-bg-elevated));
       border: 1px solid var(--cp-menu-border);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
-                  0 0 10px var(--cp-menu-active-color-light);
-      padding: 4px 0;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 10px var(--cp-menu-active-color-light);
+      padding: 4px;
     }
   }
 
@@ -372,7 +554,7 @@ $menu-type-colors: (
 
     // 左侧连接线装饰（仅垂直模式）
     .cp-menu--vertical &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 30px;
       top: 0;
@@ -407,17 +589,13 @@ $menu-type-colors: (
 
     // 微妙的底部分隔线
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       left: 20px;
       right: 20px;
       bottom: 0;
       height: 1px;
-      background: linear-gradient(
-        to right,
-        var(--cp-menu-border),
-        transparent
-      );
+      background: linear-gradient(to right, var(--cp-menu-border), transparent);
       opacity: 0.5;
     }
   }
@@ -433,8 +611,9 @@ $menu-type-colors: (
 // ===== 展开/收起动画 =====
 .cp-sub-menu-enter-active,
 .cp-sub-menu-leave-active {
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cp-sub-menu-enter-from,

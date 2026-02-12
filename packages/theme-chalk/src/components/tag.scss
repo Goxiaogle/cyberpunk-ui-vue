@@ -124,36 +124,6 @@ $tag-types: (
     }
   }
 
-  // ===== 形状模式 =====
-  @include m(shape-clip) {
-    $clip: var(--cp-tag-clip);
-    clip-path: polygon(
-      $clip 0,
-      100% 0,
-      100% calc(100% - #{$clip}),
-      calc(100% - #{$clip}) 100%,
-      0 100%,
-      0 $clip
-    );
-  }
-
-  @include m(shape-no-clip) {
-    clip-path: none;
-    border-radius: 2px;
-
-    .cp-tag__decor {
-      display: none;
-    }
-  }
-
-  @include m(shape-round) {
-    clip-path: none;
-    border-radius: 9999px;
-
-    .cp-tag__decor {
-      display: none;
-    }
-  }
 
   // ===== 变体样式 =====
   // Solid - 实心填充 (文字颜色由 is-typed / default 规则分别处理)
@@ -240,6 +210,46 @@ $tag-types: (
     // Hover 效果
     &:hover {
       background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  // ===== 形状模式 (放在 variant 之后，确保 shape 优先级高于 variant) =====
+  @include m(shape-clip) {
+    $clip: var(--cp-tag-clip);
+    clip-path: polygon(
+      $clip 0,
+      100% 0,
+      100% calc(100% - #{$clip}),
+      calc(100% - #{$clip}) 100%,
+      0 100%,
+      0 $clip
+    );
+  }
+
+  @include m(shape-no-clip) {
+    clip-path: none;
+    border-radius: 2px;
+
+    .cp-tag__decor {
+      display: none;
+    }
+  }
+
+  @include m(shape-round) {
+    clip-path: none;
+    border-radius: var(--cp-radius-lg);
+
+    .cp-tag__decor {
+      display: none;
+    }
+  }
+
+  @include m(shape-circle) {
+    clip-path: none;
+    border-radius: 9999px;
+
+    .cp-tag__decor {
+      display: none;
     }
   }
 

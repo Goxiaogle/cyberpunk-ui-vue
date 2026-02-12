@@ -97,14 +97,14 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 导航
 
-| 组件              | 说明                                      |
-| ----------------- | ----------------------------------------- |
-| `CpMenu`          | 导航菜单，水平/垂直/折叠                  |
-| `CpMenuItem`      | 菜单项，支持 icon/route                   |
-| `CpSubMenu`       | 子菜单，hover/click 展开                  |
-| `CpMenuItemGroup` | 菜单分组                                  |
-| `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[])              |
-| `CpPagination`    | 分页导航，支持 spacer/CpButton/自定义插槽 |
+| 组件              | 说明                                         |
+| ----------------- | -------------------------------------------- |
+| `CpMenu`          | 导航菜单，水平/垂直/折叠，支持 shape/variant |
+| `CpMenuItem`      | 菜单项，支持 icon/route                      |
+| `CpSubMenu`       | 子菜单，hover/click 展开                     |
+| `CpMenuItemGroup` | 菜单分组                                     |
+| `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[])                 |
+| `CpPagination`    | 分页导航，支持 spacer/CpButton/自定义插槽    |
 
 ### 容器
 

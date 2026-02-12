@@ -54,6 +54,16 @@ const meta: Meta<typeof CpMenu> = {
       options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
       description: '颜色预设类型',
     },
+    shape: {
+      control: 'select',
+      options: ['clip', 'no-clip', 'round', 'circle'],
+      description: '菜单形状',
+    },
+    variant: {
+      control: 'select',
+      options: ['solid', 'outline', 'note'],
+      description: '菜单变体',
+    },
     collapse: {
       control: 'boolean',
       description: '是否折叠（仅 vertical 有效）',
@@ -66,22 +76,12 @@ const meta: Meta<typeof CpMenu> = {
       control: 'color',
       description: '自定义高亮颜色',
     },
-    backgroundColor: {
-      control: 'color',
-      description: '菜单背景色',
-    },
-    textColor: {
-      control: 'color',
-      description: '菜单文字颜色',
-    },
-    activeTextColor: {
-      control: 'color',
-      description: '激活项文字颜色',
-    },
   },
   args: {
     mode: 'vertical',
     type: 'default',
+    shape: 'clip',
+    variant: 'solid',
     collapse: false,
     uniqueOpened: false,
   },
@@ -405,7 +405,7 @@ export const ColorTypes: Story = {
 }
 
 /**
- * 自定义颜色 — backgroundColor / textColor / activeTextColor / color
+ * 自定义颜色 — 通过 color prop 和 CSS 变量覆盖默认配色
  */
 export const CustomColors: Story = {
   render: () => ({
@@ -416,10 +416,8 @@ export const CustomColors: Story = {
           <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px;">深色背景 + 粉色高亮</p>
           <CpMenu
             default-active="1"
-            background-color="#1a1025"
-            text-color="#c0b0d0"
-            active-text-color="#ff00ff"
             color="#ff00ff"
+            style="--cp-menu-bg: #1a1025; --cp-menu-text: #c0b0d0;"
           >
             <CpMenuItem index="1">霓虹粉高亮</CpMenuItem>
             <CpMenuItem index="2">普通选项</CpMenuItem>
@@ -433,10 +431,8 @@ export const CustomColors: Story = {
           <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px;">暗绿背景 + 金色高亮</p>
           <CpMenu
             default-active="1"
-            background-color="#0a1a0a"
-            text-color="#80a080"
-            active-text-color="#ffd700"
             color="#ffd700"
+            style="--cp-menu-bg: #0a1a0a; --cp-menu-text: #80a080;"
           >
             <CpMenuItem index="1">激活项</CpMenuItem>
             <CpMenuItem index="2">普通项</CpMenuItem>
@@ -792,3 +788,86 @@ export const AutoIndex: Story = {
   }),
 }
 
+/**
+ * 形状 × 变体矩阵
+ */
+export const ShapeVariant: Story = {
+  render: () => ({
+    components: { CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const shapes = ['clip', 'no-clip', 'round', 'circle'] as const
+      const variants = ['solid', 'outline', 'note'] as const
+      return {
+        shapes, variants,
+        MdiViewDashboard, MdiAccountGroup, MdiCog, MdiTune, MdiShieldLock,
+      }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div v-for="variant in variants" :key="variant">
+          <p style="margin-bottom: 12px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px; text-transform: uppercase;">
+            variant: {{ variant }}
+          </p>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+            <div v-for="shape in shapes" :key="shape" style="width: 220px;">
+              <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 11px;">
+                shape: {{ shape }}
+              </p>
+              <CpMenu :shape="shape" :variant="variant" type="primary" default-active="1">
+                <CpMenuItem index="1" :icon="MdiViewDashboard">系统总览</CpMenuItem>
+                <CpMenuItem index="2" :icon="MdiAccountGroup">用户管理</CpMenuItem>
+                <CpSubMenu index="3" :icon="MdiCog">
+                  <template #title>系统设置</template>
+                  <CpMenuItem index="3-1" :icon="MdiTune">通用</CpMenuItem>
+                  <CpMenuItem index="3-2" :icon="MdiShieldLock">安全</CpMenuItem>
+                </CpSubMenu>
+              </CpMenu>
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 水平模式 — 形状 × 变体矩阵
+ */
+export const HorizontalShapeVariant: Story = {
+  render: () => ({
+    components: { CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const shapes = ['clip', 'no-clip', 'round', 'circle'] as const
+      const variants = ['solid', 'outline', 'note'] as const
+      return {
+        shapes, variants,
+        MdiViewDashboard, MdiAccountGroup, MdiCog, MdiTune, MdiShieldLock,
+      }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div v-for="variant in variants" :key="variant">
+          <p style="margin-bottom: 12px; color: var(--cp-text-muted); font-family: monospace; font-size: 12px; text-transform: uppercase;">
+            variant: {{ variant }}
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div v-for="shape in shapes" :key="shape">
+              <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-family: monospace; font-size: 11px;">
+                shape: {{ shape }}
+              </p>
+              <CpMenu mode="horizontal" :shape="shape" :variant="variant" type="primary" default-active="1">
+                <CpMenuItem index="1" :icon="MdiViewDashboard">系统总览</CpMenuItem>
+                <CpMenuItem index="2" :icon="MdiAccountGroup">用户管理</CpMenuItem>
+                <CpSubMenu index="3" :icon="MdiCog">
+                  <template #title>系统设置</template>
+                  <CpMenuItem index="3-1" :icon="MdiTune">通用</CpMenuItem>
+                  <CpMenuItem index="3-2" :icon="MdiShieldLock">安全</CpMenuItem>
+                </CpSubMenu>
+              </CpMenu>
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}

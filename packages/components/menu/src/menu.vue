@@ -70,6 +70,8 @@ const generateIndex = () => `__cp_auto_${++autoIndexCounter}`
 const classes = computed(() => [
   ns.b(),
   ns.m(props.mode),
+  ns.m(`shape-${props.shape}`),
+  ns.m(props.variant),
   ns.is('collapse', props.collapse && props.mode === 'vertical'),
   props.type !== 'default' ? ns.m(props.type) : '',
   props.color ? ns.is('custom-color') : '',
@@ -77,15 +79,6 @@ const classes = computed(() => [
 
 const menuStyle = computed(() => {
   const style: Record<string, string> = {}
-  if (props.backgroundColor) {
-    style['--cp-menu-bg'] = props.backgroundColor
-  }
-  if (props.textColor) {
-    style['--cp-menu-text'] = props.textColor
-  }
-  if (props.activeTextColor) {
-    style['--cp-menu-active-text'] = props.activeTextColor
-  }
   if (props.color) {
     style['--cp-menu-active-color'] = props.color
     style['--cp-menu-active-color-light'] = `${props.color}33`
@@ -102,10 +95,9 @@ const ctx: MenuContext = {
   mode: props.mode,
   collapse: toRef(props, 'collapse'),
   type: props.type,
+  shape: props.shape,
+  variant: props.variant,
   router: props.router,
-  backgroundColor: props.backgroundColor,
-  textColor: props.textColor,
-  activeTextColor: props.activeTextColor,
   color: props.color,
   handleSelect,
   handleSubMenuClick,

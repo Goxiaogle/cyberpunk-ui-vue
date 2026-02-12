@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
-import type { MenuMode, MenuType } from './menu'
+import type { MenuMode, MenuType, MenuShape, MenuVariant } from './menu'
 
 /**
  * Menu → MenuItem / SubMenu 的上下文
@@ -19,14 +19,12 @@ export interface MenuContext {
   collapse: Ref<boolean>
   /** 颜色类型 */
   type: MenuType
+  /** 菜单形状 */
+  shape: MenuShape
+  /** 菜单变体 */
+  variant: MenuVariant
   /** 是否 vue-router 模式 */
   router: boolean
-  /** 菜单背景色 */
-  backgroundColor: string
-  /** 菜单文字色 */
-  textColor: string
-  /** 激活项文字色 */
-  activeTextColor: string
   /** 自定义高亮色 */
   color: string
   /** 选中菜单项 */
