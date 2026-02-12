@@ -13,7 +13,9 @@
     flex-basis: auto;
     box-sizing: border-box;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
 
     @include when(vertical) {
         flex-direction: column;
@@ -23,7 +25,7 @@
 // ===== CpHeader 头部 =====
 
 @include b(header) {
-    --cp-header-height: 60px;
+    --cp-header-height: var(--cp-layout-header-height, 60px);
 
     box-sizing: border-box;
     flex-shrink: 0;
@@ -31,9 +33,13 @@
     padding: 0 var(--cp-spacing-lg, 16px);
     display: flex;
     align-items: center;
-    background: var(--cp-bg-elevated, #18181c);
+    background: var(--cp-layout-header-bg, rgba(24, 24, 28, 0.72));
     color: var(--cp-text-primary, #ffffff);
     position: relative;
+    z-index: 5;
+    backdrop-filter: blur(var(--cp-layout-glass-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--cp-layout-glass-blur, 12px));
+    border-bottom: 1px solid color-mix(in srgb, var(--cp-layout-border-color) 72%, transparent);
 
     // 底部嵌入的 CpDivider 定位
     @include e(divider) {
@@ -41,14 +47,14 @@
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 0px; // 强制贴合底部
+        bottom: 0; // 强制贴合底部
     }
 }
 
 // ===== CpFooter 底部 =====
 
 @include b(footer) {
-    --cp-footer-height: 60px;
+    --cp-footer-height: var(--cp-layout-footer-height, 60px);
 
     box-sizing: border-box;
     flex-shrink: 0;
@@ -56,9 +62,13 @@
     padding: 0 var(--cp-spacing-lg, 16px);
     display: flex;
     align-items: center;
-    background: var(--cp-bg-elevated, #18181c);
+    background: var(--cp-layout-footer-bg, rgba(24, 24, 28, 0.68));
     color: var(--cp-text-secondary, #a0a0b0);
     position: relative;
+    z-index: 5;
+    backdrop-filter: blur(var(--cp-layout-glass-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--cp-layout-glass-blur, 12px));
+    border-top: 1px solid color-mix(in srgb, var(--cp-layout-border-color) 72%, transparent);
 
     // 顶部嵌入的 CpDivider 定位
     @include e(divider) {
@@ -66,13 +76,18 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 0px; // 强制贴合顶部
+        top: 0; // 强制贴合顶部
     }
 }
 
 // ===== CpMain 主内容 =====
 
 @include b(main) {
+    --cp-main-under-header-offset: var(--cp-layout-header-height, 60px);
+    --cp-main-under-footer-offset: var(--cp-layout-footer-height, 60px);
+    --cp-main-body-header-placeholder-height: var(--cp-layout-header-height, 60px);
+    --cp-main-body-footer-placeholder-height: var(--cp-layout-footer-height, 60px);
+
     display: block;
     flex: 1;
     flex-basis: auto;
@@ -80,12 +95,40 @@
     box-sizing: border-box;
     padding: var(--cp-spacing-lg, 16px);
     min-height: 0;
+    position: relative;
+    z-index: 1;
+
+    @include e(body-header-placeholder) {
+        height: var(--cp-main-body-header-placeholder-height);
+        flex-shrink: 0;
+        pointer-events: none;
+    }
+
+    @include e(body-footer-placeholder) {
+        height: var(--cp-main-body-footer-placeholder-height);
+        flex-shrink: 0;
+        pointer-events: none;
+    }
+
+    @include when(scroll-under-header) {
+        margin-top: calc(var(--cp-main-under-header-offset) * -1);
+        padding-top: 0;
+    }
+
+    @include when(scroll-under-footer) {
+        margin-bottom: calc(var(--cp-main-under-footer-offset) * -1);
+        padding-bottom: 0;
+    }
 }
 
 // ===== CpAside 侧边栏 =====
 
 @include b(aside) {
     --cp-aside-width: 300px;
+    --cp-aside-under-header-offset: var(--cp-layout-header-height, 60px);
+    --cp-aside-under-footer-offset: var(--cp-layout-footer-height, 60px);
+    --cp-aside-sidebar-header-placeholder-height: var(--cp-layout-header-height, 60px);
+    --cp-aside-sidebar-footer-placeholder-height: var(--cp-layout-footer-height, 60px);
 
     box-sizing: border-box;
     flex-shrink: 0;
@@ -100,6 +143,36 @@
         min-width: 0;
         padding: var(--cp-spacing-md, 12px);
         overflow: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @include e(sidebar-header-placeholder) {
+        height: var(--cp-aside-sidebar-header-placeholder-height);
+        flex: 0 0 auto;
+        pointer-events: none;
+    }
+
+    @include e(sidebar-footer-placeholder) {
+        height: var(--cp-aside-sidebar-footer-placeholder-height);
+        flex: 0 0 auto;
+        pointer-events: none;
+    }
+
+    @include when(scroll-under-header) {
+        margin-top: calc(var(--cp-aside-under-header-offset) * -1);
+
+        .cp-aside__content {
+            padding-top: 0;
+        }
+    }
+
+    @include when(scroll-under-footer) {
+        margin-bottom: calc(var(--cp-aside-under-footer-offset) * -1);
+
+        .cp-aside__content {
+            padding-bottom: 0;
+        }
     }
 
     // 嵌入的垂直 CpDivider

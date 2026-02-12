@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import {
   CpRow, CpCol,
   CpContainer, CpHeader, CpFooter, CpMain, CpAside,
@@ -38,6 +38,21 @@ import MdiFileDocument from '~icons/mdi/file-document'
  * - 用于构建页面级框架布局
  * - Container 自动检测子元素类型切换排列方向
  * - Header / Footer / Aside 带赛博朋克发光边线装饰
+ *
+ * ## 滚动穿透占位块获取与自定义
+ * - Header / Footer 暴露 `getHeight()`，可读取当前真实高度（px）
+ * - Main / Aside 暴露 `getPlaceholderHeights()`，可读取上下占位块高度（px）
+ * - Main 占位块 class:
+ *   - `cp-main__body-header-placeholder`
+ *   - `cp-main__body-footer-placeholder`
+ * - Aside 占位块 class:
+ *   - `cp-aside__sidebar-header-placeholder`
+ *   - `cp-aside__sidebar-footer-placeholder`
+ * - 可通过 CSS 变量控制占位块高度:
+ *   - `--cp-main-body-header-placeholder-height`
+ *   - `--cp-main-body-footer-placeholder-height`
+ *   - `--cp-aside-sidebar-header-placeholder-height`
+ *   - `--cp-aside-sidebar-footer-placeholder-height`
  */
 const meta: Meta<typeof CpRow> = {
   title: '布局 Layout/Layout 布局',
@@ -410,6 +425,299 @@ export const 栅格与容器组合: Story = {
             <CpText type="muted" :size="12">GRID + CONTAINER DEMO</CpText>
           </CpFooter>
         </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 内容滚动示例 — 演示长内容滚动 */
+export const 内容滚动示例: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpMain, CpFooter, CpAside, CpMenu, CpMenuItem, CpText, CpDivider },
+    setup() {
+      const active = ref('item-1')
+      return { active }
+    },
+    template: `
+      <div style="width: 100%; height: 500px; border: 1px solid var(--cp-border); overflow: hidden;">
+        <CpContainer>
+          <CpHeader>
+            <CpText type="primary" bold :size="16">◆ SCROLL DEMO</CpText>
+          </CpHeader>
+          <CpContainer>
+            <CpAside width="240px">
+              <CpMenu :default-active="active" type="primary" @select="(idx) => active = idx">
+                <CpMenuItem v-for="i in 30" :key="i" :index="'item-' + i">
+                  SIDEBAR_ITEM_{{ String(i).padStart(2, '0') }}
+                </CpMenuItem>
+              </CpMenu>
+            </CpAside>
+            <CpMain>
+              <CpText bold :size="16" style="display: block; margin-bottom: 16px;">MAIN CONTENT AREA</CpText>
+              <CpText type="secondary" style="margin-bottom: 16px; display: block;">
+                This example demonstrates independent scrolling for both the Sidebar and Main content areas within a fixed-height container.
+              </CpText>
+              
+              <div v-for="i in 20" :key="i" style="margin-bottom: 12px; padding: 12px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <CpText type="primary" bold>CONTENT_#{{ String(i).padStart(3, '0') }}</CpText>
+                  <CpText type="muted" :size="12">{{ new Date().toLocaleTimeString() }}</CpText>
+                </div>
+                <CpText type="text" :size="13">
+                  System log entry or content block. Try scrolling the sidebar and the main area separately.
+                </CpText>
+              </div>
+              
+              <CpDivider dashed style="margin: 20px 0;" />
+              <CpText type="success" :size="12" style="display: block; text-align: center;">END OF CONTENT</CpText>
+            </CpMain>
+          </CpContainer>
+          <CpFooter height="40px">
+            <CpText type="muted" :size="12">SCROLL STATUS: ACTIVE</CpText>
+          </CpFooter>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 滚动穿透 Header — CpMain 可滚动到 Header 后方（默认含 body 占位块） */
+export const 滚动穿透Header: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpMain, CpText, CpTag },
+    template: `
+      <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+        <CpContainer>
+          <CpHeader height="56px" style="gap: 12px;">
+            <CpText type="primary" bold :size="15">◆ UNDER HEADER</CpText>
+            <CpTag type="info" size="sm">scroll-under-header</CpTag>
+          </CpHeader>
+          <CpMain scroll-under-header style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
+            <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
+              默认占位块 class: <code>cp-main__body-header-placeholder</code>
+            </CpText>
+            <div
+              v-for="i in 18"
+              :key="'header-scroll-' + i"
+              style="margin-bottom: 10px; padding: 10px 12px; border: 1px solid var(--cp-border); background: color-mix(in srgb, var(--cp-bg-elevated) 82%, transparent);"
+            >
+              <CpText type="primary" bold :size="13">LOG#{{ String(i).padStart(2, '0') }}</CpText>
+            </div>
+          </CpMain>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 滚动穿透 Footer — CpMain 可滚动到 Footer 后方（默认含 body 占位块） */
+export const 滚动穿透Footer: Story = {
+  render: () => ({
+    components: { CpContainer, CpMain, CpFooter, CpText, CpTag },
+    template: `
+      <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+        <CpContainer>
+          <CpMain scroll-under-footer style="background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
+            <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
+              默认占位块 class: <code>cp-main__body-footer-placeholder</code>
+            </CpText>
+            <div
+              v-for="i in 20"
+              :key="'footer-scroll-' + i"
+              style="margin-bottom: 10px; padding: 10px 12px; border: 1px solid var(--cp-border); background: color-mix(in srgb, var(--cp-bg-elevated) 82%, transparent);"
+            >
+              <CpText type="info" bold :size="13">EVENT#{{ String(i).padStart(2, '0') }}</CpText>
+            </div>
+          </CpMain>
+          <CpFooter height="60px" style="gap: 12px;">
+            <CpText type="secondary" bold :size="14">◆ UNDER FOOTER</CpText>
+            <CpTag type="success" size="sm">scroll-under-footer</CpTag>
+          </CpFooter>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 占位块有无对比 — 同时展示 body/side 占位块 class 差异 */
+export const 占位块有无对比: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpFooter, CpAside, CpMain, CpText, CpTag },
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; width: 100%;">
+        <div style="height: 380px; border: 1px solid var(--cp-border); overflow: hidden;">
+          <CpContainer>
+            <CpHeader height="52px">
+              <CpText type="success" bold :size="14">WITH PLACEHOLDER</CpText>
+            </CpHeader>
+            <CpContainer>
+              <CpAside width="130px" scroll-under-header scroll-under-footer>
+                <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">cp-aside__sidebar-*</CpText>
+                <div v-for="i in 18" :key="'aside-on-' + i" style="margin-bottom: 6px; padding: 6px 8px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  SIDE_{{ i }}
+                </div>
+              </CpAside>
+              <CpMain scroll-under-header scroll-under-footer>
+                <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">cp-main__body-*</CpText>
+                <div v-for="i in 18" :key="'main-on-' + i" style="margin-bottom: 6px; padding: 8px 10px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  BODY_{{ i }}
+                </div>
+              </CpMain>
+            </CpContainer>
+            <CpFooter height="44px">
+              <CpTag type="success" size="sm">默认占位块</CpTag>
+            </CpFooter>
+          </CpContainer>
+        </div>
+
+        <div style="height: 380px; border: 1px solid var(--cp-border); overflow: hidden;">
+          <CpContainer>
+            <CpHeader height="52px">
+              <CpText type="warning" bold :size="14">WITHOUT PLACEHOLDER</CpText>
+            </CpHeader>
+            <CpContainer>
+              <CpAside
+                width="130px"
+                scroll-under-header
+                scroll-under-footer
+                style="--cp-aside-sidebar-header-placeholder-height: 0px; --cp-aside-sidebar-footer-placeholder-height: 0px;"
+              >
+                <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">placeholder=0</CpText>
+                <div v-for="i in 18" :key="'aside-off-' + i" style="margin-bottom: 6px; padding: 6px 8px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  SIDE_{{ i }}
+                </div>
+              </CpAside>
+              <CpMain
+                scroll-under-header
+                scroll-under-footer
+                style="--cp-main-body-header-placeholder-height: 0px; --cp-main-body-footer-placeholder-height: 0px;"
+              >
+                <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">placeholder=0</CpText>
+                <div v-for="i in 18" :key="'main-off-' + i" style="margin-bottom: 6px; padding: 8px 10px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  BODY_{{ i }}
+                </div>
+              </CpMain>
+            </CpContainer>
+            <CpFooter height="44px">
+              <CpTag type="warning" size="sm">占位块关闭</CpTag>
+            </CpFooter>
+          </CpContainer>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 高度获取与占位块自定义 — 通过 ref 读取 Header/Footer 与占位块高度 */
+export const 高度获取与占位块自定义: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpFooter, CpAside, CpMain, CpText, CpTag, CpButton },
+    setup() {
+      const headerRef = ref<any>(null)
+      const footerRef = ref<any>(null)
+      const mainRef = ref<any>(null)
+      const asideRef = ref<any>(null)
+
+      const headerHeight = ref(0)
+      const footerHeight = ref(0)
+      const mainPlaceholderHeights = ref({ header: 0, footer: 0 })
+      const asidePlaceholderHeights = ref({ header: 0, footer: 0 })
+
+      const mainHeaderPlaceholderHeight = ref('0px')
+      const mainFooterPlaceholderHeight = ref('0px')
+      const asideHeaderPlaceholderHeight = ref('0px')
+      const asideFooterPlaceholderHeight = ref('0px')
+
+      const syncMetrics = async () => {
+        await nextTick()
+        headerHeight.value = headerRef.value?.getHeight?.() ?? 0
+        footerHeight.value = footerRef.value?.getHeight?.() ?? 0
+
+        // 自定义占位块策略：基于 header/footer 高度，额外增加安全边距
+        mainHeaderPlaceholderHeight.value = `${headerHeight.value + 12}px`
+        mainFooterPlaceholderHeight.value = `${footerHeight.value + 8}px`
+        asideHeaderPlaceholderHeight.value = `${headerHeight.value}px`
+        asideFooterPlaceholderHeight.value = `${footerHeight.value}px`
+
+        await nextTick()
+        mainPlaceholderHeights.value = mainRef.value?.getPlaceholderHeights?.() ?? { header: 0, footer: 0 }
+        asidePlaceholderHeights.value = asideRef.value?.getPlaceholderHeights?.() ?? { header: 0, footer: 0 }
+      }
+
+      onMounted(syncMetrics)
+
+      return {
+        headerRef,
+        footerRef,
+        mainRef,
+        asideRef,
+        headerHeight,
+        footerHeight,
+        mainPlaceholderHeights,
+        asidePlaceholderHeights,
+        mainHeaderPlaceholderHeight,
+        mainFooterPlaceholderHeight,
+        asideHeaderPlaceholderHeight,
+        asideFooterPlaceholderHeight,
+        syncMetrics,
+      }
+    },
+    template: `
+      <div style="display: grid; gap: 12px; width: 100%;">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+          <CpTag type="info" size="sm">header: {{ headerHeight }}px</CpTag>
+          <CpTag type="warning" size="sm">footer: {{ footerHeight }}px</CpTag>
+          <CpTag type="success" size="sm">main ph: {{ mainPlaceholderHeights.header }}/{{ mainPlaceholderHeights.footer }}px</CpTag>
+          <CpTag type="primary" size="sm">aside ph: {{ asidePlaceholderHeights.header }}/{{ asidePlaceholderHeights.footer }}px</CpTag>
+          <CpButton type="primary" size="sm" @click="syncMetrics">重新读取高度</CpButton>
+        </div>
+
+        <CpText type="muted" :size="12">
+          使用了 ref API:
+          header/footer => getHeight();
+          main/aside => getPlaceholderHeights();
+          占位块可通过对应 CSS 变量按需重设。
+        </CpText>
+
+        <div style="height: 380px; border: 1px solid var(--cp-border); overflow: hidden;">
+          <CpContainer>
+            <CpHeader ref="headerRef" height="58px">
+              <CpText type="primary" bold :size="14">◆ METRICS + CUSTOM PLACEHOLDER</CpText>
+            </CpHeader>
+            <CpContainer>
+              <CpAside
+                ref="asideRef"
+                width="160px"
+                scroll-under-header
+                scroll-under-footer
+                :style="{
+                  '--cp-aside-sidebar-header-placeholder-height': asideHeaderPlaceholderHeight,
+                  '--cp-aside-sidebar-footer-placeholder-height': asideFooterPlaceholderHeight,
+                }"
+              >
+                <div v-for="i in 16" :key="'aside-metric-' + i" style="margin-bottom: 8px; padding: 7px 8px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  SIDE_{{ i }}
+                </div>
+              </CpAside>
+              <CpMain
+                ref="mainRef"
+                scroll-under-header
+                scroll-under-footer
+                :style="{
+                  '--cp-main-body-header-placeholder-height': mainHeaderPlaceholderHeight,
+                  '--cp-main-body-footer-placeholder-height': mainFooterPlaceholderHeight,
+                }"
+              >
+                <div v-for="i in 18" :key="'main-metric-' + i" style="margin-bottom: 8px; padding: 8px 10px; border: 1px solid var(--cp-border); font-size: 12px;">
+                  BODY_{{ i }}
+                </div>
+              </CpMain>
+            </CpContainer>
+            <CpFooter ref="footerRef" height="46px">
+              <CpText type="secondary" :size="12">占位块高度由读取结果驱动，可继续叠加业务偏移</CpText>
+            </CpFooter>
+          </CpContainer>
+        </div>
       </div>
     `,
   }),

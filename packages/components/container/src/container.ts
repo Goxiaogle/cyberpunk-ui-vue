@@ -18,6 +18,28 @@ export type LayoutDividerType = 'default' | 'primary' | 'success' | 'warning' | 
 export type LayoutDividerVariant = 'solid' | 'gradient' | 'glow'
 
 /**
+ * 内容区滚动穿透 Header / Footer 的共用 props
+ */
+const layoutScrollOverlayProps = {
+    /**
+     * 允许内容滚动到 Header 背后
+     * @default false
+     */
+    scrollUnderHeader: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 允许内容滚动到 Footer 背后
+     * @default false
+     */
+    scrollUnderFooter: {
+        type: Boolean,
+        default: false,
+    },
+} as const
+
+/**
  * 布局组件共用的分割线 props
  */
 const layoutDividerProps = {
@@ -110,6 +132,15 @@ export const footerProps = {
 export type FooterProps = ExtractPropTypes<typeof footerProps>
 
 /**
+ * CpMain 组件 Props
+ */
+export const mainProps = {
+    ...layoutScrollOverlayProps,
+} as const
+
+export type MainProps = ExtractPropTypes<typeof mainProps>
+
+/**
  * CpAside 组件 Props
  */
 export const asideProps = {
@@ -129,6 +160,7 @@ export const asideProps = {
         type: String as PropType<'left' | 'right'>,
         default: 'left',
     },
+    ...layoutScrollOverlayProps,
     ...layoutDividerProps,
 } as const
 

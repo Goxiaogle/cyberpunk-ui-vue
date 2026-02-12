@@ -2,7 +2,6 @@
 // 赛博朋克配色系统 - 扩展版
 
 @use 'sass:map';
-@use 'sass:color';
 
 // ===== 核心色彩 =====
 $cp-colors: (
@@ -108,8 +107,8 @@ $cp-radius: (
   // 颜色
   @each $name, $value in $cp-colors {
     --cp-color-#{$name}: #{$value};
-    --cp-color-#{$name}-light: #{rgba($value, 0.2)};
-    --cp-color-#{$name}-dark: #{color.adjust($value, $lightness: -15%)};
+    --cp-color-#{$name}-light: color-mix(in srgb, var(--cp-color-#{$name}) 20%, transparent);
+    --cp-color-#{$name}-dark: color-mix(in srgb, var(--cp-color-#{$name}) 85%, black);
 
   }
 
@@ -191,6 +190,21 @@ $cp-radius: (
   0 0 20px var(--cp-color-primary-light);
   --cp-transition-fast: 0.15s ease;
   --cp-transition-normal: 0.25s ease;
+
+  // Layout
+  --cp-layout-header-height: 60px;
+  --cp-layout-footer-height: 60px;
+  --cp-layout-header-bg: rgba(24, 24, 28, 0.72);
+  --cp-layout-footer-bg: rgba(24, 24, 28, 0.68);
+  --cp-layout-glass-blur: 12px;
+  --cp-main-under-header-offset: var(--cp-layout-header-height);
+  --cp-main-under-footer-offset: var(--cp-layout-footer-height);
+  --cp-aside-under-header-offset: var(--cp-layout-header-height);
+  --cp-aside-under-footer-offset: var(--cp-layout-footer-height);
+  --cp-main-body-header-placeholder-height: var(--cp-layout-header-height);
+  --cp-main-body-footer-placeholder-height: var(--cp-layout-footer-height);
+  --cp-aside-sidebar-header-placeholder-height: var(--cp-layout-header-height);
+  --cp-aside-sidebar-footer-placeholder-height: var(--cp-layout-footer-height);
 }
 
 // ===== 暗色/亮色主题切换 =====
@@ -220,6 +234,10 @@ $cp-radius: (
   --cp-text-muted: #a0a0b0;
   --cp-text-on-bright: #1a1a24;
   --cp-text-inverse: #ffffff;
+
+  // Layout
+  --cp-layout-header-bg: rgba(255, 255, 255, 0.76);
+  --cp-layout-footer-bg: rgba(250, 250, 252, 0.72);
 
   // 交互状态
   --cp-state-hover: rgba(0, 0, 0, 0.04);
