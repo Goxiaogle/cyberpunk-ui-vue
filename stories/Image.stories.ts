@@ -59,6 +59,11 @@ const meta: Meta<typeof CpImage> = {
             control: 'boolean',
             description: '是否显示装饰块（仅 clip 形状生效）',
         },
+        decorPosition: {
+            control: 'select',
+            options: ['bottom-left', 'bottom-right', 'top-left', 'top-right'],
+            description: '装饰块位置（仅 clip 形状生效）',
+        },
         hoverable: {
             control: 'boolean',
             description: '是否开启 hover 动画效果',
@@ -97,6 +102,7 @@ const meta: Meta<typeof CpImage> = {
         type: 'primary',
         color: '',
         showDecor: true,
+        decorPosition: 'bottom-left',
         hoverable: false,
         hoverMode: 'scale',
         hoverDuration: 300,
@@ -394,6 +400,32 @@ export const DecorColors: Story = {
                         隐藏装饰块 (showDecor=false)
                     </div>
                     <CpImage src="https://picsum.photos/200/120" :show-decor="false" width="200px" height="120px" />
+                </div>
+            </div>
+        `,
+    }),
+}
+
+/**
+ * 装饰块位置
+ *
+ * 使用 `decorPosition` 属性控制装饰块在图片四个角落的位置。
+ */
+export const DecorPositions: Story = {
+    render: () => ({
+        components: { CpImage },
+        template: `
+            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                <div v-for="pos in ['bottom-left', 'bottom-right', 'top-left', 'top-right']" :key="pos" style="text-align: center;">
+                    <CpImage
+                        src="https://picsum.photos/200/150"
+                        :decor-position="pos"
+                        width="200px"
+                        height="150px"
+                    />
+                    <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
+                        {{ pos }}
+                    </div>
                 </div>
             </div>
         `,

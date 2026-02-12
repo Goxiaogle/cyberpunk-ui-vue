@@ -62,23 +62,44 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ## CpImage 图片
 
-赛博朋克风格图片展示组件。
+赛博朋克风格图片展示组件，支持懒加载、装饰块、hover 动画、URL 预处理。
 
 ### Props
 
-| 属性            | 类型                                                       | 默认值    | 说明           |
-| --------------- | ---------------------------------------------------------- | --------- | -------------- |
-| `src`           | `string`                                                   | `''`      | 图片地址       |
-| `alt`           | `string`                                                   | `''`      | 替代文本       |
-| `fit`           | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 适应模式       |
-| `shape`         | `'clip' \| 'no-clip' \| 'round' \| 'circle'`               | `'clip'`  | 形状           |
-| `width`         | `string \| number`                                         | `''`      | 宽度           |
-| `height`        | `string \| number`                                         | `''`      | 高度           |
-| `lazy`          | `boolean`                                                  | `false`   | 懒加载         |
-| `fallbackSrc`   | `string`                                                   | `''`      | 加载失败回退图 |
-| `hoverable`     | `boolean`                                                  | `false`   | 悬停效果       |
-| `hoverMode`     | `'scale' \| 'zoom'`                                        | `'scale'` | 悬停模式       |
-| `hoverDuration` | `number \| string`                                         | `300`     | 悬停动画时长   |
+| 属性              | 类型                                                                    | 默认值          | 说明                                      |
+| ----------------- | ----------------------------------------------------------------------- | --------------- | ----------------------------------------- |
+| `src`             | `string`                                                                | `''`            | 图片地址                                  |
+| `alt`             | `string`                                                                | `''`            | 替代文本                                  |
+| `fit`             | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'`              | `'cover'`       | 适应模式                                  |
+| `shape`           | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`        | 形状                                      |
+| `width`           | `string \| number`                                                      | `''`            | 宽度                                      |
+| `height`          | `string \| number`                                                      | `''`            | 高度                                      |
+| `lazy`            | `boolean`                                                               | `false`         | 懒加载                                    |
+| `fallbackSrc`     | `string`                                                                | `''`            | 加载失败回退图                            |
+| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'`     | 装饰块颜色类型                            |
+| `color`           | `string`                                                                | `''`            | 自定义装饰块颜色（覆盖 type）             |
+| `showDecor`       | `boolean`                                                               | `true`          | 是否显示装饰块（仅 clip 形状）            |
+| `decorPosition`   | `'bottom-left' \| 'bottom-right' \| 'top-left' \| 'top-right'`          | `'bottom-left'` | 装饰块位置（仅 clip 形状）                |
+| `hoverable`       | `boolean`                                                               | `false`         | 悬停效果                                  |
+| `hoverMode`       | `'scale' \| 'zoom'`                                                     | `'scale'`       | 悬停模式                                  |
+| `hoverDuration`   | `number \| string`                                                      | `300`           | 悬停动画时长                              |
+| `draggable`       | `boolean`                                                               | `false`         | 是否允许拖拽                              |
+| `srcProcessor`    | `string \| Function`                                                    | -               | URL 预处理器（`append`/`replace`/自定义） |
+| `processorParams` | `string \| object \| array`                                             | -               | 处理器参数                                |
+
+### 事件
+
+| 事件名  | 参数      | 说明         |
+| ------- | --------- | ------------ |
+| `load`  | `(event)` | 加载成功触发 |
+| `error` | `(event)` | 加载失败触发 |
+
+### 插槽
+
+| 名称          | 说明           |
+| ------------- | -------------- |
+| `placeholder` | 自定义加载占位 |
+| `error`       | 自定义错误状态 |
 
 ### 示例
 
@@ -86,6 +107,13 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 <CpImage src="/image.jpg" lazy />
 <CpImage src="/image.jpg" hoverable hover-mode="zoom" />
 <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
+
+<!-- 装饰块位置 -->
+<CpImage src="/image.jpg" decor-position="top-right" />
+<CpImage src="/image.jpg" decor-position="bottom-right" type="success" />
+
+<!-- 隐藏装饰块 -->
+<CpImage src="/image.jpg" :show-decor="false" />
 ```
 
 ---

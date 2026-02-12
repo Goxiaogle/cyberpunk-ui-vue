@@ -21,6 +21,15 @@ export type ImageFit = 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
 export type ImageShape = 'clip' | 'no-clip' | 'round' | 'circle'
 
 /**
+ * 装饰块位置
+ * - `bottom-left` - 左下角（默认）
+ * - `bottom-right` - 右下角
+ * - `top-left` - 左上角
+ * - `top-right` - 右上角
+ */
+export type ImageDecorPosition = 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
+
+/**
  * CpImage 组件 Props 定义
  *
  * @description 赛博朋克风格图片组件，支持懒加载、加载占位、错误处理等功能。
@@ -146,6 +155,18 @@ export const imageProps = {
     showDecor: {
         type: Boolean,
         default: true,
+    },
+    /**
+     * 装饰块位置（仅 clip 形状生效）
+     * - `bottom-left`: 左下角（默认）
+     * - `bottom-right`: 右下角
+     * - `top-left`: 左上角
+     * - `top-right`: 右上角
+     * @default 'bottom-left'
+     */
+    decorPosition: {
+        type: String as PropType<ImageDecorPosition>,
+        default: 'bottom-left',
     },
     /**
      * 是否开启 hover 动画效果

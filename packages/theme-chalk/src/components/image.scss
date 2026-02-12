@@ -22,8 +22,6 @@ $skeleton-shine-color: var(--cp-border-color);
 @include b(image) {
     position: relative;
     display: inline-block;
-    overflow: hidden;
-    background-color: var(--cp-bg-elevated);
     vertical-align: middle;
 
     // 默认禁止选中和拖拽
@@ -35,34 +33,54 @@ $skeleton-shine-color: var(--cp-border-color);
     height: 200px;
 
     // ========================================
-    // 形状变体
+    // 内容容器（承载 clip-path / border-radius）
+    // ========================================
+
+    @include e(body) {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: var(--cp-bg-elevated);
+    }
+
+    // ========================================
+    // 形状变体（应用到 body）
     // ========================================
 
     // 机甲切角 (默认) - 左上、右下切角
     &.#{$namespace}-image--shape-clip {
-        clip-path: polygon(
-            #{$image-clip-size} 0,
-            100% 0,
-            100% calc(100% - #{$image-clip-size}),
-            calc(100% - #{$image-clip-size}) 100%,
-            0 100%,
-            0 #{$image-clip-size}
-        );
+        .#{$namespace}-image__body {
+            clip-path: polygon(
+                #{$image-clip-size} 0,
+                100% 0,
+                100% calc(100% - #{$image-clip-size}),
+                calc(100% - #{$image-clip-size}) 100%,
+                0 100%,
+                0 #{$image-clip-size}
+            );
+        }
     }
 
     // 直角
     &.#{$namespace}-image--shape-no-clip {
-        border-radius: 0;
+        .#{$namespace}-image__body {
+            border-radius: 0;
+        }
     }
 
     // 圆角
     &.#{$namespace}-image--shape-round {
-        border-radius: $image-border-radius;
+        .#{$namespace}-image__body {
+            border-radius: $image-border-radius;
+        }
     }
 
     // 圆形
     &.#{$namespace}-image--shape-circle {
-        border-radius: 50%;
+        .#{$namespace}-image__body {
+            border-radius: 50%;
+        }
     }
 
     // ========================================
@@ -171,7 +189,7 @@ $skeleton-shine-color: var(--cp-border-color);
     }
 
     // ========================================
-    // 装饰块 (clip 模式)
+    // 装饰块 (clip 模式，脱离 body 层级不被裁切)
     // ========================================
 
     @include e(decor) {
@@ -185,8 +203,42 @@ $skeleton-shine-color: var(--cp-border-color);
         pointer-events: none;
         transition: background-color $image-transition-duration ease;
 
-        // 装饰块切角
+        // 默认：左下角 ◣
         clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+
+    // 装饰块位置变体
+    &.#{$namespace}-image--decor-bottom-right {
+        .#{$namespace}-image__decor {
+            bottom: 0;
+            left: auto;
+            right: 0;
+            top: auto;
+            // 右下角 ◢
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+    }
+
+    &.#{$namespace}-image--decor-top-left {
+        .#{$namespace}-image__decor {
+            top: 0;
+            bottom: auto;
+            left: 0;
+            right: auto;
+            // 左上角 ◤
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+    }
+
+    &.#{$namespace}-image--decor-top-right {
+        .#{$namespace}-image__decor {
+            top: 0;
+            bottom: auto;
+            left: auto;
+            right: 0;
+            // 右上角 ◥
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
     }
 
     // 非 clip 形状隐藏装饰块
