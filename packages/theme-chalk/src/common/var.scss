@@ -201,6 +201,10 @@ $cp-radius: (
   --cp-main-under-footer-offset: var(--cp-layout-footer-height);
   --cp-aside-under-header-offset: var(--cp-layout-header-height);
   --cp-aside-under-footer-offset: var(--cp-layout-footer-height);
+  --cp-main-scrollbar-safe-top: 0px;
+  --cp-main-scrollbar-safe-bottom: 0px;
+  --cp-aside-scrollbar-safe-top: 0px;
+  --cp-aside-scrollbar-safe-bottom: 0px;
   --cp-main-body-header-placeholder-height: var(--cp-layout-header-height);
   --cp-main-body-footer-placeholder-height: var(--cp-layout-footer-height);
   --cp-aside-sidebar-header-placeholder-height: var(--cp-layout-header-height);

@@ -20,6 +20,21 @@
     @include when(vertical) {
         flex-direction: column;
     }
+
+    // 开启滚动穿透时，header/footer 的空白区域应让位给底层滚动条交互
+    &:has(.cp-main.is-scroll-under-header),
+    &:has(.cp-main.is-scroll-under-footer),
+    &:has(.cp-aside.is-scroll-under-header),
+    &:has(.cp-aside.is-scroll-under-footer) {
+        > .cp-header,
+        > .cp-footer {
+            pointer-events: none;
+
+            > * {
+                pointer-events: auto;
+            }
+        }
+    }
 }
 
 // ===== CpHeader 头部 =====
@@ -48,6 +63,7 @@
         left: 0;
         right: 0;
         bottom: 0; // 强制贴合底部
+        pointer-events: none;
     }
 }
 
@@ -77,6 +93,7 @@
         left: 0;
         right: 0;
         top: 0; // 强制贴合顶部
+        pointer-events: none;
     }
 }
 
@@ -85,6 +102,8 @@
 @include b(main) {
     --cp-main-under-header-offset: var(--cp-layout-header-height, 60px);
     --cp-main-under-footer-offset: var(--cp-layout-footer-height, 60px);
+    --cp-main-scrollbar-safe-top: 0px;
+    --cp-main-scrollbar-safe-bottom: 0px;
     --cp-main-body-header-placeholder-height: var(--cp-layout-header-height, 60px);
     --cp-main-body-footer-placeholder-height: var(--cp-layout-footer-height, 60px);
 
@@ -97,6 +116,12 @@
     min-height: 0;
     position: relative;
     z-index: 1;
+
+    // 让滚动条轨道避开 header/footer 覆盖区域，避免视觉遮挡
+    &::-webkit-scrollbar-track {
+        margin-top: var(--cp-main-scrollbar-safe-top);
+        margin-bottom: var(--cp-main-scrollbar-safe-bottom);
+    }
 
     @include e(body-header-placeholder) {
         height: var(--cp-main-body-header-placeholder-height);
@@ -113,11 +138,13 @@
     @include when(scroll-under-header) {
         margin-top: calc(var(--cp-main-under-header-offset) * -1);
         padding-top: 0;
+        --cp-main-scrollbar-safe-top: var(--cp-main-under-header-offset);
     }
 
     @include when(scroll-under-footer) {
         margin-bottom: calc(var(--cp-main-under-footer-offset) * -1);
         padding-bottom: 0;
+        --cp-main-scrollbar-safe-bottom: var(--cp-main-under-footer-offset);
     }
 }
 
@@ -127,6 +154,8 @@
     --cp-aside-width: 300px;
     --cp-aside-under-header-offset: var(--cp-layout-header-height, 60px);
     --cp-aside-under-footer-offset: var(--cp-layout-footer-height, 60px);
+    --cp-aside-scrollbar-safe-top: 0px;
+    --cp-aside-scrollbar-safe-bottom: 0px;
     --cp-aside-sidebar-header-placeholder-height: var(--cp-layout-header-height, 60px);
     --cp-aside-sidebar-footer-placeholder-height: var(--cp-layout-footer-height, 60px);
 
@@ -145,6 +174,11 @@
         overflow: auto;
         display: flex;
         flex-direction: column;
+
+        &::-webkit-scrollbar-track {
+            margin-top: var(--cp-aside-scrollbar-safe-top);
+            margin-bottom: var(--cp-aside-scrollbar-safe-bottom);
+        }
     }
 
     @include e(sidebar-header-placeholder) {
@@ -161,6 +195,7 @@
 
     @include when(scroll-under-header) {
         margin-top: calc(var(--cp-aside-under-header-offset) * -1);
+        --cp-aside-scrollbar-safe-top: var(--cp-aside-under-header-offset);
 
         .cp-aside__content {
             padding-top: 0;
@@ -169,6 +204,7 @@
 
     @include when(scroll-under-footer) {
         margin-bottom: calc(var(--cp-aside-under-footer-offset) * -1);
+        --cp-aside-scrollbar-safe-bottom: var(--cp-aside-under-footer-offset);
 
         .cp-aside__content {
             padding-bottom: 0;
