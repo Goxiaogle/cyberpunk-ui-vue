@@ -57,17 +57,18 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 表单输入
 
-| 组件                             | 说明                       |
-| -------------------------------- | -------------------------- |
-| `CpInput`                        | 单行文本输入               |
-| `CpInputNumber`                  | 数值输入                   |
-| `CpTextarea`                     | 多行文本输入               |
-| `CpSwitch`                       | 开关切换                   |
-| `CpSlider`                       | 滑块选择器                 |
-| `CpDropdown`                     | 下拉选择器                 |
-| `CpCheckbox` / `CpCheckboxGroup` | 复选框                     |
-| `CpRadio` / `CpRadioGroup`       | 单选框                     |
-| `CpSegmented`                    | 分段选择器，互斥选项控件条 |
+| 组件                             | 说明                         |
+| -------------------------------- | ---------------------------- |
+| `CpForm` / `CpFormItem`          | 表单容器+表单项（验证/布局） |
+| `CpInput`                        | 单行文本输入                 |
+| `CpInputNumber`                  | 数值输入                     |
+| `CpTextarea`                     | 多行文本输入                 |
+| `CpSwitch`                       | 开关切换                     |
+| `CpSlider`                       | 滑块选择器                   |
+| `CpDropdown`                     | 下拉选择器                   |
+| `CpCheckbox` / `CpCheckboxGroup` | 复选框                       |
+| `CpRadio` / `CpRadioGroup`       | 单选框                       |
+| `CpSegmented`                    | 分段选择器，互斥选项控件条   |
 
 ### 媒体展示
 
@@ -133,7 +134,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 请根据需要查阅以下专项文档：
 
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
-- [表单组件参数](./components-form/SKILL.md) - Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented 的完整 Props
+- [表单组件参数](./components-form/SKILL.md) - Form、FormItem、Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented 的完整 Props
 - [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
 - [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
 - [布局组件参数](./components-layout/SKILL.md) - Container、Header、Footer、Main、Aside、Row、Col 的完整 Props

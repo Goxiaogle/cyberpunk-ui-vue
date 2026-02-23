@@ -1,0 +1,59 @@
+// CpForm 组件样式
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(form) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cp-form-gap, var(--cp-spacing-lg));
+
+    // ===== Label 位置 =====
+    @include m(label-top) {
+        .cp-form-item {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .cp-form-item__label {
+            width: auto !important;
+            min-width: unset !important;
+            justify-content: flex-start;
+            margin-bottom: var(--cp-form-item-gap, var(--cp-spacing-sm));
+            padding-right: 0;
+        }
+    }
+
+    @include m(label-left) {
+        .cp-form-item__label {
+            justify-content: flex-start;
+        }
+    }
+
+    @include m(label-right) {
+        .cp-form-item__label {
+            justify-content: flex-end;
+        }
+    }
+
+    // ===== 行内模式 =====
+    @include m(inline) {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--cp-form-inline-gap, var(--cp-spacing-lg));
+
+        .cp-form-item {
+            flex: none;
+            margin-bottom: 0;
+        }
+    }
+
+    // ===== 尺寸 =====
+    @include m(sm) {
+        --cp-form-label-font-size: var(--cp-font-size-sm);
+    }
+
+    @include m(lg) {
+        --cp-form-label-font-size: var(--cp-font-size-lg);
+    }
+}

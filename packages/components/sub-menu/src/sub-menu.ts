@@ -28,6 +28,14 @@ export const subMenuProps = {
     type: [Object, String] as PropType<IconValue>,
     default: undefined,
   },
+  /**
+   * 子菜单标题文本
+   * 与 #title 插槽共存，插槽优先
+   */
+  title: {
+    type: String,
+    default: undefined,
+  },
 } as const
 
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>

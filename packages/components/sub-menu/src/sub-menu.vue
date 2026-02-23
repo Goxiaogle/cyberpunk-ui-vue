@@ -148,7 +148,7 @@ provide(subMenuContextKey, subCtx)
         <slot v-else name="icon" />
       </span>
       <span :class="ns.e('title-content')">
-        <slot name="title" />
+        <slot name="title">{{ title }}</slot>
       </span>
       <span :class="[ns.e('arrow'), isOpen ? 'is-open' : '']">
         <svg viewBox="0 0 1024 1024" width="12" height="12">

@@ -70,6 +70,19 @@ declare module 'vue' {
      */
     CpDropdown: typeof import('cyberpunk-ui-vue')['CpDropdown']
     CpFooter: typeof import('cyberpunk-ui-vue')['CpFooter']
+    /**
+     * CpForm 赛博朋克风格表单容器
+     * 
+     * 提供表单布局（label 位置、行内模式）、验证管理（validate / resetFields）
+     * 和全局配置注入（size / disabled / reserveErrorSpace）。
+     */
+    CpForm: typeof import('cyberpunk-ui-vue')['CpForm']
+    /**
+     * CpFormItem 表单项
+     * 
+     * 包含标签、内容区和错误信息区域。支持验证规则和 Form 上下文继承。
+     */
+    CpFormItem: typeof import('cyberpunk-ui-vue')['CpFormItem']
     CpHeader: typeof import('cyberpunk-ui-vue')['CpHeader']
     /**
      * CpIcon 统一图标组件

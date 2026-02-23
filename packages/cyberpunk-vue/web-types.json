@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.1.3",
+  "version": "1.3.0",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -108,6 +108,20 @@
           "name": "cp-footer",
           "source": {
             "symbol": "CpFooter"
+          }
+        },
+        {
+          "name": "cp-form",
+          "description": "CpForm 赛博朋克风格表单容器\n\n提供表单布局（label 位置、行内模式）、验证管理（validate / resetFields）\n和全局配置注入（size / disabled / reserveErrorSpace）。",
+          "source": {
+            "symbol": "CpForm"
+          }
+        },
+        {
+          "name": "cp-form-item",
+          "description": "CpFormItem 表单项\n\n包含标签、内容区和错误信息区域。支持验证规则和 Form 上下文继承。",
+          "source": {
+            "symbol": "CpFormItem"
           }
         },
         {
@@ -3037,6 +3051,272 @@
               "type": [
                 "string"
               ]
+            }
+          ]
+        },
+        {
+          "name": "cp-form",
+          "source": {
+            "symbol": "CpForm"
+          },
+          "description": "CpForm 赛博朋克风格表单容器\n\n提供表单布局（label 位置、行内模式）、验证管理（validate / resetFields）\n和全局配置注入（size / disabled / reserveErrorSpace）。",
+          "props": [
+            {
+              "name": "model",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 875
+              },
+              "description": "表单数据对象",
+              "type": [
+                "{ [x: string]: unknown; }"
+              ]
+            },
+            {
+              "name": "rules",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 989
+              },
+              "description": "验证规则",
+              "default": "() => ({})",
+              "type": [
+                "{ [x: string]: FormRule | FormRule[]; }"
+              ]
+            },
+            {
+              "name": "labelWidth",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1122
+              },
+              "description": "标签宽度",
+              "default": "'auto'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "labelPosition",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1273
+              },
+              "description": "标签位置",
+              "default": "'right'",
+              "type": [
+                "'left' | 'right' | 'top'"
+              ]
+            },
+            {
+              "name": "labelSuffix",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1418
+              },
+              "description": "标签后缀（如 ':'）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1524
+              },
+              "description": "控件尺寸",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "disabled",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1654
+              },
+              "description": "全局禁用",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "showMessage",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1770
+              },
+              "description": "全局：是否显示验证错误信息",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "reserveErrorSpace",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 1891
+              },
+              "description": "全局：是否预留错误信息占位高度",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "inline",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 2010
+              },
+              "description": "行内表单模式",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "requireAsteriskPosition",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 2119
+              },
+              "description": "必填星号位置",
+              "default": "'left'",
+              "type": [
+                "'left' | 'right'"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cp-form-item",
+          "source": {
+            "symbol": "CpFormItem"
+          },
+          "description": "CpFormItem 表单项\n\n包含标签、内容区和错误信息区域。支持验证规则和 Form 上下文继承。",
+          "props": [
+            {
+              "name": "label",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 240
+              },
+              "description": "标签文本",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "prop",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 349
+              },
+              "description": "对应 Form model 中的字段名\n用于验证和重置",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "required",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 457
+              },
+              "description": "是否必填（显示星号标记）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "rules",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 559
+              },
+              "description": "单项验证规则（覆盖 Form 级规则）",
+              "type": [
+                "FormRule | FormRule[]"
+              ]
+            },
+            {
+              "name": "labelWidth",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 706
+              },
+              "description": "覆盖 Form 的 labelWidth",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "showMessage",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 865
+              },
+              "description": "独立控制是否显示错误信息\n不传时继承 Form 设置",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "reserveErrorSpace",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 991
+              },
+              "description": "独立控制是否预留错误信息占位高度\n不传时继承 Form 设置",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "error",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 1095
+              },
+              "description": "手动设置错误信息",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 1185
+              },
+              "description": "覆盖 Form 的 size",
+              "type": [
+                "string | number"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "name": "label",
+              "description": "自定义标签内容"
+            },
+            {
+              "name": "default",
+              "description": "表单控件"
+            },
+            {
+              "name": "error",
+              "description": "自定义错误信息展示"
             }
           ]
         },
@@ -6082,6 +6362,17 @@
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
               "type": [
                 "string | import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").Component"
+              ]
+            },
+            {
+              "name": "title",
+              "source": {
+                "file": "../components/sub-menu/src/sub-menu.ts",
+                "offset": 614
+              },
+              "description": "子菜单标题文本\n与 #title 插槽共存，插槽优先",
+              "type": [
+                "string"
               ]
             }
           ]

@@ -247,6 +247,21 @@
             color: var(--cp-input-placeholder-color, var(--cp-text-muted));
         }
 
+        // 覆盖浏览器自动填充样式
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-text-fill-color: var(--cp-input-text-color, var(--cp-text-primary)) !important;
+            -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+            box-shadow: 0 0 0 1000px transparent inset !important;
+            background-color: transparent !important;
+            background-clip: text !important;
+            -webkit-background-clip: text !important;
+            transition: background-color 5000s ease-in-out 0s;
+            caret-color: var(--cp-input-text-color, var(--cp-text-primary));
+        }
+
         // 移除 number 类型的箭头
         &[type="number"] {
             -moz-appearance: textfield;
