@@ -68,11 +68,20 @@ $radio-sizes: (
     }
   }
   
+  // Glow 模式基线 filter — 0 模糊 + 目标颜色
+  // 确保 transition 只插值模糊半径，避免从 transparent 插值产生橙色闪烁
+  &.is-glow:not(.is-disabled) .cp-radio__indicator-wrap {
+    filter: drop-shadow(0 0 0px var(--cp-radio-active-color))
+            drop-shadow(0 0 0px var(--cp-radio-active-color-light))
+            drop-shadow(0 0 0px var(--cp-radio-active-color-light));
+  }
+  
   // 带辉光的 hover 效果 — 使用 drop-shadow 跟随八边形形状
-  &.is-glow:hover:not(.is-disabled) {
+  &.is-glow:hover:not(.is-disabled):not(.is-checked) {
     .cp-radio__indicator-wrap {
-      filter: drop-shadow(0 0 4px var(--cp-radio-active-color-light))
-              drop-shadow(0 0 8px var(--cp-radio-active-color-light));
+      filter: drop-shadow(0 0 3px var(--cp-radio-active-color))
+              drop-shadow(0 0 6px var(--cp-radio-active-color-light))
+              drop-shadow(0 0 10px var(--cp-radio-active-color-light));
     }
   }
   
