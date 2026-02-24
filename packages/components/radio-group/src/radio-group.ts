@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { RadioValueType, RadioType } from '../../radio/src/radio'
+import type { RadioValueType, RadioType } from '@cyberpunk-vue/components/radio/src/radio'
 
 /**
  * CpRadioGroup 组件 Props 定义

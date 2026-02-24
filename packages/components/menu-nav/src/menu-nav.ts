@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { IconValue } from '../../icon/src/icon'
-import type { MenuType, MenuMode, MenuShape, MenuVariant } from '../../menu/src/menu'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
+import type { MenuType, MenuMode, MenuShape, MenuVariant } from '@cyberpunk-vue/components/menu/src/menu'
 
 /**
  * 菜单项数据结构

@@ -7,8 +7,8 @@ import { computed, inject, onMounted, onBeforeUnmount, ref, watch, reactive } fr
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formItemProps } from './form-item'
-import { formContextKey } from '../../form/src/constants'
-import type { FormRule } from '../../form/src/form'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
+import type { FormRule } from '@cyberpunk-vue/components/form/src/form'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}FormItem`,

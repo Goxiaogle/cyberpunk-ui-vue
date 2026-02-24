@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, inject, onBeforeUnmount, provide, ref } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
-import { CpIcon } from '../../icon'
+import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { subMenuProps } from './sub-menu'
-import { menuContextKey, subMenuContextKey } from '../../menu/src/constants'
-import type { SubMenuContext } from '../../menu/src/constants'
+import { menuContextKey, subMenuContextKey } from '@cyberpunk-vue/components/menu/src/constants'
+import type { SubMenuContext } from '@cyberpunk-vue/components/menu/src/constants'
 
 defineOptions({ name: 'CpSubMenu' })
 

@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import StatusIndicator from './src/status-indicator.vue'
 
 export const CpStatusIndicator = withInstall(StatusIndicator)

@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
-import type { RadioValueType, RadioType, RadioSize } from '../../radio/src/radio'
+import type { RadioValueType, RadioType, RadioSize } from '@cyberpunk-vue/components/radio/src/radio'
 
 export interface RadioGroupContext {
   modelValue: Ref<RadioValueType | undefined>

@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import InputNumber from './src/input-number.vue'
 
 export const CpInputNumber = withInstall(InputNumber)

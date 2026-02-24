@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref, markRaw } from 'vue'
-import { CpMenu } from '../packages/components/menu'
-import { CpMenuItem } from '../packages/components/menu-item'
-import { CpSubMenu } from '../packages/components/sub-menu'
-import { CpMenuItemGroup } from '../packages/components/menu-item-group'
-import { CpMenuNav } from '../packages/components/menu-nav'
-import type { MenuNavItem } from '../packages/components/menu-nav'
+import { CpMenu } from '@cyberpunk-vue/components/menu'
+import { CpMenuItem } from '@cyberpunk-vue/components/menu-item'
+import { CpSubMenu } from '@cyberpunk-vue/components/sub-menu'
+import { CpMenuItemGroup } from '@cyberpunk-vue/components/menu-item-group'
+import { CpMenuNav } from '@cyberpunk-vue/components/menu-nav'
+import type { MenuNavItem } from '@cyberpunk-vue/components/menu-nav'
 
 // unplugin-icons 导入
 import MdiViewDashboard from '~icons/mdi/view-dashboard'

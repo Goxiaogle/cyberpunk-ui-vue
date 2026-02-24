@@ -18,7 +18,7 @@ import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { treeNodeProps } from './tree-node'
 import type { TreeNode } from './tree'
 import { treeContextKey, type TreeIconProp } from './constants'
-import CpIcon from '../../icon/src/icon.vue'
+import CpIcon from '@cyberpunk-vue/components/icon/src/icon.vue'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}TreeNode`,

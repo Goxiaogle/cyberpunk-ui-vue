@@ -1,4 +1,4 @@
-﻿---
+---
 name: components-navigation
 description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination、Breadcrumb。
 ---

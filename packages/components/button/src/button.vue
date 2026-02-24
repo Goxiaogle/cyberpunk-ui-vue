@@ -7,8 +7,8 @@
 import { computed, useSlots } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { buttonProps, buttonEmits } from './button'
-import { CpLoading } from '../../loading'
-import { CpIcon } from '../../icon'
+import { CpLoading } from '@cyberpunk-vue/components/loading'
+import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
 defineOptions({

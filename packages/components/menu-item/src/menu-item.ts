@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { IconValue } from '../../icon/src/icon'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 
 /**
  * CpMenuItem 组件 Props 定义

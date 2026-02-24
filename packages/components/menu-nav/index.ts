@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import MenuNav from './src/menu-nav.vue'
 
 /**

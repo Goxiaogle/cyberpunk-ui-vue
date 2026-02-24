@@ -8,7 +8,7 @@ import { useNamespace } from '@cyberpunk-vue/hooks'
 import { radioGroupProps, radioGroupEmits } from './radio-group'
 import { radioGroupContextKey, type RadioGroupContext } from './constants'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import type { RadioValueType } from '../../radio/src/radio'
+import type { RadioValueType } from '@cyberpunk-vue/components/radio/src/radio'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}RadioGroup`,

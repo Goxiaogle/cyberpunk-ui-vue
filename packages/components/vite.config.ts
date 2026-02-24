@@ -14,6 +14,11 @@ export default defineConfig({
             pathsToAliases: false
         })
     ],
+    resolve: {
+        alias: {
+            '@cyberpunk-vue/components': resolve(__dirname, '.')
+        }
+    },
     build: {
         lib: {
             entry: resolve(__dirname, 'index.ts'),

@@ -5,10 +5,10 @@
  * 接收 MenuNavItem[] 数据自动递归生成嵌套菜单结构。
  * 有 children → SubMenu，有 group → MenuItemGroup，否则 → MenuItem
  */
-import { CpMenu } from '../../menu'
-import { CpMenuItem } from '../../menu-item'
-import { CpSubMenu } from '../../sub-menu'
-import { CpMenuItemGroup } from '../../menu-item-group'
+import { CpMenu } from '@cyberpunk-vue/components/menu'
+import { CpMenuItem } from '@cyberpunk-vue/components/menu-item'
+import { CpSubMenu } from '@cyberpunk-vue/components/sub-menu'
+import { CpMenuItemGroup } from '@cyberpunk-vue/components/menu-item-group'
 import MenuNavTree from './menu-nav-tree.vue'
 import { menuNavProps, menuNavEmits } from './menu-nav'
 import type { MenuNavItem } from './menu-nav'

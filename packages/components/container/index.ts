@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import Container from './src/container.vue'
 import Header from './src/header.vue'
 import Footer from './src/footer.vue'

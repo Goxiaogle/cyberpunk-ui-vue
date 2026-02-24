@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
-import type { CheckboxValueType, CheckboxType, CheckboxSize, CheckboxShape } from '../../checkbox/src/checkbox'
+import type { CheckboxValueType, CheckboxType, CheckboxSize, CheckboxShape } from '@cyberpunk-vue/components/checkbox/src/checkbox'
 
 export interface CheckboxGroupContext {
   modelValue: Ref<CheckboxValueType[]>

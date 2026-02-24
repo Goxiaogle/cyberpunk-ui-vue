@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { CheckboxValueType, CheckboxType, CheckboxShape } from '../../checkbox/src/checkbox'
+import type { CheckboxValueType, CheckboxType, CheckboxShape } from '@cyberpunk-vue/components/checkbox/src/checkbox'
 
 /**
  * CpCheckboxGroup 组件 Props 定义

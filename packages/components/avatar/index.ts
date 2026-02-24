@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import Avatar from './src/avatar.vue'
 import AvatarGroup from './src/avatar-group.vue'
 

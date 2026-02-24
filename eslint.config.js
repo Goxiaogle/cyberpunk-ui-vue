@@ -27,6 +27,17 @@ export default tseslint.config(
     },
   },
   {
+    files: ['packages/components/**/*.ts', 'packages/components/**/*.vue'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          group: ['../*', '../../*', '../../../*', '../../../../*'],
+          message: '禁止使用父级相对路径导入，请改用 @cyberpunk-vue/* 别名路径。',
+        }],
+      }],
+    },
+  },
+  {
     ignores: [
       '**/node_modules/**',
       '**/dist/**',

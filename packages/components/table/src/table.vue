@@ -7,7 +7,7 @@ import { computed, ref, watch, provide, useSlots, onMounted, type VNode } from '
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
-import CpCheckbox from '../../checkbox/src/checkbox.vue'
+import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Table`,

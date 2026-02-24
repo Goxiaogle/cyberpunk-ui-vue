@@ -1,4 +1,4 @@
-import { withInstall } from '../utils'
+import { withInstall } from '@cyberpunk-vue/components/utils'
 import MenuItemGroup from './src/menu-item-group.vue'
 
 /**

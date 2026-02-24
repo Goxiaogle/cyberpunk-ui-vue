@@ -6,7 +6,7 @@
 import { computed, inject } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { colProps } from './col'
-import { rowContextKey } from '../../row/src/row'
+import { rowContextKey } from '@cyberpunk-vue/components/row/src/row'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
 defineOptions({

@@ -7,7 +7,7 @@ import { computed, inject, ref } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { checkboxProps, checkboxEmits } from './checkbox'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import { checkboxGroupContextKey } from '../../checkbox-group/src/constants'
+import { checkboxGroupContextKey } from '@cyberpunk-vue/components/checkbox-group/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Checkbox`,

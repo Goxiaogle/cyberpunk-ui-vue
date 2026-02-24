@@ -8,7 +8,7 @@ import { useNamespace } from '@cyberpunk-vue/hooks'
 import { checkboxGroupProps, checkboxGroupEmits } from './checkbox-group'
 import { checkboxGroupContextKey, type CheckboxGroupContext } from './constants'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import type { CheckboxValueType } from '../../checkbox/src/checkbox'
+import type { CheckboxValueType } from '@cyberpunk-vue/components/checkbox/src/checkbox'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}CheckboxGroup`,

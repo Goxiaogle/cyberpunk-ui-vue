@@ -7,7 +7,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, p
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn } from './dialog'
-import { CpButton } from '../../button'
+import { CpButton } from '@cyberpunk-vue/components/button'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Dialog`,

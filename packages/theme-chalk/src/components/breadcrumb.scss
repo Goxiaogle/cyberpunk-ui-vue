@@ -1,0 +1,220 @@
+// CpBreadcrumb 面包屑导航样式
+// 赛博朋克/机甲风格
+
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
+
+@include b(breadcrumb) {
+  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-size: var(--cp-breadcrumb-font-size, 14px);
+
+  // CSS 变量默认值
+  --cp-breadcrumb-color: var(--cp-color-primary);
+  --cp-breadcrumb-text: var(--cp-text-secondary);
+  --cp-breadcrumb-separator-color: var(--cp-text-muted);
+  --cp-breadcrumb-separator-gap: 8px;
+  --cp-breadcrumb-hover-color: var(--cp-breadcrumb-color);
+  --cp-breadcrumb-active-color: var(--cp-text-primary);
+
+  // ===== 列表 =====
+  @include e(list) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+  }
+
+  // ===== 子项 =====
+  @include e(item) {
+    display: inline-flex;
+    align-items: center;
+
+    // 最后一项：高亮为当前页，隐藏分隔符
+    &:last-child {
+      .cp-breadcrumb__inner {
+        color: var(--cp-breadcrumb-active-color);
+        font-weight: 600;
+        cursor: default;
+        pointer-events: none;
+
+        &::after {
+          width: 100%;
+          opacity: 0.3;
+        }
+      }
+
+      .cp-breadcrumb__separator {
+        display: none;
+      }
+    }
+  }
+
+  // ===== 内容区域 =====
+  @include e(inner) {
+    display: inline-flex;
+    align-items: center;
+    color: var(--cp-breadcrumb-text);
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 2px 4px;
+    letter-spacing: 0.02em;
+
+    // 底部装饰线
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--cp-breadcrumb-color);
+      transition: width 0.25s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    // 链接样式
+    @at-root {
+      #{&}.is-link {
+        cursor: pointer;
+
+        &:hover {
+          color: var(--cp-breadcrumb-hover-color);
+          text-shadow: 0 0 8px color-mix(in srgb, var(--cp-breadcrumb-color) 40%, transparent);
+
+          &::after {
+            width: 100%;
+            opacity: 0.6;
+          }
+        }
+
+        &:active {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  // ===== 分隔符 =====
+  @include e(separator) {
+    display: inline-flex;
+    align-items: center;
+    color: var(--cp-breadcrumb-separator-color);
+    margin: 0 var(--cp-breadcrumb-separator-gap);
+    font-size: 0.85em;
+    user-select: none;
+    opacity: 0.7;
+  }
+
+  // ===== 分隔符图标 =====
+  @include e(separator-icon) {
+    width: 1em;
+    height: 1em;
+    display: inline-flex;
+    fill: currentColor;
+  }
+
+  // ===== 颜色类型 =====
+  @include m(type-primary) {
+    --cp-breadcrumb-color: var(--cp-color-primary);
+  }
+
+  @include m(type-success) {
+    --cp-breadcrumb-color: var(--cp-color-success);
+  }
+
+  @include m(type-warning) {
+    --cp-breadcrumb-color: var(--cp-color-warning);
+  }
+
+  @include m(type-error) {
+    --cp-breadcrumb-color: var(--cp-color-error);
+  }
+
+  @include m(type-info) {
+    --cp-breadcrumb-color: var(--cp-color-info);
+  }
+
+  // ===== 自定义颜色 =====
+  @include when(custom-color) {
+    --cp-breadcrumb-hover-color: var(--cp-breadcrumb-color);
+  }
+
+  // ===== 变体：Default =====
+  @include m(variant-default) {
+    // 纯文本 + 下划线动画，无额外样式
+  }
+
+  // ===== 变体：Plain（仅文字颜色变化，无装饰） =====
+  @include m(variant-plain) {
+    .cp-breadcrumb__inner {
+      padding: 0;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .cp-breadcrumb__inner.is-link:hover {
+      color: var(--cp-breadcrumb-hover-color);
+      text-shadow: none;
+    }
+
+    .cp-breadcrumb__item:last-child .cp-breadcrumb__inner {
+      color: var(--cp-breadcrumb-active-color);
+    }
+  }
+
+  // ===== 变体：Outline =====
+  @include m(variant-outline) {
+    .cp-breadcrumb__inner {
+      padding: 4px 10px;
+      border: 1px solid var(--cp-border);
+      border-radius: 2px;
+      transition: all 0.2s ease;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .cp-breadcrumb__inner.is-link:hover {
+      border-color: var(--cp-breadcrumb-color);
+      color: var(--cp-breadcrumb-hover-color);
+      box-shadow: 0 0 6px color-mix(in srgb, var(--cp-breadcrumb-color) 25%, transparent);
+    }
+
+    .cp-breadcrumb__item:last-child .cp-breadcrumb__inner {
+      border-color: var(--cp-breadcrumb-color);
+      color: var(--cp-breadcrumb-active-color);
+      background: color-mix(in srgb, var(--cp-breadcrumb-color) 10%, transparent);
+    }
+  }
+
+  // ===== 变体：Background =====
+  @include m(variant-background) {
+    .cp-breadcrumb__inner {
+      padding: 4px 12px;
+      background: var(--cp-bg-elevated);
+      border-radius: 2px;
+      transition: all 0.2s ease;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .cp-breadcrumb__inner.is-link:hover {
+      background: color-mix(in srgb, var(--cp-breadcrumb-color) 15%, var(--cp-bg-elevated));
+      color: var(--cp-breadcrumb-hover-color);
+    }
+
+    .cp-breadcrumb__item:last-child .cp-breadcrumb__inner {
+      background: color-mix(in srgb, var(--cp-breadcrumb-color) 15%, var(--cp-bg-elevated));
+      color: var(--cp-breadcrumb-active-color);
+    }
+  }
+}

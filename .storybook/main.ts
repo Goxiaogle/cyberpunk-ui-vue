@@ -42,10 +42,14 @@ const config: StorybookConfig = {
         config.resolve = config.resolve || {}
         config.resolve.alias = {
             ...config.resolve.alias,
+            // 子路径导入保持走源码目录
+            '@cyberpunk-vue/components/': `${path.resolve(rootDir, 'packages/components')}/`,
+            // 根导入走源码入口，避免落到 package.json 的 dist 入口
             '@cyberpunk-vue/components': path.resolve(rootDir, 'packages/components/index.ts'),
             '@cyberpunk-vue/hooks': path.resolve(rootDir, 'packages/hooks/src'),
             '@cyberpunk-vue/constants': path.resolve(rootDir, 'packages/constants/src'),
-            '@cyberpunk-vue/theme-chalk': path.resolve(rootDir, 'packages/theme-chalk/src'),
+            '@cyberpunk-vue/theme-chalk/': `${path.resolve(rootDir, 'packages/theme-chalk')}/`,
+            '@cyberpunk-vue/theme-chalk': path.resolve(rootDir, 'packages/theme-chalk'),
         }
         return config
     },

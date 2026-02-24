@@ -2,7 +2,7 @@
 import { inject, computed } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { menuItemGroupProps } from './menu-item-group'
-import { menuContextKey, subMenuContextKey } from '../../menu/src/constants'
+import { menuContextKey, subMenuContextKey } from '@cyberpunk-vue/components/menu/src/constants'
 
 defineOptions({ name: 'CpMenuItemGroup' })
 

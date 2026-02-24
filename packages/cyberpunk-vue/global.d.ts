@@ -16,6 +16,14 @@ declare module 'vue' {
      */
     CpBadge: typeof import('cyberpunk-ui-vue')['CpBadge']
     /**
+     * CpBreadcrumb 面包屑导航
+     */
+    CpBreadcrumb: typeof import('cyberpunk-ui-vue')['CpBreadcrumb']
+    /**
+     * CpBreadcrumbItem 面包屑子项
+     */
+    CpBreadcrumbItem: typeof import('cyberpunk-ui-vue')['CpBreadcrumbItem']
+    /**
      * CpButton 赛博朋克风格按钮
      * 
      * 支持多种颜色类型、尺寸、形态变体。具有特色的切角造型和霓虹发光效果。
@@ -219,6 +227,13 @@ declare module 'vue' {
      * 用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。
      */
     CpTree: typeof import('cyberpunk-ui-vue')['CpTree']
+    /**
+     * CpUpload 赛博朋克风格上传组件
+     * 
+     * 支持拖拽上传、图片预览、多种变体和形状。
+     * 复用 CpImage、CpProgress、CpButton 等组件。
+     */
+    CpUpload: typeof import('cyberpunk-ui-vue')['CpUpload']
   }
 }
 

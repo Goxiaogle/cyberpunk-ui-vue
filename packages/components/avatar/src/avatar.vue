@@ -6,7 +6,7 @@
 import { ref, computed, inject, useSlots, toRef, watch } from 'vue'
 import { useNamespace, useImageSrc, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import { CpIcon } from '../../icon'
+import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { avatarProps, avatarEmits, avatarSizeMap } from './avatar'
 import { AVATAR_GROUP_INJECTION_KEY, type AvatarGroupContext } from './avatar-group'
 

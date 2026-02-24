@@ -5,9 +5,9 @@
  * 用于 CpMenuNav 内部递归生成嵌套子菜单。
  * 非对外暴露组件。
  */
-import { CpMenuItem } from '../../menu-item'
-import { CpSubMenu } from '../../sub-menu'
-import { CpMenuItemGroup } from '../../menu-item-group'
+import { CpMenuItem } from '@cyberpunk-vue/components/menu-item'
+import { CpSubMenu } from '@cyberpunk-vue/components/sub-menu'
+import { CpMenuItemGroup } from '@cyberpunk-vue/components/menu-item-group'
 import type { MenuNavItem } from './menu-nav'
 
 defineOptions({ name: 'MenuNavTree' })

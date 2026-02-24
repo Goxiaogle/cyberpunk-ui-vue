@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { FormRule } from '../../form/src/form'
+import type { FormRule } from '@cyberpunk-vue/components/form/src/form'
 
 /**
  * CpFormItem Props

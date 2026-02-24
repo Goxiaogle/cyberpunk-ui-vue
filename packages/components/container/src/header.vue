@@ -7,7 +7,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { headerProps } from './container'
 import { COMPONENT_PREFIX, CSS_NAMESPACE } from '@cyberpunk-vue/constants'
-import CpDivider from '../../divider/src/divider.vue'
+import CpDivider from '@cyberpunk-vue/components/divider/src/divider.vue'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Header`,

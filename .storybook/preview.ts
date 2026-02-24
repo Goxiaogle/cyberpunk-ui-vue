@@ -1,5 +1,5 @@
 import type {Preview} from '@storybook/vue3-vite'
-import '../packages/theme-chalk/src/index.scss'
+import '@cyberpunk-vue/theme-chalk/src/index.scss'
 
 // 动态注入 CSS 的函数
 function injectThemeCss(theme: 'dark' | 'light') {

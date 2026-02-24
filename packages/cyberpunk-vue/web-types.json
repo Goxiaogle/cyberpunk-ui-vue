@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -32,6 +32,20 @@
           "description": "CpBadge 徽章组件",
           "source": {
             "symbol": "CpBadge"
+          }
+        },
+        {
+          "name": "cp-breadcrumb",
+          "description": "CpBreadcrumb 面包屑导航",
+          "source": {
+            "symbol": "CpBreadcrumb"
+          }
+        },
+        {
+          "name": "cp-breadcrumb-item",
+          "description": "CpBreadcrumbItem 面包屑子项",
+          "source": {
+            "symbol": "CpBreadcrumbItem"
           }
         },
         {
@@ -327,6 +341,13 @@
           "description": "CpTree 赛博朋克风格树形控件\n\n用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。",
           "source": {
             "symbol": "CpTree"
+          }
+        },
+        {
+          "name": "cp-upload",
+          "description": "CpUpload 赛博朋克风格上传组件\n\n支持拖拽上传、图片预览、多种变体和形状。\n复用 CpImage、CpProgress、CpButton 等组件。",
+          "source": {
+            "symbol": "CpUpload"
           }
         }
       ],
@@ -771,6 +792,107 @@
               "default": "'default'",
               "type": [
                 "'default' | 'small' | 'large'"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cp-breadcrumb",
+          "source": {
+            "symbol": "CpBreadcrumb"
+          },
+          "description": "CpBreadcrumb 面包屑导航",
+          "props": [
+            {
+              "name": "separator",
+              "source": {
+                "file": "../components/breadcrumb/src/breadcrumb.ts",
+                "offset": 797
+              },
+              "description": "分隔符文本",
+              "default": "'/'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "separatorIcon",
+              "source": {
+                "file": "../components/breadcrumb/src/breadcrumb.ts",
+                "offset": 957
+              },
+              "description": "分隔符图标（优先级高于 separator 文本）\n支持 Vue 组件（如 unplugin-icons）",
+              "type": [
+                "import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").ConcreteComponent<any, any, any, import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").ComputedOptions, import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").MethodOptions, {}, any> | { new (...args: any[]): any; __isFragment?: never; __isTeleport?: never; __isSuspense?: never; }"
+              ]
+            },
+            {
+              "name": "variant",
+              "source": {
+                "file": "../components/breadcrumb/src/breadcrumb.ts",
+                "offset": 1132
+              },
+              "description": "变体样式",
+              "default": "'default'",
+              "type": [
+                "'default' | 'plain' | 'outline' | 'background'"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/breadcrumb/src/breadcrumb.ts",
+                "offset": 1299
+              },
+              "description": "颜色预设类型",
+              "default": "'default'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/breadcrumb/src/breadcrumb.ts",
+                "offset": 1465
+              },
+              "description": "自定义主题色（覆盖 type 预设）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cp-breadcrumb-item",
+          "source": {
+            "symbol": "CpBreadcrumbItem"
+          },
+          "description": "CpBreadcrumbItem 面包屑子项",
+          "props": [
+            {
+              "name": "to",
+              "source": {
+                "file": "../components/breadcrumb-item/src/breadcrumb-item.ts",
+                "offset": 388
+              },
+              "description": "路由跳转目标（vue-router 的 `to`）\n不设置则渲染为纯文本",
+              "default": "''",
+              "type": [
+                "string | Record<string, unknown>"
+              ]
+            },
+            {
+              "name": "replace",
+              "source": {
+                "file": "../components/breadcrumb-item/src/breadcrumb-item.ts",
+                "offset": 590
+              },
+              "description": "使用 router.replace 替代 router.push",
+              "default": "false",
+              "type": [
+                "boolean"
               ]
             }
           ]
@@ -1709,7 +1831,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 612
+                "offset": 632
               },
               "description": "绑定值数组 (v-model)",
               "default": "() => []",
@@ -1721,7 +1843,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 762
+                "offset": 782
               },
               "description": "是否禁用所有子复选框",
               "default": "false",
@@ -1733,7 +1855,7 @@
               "name": "size",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 871
+                "offset": 891
               },
               "description": "子复选框尺寸",
               "default": "'md'",
@@ -1745,7 +1867,7 @@
               "name": "type",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 1013
+                "offset": 1033
               },
               "description": "子复选框类型（颜色预设）",
               "default": "'primary'",
@@ -1757,7 +1879,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 1149
+                "offset": 1169
               },
               "description": "子复选框形状",
               "default": "'clip'",
@@ -1769,7 +1891,7 @@
               "name": "min",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 1262
+                "offset": 1282
               },
               "description": "最少选中数量",
               "type": [
@@ -1780,7 +1902,7 @@
               "name": "max",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 1349
+                "offset": 1369
               },
               "description": "最多选中数量",
               "type": [
@@ -1791,7 +1913,7 @@
               "name": "direction",
               "source": {
                 "file": "../components/checkbox-group/src/checkbox-group.ts",
-                "offset": 1462
+                "offset": 1482
               },
               "description": "布局方向",
               "default": "'horizontal'",
@@ -1806,7 +1928,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/checkbox-group/src/checkbox-group.ts",
-                  "offset": 1778
+                  "offset": 1798
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -1814,7 +1936,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/checkbox-group/src/checkbox-group.ts",
-                  "offset": 1883
+                  "offset": 1903
                 },
                 "description": "值变化时触发"
               }
@@ -3205,7 +3327,7 @@
               "name": "label",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 240
+                "offset": 260
               },
               "description": "标签文本",
               "default": "''",
@@ -3217,7 +3339,7 @@
               "name": "prop",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 349
+                "offset": 369
               },
               "description": "对应 Form model 中的字段名\n用于验证和重置",
               "default": "''",
@@ -3229,7 +3351,7 @@
               "name": "required",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 457
+                "offset": 477
               },
               "description": "是否必填（显示星号标记）",
               "default": "false",
@@ -3241,7 +3363,7 @@
               "name": "rules",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 559
+                "offset": 579
               },
               "description": "单项验证规则（覆盖 Form 级规则）",
               "type": [
@@ -3252,7 +3374,7 @@
               "name": "labelWidth",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 706
+                "offset": 726
               },
               "description": "覆盖 Form 的 labelWidth",
               "type": [
@@ -3263,7 +3385,7 @@
               "name": "showMessage",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 865
+                "offset": 885
               },
               "description": "独立控制是否显示错误信息\n不传时继承 Form 设置",
               "type": [
@@ -3274,7 +3396,7 @@
               "name": "reserveErrorSpace",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 991
+                "offset": 1011
               },
               "description": "独立控制是否预留错误信息占位高度\n不传时继承 Form 设置",
               "type": [
@@ -3285,7 +3407,7 @@
               "name": "error",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1095
+                "offset": 1115
               },
               "description": "手动设置错误信息",
               "default": "''",
@@ -3297,7 +3419,7 @@
               "name": "size",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1185
+                "offset": 1205
               },
               "description": "覆盖 Form 的 size",
               "type": [
@@ -4375,7 +4497,7 @@
               "name": "index",
               "source": {
                 "file": "../components/menu-item/src/menu-item.ts",
-                "offset": 222
+                "offset": 242
               },
               "description": "菜单项唯一标识（可选，不传时自动生成）",
               "type": [
@@ -4386,7 +4508,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/menu-item/src/menu-item.ts",
-                "offset": 330
+                "offset": 350
               },
               "description": "是否禁用",
               "default": "false",
@@ -4398,7 +4520,7 @@
               "name": "icon",
               "source": {
                 "file": "../components/menu-item/src/menu-item.ts",
-                "offset": 481
+                "offset": 501
               },
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
               "type": [
@@ -4409,7 +4531,7 @@
               "name": "route",
               "source": {
                 "file": "../components/menu-item/src/menu-item.ts",
-                "offset": 614
+                "offset": 634
               },
               "description": "vue-router 路由对象或路径",
               "type": [
@@ -4423,7 +4545,7 @@
                 "name": "click",
                 "source": {
                   "file": "../components/menu-item/src/menu-item.ts",
-                  "offset": 880
+                  "offset": 900
                 }
               }
             ]
@@ -4461,7 +4583,7 @@
               "name": "data",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1199
+                "offset": 1239
               },
               "description": "菜单数据",
               "type": [
@@ -4472,7 +4594,7 @@
               "name": "mode",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1342
+                "offset": 1382
               },
               "description": "菜单模式",
               "default": "'vertical'",
@@ -4484,7 +4606,7 @@
               "name": "defaultActive",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1476
+                "offset": 1516
               },
               "description": "默认激活项 index",
               "default": "''",
@@ -4496,7 +4618,7 @@
               "name": "defaultOpeneds",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1601
+                "offset": 1641
               },
               "description": "默认展开的 sub-menu index 列表",
               "default": "() => []",
@@ -4508,7 +4630,7 @@
               "name": "uniqueOpened",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1750
+                "offset": 1790
               },
               "description": "是否只展开一个 sub-menu",
               "default": "false",
@@ -4520,7 +4642,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1877
+                "offset": 1917
               },
               "description": "是否折叠（仅 vertical 有效）",
               "default": "false",
@@ -4532,7 +4654,7 @@
               "name": "type",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1989
+                "offset": 2029
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -4544,7 +4666,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2119
+                "offset": 2159
               },
               "description": "菜单形状",
               "default": "'clip'",
@@ -4556,7 +4678,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2249
+                "offset": 2289
               },
               "description": "菜单变体",
               "default": "'solid'",
@@ -4568,7 +4690,7 @@
               "name": "color",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2382
+                "offset": 2422
               },
               "description": "自定义高亮颜色",
               "default": "''",
@@ -4580,7 +4702,7 @@
               "name": "router",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2497
+                "offset": 2537
               },
               "description": "是否启用 vue-router 模式",
               "default": "false",
@@ -4595,21 +4717,21 @@
                 "name": "select",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 2701
+                  "offset": 2741
                 }
               },
               {
                 "name": "open",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 2812
+                  "offset": 2852
                 }
               },
               {
                 "name": "close",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 2921
+                  "offset": 2961
                 }
               }
             ]
@@ -4905,7 +5027,7 @@
               "name": "currentPage",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1074
+                "offset": 1094
               },
               "description": "当前页码 (v-model:currentPage)",
               "default": "1",
@@ -4917,7 +5039,7 @@
               "name": "pageSize",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1218
+                "offset": 1238
               },
               "description": "每页显示条数 (v-model:pageSize)",
               "default": "10",
@@ -4929,7 +5051,7 @@
               "name": "total",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1337
+                "offset": 1357
               },
               "description": "总条数",
               "default": "0",
@@ -4941,7 +5063,7 @@
               "name": "pageSizes",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1474
+                "offset": 1494
               },
               "description": "可选的每页条数列表",
               "default": "() => [10, 20, 50, 100]",
@@ -4953,7 +5075,7 @@
               "name": "pagerCount",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1653
+                "offset": 1673
               },
               "description": "最大可见页码按钮数（应为奇数 >= 5）",
               "default": "7",
@@ -4965,7 +5087,7 @@
               "name": "layout",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1928
+                "offset": 1948
               },
               "description": "布局配置，逗号分隔\n可选模块: total, sizes, prev, pager, next, jumper",
               "default": "'prev, pager, next'",
@@ -4977,7 +5099,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2067
+                "offset": 2087
               },
               "description": "是否禁用",
               "default": "false",
@@ -4989,7 +5111,7 @@
               "name": "hideOnSinglePage",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2198
+                "offset": 2218
               },
               "description": "只有一页时隐藏",
               "default": "false",
@@ -5001,7 +5123,7 @@
               "name": "type",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2338
+                "offset": 2358
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -5013,7 +5135,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2492
+                "offset": 2512
               },
               "description": "形状",
               "default": "'clip'",
@@ -5025,7 +5147,7 @@
               "name": "size",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2643
+                "offset": 2663
               },
               "description": "尺寸",
               "default": "'md'",
@@ -5037,7 +5159,7 @@
               "name": "color",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2835
+                "offset": 2855
               },
               "description": "自定义颜色（CSS 颜色值）\n优先级高于 type，覆盖主题色",
               "default": "''",
@@ -5049,7 +5171,7 @@
               "name": "buttonVariant",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2986
+                "offset": 3006
               },
               "description": "分页按钮变体\n控制 CpButton 的显示风格",
               "default": "'solid'",
@@ -5061,7 +5183,7 @@
               "name": "totalTemplate",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3185
+                "offset": 3205
               },
               "description": "总条数文案模板\n使用 `{total}` 作为占位符",
               "default": "'共 {total} 条'",
@@ -5073,7 +5195,7 @@
               "name": "sizeTemplate",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3364
+                "offset": 3384
               },
               "description": "每页条数选项文案模板\n使用 `{size}` 作为占位符",
               "default": "'{size} 条/页'",
@@ -5088,7 +5210,7 @@
                 "name": "update:currentPage",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 3621
+                  "offset": 3641
                 },
                 "description": "当前页码变化"
               },
@@ -5096,7 +5218,7 @@
                 "name": "update:pageSize",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 3711
+                  "offset": 3731
                 },
                 "description": "每页条数变化"
               },
@@ -5104,7 +5226,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 3825
+                  "offset": 3845
                 },
                 "description": "页码变化事件（同 update:currentPage，便于监听）"
               },
@@ -5112,7 +5234,7 @@
                 "name": "sizeChange",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 3903
+                  "offset": 3923
                 },
                 "description": "每页条数变化事件"
               }
@@ -5704,7 +5826,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 548
+                "offset": 568
               },
               "description": "绑定值 (v-model)",
               "type": [
@@ -5715,7 +5837,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 714
+                "offset": 734
               },
               "description": "是否禁用所有子单选框",
               "default": "false",
@@ -5727,7 +5849,7 @@
               "name": "size",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 823
+                "offset": 843
               },
               "description": "子单选框尺寸",
               "default": "'md'",
@@ -5739,7 +5861,7 @@
               "name": "type",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 965
+                "offset": 985
               },
               "description": "子单选框类型（颜色预设）",
               "default": "'primary'",
@@ -5751,7 +5873,7 @@
               "name": "direction",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 1102
+                "offset": 1122
               },
               "description": "布局方向",
               "default": "'horizontal'",
@@ -5766,7 +5888,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/radio-group/src/radio-group.ts",
-                  "offset": 1406
+                  "offset": 1426
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -5774,7 +5896,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/radio-group/src/radio-group.ts",
-                  "offset": 1575
+                  "offset": 1595
                 },
                 "description": "值变化时触发"
               }
@@ -6334,7 +6456,7 @@
               "name": "index",
               "source": {
                 "file": "../components/sub-menu/src/sub-menu.ts",
-                "offset": 208
+                "offset": 228
               },
               "description": "子菜单唯一标识",
               "type": [
@@ -6345,7 +6467,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/sub-menu/src/sub-menu.ts",
-                "offset": 316
+                "offset": 336
               },
               "description": "是否禁用",
               "default": "false",
@@ -6357,7 +6479,7 @@
               "name": "icon",
               "source": {
                 "file": "../components/sub-menu/src/sub-menu.ts",
-                "offset": 467
+                "offset": 487
               },
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
               "type": [
@@ -6368,7 +6490,7 @@
               "name": "title",
               "source": {
                 "file": "../components/sub-menu/src/sub-menu.ts",
-                "offset": 614
+                "offset": 634
               },
               "description": "子菜单标题文本\n与 #title 插槽共存，插槽优先",
               "type": [
@@ -7834,6 +7956,373 @@
                   "offset": 5857
                 },
                 "description": "v-model:expandedKeys"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cp-upload",
+          "source": {
+            "symbol": "CpUpload"
+          },
+          "description": "CpUpload 赛博朋克风格上传组件\n\n支持拖拽上传、图片预览、多种变体和形状。\n复用 CpImage、CpProgress、CpButton 等组件。",
+          "props": [
+            {
+              "name": "modelValue",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 1729
+              },
+              "description": "文件列表 (v-model)",
+              "default": "() => []",
+              "type": [
+                "UploadFile[]"
+              ]
+            },
+            {
+              "name": "action",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 1883
+              },
+              "description": "上传地址",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "headers",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2001
+              },
+              "description": "请求头",
+              "default": "() => ({})",
+              "type": [
+                "{ [x: string]: string; }"
+              ]
+            },
+            {
+              "name": "data",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2167
+              },
+              "description": "上传附加数据",
+              "default": "() => ({})",
+              "type": [
+                "{ [x: string]: string; }"
+              ]
+            },
+            {
+              "name": "name",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2335
+              },
+              "description": "上传文件字段名",
+              "default": "'file'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "accept",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2471
+              },
+              "description": "接受的文件类型 (原生 accept)",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "multiple",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2596
+              },
+              "description": "是否支持多文件",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "limit",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2731
+              },
+              "description": "最大文件数 (0 = 无限制)",
+              "default": "0",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "maxSize",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2865
+              },
+              "description": "最大文件大小 bytes (0 = 无限制)",
+              "default": "0",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "disabled",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2987
+              },
+              "description": "是否禁用",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "drag",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3117
+              },
+              "description": "拖拽上传模式",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "autoUpload",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3243
+              },
+              "description": "选择后自动上传",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "listType",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3377
+              },
+              "description": "文件列表展示类型",
+              "default": "'text'",
+              "type": [
+                "'text' | 'picture' | 'picture-card'"
+              ]
+            },
+            {
+              "name": "showFileList",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3536
+              },
+              "description": "是否显示文件列表",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "variant",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3670
+              },
+              "description": "变体样式",
+              "default": "'dashed'",
+              "type": [
+                "'outline' | 'dashed' | 'filled' | 'ghost'"
+              ]
+            },
+            {
+              "name": "shape",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3825
+              },
+              "description": "形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 3979
+              },
+              "description": "颜色类型",
+              "default": "'default'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 4137
+              },
+              "description": "自定义颜色（覆盖 type）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 4261
+              },
+              "description": "按钮/触发器尺寸",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "httpRequest",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 4420
+              },
+              "description": "自定义上传函数\n若提供，则完全替代内置 XHR 上传逻辑",
+              "type": [
+                "(options: UploadRequestOptions) => Promise<unknown> | void"
+              ]
+            },
+            {
+              "name": "beforeUpload",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 4630
+              },
+              "description": "上传前钩子，返回 false 或 reject 可阻止上传",
+              "type": [
+                "(file: File) => boolean | Promise<boolean>"
+              ]
+            },
+            {
+              "name": "onExceed",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 4807
+              },
+              "description": "超出文件数限制时的回调",
+              "type": [
+                "(files: File[], fileList: UploadFile[]) => void"
+              ]
+            },
+            {
+              "name": "inlinePreview",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5112
+              },
+              "description": "单图内联预览（picture-card 模式下）\n仅在 limit = 1 且 listType = 'picture-card' 时生效。\n未显式传值时，在 limit = 1 场景下默认开启；\n可显式设为 false 关闭。",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "showInnerStripe",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5267
+              },
+              "description": "是否显示 CpProgress 内圈虚线装饰",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "placeholder",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5477
+              },
+              "description": "自定义触发器文案\n- drag 模式默认: '拖拽文件到此处，或 点击上传'\n- 默认(按钮)模式默认: '选择文件'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "placeholderIcon",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5651
+              },
+              "description": "自定义触发器图标组件\n传入 Vue 组件，替换默认 SVG 图标",
+              "type": [
+                "object"
+              ]
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "update:modelValue",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 5918
+                },
+                "description": "v-model 绑定"
+              },
+              {
+                "name": "change",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 6016
+                },
+                "description": "文件列表变化"
+              },
+              {
+                "name": "success",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 6127
+                },
+                "description": "上传成功"
+              },
+              {
+                "name": "error",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 6259
+                },
+                "description": "上传失败"
+              },
+              {
+                "name": "progress",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 6385
+                },
+                "description": "上传进度"
+              },
+              {
+                "name": "remove",
+                "source": {
+                  "file": "../components/upload/src/upload.ts",
+                  "offset": 6503
+                },
+                "description": "文件移除"
               }
             ]
           }

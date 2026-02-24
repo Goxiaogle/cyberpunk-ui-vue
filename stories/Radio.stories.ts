@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
-import { CpRadio } from '../packages/components/radio'
-import { CpRadioGroup } from '../packages/components/radio-group'
+import { CpRadio } from '@cyberpunk-vue/components/radio'
+import { CpRadioGroup } from '@cyberpunk-vue/components/radio-group'
 
 const meta: Meta<typeof CpRadio> = {
   title: '表单 Form/Radio 单选框',

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, inject, getCurrentInstance } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
-import { CpIcon } from '../../icon'
+import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { menuItemProps, menuItemEmits } from './menu-item'
-import { menuContextKey, subMenuContextKey } from '../../menu/src/constants'
+import { menuContextKey, subMenuContextKey } from '@cyberpunk-vue/components/menu/src/constants'
 
 defineOptions({ name: 'CpMenuItem' })
 

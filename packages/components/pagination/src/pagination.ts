@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { ButtonVariant } from '../../button/src/button'
+import type { ButtonVariant } from '@cyberpunk-vue/components/button/src/button'
 
 /**
  * 分页颜色类型

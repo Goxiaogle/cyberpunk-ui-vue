@@ -7,9 +7,9 @@ import { computed, ref, watch } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { paginationProps, paginationEmits } from './pagination'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import CpButton from '../../button/src/button.vue'
-import CpDropdown from '../../dropdown/src/dropdown.vue'
-import type { DropdownOption, DropdownShape } from '../../dropdown/src/dropdown'
+import CpButton from '@cyberpunk-vue/components/button/src/button.vue'
+import CpDropdown from '@cyberpunk-vue/components/dropdown/src/dropdown.vue'
+import type { DropdownOption, DropdownShape } from '@cyberpunk-vue/components/dropdown/src/dropdown'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Pagination`,
