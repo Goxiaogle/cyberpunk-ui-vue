@@ -13,43 +13,31 @@ defineOptions({
 
 const props = defineProps(mainProps)
 const ns = useNamespace('main')
-const bodyHeaderPlaceholderRef = ref<HTMLElement>()
-const bodyFooterPlaceholderRef = ref<HTMLElement>()
+const mainRef = ref<HTMLElement>()
 const classes = computed(() => [
   ns.b(),
   ns.is('scroll-under-header', props.scrollUnderHeader),
   ns.is('scroll-under-footer', props.scrollUnderFooter),
 ])
 
-const getPlaceholderHeights = () => ({
-  header: bodyHeaderPlaceholderRef.value?.offsetHeight ?? 0,
-  footer: bodyFooterPlaceholderRef.value?.offsetHeight ?? 0,
-})
+const getPlaceholderHeights = () => {
+  const el = mainRef.value
+  if (!el) return { header: 0, footer: 0 }
+  const cs = getComputedStyle(el)
+  return {
+    header: parseFloat(cs.paddingTop) || 0,
+    footer: parseFloat(cs.paddingBottom) || 0,
+  }
+}
 
 defineExpose({
-  /** @description body 顶部占位块元素 */
-  bodyHeaderPlaceholderRef,
-  /** @description body 底部占位块元素 */
-  bodyFooterPlaceholderRef,
-  /** @description 获取 body 占位块高度(px) */
+  /** @description 获取 body 占位块高度(px)（由 padding 实现） */
   getPlaceholderHeights,
 })
 </script>
 
 <template>
-  <main :class="classes">
-    <div
-      v-if="props.scrollUnderHeader"
-      ref="bodyHeaderPlaceholderRef"
-      :class="ns.e('body-header-placeholder')"
-      aria-hidden="true"
-    />
+  <main ref="mainRef" :class="classes">
     <slot />
-    <div
-      v-if="props.scrollUnderFooter"
-      ref="bodyFooterPlaceholderRef"
-      :class="ns.e('body-footer-placeholder')"
-      aria-hidden="true"
-    />
   </main>
 </template>

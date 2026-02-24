@@ -39,16 +39,11 @@ import MdiFileDocument from '~icons/mdi/file-document'
  * - Container 自动检测子元素类型切换排列方向
  * - Header / Footer / Aside 带赛博朋克发光边线装饰
  *
- * ## 滚动穿透占位块获取与自定义
+ * ## 滚动穿透与占位
  * - Header / Footer 暴露 `getHeight()`，可读取当前真实高度（px）
- * - Main / Aside 暴露 `getPlaceholderHeights()`，可读取上下占位块高度（px）
- * - Main 占位块 class:
- *   - `cp-main__body-header-placeholder`
- *   - `cp-main__body-footer-placeholder`
- * - Aside 占位块 class:
- *   - `cp-aside__sidebar-header-placeholder`
- *   - `cp-aside__sidebar-footer-placeholder`
- * - 可通过 CSS 变量控制占位块高度:
+ * - Main / Aside 暴露 `getPlaceholderHeights()`，可读取上下占位区域高度（px）
+ * - 占位区域通过 padding 实现，不会产生多余的滚动内容
+ * - 可通过 CSS 变量控制占位高度:
  *   - `--cp-main-body-header-placeholder-height`
  *   - `--cp-main-body-footer-placeholder-height`
  *   - `--cp-aside-sidebar-header-placeholder-height`
@@ -481,7 +476,7 @@ export const 内容滚动示例: Story = {
   }),
 }
 
-/** 滚动穿透 Header — CpMain 可滚动到 Header 后方（默认含 body 占位块） */
+/** 滚动穿透 Header — CpMain 可滚动到 Header 后方（长内容） */
 export const 滚动穿透Header: Story = {
   render: () => ({
     components: { CpContainer, CpHeader, CpMain, CpText, CpTag },
@@ -494,7 +489,7 @@ export const 滚动穿透Header: Story = {
           </CpHeader>
           <CpMain scroll-under-header style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
-              默认占位块 class: <code>cp-main__body-header-placeholder</code>
+              占位区域通过 padding 实现，长内容时正常出现滚动条
             </CpText>
             <div
               v-for="i in 18"
@@ -510,7 +505,36 @@ export const 滚动穿透Header: Story = {
   }),
 }
 
-/** 滚动穿透 Footer — CpMain 可滚动到 Footer 后方（默认含 body 占位块） */
+/** 滚动穿透 Header 短内容 — 内容不足时不出现滚动条 */
+export const 滚动穿透Header短内容: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpMain, CpText, CpTag },
+    template: `
+      <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+        <CpContainer>
+          <CpHeader height="56px" style="gap: 12px;">
+            <CpText type="primary" bold :size="15">◆ UNDER HEADER</CpText>
+            <CpTag type="info" size="sm">短内容</CpTag>
+          </CpHeader>
+          <CpMain scroll-under-header style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
+            <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
+              短内容演示：内容不足时不应出现滚动条
+            </CpText>
+            <div
+              v-for="i in 2"
+              :key="'header-short-' + i"
+              style="margin-bottom: 10px; padding: 10px 12px; border: 1px solid var(--cp-border); background: color-mix(in srgb, var(--cp-bg-elevated) 82%, transparent);"
+            >
+              <CpText type="primary" bold :size="13">LOG#{{ String(i).padStart(2, '0') }}</CpText>
+            </div>
+          </CpMain>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 滚动穿透 Footer — CpMain 可滚动到 Footer 后方（长内容） */
 export const 滚动穿透Footer: Story = {
   render: () => ({
     components: { CpContainer, CpMain, CpFooter, CpText, CpTag },
@@ -519,7 +543,7 @@ export const 滚动穿透Footer: Story = {
         <CpContainer>
           <CpMain scroll-under-footer style="background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
-              默认占位块 class: <code>cp-main__body-footer-placeholder</code>
+              占位区域通过 padding 实现，长内容时正常出现滚动条
             </CpText>
             <div
               v-for="i in 20"
@@ -532,6 +556,35 @@ export const 滚动穿透Footer: Story = {
           <CpFooter height="60px" style="gap: 12px;">
             <CpText type="secondary" bold :size="14">◆ UNDER FOOTER</CpText>
             <CpTag type="success" size="sm">scroll-under-footer</CpTag>
+          </CpFooter>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 滚动穿透 Footer 短内容 — 内容不足时不出现滚动条 */
+export const 滚动穿透Footer短内容: Story = {
+  render: () => ({
+    components: { CpContainer, CpMain, CpFooter, CpText, CpTag },
+    template: `
+      <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+        <CpContainer>
+          <CpMain scroll-under-footer style="background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
+            <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
+              短内容演示：内容不足时不应出现滚动条
+            </CpText>
+            <div
+              v-for="i in 2"
+              :key="'footer-short-' + i"
+              style="margin-bottom: 10px; padding: 10px 12px; border: 1px solid var(--cp-border); background: color-mix(in srgb, var(--cp-bg-elevated) 82%, transparent);"
+            >
+              <CpText type="info" bold :size="13">EVENT#{{ String(i).padStart(2, '0') }}</CpText>
+            </div>
+          </CpMain>
+          <CpFooter height="60px" style="gap: 12px;">
+            <CpText type="secondary" bold :size="14">◆ UNDER FOOTER</CpText>
+            <CpTag type="success" size="sm">短内容</CpTag>
           </CpFooter>
         </CpContainer>
       </div>
