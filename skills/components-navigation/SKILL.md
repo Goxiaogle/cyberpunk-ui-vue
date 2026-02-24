@@ -1,6 +1,6 @@
----
+﻿---
 name: components-navigation
-description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination。
+description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination、Breadcrumb。
 ---
 
 # 导航组件属性参考
@@ -358,4 +358,95 @@ const tableData = slicedData(allData)
     layout="total, sizes, spacer, prev, pager, next"
   />
 </template>
+```
+
+---
+
+## CpBreadcrumb 面包屑
+
+赛博朋克风格面包屑导航，展示当前页面在层级结构中的位置。
+
+### Props
+
+| 属性            | 类型                                                                    | 默认值      | 说明                               |
+| --------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `separator`     | `string`                                                                | `'/'`       | 分隔符文本                         |
+| `separatorIcon` | `Component`                                                             | -           | 分隔符图标（优先级高于 separator） |
+| `variant`       | `'default' \| 'plain' \| 'outline' \| 'background'`                                | `'default'` | 变体样式                           |
+| `type`          | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色预设类型                       |
+| `color`         | `string`                                                                | `''`        | 自定义主题色（覆盖 type）          |
+
+### 插槽
+
+| 名称      | 说明                  |
+| --------- | --------------------- |
+| `default` | CpBreadcrumbItem 列表 |
+
+### CSS 变量
+
+| 变量                              | 默认值                     | 说明             |
+| --------------------------------- | -------------------------- | ---------------- |
+| `--cp-breadcrumb-font-size`       | `14px`                     | 字体大小         |
+| `--cp-breadcrumb-color`           | `var(--cp-color-primary)`  | 链接/高亮色      |
+| `--cp-breadcrumb-text`            | `var(--cp-text-secondary)` | 普通项文字颜色   |
+| `--cp-breadcrumb-separator-color` | `var(--cp-text-muted)`     | 分隔符颜色       |
+| `--cp-breadcrumb-separator-gap`   | `8px`                      | 分隔符与文字间距 |
+| `--cp-breadcrumb-active-color`    | `var(--cp-text-primary)`   | 当前页文字颜色   |
+
+---
+
+## CpBreadcrumbItem 面包屑子项
+
+### Props
+
+| 属性      | 类型               | 默认值  | 说明                               |
+| --------- | ------------------ | ------- | ---------------------------------- |
+| `to`      | `string \| object` | `''`    | 路由跳转目标（vue-router 的 `to`） |
+| `replace` | `boolean`          | `false` | 使用 `router.replace` 替代 `push`  |
+
+### 插槽
+
+| 名称        | 说明                                             |
+| ----------- | ------------------------------------------------ |
+| `default`   | 面包屑项文本内容                                 |
+| `separator` | 自定义分隔符（覆盖父级 separator/separatorIcon） |
+
+### 行为说明
+
+- 最后一项自动高亮为当前页（通过 CSS `:last-child`），分隔符隐藏
+- 有 `to` 时显示为可点击链接，hover 有下划线 + 发光效果
+
+### 示例
+
+```vue
+<!-- 基础用法 -->
+<CpBreadcrumb>
+  <CpBreadcrumbItem>首页</CpBreadcrumbItem>
+  <CpBreadcrumbItem>系统管理</CpBreadcrumbItem>
+  <CpBreadcrumbItem>用户管理</CpBreadcrumbItem>
+</CpBreadcrumb>
+
+<!-- 自定义分隔符 -->
+<CpBreadcrumb separator=">">
+  <CpBreadcrumbItem>首页</CpBreadcrumbItem>
+  <CpBreadcrumbItem>产品详情</CpBreadcrumbItem>
+</CpBreadcrumb>
+
+<!-- 图标分隔符 -->
+<CpBreadcrumb :separator-icon="ArrowRightIcon" type="primary">
+  <CpBreadcrumbItem to="/">控制台</CpBreadcrumbItem>
+  <CpBreadcrumbItem to="/nodes">节点列表</CpBreadcrumbItem>
+  <CpBreadcrumbItem>节点详情</CpBreadcrumbItem>
+</CpBreadcrumb>
+
+<!-- #separator 插槽自定义 -->
+<CpBreadcrumb type="warning">
+  <CpBreadcrumbItem>
+    NODE
+    <template #separator>
+      <span style="color: var(--cp-color-warning);">▸▸</span>
+    </template>
+  </CpBreadcrumbItem>
+  <CpBreadcrumbItem>CURRENT</CpBreadcrumbItem>
+</CpBreadcrumb>
 ```

@@ -69,6 +69,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpCheckbox` / `CpCheckboxGroup` | 复选框                       |
 | `CpRadio` / `CpRadioGroup`       | 单选框                       |
 | `CpSegmented`                    | 分段选择器，互斥选项控件条   |
+| `CpUpload`                       | 文件上传，拖拽/图片预览/内联 |
 
 ### 媒体展示
 
@@ -106,6 +107,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpMenuItemGroup` | 菜单分组                                     |
 | `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[])                 |
 | `CpPagination`    | 分页导航，支持 spacer/CpButton/自定义插槽    |
+| `CpBreadcrumb`    | 面包屑导航，支持文本/图标/插槽分隔符         |
 
 ### 容器
 
@@ -134,7 +136,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 请根据需要查阅以下专项文档：
 
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
-- [表单组件参数](./components-form/SKILL.md) - Form、FormItem、Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented 的完整 Props
+- [表单组件参数](./components-form/SKILL.md) - Form、FormItem、Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented、Upload 的完整 Props
 - [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
 - [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
 - [布局组件参数](./components-layout/SKILL.md) - Container、Header、Footer、Main、Aside、Row、Col 的完整 Props

@@ -1,6 +1,6 @@
 ---
 name: components-form
-description: 表单组件的详细属性参考：Form、FormItem、Input、InputNumber、Textarea、Switch、Slider、Dropdown、Checkbox、Radio、Segmented。
+description: 表单组件的详细属性参考：Form、FormItem、Input、InputNumber、Textarea、Switch、Slider、Dropdown、Checkbox、Radio、Segmented、Upload。
 ---
 
 # 表单组件属性参考
@@ -507,4 +507,157 @@ interface SegmentedOption {
   color="#ff00ff"
   shape="circle"
 />
+```
+
+---
+
+## CpUpload 文件上传
+
+赛博朋克风格文件上传组件。支持拖拽、图片预览、多种变体 / 形状，可深度自定义触发区内容。
+
+### Props
+
+| 属性              | 类型                                                                    | 默认值      | 说明                                                                   |
+| ----------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------- |
+| `v-model`         | `UploadFile[]`                                                          | `[]`        | 文件列表                                                               |
+| `action`          | `string`                                                                | `''`        | 上传地址                                                               |
+| `headers`         | `Record<string, string>`                                                | `{}`        | 请求头                                                                 |
+| `data`            | `Record<string, string>`                                                | `{}`        | 附加参数                                                               |
+| `name`            | `string`                                                                | `'file'`    | 上传字段名                                                             |
+| `accept`          | `string`                                                                | `''`        | 接受的文件类型（原生 accept）                                          |
+| `multiple`        | `boolean`                                                               | `false`     | 是否多文件                                                             |
+| `limit`           | `number`                                                                | `0`         | 最大文件数（0 = 无限制）                                               |
+| `maxSize`         | `number`                                                                | `0`         | 最大文件大小 bytes（0 = 无限制）                                       |
+| `disabled`        | `boolean`                                                               | `false`     | 禁用                                                                   |
+| `drag`            | `boolean`                                                               | `false`     | 拖拽上传模式                                                           |
+| `autoUpload`      | `boolean`                                                               | `true`      | 选择后自动上传                                                         |
+| `listType`        | `'text' \| 'picture' \| 'picture-card'`                                 | `'text'`    | 文件列表展示类型                                                       |
+| `showFileList`    | `boolean`                                                               | `true`      | 是否显示文件列表                                                       |
+| `variant`         | `'outline' \| 'dashed' \| 'filled' \| 'ghost'`                          | `'dashed'`  | 变体样式                                                               |
+| `shape`           | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                                                                   |
+| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                                                               |
+| `color`           | `string`                                                                | `''`        | 自定义颜色（覆盖 type）                                                |
+| `size`            | `Size`                                                                  | `'md'`      | 按钮尺寸                                                               |
+| `httpRequest`     | `(options: UploadRequestOptions) => Promise \| void`                    | —           | 自定义上传函数                                                         |
+| `beforeUpload`    | `(file: File) => boolean \| Promise<boolean>`                           | —           | 上传前钩子                                                             |
+| `onExceed`        | `(files: File[], fileList: UploadFile[]) => void`                       | —           | 超限回调                                                               |
+| `inlinePreview`   | `boolean`                                                               | `undefined` | 单图内联预览。`limit=1 + picture-card` 时默认启用，可显式 `false` 关闭 |
+| `showInnerStripe` | `boolean`                                                               | `false`     | CpProgress 内圈虚线装饰                                                |
+| `placeholder`     | `string`                                                                | `undefined` | 自定义触发器文案                                                       |
+| `placeholderIcon` | `Component`                                                             | `undefined` | 自定义触发器图标组件                                                   |
+
+### 类型定义
+
+```typescript
+interface UploadFile {
+  uid: number;
+  name: string;
+  size: number;
+  status: "ready" | "uploading" | "success" | "error";
+  percentage: number;
+  url?: string;
+  response?: unknown;
+  raw?: File;
+}
+
+interface UploadRequestOptions {
+  action: string;
+  file: File;
+  filename: string;
+  headers: Record<string, string>;
+  data: Record<string, string>;
+  onProgress: (percentage: number) => void;
+  onSuccess: (response: unknown) => void;
+  onError: (error: Error) => void;
+}
+```
+
+### 插槽
+
+| 名称          | 作用域                                           | 说明                                              |
+| ------------- | ------------------------------------------------ | ------------------------------------------------- |
+| `default`     | —                                                | 完全替换触发区域（隐藏默认 drag / card / button） |
+| `placeholder` | `{ mode: 'drag' \| 'picture-card' \| 'button' }` | 自定义触发区内部内容（图标+文案），保留外层结构   |
+
+### 事件
+
+| 名称       | 参数                         | 说明         |
+| ---------- | ---------------------------- | ------------ |
+| `change`   | `(file, fileList)`           | 文件列表变化 |
+| `success`  | `(response, file, fileList)` | 上传成功     |
+| `error`    | `(error, file, fileList)`    | 上传失败     |
+| `progress` | `(percentage, file)`         | 上传进度     |
+| `remove`   | `(file, fileList)`           | 文件移除     |
+
+### 暴露方法
+
+| 方法           | 说明                                      |
+| -------------- | ----------------------------------------- |
+| `submit()`     | 手动触发上传（`autoUpload=false` 时使用） |
+| `clearFiles()` | 清空文件列表                              |
+
+### CSS 变量
+
+| 变量                       | 默认值                    | 说明                   |
+| -------------------------- | ------------------------- | ---------------------- |
+| `--cp-upload-color`        | `var(--cp-color-primary)` | 主题色（hover / 激活） |
+| `--cp-upload-border-color` | `var(--cp-border)`        | 边框颜色               |
+| `--cp-upload-bg`           | `var(--cp-bg-elevated)`   | 背景色                 |
+| `--cp-upload-card-size`    | `120px`                   | picture-card 卡片尺寸  |
+
+### 示例
+
+```vue
+<!-- 基础 -->
+<CpUpload v-model="fileList" action="/api/upload" />
+
+<!-- 拖拽 -->
+<CpUpload v-model="fileList" action="/api/upload" drag />
+
+<!-- 图片卡片 -->
+<CpUpload
+  v-model="fileList"
+  action="/api/upload"
+  list-type="picture-card"
+  accept="image/*"
+/>
+
+<!-- 单图内联预览（头像/封面）：limit=1 自动启用 -->
+<CpUpload
+  v-model="avatar"
+  action="/api/upload"
+  list-type="picture-card"
+  :limit="1"
+/>
+
+<!-- 自定义 placeholder 文案 -->
+<CpUpload v-model="fileList" action="/api/upload" placeholder="上传附件" />
+<CpUpload
+  v-model="fileList"
+  action="/api/upload"
+  drag
+  placeholder="将文件拖到这里"
+/>
+<CpUpload
+  v-model="fileList"
+  action="/api/upload"
+  list-type="picture-card"
+  placeholder="添加图片"
+/>
+
+<!-- #placeholder 插槽完全自定义 -->
+<CpUpload v-model="fileList" action="/api/upload" drag>
+  <template #placeholder="{ mode }">
+    <MyCustomIcon />
+    <span>拖拽或点击上传图片</span>
+    <span>支持 JPG / PNG，最大 5MB</span>
+  </template>
+</CpUpload>
+
+<!-- 表单集成 -->
+<CpForm :model="form" :rules="rules">
+  <CpFormItem label="附件" prop="files">
+    <CpUpload v-model="form.files" action="/api/upload" drag />
+  </CpFormItem>
+</CpForm>
 ```
