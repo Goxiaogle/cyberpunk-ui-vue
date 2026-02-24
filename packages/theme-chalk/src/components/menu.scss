@@ -144,36 +144,96 @@ $menu-type-colors: (
   @include when(collapse) {
     width: 56px;
 
-    .cp-menu-item,
-    .cp-sub-menu__title {
+    // 仅顶层菜单项/标题 — 居中、无 padding
+    > .cp-menu-item,
+    > .cp-sub-menu > .cp-sub-menu__title {
       padding: 0 !important;
       justify-content: center;
     }
 
-    // 折叠时隐藏文字，只显示图标
-    .cp-menu-item__content,
-    .cp-sub-menu__title-content {
+    // 隐藏顶层文字
+    > .cp-menu-item > .cp-menu-item__content,
+    > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__title-content {
       display: none;
     }
 
-    .cp-sub-menu__arrow {
+    > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__arrow {
       display: none;
     }
 
-    // 图标居中且大一点
-    .cp-menu-item__icon,
-    .cp-sub-menu__icon {
+    // 顶层图标居中且大一点
+    > .cp-menu-item > .cp-menu-item__icon,
+    > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__icon {
       margin: 0;
       font-size: 18px;
     }
 
-    // 折叠时隐藏子菜单和分组标题
-    .cp-sub-menu__content {
+    .cp-menu-item-group__title {
       display: none;
     }
 
-    .cp-menu-item-group__title {
-      display: none;
+    // 折叠时一级 SubMenu 使用弹出定位（右侧飞出）
+    > .cp-sub-menu {
+      position: relative;
+
+      > .cp-sub-menu__popup {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        z-index: 100;
+        min-width: 180px;
+        background: var(--cp-menu-popup-bg, var(--cp-bg-elevated));
+        border: 1px solid var(--cp-menu-border);
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.4),
+          0 0 10px var(--cp-menu-active-color-light);
+        padding: 4px;
+      }
+    }
+
+    // 折叠模式多级嵌套：右侧弹出
+    .cp-sub-menu .cp-sub-menu {
+      position: relative;
+
+      > .cp-sub-menu__popup {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        z-index: 101;
+      }
+    }
+
+    // 弹出层内恢复正常样式
+    .cp-sub-menu__popup {
+      .cp-menu-item,
+      .cp-sub-menu__title {
+        padding: 0 20px !important;
+        justify-content: flex-start;
+      }
+
+      .cp-menu-item__content,
+      .cp-sub-menu__title-content {
+        display: inline;
+      }
+
+      .cp-sub-menu__arrow {
+        display: flex;
+      }
+
+      .cp-menu-item__icon,
+      .cp-sub-menu__icon {
+        font-size: 16px;
+      }
+    }
+
+    // 折叠模式下 SubMenu 激活时 icon 高亮
+    .cp-sub-menu.is-active > .cp-sub-menu__title {
+      color: var(--cp-menu-active-text);
+      background: var(--cp-menu-active-bg);
+
+      .cp-icon {
+        color: var(--cp-menu-active-icon);
+      }
     }
   }
 
@@ -197,13 +257,11 @@ $menu-type-colors: (
       );
     }
 
-    // solid / outline 时整个容器也切角（仅垂直模式，水平模式会裁切 popup）
-    &.cp-menu--solid.cp-menu--vertical,
-    &.cp-menu--outline.cp-menu--vertical {
+    .cp-sub-menu__popup {
       clip-path: polygon(
-        12px 0, 100% 0,
-        100% calc(100% - 12px), calc(100% - 12px) 100%,
-        0 100%, 0 12px
+        8px 0, 100% 0,
+        100% calc(100% - 8px), calc(100% - 8px) 100%,
+        0 100%, 0 8px
       );
     }
   }
@@ -213,11 +271,19 @@ $menu-type-colors: (
     .cp-sub-menu__title {
       border-radius: 0;
     }
+
+    .cp-sub-menu__popup {
+      border-radius: 0;
+    }
   }
 
   @include m(shape-round) {
     .cp-menu-item,
     .cp-sub-menu__title {
+      border-radius: var(--cp-radius-lg);
+    }
+
+    .cp-sub-menu__popup {
       border-radius: var(--cp-radius-lg);
     }
   }
@@ -226,6 +292,10 @@ $menu-type-colors: (
     .cp-menu-item,
     .cp-sub-menu__title {
       border-radius: 9999px;
+    }
+
+    .cp-sub-menu__popup {
+      border-radius: 16px;
     }
   }
 
@@ -547,8 +617,9 @@ $menu-type-colors: (
     overflow: hidden;
     position: relative;
 
-    // 水平模式下需要 overflow visible 才能显示嵌套弹出
-    .cp-menu--horizontal & {
+    // 水平模式 / 折叠模式需要 overflow visible 才能显示嵌套弹出
+    .cp-menu--horizontal &,
+    .cp-menu.is-collapse & {
       overflow: visible;
     }
 

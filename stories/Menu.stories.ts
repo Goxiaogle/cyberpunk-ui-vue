@@ -101,7 +101,7 @@ export const Default: Story = {
       return { args, activeIndex }
     },
     template: `
-      <div style="width: 240px;">
+      <div :style="{ width: args.mode === 'horizontal' ? 'auto' : '240px' }">
         <CpMenu v-bind="args" :default-active="activeIndex" @select="(idx) => activeIndex = idx">
           <CpMenuItem index="1">
             <template #icon>
@@ -125,6 +125,9 @@ export const Default: Story = {
             <CpMenuItem index="3-3">网络配置</CpMenuItem>
           </CpSubMenu>
           <CpSubMenu index="4">
+            <template #icon>
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+            </template>
             <template #title>数据面板</template>
             <CpMenuItem index="4-1">实时监控</CpMenuItem>
             <CpMenuItem index="4-2">日志分析</CpMenuItem>
