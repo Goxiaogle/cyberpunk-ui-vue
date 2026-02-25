@@ -24,6 +24,9 @@ $segmented-types: (primary, success, warning, error, info);
   --cp-segmented-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --cp-segmented-height: 36px;
   --cp-segmented-font-size: var(--cp-font-size-md);
+  --cp-segmented-font-weight: var(--cp-font-weight-semibold);
+  --cp-segmented-active-font-weight: var(--cp-font-weight-bold);
+  --cp-segmented-font-weight-transition: var(--cp-font-weight-transition-fast);
   --cp-segmented-indicator-offset: -2px;
 
   // ===== 基础样式 =====
@@ -34,7 +37,7 @@ $segmented-types: (primary, success, warning, error, info);
   background: var(--cp-segmented-bg);
   border: 1px solid var(--cp-segmented-border-color);
   gap: var(--cp-segmented-gap);
-  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+  font-family: var(--cp-font-family-display);
   user-select: none;
 
   // 默认 clip 形状
@@ -71,6 +74,7 @@ $segmented-types: (primary, success, warning, error, info);
 
   // ===== 选项按钮 =====
   @include e(item) {
+    --cp-segmented-item-font-weight: var(--cp-segmented-font-weight);
     position: relative;
     z-index: 1;
     display: inline-flex;
@@ -85,11 +89,16 @@ $segmented-types: (primary, success, warning, error, info);
     color: var(--cp-segmented-item-color);
     font-family: inherit;
     font-size: var(--cp-segmented-font-size);
-    font-weight: 600;
+    font-weight: var(--cp-segmented-item-font-weight);
+    font-variation-settings: 'wght' var(--cp-segmented-item-font-weight);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     cursor: pointer;
-    transition: color 0.2s ease, text-shadow 0.2s ease;
+    transition:
+      color 0.2s ease,
+      text-shadow 0.2s ease,
+      font-weight var(--cp-segmented-font-weight-transition),
+      font-variation-settings var(--cp-segmented-font-weight-transition);
     white-space: nowrap;
 
     &:hover:not(.is-disabled):not(.is-active) {
@@ -105,6 +114,7 @@ $segmented-types: (primary, success, warning, error, info);
 
     // 选中态文字色
     &.is-active {
+      --cp-segmented-item-font-weight: var(--cp-segmented-active-font-weight);
       color: var(--cp-segmented-active-color);
     }
 

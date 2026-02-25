@@ -9,7 +9,7 @@
     display: inline-flex;
     align-items: stretch;
     width: 180px;
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
 
     // ===== 尺寸 =====
     @include m(sm) {
@@ -117,7 +117,7 @@
         border: 1px solid var(--cp-border);
         background: transparent;
         color: var(--cp-text-primary);
-        font-family: 'Rajdhani', monospace;
+        font-family: var(--cp-font-family-mono);
         font-size: inherit;
         text-align: center;
         outline: none;

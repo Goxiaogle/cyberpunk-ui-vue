@@ -1,6 +1,6 @@
 {
     "name": "cyberpunk-ui-vue",
-    "version": "1.5.1",
+    "version": "1.6.1",
     "description": "A futuristic Vue 3 component library with cyberpunk aesthetics",
     "type": "module",
     "main": "./dist/index.cjs",
@@ -41,7 +41,7 @@
         "build": "npm run build:meta && vite build && npm run build:types && npm run build:styles",
         "build:meta": "node scripts/generate-meta.mjs",
         "build:types": "node scripts/build-types.mjs",
-        "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed"
+        "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed && sass ../theme-chalk/src/fonts.scss styles/fonts.css --style=compressed"
     },
     "peerDependencies": {
         "vue": "^3.5.0"

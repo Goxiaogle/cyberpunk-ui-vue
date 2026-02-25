@@ -240,6 +240,16 @@ export const dropdownProps = {
     type: Number,
     default: 150,
   },
+  /**
+   * 下拉框宽度
+   * 支持数字 (px) 或带单位字符串 (如 '200px', '15rem')。
+   * 为空时默认 100%（铺满父容器）。
+   * @default ''
+   */
+  width: {
+    type: [String, Number] as PropType<string | number>,
+    default: '',
+  },
 } as const
 
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>

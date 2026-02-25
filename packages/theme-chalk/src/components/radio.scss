@@ -44,7 +44,7 @@ $radio-sizes: (
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
-  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-family: var(--cp-font-family-ui);
   color: var(--cp-text-secondary);
   transition: color 0.2s ease;
   

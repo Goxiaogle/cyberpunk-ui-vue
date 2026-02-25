@@ -59,7 +59,10 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 | `--cp-menu-icon`               | `var(--cp-menu-text)`               | 未选中图标颜色 |
 | `--cp-menu-active-icon`        | `var(--cp-menu-active-text)`        | 选中图标颜色   |
 | `--cp-menu-active-bg`          | `var(--cp-menu-active-color-light)` | 选中项背景色   |
-| `--cp-menu-active-font-weight` | `600`                               | 选中项字重     |
+| `--cp-menu-font-family`        | `var(--cp-font-family-ui)`          | 菜单字体族     |
+| `--cp-menu-font-weight`        | `var(--cp-font-weight-normal, 450)` | 默认字重       |
+| `--cp-menu-active-font-weight` | `var(--cp-font-weight-semibold, 620)` | 选中项字重   |
+| `--cp-menu-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡时长 |
 | `--cp-menu-active-color`       | `var(--cp-color-primary)`           | 激活色         |
 | `--cp-menu-hover-bg`           | `var(--cp-state-hover)`             | 悬停背景色     |
 | `--cp-menu-border`             | `var(--cp-border)`                  | 边框颜色       |
@@ -87,7 +90,7 @@ description: 导航组件的详细属性参考：Menu、MenuItem、SubMenu、Men
 </CpMenu>
 
 <!-- 取消选中加粗 -->
-<CpMenu style="--cp-menu-active-font-weight: normal;">
+<CpMenu style="--cp-menu-active-font-weight: var(--cp-menu-font-weight);">
   <CpMenuItem index="1">不加粗</CpMenuItem>
 </CpMenu>
 ```
@@ -282,6 +285,10 @@ const menuData = [
 | `--cp-pagination-clip`        | `5px`       | 切角大小           |
 | `--cp-pagination-color`       | -           | 主题色             |
 | `--cp-pagination-sizes-width` | `115px`     | Sizes 下拉宽度     |
+| `--cp-pagination-font-weight` | `var(--cp-font-weight-medium)` | 默认字重 |
+| `--cp-pagination-active-font-weight` | `var(--cp-font-weight-semibold)` | 选中页码字重 |
+| `--cp-pagination-strong-font-weight` | `var(--cp-font-weight-bold)` | 快速跳转字重 |
+| `--cp-pagination-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡时长 |
 
 ### 示例
 
@@ -391,7 +398,11 @@ const tableData = slicedData(allData)
 | `--cp-breadcrumb-text`            | `var(--cp-text-secondary)` | 普通项文字颜色   |
 | `--cp-breadcrumb-separator-color` | `var(--cp-text-muted)`     | 分隔符颜色       |
 | `--cp-breadcrumb-separator-gap`   | `8px`                      | 分隔符与文字间距 |
+| `--cp-breadcrumb-hover-color`     | `var(--cp-breadcrumb-color)` | hover 文字颜色 |
 | `--cp-breadcrumb-active-color`    | `var(--cp-text-primary)`   | 当前页文字颜色   |
+| `--cp-breadcrumb-font-weight`     | `var(--cp-font-weight-normal)` | 默认字重     |
+| `--cp-breadcrumb-active-font-weight` | `var(--cp-font-weight-semibold)` | 当前页字重 |
+| `--cp-breadcrumb-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡时长 |
 
 ---
 

@@ -151,6 +151,39 @@ $cp-radius: (
     --cp-font-size-#{$name}: #{$value};
   }
 
+  // 字体族与可变字重
+  --cp-font-family-ui:
+    "Inter Variable",
+    "Noto Sans SC Variable",
+    "Inter",
+    "Noto Sans SC",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Rajdhani",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  --cp-font-family-display:
+    "Orbitron",
+    "Rajdhani",
+    "Inter Variable",
+    "Noto Sans SC Variable",
+    sans-serif;
+  --cp-font-family-mono:
+    "Rajdhani",
+    "Inter Variable",
+    "Noto Sans SC Variable",
+    monospace;
+  --cp-font-weight-light: 350;
+  --cp-font-weight-normal: 450;
+  --cp-font-weight-medium: 520;
+  --cp-font-weight-semibold: 620;
+  --cp-font-weight-bold: 700;
+  --cp-font-weight-transition-fast: 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  --cp-font-weight-transition-normal: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+
   @each $name, $value in $cp-spacing {
     --cp-spacing-#{$name}: #{$value};
   }

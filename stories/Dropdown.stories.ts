@@ -93,6 +93,13 @@ const meta: Meta<typeof CpDropdown> = {
         defaultValue: { summary: '150' },
       },
     },
+    width: {
+      control: 'text',
+      description: '下拉框宽度 (数字 px 或带单位字符串)',
+      table: {
+        defaultValue: { summary: "''" },
+      },
+    },
   },
 }
 
@@ -438,6 +445,44 @@ export const 综合示例: Story = {
               filterable
               clearable
             />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** Flex 布局 */
+export const Flex布局: Story = {
+  render: () => ({
+    components: { CpDropdown },
+    setup() {
+      const v1 = ref('')
+      const v2 = ref('')
+      const v3 = ref('')
+      return { v1, v2, v3, basicOptions, moreOptions }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px; max-width: 600px;">
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">固定宽度 (width prop)</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpDropdown v-model="v1" :options="basicOptions" :width="200" placeholder="200px" />
+            <CpDropdown v-model="v2" :options="moreOptions" width="15rem" placeholder="15rem" />
+          </div>
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">Flex 自动分配空间</p>
+          <div style="display: flex; gap: 12px;">
+            <CpDropdown v-model="v1" :options="basicOptions" placeholder="职业" style="flex: 1;" />
+            <CpDropdown v-model="v2" :options="moreOptions" placeholder="公司" style="flex: 2;" />
+          </div>
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">混合使用</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpDropdown v-model="v1" :options="basicOptions" :width="180" placeholder="固定宽度" />
+            <CpDropdown v-model="v2" :options="moreOptions" placeholder="剩余空间" style="flex: 1;" />
           </div>
         </div>
       </div>

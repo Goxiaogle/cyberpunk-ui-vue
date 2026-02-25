@@ -304,7 +304,7 @@
         flex-shrink: 0;
         color: var(--cp-text-muted);
         font-size: var(--cp-font-size-sm);
-        font-family: 'Rajdhani', monospace;
+        font-family: var(--cp-font-family-mono);
     }
 
     @include e(status-icon) {

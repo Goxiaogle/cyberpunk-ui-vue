@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { nextTick, onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref, computed } from 'vue'
 import {
   CpRow, CpCol,
   CpContainer, CpHeader, CpFooter, CpMain, CpAside,
@@ -257,7 +257,7 @@ export const 基础容器布局: Story = {
             </CpMenu>
             <CpTag type="success" size="sm">ONLINE</CpTag>
           </CpHeader>
-          <CpMain>
+          <CpMain style="--cp-main-padding: 16px;">
             <CpText bold :size="16" style="margin-bottom: 8px; display: block;">{{ active.toUpperCase() }}</CpText>
             <CpText type="secondary">Header 中嵌入水平 CpMenu，实现顶部导航栏 + 内容区的经典布局。</CpText>
           </CpMain>
@@ -293,7 +293,7 @@ export const 侧边栏布局: Story = {
           </CpHeader>
           <CpContainer>
             <CpAside width="220px">
-              <CpMenu :default-active="active" type="primary" :default-openeds="['system']" @select="(idx) => active = idx">
+              <CpMenu style="border-right: none; height: 100%;" :default-active="active" type="primary" :default-openeds="['system']" @select="(idx) => active = idx">
                 <CpMenuItem index="dashboard" :icon="MdiViewDashboard">DASHBOARD</CpMenuItem>
                 <CpMenuItem index="users" :icon="MdiAccountGroup">用户管理</CpMenuItem>
                 <CpSubMenu index="system" :icon="MdiCog">
@@ -310,11 +310,88 @@ export const 侧边栏布局: Story = {
                 <CpMenuItem index="terminal" :icon="MdiConsole">TERMINAL</CpMenuItem>
               </CpMenu>
             </CpAside>
-            <CpMain>
+            <CpMain style="--cp-main-padding: 16px;">
               <CpText bold :size="16" style="margin-bottom: 12px; display: block;">{{ active.toUpperCase() }}</CpText>
               <CpText type="secondary">Aside 内嵌入垂直 CpMenu，实现侧边导航 + 内容区的后台管理布局。</CpText>
               <CpDivider dashed style="margin: 16px 0;" />
               <CpText type="muted" :size="12">当前激活: {{ active }}</CpText>
+            </CpMain>
+          </CpContainer>
+          <CpFooter height="48px">
+            <CpText type="muted" :size="12">SYSTEM STATUS: ALL GREEN</CpText>
+          </CpFooter>
+        </CpContainer>
+      </div>
+    `,
+  }),
+}
+
+/** 可折叠侧边栏 — Header + 可折叠 Aside(CpMenu collapse) + Main + Footer */
+export const 可折叠侧边栏: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpMain, CpFooter, CpAside, CpText, CpTag, CpDivider, CpButton, CpMenu, CpMenuItem, CpSubMenu },
+    setup() {
+      const collapsed = ref(false)
+      const active = ref('dashboard')
+      const sideWidth = computed(() => collapsed.value ? '56px' : '220px')
+      return {
+        collapsed, active, sideWidth,
+        MdiViewDashboard, MdiAccountGroup, MdiCog, MdiTune,
+        MdiShieldLock, MdiAccessPointNetwork, MdiChartLine,
+        MdiPulse, MdiTextBoxSearch, MdiConsole,
+      }
+    },
+    template: `
+      <div style="width: 100%; height: 520px; border: 1px solid var(--cp-border);">
+        <CpContainer>
+          <CpHeader style="padding: 0 16px; gap: 12px;">
+            <CpButton
+              size="sm"
+              type="primary"
+              @click="collapsed = !collapsed"
+              style="font-size: 18px; min-width: 32px; padding: 0 6px;"
+            >
+              {{ collapsed ? '☰' : '✕' }}
+            </CpButton>
+            <CpText type="primary" bold :size="16">◆ CONTROL PANEL</CpText>
+            <div style="flex: 1;" />
+            <CpTag type="success" size="sm">ONLINE</CpTag>
+          </CpHeader>
+          <CpContainer>
+            <CpAside :width="sideWidth" style="transition: width .3s ease;">
+              <CpMenu
+                style="border-right: none; height: 100%;"
+                :collapse="collapsed"
+                :default-active="active"
+                type="primary"
+                :default-openeds="['system']"
+                @select="(idx) => active = idx"
+              >
+                <CpMenuItem index="dashboard" :icon="MdiViewDashboard">DASHBOARD</CpMenuItem>
+                <CpMenuItem index="users" :icon="MdiAccountGroup">用户管理</CpMenuItem>
+                <CpSubMenu index="system" :icon="MdiCog">
+                  <template #title>系统配置</template>
+                  <CpMenuItem index="system-general" :icon="MdiTune">基础设置</CpMenuItem>
+                  <CpMenuItem index="system-security" :icon="MdiShieldLock">安全策略</CpMenuItem>
+                  <CpMenuItem index="system-network" :icon="MdiAccessPointNetwork">网络配置</CpMenuItem>
+                </CpSubMenu>
+                <CpSubMenu index="monitor" :icon="MdiChartLine">
+                  <template #title>监控面板</template>
+                  <CpMenuItem index="monitor-realtime" :icon="MdiPulse">实时监控</CpMenuItem>
+                  <CpMenuItem index="monitor-log" :icon="MdiTextBoxSearch">日志分析</CpMenuItem>
+                </CpSubMenu>
+                <CpMenuItem index="terminal" :icon="MdiConsole">TERMINAL</CpMenuItem>
+              </CpMenu>
+            </CpAside>
+            <CpMain style="--cp-main-padding: 16px;">
+              <CpText bold :size="16" style="margin-bottom: 12px; display: block;">{{ active.toUpperCase() }}</CpText>
+              <CpText type="secondary">
+                点击左上角按钮可收起/展开侧边栏菜单。折叠后仅显示图标，hover 可弹出子菜单。
+              </CpText>
+              <CpDivider dashed style="margin: 16px 0;" />
+              <CpText type="muted" :size="12">
+                当前激活: {{ active }} ｜ 折叠状态: {{ collapsed ? '已折叠' : '已展开' }}
+              </CpText>
             </CpMain>
           </CpContainer>
           <CpFooter height="48px">
@@ -344,14 +421,14 @@ export const 右侧边栏: Story = {
             <CpText type="primary" bold :size="16">◆ DATA MONITOR</CpText>
           </CpHeader>
           <CpContainer>
-            <CpMain>
+            <CpMain style="--cp-main-padding: 16px;">
               <CpText bold :size="16" style="display: block;">MAIN CONTENT</CpText>
               <CpText type="secondary" style="margin-top: 8px;">主内容区域在左侧，右侧 Aside 嵌入 CpMenu 作为辅助导航或快速操作面板。</CpText>
               <CpDivider dashed style="margin: 16px 0;" />
               <CpText type="muted" :size="12">当前面板: {{ active }}</CpText>
             </CpMain>
             <CpAside width="200px" style="border-right: none; border-left: 1px solid var(--cp-border);">
-              <CpMenu :default-active="active" type="info" @select="(idx) => active = idx">
+              <CpMenu style="border-right: none; height: 100%;" :default-active="active" type="info" @select="(idx) => active = idx">
                 <CpMenuItem index="alerts" :icon="MdiBell">告警列表</CpMenuItem>
                 <CpSubMenu index="reports" :icon="MdiFileDocument">
                   <template #title>报表</template>
@@ -379,7 +456,7 @@ export const 栅格与容器组合: Story = {
           <CpHeader>
             <CpText type="primary" bold :size="16">◆ GRID IN CONTAINER</CpText>
           </CpHeader>
-          <CpMain>
+          <CpMain style="--cp-main-padding: 16px;">
             <CpRow :gutter="16">
               <CpCol :span="8">
                 <div style="background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 16px; height: 120px;">
@@ -441,13 +518,13 @@ export const 内容滚动示例: Story = {
           </CpHeader>
           <CpContainer>
             <CpAside width="240px">
-              <CpMenu :default-active="active" type="primary" @select="(idx) => active = idx">
+              <CpMenu style="border-right: none; height: 100%;" :default-active="active" type="primary" @select="(idx) => active = idx">
                 <CpMenuItem v-for="i in 30" :key="i" :index="'item-' + i">
                   SIDEBAR_ITEM_{{ String(i).padStart(2, '0') }}
                 </CpMenuItem>
               </CpMenu>
             </CpAside>
-            <CpMain>
+            <CpMain style="--cp-main-padding: 16px;">
               <CpText bold :size="16" style="display: block; margin-bottom: 16px;">MAIN CONTENT AREA</CpText>
               <CpText type="secondary" style="margin-bottom: 16px; display: block;">
                 This example demonstrates independent scrolling for both the Sidebar and Main content areas within a fixed-height container.
@@ -487,7 +564,7 @@ export const 滚动穿透Header: Story = {
             <CpText type="primary" bold :size="15">◆ UNDER HEADER</CpText>
             <CpTag type="info" size="sm">scroll-under-header</CpTag>
           </CpHeader>
-          <CpMain scroll-under-header style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
+          <CpMain scroll-under-header style="--cp-main-padding: 16px; background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
               占位区域通过 padding 实现，长内容时正常出现滚动条
             </CpText>
@@ -516,7 +593,7 @@ export const 滚动穿透Header短内容: Story = {
             <CpText type="primary" bold :size="15">◆ UNDER HEADER</CpText>
             <CpTag type="info" size="sm">短内容</CpTag>
           </CpHeader>
-          <CpMain scroll-under-header style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
+          <CpMain scroll-under-header style="--cp-main-padding: 16px; background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
               短内容演示：内容不足时不应出现滚动条
             </CpText>
@@ -541,7 +618,7 @@ export const 滚动穿透Footer: Story = {
     template: `
       <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
         <CpContainer>
-          <CpMain scroll-under-footer style="background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
+          <CpMain scroll-under-footer style="--cp-main-padding: 16px; background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
               占位区域通过 padding 实现，长内容时正常出现滚动条
             </CpText>
@@ -570,7 +647,7 @@ export const 滚动穿透Footer短内容: Story = {
     template: `
       <div style="width: 100%; max-width: 760px; height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
         <CpContainer>
-          <CpMain scroll-under-footer style="background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
+          <CpMain scroll-under-footer style="--cp-main-padding: 16px; background: linear-gradient(0deg, rgba(123, 104, 238, 0.12) 0%, transparent 35%);">
             <CpText type="muted" :size="12" style="display: block; margin-bottom: 10px;">
               短内容演示：内容不足时不应出现滚动条
             </CpText>
@@ -610,7 +687,7 @@ export const 占位块有无对比: Story = {
                   SIDE_{{ i }}
                 </div>
               </CpAside>
-              <CpMain scroll-under-header scroll-under-footer>
+              <CpMain scroll-under-header scroll-under-footer style="--cp-main-padding: 16px;">
                 <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">cp-main__body-*</CpText>
                 <div v-for="i in 18" :key="'main-on-' + i" style="margin-bottom: 6px; padding: 8px 10px; border: 1px solid var(--cp-border); font-size: 12px;">
                   BODY_{{ i }}
@@ -643,7 +720,7 @@ export const 占位块有无对比: Story = {
               <CpMain
                 scroll-under-header
                 scroll-under-footer
-                style="--cp-main-body-header-placeholder-height: 0px; --cp-main-body-footer-placeholder-height: 0px;"
+                style="--cp-main-padding: 16px; --cp-main-body-header-placeholder-height: 0px; --cp-main-body-footer-placeholder-height: 0px;"
               >
                 <CpText type="muted" :size="11" style="display: block; margin-bottom: 8px;">placeholder=0</CpText>
                 <div v-for="i in 18" :key="'main-off-' + i" style="margin-bottom: 6px; padding: 8px 10px; border: 1px solid var(--cp-border); font-size: 12px;">
@@ -757,6 +834,7 @@ export const 高度获取与占位块自定义: Story = {
                 scroll-under-header
                 scroll-under-footer
                 :style="{
+                  '--cp-main-padding': '16px',
                   '--cp-main-body-header-placeholder-height': mainHeaderPlaceholderHeight,
                   '--cp-main-body-footer-placeholder-height': mainFooterPlaceholderHeight,
                 }"

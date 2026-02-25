@@ -563,6 +563,20 @@ circle/dashboard 模式下，当 `strokeWidth` 未显式设置时：
 | `icon`    | `{ node, data, expanded }` | 自定义展开/叶子图标 |
 | `empty`   | -                          | 空数据时的展示内容  |
 
+### CSS 变量
+
+| 变量                                | 默认值                                | 说明             |
+| ----------------------------------- | ------------------------------------- | ---------------- |
+| `--cp-tree-node-height`             | `32px`                                | 节点高度         |
+| `--cp-tree-indent`                  | `16px`                                | 子级缩进         |
+| `--cp-tree-active-color`            | `var(--cp-color-primary)`             | 高亮主色         |
+| `--cp-tree-active-color-light`      | `var(--cp-color-primary-light)`       | 高亮浅色         |
+| `--cp-tree-connector-color`         | `var(--cp-border)`                    | 普通连接线颜色   |
+| `--cp-tree-connector-active-color`  | `var(--cp-color-primary)`             | 高亮连接线颜色   |
+| `--cp-tree-font-weight`             | `var(--cp-font-weight-medium)`        | 默认字重         |
+| `--cp-tree-active-font-weight`      | `var(--cp-font-weight-semibold)`      | 当前节点字重     |
+| `--cp-tree-font-weight-transition`  | `var(--cp-font-weight-transition-fast)` | 字重过渡时长   |
+
 ### 示例
 
 ```vue

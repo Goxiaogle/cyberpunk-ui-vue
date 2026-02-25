@@ -33,11 +33,13 @@
     "lint:fix": "eslint . --fix",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
+    "build-storybook": "storybook build",
     "publish:packages": "pnpm build && pnpm -r publish --access public",
     "release": "node scripts/release.mjs",
     "release:patch": "pnpm release patch",
     "release:minor": "pnpm release minor",
-    "release:major": "pnpm release major"
+    "release:major": "pnpm release major",
+    "chromatic": "npx chromatic --project-token=chpt_44d614f2e22c45f"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

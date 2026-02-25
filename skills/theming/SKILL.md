@@ -161,6 +161,30 @@ function toggleTheme() {
 | `--cp-font-size-md` | `14px` |
 | `--cp-font-size-lg` | `16px` |
 
+### 字体族与可变字重
+
+组件库统一通过字体 token 控制字体族和字重；默认仅使用回退栈，不强制注入本地字体资源。
+
+如需启用内置本地可变字体（Inter + Noto Sans SC）：
+
+```ts
+import "cyberpunk-ui-vue/styles/index.css";
+import "cyberpunk-ui-vue/styles/fonts.css"; // 可选
+```
+
+| CSS 变量                               | 默认值 |
+| -------------------------------------- | ------ |
+| `--cp-font-family-ui`                  | `Inter Variable, Inter, Noto Sans SC Variable, Source Han Sans VF, Source Han Sans SC, Alibaba PuHuiTi 3.0, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Segoe UI, Helvetica Neue, Arial, sans-serif` |
+| `--cp-font-family-display`             | `Orbitron, Eurostile, BankGothic, Inter Variable, Inter, Noto Sans SC Variable, Source Han Sans VF, Source Han Sans SC, Alibaba PuHuiTi 3.0, sans-serif` |
+| `--cp-font-family-mono`                | `JetBrains Mono, Cascadia Code, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace` |
+| `--cp-font-weight-light`               | `350` |
+| `--cp-font-weight-normal`              | `450` |
+| `--cp-font-weight-medium`              | `520` |
+| `--cp-font-weight-semibold`            | `620` |
+| `--cp-font-weight-bold`                | `700` |
+| `--cp-font-weight-transition-fast`     | `0.2s cubic-bezier(0.22, 1, 0.36, 1)` |
+| `--cp-font-weight-transition-normal`   | `0.25s cubic-bezier(0.22, 1, 0.36, 1)` |
+
 ### 间距
 
 | CSS 变量          | 值     |

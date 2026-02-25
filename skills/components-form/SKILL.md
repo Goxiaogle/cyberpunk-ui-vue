@@ -281,6 +281,7 @@ interface FormRule {
 | `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                   | `'md'`           | 尺寸              |
 | `shape`         | `'clip' \| 'no-clip' \| 'round'`                             | `'clip'`         | 形状              |
 | `variant`       | `'outline' \| 'filled' \| 'ghost'`                           | `'outline'`      | 变体              |
+| `width`         | `string \| number`                                           | `''`             | 宽度（空 = 100%） |
 | `disabled`      | `boolean`                                                    | `false`          | 禁用              |
 | `clearable`     | `boolean`                                                    | `false`          | 可清空            |
 | `clearDuration` | `number`                                                     | `150`            | 清除动画时长 (ms) |
@@ -289,6 +290,12 @@ interface FormRule {
 | `color`         | `string`                                                     | `''`             | 聚焦颜色          |
 | `placement`     | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| ...` | `'bottom-start'` | 弹出位置          |
 | `maxHeight`     | `number`                                                     | `256`            | 下拉面板最大高度  |
+
+### CSS 变量
+
+| 变量                  | 默认值 | 说明                    |
+| --------------------- | ------ | ----------------------- |
+| `--cp-dropdown-width` | `100%` | 可通过 CSS 覆盖组件宽度 |
 
 ### 示例
 
@@ -302,6 +309,15 @@ interface FormRule {
   clearable
   :clear-duration="300"
 />
+
+<!-- 固定宽度 -->
+<CpDropdown v-model="selected" :options="options" :width="200" />
+
+<!-- Flex 布局中使用 -->
+<div style="display: flex; gap: 12px;">
+  <CpDropdown v-model="v1" :options="opts1" style="flex: 1;" />
+  <CpDropdown v-model="v2" :options="opts2" style="flex: 2;" />
+</div>
 ```
 
 ---
@@ -472,6 +488,9 @@ interface SegmentedOption {
 | `--cp-segmented-gap`              | `2px`                      | item 间距        |
 | `--cp-segmented-height`           | `36px`                     | 组件高度         |
 | `--cp-segmented-font-size`        | `var(--cp-font-size-md)`   | 字号             |
+| `--cp-segmented-font-weight`      | `var(--cp-font-weight-semibold)` | 默认字重   |
+| `--cp-segmented-active-font-weight` | `var(--cp-font-weight-bold)` | 选中项字重   |
+| `--cp-segmented-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡 |
 | `--cp-segmented-item-color`       | `var(--cp-text-secondary)` | item 文字色      |
 | `--cp-segmented-item-hover-bg`    | `var(--cp-state-hover)`    | item hover 背景  |
 | `--cp-segmented-item-padding`     | `0 12px`                   | item 内边距      |

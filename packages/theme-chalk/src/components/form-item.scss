@@ -21,7 +21,7 @@
         color: var(--cp-form-label-color, var(--cp-text-secondary));
         font-size: var(--cp-form-label-font-size, var(--cp-font-size-md));
         font-weight: var(--cp-form-label-font-weight, 500);
-        font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+        font-family: var(--cp-font-family-ui);
         transition: color 0.2s ease;
 
         // 必填星号 (默认左侧)
@@ -51,7 +51,7 @@
         margin-top: var(--cp-form-error-margin-top, 4px);
         color: var(--cp-form-error-color, var(--cp-color-error));
         font-size: var(--cp-form-error-font-size, var(--cp-font-size-sm));
-        font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+        font-family: var(--cp-font-family-ui);
         transition: height 0.2s ease, opacity 0.2s ease;
         opacity: 0;
 

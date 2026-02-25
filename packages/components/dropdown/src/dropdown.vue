@@ -116,6 +116,11 @@ const customStyle = computed(() => {
   if (props.clearDuration !== 150) {
     style['--cp-dropdown-clear-duration'] = `${props.clearDuration}ms`
   }
+
+  // 自定义宽度
+  if (props.width) {
+    style['--cp-dropdown-width'] = typeof props.width === 'number' ? `${props.width}px` : props.width
+  }
   
   return style
 })

@@ -105,7 +105,7 @@
     0 0 1px var(--cp-notification-color),
     inset 0 0 20px rgba(0, 240, 255, 0.02);
   transition: transform 0s;
-  font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+  font-family: var(--cp-font-family-ui);
 
   // ===== 类型变体颜色 =====
   @each $type in (primary, success, warning, error, info) {
@@ -245,7 +245,7 @@
 
   // ===== 标题 =====
   @include e(title) {
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-family: var(--cp-font-family-display);
     font-weight: 600;
     font-size: var(--cp-font-size-md);
     text-transform: uppercase;

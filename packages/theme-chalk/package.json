@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/theme-chalk",
-    "version": "1.5.1",
+    "version": "1.6.1",
     "description": "Cyberpunk Vue theme styles - SCSS/CSS styles for Cyberpunk Vue components",
     "type": "module",
     "main": "./dist/index.css",
@@ -12,19 +12,30 @@
             "sass": "./src/index.scss",
             "default": "./dist/index.css"
         },
+        "./fonts.css": {
+            "style": "./dist/fonts.css",
+            "sass": "./src/fonts.scss",
+            "default": "./dist/fonts.css"
+        },
+        "./fonts": {
+            "style": "./dist/fonts.css",
+            "sass": "./src/fonts.scss",
+            "default": "./dist/fonts.css"
+        },
         "./src/*": "./src/*",
         "./dist/*": "./dist/*"
     },
     "files": [
         "dist",
-        "src"
+        "src",
+        "fonts"
     ],
     "sideEffects": [
         "**/*.css",
         "**/*.scss"
     ],
     "scripts": {
-        "build": "sass src/index.scss dist/index.css --style=compressed"
+        "build": "sass src/index.scss dist/index.css --style=compressed && sass src/fonts.scss dist/fonts.css --style=compressed"
     },
     "peerDependencies": {
         "sass": "^1.80.0"

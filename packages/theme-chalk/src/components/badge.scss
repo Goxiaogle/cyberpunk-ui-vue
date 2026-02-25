@@ -48,7 +48,7 @@ $badge-dark-text-types: (primary, success, warning);
         padding: 0 5px;
         border-radius: 9px;
 
-        font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+        font-family: var(--cp-font-family-ui);
         font-size: 11px;
         font-weight: 600;
         white-space: nowrap;

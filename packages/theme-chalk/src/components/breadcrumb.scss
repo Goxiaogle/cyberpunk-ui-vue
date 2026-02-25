@@ -6,7 +6,7 @@
 @use "../mixins/mixins" as *;
 
 @include b(breadcrumb) {
-  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-family: var(--cp-font-family-ui);
   font-size: var(--cp-breadcrumb-font-size, 14px);
 
   // CSS 变量默认值
@@ -16,6 +16,9 @@
   --cp-breadcrumb-separator-gap: 8px;
   --cp-breadcrumb-hover-color: var(--cp-breadcrumb-color);
   --cp-breadcrumb-active-color: var(--cp-text-primary);
+  --cp-breadcrumb-font-weight: var(--cp-font-weight-normal);
+  --cp-breadcrumb-active-font-weight: var(--cp-font-weight-semibold);
+  --cp-breadcrumb-font-weight-transition: var(--cp-font-weight-transition-fast);
 
   // ===== 列表 =====
   @include e(list) {
@@ -36,8 +39,8 @@
     // 最后一项：高亮为当前页，隐藏分隔符
     &:last-child {
       .cp-breadcrumb__inner {
+        --cp-breadcrumb-inner-font-weight: var(--cp-breadcrumb-active-font-weight);
         color: var(--cp-breadcrumb-active-color);
-        font-weight: 600;
         cursor: default;
         pointer-events: none;
 
@@ -55,10 +58,20 @@
 
   // ===== 内容区域 =====
   @include e(inner) {
+    --cp-breadcrumb-inner-font-weight: var(--cp-breadcrumb-font-weight);
     display: inline-flex;
     align-items: center;
+    font-weight: var(--cp-breadcrumb-inner-font-weight);
+    font-variation-settings: 'wght' var(--cp-breadcrumb-inner-font-weight);
     color: var(--cp-breadcrumb-text);
-    transition: all 0.2s ease;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      text-shadow 0.2s ease,
+      opacity 0.2s ease,
+      font-weight var(--cp-breadcrumb-font-weight-transition),
+      font-variation-settings var(--cp-breadcrumb-font-weight-transition);
     position: relative;
     padding: 2px 4px;
     letter-spacing: 0.02em;

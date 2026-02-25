@@ -51,6 +51,7 @@ yarn add cyberpunk-ui-vue
 import { createApp } from "vue";
 import CyberpunkVue from "cyberpunk-ui-vue";
 import "cyberpunk-ui-vue/styles/index.css";
+import "cyberpunk-ui-vue/styles/fonts.css"; // 可选：启用内置本地可变字体
 
 const app = createApp(App);
 app.use(CyberpunkVue);
@@ -71,6 +72,7 @@ import "cyberpunk-ui-vue/global";
 <script setup lang="ts">
 import { CpButton, CpCard, CpInput } from "cyberpunk-ui-vue";
 import "cyberpunk-ui-vue/styles/index.css";
+import "cyberpunk-ui-vue/styles/fonts.css"; // 可选：启用内置本地可变字体
 </script>
 
 <template>
@@ -80,6 +82,17 @@ import "cyberpunk-ui-vue/styles/index.css";
   </CpCard>
 </template>
 ```
+
+### 可变字体（可选）
+
+组件库默认不自动注入本地字体文件，避免把字体资源强制带给所有使用者。
+如果你希望启用 Menu / Segmented / Pagination / Breadcrumb / Tree 等组件的可变字重动画，可额外引入：
+
+```ts
+import "cyberpunk-ui-vue/styles/fonts.css";
+```
+
+即使不引入该文件，组件仍会按全局字体回退栈正常工作。
 
 ### 自动按需导入（unplugin-vue-components）
 
@@ -177,7 +190,7 @@ AI Agent 可以通过阅读这些文档，快速理解组件库的能力和参�
 
 ## 📖 文档
 
-访问 [Storybook 文档](https://your-storybook-url.com) 查看在线示例和 API 参考。
+访问 [Storybook 文档](https://699e69a6f35a16cae86bbed2-hzgefthnhq.chromatic.com/) 查看在线示例和 API 参考。
 
 ### 本地开发
 

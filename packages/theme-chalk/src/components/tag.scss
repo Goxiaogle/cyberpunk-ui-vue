@@ -47,7 +47,7 @@ $tag-types: (
   justify-content: center;
   box-sizing: border-box;
   vertical-align: middle;
-  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-family: var(--cp-font-family-ui);
   font-weight: 500;
   white-space: nowrap;
   user-select: none;
@@ -204,7 +204,7 @@ $tag-types: (
     .cp-tag__suffix {
       font-size: 18px;
       font-weight: 700;
-      font-family: system-ui, sans-serif;
+      font-family: var(--cp-font-family-ui);
     }
 
     // Hover 效果

@@ -29,8 +29,8 @@
 
 @include b(dropdown) {
   position: relative;
-  display: inline-block;
-  width: 100%;
+  display: inline-flex;
+  width: var(--cp-dropdown-width, 100%);
 
   // ===== 触发器 =====
   @include e(trigger) {
@@ -42,7 +42,7 @@
     background: transparent;
     border: 1px solid var(--cp-dropdown-inactive-color, var(--cp-border));
     color: var(--cp-text-primary);
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;

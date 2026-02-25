@@ -151,11 +151,18 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色           |
 | `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体                 |
 
+#### CSS 变量
+
+| 变量                 | 默认值 | 说明               |
+| -------------------- | ------ | ------------------ |
+| `--cp-aside-padding` | `0`    | 侧边栏内容区内边距 |
+
 #### 行为说明
 
 - `position="left"`（默认）：CpDivider 渲染在右侧
 - `position="right"`：CpDivider 渲染在左侧
 - 右侧边栏需将 `CpAside` 放在 `CpMain` 之后
+- 内部 `__inner` 包裹层默认启用 `justify-content: center`（垂直居中）
 
 #### 插槽
 

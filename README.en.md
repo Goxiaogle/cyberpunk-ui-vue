@@ -51,6 +51,7 @@ yarn add cyberpunk-ui-vue
 import { createApp } from "vue";
 import CyberpunkVue from "cyberpunk-ui-vue";
 import "cyberpunk-ui-vue/styles/index.css";
+import "cyberpunk-ui-vue/styles/fonts.css"; // Optional: enable built-in local variable fonts
 
 const app = createApp(App);
 app.use(CyberpunkVue);
@@ -71,6 +72,7 @@ import "cyberpunk-ui-vue/global";
 <script setup lang="ts">
 import { CpButton, CpCard, CpInput } from "cyberpunk-ui-vue";
 import "cyberpunk-ui-vue/styles/index.css";
+import "cyberpunk-ui-vue/styles/fonts.css"; // Optional: enable built-in local variable fonts
 </script>
 
 <template>
@@ -80,6 +82,17 @@ import "cyberpunk-ui-vue/styles/index.css";
   </CpCard>
 </template>
 ```
+
+### Variable Fonts (Optional)
+
+By default, the library does not auto-inject local font files, so font assets are not forced on every consumer.
+If you want variable-weight transitions for components like Menu / Segmented / Pagination / Breadcrumb / Tree, additionally import:
+
+```ts
+import "cyberpunk-ui-vue/styles/fonts.css";
+```
+
+Without this file, components still work with the global fallback font stack.
 
 ### Auto On-demand Import (unplugin-vue-components)
 
@@ -177,7 +190,7 @@ AI Agents can read these documents to quickly understand the library's capabilit
 
 ## 📖 Documentation
 
-Visit our [Storybook documentation](https://your-storybook-url.com) for live examples and API references.
+Visit our [Storybook documentation](https://699e69a6f35a16cae86bbed2-hzgefthnhq.chromatic.com/) for live examples and API references.
 
 ### Development
 

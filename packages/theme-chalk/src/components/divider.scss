@@ -61,7 +61,7 @@
     align-items: center;
     padding: 0 var(--cp-divider-text-padding);
     color: var(--cp-divider-text-color);
-    font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.08em;

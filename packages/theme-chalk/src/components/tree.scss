@@ -21,9 +21,12 @@ $tree-type-colors: (
   --cp-tree-connector-active-color: var(--cp-color-primary);
   --cp-tree-node-height: 32px;
   --cp-tree-indent: 16px;
+  --cp-tree-font-weight: var(--cp-font-weight-medium);
+  --cp-tree-active-font-weight: var(--cp-font-weight-semibold);
+  --cp-tree-font-weight-transition: var(--cp-font-weight-transition-fast);
 
   position: relative;
-  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-family: var(--cp-font-family-ui);
   color: var(--cp-text-secondary);
   font-size: 14px;
 
@@ -37,9 +40,10 @@ $tree-type-colors: (
   }
 
   @include e(empty-text) {
-    font-family: 'Rajdhani', 'Inter', monospace;
+    font-family: var(--cp-font-family-mono);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: var(--cp-font-weight-semibold);
+    font-variation-settings: 'wght' var(--cp-font-weight-semibold);
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--cp-text-muted);
@@ -77,6 +81,7 @@ $tree-type-colors: (
 
   // ===== 节点内容行 =====
   @include e(node-content) {
+    --cp-tree-item-font-weight: var(--cp-tree-font-weight);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -102,6 +107,7 @@ $tree-type-colors: (
 
     // 当前高亮节点
     &.is-current {
+      --cp-tree-item-font-weight: var(--cp-tree-active-font-weight);
       background: rgba(0, 240, 255, 0.06);
       color: var(--cp-text-primary);
       border-left-color: var(--cp-tree-active-color);
@@ -258,13 +264,17 @@ $tree-type-colors: (
 
   // ===== 标签 =====
   @include e(label) {
-    font-weight: 500;
+    font-weight: var(--cp-tree-item-font-weight);
+    font-variation-settings: 'wght' var(--cp-tree-item-font-weight);
     flex: 1;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      font-weight var(--cp-tree-font-weight-transition),
+      font-variation-settings var(--cp-tree-font-weight-transition);
     letter-spacing: 0.01em;
   }
 

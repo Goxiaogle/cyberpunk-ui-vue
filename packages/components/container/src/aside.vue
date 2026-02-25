@@ -62,7 +62,9 @@ defineExpose({
   >
     <CpDivider v-if="isRight" v-bind="dividerProps" :class="ns.e('divider')" />
     <div ref="contentRef" :class="ns.e('content')">
-      <slot />
+      <div :class="ns.e('inner')">
+        <slot />
+      </div>
     </div>
     <CpDivider v-if="!isRight" v-bind="dividerProps" :class="ns.e('divider')" />
   </aside>

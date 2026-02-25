@@ -46,13 +46,18 @@ $pagination-types: (
   display: flex;
   align-items: center;
   gap: var(--cp-pagination-section-gap);
-  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
-  font-weight: 500;
+  font-family: var(--cp-font-family-ui);
+  font-weight: var(--cp-pagination-font-weight);
+  font-variation-settings: 'wght' var(--cp-pagination-font-weight);
   user-select: none;
 
   // CSS 变量默认值
   --cp-pagination-color: var(--cp-color-primary);
   --cp-pagination-color-light: var(--cp-color-primary-light);
+  --cp-pagination-font-weight: var(--cp-font-weight-medium);
+  --cp-pagination-active-font-weight: var(--cp-font-weight-semibold);
+  --cp-pagination-strong-font-weight: var(--cp-font-weight-bold);
+  --cp-pagination-font-weight-transition: var(--cp-font-weight-transition-fast);
   --cp-pagination-height: 32px;
   --cp-pagination-btn-size: 32px;
   --cp-pagination-font-size: 13px;
@@ -101,7 +106,8 @@ $pagination-types: (
 
   @include e(total-count) {
     color: var(--cp-pagination-color);
-    font-weight: 600;
+    font-weight: var(--cp-pagination-active-font-weight);
+    font-variation-settings: 'wght' var(--cp-pagination-active-font-weight);
   }
 
   // ===== Sizes (uses CpDropdown) =====
@@ -144,7 +150,16 @@ $pagination-types: (
     // CpButton 内字体继承
     .cp-button {
       font-family: inherit;
-      font-weight: 700;
+      font-weight: var(--cp-pagination-font-weight);
+      font-variation-settings: 'wght' var(--cp-pagination-font-weight);
+      transition:
+        font-weight var(--cp-pagination-font-weight-transition),
+        font-variation-settings var(--cp-pagination-font-weight-transition);
+    }
+
+    &.is-active .cp-button {
+      font-weight: var(--cp-pagination-strong-font-weight);
+      font-variation-settings: 'wght' var(--cp-pagination-strong-font-weight);
     }
   }
 
@@ -180,13 +195,21 @@ $pagination-types: (
     padding: 0 6px;
     font-size: var(--cp-pagination-font-size);
     font-family: inherit;
-    font-weight: 500;
+    font-weight: var(--cp-pagination-font-weight);
+    font-variation-settings: 'wght' var(--cp-pagination-font-weight);
     color: var(--cp-text-primary);
     background: var(--cp-bg-elevated);
     border: 1px solid var(--cp-border);
     text-align: center;
     outline: none;
-    transition: all 0.2s ease;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      opacity 0.2s ease,
+      font-weight var(--cp-pagination-font-weight-transition),
+      font-variation-settings var(--cp-pagination-font-weight-transition);
 
     // 隐藏 number input 的 spinners
     &::-webkit-inner-spin-button,

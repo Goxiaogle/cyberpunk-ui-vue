@@ -24,7 +24,10 @@ $menu-type-colors: (
   --cp-menu-icon: var(--cp-menu-text);
   --cp-menu-active-icon: var(--cp-menu-active-text);
   --cp-menu-active-bg: var(--cp-menu-active-color-light);
-  --cp-menu-active-font-weight: 600;
+  --cp-menu-font-family: var(--cp-font-family-ui);
+  --cp-menu-font-weight: var(--cp-font-weight-normal, 450);
+  --cp-menu-active-font-weight: var(--cp-font-weight-semibold, 620);
+  --cp-menu-font-weight-transition: var(--cp-font-weight-transition-fast);
   --cp-menu-active-color: var(--cp-color-primary);
   --cp-menu-active-color-light: var(--cp-color-primary-light);
   --cp-menu-hover-bg: var(--cp-state-hover);
@@ -35,8 +38,10 @@ $menu-type-colors: (
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: "Rajdhani", "Inter", sans-serif;
+  font-family: var(--cp-menu-font-family);
   font-size: 14px;
+  font-weight: var(--cp-menu-font-weight);
+  font-variation-settings: 'wght' var(--cp-menu-font-weight);
   color: var(--cp-menu-text);
   background: var(--cp-menu-bg);
   user-select: none;
@@ -94,7 +99,7 @@ $menu-type-colors: (
       background: var(--cp-menu-active-bg);
       border-bottom-color: var(--cp-menu-active-color);
       border-left-color: transparent;
-      font-weight: var(--cp-menu-active-font-weight);
+      --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
 
       // 底部发光条（覆盖垂直模式的左侧发光条）
       &::before {
@@ -115,6 +120,7 @@ $menu-type-colors: (
       color: var(--cp-menu-active-text);
       background: var(--cp-menu-active-bg);
       border-bottom-color: var(--cp-menu-active-color);
+      --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
     }
 
     // 水平模式箭头朝下
@@ -314,7 +320,7 @@ $menu-type-colors: (
       &.is-active {
         background: var(--cp-menu-active-bg);
         color: var(--cp-menu-active-text);
-        font-weight: var(--cp-menu-active-font-weight);
+        --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
 
         &:hover {
           filter: brightness(1.15);
@@ -372,7 +378,7 @@ $menu-type-colors: (
       &.is-active {
         background: var(--cp-menu-active-bg);
         color: var(--cp-menu-active-text);
-        font-weight: var(--cp-menu-active-font-weight);
+        --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
         border-bottom: 2px solid var(--cp-menu-active-color);
 
         &:hover {
@@ -416,13 +422,23 @@ $menu-type-colors: (
 
 // ===== CpMenuItem =====
 @include b(menu-item) {
+  --cp-menu-item-font-weight: var(--cp-menu-font-weight);
   display: flex;
   align-items: center;
   gap: 8px;
   min-height: var(--cp-menu-item-height);
   padding: 0 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: var(--cp-menu-item-font-weight);
+  font-variation-settings: 'wght' var(--cp-menu-item-font-weight);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    filter 0.2s ease,
+    font-weight var(--cp-menu-font-weight-transition),
+    font-variation-settings var(--cp-menu-font-weight-transition);
   position: relative;
   border-left: 2px solid transparent;
   white-space: nowrap;
@@ -446,7 +462,7 @@ $menu-type-colors: (
     color: var(--cp-menu-active-text);
     background: var(--cp-menu-active-bg);
     border-left-color: var(--cp-menu-active-color);
-    font-weight: var(--cp-menu-active-font-weight);
+    --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
 
     .cp-icon {
       color: var(--cp-menu-active-icon);
@@ -510,13 +526,23 @@ $menu-type-colors: (
 
   // ===== 标题行 =====
   @include e(title) {
+    --cp-menu-item-font-weight: var(--cp-menu-font-weight);
     display: flex;
     align-items: center;
     gap: 8px;
     min-height: var(--cp-menu-item-height);
     padding: 0 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    font-weight: var(--cp-menu-item-font-weight);
+    font-variation-settings: 'wght' var(--cp-menu-item-font-weight);
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      filter 0.2s ease,
+      font-weight var(--cp-menu-font-weight-transition),
+      font-variation-settings var(--cp-menu-font-weight-transition);
     position: relative;
     border-left: 2px solid transparent;
     color: var(--cp-menu-text);
@@ -539,6 +565,7 @@ $menu-type-colors: (
   @include when(active) {
     > .cp-sub-menu__title {
       color: var(--cp-menu-active-text);
+      --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
     }
   }
 
@@ -650,7 +677,7 @@ $menu-type-colors: (
   @include e(title) {
     padding: 8px 20px 4px;
     font-size: 11px;
-    font-weight: 600;
+    font-variation-settings: 'wght' 600;
     text-transform: uppercase;
     color: var(--cp-text-muted);
     white-space: nowrap;

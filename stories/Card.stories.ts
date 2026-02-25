@@ -653,6 +653,8 @@ export const 覆层效果类型: Story = {
                 <template #overlay>
                   <CpButton size="sm" variant="neon" style="width: 100%;">霓虹操作</CpButton>
                 </template>
+              </CpCard>
+            </div>
           </div>
         `,
     }),

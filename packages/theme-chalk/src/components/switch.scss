@@ -117,7 +117,7 @@ $switch-sizes: (
         
         .wrapper-text {
             padding: 0 8px; // 边距
-            font-family: 'Rajdhani', sans-serif;
+            font-family: var(--cp-font-family-ui);
             font-weight: 600;
             white-space: nowrap;
             
@@ -219,7 +219,7 @@ $switch-sizes: (
         height: 100%;
         display: flex;
         align-items: center;
-        font-family: 'Rajdhani', sans-serif;
+        font-family: var(--cp-font-family-ui);
         font-weight: 600;
         transition: opacity 0.2s ease;
         pointer-events: none;
@@ -237,7 +237,7 @@ $switch-sizes: (
         height: 100%;
         display: flex;
         align-items: center;
-        font-family: 'Rajdhani', sans-serif;
+        font-family: var(--cp-font-family-ui);
         font-weight: 600;
         transition: opacity 0.2s ease;
         pointer-events: none;

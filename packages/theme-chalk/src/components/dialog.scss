@@ -309,7 +309,7 @@
   @include e(title) {
     display: flex;
     align-items: center;
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-family: var(--cp-font-family-display);
     font-weight: 600;
     font-size: var(--cp-font-size-lg);
     text-transform: uppercase;

@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
 
     // ===== 线性进度条 =====
     @include m(line) {

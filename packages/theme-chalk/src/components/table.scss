@@ -55,7 +55,7 @@ $table-sizes: (
   position: relative;
   width: 100%;
   overflow: hidden;
-  font-family: "Rajdhani", "Inter", system-ui, sans-serif;
+  font-family: var(--cp-font-family-ui);
   font-size: var(--cp-table-font-size);
   color: var(--cp-text-primary);
 

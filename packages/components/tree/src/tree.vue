@@ -128,10 +128,6 @@ watch(
   (val) => {
     if (val !== undefined) {
       internalCheckedKeys.value = new Set(val)
-      // 非严格模式时需要计算级联
-      if (!props.checkStrictly) {
-        updateIndeterminateKeys()
-      }
     }
   },
   { immediate: true }

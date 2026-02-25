@@ -14,7 +14,7 @@
     background: transparent;
     border: 1px solid var(--cp-input-inactive-border-color, var(--cp-border));
     color: var(--cp-input-text-color, var(--cp-text-primary));
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
     transition: all 0.2s ease;
 
     // 机甲风切角 (Top-Left, Bottom-Right)
@@ -357,6 +357,6 @@
         color: var(--cp-text-muted);
         font-size: var(--cp-font-size-sm);
         white-space: nowrap;
-        font-family: 'Rajdhani', monospace;
+        font-family: var(--cp-font-family-mono);
     }
 }

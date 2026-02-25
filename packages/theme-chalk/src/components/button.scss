@@ -13,7 +13,7 @@
     // 注意：不使用 gap，因为 loader 需要动画 margin 来实现平滑过渡
     padding: 0 var(--cp-spacing-lg);
 
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-family: var(--cp-font-family-display);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;

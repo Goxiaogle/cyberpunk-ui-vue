@@ -156,7 +156,7 @@ $slider-sizes: (
     background: var(--cp-bg-elevated);
     border: 1px solid var(--cp-color-primary); // 修正变量名
     color: var(--cp-color-primary); // 修正变量名
-    font-family: 'Rajdhani', monospace;
+    font-family: var(--cp-font-family-mono);
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
@@ -204,7 +204,7 @@ $slider-sizes: (
   }
 
   @include e(mark-text) {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: var(--cp-font-family-ui);
     font-size: 11px;
     color: var(--cp-text-secondary);
     white-space: nowrap;

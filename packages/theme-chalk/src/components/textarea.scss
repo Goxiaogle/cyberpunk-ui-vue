@@ -9,7 +9,7 @@
     display: inline-flex;
     flex-direction: column;
     width: 100%;
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
 
     // ===== 尺寸 =====
     @include m(sm) {
@@ -125,7 +125,7 @@
         bottom: var(--cp-spacing-sm);
         color: var(--cp-text-muted);
         font-size: var(--cp-font-size-sm);
-        font-family: 'Rajdhani', monospace;
+        font-family: var(--cp-font-family-mono);
         pointer-events: none;
     }
 }

@@ -52,7 +52,7 @@
 }
 
 body {
-    font-family: 'Rajdhani', 'Inter', system-ui, sans-serif;
+    font-family: var(--cp-font-family-ui);
     background: var(--cp-bg-deep);
     color: var(--cp-text-primary);
 }
