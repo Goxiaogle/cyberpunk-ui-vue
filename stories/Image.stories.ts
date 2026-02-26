@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpImage, CpIcon } from '@cyberpunk-vue/components'
+import { ref } from 'vue'
+import { CpImage, CpIcon, CpImagePreview } from '@cyberpunk-vue/components'
 import MdiAlertCircle from '~icons/mdi/alert-circle'
 
 /**
@@ -616,3 +617,155 @@ export const SrcProcessor: Story = {
         `,
     }),
 }
+
+/**
+ * 单图预览
+ *
+ * 设置 `preview` 属性后，点击图片即可弹出全屏大图预览。
+ * 预览支持缩放、旋转和键盘操作（ESC 关闭，↑↓ 缩放）。
+ */
+export const Preview: Story = {
+    render: () => ({
+        components: { CpImage },
+        template: `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="color: var(--cp-text-secondary); padding: 12px; background: var(--cp-bg-elevated); border-radius: 4px; font-size: 14px;">
+                    点击图片打开预览，支持缩放 / 旋转 / ESC 关闭
+                </div>
+                <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <CpImage
+                            src="https://picsum.photos/600/400?preview=1"
+                            preview
+                            width="280px"
+                            height="180px"
+                        />
+                        <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
+                            preview（使用原图）
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <CpImage
+                            src="https://picsum.photos/300/200?preview=2"
+                            preview
+                            preview-src="https://picsum.photos/1200/800?preview=hd"
+                            width="280px"
+                            height="180px"
+                        />
+                        <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
+                            preview + previewSrc（高清大图）
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+    }),
+}
+
+/**
+ * 多图预览画廊
+ *
+ * 使用 `previewSrcList` 传入多张图片，点击任一图片后可左右切换浏览。
+ * - 使用 `initialIndex` 可指定默认预览的初始图片索引。
+ * - 支持键盘 ← → 切换，滚轮缩放。
+ */
+export const PreviewList: Story = {
+    render: () => ({
+        components: { CpImage },
+        setup() {
+            const urls = [
+                'https://picsum.photos/800/600?gallery=1',
+                'https://picsum.photos/800/600?gallery=2',
+                'https://picsum.photos/800/600?gallery=3',
+                'https://picsum.photos/800/600?gallery=4',
+                'https://picsum.photos/800/600?gallery=5',
+                'https://picsum.photos/800/600?gallery=6',
+            ]
+            return { urls }
+        },
+        template: `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="color: var(--cp-text-secondary); padding: 12px; background: var(--cp-bg-elevated); border-radius: 4px; font-size: 14px;">
+                    点击任一图片打开预览，← → 键或按钮切换图片
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px;">
+                    <CpImage
+                        v-for="(url, i) in urls"
+                        :key="i"
+                        :src="url"
+                        :preview-src-list="urls"
+                        :initial-index="i"
+                        height="120px"
+                        hoverable
+                        hover-mode="zoom"
+                    />
+                </div>
+            </div>
+        `,
+    }),
+}
+
+/**
+ * 独立使用 ImagePreview
+ *
+ * 也可以直接使用 `CpImagePreview` 组件，通过 `v-model` 控制显隐。
+ */
+export const PreviewStandalone: Story = {
+    render: () => ({
+        components: { CpImage, CpImagePreview },
+        setup() {
+            const show = ref(false)
+            const urls = [
+                'https://picsum.photos/900/600?standalone=1',
+                'https://picsum.photos/900/600?standalone=2',
+                'https://picsum.photos/900/600?standalone=3',
+            ]
+            return { show, urls }
+        },
+        template: `
+            <div>
+                <button
+                    style="padding: 10px 24px; background: var(--cp-color-primary); color: #fff; border: none; cursor: pointer; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); font-size: 14px;"
+                    @click="show = true"
+                >
+                    打开独立预览
+                </button>
+                <CpImagePreview
+                    v-model="show"
+                    :url-list="urls"
+                />
+            </div>
+        `,
+    }),
+}
+
+/**
+ * 带有下载功能的预览
+ *
+ * 通过设置 `download` 属性，在预览工具栏中提供下载按钮。
+ */
+export const PreviewDownload: Story = {
+    render: () => ({
+        components: { CpImage },
+        setup() {
+            const url = 'https://picsum.photos/1200/800?download=1'
+            return { url }
+        },
+        template: `
+            <div style="max-width: 400px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="color: var(--cp-text-secondary); margin-bottom: 8px;">
+                    点击图片预览，查看底部工具栏附加的下载按钮。
+                </div>
+                <CpImage
+                    :src="url"
+                    preview
+                    download
+                    height="240px"
+                    hoverable
+                    hover-mode="zoom"
+                />
+            </div>
+        `,
+    }),
+}
+

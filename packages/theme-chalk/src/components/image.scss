@@ -266,6 +266,13 @@ $skeleton-shine-color: var(--cp-border-color);
         }
     }
 
+    // 预览模式
+    &.is-preview {
+        .#{$namespace}-image__body {
+            cursor: pointer;
+        }
+    }
+
     // ========================================
     // Hover 动画
     // ========================================
@@ -285,13 +292,12 @@ $skeleton-shine-color: var(--cp-border-color);
     // Scale 模式 - 整体放大
     &.#{$namespace}-image--hover-scale {
         transition: transform var(--cp-image-hover-duration) ease,
-                    box-shadow var(--cp-image-hover-duration) ease,
                     filter var(--cp-image-hover-duration) ease;
 
         &:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
-            filter: brightness(1.05);
+            filter: drop-shadow(0 0 12px var(--cp-image-decor-color, var(--cp-color-primary-light))) brightness(1.05);
+            z-index: 1;
 
             .#{$namespace}-image__decor {
                 background-color: var(--cp-image-decor-color, var(--cp-color-primary));
@@ -306,10 +312,11 @@ $skeleton-shine-color: var(--cp-border-color);
 
     // Zoom 模式 - 容器不变，仅图片放大
     &.#{$namespace}-image--hover-zoom {
-        transition: box-shadow var(--cp-image-hover-duration) ease;
+        transition: filter var(--cp-image-hover-duration) ease;
 
         &:hover {
-            box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
+            filter: drop-shadow(0 0 12px var(--cp-image-decor-color, var(--cp-color-primary-light)));
+            z-index: 1;
 
             .#{$namespace}-image__inner {
                 transform: scale(1.1);

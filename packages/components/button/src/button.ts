@@ -88,6 +88,15 @@ export const buttonProps = {
         default: 'solid',
     },
     /**
+     * 是否为减淡模式
+     * 减淡模式下组件默认以无色彩（default）外观展示，仅在 hover 时显示主题色
+     * @default false
+     */
+    dimmed: {
+        type: Boolean,
+        default: false,
+    },
+    /**
      * 是否禁用按钮
      * 禁用后按钮不可点击，样式变为灰色
      * @default false
@@ -155,6 +164,14 @@ export const buttonProps = {
     dashed: {
         type: Boolean,
         default: false,
+    },
+    /**
+     * 是否显示装饰块 (仅在 shape="clip" 时有效)
+     * @default true
+     */
+    decoration: {
+        type: Boolean,
+        default: true,
     },
     /**
      * 是否为 Loading 预留空间

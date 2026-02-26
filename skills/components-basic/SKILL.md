@@ -11,25 +11,27 @@ description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Ba
 
 ### Props
 
-| 属性                 | 类型                                                                    | 默认值      | 说明                        |
-| -------------------- | ----------------------------------------------------------------------- | ----------- | --------------------------- |
-| `type`               | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                    |
-| `size`               | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 按钮尺寸                    |
-| `variant`            | `'solid' \| 'outline' \| 'ghost' \| 'neon' \| 'semi'`                   | `'solid'`   | 按钮变体                    |
-| `shape`              | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`    | 形状模式                    |
-| `disabled`           | `boolean`                                                               | `false`     | 是否禁用                    |
-| `loading`            | `boolean`                                                               | `false`     | 是否加载中                  |
-| `block`              | `boolean`                                                               | `false`     | 是否块级（占满宽度）        |
-| `color`              | `string`                                                                | `''`        | 自定义颜色（覆盖 type）     |
-| `textColor`          | `string`                                                                | `''`        | 自定义文字颜色              |
-| `dashed`             | `boolean`                                                               | `false`     | 虚线边框（仅 outline 变体） |
-| `icon`               | `Component`                                                             | -           | 图标组件（纯图标按钮）      |
-| `prefixIcon`         | `Component`                                                             | -           | 前缀图标                    |
-| `suffixIcon`         | `Component`                                                             | -           | 后缀图标                    |
-| `iconSize`           | `string \| number`                                                      | -           | 图标尺寸                    |
-| `iconColor`          | `string`                                                                | -           | 图标颜色                    |
-| `loadingPlaceholder` | `boolean`                                                               | `false`     | 是否预留 loading 空间       |
-| `nativeType`         | `'button' \| 'submit' \| 'reset'`                                       | `'button'`  | 原生 type 属性              |
+| 属性                 | 类型                                                                    | 默认值      | 说明                                                                                                |
+| -------------------- | ----------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------- |
+| `type`               | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                                                                                            |
+| `size`               | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 按钮尺寸                                                                                            |
+| `variant`            | `'solid' \| 'outline' \| 'ghost' \| 'neon' \| 'semi'`                   | `'solid'`   | 按钮变体                                                                                            |
+| `shape`              | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`    | 形状模式                                                                                            |
+| `disabled`           | `boolean`                                                               | `false`     | 是否禁用                                                                                            |
+| `loading`            | `boolean`                                                               | `false`     | 是否加载中                                                                                          |
+| `block`              | `boolean`                                                               | `false`     | 是否块级（占满宽度）                                                                                |
+| `color`              | `string`                                                                | `''`        | 自定义颜色（覆盖 type）                                                                             |
+| `textColor`          | `string`                                                                | `''`        | 自定义文字颜色                                                                                      |
+| `dashed`             | `boolean`                                                               | `false`     | 虚线边框（仅 outline 变体）                                                                         |
+| `dimmed`             | `boolean`                                                               | `false`     | 减淡模式（默认态为 default，hover 时显示主题色）                                                    |
+| `decoration`         | `boolean`                                                               | `true`      | 是否显示装饰块（仅 `shape="clip"` 有效，高度 ≤ 24px 或 `size="sm"` 时自动缩小，切角也会自适应缩小） |
+| `icon`               | `Component`                                                             | -           | 图标组件（纯图标按钮）                                                                              |
+| `prefixIcon`         | `Component`                                                             | -           | 前缀图标                                                                                            |
+| `suffixIcon`         | `Component`                                                             | -           | 后缀图标                                                                                            |
+| `iconSize`           | `string \| number`                                                      | -           | 图标尺寸                                                                                            |
+| `iconColor`          | `string`                                                                | -           | 图标颜色                                                                                            |
+| `loadingPlaceholder` | `boolean`                                                               | `false`     | 是否预留 loading 空间                                                                               |
+| `nativeType`         | `'button' \| 'submit' \| 'reset'`                                       | `'button'`  | 原生 type 属性                                                                                      |
 
 ### 插槽
 
@@ -59,6 +61,10 @@ description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Ba
 
 <!-- 纯图标按钮 -->
 <CpButton :icon="IconSettings" shape="circle" />
+
+<!-- 减淡模式：平时为 default 外观，hover 时显示主题色 -->
+<CpButton dimmed type="primary">Primary</CpButton>
+<CpButton dimmed type="error" variant="outline">Error</CpButton>
 ```
 
 ---

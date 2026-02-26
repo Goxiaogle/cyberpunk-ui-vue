@@ -96,6 +96,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpProgress`        | 进度条（线性/环形/仪表盘） |
 | `CpStatusIndicator` | 状态点                     |
 | `CpPopover`         | 气泡弹出层                 |
+| `CpEmpty`           | 空状态占位展示             |
 
 ### 导航
 

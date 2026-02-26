@@ -91,7 +91,7 @@
   // ===== 变体 =====
   // ===== 变体 =====
   @include m(solid) {
-    .cp-card__container {
+    > .cp-card__container {
       background: var(--cp-card-bg);
       border-color: var(--cp-border);
 
@@ -117,21 +117,21 @@
     &.cp-card--warning,
     &.cp-card--error,
     &.cp-card--info {
-      .cp-card__container::before {
+      > .cp-card__container::before {
         opacity: 0.8;
       }
     }
 
     // 自定义 color 也要显示线条
     &[style*='--cp-card-color'] {
-      .cp-card__container::before {
+      > .cp-card__container::before {
         opacity: 0.8;
       }
     }
   }
 
   @include m(outline) {
-    .cp-card__container {
+    > .cp-card__container {
       background: transparent;
       border-color: var(--cp-card-color);
 
@@ -142,7 +142,7 @@
     }
 
     &.cp-card--default {
-      .cp-card__container {
+      > .cp-card__container {
         border-color: var(--cp-border);
       }
     }
@@ -154,7 +154,7 @@
     --cp-card-bg-hover: rgba(42, 42, 58, 0.7);
     --cp-card-border: var(--cp-border);
 
-    .cp-card__container {
+    > .cp-card__container {
       background: var(--cp-card-bg);
       backdrop-filter: blur(10px);
       border-color: var(--cp-card-border);
@@ -178,7 +178,7 @@
   }
 
   @include m(ghost) {
-    .cp-card__container {
+    > .cp-card__container {
       background: transparent;
       border-color: transparent;
 
@@ -209,7 +209,7 @@
 
   // ===== 形状模式 =====
   @include m(shape-clip) {
-    .cp-card__container {
+    > .cp-card__container {
       clip-path: var(--cp-card-clip-path);
     }
     // 同步形状给阴影层
@@ -219,7 +219,7 @@
   }
 
   @include m(shape-no-clip) {
-    .cp-card__container {
+    > .cp-card__container {
       clip-path: none;
       border-radius: 0;
       overflow: hidden;
@@ -236,7 +236,7 @@
   }
 
   @include m(shape-round) {
-    .cp-card__container {
+    > .cp-card__container {
       clip-path: none;
       border-radius: var(--cp-radius-lg);
       overflow: hidden;
@@ -324,9 +324,9 @@
     }
 
     // 禁用之前的 hacky box-shadow
-    &.cp-card--shadow-always .cp-card__container,
-    &.cp-card--shadow-hover .cp-card__container,
-    &.cp-card--shadow-hover:hover .cp-card__container {
+    &.cp-card--shadow-always > .cp-card__container,
+    &.cp-card--shadow-hover > .cp-card__container,
+    &.cp-card--shadow-hover:hover > .cp-card__container {
       box-shadow: none !important;
     }
   }
@@ -559,13 +559,13 @@
       }
 
       &.cp-card--solid {
-        .cp-card__container::before {
+        > .cp-card__container::before {
           opacity: 0 !important;
         }
       }
 
       &.cp-card--outline {
-        .cp-card__container {
+        > .cp-card__container {
           border-color: var(--cp-border);
         }
       }

@@ -1,0 +1,99 @@
+// CpEmpty 组件样式
+// 空状态组件 - 撑满父容器、水平+垂直居中
+
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+
+    // ===== 内容容器 =====
+    @include e(content) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        user-select: none;
+    }
+
+    // ===== 图标区域 =====
+    @include e(image) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--cp-empty-image-margin, 8px);
+
+        svg {
+            width: var(--cp-empty-image-size, 64px);
+            height: var(--cp-empty-image-size, 64px);
+            color: var(--cp-empty-color, var(--cp-text-muted));
+            transition: color var(--cp-transition-normal);
+        }
+
+        img {
+            object-fit: contain;
+        }
+    }
+
+    // ===== 标题 =====
+    @include e(title) {
+        font-size: var(--cp-empty-title-font-size, 16px);
+        font-weight: var(--cp-font-weight-semibold);
+        color: var(--cp-empty-title-color, var(--cp-text-primary));
+        line-height: 1.4;
+        transition: color var(--cp-transition-normal);
+    }
+
+    // ===== 描述 =====
+    @include e(description) {
+        font-size: var(--cp-empty-description-font-size, 14px);
+        color: var(--cp-empty-description-color, var(--cp-text-muted));
+        line-height: 1.5;
+        max-width: 360px;
+        margin-top: var(--cp-empty-description-margin-top, 8px);
+        margin-bottom: var(--cp-empty-description-margin-bottom, 8px);
+        transition: color var(--cp-transition-normal);
+    }
+
+    // ===== 底部操作区 =====
+    @include e(bottom) {
+        margin-top: var(--cp-empty-bottom-margin-top, 8px);
+    }
+
+    // ===== 颜色类型 =====
+    @include m(primary) {
+        --cp-empty-color: var(--cp-color-primary);
+    }
+
+    @include m(success) {
+        --cp-empty-color: var(--cp-color-success);
+    }
+
+    @include m(warning) {
+        --cp-empty-color: var(--cp-color-warning);
+    }
+
+    @include m(error) {
+        --cp-empty-color: var(--cp-color-error);
+    }
+
+    @include m(info) {
+        --cp-empty-color: var(--cp-color-info);
+    }
+
+    @include m(default) {
+        // 默认使用 muted 色调，不设置 --cp-empty-color
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+        .cp-empty__image svg {
+            color: var(--cp-empty-color);
+        }
+    }
+}

@@ -97,13 +97,48 @@ export const imageProps = {
         default: false,
     },
     /**
+     * 是否开启点击预览
+     * 开启后点击图片会弹出全屏大图预览
+     * @default false
+     */
+    preview: {
+        type: Boolean,
+        default: false,
+    },
+    /**
      * 预览大图地址
-     * 为未来的图片预览功能预留
+     * 在预览中使用的高清图片地址，不指定则使用 src
      * @default ''
      */
     previewSrc: {
         type: String,
         default: '',
+    },
+    /**
+     * 多图预览列表
+     * 传入后自动启用预览，点击图片可查看整个图片列表
+     * @default []
+     */
+    previewSrcList: {
+        type: Array as PropType<string[]>,
+        default: () => [],
+    },
+    /**
+     * 初始预览索引，在 previewSrcList 模式下有效
+     * @default 0
+     * @example `<CpImage :preview-src-list="[...]" :initial-index="1" />`
+     */
+    initialIndex: {
+        type: Number,
+        default: 0,
+    },
+    /**
+     * 是否允许在预览时下载图片
+     * @default false
+     */
+    download: {
+        type: Boolean,
+        default: false,
     },
     /**
      * 加载失败时的回退图片地址

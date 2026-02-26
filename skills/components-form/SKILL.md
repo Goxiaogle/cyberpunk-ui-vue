@@ -479,27 +479,27 @@ interface SegmentedOption {
 
 ### CSS 变量
 
-| 变量                              | 默认值                     | 说明             |
-| --------------------------------- | -------------------------- | ---------------- |
-| `--cp-segmented-bg`               | `var(--cp-bg-elevated)`    | track 背景       |
-| `--cp-segmented-border-color`     | `var(--cp-border)`         | track 边框色     |
-| `--cp-segmented-padding`          | `3px`                      | track 垂直内边距 |
-| `--cp-segmented-padding-x`        | `4px`                      | track 水平内边距 |
-| `--cp-segmented-gap`              | `2px`                      | item 间距        |
-| `--cp-segmented-height`           | `36px`                     | 组件高度         |
-| `--cp-segmented-font-size`        | `var(--cp-font-size-md)`   | 字号             |
-| `--cp-segmented-font-weight`      | `var(--cp-font-weight-semibold)` | 默认字重   |
-| `--cp-segmented-active-font-weight` | `var(--cp-font-weight-bold)` | 选中项字重   |
-| `--cp-segmented-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡 |
-| `--cp-segmented-item-color`       | `var(--cp-text-secondary)` | item 文字色      |
-| `--cp-segmented-item-hover-bg`    | `var(--cp-state-hover)`    | item hover 背景  |
-| `--cp-segmented-item-padding`     | `0 12px`                   | item 内边距      |
-| `--cp-segmented-indicator-bg`     | `var(--cp-surface-bright)` | 滑块背景         |
-| `--cp-segmented-indicator-border` | `transparent`              | 滑块边框色       |
-| `--cp-segmented-indicator-shadow` | `none`                     | 滑块辉光         |
-| `--cp-segmented-indicator-offset` | `-2px`                     | 滑块水平偏移     |
-| `--cp-segmented-active-color`     | `var(--cp-text-primary)`   | 选中文字色       |
-| `--cp-segmented-transition`       | `0.3s cubic-bezier(...)`   | 动画时长         |
+| 变量                                    | 默认值                                  | 说明             |
+| --------------------------------------- | --------------------------------------- | ---------------- |
+| `--cp-segmented-bg`                     | `var(--cp-bg-elevated)`                 | track 背景       |
+| `--cp-segmented-border-color`           | `var(--cp-border)`                      | track 边框色     |
+| `--cp-segmented-padding`                | `3px`                                   | track 垂直内边距 |
+| `--cp-segmented-padding-x`              | `4px`                                   | track 水平内边距 |
+| `--cp-segmented-gap`                    | `2px`                                   | item 间距        |
+| `--cp-segmented-height`                 | `36px`                                  | 组件高度         |
+| `--cp-segmented-font-size`              | `var(--cp-font-size-md)`                | 字号             |
+| `--cp-segmented-font-weight`            | `var(--cp-font-weight-semibold)`        | 默认字重         |
+| `--cp-segmented-active-font-weight`     | `var(--cp-font-weight-bold)`            | 选中项字重       |
+| `--cp-segmented-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡         |
+| `--cp-segmented-item-color`             | `var(--cp-text-secondary)`              | item 文字色      |
+| `--cp-segmented-item-hover-bg`          | `var(--cp-state-hover)`                 | item hover 背景  |
+| `--cp-segmented-item-padding`           | `0 12px`                                | item 内边距      |
+| `--cp-segmented-indicator-bg`           | `var(--cp-surface-bright)`              | 滑块背景         |
+| `--cp-segmented-indicator-border`       | `transparent`                           | 滑块边框色       |
+| `--cp-segmented-indicator-shadow`       | `none`                                  | 滑块辉光         |
+| `--cp-segmented-indicator-offset`       | `-2px`                                  | 滑块水平偏移     |
+| `--cp-segmented-active-color`           | `var(--cp-text-primary)`                | 选中文字色       |
+| `--cp-segmented-transition`             | `0.3s cubic-bezier(...)`                | 动画时长         |
 
 ### 示例
 
@@ -560,6 +560,8 @@ interface SegmentedOption {
 | `httpRequest`     | `(options: UploadRequestOptions) => Promise \| void`                    | —           | 自定义上传函数                                                         |
 | `beforeUpload`    | `(file: File) => boolean \| Promise<boolean>`                           | —           | 上传前钩子                                                             |
 | `onExceed`        | `(files: File[], fileList: UploadFile[]) => void`                       | —           | 超限回调                                                               |
+| `preview`         | `boolean`                                                               | `false`     | 卡片模式下是否开启图片大图预览                                         |
+| `download`        | `boolean`                                                               | `false`     | 卡片模式下预览图片时，是否允许下载图片                                 |
 | `inlinePreview`   | `boolean`                                                               | `undefined` | 单图内联预览。`limit=1 + picture-card` 时默认启用，可显式 `false` 关闭 |
 | `showInnerStripe` | `boolean`                                                               | `false`     | CpProgress 内圈虚线装饰                                                |
 | `placeholder`     | `string`                                                                | `undefined` | 自定义触发器文案                                                       |

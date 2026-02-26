@@ -7,6 +7,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, toRef } from 'vue'
 import { useNamespace, useImageSrc, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { imageProps, imageEmits } from './image'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import CpImagePreview from '@cyberpunk-vue/components/image-preview/src/image-preview.vue'
 
 defineOptions({
     name: `${COMPONENT_PREFIX}Image`,
@@ -26,6 +27,20 @@ const containerRef = ref<HTMLElement | null>(null)
 
 // 图片是否已进入视口（用于懒加载）
 const isInViewport = ref(!props.lazy)
+
+// 预览相关
+const showPreview = ref(false)
+const isPreviewEnabled = computed(() => props.preview || props.previewSrcList.length > 0)
+const previewUrlList = computed(() => {
+    if (props.previewSrcList.length > 0) return props.previewSrcList
+    // 单图预览：优先使用 previewSrc，否则 fallback 到 currentSrc
+    const url = props.previewSrc || currentSrc.value
+    return url ? [url] : []
+})
+const handlePreviewClick = () => {
+    if (!isPreviewEnabled.value || isLoading.value || isError.value) return
+    showPreview.value = true
+}
 
 // IntersectionObserver 实例
 let observer: IntersectionObserver | null = null
@@ -56,6 +71,7 @@ const classes = computed(() => [
     ns.is('loading', isLoading.value),
     ns.is('error', isError.value),
     ns.is('hoverable', props.hoverable),
+    ns.is('preview', isPreviewEnabled.value),
     props.hoverable && ns.m(`hover-${props.hoverMode}`),
 ])
 
@@ -180,7 +196,7 @@ onBeforeUnmount(() => {
     :style="containerStyle"
   >
     <!-- 内容容器（承载 clip-path，装饰块在其外部不被裁切） -->
-    <div :class="ns.e('body')">
+    <div :class="ns.e('body')" @click="handlePreviewClick">
       <!-- 加载占位符 -->
       <div v-if="isLoading" :class="ns.e('placeholder')">
         <slot name="placeholder">
@@ -232,5 +248,16 @@ onBeforeUnmount(() => {
 
     <!-- 装饰块 (clip 模式，脱离 body 层级不被裁切) -->
     <span v-if="props.shape === 'clip' && props.showDecor" :class="ns.e('decor')" />
+
+    <!-- 大图预览 -->
+    <CpImagePreview
+      v-if="isPreviewEnabled"
+      v-model="showPreview"
+      :url-list="previewUrlList"
+      :initial-index="props.initialIndex"
+      :type="props.type"
+      :color="props.color"
+      :download="props.download"
+    />
   </div>
 </template>

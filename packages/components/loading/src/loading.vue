@@ -1,8 +1,7 @@
 <script setup lang="ts">
 /**
  * CpLoading - 赛博朋克风格加载器
- * Google Material Design 风格圆形加载器
- * 支持弧线伸缩 + 旋转双重动画
+ * 支持圆形动画 (circular) 与传统转圈 (spinner/spinner-solid) 变体
  */
 import { computed } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize, parseSizeNumber } from '@cyberpunk-vue/hooks'
@@ -56,7 +55,8 @@ const customStyle = computed(() => {
 <template>
   <div :class="classes" :style="customStyle">
     <svg
-      :class="ns.e('svg')"
+      v-if="variant === 'circular'"
+      :class="[ns.e('svg'), ns.is('circular')]"
       :width="svgSize"
       :height="svgSize"
       :viewBox="`0 0 ${svgSize} ${svgSize}`"
@@ -79,6 +79,53 @@ const customStyle = computed(() => {
         stroke-linecap="round"
         pathLength="100"
       />
+    </svg>
+
+    <svg
+      v-else-if="variant === 'spinner'"
+      :class="[ns.e('svg'), ns.is('spinner')]"
+      :width="svgSize"
+      :height="svgSize"
+      :viewBox="`0 0 ${svgSize} ${svgSize}`"
+    >
+      <g :transform="`translate(${svgSize / 2}, ${svgSize / 2})`">
+        <line
+          v-for="i in 12"
+          :key="i"
+          x1="0"
+          :y1="-(svgSize / 2) + strokeWidth / 2"
+          x2="0"
+          :y2="-(svgSize / 2) + strokeWidth / 2 + (svgSize / 4)"
+          :transform="`rotate(${(i - 1) * 30})`"
+          :stroke-width="strokeWidth"
+          stroke="currentColor"
+          stroke-linecap="round"
+          :style="{ opacity: i === 1 ? 1 : (i - 1) / 12 }"
+        />
+      </g>
+    </svg>
+
+    <svg
+      v-else-if="variant === 'spinner-solid'"
+      :class="[ns.e('svg'), ns.is('spinner-solid')]"
+      :width="svgSize"
+      :height="svgSize"
+      :viewBox="`0 0 ${svgSize} ${svgSize}`"
+    >
+      <g :transform="`translate(${svgSize / 2}, ${svgSize / 2})`">
+        <line
+          v-for="i in 12"
+          :key="i"
+          x1="0"
+          :y1="-(svgSize / 2) + strokeWidth / 2"
+          x2="0"
+          :y2="-(svgSize / 2) + strokeWidth / 2 + (svgSize / 4)"
+          :transform="`rotate(${(i - 1) * 30})`"
+          :stroke-width="strokeWidth"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+      </g>
     </svg>
   </div>
 </template>

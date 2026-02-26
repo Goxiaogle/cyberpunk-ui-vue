@@ -26,13 +26,15 @@
     transition: all 0.2s ease;
     user-select: none;
 
+    --cp-button-clip-size: 10px;
+
     // 机甲风切角 (Top-Left, Bottom-Right)
-    clip-path: polygon(10px 0,
+    clip-path: polygon(var(--cp-button-clip-size) 0,
             100% 0,
-            100% calc(100% - 10px),
-            calc(100% - 10px) 100%,
+            100% calc(100% - var(--cp-button-clip-size)),
+            calc(100% - var(--cp-button-clip-size)) 100%,
             0 100%,
-            0 10px);
+            0 var(--cp-button-clip-size));
 
     // 装饰性小方块 (右上角)
     &::after {
@@ -48,6 +50,21 @@
         transition: all 0.2s ease;
     }
 
+    // 小尺寸下缩小装饰性小方块，防止遮挡内容
+    @include when(small-size) {
+        &::after {
+            width: 4px;
+            height: 4px;
+        }
+    }
+
+    // 隐藏装饰性小方块
+    @include when(no-decoration) {
+        &::after {
+            display: none;
+        }
+    }
+
     // 点击动画
     &:active:not(.is-disabled) {
         transform: scale(0.96);
@@ -59,7 +76,7 @@
         height: var(--cp-button-height-sm);
         font-size: var(--cp-font-size-sm);
         padding: 0 var(--cp-spacing-md);
-        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+        --cp-button-clip-size: 8px;
     }
 
     @include m(md) {
@@ -817,6 +834,67 @@
         }
     }
 
+    // ===== 减淡模式 (Dimmed Mode) =====
+    // 减淡模式：平常以无颜色的默认形态展示，hover 时显示真正的主题色
+    @include when(dimmed) {
+        &:not(:hover) {
+            // Solid 变体
+            &.cp-button--solid:not(.cp-button--default) {
+                background: var(--cp-bg-elevated);
+                border-color: var(--cp-border);
+                color: var(--cp-text-primary);
+
+                &::after {
+                    background: var(--cp-border);
+                }
+            }
+
+            // Outline 变体
+            &.cp-button--outline:not(.cp-button--default) {
+                background: transparent;
+                border-color: var(--cp-border);
+                color: var(--cp-text-secondary);
+            }
+
+            // Semi 变体
+            &.cp-button--semi:not(.cp-button--default) {
+                background: rgba(42, 42, 58, 0.3);
+                border-color: var(--cp-border);
+                color: var(--cp-text-secondary);
+
+                &::after {
+                    background: var(--cp-border);
+                    opacity: 0.8;
+                }
+            }
+
+            // Ghost 变体
+            &.cp-button--ghost:not(.cp-button--default) {
+                background: transparent;
+                border-color: transparent;
+                color: var(--cp-text-secondary);
+
+                &::after {
+                    display: none;
+                }
+            }
+
+            // Neon 变体
+            &.cp-button--neon:not(.cp-button--default) {
+                background: transparent;
+                border-color: var(--cp-border);
+                color: var(--cp-text-secondary);
+                box-shadow: 0 0 5px var(--cp-border);
+                text-shadow: none;
+                animation: none;
+
+                &::after {
+                    background: var(--cp-border);
+                    box-shadow: none;
+                }
+            }
+        }
+    }
 }
 
 // Vue Transition 样式 - Loader 入场/离场动画 (仅用于非占位模式)

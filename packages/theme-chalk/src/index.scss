@@ -17,6 +17,7 @@
 @use 'components/text';
 @use 'components/status-indicator';
 @use 'components/image';
+@use 'components/image-preview';
 @use 'components/avatar';
 @use 'components/avatar-group';
 @use 'components/popover';
@@ -43,6 +44,7 @@
 @use 'components/form-item';
 @use 'components/breadcrumb';
 @use 'components/upload';
+@use 'components/empty';
 
 // 基础样式
 *,

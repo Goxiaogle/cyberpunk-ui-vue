@@ -13,6 +13,15 @@ import type { Size } from '@cyberpunk-vue/hooks'
 export type LoadingType = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'default'
 
 /**
+ * 加载器变体
+ * - `circular` - 默认，Google Material 风格圆形动画
+ * - `spinner` - 传统菊花图转圈加载（颜色渐变，逐帧旋转）
+ * - `spinner-solid` - 实体菊花图加载（颜色统一，整体线性旋转）
+ */
+export type LoadingVariant = 'circular' | 'spinner' | 'spinner-solid'
+
+
+/**
  * 加载器尺寸
  * - `sm` - 小尺寸 (16px)
  * - `md` - 中等尺寸 (24px)，默认
@@ -78,6 +87,16 @@ export const loadingProps = {
     strokeWidth: {
         type: Number,
         default: 4,
+    },
+    /**
+     * 加载器变体
+     * - `circular` - 默认，Google Material 风格圆形动画
+     * - `spinner` - 传统菊花图转圈加载
+     * @default 'circular'
+     */
+    variant: {
+        type: String as PropType<LoadingVariant>,
+        default: 'circular',
     },
 } as const
 

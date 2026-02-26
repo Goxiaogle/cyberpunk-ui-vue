@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -119,6 +119,13 @@
           }
         },
         {
+          "name": "cp-empty",
+          "description": "CpEmpty 赛博朋克风格空状态组件\n\n用于无数据、无搜索结果、网络错误等场景的占位展示。\n组件始终撑满父容器，水平+垂直居中。",
+          "source": {
+            "symbol": "CpEmpty"
+          }
+        },
+        {
           "name": "cp-footer",
           "source": {
             "symbol": "CpFooter"
@@ -156,6 +163,13 @@
           "description": "CpImage 图片组件",
           "source": {
             "symbol": "CpImage"
+          }
+        },
+        {
+          "name": "cp-image-preview",
+          "description": "CpImagePreview 大图预览组件",
+          "source": {
+            "symbol": "CpImagePreview"
           }
         },
         {
@@ -941,10 +955,22 @@
               ]
             },
             {
+              "name": "dimmed",
+              "source": {
+                "file": "../components/button/src/button.ts",
+                "offset": 2167
+              },
+              "description": "是否为减淡模式\n减淡模式下组件默认以无色彩（default）外观展示，仅在 hover 时显示主题色",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "disabled",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 2140
+                "offset": 2320
               },
               "description": "是否禁用按钮\n禁用后按钮不可点击，样式变为灰色",
               "default": "false",
@@ -956,7 +982,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 2305
+                "offset": 2485
               },
               "description": "是否显示加载状态\n加载时会显示 Loading 动画，按钮不可点击",
               "default": "false",
@@ -968,7 +994,7 @@
               "name": "block",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 2456
+                "offset": 2636
               },
               "description": "是否为块级按钮\n块级按钮会占满父容器宽度",
               "default": "false",
@@ -980,7 +1006,7 @@
               "name": "nativeType",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 2682
+                "offset": 2862
               },
               "description": "原生 button type 属性\n- `button` - 普通按钮（默认）\n- `submit` - 表单提交按钮\n- `reset` - 表单重置按钮",
               "default": "'button'",
@@ -992,7 +1018,7 @@
               "name": "color",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 2955
+                "offset": 3135
               },
               "description": "自定义按钮颜色\n传入有效 CSS 颜色值会覆盖 `type` 的预设颜色",
               "default": "''",
@@ -1004,7 +1030,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 3196
+                "offset": 3376
               },
               "description": "按钮形状\n- `clip` - 切角样式（默认，赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形\n- `circle` - 胶囊形状（完全圆角）",
               "default": "'clip'",
@@ -1016,7 +1042,7 @@
               "name": "dashed",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 3413
+                "offset": 3593
               },
               "description": "是否使用虚线边框\n仅在 `variant=\"outline\"` 时生效",
               "default": "false",
@@ -1025,10 +1051,22 @@
               ]
             },
             {
+              "name": "decoration",
+              "source": {
+                "file": "../components/button/src/button.ts",
+                "offset": 3743
+              },
+              "description": "是否显示装饰块 (仅在 shape=\"clip\" 时有效)",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "loadingPlaceholder",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 3674
+                "offset": 4007
               },
               "description": "是否为 Loading 预留空间\n开启后按钮宽度固定，Loading 出现/消失时不会导致布局抖动",
               "default": "false",
@@ -1040,7 +1078,7 @@
               "name": "loadingDisabled",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 3858
+                "offset": 4191
               },
               "description": "加载时是否同时禁用按钮\n设为 true 后，loading 状态下按钮会显示禁用样式",
               "default": "false",
@@ -1052,7 +1090,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 4102
+                "offset": 4435
               },
               "description": "自定义文字颜色\n传入有效 CSS 颜色值会覆盖默认的文字颜色",
               "default": "''",
@@ -1064,7 +1102,7 @@
               "name": "icon",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 4317
+                "offset": 4650
               },
               "description": "图标组件 (用于纯图标按钮)\n传入图标组件后按钮将变为正方形图标按钮",
               "type": [
@@ -1075,7 +1113,7 @@
               "name": "square",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 4554
+                "offset": 4887
               },
               "description": "是否为正方形按钮\n开启后按钮宽度等于高度，表现与 icon-only 一致",
               "default": "false",
@@ -1087,7 +1125,7 @@
               "name": "iconColor",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 4864
+                "offset": 5197
               },
               "description": "图标颜色\n用于控制所有图标（icon、prefixIcon、suffixIcon）的默认颜色\n优先级：prefixIconColor/suffixIconColor > iconColor > textColor",
               "default": "''",
@@ -1099,7 +1137,7 @@
               "name": "prefixIcon",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 5095
+                "offset": 5428
               },
               "description": "前缀图标组件\n快捷传入前缀图标，不使用 #prefix slot",
               "type": [
@@ -1110,7 +1148,7 @@
               "name": "suffixIcon",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 5361
+                "offset": 5694
               },
               "description": "后缀图标组件\n快捷传入后缀图标，不使用 #suffix slot",
               "type": [
@@ -1121,7 +1159,7 @@
               "name": "prefixIconColor",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 5659
+                "offset": 5992
               },
               "description": "前缀图标颜色\n优先级：prefixIconColor > iconColor > textColor",
               "default": "''",
@@ -1133,7 +1171,7 @@
               "name": "suffixIconColor",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 5942
+                "offset": 6275
               },
               "description": "后缀图标颜色\n优先级：suffixIconColor > iconColor > textColor",
               "default": "''",
@@ -1145,7 +1183,7 @@
               "name": "iconSize",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 6200
+                "offset": 6533
               },
               "description": "图标尺寸\n优先级：prefixIconSize/suffixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
@@ -1157,7 +1195,7 @@
               "name": "prefixIconSize",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 6407
+                "offset": 6740
               },
               "description": "前缀图标尺寸\n优先级：prefixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
@@ -1169,7 +1207,7 @@
               "name": "suffixIconSize",
               "source": {
                 "file": "../components/button/src/button.ts",
-                "offset": 6620
+                "offset": 6953
               },
               "description": "后缀图标尺寸\n优先级：suffixIconSize > iconSize > (与按钮尺寸同步)",
               "default": "''",
@@ -1198,7 +1236,7 @@
                 "name": "click",
                 "source": {
                   "file": "../components/button/src/button.ts",
-                  "offset": 7066
+                  "offset": 7399
                 },
                 "description": "点击按钮时触发"
               }
@@ -3169,6 +3207,87 @@
           }
         },
         {
+          "name": "cp-empty",
+          "source": {
+            "symbol": "CpEmpty"
+          },
+          "description": "CpEmpty 赛博朋克风格空状态组件\n\n用于无数据、无搜索结果、网络错误等场景的占位展示。\n组件始终撑满父容器，水平+垂直居中。",
+          "props": [
+            {
+              "name": "title",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 384
+              },
+              "description": "标题文本（粗体大字）",
+              "default": "'暂无数据'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 520
+              },
+              "description": "描述/副标题文本（次要灰色小字）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "icon",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 660
+              },
+              "description": "自定义图标名称（使用 CpIcon）",
+              "default": "''",
+              "type": [
+                "string | Component"
+              ]
+            },
+            {
+              "name": "imageSize",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 826
+              },
+              "description": "图标尺寸 (px)",
+              "default": "64",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 957
+              },
+              "description": "颜色类型",
+              "default": "'default'",
+              "type": [
+                "'primary' | 'success' | 'warning' | 'error' | 'info' | 'default'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/empty/src/empty.ts",
+                "offset": 1116
+              },
+              "description": "自定义颜色（覆盖 type）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            }
+          ]
+        },
+        {
           "name": "cp-footer",
           "source": {
             "symbol": "CpFooter"
@@ -3622,22 +3741,70 @@
               ]
             },
             {
+              "name": "preview",
+              "source": {
+                "file": "../components/image/src/image.ts",
+                "offset": 2111
+              },
+              "description": "是否开启点击预览\n开启后点击图片会弹出全屏大图预览",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "previewSrc",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2102
+                "offset": 2270
               },
-              "description": "预览大图地址\n为未来的图片预览功能预留",
+              "description": "预览大图地址\n在预览中使用的高清图片地址，不指定则使用 src",
               "default": "''",
               "type": [
                 "string"
               ]
             },
             {
+              "name": "previewSrcList",
+              "source": {
+                "file": "../components/image/src/image.ts",
+                "offset": 2427
+              },
+              "description": "多图预览列表\n传入后自动启用预览，点击图片可查看整个图片列表",
+              "default": "() => []",
+              "type": [
+                "string[]"
+              ]
+            },
+            {
+              "name": "initialIndex",
+              "source": {
+                "file": "../components/image/src/image.ts",
+                "offset": 2681
+              },
+              "description": "初始预览索引，在 previewSrcList 模式下有效",
+              "default": "0",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "download",
+              "source": {
+                "file": "../components/image/src/image.ts",
+                "offset": 2816
+              },
+              "description": "是否允许在预览时下载图片",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "fallbackSrc",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2233
+                "offset": 2949
               },
               "description": "加载失败时的回退图片地址",
               "default": "''",
@@ -3649,7 +3816,7 @@
               "name": "width",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2386
+                "offset": 3102
               },
               "description": "图片宽度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
@@ -3661,7 +3828,7 @@
               "name": "height",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2572
+                "offset": 3288
               },
               "description": "图片高度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
@@ -3673,7 +3840,7 @@
               "name": "type",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2746
+                "offset": 3462
               },
               "description": "颜色类型（影响装饰块颜色）",
               "default": "'primary'",
@@ -3685,7 +3852,7 @@
               "name": "color",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2985
+                "offset": 3701
               },
               "description": "自定义装饰块颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
@@ -3697,7 +3864,7 @@
               "name": "showDecor",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3121
+                "offset": 3837
               },
               "description": "是否显示装饰块（仅 clip 形状生效）",
               "default": "true",
@@ -3709,7 +3876,7 @@
               "name": "decorPosition",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3387
+                "offset": 4103
               },
               "description": "装饰块位置（仅 clip 形状生效）\n- `bottom-left`: 左下角（默认）\n- `bottom-right`: 右下角\n- `top-left`: 左上角\n- `top-right`: 右上角",
               "default": "'bottom-left'",
@@ -3721,7 +3888,7 @@
               "name": "hoverable",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3595
+                "offset": 4311
               },
               "description": "是否开启 hover 动画效果\n开启后鼠标悬停时有缩放和发光效果",
               "default": "false",
@@ -3733,7 +3900,7 @@
               "name": "hoverMode",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3797
+                "offset": 4513
               },
               "description": "Hover 动画模式\n- `scale` - 整体放大（默认）\n- `zoom` - 容器不变，仅图片放大（溢出裁切）",
               "default": "'scale'",
@@ -3745,7 +3912,7 @@
               "name": "hoverDuration",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4013
+                "offset": 4729
               },
               "description": "Hover 动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -3757,7 +3924,7 @@
               "name": "srcProcessor",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4517
+                "offset": 5233
               },
               "description": "URL 预处理器\n可传入预设处理器名称（append/replace/tos）或自定义函数\n函数签名: (src: string, params?: T) => string",
               "type": [
@@ -3768,7 +3935,7 @@
               "name": "processorParams",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4796
+                "offset": 5512
               },
               "description": "处理器参数\n传递给 srcProcessor 的参数，类型由处理器决定\n若未指定 srcProcessor 但传入了此参数，默认使用 append 处理器",
               "type": [
@@ -3779,7 +3946,7 @@
               "name": "draggable",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 5039
+                "offset": 5755
               },
               "description": "是否允许拖拽图片\n默认禁止拖拽，设为 true 开启",
               "default": "false",
@@ -3794,7 +3961,7 @@
                 "name": "load",
                 "source": {
                   "file": "../components/image/src/image.ts",
-                  "offset": 5377
+                  "offset": 6093
                 },
                 "description": "图片加载成功时触发"
               },
@@ -3802,9 +3969,154 @@
                 "name": "error",
                 "source": {
                   "file": "../components/image/src/image.ts",
-                  "offset": 5498
+                  "offset": 6214
                 },
                 "description": "图片加载失败时触发"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cp-image-preview",
+          "source": {
+            "symbol": "CpImagePreview"
+          },
+          "description": "CpImagePreview 大图预览组件",
+          "props": [
+            {
+              "name": "modelValue",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 348
+              },
+              "description": "是否显示预览 (v-model)",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "urlList",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 477
+              },
+              "description": "预览图片列表",
+              "default": "() => []",
+              "type": [
+                "string[]"
+              ]
+            },
+            {
+              "name": "initialIndex",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 628
+              },
+              "description": "初始显示的图片索引",
+              "default": "0",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "zIndex",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 760
+              },
+              "description": "z-index 层级",
+              "default": "2000",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "infinite",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 900
+              },
+              "description": "是否支持循环切换（到最后一张后跳回第一张）",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "teleportTo",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 1035
+              },
+              "description": "Teleport 目标",
+              "default": "'body'",
+              "type": [
+                "string | HTMLElement"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 1215
+              },
+              "description": "主题颜色类型",
+              "default": "'primary'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 1427
+              },
+              "description": "自定义外发光及部分元素的颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "download",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 1566
+              },
+              "description": "是否允许下载图片，开启后工具栏会显示下载按钮",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "update:modelValue",
+                "source": {
+                  "file": "../components/image-preview/src/image-preview.ts",
+                  "offset": 1827
+                },
+                "description": "v-model 绑定"
+              },
+              {
+                "name": "close",
+                "source": {
+                  "file": "../components/image-preview/src/image-preview.ts",
+                  "offset": 1919
+                },
+                "description": "关闭时触发"
+              },
+              {
+                "name": "switch",
+                "source": {
+                  "file": "../components/image-preview/src/image-preview.ts",
+                  "offset": 1963
+                },
+                "description": "切换图片时触发"
               }
             ]
           }
@@ -4289,7 +4601,7 @@
               "name": "type",
               "source": {
                 "file": "../components/loading/src/loading.ts",
-                "offset": 1016
+                "offset": 1240
               },
               "description": "加载器颜色类型",
               "default": "'default'",
@@ -4301,7 +4613,7 @@
               "name": "size",
               "source": {
                 "file": "../components/loading/src/loading.ts",
-                "offset": 1213
+                "offset": 1437
               },
               "description": "加载器尺寸",
               "default": "'md'",
@@ -4313,7 +4625,7 @@
               "name": "color",
               "source": {
                 "file": "../components/loading/src/loading.ts",
-                "offset": 1454
+                "offset": 1678
               },
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 `type` 的预设颜色",
               "default": "''",
@@ -4325,12 +4637,24 @@
               "name": "strokeWidth",
               "source": {
                 "file": "../components/loading/src/loading.ts",
-                "offset": 1644
+                "offset": 1868
               },
               "description": "SVG 描边宽度\n数值越大，圆环越粗",
               "default": "4",
               "type": [
                 "number"
+              ]
+            },
+            {
+              "name": "variant",
+              "source": {
+                "file": "../components/loading/src/loading.ts",
+                "offset": 2081
+              },
+              "description": "加载器变体\n- `circular` - 默认，Google Material 风格圆形动画\n- `spinner` - 传统菊花图转圈加载",
+              "default": "'circular'",
+              "type": [
+                "'circular' | 'spinner' | 'spinner-solid'"
               ]
             }
           ]
@@ -8252,10 +8576,34 @@
               ]
             },
             {
+              "name": "preview",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5259
+              },
+              "description": "是否开启图片卡片点击预览功能",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "download",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 5397
+              },
+              "description": "在预览大图时，是否允许下载图片",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "showInnerStripe",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5267
+                "offset": 5543
               },
               "description": "是否显示 CpProgress 内圈虚线装饰",
               "default": "false",
@@ -8267,7 +8615,7 @@
               "name": "placeholder",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5477
+                "offset": 5753
               },
               "description": "自定义触发器文案\n- drag 模式默认: '拖拽文件到此处，或 点击上传'\n- 默认(按钮)模式默认: '选择文件'",
               "type": [
@@ -8278,11 +8626,34 @@
               "name": "placeholderIcon",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5651
+                "offset": 5927
               },
               "description": "自定义触发器图标组件\n传入 Vue 组件，替换默认 SVG 图标",
               "type": [
                 "object"
+              ]
+            },
+            {
+              "name": "dimmed",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 6167
+              },
+              "description": "是否为减淡模式\n减淡模式下组件默认以无色彩（default）外观展示，仅在 hover / 激活时显示主题色\n会穿透给内部 CpButton",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "successType",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 6441
+              },
+              "description": "上传成功时的边框颜色\n可传入 type 关键词（'primary' | 'success' | 'warning' | 'error' | 'info'），\n也可传入任意 CSS 颜色值。\n默认跟随 Upload 自身的 type / color。",
+              "type": [
+                "string"
               ]
             }
           ],
@@ -8292,7 +8663,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 5918
+                  "offset": 6684
                 },
                 "description": "v-model 绑定"
               },
@@ -8300,7 +8671,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6016
+                  "offset": 6782
                 },
                 "description": "文件列表变化"
               },
@@ -8308,7 +8679,7 @@
                 "name": "success",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6127
+                  "offset": 6893
                 },
                 "description": "上传成功"
               },
@@ -8316,7 +8687,7 @@
                 "name": "error",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6259
+                  "offset": 7025
                 },
                 "description": "上传失败"
               },
@@ -8324,7 +8695,7 @@
                 "name": "progress",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6385
+                  "offset": 7151
                 },
                 "description": "上传进度"
               },
@@ -8332,7 +8703,7 @@
                 "name": "remove",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6503
+                  "offset": 7269
                 },
                 "description": "文件移除"
               }

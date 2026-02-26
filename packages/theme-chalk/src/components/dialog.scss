@@ -366,23 +366,6 @@
     color: var(--cp-dialog-text-color, var(--cp-text-secondary));
     font-size: var(--cp-font-size-md);
 
-    // 赛博朋克滚动条
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-    &::-webkit-scrollbar-track {
-      background: rgba(26, 26, 36, 0.8);
-    }
-    &::-webkit-scrollbar-thumb {
-      background: rgba(0, 240, 255, 0.3);
-      border-radius: 3px;
-
-      &:hover {
-        background: rgba(0, 240, 255, 0.5);
-      }
-    }
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 240, 255, 0.3) rgba(26, 26, 36, 0.8);
   }
 
   // ===== 底部 =====

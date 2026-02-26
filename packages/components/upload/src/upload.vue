@@ -11,12 +11,14 @@ import { uploadProps, uploadEmits } from './upload'
 import type { UploadFile, UploadRequestOptions } from './upload'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 import { CpImage } from '@cyberpunk-vue/components/image'
+import { CpImagePreview } from '@cyberpunk-vue/components/image-preview'
 import { CpProgress } from '@cyberpunk-vue/components/progress'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { CpText } from '@cyberpunk-vue/components/text'
 
 defineOptions({
     name: `${COMPONENT_PREFIX}Upload`,
+    inheritAttrs: false,
 })
 
 const props = defineProps(uploadProps)
@@ -51,6 +53,20 @@ const themeColor = computed(() => {
     return typeColorMap[props.type] || ''
 })
 
+// 上传成功边框颜色
+const successBorderColor = computed(() => {
+    if (props.successType) {
+        // 预设 type 关键词
+        if (props.successType in typeColorMap) {
+            return typeColorMap[props.successType]
+        }
+        // 任意 CSS 颜色
+        return props.successType
+    }
+    // 默认跟随 Upload 自身 type/color
+    return themeColor.value || 'var(--cp-color-success)'
+})
+
 // 自定义样式（CSS 变量）
 const customStyle = computed(() => {
     const style: Record<string, string> = {}
@@ -58,6 +74,7 @@ const customStyle = computed(() => {
         style['--cp-upload-color'] = themeColor.value
         style['--cp-upload-border-color'] = themeColor.value
     }
+    style['--cp-upload-success-color'] = successBorderColor.value
     return style
 })
 
@@ -71,6 +88,7 @@ const classes = computed(() => [
     ns.is('disabled', isDisabled.value),
     ns.is('drag', props.drag),
     ns.is('dragover', isDragover.value),
+    ns.is('dimmed', props.dimmed),
 ])
 
 // 传递给 CpButton 的 variant 映射
@@ -259,10 +277,8 @@ async function handleFiles(files: FileList | File[]) {
             raw: file,
         }
 
-        // 图片预览
-        if (file.type.startsWith('image/')) {
-            uploadFileObj.url = URL.createObjectURL(file)
-        }
+        // 生成 blob URL（用于预览 / 展示）
+        uploadFileObj.url = URL.createObjectURL(file)
 
         newFiles.push(uploadFileObj)
     }
@@ -307,9 +323,12 @@ function handleInputChange(event: Event) {
     input.value = ''
 }
 
+const dragCounter = ref(0)
+
 function handleDragEnter(e: DragEvent) {
     e.preventDefault()
     if (isDisabled.value) return
+    dragCounter.value++
     isDragover.value = true
 }
 
@@ -319,12 +338,17 @@ function handleDragOver(e: DragEvent) {
 
 function handleDragLeave(e: DragEvent) {
     e.preventDefault()
-    isDragover.value = false
+    dragCounter.value--
+    if (dragCounter.value <= 0) {
+        isDragover.value = false
+        dragCounter.value = 0
+    }
 }
 
 function handleDrop(e: DragEvent) {
     e.preventDefault()
     isDragover.value = false
+    dragCounter.value = 0
     if (isDisabled.value) return
     if (e.dataTransfer?.files) {
         handleFiles(e.dataTransfer.files)
@@ -348,6 +372,40 @@ function submit() {
         .forEach((f) => uploadFile(f))
 }
 
+// ===== 图片预览 =====
+const previewVisible = ref(false)
+const previewUrls = ref<string[]>([])
+const previewIndex = ref(0)
+
+function handlePreview(file: UploadFile) {
+    if (!props.preview || !isImageFile(file)) return
+    
+    // 收集当前列表里所有有效的图片地址
+    const urls: string[] = []
+    let targetIdx = 0
+    
+    // 我们可能是在内联模式下预览单图
+    const listToPreview = isInlinePreviewMode.value && inlinePreviewFile.value 
+        ? [inlinePreviewFile.value] 
+        : props.modelValue
+
+    listToPreview.forEach((f) => {
+        if (isImageFile(f)) {
+            const u = getFileUrl(f)
+            if (u) {
+                if (f.uid === file.uid) targetIdx = urls.length
+                urls.push(u)
+            }
+        }
+    })
+
+    if (urls.length > 0) {
+        previewUrls.value = urls
+        previewIndex.value = targetIdx
+        previewVisible.value = true
+    }
+}
+
 // 暴露方法
 defineExpose({
     /** 手动触发上传 */
@@ -367,7 +425,7 @@ function formatSize(bytes: number): string {
 </script>
 
 <template>
-  <div :class="classes" :style="customStyle">
+  <div :class="classes" :style="customStyle" v-bind="$attrs">
     <!-- 隐藏文件 input -->
     <input
       ref="inputRef"
@@ -400,7 +458,7 @@ function formatSize(bytes: number): string {
                 <line x1="12" y1="12" x2="12" y2="21" />
               </svg>
               <span v-if="placeholder" :class="ns.e('drag-text')">{{ placeholder }}</span>
-              <span v-else :class="ns.e('drag-text')">拖拽文件到此处，或 <CpText underline type="primary">点击上传</CpText></span>
+              <span v-else :class="ns.e('drag-text')">拖拽文件到此处，或 <CpText underline :type="props.type !== 'default' ? props.type : 'primary'" :color="props.color">点击上传</CpText></span>
             </slot>
           </div>
         </template>
@@ -425,22 +483,61 @@ function formatSize(bytes: number): string {
                 :width="60"
                 :stroke-width="4"
                 shape="round"
+                :color="themeColor"
                 :show-inner-stripe="props.showInnerStripe === true"
               />
             </div>
             <!-- 悬浮操作层：替换 + 删除 -->
             <div :class="ns.e('card-actions')">
-              <span @click.stop="handleClick">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <CpButton
+                v-if="props.preview"
+                variant="semi"
+                dimmed
+                square
+                size="sm"
+                :type="props.type"
+                :color="themeColor"
+                title="预览图片"
+                @click.stop="handlePreview(inlinePreviewFile)"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <line x1="11" y1="8" x2="11" y2="14" />
+                  <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+              </CpButton>
+
+              <CpButton
+                variant="semi"
+                dimmed
+                square
+                size="sm"
+                :type="props.type"
+                :color="themeColor"
+                title="替换图片"
+                @click.stop="handleClick"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
                   <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                 </svg>
-              </span>
-              <span @click.stop="handleRemove(inlinePreviewFile)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              </CpButton>
+
+              <CpButton
+                variant="semi"
+                dimmed
+                square
+                size="sm"
+                :type="props.type"
+                :color="themeColor"
+                title="删除图片"
+                @click.stop="handleRemove(inlinePreviewFile)"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
                   <polyline points="3 6 5 6 21 6" />
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                 </svg>
-              </span>
+              </CpButton>
             </div>
           </div>
           <!-- 默认：+ 号触发器 -->
@@ -465,6 +562,7 @@ function formatSize(bytes: number): string {
             :color="color"
             :size="size"
             :dashed="isDashed"
+            :dimmed="props.dimmed"
           >
             <slot name="placeholder" :mode="'button'">
               <component :is="placeholderIcon" v-if="placeholderIcon" style="width: 14px; height: 14px; margin-right: 4px;" />
@@ -519,6 +617,7 @@ function formatSize(bytes: number): string {
             :stroke-width="3"
             :show-text="false"
             shape="round"
+            :color="themeColor"
             :show-inner-stripe="props.showInnerStripe === true"
             :class="ns.e('progress')"
           />
@@ -560,6 +659,7 @@ function formatSize(bytes: number): string {
             :stroke-width="3"
             :show-text="false"
             shape="round"
+            :color="themeColor"
             :show-inner-stripe="props.showInnerStripe === true"
             :class="ns.e('progress')"
           />
@@ -613,20 +713,60 @@ function formatSize(bytes: number): string {
               :width="60"
               :stroke-width="4"
               shape="round"
+              :color="themeColor"
               :show-inner-stripe="props.showInnerStripe === true"
             />
           </div>
           <!-- 悬浮操作层 -->
           <div :class="ns.e('card-actions')">
-            <span @click.stop="handleRemove(file)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <CpButton
+              v-if="props.preview && isImageFile(file)"
+              variant="semi"
+              dimmed
+              square
+              size="sm"
+              :type="props.type"
+              :color="themeColor"
+              title="预览图片"
+              @click.stop="handlePreview(file)"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <line x1="11" y1="8" x2="11" y2="14" />
+                <line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </CpButton>
+            
+            <CpButton
+              variant="semi"
+              dimmed
+              square
+              size="sm"
+              :type="props.type"
+              :color="themeColor"
+              title="删除图片"
+              @click.stop="handleRemove(file)"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
                 <polyline points="3 6 5 6 21 6" />
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
               </svg>
-            </span>
+            </CpButton>
           </div>
         </div>
       </template>
     </div>
   </div>
+
+  <!-- 调用 ImagePreview -->
+  <CpImagePreview
+    v-if="props.preview"
+    v-model="previewVisible"
+    :url-list="previewUrls"
+    :initial-index="previewIndex"
+    :type="props.type"
+    :color="themeColor"
+    :download="props.download"
+  />
 </template>

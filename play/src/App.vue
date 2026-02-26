@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { 
-  CpContainer, 
-  CpHeader, 
-  CpAside, 
-  CpMain, 
-  CpMenu, 
-  CpMenuItem, 
+import {
+  CpContainer,
+  CpHeader,
+  CpAside,
+  CpMain,
+  CpMenu,
+  CpMenuItem,
   CpSubMenu,
   CpButton,
   CpCard,
   CpPatternBackground,
   CpIcon
 } from '@cyberpunk-vue/components'
-import { 
-  SpeedometerOutline, 
-  SettingsOutline, 
-  CubeOutline, 
-  PulseOutline, 
-  PersonOutline, 
-  LockClosedOutline, 
-  DesktopOutline 
+import {
+  SpeedometerOutline,
+  SettingsOutline,
+  CubeOutline,
+  PulseOutline,
+  PersonOutline,
+  LockClosedOutline,
+  DesktopOutline
 } from '@vicons/ionicons5'
 </script>
 
@@ -87,27 +87,35 @@ import {
         </CpAside>
         <CpMain class="layout-main">
           <!-- Background Pattern -->
-          <CpPatternBackground 
-            pattern="grid" 
-            :size="40" 
+          <CpPatternBackground
+            pattern="grid"
+            :size="40"
             :line-width="1"
-            color="var(--cp-color-primary)" 
-            :opacity="0.05" 
-            cover 
-            decorative 
+            color="var(--cp-color-primary)"
+            :opacity="0.05"
+            cover
+            decorative
           />
-          
+
           <section class="content-section">
             <h2 class="section-title">System Overview</h2>
             <p class="section-desc">
               Restructured layout using <code>CpContainer</code>, <code>CpMenu</code>, and <code>CpCard</code>.
               The theme color has been successfully migrated to <strong>ORANGE</strong>.
             </p>
-            
+
             <div class="demo-card-grid">
-              <CpCard 
-                v-for="i in 3" 
-                :key="i" 
+
+              <CpCard variant="outline">
+                123
+                <CpCard type="primary" variant="outline">
+                  456
+                </CpCard>
+              </CpCard>
+
+              <CpCard
+                v-for="i in 3"
+                :key="i"
                 :title="`MOD-0${i}`"
                 variant="outline"
                 type="primary"
@@ -134,7 +142,7 @@ import {
               <CpButton type="error">Error</CpButton>
               <CpButton type="info">Info</CpButton>
             </div>
-            
+
              <h3 class="subsection-title">Card Variants</h3>
              <div class="demo-card-grid">
                <CpCard title="Neon Variant" variant="neon" type="warning">
@@ -147,7 +155,7 @@ import {
                  <p>Cyber style with clipped corners.</p>
                </CpCard>
              </div>
-             
+
              <!-- Add extra content to demonstrate scrolling -->
              <div style="height: 200px"></div>
           </section>
@@ -158,9 +166,9 @@ import {
 </template>
 
 <style lang="scss">
-/* 
-  Use specific body selector to override theme defaults 
-  defined in :root or body 
+/*
+  Use specific body selector to override theme defaults
+  defined in :root or body
 */
 body {
   /* Override theme to Orange via CSS Variables */
@@ -168,15 +176,15 @@ body {
   --cp-color-primary-light: rgba(255, 140, 0, 0.2);
   --cp-color-primary-dark: #cc7000;
   --cp-color-primary-text: #0a0a0f; /* Dark text on bright orange */
-  
+
   --cp-color-primary-border: var(--cp-color-primary);
   --cp-color-primary-hover: rgba(255, 140, 0, 0.1);
-  
+
   --cp-glow-primary: 0 0 10px var(--cp-color-primary), 0 0 20px var(--cp-color-primary-light);
-  
+
   --cp-border-active: var(--cp-color-primary);
   --cp-border-focus: var(--cp-color-primary);
-  
+
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -297,7 +305,7 @@ body {
     font-style: italic;
     text-shadow: 0 0 10px var(--cp-color-primary-light);
   }
-  
+
   .subsection-title {
     color: var(--cp-text-primary);
     margin-top: 48px;

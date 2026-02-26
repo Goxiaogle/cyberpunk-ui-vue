@@ -34,12 +34,15 @@ const classes = computed(() => [
   ns.m(`shape-${props.shape}`),
   ns.is('disabled', props.disabled || (props.loading && props.loadingDisabled)),
   ns.is('loading', props.loading),
+  ns.is('dimmed', props.dimmed),
   ns.is('block', props.block),
   ns.is('dashed', props.dashed),
   ns.is('custom-color', !!props.color),
   ns.is('loading-placeholder', props.loadingPlaceholder),
   ns.is('icon-only', isIconOnly.value || props.square),
   ns.is('custom-size', !isPresetSize(props.size)),
+  ns.is('no-decoration', !props.decoration),
+  ns.is('small-size', isSmallSize.value),
 ])
 
 // 自定义颜色样式
@@ -58,6 +61,24 @@ const customStyle = computed(() => {
   // 自定义尺寸：非预设值时设置 CSS 变量
   if (!isPresetSize(props.size)) {
     style['--cp-button-height'] = normalizeSize(props.size, buttonSizeMap)
+    
+    // 动态计算切角大小，预防极小或极大尺寸下切角比例畸形
+    let numSize = 0
+    if (typeof props.size === 'number') {
+      numSize = props.size as number
+    } else if (typeof props.size === 'string') {
+      const sizeStr = props.size as string
+      const pxMatch = sizeStr.match(/^(\d+(?:\.\d+)?)px$/)
+      if (pxMatch) {
+        numSize = parseFloat(pxMatch[1])
+      }
+    }
+    
+    if (numSize > 0) {
+      // 约为高度的 30%，最小 4px (不能太小否则边缘不平滑)
+      const clipSize = Math.max(4, Math.round(numSize * 0.3))
+      style['--cp-button-clip-size'] = `${clipSize}px`
+    }
   }
   
   return style
@@ -67,6 +88,17 @@ const handleClick = (evt: MouseEvent) => {
   if (props.disabled || props.loading) return
   emit('click', evt)
 }
+
+const isSmallSize = computed(() => {
+  if (props.size === 'sm') return true
+  if (typeof props.size === 'number' && (props.size as number) <= 24) return true
+  if (typeof props.size === 'string') {
+    const sizeStr = props.size as string
+    const pxMatch = sizeStr.match(/^(\d+(?:\.\d+)?)px$/)
+    if (pxMatch && parseFloat(pxMatch[1]) <= 24) return true
+  }
+  return false
+})
 
 // 判断是否有前缀内容 (slot 或 prefixIcon prop)
 const hasPrefix = computed(() => !!slots.prefix || !!props.prefixIcon)

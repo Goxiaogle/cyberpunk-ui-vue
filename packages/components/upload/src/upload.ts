@@ -263,6 +263,22 @@ export const uploadProps = {
         default: undefined,
     },
     /**
+     * 是否开启图片卡片点击预览功能
+     * @default false
+     */
+    preview: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 在预览大图时，是否允许下载图片
+     * @default false
+     */
+    download: {
+        type: Boolean,
+        default: false,
+    },
+    /**
      * 是否显示 CpProgress 内圈虚线装饰
      * @default false
      */
@@ -287,6 +303,27 @@ export const uploadProps = {
      */
     placeholderIcon: {
         type: Object as PropType<object>,
+        default: undefined,
+    },
+    /**
+     * 是否为减淡模式
+     * 减淡模式下组件默认以无色彩（default）外观展示，仅在 hover / 激活时显示主题色
+     * 会穿透给内部 CpButton
+     * @default false
+     */
+    dimmed: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 上传成功时的边框颜色
+     * 可传入 type 关键词（'primary' | 'success' | 'warning' | 'error' | 'info'），
+     * 也可传入任意 CSS 颜色值。
+     * 默认跟随 Upload 自身的 type / color。
+     * @default undefined
+     */
+    successType: {
+        type: String,
         default: undefined,
     },
 } as const

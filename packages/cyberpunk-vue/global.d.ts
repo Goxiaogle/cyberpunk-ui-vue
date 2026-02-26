@@ -77,6 +77,13 @@ declare module 'vue' {
      * 支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。
      */
     CpDropdown: typeof import('cyberpunk-ui-vue')['CpDropdown']
+    /**
+     * CpEmpty 赛博朋克风格空状态组件
+     * 
+     * 用于无数据、无搜索结果、网络错误等场景的占位展示。
+     * 组件始终撑满父容器，水平+垂直居中。
+     */
+    CpEmpty: typeof import('cyberpunk-ui-vue')['CpEmpty']
     CpFooter: typeof import('cyberpunk-ui-vue')['CpFooter']
     /**
      * CpForm 赛博朋克风格表单容器
@@ -103,6 +110,10 @@ declare module 'vue' {
      * CpImage 图片组件
      */
     CpImage: typeof import('cyberpunk-ui-vue')['CpImage']
+    /**
+     * CpImagePreview 大图预览组件
+     */
+    CpImagePreview: typeof import('cyberpunk-ui-vue')['CpImagePreview']
     /**
      * CpInput 赛博朋克风格输入框
      * 

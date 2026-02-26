@@ -62,7 +62,7 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ## CpImage 图片
 
-赛博朋克风格图片展示组件，支持懒加载、装饰块、hover 动画、URL 预处理。
+赛博朋克风格图片展示组件，支持懒加载、装饰块、hover 动画、URL 预处理、点击预览。
 
 ### Props
 
@@ -76,6 +76,10 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 | `height`          | `string \| number`                                                      | `''`            | 高度                                      |
 | `lazy`            | `boolean`                                                               | `false`         | 懒加载                                    |
 | `fallbackSrc`     | `string`                                                                | `''`            | 加载失败回退图                            |
+| `preview`         | `boolean`                                                               | `false`         | 开启点击预览                              |
+| `previewSrc`      | `string`                                                                | `''`            | 预览高清图地址（不指定则使用 src）        |
+| `previewSrcList`  | `string[]`                                                              | `[]`            | 多图预览列表（传入后自动启用预览）        |
+| `initialIndex`    | `number`                                                                | `0`             | 预览初始索引（多图模式）                  |
 | `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'`     | 装饰块颜色类型                            |
 | `color`           | `string`                                                                | `''`            | 自定义装饰块颜色（覆盖 type）             |
 | `showDecor`       | `boolean`                                                               | `true`          | 是否显示装饰块（仅 clip 形状）            |
@@ -108,12 +112,85 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 <CpImage src="/image.jpg" hoverable hover-mode="zoom" />
 <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
 
+<!-- 单图预览 -->
+<CpImage src="/image.jpg" preview />
+<CpImage src="/thumb.jpg" preview preview-src="/hd.jpg" />
+
+<!-- 多图预览画廊 -->
+<CpImage
+  v-for="(url, i) in urls"
+  :key="i"
+  :src="url"
+  :preview-src-list="urls"
+  :initial-index="i"
+/>
+
 <!-- 装饰块位置 -->
 <CpImage src="/image.jpg" decor-position="top-right" />
-<CpImage src="/image.jpg" decor-position="bottom-right" type="success" />
 
 <!-- 隐藏装饰块 -->
 <CpImage src="/image.jpg" :show-decor="false" />
+```
+
+---
+
+## CpImagePreview 大图预览
+
+赛博朋克风格全屏大图预览组件，支持缩放、旋转、多图切换、键盘 & 滚轮交互。
+通常通过 `CpImage` 的 `preview` / `previewSrcList` 联动使用，也可独立调用。
+
+### Props
+
+| 属性           | 类型                                                                    | 默认值      | 说明                               |
+| -------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `v-model`      | `boolean`                                                               | `false`     | 控制显隐                           |
+| `urlList`      | `string[]`                                                              | `[]`        | 预览图片列表                       |
+| `initialIndex` | `number`                                                                | `0`         | 初始显示索引                       |
+| `zIndex`       | `number`                                                                | `2000`      | 层级                               |
+| `infinite`     | `boolean`                                                               | `true`      | 是否支持循环切换                   |
+| `teleportTo`   | `string \| HTMLElement`                                                 | `'body'`    | 插入位置                           |
+| `type`         | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 主题变体颜色（影响控制栏中发光色） |
+| `color`        | `string`                                                                | `''`        | 强制指定控制栏主题的发光颜色       |
+| `download`     | `boolean`                                                               | `false`     | 是否允许下载                       |
+
+### 事件
+
+| 事件名              | 参数               | 说明         |
+| ------------------- | ------------------ | ------------ |
+| `update:modelValue` | `(value: boolean)` | v-model 绑定 |
+| `close`             | -                  | 关闭时触发   |
+| `switch`            | `(index: number)`  | 切换图片触发 |
+
+### 暴露方法
+
+| 方法               | 说明          |
+| ------------------ | ------------- |
+| `close()`          | 关闭预览      |
+| `prev()`           | 上一张        |
+| `next()`           | 下一张        |
+| `zoomIn()`         | 放大          |
+| `zoomOut()`        | 缩小          |
+| `rotateLeft()`     | 左旋 90°      |
+| `rotateRight()`    | 右旋 90°      |
+| `resetTransform()` | 还原缩放/旋转 |
+
+### 键盘快捷键
+
+| 按键    | 说明     |
+| ------- | -------- |
+| `ESC`   | 关闭预览 |
+| `← / →` | 切换图片 |
+| `↑ / +` | 放大     |
+| `↓ / -` | 缩小     |
+
+### 示例
+
+```vue
+<!-- 通过 CpImage 联动 -->
+<CpImage src="/image.jpg" preview />
+
+<!-- 独立使用 -->
+<CpImagePreview v-model="showPreview" :url-list="urls" />
 ```
 
 ---
@@ -327,19 +404,42 @@ circle/dashboard 模式下，当 `strokeWidth` 未显式设置时：
 
 ## CpLoading 加载指示器
 
+赛博朋克风格加载器，支持圆形弧线动画（circular）、渐变菊花图（spinner）、实体菊花图（spinner-solid）三种变体。
+
 ### Props
 
-| 属性    | 类型                                       | 默认值      | 说明     |
-| ------- | ------------------------------------------ | ----------- | -------- |
-| `size`  | `'sm' \| 'md' \| 'lg' \| number \| string` | `'md'`      | 尺寸     |
-| `type`  | `'spinner' \| 'dots' \| 'pulse'`           | `'spinner'` | 动画类型 |
-| `color` | `string`                                   | `''`        | 颜色     |
+| 属性          | 类型                                                                    | 默认值       | 说明                                 |
+| ------------- | ----------------------------------------------------------------------- | ------------ | ------------------------------------ |
+| `variant`     | `'circular' \| 'spinner' \| 'spinner-solid'`                            | `'circular'` | 变体：圆形 / 渐变菊花图 / 实体菊花图 |
+| `type`        | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'default'` | `'default'`  | 颜色类型                             |
+| `size`        | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`       | 尺寸（sm=24px, md=40px, lg=56px）    |
+| `color`       | `string`                                                                | `''`         | 自定义颜色（覆盖 type）              |
+| `strokeWidth` | `number`                                                                | `4`          | SVG 描边宽度                         |
+
+### CSS 变量
+
+| 变量                 | 说明                        |
+| -------------------- | --------------------------- |
+| `--cp-loading-color` | 自定义颜色（由 color 设置） |
+| `--cp-loading-size`  | 自定义尺寸（由 size 设置）  |
 
 ### 示例
 
 ```vue
+<!-- 基础用法（默认 circular） -->
 <CpLoading />
-<CpLoading size="lg" type="dots" />
+<CpLoading type="primary" size="lg" />
+
+<!-- 渐变菊花图变体（逐帧旋转） -->
+<CpLoading variant="spinner" />
+<CpLoading variant="spinner" type="success" size="lg" />
+
+<!-- 实体菊花图变体（线性旋转） -->
+<CpLoading variant="spinner-solid" />
+<CpLoading variant="spinner-solid" type="warning" size="lg" />
+
+<!-- 自定义颜色和描边 -->
+<CpLoading color="#00f0ff" :stroke-width="2" />
 ```
 
 ---
@@ -565,17 +665,17 @@ circle/dashboard 模式下，当 `strokeWidth` 未显式设置时：
 
 ### CSS 变量
 
-| 变量                                | 默认值                                | 说明             |
-| ----------------------------------- | ------------------------------------- | ---------------- |
-| `--cp-tree-node-height`             | `32px`                                | 节点高度         |
-| `--cp-tree-indent`                  | `16px`                                | 子级缩进         |
-| `--cp-tree-active-color`            | `var(--cp-color-primary)`             | 高亮主色         |
-| `--cp-tree-active-color-light`      | `var(--cp-color-primary-light)`       | 高亮浅色         |
-| `--cp-tree-connector-color`         | `var(--cp-border)`                    | 普通连接线颜色   |
-| `--cp-tree-connector-active-color`  | `var(--cp-color-primary)`             | 高亮连接线颜色   |
-| `--cp-tree-font-weight`             | `var(--cp-font-weight-medium)`        | 默认字重         |
-| `--cp-tree-active-font-weight`      | `var(--cp-font-weight-semibold)`      | 当前节点字重     |
-| `--cp-tree-font-weight-transition`  | `var(--cp-font-weight-transition-fast)` | 字重过渡时长   |
+| 变量                               | 默认值                                  | 说明           |
+| ---------------------------------- | --------------------------------------- | -------------- |
+| `--cp-tree-node-height`            | `32px`                                  | 节点高度       |
+| `--cp-tree-indent`                 | `16px`                                  | 子级缩进       |
+| `--cp-tree-active-color`           | `var(--cp-color-primary)`               | 高亮主色       |
+| `--cp-tree-active-color-light`     | `var(--cp-color-primary-light)`         | 高亮浅色       |
+| `--cp-tree-connector-color`        | `var(--cp-border)`                      | 普通连接线颜色 |
+| `--cp-tree-connector-active-color` | `var(--cp-color-primary)`               | 高亮连接线颜色 |
+| `--cp-tree-font-weight`            | `var(--cp-font-weight-medium)`          | 默认字重       |
+| `--cp-tree-active-font-weight`     | `var(--cp-font-weight-semibold)`        | 当前节点字重   |
+| `--cp-tree-font-weight-transition` | `var(--cp-font-weight-transition-fast)` | 字重过渡时长   |
 
 ### 示例
 
@@ -841,4 +941,85 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
   <CpTableColumn prop="name" label="姓名" />
 </CpTable>
 <CpPagination v-model:current-page="page" :total="total" />
+```
+
+---
+
+## CpEmpty 空状态
+
+赛博朋克风格空状态组件，用于无数据、无搜索结果等场景。组件始终撑满父容器，水平+垂直居中。
+
+### Props
+
+| 属性          | 类型                                                                    | 默认值       | 说明                    |
+| ------------- | ----------------------------------------------------------------------- | ------------ | ----------------------- |
+| `title`       | `string`                                                                | `'暂无数据'` | 标题（粗体大字）        |
+| `description` | `string`                                                                | `''`         | 描述/副标题（灰色小字） |
+| `image`       | `string`                                                                | `''`         | 自定义图片 URL          |
+| `imageSize`   | `number`                                                                | `64`         | 图标/图片尺寸 (px)      |
+| `type`        | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`  | 颜色类型                |
+| `color`       | `string`                                                                | `''`         | 自定义颜色（覆盖 type） |
+
+### 插槽
+
+| 名称          | 说明                            |
+| ------------- | ------------------------------- |
+| `default`     | 底部操作区域（按钮等）          |
+| `image`       | 自定义图标/图片（替代内置 SVG） |
+| `title`       | 自定义标题内容                  |
+| `description` | 自定义描述内容                  |
+
+### CSS 变量
+
+| 变量                                   | 默认值                     | 说明       |
+| -------------------------------------- | -------------------------- | ---------- |
+| `--cp-empty-image-size`                | `64px`                     | 图标尺寸   |
+| `--cp-empty-title-font-size`           | `16px`                     | 标题字号   |
+| `--cp-empty-title-color`               | `var(--cp-text-secondary)` | 标题颜色   |
+| `--cp-empty-description-font-size`     | `14px`                     | 描述字号   |
+| `--cp-empty-description-color`         | `var(--cp-text-muted)`     | 描述颜色   |
+| `--cp-empty-image-margin`              | `8px`                      | 图标下间距 |
+| `--cp-empty-description-margin-top`    | `8px`                      | 描述上间距 |
+| `--cp-empty-description-margin-bottom` | `8px`                      | 描述下间距 |
+| `--cp-empty-bottom-margin-top`         | `8px`                      | 底部区上距 |
+| `--cp-empty-color`                     | (由 type 决定)             | 主色调     |
+
+### 示例
+
+```vue
+<!-- 基础用法 -->
+<CpEmpty />
+<CpEmpty title="无搜索结果" description="请尝试不同的关键词" />
+
+<!-- 颜色类型 -->
+<CpEmpty type="primary" title="等待解析" description="请先输入内容" />
+
+<!-- 自定义颜色 -->
+<CpEmpty color="#ff6ec7" title="自定义" description="粉色主题" />
+
+<!-- 底部操作 -->
+<CpEmpty title="暂无数据" description="点击刷新加载数据">
+  <CpButton type="primary" size="sm">刷新</CpButton>
+</CpEmpty>
+
+<!-- 自定义图标名称 -->
+<CpEmpty icon="cp-radar" title="没有发现目标" type="warning" />
+
+<!-- 自定义图标插槽 -->
+<CpEmpty title="网络错误" type="error">
+  <template #icon>
+    <MyCustomIcon />
+  </template>
+</CpEmpty>
+
+<!-- SCSS 变量定制 -->
+<CpEmpty
+  title="大号标题"
+  style="
+    --cp-empty-title-font-size: 20px;
+    --cp-empty-image-size: 96px;
+    --cp-empty-image-margin: 16px;
+    --cp-empty-title-margin: 8px;
+  "
+/>
 ```

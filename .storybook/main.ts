@@ -39,18 +39,48 @@ const config: StorybookConfig = {
             autoInstall: true,
         }))
 
+        const workspacePackages = [
+            '@cyberpunk-vue/components',
+            '@cyberpunk-vue/hooks',
+            '@cyberpunk-vue/constants',
+            '@cyberpunk-vue/theme-chalk',
+            'cyberpunk-ui-vue',
+        ]
+
         config.resolve = config.resolve || {}
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            // 子路径导入保持走源码目录
-            '@cyberpunk-vue/components/': `${path.resolve(rootDir, 'packages/components')}/`,
+        const existingAliases = Array.isArray(config.resolve.alias)
+            ? config.resolve.alias
+            : Object.entries(config.resolve.alias || {}).map(([find, replacement]) => ({ find, replacement }))
+
+        const sourceAliases = [
             // 根导入走源码入口，避免落到 package.json 的 dist 入口
-            '@cyberpunk-vue/components': path.resolve(rootDir, 'packages/components/index.ts'),
-            '@cyberpunk-vue/hooks': path.resolve(rootDir, 'packages/hooks/src'),
-            '@cyberpunk-vue/constants': path.resolve(rootDir, 'packages/constants/src'),
-            '@cyberpunk-vue/theme-chalk/': `${path.resolve(rootDir, 'packages/theme-chalk')}/`,
-            '@cyberpunk-vue/theme-chalk': path.resolve(rootDir, 'packages/theme-chalk'),
-        }
+            { find: /^@cyberpunk-vue\/components$/, replacement: path.resolve(rootDir, 'packages/components/index.ts') },
+            // 子路径导入保持走源码目录
+            { find: /^@cyberpunk-vue\/components\/(.*)$/, replacement: `${path.resolve(rootDir, 'packages/components')}/$1` },
+            { find: /^@cyberpunk-vue\/hooks$/, replacement: path.resolve(rootDir, 'packages/hooks/src/index.ts') },
+            { find: /^@cyberpunk-vue\/hooks\/(.*)$/, replacement: `${path.resolve(rootDir, 'packages/hooks/src')}/$1` },
+            { find: /^@cyberpunk-vue\/constants$/, replacement: path.resolve(rootDir, 'packages/constants/src/index.ts') },
+            { find: /^@cyberpunk-vue\/constants\/(.*)$/, replacement: `${path.resolve(rootDir, 'packages/constants/src')}/$1` },
+            { find: /^@cyberpunk-vue\/theme-chalk$/, replacement: path.resolve(rootDir, 'packages/theme-chalk/src/index.scss') },
+            { find: /^@cyberpunk-vue\/theme-chalk\/(.*)$/, replacement: `${path.resolve(rootDir, 'packages/theme-chalk')}/$1` },
+            { find: /^cyberpunk-ui-vue$/, replacement: path.resolve(rootDir, 'packages/cyberpunk-vue/index.ts') },
+            { find: /^cyberpunk-ui-vue\/(.*)$/, replacement: `${path.resolve(rootDir, 'packages/cyberpunk-vue')}/$1` },
+        ]
+
+        const filteredExistingAliases = existingAliases.filter((aliasEntry) => {
+            if (!aliasEntry || typeof aliasEntry !== 'object' || !('find' in aliasEntry)) return true
+
+            const aliasFind = aliasEntry.find
+            if (typeof aliasFind !== 'string') return true
+
+            return !workspacePackages.some((pkgName) => aliasFind === pkgName || aliasFind.startsWith(`${pkgName}/`))
+        })
+
+        config.resolve.alias = [...sourceAliases, ...filteredExistingAliases]
+
+        config.optimizeDeps = config.optimizeDeps || {}
+        const optimizeDepsExclude = Array.isArray(config.optimizeDeps.exclude) ? config.optimizeDeps.exclude : []
+        config.optimizeDeps.exclude = Array.from(new Set([...optimizeDepsExclude, ...workspacePackages]))
         return config
     },
 }

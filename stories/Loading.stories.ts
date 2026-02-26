@@ -44,6 +44,14 @@ const meta: Meta<typeof CpLoading> = {
                 defaultValue: { summary: '4' },
             },
         },
+        variant: {
+            control: 'radio',
+            options: ['circular', 'spinner', 'spinner-solid'],
+            description: '加载器变体',
+            table: {
+                defaultValue: { summary: 'circular' },
+            },
+        },
     },
 }
 
@@ -55,6 +63,7 @@ export const 基础用法: Story = {
     args: {
         type: 'primary',
         size: 'md',
+        variant: 'circular',
     },
     render: (args: any) => ({
         components: { CpLoading },
@@ -149,6 +158,29 @@ export const 加载场景: Story = {
           border-radius: 8px;
         ">
           <CpLoading type="primary" />
+        </div>
+      </div>
+    `,
+    }),
+}
+
+/** 变体 (Variants) */
+export const 变体: Story = {
+    render: () => ({
+        components: { CpLoading },
+        template: `
+      <div style="display: flex; gap: 48px; align-items: center;">
+        <div style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+            <span style="color: var(--cp-text-secondary); font-size: 14px;">circular</span>
+            <CpLoading variant="circular" size="lg" type="primary" />
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+            <span style="color: var(--cp-text-secondary); font-size: 14px;">spinner</span>
+            <CpLoading variant="spinner" size="lg" type="success" />
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+            <span style="color: var(--cp-text-secondary); font-size: 14px;">spinner-solid</span>
+            <CpLoading variant="spinner-solid" size="lg" type="warning" />
         </div>
       </div>
     `,

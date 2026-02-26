@@ -27,7 +27,19 @@ $loading-sizes: (
 
     // ===== SVG 容器 =====
     @include e(svg) {
+        // circular 和 spinner-solid 使用线性旋转
         animation: cp-loading-rotate 2s linear infinite;
+
+        // spinner （渐变款）使用逐帧停顿旋转
+        @include when(spinner) {
+            animation-timing-function: steps(12, end);
+            animation-duration: 1s;
+        }
+
+        // 可以稍微加快 spinner-solid 线性旋转的速度（个人感觉1.5s比2s更像菊花图）
+        @include when(spinner-solid) {
+            animation-duration: 1.5s;
+        }
     }
 
     // ===== 轨道 (半透明背景圆) =====

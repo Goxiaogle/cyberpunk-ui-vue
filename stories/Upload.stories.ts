@@ -247,6 +247,8 @@ export const 图片卡片: Story = {
         listType: 'picture-card',
         accept: 'image/*',
         multiple: true,
+        preview: true,
+        download: true,
     },
     render: (args: any) => ({
         components: { CpUpload },
@@ -255,7 +257,10 @@ export const 图片卡片: Story = {
             return { args, fileList }
         },
         template: `
-      <CpUpload v-model="fileList" v-bind="args" />
+      <div>
+        <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">支持点击图片卡片上方放大镜（预览 / 下载）</h4>
+        <CpUpload v-model="fileList" v-bind="args" />
+      </div>
     `,
     }),
 }
@@ -359,9 +364,20 @@ export const 表单集成: Story = {
             <CpUpload
               v-model="form.files"
               :action="UPLOAD_URL"
+              type="primary"
               drag
               multiple
             />
+            <div v-if="form.files.length > 0" style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+              <div
+                v-for="file in form.files"
+                :key="file.uid"
+                style="font-size: 12px; color: var(--cp-text-muted); font-family: var(--cp-font-family-mono); word-break: break-all;"
+              >
+                <span style="color: var(--cp-text-secondary);">{{ file.name }}:</span>
+                {{ file.url || '未生成 URL' }}
+              </div>
+            </div>
           </CpFormItem>
           <CpFormItem>
             <CpButton @click="handleSubmit">提交</CpButton>
@@ -405,6 +421,80 @@ export const 单图内联预览: Story = {
             style="--cp-upload-card-size: 160px;"
           />
         </div>
+      </div>
+    `,
+    }),
+}
+
+// ===== 图片卡片自定义尺寸 =====
+export const 图片卡片自定义尺寸: Story = {
+    render: () => ({
+        components: { CpUpload },
+        setup() {
+            const f1 = ref<UploadFile[]>([])
+            const f2 = ref<UploadFile[]>([])
+            const f3 = ref<UploadFile[]>([])
+            return { f1, f2, f3, UPLOAD_URL }
+        },
+        template: `
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">横向 16:9 (240×135)</h4>
+          <CpUpload
+            v-model="f1"
+            :action="UPLOAD_URL"
+            list-type="picture-card"
+            accept="image/*"
+            multiple
+            style="--cp-upload-card-width: 240px; --cp-upload-card-height: 135px;"
+          />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">纵向 3:4 (120×160)</h4>
+          <CpUpload
+            v-model="f2"
+            :action="UPLOAD_URL"
+            list-type="picture-card"
+            accept="image/*"
+            multiple
+            style="--cp-upload-card-width: 120px; --cp-upload-card-height: 160px;"
+          />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">宽幅 Banner (320×100, round) - 单图模式</h4>
+          <CpUpload
+            v-model="f3"
+            :action="UPLOAD_URL"
+            list-type="picture-card"
+            accept="image/*"
+            :limit="1"
+            shape="round"
+            style="--cp-upload-card-width: 320px; --cp-upload-card-height: 100px;"
+          />
+        </div>
+      </div>
+    `,
+    }),
+}
+
+// ===== 图片卡片拖拽上传 =====
+export const 图片卡片拖拽上传: Story = {
+    render: () => ({
+        components: { CpUpload },
+        setup() {
+            const fileList = ref<UploadFile[]>([])
+            return { fileList, UPLOAD_URL }
+        },
+        template: `
+      <div>
+        <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">拖拽文件到 "+" 卡片上查看高亮效果</h4>
+        <CpUpload
+          v-model="fileList"
+          :action="UPLOAD_URL"
+          list-type="picture-card"
+          accept="image/*"
+          multiple
+        />
       </div>
     `,
     }),
@@ -485,6 +575,64 @@ export const Placeholder插槽: Story = {
               <span style="font-size: 12px; color: var(--cp-text-muted);">添加图片</span>
             </template>
           </CpUpload>
+        </div>
+      </div>
+    `,
+    }),
+}
+
+// ===== 减淡模式 =====
+export const 减淡模式: Story = {
+    render: () => ({
+        components: { CpUpload },
+        setup() {
+            const f1 = ref<UploadFile[]>([])
+            const f2 = ref<UploadFile[]>([])
+            const f3 = ref<UploadFile[]>([])
+            return { f1, f2, f3, UPLOAD_URL }
+        },
+        template: `
+      <div style="display: flex; flex-direction: column; gap: 24px; width: 500px;">
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">BUTTON — dimmed + type="primary"</h4>
+          <CpUpload v-model="f1" :action="UPLOAD_URL" type="primary" dimmed />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">DRAG — dimmed + type="warning"</h4>
+          <CpUpload v-model="f2" :action="UPLOAD_URL" type="warning" drag dimmed />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">PICTURE-CARD — dimmed + type="success"</h4>
+          <CpUpload v-model="f3" :action="UPLOAD_URL" list-type="picture-card" accept="image/*" type="success" dimmed multiple />
+        </div>
+      </div>
+    `,
+    }),
+}
+
+// ===== 成功边框颜色 =====
+export const 成功边框颜色: Story = {
+    render: () => ({
+        components: { CpUpload },
+        setup() {
+            const f1 = ref<UploadFile[]>([])
+            const f2 = ref<UploadFile[]>([])
+            const f3 = ref<UploadFile[]>([])
+            return { f1, f2, f3, UPLOAD_URL }
+        },
+        template: `
+      <div style="display: flex; flex-direction: column; gap: 24px; width: 500px;">
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">successType="primary" — 上传成功后边框显示 primary 色</h4>
+          <CpUpload v-model="f1" :action="UPLOAD_URL" type="primary" success-type="primary" />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">successType="#ff00ff" — 自定义颜色</h4>
+          <CpUpload v-model="f2" :action="UPLOAD_URL" success-type="#ff00ff" />
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">默认（跟随 type="warning"）</h4>
+          <CpUpload v-model="f3" :action="UPLOAD_URL" type="warning" />
         </div>
       </div>
     `,

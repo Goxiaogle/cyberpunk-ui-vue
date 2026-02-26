@@ -346,6 +346,60 @@ export const 虚线边框: Story = {
   }),
 }
 
+/** 减淡模式 (Dimmed) */
+export const 减淡模式: Story = {
+  render: () => ({
+    components: { CpButton },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 开启 <code style="color: var(--cp-color-primary);">dimmed</code> 后，按钮平时维持 default 外观，仅在 Hover 时显现主题色。（默认 type 不受影响）
+        </p>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="width: 80px; color: #888;">Solid:</span>
+          <CpButton dimmed type="primary">Primary</CpButton>
+          <CpButton dimmed type="success">Success</CpButton>
+          <CpButton dimmed type="warning">Warning</CpButton>
+          <CpButton dimmed type="error">Error</CpButton>
+          <CpButton dimmed type="info">Info</CpButton>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="width: 80px; color: #888;">Outline:</span>
+          <CpButton dimmed variant="outline" type="primary">Primary</CpButton>
+          <CpButton dimmed variant="outline" type="success">Success</CpButton>
+          <CpButton dimmed variant="outline" type="warning">Warning</CpButton>
+          <CpButton dimmed variant="outline" type="error">Error</CpButton>
+          <CpButton dimmed variant="outline" type="info">Info</CpButton>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="width: 80px; color: #888;">Semi:</span>
+          <CpButton dimmed variant="semi" type="primary">Primary</CpButton>
+          <CpButton dimmed variant="semi" type="success">Success</CpButton>
+          <CpButton dimmed variant="semi" type="warning">Warning</CpButton>
+          <CpButton dimmed variant="semi" type="error">Error</CpButton>
+          <CpButton dimmed variant="semi" type="info">Info</CpButton>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="width: 80px; color: #888;">Ghost:</span>
+          <CpButton dimmed variant="ghost" type="primary">Primary</CpButton>
+          <CpButton dimmed variant="ghost" type="success">Success</CpButton>
+          <CpButton dimmed variant="ghost" type="warning">Warning</CpButton>
+          <CpButton dimmed variant="ghost" type="error">Error</CpButton>
+          <CpButton dimmed variant="ghost" type="info">Info</CpButton>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="width: 80px; color: #888;">Neon:</span>
+          <CpButton dimmed variant="neon" type="primary">Primary</CpButton>
+          <CpButton dimmed variant="neon" type="success">Success</CpButton>
+          <CpButton dimmed variant="neon" type="warning">Warning</CpButton>
+          <CpButton dimmed variant="neon" type="error">Error</CpButton>
+          <CpButton dimmed variant="neon" type="info">Info</CpButton>
+        </div>
+      </div>
+    `,
+  }),
+}
+
 /** 暗黑/日间模式 */
 export const 主题模式: Story = {
   render: () => ({
@@ -771,6 +825,45 @@ export const 高度控制: Story = {
           <div style="display: flex; gap: 12px; align-items: center;">
             <CpButton :icon="MdiCog" size="50px" type="primary" />
             <CpButton :icon="MdiCog" size="30px" type="success" />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 装饰块控制 (Decoration Block) */
+export const 装饰块控制: Story = {
+  name: '装饰块控制 Decoration',
+  render: () => ({
+    components: { CpButton },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p style="color: var(--cp-text-secondary); font-size: 14px; margin: 0;">
+          💡 只有在 <code style="color: var(--cp-color-primary);">shape="clip"</code>（默认形状）时才有装饰块。<br/>
+          - 默认显示装饰块，尺寸及自适应：当 <code style="color: var(--cp-color-primary);">size="sm"</code> 或高度 &le; 24px 时，装饰块会自动缩小。<br/>
+          - 可以通过 <code style="color: var(--cp-color-primary);">:decoration="false"</code> 隐藏装饰块。
+        </p>
+        
+        <!-- 自动缩小演示 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">1. 小尺寸自动缩小</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton size="lg" type="primary">Large</CpButton>
+            <CpButton size="md" type="success">Medium</CpButton>
+            <CpButton size="sm" type="warning">Small</CpButton>
+            <CpButton size="20px" type="error">20px 高度</CpButton>
+          </div>
+        </div>
+
+        <!-- 隐藏装饰块 -->
+        <div>
+          <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0 0 8px;">2. 隐藏装饰块 (decoration="false")</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <CpButton :decoration="false" type="primary">隐藏装饰块</CpButton>
+            <CpButton :decoration="false" type="success" variant="outline">隐藏装饰块</CpButton>
+            <CpButton :decoration="false" type="warning" variant="semi">隐藏装饰块</CpButton>
+            <CpButton :decoration="false" type="error" variant="neon">隐藏装饰块</CpButton>
           </div>
         </div>
       </div>
