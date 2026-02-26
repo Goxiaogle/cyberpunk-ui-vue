@@ -647,14 +647,15 @@
   // ===== 折叠时尺寸锁定 =====
   // 避免 Grid/Flex=1 场景下，展开首帧立刻被父布局拉伸导致头部抖动
   @include when(collapse-size-locked) {
-    // 强制解除由于外层 Grid 或 Flex=1 引起的高度拉伸，确保卡片视觉上能够真正收起
-    // 移除 align-self 防止在 flex-column 中宽度被压缩，改用 height: fit-content 防止纵向拉伸
-    flex-grow: 0 !important;
-    height: fit-content !important;
+    // 用完整 flex shorthand 覆盖行内 style="flex: 1"，避免折叠态仍被父容器拉满
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
 
     .cp-card__container {
-      flex: none !important;
-      height: fit-content !important;
+      flex: 0 0 auto !important;
+      height: auto !important;
+      min-height: 0 !important;
     }
   }
 
