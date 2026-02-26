@@ -634,6 +634,16 @@
     }
   }
 
+  // ===== 展开时外壳高度过渡 =====
+  // 解决 flex=1 场景下外壳瞬间跳到最终高度、内容单独过渡的问题
+  @include when(expanding-host) {
+    transition:
+      height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color var(--cp-card-dimmed-duration, 0.3s) ease,
+      filter var(--cp-card-dimmed-duration, 0.3s) ease,
+      box-shadow var(--cp-card-dimmed-duration, 0.3s) ease;
+  }
+
   // ===== 折叠过渡动画 (Collapse Transition) =====
   @include e(collapse-transition) {
     display: grid;
