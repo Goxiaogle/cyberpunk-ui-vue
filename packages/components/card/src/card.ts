@@ -314,6 +314,14 @@ export const cardProps = {
     default: false,
   },
   /**
+   * 是否折叠卡片（仅显示头部）
+   * @default false
+   */
+  collapse: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * 自定义边框颜色
    */
   borderColor: String,

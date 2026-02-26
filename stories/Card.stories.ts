@@ -1,4 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/vue3-vite'
+import { ref } from 'vue'
 import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon} from '@cyberpunk-vue/components'
 
 // 资产管理卡片示例所需图标 (使用 MDI 填充图标)
@@ -208,6 +209,13 @@ const meta: Meta<typeof CpCard> = {
         hoverScale: {
             control: 'boolean',
             description: 'Card hover 时放大效果',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
+        },
+        collapse: {
+            control: 'boolean',
+            description: '是否折叠卡片（仅显示头部）',
             table: {
                 defaultValue: {summary: 'false'},
             },
@@ -653,6 +661,56 @@ export const 覆层效果类型: Story = {
                 <template #overlay>
                   <CpButton size="sm" variant="neon" style="width: 100%;">霓虹操作</CpButton>
                 </template>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 折叠模式 */
+export const 折叠模式: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpImage},
+        setup() {
+            const isCollapsed = ref(true)
+            const toggleCollapse = () => {
+                isCollapsed.value = !isCollapsed.value
+            }
+            return { isCollapsed, toggleCollapse }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; gap: 16px;">
+              <CpButton @click="toggleCollapse" type="primary">
+                {{ isCollapsed ? '展开卡片' : '折叠卡片' }}
+              </CpButton>
+            </div>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+              <CpCard title="受控制的卡片" :collapse="isCollapsed" style="width: 300px;">
+                <p>点击上方按钮体验平滑的折叠动画。</p>
+                <p>内容高度由 CSS Grid 自动处理。</p>
+                <template #footer>
+                  <CpButton size="sm">底部动作区</CpButton>
+                </template>
+              </CpCard>
+
+              <CpCard title="带封面的卡片" :collapse="isCollapsed" style="width: 300px;" type="success">
+                <template #cover>
+                  <CpImage src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400" :height="120" fit="cover" />
+                </template>
+                <p>封面图也会平滑折叠。</p>
+                <template #footer>
+                  <CpButton size="sm" type="success">进入</CpButton>
+                </template>
+              </CpCard>
+              
+              <CpCard title="只有 Header" :collapse="isCollapsed" style="width: 300px;" type="warning">
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" type="warning">操作</CpButton>
+                </template>
+                <p>只有头部时，折叠也不会影响整体渲染，依然稳定。</p>
               </CpCard>
             </div>
           </div>

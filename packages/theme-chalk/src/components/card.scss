@@ -625,5 +625,45 @@
       transform: scale(0.99);
     }
   }
+
+  // ===== 折叠过渡动画 (Collapse Transition) =====
+  @include e(collapse-transition) {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: 
+      grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: visible;
+  }
+
+  @include e(collapse-inner) {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // ===== 折叠模式 (Collapsed) =====
+  @include when(collapsed) {
+    .cp-card__header {
+      border-bottom-color: transparent;
+      transition-delay: 0s;
+    }
+    
+    .cp-card__collapse-transition {
+      grid-template-rows: 0fr;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    // Overlay fades out when collapsed
+    .cp-card__overlay-backdrop,
+    .cp-card__overlay {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
 }
 

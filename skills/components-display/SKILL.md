@@ -11,22 +11,23 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ### Props
 
-| 属性                | 类型                                                                    | 默认值      | 说明                   |
-| ------------------- | ----------------------------------------------------------------------- | ----------- | ---------------------- |
-| `title`             | `string`                                                                | `''`        | 卡片标题               |
-| `type`              | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型               |
-| `variant`           | `'solid' \| 'outline' \| 'semi' \| 'ghost'`                             | `'solid'`   | 变体                   |
-| `shape`             | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                   |
-| `shadow`            | `'always' \| 'hover' \| 'never'`                                        | `'hover'`   | 阴影时机               |
-| `color`             | `string`                                                                | `''`        | 自定义主题色           |
-| `bgColor`           | `string`                                                                | `''`        | 自定义背景（支持渐变） |
-| `borderColor`       | `string`                                                                | -           | 边框颜色               |
-| `bodyPadding`       | `string`                                                                | -           | 内容区内边距           |
-| `headerBorder`      | `boolean`                                                               | `true`      | 头部分隔线             |
-| `footerBorder`      | `boolean`                                                               | `true`      | 底部分隔线             |
-| `dimmed`            | `boolean`                                                               | `false`     | 减淡模式               |
-| `hoverScale`        | `boolean`                                                               | `false`     | 悬停放大效果           |
-| `triggerImageHover` | `boolean`                                                               | `false`     | 触发内部图片 hover     |
+| 属性                | 类型                                                                    | 默认值      | 说明                       |
+| ------------------- | ----------------------------------------------------------------------- | ----------- | -------------------------- |
+| `title`             | `string`                                                                | `''`        | 卡片标题                   |
+| `type`              | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                   |
+| `variant`           | `'solid' \| 'outline' \| 'semi' \| 'ghost'`                             | `'solid'`   | 变体                       |
+| `shape`             | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                       |
+| `shadow`            | `'always' \| 'hover' \| 'never'`                                        | `'hover'`   | 阴影时机                   |
+| `color`             | `string`                                                                | `''`        | 自定义主题色               |
+| `bgColor`           | `string`                                                                | `''`        | 自定义背景（支持渐变）     |
+| `borderColor`       | `string`                                                                | -           | 边框颜色                   |
+| `bodyPadding`       | `string`                                                                | -           | 内容区内边距               |
+| `headerBorder`      | `boolean`                                                               | `true`      | 头部分隔线                 |
+| `footerBorder`      | `boolean`                                                               | `true`      | 底部分隔线                 |
+| `dimmed`            | `boolean`                                                               | `false`     | 减淡模式                   |
+| `hoverScale`        | `boolean`                                                               | `false`     | 悬停放大效果               |
+| `triggerImageHover` | `boolean`                                                               | `false`     | 触发内部图片 hover         |
+| `collapse`          | `boolean`                                                               | `false`     | 是否折叠卡片（仅显示头部） |
 
 ### 覆层 Props
 

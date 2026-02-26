@@ -28,6 +28,7 @@ const rootClasses = computed(() => [
   ns.is('dimmed', props.dimmed),
   ns.is('trigger-image-hover', props.triggerImageHover),
   ns.is('hover-scale', props.hoverScale),
+  ns.is('collapsed', props.collapse),
 ])
 
 const cardClasses = computed(() => [
@@ -110,8 +111,11 @@ const realBodyStyle = computed(() => {
 
 // 是否显示头部区域
 const showHeader = computed(() => 
-  props.title || slots.header || slots.title || slots.extra
+  !!(props.title || slots.header || slots.title || slots.extra)
 )
+
+// 是否显示卡片整体
+const showCard = computed(() => !props.collapse || showHeader.value)
 
 // 是否显示底部区域
 const hasFooter = computed(() => !!slots.footer)
@@ -169,11 +173,15 @@ const overlayStyle = computed(() => ({
 </script>
 
 <template>
-  <div :class="rootClasses" :style="cardStyle">
+  <div v-show="showCard" :class="rootClasses" :style="cardStyle">
     <div :class="cardClasses" :style="backgroundStyle">
       <!-- Cover -->
-      <div v-if="$slots.cover" :class="ns.e('cover')">
-        <slot name="cover" />
+      <div v-if="$slots.cover" :class="ns.e('collapse-transition')">
+        <div :class="ns.e('collapse-inner')">
+          <div :class="ns.e('cover')">
+            <slot name="cover" />
+          </div>
+        </div>
       </div>
 
       <!-- Header -->
@@ -188,14 +196,19 @@ const overlayStyle = computed(() => ({
         </slot>
       </div>
 
-      <!-- Body -->
-      <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
-        <slot />
-      </div>
+      <!-- Body & Footer Wrapper for Collapse Animation -->
+      <div :class="ns.e('collapse-transition')">
+        <div :class="ns.e('collapse-inner')">
+          <!-- Body -->
+          <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
+            <slot />
+          </div>
 
-      <!-- Footer -->
-      <div v-if="hasFooter" :class="footerClasses">
-        <slot name="footer" />
+          <!-- Footer -->
+          <div v-if="hasFooter" :class="footerClasses">
+            <slot name="footer" />
+          </div>
+        </div>
       </div>
 
       <!-- Overlay Backdrop (covers entire card with blur/color effect) -->
