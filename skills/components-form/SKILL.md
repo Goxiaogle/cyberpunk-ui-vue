@@ -536,36 +536,38 @@ interface SegmentedOption {
 
 ### Props
 
-| 属性              | 类型                                                                    | 默认值      | 说明                                                                   |
-| ----------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------- |
-| `v-model`         | `UploadFile[]`                                                          | `[]`        | 文件列表                                                               |
-| `action`          | `string`                                                                | `''`        | 上传地址                                                               |
-| `headers`         | `Record<string, string>`                                                | `{}`        | 请求头                                                                 |
-| `data`            | `Record<string, string>`                                                | `{}`        | 附加参数                                                               |
-| `name`            | `string`                                                                | `'file'`    | 上传字段名                                                             |
-| `accept`          | `string`                                                                | `''`        | 接受的文件类型（原生 accept）                                          |
-| `multiple`        | `boolean`                                                               | `false`     | 是否多文件                                                             |
-| `limit`           | `number`                                                                | `0`         | 最大文件数（0 = 无限制）                                               |
-| `maxSize`         | `number`                                                                | `0`         | 最大文件大小 bytes（0 = 无限制）                                       |
-| `disabled`        | `boolean`                                                               | `false`     | 禁用                                                                   |
-| `drag`            | `boolean`                                                               | `false`     | 拖拽上传模式                                                           |
-| `autoUpload`      | `boolean`                                                               | `true`      | 选择后自动上传                                                         |
-| `listType`        | `'text' \| 'picture' \| 'picture-card'`                                 | `'text'`    | 文件列表展示类型                                                       |
-| `showFileList`    | `boolean`                                                               | `true`      | 是否显示文件列表                                                       |
-| `variant`         | `'outline' \| 'dashed' \| 'filled' \| 'ghost'`                          | `'dashed'`  | 变体样式                                                               |
-| `shape`           | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                                                                   |
-| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                                                               |
-| `color`           | `string`                                                                | `''`        | 自定义颜色（覆盖 type）                                                |
-| `size`            | `Size`                                                                  | `'md'`      | 按钮尺寸                                                               |
-| `httpRequest`     | `(options: UploadRequestOptions) => Promise \| void`                    | —           | 自定义上传函数                                                         |
-| `beforeUpload`    | `(file: File) => boolean \| Promise<boolean>`                           | —           | 上传前钩子                                                             |
-| `onExceed`        | `(files: File[], fileList: UploadFile[]) => void`                       | —           | 超限回调                                                               |
-| `preview`         | `boolean`                                                               | `false`     | 卡片模式下是否开启图片大图预览                                         |
-| `download`        | `boolean`                                                               | `false`     | 卡片模式下预览图片时，是否允许下载图片                                 |
-| `inlinePreview`   | `boolean`                                                               | `undefined` | 单图内联预览。`limit=1 + picture-card` 时默认启用，可显式 `false` 关闭 |
-| `showInnerStripe` | `boolean`                                                               | `false`     | CpProgress 内圈虚线装饰                                                |
-| `placeholder`     | `string`                                                                | `undefined` | 自定义触发器文案                                                       |
-| `placeholderIcon` | `Component`                                                             | `undefined` | 自定义触发器图标组件                                                   |
+| 属性              | 类型                                                                    | 默认值      | 说明                                                                     |
+| ----------------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------ |
+| `v-model`         | `UploadFile[]`                                                          | `[]`        | 文件列表                                                                 |
+| `action`          | `string`                                                                | `''`        | 上传地址                                                                 |
+| `headers`         | `Record<string, string>`                                                | `{}`        | 请求头                                                                   |
+| `data`            | `Record<string, string>`                                                | `{}`        | 附加参数                                                                 |
+| `name`            | `string`                                                                | `'file'`    | 上传字段名                                                               |
+| `accept`          | `string`                                                                | `''`        | 接受的文件类型（原生 accept）                                            |
+| `multiple`        | `boolean`                                                               | `false`     | 是否多文件                                                               |
+| `limit`           | `number`                                                                | `0`         | 最大文件数（0 = 无限制）                                                 |
+| `maxSize`         | `number`                                                                | `0`         | 最大文件大小 bytes（0 = 无限制）                                         |
+| `disabled`        | `boolean`                                                               | `false`     | 禁用                                                                     |
+| `drag`            | `boolean`                                                               | `false`     | 拖拽上传模式                                                             |
+| `autoUpload`      | `boolean`                                                               | `true`      | 选择后自动上传                                                           |
+| `listType`        | `'text' \| 'picture' \| 'picture-card'`                                 | `'text'`    | 文件列表展示类型                                                         |
+| `showFileList`    | `boolean`                                                               | `true`      | 是否显示文件列表                                                         |
+| `variant`         | `'outline' \| 'dashed' \| 'filled' \| 'ghost'`                          | `'dashed'`  | 变体样式                                                                 |
+| `shape`           | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                                                                     |
+| `type`            | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                                                                 |
+| `color`           | `string`                                                                | `''`        | 自定义颜色（覆盖 type）                                                  |
+| `size`            | `Size`                                                                  | `'md'`      | 按钮尺寸                                                                 |
+| `httpRequest`     | `(options: UploadRequestOptions) => Promise \| void`                    | —           | 自定义上传函数                                                           |
+| `beforeUpload`    | `(file: File) => boolean \| Promise<boolean>`                           | —           | 上传前钩子                                                               |
+| `onExceed`        | `(files: File[], fileList: UploadFile[]) => void`                       | —           | 超限回调                                                                 |
+| `preview`         | `boolean`                                                               | `false`     | 卡片模式下是否开启图片大图预览                                           |
+| `download`        | `boolean`                                                               | `false`     | 卡片模式下预览图片时，是否允许下载图片                                   |
+| `inlinePreview`   | `boolean`                                                               | `undefined` | 单图内联预览。`limit=1 + picture-card` 时默认启用，可显式 `false` 关闭   |
+| `showInnerStripe` | `boolean`                                                               | `false`     | CpProgress 内圈虚线装饰                                                  |
+| `placeholder`     | `string`                                                                | `undefined` | 自定义触发器文案                                                         |
+| `placeholderIcon` | `Component`                                                             | `undefined` | 自定义触发器图标组件                                                     |
+| `dimmed`          | `boolean`                                                               | `false`     | 减淡模式，默认态无色彩，hover 时显示主题色（穿透给 CpButton）            |
+| `successType`     | `string`                                                                | `undefined` | 上传成功边框颜色，可传 type 关键词或自定义 CSS 颜色，默认跟随 type/color |
 
 ### 类型定义
 
@@ -619,12 +621,13 @@ interface UploadRequestOptions {
 
 ### CSS 变量
 
-| 变量                       | 默认值                    | 说明                   |
-| -------------------------- | ------------------------- | ---------------------- |
-| `--cp-upload-color`        | `var(--cp-color-primary)` | 主题色（hover / 激活） |
-| `--cp-upload-border-color` | `var(--cp-border)`        | 边框颜色               |
-| `--cp-upload-bg`           | `var(--cp-bg-elevated)`   | 背景色                 |
-| `--cp-upload-card-size`    | `120px`                   | picture-card 卡片尺寸  |
+| 变量                        | 默认值                    | 说明                   |
+| --------------------------- | ------------------------- | ---------------------- |
+| `--cp-upload-color`         | `var(--cp-color-primary)` | 主题色（hover / 激活） |
+| `--cp-upload-border-color`  | `var(--cp-border)`        | 边框颜色               |
+| `--cp-upload-bg`            | `var(--cp-bg-elevated)`   | 背景色                 |
+| `--cp-upload-card-size`     | `120px`                   | picture-card 卡片尺寸  |
+| `--cp-upload-success-color` | `var(--cp-color-success)` | 上传成功边框颜色       |
 
 ### 示例
 
@@ -681,4 +684,11 @@ interface UploadRequestOptions {
     <CpUpload v-model="form.files" action="/api/upload" drag />
   </CpFormItem>
 </CpForm>
+
+<!-- 减淡模式：默认态无色彩，hover 时显示主题色 -->
+<CpUpload v-model="fileList" action="/api/upload" type="primary" dimmed drag />
+
+<!-- 成功边框颜色自定义 -->
+<CpUpload v-model="fileList" action="/api/upload" success-type="primary" />
+<CpUpload v-model="fileList" action="/api/upload" success-type="#ff00ff" />
 ```
