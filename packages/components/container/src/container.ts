@@ -44,6 +44,14 @@ const layoutScrollOverlayProps = {
  */
 const layoutDividerProps = {
     /**
+     * 是否显示分割线
+     * @default true
+     */
+    divider: {
+        type: Boolean,
+        default: true,
+    },
+    /**
      * 分割线颜色类型预设
      * @default 'default'
      */

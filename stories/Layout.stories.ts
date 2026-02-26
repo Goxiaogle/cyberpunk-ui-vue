@@ -853,3 +853,55 @@ export const 高度获取与占位块自定义: Story = {
     `,
   }),
 }
+
+/** 隐藏分割线 — 通过 divider prop 控制分割线显示 */
+export const 隐藏分割线: Story = {
+  render: () => ({
+    components: { CpContainer, CpHeader, CpMain, CpFooter, CpAside, CpText, CpTag, CpDivider },
+    template: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
+        <div style="height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+          <CpContainer>
+            <CpHeader>
+              <CpText type="primary" bold :size="14">默认（divider = true）</CpText>
+              <div style="flex: 1;" />
+              <CpTag type="success" size="sm">显示分割线</CpTag>
+            </CpHeader>
+            <CpContainer>
+              <CpAside width="140px">
+                <CpText type="muted" :size="12" style="padding: 12px;">侧边栏</CpText>
+              </CpAside>
+              <CpMain style="--cp-main-padding: 16px;">
+                <CpText type="secondary">Header、Footer、Aside 均显示默认分割线。</CpText>
+              </CpMain>
+            </CpContainer>
+            <CpFooter height="48px">
+              <CpText type="muted" :size="12">FOOTER</CpText>
+            </CpFooter>
+          </CpContainer>
+        </div>
+
+        <div style="height: 360px; border: 1px solid var(--cp-border); overflow: hidden;">
+          <CpContainer>
+            <CpHeader :divider="false">
+              <CpText type="warning" bold :size="14">隐藏（divider = false）</CpText>
+              <div style="flex: 1;" />
+              <CpTag type="warning" size="sm">隐藏分割线</CpTag>
+            </CpHeader>
+            <CpContainer>
+              <CpAside width="140px" :divider="false">
+                <CpText type="muted" :size="12" style="padding: 12px;">侧边栏</CpText>
+              </CpAside>
+              <CpMain style="--cp-main-padding: 16px;">
+                <CpText type="secondary">Header、Footer、Aside 的分割线均已隐藏，同时底部/顶部 border 也一并移除。</CpText>
+              </CpMain>
+            </CpContainer>
+            <CpFooter height="48px" :divider="false">
+              <CpText type="muted" :size="12">FOOTER</CpText>
+            </CpFooter>
+          </CpContainer>
+        </div>
+      </div>
+    `,
+  }),
+}

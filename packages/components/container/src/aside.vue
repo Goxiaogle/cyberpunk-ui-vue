@@ -60,12 +60,12 @@ defineExpose({
     :style="style"
     :data-position="props.position"
   >
-    <CpDivider v-if="isRight" v-bind="dividerProps" :class="ns.e('divider')" />
+    <CpDivider v-if="isRight && props.divider" v-bind="dividerProps" :class="ns.e('divider')" />
     <div ref="contentRef" :class="ns.e('content')">
       <div :class="ns.e('inner')">
         <slot />
       </div>
     </div>
-    <CpDivider v-if="!isRight" v-bind="dividerProps" :class="ns.e('divider')" />
+    <CpDivider v-if="!isRight && props.divider" v-bind="dividerProps" :class="ns.e('divider')" />
   </aside>
 </template>

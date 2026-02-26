@@ -39,7 +39,7 @@
     "release:patch": "pnpm release patch",
     "release:minor": "pnpm release minor",
     "release:major": "pnpm release major",
-    "chromatic": "npx chromatic --project-token=chpt_44d614f2e22c45f"
+    "chromatic": "npx chromatic"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

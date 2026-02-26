@@ -51,8 +51,8 @@ defineExpose({
 </script>
 
 <template>
-  <header ref="headerRef" :class="ns.b()" :style="style">
+  <header ref="headerRef" :class="[ns.b(), ns.is('no-divider', !props.divider)]" :style="style">
     <slot />
-    <CpDivider v-bind="dividerProps" :class="ns.e('divider')" />
+    <CpDivider v-if="props.divider" v-bind="dividerProps" :class="ns.e('divider')" />
   </header>
 </template>

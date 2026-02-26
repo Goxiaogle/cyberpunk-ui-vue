@@ -71,6 +71,7 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | 属性             | 类型                                                                    | 默认值      | 说明               |
 | ---------------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
 | `height`         | `string`                                                                | `'60px'`    | 顶栏高度           |
+| `divider`        | `boolean`                                                               | `true`      | 是否显示分割线     |
 | `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设 |
 | `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色   |
 | `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体         |
@@ -96,6 +97,11 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 <CpHeader divider-color="#ff0055" divider-variant="gradient">
   <span>⚠ ALERT MODE</span>
 </CpHeader>
+
+<!-- 隐藏分割线 -->
+<CpHeader :divider="false">
+  <span>◆ NO DIVIDER</span>
+</CpHeader>
 ```
 
 ---
@@ -109,6 +115,7 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | 属性             | 类型                                                                    | 默认值      | 说明               |
 | ---------------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
 | `height`         | `string`                                                                | `'60px'`    | 底栏高度           |
+| `divider`        | `boolean`                                                               | `true`      | 是否显示分割线     |
 | `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设 |
 | `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色   |
 | `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体         |
@@ -147,6 +154,7 @@ description: 布局组件的详细属性参考：Container、Header、Footer、M
 | ---------------- | ----------------------------------------------------------------------- | ----------- | -------------------------- |
 | `width`          | `string`                                                                | `'300px'`   | 侧边栏宽度                 |
 | `position`       | `'left' \| 'right'`                                                     | `'left'`    | 侧边栏位置，控制分割线方向 |
+| `divider`        | `boolean`                                                               | `true`      | 是否显示分割线             |
 | `dividerType`    | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 分割线颜色类型预设         |
 | `dividerColor`   | `string`                                                                | `''`        | 自定义分割线颜色           |
 | `dividerVariant` | `'solid' \| 'gradient' \| 'glow'`                                       | `'solid'`   | 分割线变体                 |
