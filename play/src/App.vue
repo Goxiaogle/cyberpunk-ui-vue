@@ -21,6 +21,10 @@ import {
   LockClosedOutline,
   DesktopOutline
 } from '@vicons/ionicons5'
+import {ref} from "vue";
+
+const scriptExpanded = ref(false);
+const scriptExpanded2 = ref(false);
 </script>
 
 <template>
@@ -106,12 +110,87 @@ import {
 
             <div class="demo-card-grid">
 
-              <CpCard variant="outline">
-                123
-                <CpCard type="primary" variant="outline">
-                  456
+              <div style="display:flex;flex-direction: column">
+                <CpCard
+                    variant="outline"
+                    class="panel-card"
+                    :collapse="scriptExpanded"
+                    style="flex: 1"
+                >
+                  <template #header>
+                    <div class="panel-title-row">
+                      <CpText bold>1. 剧本输入</CpText>
+                      <CpTag size="sm" variant="outline" type="info">{{ 123 }}</CpTag>
+                      <CpSpacer />
+                      <CpButton
+                          size="sm"
+                          variant="ghost"
+                          :icon="MdiChevronDown"
+                          @click="scriptExpanded = !scriptExpanded"
+                      >
+                        {{ scriptExpanded ? '收起' : '展开' }}
+                      </CpButton>
+                    </div>
+                  </template>
+
+                  <CpTextarea
+                      :rows="12"
+                      :maxlength="30000"
+                      show-word-limit
+                      placeholder="在此粘贴剧本内容..."
+                      style="margin-bottom: 10px"
+                  />
+                  <div class="inline-actions">
+                    <CpButton
+                        type="warning"
+                        :icon="MdiAutoFix"
+                        block
+                    >
+                      开始拆解剧本
+                    </CpButton>
+                  </div>
                 </CpCard>
-              </CpCard>
+
+                <CpCard
+                    variant="outline"
+                    class="panel-card"
+                    :collapse="scriptExpanded2"
+                >
+                  <template #header>
+                    <div class="panel-title-row">
+                      <CpText bold>1. 剧本输入</CpText>
+                      <CpTag size="sm" variant="outline" type="info">{{ 123 }}</CpTag>
+                      <CpSpacer />
+                      <CpButton
+                          size="sm"
+                          variant="ghost"
+                          :icon="MdiChevronDown"
+                          @click="scriptExpanded2 = !scriptExpanded2"
+                      >
+                        {{ scriptExpanded2 ? '收起' : '展开' }}
+                      </CpButton>
+                    </div>
+                  </template>
+
+                  <CpTextarea
+                      :rows="12"
+                      :maxlength="30000"
+                      show-word-limit
+                      placeholder="在此粘贴剧本内容..."
+                      style="margin-bottom: 10px"
+                  />
+                  <div class="inline-actions">
+                    <CpButton
+                        type="warning"
+                        :icon="MdiAutoFix"
+                        block
+                    >
+                      开始拆解剧本
+                    </CpButton>
+                  </div>
+                </CpCard>
+              </div>
+
 
               <CpCard
                 v-for="i in 3"

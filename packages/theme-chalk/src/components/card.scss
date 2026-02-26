@@ -646,6 +646,16 @@
 
   // ===== 折叠模式 (Collapsed) =====
   @include when(collapsed) {
+    // 强制解除由于外层 Grid 或 Flex=1 引起的高度拉伸，确保卡片视觉上能够真正收起
+    // 移除 align-self 防止在 flex-column 中宽度被压缩，改用 height: fit-content 防止纵向拉伸
+    flex-grow: 0 !important;
+    height: fit-content !important;
+
+    .cp-card__container {
+      flex: none !important;
+      height: fit-content !important;
+    }
+
     .cp-card__header {
       border-bottom-color: transparent;
       transition-delay: 0s;
