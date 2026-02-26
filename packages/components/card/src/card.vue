@@ -50,16 +50,8 @@ watch(
       scheduleExpandUnlock()
     }
   },
+  { flush: 'sync' },
 )
-
-const onCollapseTransitionEnd = (event: TransitionEvent) => {
-  if (props.collapse || !isExpanding.value) return
-  if (event.target !== event.currentTarget) return
-  if (event.propertyName !== 'grid-template-rows') return
-
-  isExpanding.value = false
-  clearExpandUnlockTimer()
-}
 
 onBeforeUnmount(() => {
   clearExpandUnlockTimer()
@@ -225,7 +217,7 @@ const overlayStyle = computed(() => ({
   <div v-show="showCard" :class="rootClasses" :style="cardStyle">
     <div :class="cardClasses" :style="backgroundStyle">
       <!-- Cover -->
-      <div v-if="$slots.cover" :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
+      <div v-if="$slots.cover" :class="ns.e('collapse-transition')">
         <div :class="ns.e('collapse-inner')">
           <div :class="ns.e('cover')">
             <slot name="cover" />
@@ -246,7 +238,7 @@ const overlayStyle = computed(() => ({
       </div>
 
       <!-- Body & Footer Wrapper for Collapse Animation -->
-      <div :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
+      <div :class="ns.e('collapse-transition')">
         <div :class="ns.e('collapse-inner')">
           <!-- Body -->
           <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
