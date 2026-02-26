@@ -3,7 +3,7 @@
  * CpCard - 赛博朋克风格卡片容器
  * 支持多种变体、形状模式和灵活的插槽布局
  */
-import { computed, useSlots } from 'vue'
+import { computed, onBeforeUnmount, ref, useSlots, watch } from 'vue'
 import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { cardProps } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -16,6 +16,54 @@ const props = defineProps(cardProps)
 const slots = useSlots()
 
 const ns = useNamespace('card')
+const collapseTransitionDurationMs = 320
+
+const isExpanding = ref(false)
+let expandUnlockTimer: ReturnType<typeof setTimeout> | null = null
+
+const clearExpandUnlockTimer = () => {
+  if (expandUnlockTimer !== null) {
+    clearTimeout(expandUnlockTimer)
+    expandUnlockTimer = null
+  }
+}
+
+const scheduleExpandUnlock = () => {
+  clearExpandUnlockTimer()
+  expandUnlockTimer = setTimeout(() => {
+    isExpanding.value = false
+    expandUnlockTimer = null
+  }, collapseTransitionDurationMs)
+}
+
+watch(
+  () => props.collapse,
+  (collapsed, prevCollapsed) => {
+    if (collapsed) {
+      isExpanding.value = false
+      clearExpandUnlockTimer()
+      return
+    }
+
+    if (prevCollapsed) {
+      isExpanding.value = true
+      scheduleExpandUnlock()
+    }
+  },
+)
+
+const onCollapseTransitionEnd = (event: TransitionEvent) => {
+  if (props.collapse || !isExpanding.value) return
+  if (event.target !== event.currentTarget) return
+  if (event.propertyName !== 'grid-template-rows') return
+
+  isExpanding.value = false
+  clearExpandUnlockTimer()
+}
+
+onBeforeUnmount(() => {
+  clearExpandUnlockTimer()
+})
 
 const rootClasses = computed(() => [
   ns.b(),
@@ -28,6 +76,7 @@ const rootClasses = computed(() => [
   ns.is('dimmed', props.dimmed),
   ns.is('trigger-image-hover', props.triggerImageHover),
   ns.is('hover-scale', props.hoverScale),
+  ns.is('collapse-size-locked', props.collapse || isExpanding.value),
   ns.is('collapsed', props.collapse),
 ])
 
@@ -176,7 +225,7 @@ const overlayStyle = computed(() => ({
   <div v-show="showCard" :class="rootClasses" :style="cardStyle">
     <div :class="cardClasses" :style="backgroundStyle">
       <!-- Cover -->
-      <div v-if="$slots.cover" :class="ns.e('collapse-transition')">
+      <div v-if="$slots.cover" :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
         <div :class="ns.e('collapse-inner')">
           <div :class="ns.e('cover')">
             <slot name="cover" />
@@ -197,7 +246,7 @@ const overlayStyle = computed(() => ({
       </div>
 
       <!-- Body & Footer Wrapper for Collapse Animation -->
-      <div :class="ns.e('collapse-transition')">
+      <div :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
         <div :class="ns.e('collapse-inner')">
           <!-- Body -->
           <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
