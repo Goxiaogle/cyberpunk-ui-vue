@@ -16,7 +16,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: all var(--cp-card-dimmed-duration, 0.3s) ease;
+  transition:
+    color var(--cp-card-dimmed-duration, 0.3s) ease,
+    filter var(--cp-card-dimmed-duration, 0.3s) ease,
+    box-shadow var(--cp-card-dimmed-duration, 0.3s) ease;
   // 移除 overflow: hidden，以便展示外部阴影
 
   @include e(container) {
@@ -27,7 +30,12 @@
     background: var(--cp-card-bg);
     border: 1px solid var(--cp-card-border-color, var(--cp-border));
     color: var(--cp-text-primary);
-    transition: all var(--cp-card-dimmed-duration, 0.3s) ease, filter 0.4s ease, opacity 0.4s ease;
+    transition:
+      background var(--cp-card-dimmed-duration, 0.3s) ease,
+      border-color var(--cp-card-dimmed-duration, 0.3s) ease,
+      color var(--cp-card-dimmed-duration, 0.3s) ease,
+      filter 0.4s ease,
+      opacity 0.4s ease;
     width: 100%;
     height: 100%;
     // 隐藏溢出内容，防止覆层动画影响页面布局
@@ -629,6 +637,8 @@
   // ===== 折叠过渡动画 (Collapse Transition) =====
   @include e(collapse-transition) {
     display: grid;
+    min-height: 0;
+    overflow: hidden;
     grid-template-rows: 1fr;
     transition: 
       grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -661,6 +671,17 @@
 
   // ===== 折叠模式 (Collapsed) =====
   @include when(collapsed) {
+    // 兜底：保证折叠落态时一定释放 flex 拉伸
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+
+    .cp-card__container {
+      flex: 0 0 auto !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
     .cp-card__header {
       border-bottom-color: transparent;
       transition-delay: 0s;
