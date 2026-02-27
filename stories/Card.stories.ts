@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon} from '@cyberpunk-vue/components'
+import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon, CpLoading, CpSwitch} from '@cyberpunk-vue/components'
 
 // 资产管理卡片示例所需图标 (使用 MDI 填充图标)
 import MdiCog from '~icons/mdi/cog'
@@ -223,6 +223,35 @@ const meta: Meta<typeof CpCard> = {
         shadowColor: {
             control: 'color',
             description: '自定义阴影颜色 (默认与主题色一致)',
+        },
+        loading: {
+            control: 'boolean',
+            description: '是否处于加载状态 (显示遮罩，阻止用户交互)',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
+        },
+        loadingText: {
+            control: 'text',
+            description: '加载中显示的文字',
+            table: {
+                defaultValue: {summary: '加载中...'},
+            },
+        },
+        loadingClass: {
+            control: 'object',
+            description: '加载遮罩自定义类名',
+        },
+        loadingStyle: {
+            control: 'object',
+            description: '加载遮罩自定义样式',
+        },
+        disabled: {
+            control: 'boolean',
+            description: '是否处于禁用状态 (整体变灰且不可交互)',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
         },
     },
 }
@@ -1209,6 +1238,268 @@ export const 阴影颜色定制: Story = {
               </CpCard>
               <CpCard title="非切角阴影 (Round)" shadowColor="#00ff00" shape="round" shadow="always" style="width: 200px;">
                 <p>非切角模式使用 box-shadow</p>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 内容 Flex 撑满高度 */
+export const 内容Flex撑满高度: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        template: `
+          <div>
+            <h4 style="color: #fff; margin-bottom: 16px;">Card 内部使用 flex: 1 撑满剩余高度</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin-bottom: 20px;">
+              卡片 body 本身是一个 flex column 容器，子元素可以使用 flex: 1 自动填满可用高度。
+            </p>
+            <div style="display: flex; gap: 20px; align-items: stretch;">
+              <CpCard title="固定高度 + flex:1" style="width: 280px; height: 360px;">
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 12px;">
+                  <p style="color: var(--cp-text-secondary); font-size: 12px;">上方内容</p>
+                  <div style="flex: 1; border: 1px dashed rgba(0, 240, 255, 0.3); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--cp-color-primary); font-size: 12px;">
+                    flex: 1 区域（自动撑满）
+                  </div>
+                  <p style="color: var(--cp-text-tertiary); font-size: 10px; text-align: right;">下方内容</p>
+                </div>
+              </CpCard>
+
+              <CpCard title="带 Footer + flex:1" style="width: 280px; height: 360px;" type="success">
+                <div style="flex: 1; border: 1px dashed rgba(0, 255, 136, 0.3); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--cp-color-success); font-size: 12px;">
+                  整个 body 内容区撑满
+                </div>
+                <template #footer>
+                  <CpButton size="sm" type="success">操作</CpButton>
+                </template>
+              </CpCard>
+
+              <CpCard title="Grid 父容器中" variant="outline" type="primary" style="width: 280px; height: 360px;">
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                  <div style="flex: 1; border: 1px dashed rgba(0, 240, 255, 0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--cp-text-secondary);">
+                    区域 A (flex: 1)
+                  </div>
+                  <div style="flex: 1; border: 1px dashed rgba(0, 240, 255, 0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--cp-text-secondary);">
+                    区域 B (flex: 1)
+                  </div>
+                </div>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 加载状态 */
+export const 加载状态: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpLoading, CpSwitch},
+        setup() {
+            const loading1 = ref(true)
+            const loading2 = ref(true)
+            const loading3 = ref(true)
+            return { loading1, loading2, loading3 }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">加载状态 — 遮罩阻止用户交互</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              loading 为 true 时在卡片内容上方显示半透明遮罩 + 加载指示器。可自定义加载文字、遮罩样式，也可通过 #loading 插槽完全自定义。
+            </p>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+              <!-- 基础加载 -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <CpSwitch v-model="loading1" />
+                <CpCard title="默认加载" :loading="loading1" style="width: 280px; height: 200px;">
+                  <p>CPU 使用率: 45%</p>
+                  <p>内存占用: 68%</p>
+                  <p>网络延迟: 12ms</p>
+                </CpCard>
+              </div>
+
+              <!-- 自定义加载文字 -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <CpSwitch v-model="loading2" />
+                <CpCard title="自定义文字" :loading="loading2" loading-text="数据同步中..." type="primary" style="width: 280px; height: 200px;">
+                  <p>正在从远程服务器同步数据</p>
+                  <p>请保持网络连接</p>
+                </CpCard>
+              </div>
+
+              <!-- 无文字 -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <CpSwitch v-model="loading3" />
+                <CpCard title="无文字" :loading="loading3" loading-text="" type="success" variant="outline" style="width: 280px; height: 200px;">
+                  <p>loading-text 设为空字符串时不显示文字</p>
+                </CpCard>
+              </div>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 加载遮罩样式定制 */
+export const 加载遮罩样式定制: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpLoading},
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">遮罩样式定制 — 通过 CSS 变量和 loadingClass / loadingStyle 调节</h4>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+              <!-- 默认效果 -->
+              <CpCard title="默认遮罩" loading style="height: 200px;">
+                <p>默认半透明深色背景 + 轻微模糊</p>
+              </CpCard>
+
+              <!-- 深色高对比 -->
+              <CpCard
+                title="深色高对比"
+                loading
+                type="error"
+                :loadingStyle="{ '--cp-card-loading-bg': 'rgba(0, 0, 0, 0.9)', '--cp-card-loading-backdrop': 'blur(8px)' }"
+                style="height: 200px;"
+              >
+                <p>高对比度深色遮罩</p>
+              </CpCard>
+
+              <!-- 主题色遮罩 -->
+              <CpCard
+                title="主题色遮罩"
+                loading
+                loading-text="处理中..."
+                type="primary"
+                :loadingStyle="{ '--cp-card-loading-bg': 'rgba(0, 100, 200, 0.6)', '--cp-card-loading-text-color': '#fff' }"
+                style="height: 200px;"
+              >
+                <p>主题色半透明遮罩</p>
+              </CpCard>
+
+              <!-- 无模糊 -->
+              <CpCard
+                title="无模糊遮罩"
+                loading
+                loading-text="请稍候"
+                type="warning"
+                :loadingStyle="{ '--cp-card-loading-backdrop': 'none', '--cp-card-loading-bg': 'rgba(30, 30, 10, 0.7)' }"
+                style="height: 200px;"
+              >
+                <p>关闭 backdrop-filter 的遮罩</p>
+              </CpCard>
+            </div>
+
+            <h4 style="color: #fff; margin: 8px 0 0;">自定义加载插槽</h4>
+            <div style="display: flex; gap: 20px;">
+              <CpCard title="#loading 插槽" loading type="info" style="width: 300px; height: 200px;">
+                <p>通过 #loading 插槽完全自定义加载中的内容</p>
+                <template #loading>
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <CpLoading variant="spinner" type="info" size="lg" />
+                    <span style="color: var(--cp-color-info); font-size: 14px; font-weight: 600;">⚡ 正在解析数据...</span>
+                    <span style="color: var(--cp-text-tertiary); font-size: 11px;">预计还需 5 秒</span>
+                  </div>
+                </template>
+              </CpCard>
+
+              <CpCard title="Spinner Solid" loading type="warning" style="width: 300px; height: 200px;">
+                <p>使用 spinner-solid 变体</p>
+                <template #loading>
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <CpLoading variant="spinner-solid" type="warning" size="lg" />
+                    <span style="color: var(--cp-color-warning); font-size: 13px;">AI 生成中...</span>
+                  </div>
+                </template>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 禁用状态 */
+export const 禁用状态: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpSwitch},
+        setup() {
+            const disabled = ref(true)
+            return { disabled }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">禁用状态 — 整体变灰 + 不可交互</h4>
+            <CpSwitch v-model="disabled" />
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <CpCard title="禁用 Solid" :disabled="disabled" style="width: 250px;">
+                <p>内容不可交互</p>
+                <template #footer>
+                  <CpButton size="sm" type="primary">不可点击</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="禁用 Outline" :disabled="disabled" variant="outline" type="primary" style="width: 250px;">
+                <p>Outline 变体禁用</p>
+              </CpCard>
+              <CpCard title="禁用 Semi" :disabled="disabled" variant="semi" type="success" style="width: 250px;">
+                <p>Semi 变体禁用</p>
+              </CpCard>
+              <CpCard title="正常状态" style="width: 250px;" type="warning">
+                <p>此卡片始终正常</p>
+                <template #footer>
+                  <CpButton size="sm" type="warning">可点击</CpButton>
+                </template>
+              </CpCard>
+            </div>
+
+            <h4 style="color: #fff; margin: 8px 0 0;">加载 + 禁用 同时启用</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              loading 和 disabled 可同时生效：遮罩阻止交互，同时卡片整体变灰，适用于后台任务锁定场景。
+            </p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <CpCard title="加载 + 禁用" :loading="disabled" :disabled="disabled" type="error" style="width: 280px; height: 180px;">
+                <p>后台执行中，不可操作</p>
+                <template #footer>
+                  <CpButton size="sm" type="error">不可点击</CpButton>
+                </template>
+              </CpCard>
+              <CpCard title="加载 + 禁用 (Semi)" :loading="disabled" :disabled="disabled" loading-text="锁定中..." variant="semi" type="primary" style="width: 280px; height: 180px;">
+                <p>半透明变体下的双重状态</p>
+              </CpCard>
+            </div>
+
+            <h4 style="color: #fff; margin: 8px 0 0;">覆层操作 + 禁用对比</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              禁用时彻底禁止 hover 效果：覆层不会弹出、阴影不响应、装饰块不变亮。右侧为正常对照。
+            </p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <CpCard
+                title="禁用 + 覆层"
+                :disabled="disabled"
+                type="primary"
+                shadow="hover"
+                hover-scale
+                style="width: 300px; height: 200px;"
+              >
+                <p>悬停无任何反馈</p>
+                <p style="font-size: 11px; color: var(--cp-text-tertiary);">覆层不弹出、阴影不出现、不放大</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">不可见的操作</CpButton>
+                </template>
+              </CpCard>
+              <CpCard
+                title="正常 + 覆层"
+                type="primary"
+                shadow="hover"
+                hover-scale
+                style="width: 300px; height: 200px;"
+              >
+                <p>悬停查看完整效果</p>
+                <p style="font-size: 11px; color: var(--cp-text-tertiary);">覆层弹出、阴影显现、卡片放大</p>
+                <template #overlay>
+                  <CpButton size="sm" type="primary" style="width: 100%;">操作按钮</CpButton>
+                </template>
               </CpCard>
             </div>
           </div>

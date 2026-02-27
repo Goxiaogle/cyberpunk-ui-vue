@@ -88,15 +88,15 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ### 反馈与状态
 
-| 组件                | 说明                       |
-| ------------------- | -------------------------- |
-| `CpDialog`          | 模态对话框，支持拖拽/嵌套  |
-| `CpNotification`    | 通知提醒，四角定位自动关闭 |
-| `CpLoading`         | 加载指示器                 |
-| `CpProgress`        | 进度条（线性/环形/仪表盘） |
-| `CpStatusIndicator` | 状态点                     |
-| `CpPopover`         | 气泡弹出层                 |
-| `CpEmpty`           | 空状态占位展示             |
+| 组件                          | 说明                                     |
+| ----------------------------- | ---------------------------------------- |
+| `CpDialog`                    | 模态对话框，支持拖拽/嵌套                |
+| `CpNotification` / `CpNotify` | 通知提醒（推荐 `CpNotify()` 函数式调用） |
+| `CpLoading`                   | 加载指示器                               |
+| `CpProgress`                  | 进度条（线性/环形/仪表盘）               |
+| `CpStatusIndicator`           | 状态点                                   |
+| `CpPopover`                   | 气泡弹出层                               |
+| `CpEmpty`                     | 空状态占位展示                           |
 
 ### 导航
 
@@ -139,6 +139,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
 - [表单组件参数](./components-form/SKILL.md) - Form、FormItem、Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented、Upload 的完整 Props
 - [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
+- [全局函数/服务式调用](./components-service/SKILL.md) - CpNotify 等函数式 API 的完整参数与用法
 - [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
 - [布局组件参数](./components-layout/SKILL.md) - Container、Header、Footer、Main、Aside、Row、Col 的完整 Props
 - [主题定制](./theming/SKILL.md) - CSS 变量和主题配置

@@ -104,7 +104,7 @@
     0 6px 24px rgba(0, 0, 0, 0.5),
     0 0 1px var(--cp-notification-color),
     inset 0 0 20px rgba(0, 240, 255, 0.02);
-  transition: transform 0s;
+  transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--cp-font-family-ui);
 
   // ===== 类型变体颜色 =====
@@ -266,6 +266,30 @@
 
     p {
       margin: 0;
+    }
+  }
+
+  // ===== 操作区 =====
+  @include e(actions) {
+    display: flex;
+    align-items: center;
+    gap: var(--cp-spacing-sm);
+    margin-top: var(--cp-spacing-sm);
+  }
+
+  // ===== 可点击状态 =====
+  &.is-clickable {
+    cursor: pointer;
+  }
+
+  // ===== 默认禁止文本选中 =====
+  user-select: none;
+
+  // ===== 可选中状态 =====
+  &.is-selectable {
+    .cp-notification__title,
+    .cp-notification__content {
+      user-select: text;
     }
   }
 

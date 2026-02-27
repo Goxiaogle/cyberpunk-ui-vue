@@ -11,23 +11,28 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ### Props
 
-| 属性                | 类型                                                                    | 默认值      | 说明                       |
-| ------------------- | ----------------------------------------------------------------------- | ----------- | -------------------------- |
-| `title`             | `string`                                                                | `''`        | 卡片标题                   |
-| `type`              | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                   |
-| `variant`           | `'solid' \| 'outline' \| 'semi' \| 'ghost'`                             | `'solid'`   | 变体                       |
-| `shape`             | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`    | 形状                       |
-| `shadow`            | `'always' \| 'hover' \| 'never'`                                        | `'hover'`   | 阴影时机                   |
-| `color`             | `string`                                                                | `''`        | 自定义主题色               |
-| `bgColor`           | `string`                                                                | `''`        | 自定义背景（支持渐变）     |
-| `borderColor`       | `string`                                                                | -           | 边框颜色                   |
-| `bodyPadding`       | `string`                                                                | -           | 内容区内边距               |
-| `headerBorder`      | `boolean`                                                               | `true`      | 头部分隔线                 |
-| `footerBorder`      | `boolean`                                                               | `true`      | 底部分隔线                 |
-| `dimmed`            | `boolean`                                                               | `false`     | 减淡模式                   |
-| `hoverScale`        | `boolean`                                                               | `false`     | 悬停放大效果               |
-| `triggerImageHover` | `boolean`                                                               | `false`     | 触发内部图片 hover         |
-| `collapse`          | `boolean`                                                               | `false`     | 是否折叠卡片（仅显示头部） |
+| 属性                | 类型                                                                    | 默认值        | 说明                         |
+| ------------------- | ----------------------------------------------------------------------- | ------------- | ---------------------------- |
+| `title`             | `string`                                                                | `''`          | 卡片标题                     |
+| `type`              | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`   | 颜色类型                     |
+| `variant`           | `'solid' \| 'outline' \| 'semi' \| 'ghost'`                             | `'solid'`     | 变体                         |
+| `shape`             | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`      | 形状                         |
+| `shadow`            | `'always' \| 'hover' \| 'never'`                                        | `'hover'`     | 阴影时机                     |
+| `color`             | `string`                                                                | `''`          | 自定义主题色                 |
+| `bgColor`           | `string`                                                                | `''`          | 自定义背景（支持渐变）       |
+| `borderColor`       | `string`                                                                | -             | 边框颜色                     |
+| `bodyPadding`       | `string`                                                                | -             | 内容区内边距                 |
+| `headerBorder`      | `boolean`                                                               | `true`        | 头部分隔线                   |
+| `footerBorder`      | `boolean`                                                               | `true`        | 底部分隔线                   |
+| `dimmed`            | `boolean`                                                               | `false`       | 减淡模式                     |
+| `hoverScale`        | `boolean`                                                               | `false`       | 悬停放大效果                 |
+| `triggerImageHover` | `boolean`                                                               | `false`       | 触发内部图片 hover           |
+| `collapse`          | `boolean`                                                               | `false`       | 是否折叠卡片（仅显示头部）   |
+| `loading`           | `boolean`                                                               | `false`       | 加载状态（显示遮罩阻止交互） |
+| `loadingText`       | `string`                                                                | `'加载中...'` | 加载中显示的文字             |
+| `loadingClass`      | `string / object / array`                                               | -             | 加载遮罩自定义 class         |
+| `loadingStyle`      | `string / object`                                                       | -             | 加载遮罩自定义 style         |
+| `disabled`          | `boolean`                                                               | `false`       | 禁用（变灰且不可交互）       |
 
 ### 覆层 Props
 
@@ -42,14 +47,23 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 
 ### 插槽
 
-| 名称      | 说明         |
-| --------- | ------------ |
-| `default` | 卡片主体内容 |
-| `header`  | 自定义头部   |
-| `title`   | 仅标题区域   |
-| `extra`   | 头部右侧操作 |
-| `footer`  | 卡片底部     |
-| `overlay` | 悬停覆层内容 |
+| 名称      | 说明                                          |
+| --------- | --------------------------------------------- |
+| `default` | 卡片主体内容                                  |
+| `header`  | 自定义头部                                    |
+| `title`   | 仅标题区域                                    |
+| `extra`   | 头部右侧操作                                  |
+| `footer`  | 卡片底部                                      |
+| `overlay` | 悬停覆层内容                                  |
+| `loading` | 自定义加载中内容（替代默认 CpLoading + 文字） |
+
+### 加载遮罩 CSS 变量
+
+| 变量                           | 默认值                     | 说明                     |
+| ------------------------------ | -------------------------- | ------------------------ |
+| `--cp-card-loading-bg`         | `rgba(10, 10, 18, 0.75)`   | 加载遮罩背景颜色         |
+| `--cp-card-loading-backdrop`   | `blur(4px)`                | 加载遮罩 backdrop-filter |
+| `--cp-card-loading-text-color` | `var(--cp-text-secondary)` | 加载文字颜色             |
 
 ### 示例
 
@@ -57,6 +71,34 @@ description: 展示与反馈组件的详细属性参考：Card、Image、Avatar�
 <CpCard title="系统信息"><p>内容</p></CpCard>
 <CpCard variant="semi" shape="round">半透明卡片</CpCard>
 <CpCard bg-color="linear-gradient(135deg, #1a1a2e, #2a2a4e)">渐变卡片</CpCard>
+
+<!-- 加载状态 -->
+<CpCard title="数据面板" loading>内容被遮罩覆盖</CpCard>
+<CpCard
+  title="同步中"
+  loading
+  loading-text="正在同步..."
+  type="primary"
+>...</CpCard>
+
+<!-- 自定义加载遮罩样式 -->
+<CpCard
+  title="深色遮罩"
+  loading
+  :loading-style="{ '--cp-card-loading-bg': 'rgba(0,0,0,0.9)' }"
+>...</CpCard>
+
+<!-- 自定义加载插槽 -->
+<CpCard title="自定义" loading>
+  <template #loading>
+    <CpLoading variant="spinner" size="lg" />
+    <span>AI 生成中...</span>
+  </template>
+  <p>内容</p>
+</CpCard>
+
+<!-- 禁用状态 -->
+<CpCard title="已禁用" disabled>不可交互</CpCard>
 ```
 
 ---
@@ -710,7 +752,117 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
 
 赛博朋克风格通知提醒，从屏幕角落滑入显示，支持自动关闭。
 
-### Props
+> **推荐优先使用函数式 `CpNotify()` 调用**，更轻量、无需维护 `v-model` 状态。
+> 仅在需要插槽（`#title`、`#default`、`#icon`、`#actions`）时使用 `<CpNotification>` 组件方式。
+
+### 函数式 API — CpNotify()
+
+```ts
+import { CpNotify } from "@cyberpunk-vue/components";
+
+// 基础调用（默认 4500ms 后自动关闭）
+CpNotify({ title: "系统通知", message: "操作成功" });
+
+// 类型快捷方法
+CpNotify.success({ title: "成功", message: "数据已保存" });
+CpNotify.warning({ title: "警告", message: "磁盘空间不足" });
+CpNotify.error({ title: "错误", message: "连接失败" });
+CpNotify.info({ title: "提示", message: "系统将维护" });
+
+// 获取 handle 手动关闭
+const handle = CpNotify({ title: "通知", message: "内容", duration: 0 });
+handle.close();
+
+// 关闭全部
+CpNotify.closeAll();
+```
+
+### CpNotify 选项
+
+| 属性                       | 类型                                                                    | 默认值        | 说明                                   |
+| -------------------------- | ----------------------------------------------------------------------- | ------------- | -------------------------------------- |
+| `title`                    | `string`                                                                | `''`          | 通知标题                               |
+| `message`                  | `string \| VNode`                                                       | `''`          | 消息内容（支持 VNode / h()）           |
+| `type`                     | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`   | 主题色                                 |
+| `variant`                  | `'solid' \| 'semi' \| 'outline'`                                        | `'solid'`     | 变体                                   |
+| `shape`                    | `'clip' \| 'no-clip' \| 'round'`                                        | `'clip'`      | 形状                                   |
+| `position`                 | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`          | `'top-right'` | 弹出位置                               |
+| `duration`                 | `number`                                                                | `4500`        | 自动关闭延迟 (ms)，`0` = 不关闭        |
+| `showClose`                | `boolean`                                                               | `true`        | 显示关闭按钮                           |
+| `offset`                   | `number`                                                                | `16`          | 距窗口边缘偏移 (px)                    |
+| `stacking`                 | `boolean \| 'vertical' \| 'overlap'`                                    | `false`       | 堆叠模式（false / vertical / overlap） |
+| `selectable`               | `boolean`                                                               | `false`       | 允许选中消息文本                       |
+| `onClick`                  | `() => void`                                                            | -             | 点击通知回调                           |
+| `onClose`                  | `(vm: VNode) => void`                                                   | -             | 关闭时回调                             |
+| `dangerouslyUseHTMLString` | `boolean`                                                               | `false`       | 将 message 作为 HTML 渲染              |
+| `color`                    | `string`                                                                | `''`          | 自定义主色调                           |
+| `bgColor`                  | `string`                                                                | `''`          | 自定义背景颜色                         |
+| `borderColor`              | `string`                                                                | `''`          | 自定义边框颜色                         |
+| `titleColor`               | `string`                                                                | `''`          | 标题文字颜色                           |
+| `textColor`                | `string`                                                                | `''`          | 消息文字颜色                           |
+| `zIndex`                   | `number`                                                                | `9999`        | z-index                                |
+| `width`                    | `string \| number`                                                      | `'330px'`     | 通知宽度                               |
+| `animationDuration`        | `number`                                                                | `300`         | 动画时长 (ms)                          |
+
+### 函数式示例
+
+```ts
+import { h } from "vue";
+import { CpNotify, CpTag, CpButton } from "@cyberpunk-vue/components";
+
+// 控制自动关闭时间
+CpNotify({ title: "快速", message: "1.5s 后关闭", duration: 1500 });
+
+// 绑定点击事件
+const handle = CpNotify({
+  title: "互动通知",
+  message: "点击触发回调",
+  duration: 0,
+  onClick: () => {
+    console.log("通知被点击！");
+    handle.close();
+  },
+});
+
+// VNode + 组件库组件
+CpNotify({
+  title: "部署完成",
+  type: "success",
+  duration: 0,
+  message: h("div", { style: "display:flex;flex-direction:column;gap:8px;" }, [
+    h("div", { style: "display:flex;align-items:center;gap:6px;" }, [
+      h("span", "环境："),
+      h(CpTag, { type: "success", size: "sm" }, () => "Production"),
+    ]),
+    h(
+      CpButton,
+      { size: "sm", type: "success", onClick: () => handle.close() },
+      () => "查看",
+    ),
+  ]),
+});
+
+// 堆叠模式
+// 垂直堆叠
+CpNotify({
+  title: "通知 1",
+  message: "...",
+  stacking: "vertical",
+  duration: 0,
+});
+CpNotify({
+  title: "通知 2",
+  message: "...",
+  stacking: "vertical",
+  duration: 0,
+});
+
+// 重叠堆叠
+CpNotify({ title: "通知 A", message: "...", stacking: "overlap", duration: 0 });
+CpNotify({ title: "通知 B", message: "...", stacking: "overlap", duration: 0 });
+```
+
+### 组件式 Props（仅需插槽时使用）
 
 | 属性                       | 类型                                                                    | 默认值        | 说明                      |
 | -------------------------- | ----------------------------------------------------------------------- | ------------- | ------------------------- |
@@ -724,6 +876,7 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
 | `duration`                 | `number`                                                                | `4500`        | 自动关闭延迟 (ms)，0=不关 |
 | `showClose`                | `boolean`                                                               | `true`        | 显示关闭按钮              |
 | `offset`                   | `number`                                                                | `16`          | 距窗口边缘偏移 (px)       |
+| `selectable`               | `boolean`                                                               | `false`       | 允许选中消息文本          |
 | `color`                    | `string`                                                                | `''`          | 自定义主色调（覆盖 type） |
 | `bgColor`                  | `string`                                                                | `''`          | 自定义背景颜色            |
 | `borderColor`              | `string`                                                                | `''`          | 自定义边框颜色            |
@@ -736,21 +889,23 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
 
 ### 事件
 
-| 事件名              | 参数               | 说明               |
-| ------------------- | ------------------ | ------------------ |
-| `update:modelValue` | `(value: boolean)` | v-model 绑定       |
-| `close`             | -                  | 关闭时触发         |
-| `destroy`           | -                  | 关闭动画结束时触发 |
+| 事件名              | 参数               | 说明                                         |
+| ------------------- | ------------------ | -------------------------------------------- |
+| `update:modelValue` | `(value: boolean)` | v-model 绑定                                 |
+| `close`             | -                  | 关闭时触发                                   |
+| `destroy`           | -                  | 关闭动画结束时触发                           |
+| `click`             | -                  | 点击通知区域时触发（不包括关闭按钮和操作区） |
 
 ### 插槽
 
-| 名称      | 说明           |
-| --------- | -------------- |
-| `default` | 自定义消息内容 |
-| `title`   | 自定义标题     |
-| `icon`    | 自定义图标     |
+| 名称      | 说明             |
+| --------- | ---------------- |
+| `default` | 自定义消息内容   |
+| `title`   | 自定义标题       |
+| `icon`    | 自定义图标       |
+| `actions` | 操作区（按钮等） |
 
-### 示例
+### 组件式示例
 
 ```vue
 <!-- 基础用法 -->
@@ -761,67 +916,41 @@ label: 'README.md', icon: markRaw(MdiFile) }, ]
   type="success"
 />
 
-<!-- 自定义位置与持续时间 -->
+<!-- 操作区插槽 -->
 <CpNotification
   v-model="visible"
-  title="警告"
-  message="磁盘空间不足"
+  title="版本更新"
+  message="检测到新版本"
   type="warning"
-  position="bottom-left"
   :duration="0"
-/>
+>
+  <template #actions>
+    <CpButton size="sm" type="warning" @click="visible = false">立即更新</CpButton>
+    <CpButton size="sm" variant="outline" @click="visible = false">稍后提醒</CpButton>
+  </template>
+</CpNotification>
 
-<!-- 自定义颜色 -->
+<!-- 点击事件 -->
 <CpNotification
   v-model="visible"
-  title="自定义"
-  message="消息内容"
-  color="#ff6ec7"
+  title="点击我"
+  message="点击计数"
+  type="primary"
+  :duration="0"
+  @click="handleClick"
 />
 
-<!-- #title 插槽：自定义标题 -->
-<CpNotification v-model="visible" message="内容" type="primary">
-  <template #title>
-    <span style="display:inline-flex;align-items:center;gap:6px;">
-      ⚡ 自定义标题
-    </span>
-  </template>
-</CpNotification>
-
-<!-- #default 插槽：自定义消息内容 -->
-<CpNotification v-model="visible" title="构建完成" type="success">
-  <template #default>
-    <div>
-      <p>✅ main.ts 编译完成</p>
-      <p style="opacity:0.6;font-size:12px;">耗时 1.2s</p>
-    </div>
-  </template>
-</CpNotification>
-
-<!-- #icon 插槽：自定义图标 -->
+<!-- #icon 插槽 -->
 <CpNotification
   v-model="visible"
   title="收藏成功"
-  message="已添加至收藏列表"
+  message="已添加至收藏"
   type="warning"
 >
   <template #icon>
     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
     </svg>
-  </template>
-</CpNotification>
-
-<!-- 组合：同时自定义 icon + title + default -->
-<CpNotification v-model="visible" type="error" :duration="0">
-  <template #icon>
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
-    </svg>
-  </template>
-  <template #title><span style="font-weight:700;">⚠ 严重告警</span></template>
-  <template #default>
-    <span>节点 <b>CN-SH-03</b> 已离线超过 5 分钟</span>
   </template>
 </CpNotification>
 ```

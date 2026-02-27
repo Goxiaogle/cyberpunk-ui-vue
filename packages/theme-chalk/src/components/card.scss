@@ -10,42 +10,54 @@
   --cp-card-color-light: rgba(255, 255, 255, 0.1);
   --cp-card-bg: var(--cp-bg-elevated);
   --cp-card-shadow-color: rgba(0, 0, 0, 0.4);
-  // 统一定义 clip-path 路径，方便伪元素（阴影层）同步使用
   --cp-card-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 
   position: relative;
   display: flex;
   flex-direction: column;
+
+  // 🚀 核心修复 1：重置 flex 默认的 min-height: auto
+  // 彻底解决示例三“展开状态下会始终将卡片二挤到容器外”的问题，允许卡片受限收缩
+  min-width: 0;
+  min-height: 0;
+
+  // 🚀 核心修复 2：彻底移除错误的 flex 和 height 过渡！
+  // 浏览器不支持 auto 高度的动画，强加过渡会导致渲染出错，修复“高度从 0 开始”的 Bug
   transition:
-    color var(--cp-card-dimmed-duration, 0.3s) ease,
-    filter var(--cp-card-dimmed-duration, 0.3s) ease,
-    box-shadow var(--cp-card-dimmed-duration, 0.3s) ease;
-  // 移除 overflow: hidden，以便展示外部阴影
+          color var(--cp-card-dimmed-duration, 0.3s) ease,
+          filter var(--cp-card-dimmed-duration, 0.3s) ease,
+          box-shadow var(--cp-card-dimmed-duration, 0.3s) ease;
 
   @include e(container) {
     position: relative;
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    // 🚀 同步解除内部容器的 Flex 最小限制
+    min-width: 0;
+    min-height: 0;
+
     background: var(--cp-card-bg);
     border: 1px solid var(--cp-card-border-color, var(--cp-border));
     color: var(--cp-text-primary);
+
+    // 🚀 同样移除此处错误的 flex 过渡
     transition:
-      background var(--cp-card-dimmed-duration, 0.3s) ease,
-      border-color var(--cp-card-dimmed-duration, 0.3s) ease,
-      color var(--cp-card-dimmed-duration, 0.3s) ease,
-      filter 0.4s ease,
-      opacity 0.4s ease;
+            background var(--cp-card-dimmed-duration, 0.3s) ease,
+            border-color var(--cp-card-dimmed-duration, 0.3s) ease,
+            color var(--cp-card-dimmed-duration, 0.3s) ease,
+            filter 0.4s ease,
+            opacity 0.4s ease;
+
     width: 100%;
-    height: 100%;
-    // 隐藏溢出内容，防止覆层动画影响页面布局
+    // 🚀 修复 3：移除原先的 height: 100%！
+    // 只要有 flex: 1 就能自动撑满。如果保留 100%，在父级折叠高度变化时极易引发内部高度塌陷计算 Bug。
     overflow: hidden;
-    // 强制开启硬件加速，修复 backdrop-filter + clip-path 渲染问题
     transform: translateZ(0);
     backface-visibility: hidden;
     will-change: clip-path, filter;
-    
-    // 同时保留基础裁剪，防止闪烁
+
     clip-path: var(--cp-card-clip-path);
   }
 
@@ -57,25 +69,20 @@
     }
   }
 
-  // 强制开启隔离层，确保内部 clip-path + backdrop-filter 渲染稳定
   isolation: isolate;
 
-  // 阴影辅助层 (伪元素)，用于解决 Semi 模式下 backdrop-filter 与 drop-shadow 的冲突，以及 box-shadow 无法跟随 clip 的问题
-  // 默认隐藏，由变体激活
   &::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     background: var(--cp-card-shadow-color);
-    // 默认透明度0，用于渐变出现
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-    display: none; // 默认不渲染，仅在需要的变体中开启
+    display: none;
   }
 
-  // 装饰性小方块 (右上角)
   &::after {
     content: '';
     position: absolute;
@@ -89,7 +96,6 @@
     transition: all 0.3s ease;
   }
 
-  // 悬停效果
   &:hover {
     &::after {
       opacity: 1;
@@ -97,13 +103,11 @@
   }
 
   // ===== 变体 =====
-  // ===== 变体 =====
   @include m(solid) {
     > .cp-card__container {
       background: var(--cp-card-bg);
       border-color: var(--cp-border);
 
-      // 顶部装饰线 + 渐变背光
       &::before {
         content: '';
         position: absolute;
@@ -111,7 +115,6 @@
         left: 0;
         width: 100%;
         height: 48px;
-        // 2px 的实色顶线 + 渐变背景
         background: linear-gradient(to bottom, var(--cp-card-color) 2px, var(--cp-card-color-light) 2px, transparent 100%);
         opacity: 0;
         transition: opacity 0.3s ease;
@@ -130,7 +133,6 @@
       }
     }
 
-    // 自定义 color 也要显示线条
     &[style*='--cp-card-color'] {
       > .cp-card__container::before {
         opacity: 0.8;
@@ -157,7 +159,6 @@
   }
 
   @include m(semi) {
-    // 使用变量控制背景，方便减淡模式统一覆盖
     --cp-card-bg: rgba(42, 42, 58, 0.5);
     --cp-card-bg-hover: rgba(42, 42, 58, 0.7);
     --cp-card-border: var(--cp-border);
@@ -173,7 +174,6 @@
       }
     }
 
-    // 类型色状态下的变量覆盖
     &.cp-card--primary,
     &.cp-card--success,
     &.cp-card--warning,
@@ -196,7 +196,6 @@
       }
     }
 
-    // 当 ghost 配合 themed 模式时，应用主题色分割线
     &.cp-card--primary,
     &.cp-card--success,
     &.cp-card--warning,
@@ -205,7 +204,6 @@
       --cp-card-divider-color: var(--cp-card-color-light);
     }
 
-    // 自定义 color 也要显示主题色分割线
     &[style*='--cp-card-color'] {
       --cp-card-divider-color: var(--cp-card-color-light);
     }
@@ -220,7 +218,6 @@
     > .cp-card__container {
       clip-path: var(--cp-card-clip-path);
     }
-    // 同步形状给阴影层
     &::before {
       clip-path: var(--cp-card-clip-path);
     }
@@ -261,15 +258,13 @@
   }
 
   // ===== 阴影 =====
-  // 注意：clip-path 会裁剪 box-shadow，需要使用 filter: drop-shadow
   @include m(shadow-always) {
     filter: drop-shadow(0 4px 12px var(--cp-card-shadow-color));
   }
 
   @include m(shadow-hover) {
-    // 初始状态颜色与 hover 态一致，利用 0 偏移和 0 模糊被元素遮挡的特性隐藏
-    // 这样在过渡时颜色始终保持一致，不会出现黑色中间态
     filter: drop-shadow(0 0 0 var(--cp-card-shadow-color));
+    // 撤销清理错误的 flex 过渡
     transition: filter 0.3s ease;
 
     &:hover {
@@ -282,7 +277,6 @@
     box-shadow: none;
   }
 
-  // 非切角模式可以使用 box-shadow（更平滑）
   &.cp-card--shape-no-clip,
   &.cp-card--shape-round {
     &.cp-card--shadow-always {
@@ -292,8 +286,8 @@
 
     &.cp-card--shadow-hover {
       filter: none;
-      // 利用负 spread 彻底隐藏阴影，且保持颜色一致
       box-shadow: 0 0 0 -100px var(--cp-card-shadow-color);
+      // 撤销清理错误的 flex 过渡
       transition: box-shadow 0.3s ease;
 
       &:hover {
@@ -302,28 +296,22 @@
     }
   }
 
-  // Semi 变体特殊处理：禁用根部 filter，改用伪元素阴影层
-  // 原因：filter 与 backdrop-filter + clip-path 存在渲染冲突
   &.cp-card--semi {
     &.cp-card--shadow-always,
     &.cp-card--shadow-hover {
       filter: none !important;
     }
 
-    // 启用伪元素阴影层
     &.cp-card--shadow-always::before,
     &.cp-card--shadow-hover::before {
       display: block;
-      // 在伪元素上应用 filter，不会影响 container 的 backdrop-filter（因其是兄弟元素）
       filter: drop-shadow(0 0 12px var(--cp-card-shadow-color));
     }
 
-    // Always 模式：常驻显示
     &.cp-card--shadow-always::before {
       opacity: 1;
     }
 
-    // Hover 模式：默认隐藏，hover 显示
     &.cp-card--shadow-hover::before {
       opacity: 0;
     }
@@ -331,7 +319,6 @@
       opacity: 1;
     }
 
-    // 禁用之前的 hacky box-shadow
     &.cp-card--shadow-always > .cp-card__container,
     &.cp-card--shadow-hover > .cp-card__container,
     &.cp-card--shadow-hover:hover > .cp-card__container {
@@ -383,7 +370,11 @@
   }
 
   @include e(body) {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    // 🚀 同步解除 body 层的最小高度限制，配合内部可能出现的滚动条
+    min-height: 0;
     padding: var(--cp-spacing-lg);
     color: var(--cp-text-secondary);
   }
@@ -401,8 +392,7 @@
     }
   }
 
-  // ===== 覆层背景遮罩 (Overlay Backdrop) =====
-  // 覆盖整个卡片内容区域的效果层
+  // ===== 覆层背景遮罩 =====
   @include e(overlay-backdrop) {
     position: absolute;
     inset: 0;
@@ -413,34 +403,13 @@
     transition-duration: var(--cp-card-overlay-duration, 300ms);
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-    // ===== 效果类型 =====
-    // 无效果
-    &.cp-card__overlay-backdrop--effect-none {
-      background: transparent;
-      backdrop-filter: none;
-    }
-
-    // 仅毛玻璃
-    &.cp-card__overlay-backdrop--effect-blur {
-      background: transparent;
-      backdrop-filter: blur(var(--cp-card-overlay-blur, 10px));
-    }
-
-    // 仅颜色
-    &.cp-card__overlay-backdrop--effect-color {
-      background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8));
-      backdrop-filter: none;
-    }
-
-    // 毛玻璃 + 颜色 (默认)
-    &.cp-card__overlay-backdrop--effect-blur-color {
-      background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8));
-      backdrop-filter: blur(var(--cp-card-overlay-blur, 10px));
-    }
+    &.cp-card__overlay-backdrop--effect-none { background: transparent; backdrop-filter: none; }
+    &.cp-card__overlay-backdrop--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
+    &.cp-card__overlay-backdrop--effect-color { background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8)); backdrop-filter: none; }
+    &.cp-card__overlay-backdrop--effect-blur-color { background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8)); backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
   }
 
-  // ===== 覆层操作区 (Overlay Actions) =====
-  // 定位、动画和独立效果控制
+  // ===== 覆层操作区 =====
   @include e(overlay) {
     position: absolute;
     left: 0;
@@ -454,142 +423,66 @@
     transition-duration: var(--cp-card-overlay-duration, 300ms);
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-    // ===== 操作区效果类型 =====
-    // 无效果
-    &.cp-card__overlay--effect-none {
-      background: transparent;
-      backdrop-filter: none;
-    }
+    &.cp-card__overlay--effect-none { background: transparent; backdrop-filter: none; }
+    &.cp-card__overlay--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
+    &.cp-card__overlay--effect-color { background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8)); backdrop-filter: none; }
+    &.cp-card__overlay--effect-blur-color { background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8)); backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
 
-    // 仅毛玻璃
-    &.cp-card__overlay--effect-blur {
-      background: transparent;
-      backdrop-filter: blur(var(--cp-card-action-blur, 10px));
-    }
+    &.cp-card__overlay--bottom { bottom: 0; }
+    &.cp-card__overlay--top { top: 0; border-top: none; border-bottom: 1px solid var(--cp-border); }
+    &.cp-card__overlay--center { top: 50%; border-top: none; border-bottom: none; }
 
-    // 仅颜色
-    &.cp-card__overlay--effect-color {
-      background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8));
-      backdrop-filter: none;
-    }
+    &.cp-card__overlay--slide-up { transform: translateY(100%); }
+    &.cp-card__overlay--slide-down { transform: translateY(-100%); }
+    &.cp-card__overlay--slide-left { transform: translateX(100%); }
+    &.cp-card__overlay--slide-right { transform: translateX(-100%); }
 
-    // 毛玻璃 + 颜色 (默认)
-    &.cp-card__overlay--effect-blur-color {
-      background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8));
-      backdrop-filter: blur(var(--cp-card-action-blur, 10px));
-    }
-
-    // 位置: 底部 (默认)
-    &.cp-card__overlay--bottom {
-      bottom: 0;
-    }
-
-    // 位置: 顶部
-    &.cp-card__overlay--top {
-      top: 0;
-      border-top: none;
-      border-bottom: 1px solid var(--cp-border);
-    }
-
-    // 位置: 居中
-    &.cp-card__overlay--center {
-      top: 50%;
-      border-top: none;
-      border-bottom: none;
-    }
-
-    // 动画: 从底部滑入 (默认)
-    &.cp-card__overlay--slide-up {
-      transform: translateY(100%);
-    }
-
-    // 动画: 从顶部滑入
-    &.cp-card__overlay--slide-down {
-      transform: translateY(-100%);
-    }
-
-    // 动画: 从右侧滑入
-    &.cp-card__overlay--slide-left {
-      transform: translateX(100%);
-    }
-
-    // 动画: 从左侧滑入
-    &.cp-card__overlay--slide-right {
-      transform: translateX(-100%);
-    }
-
-    // 动画: 渐显
-    &.cp-card__overlay--fade {
-      transform: none;
-    }
-
-    // 动画: 缩放
+    &.cp-card__overlay--fade { transform: none; }
     &.cp-card__overlay--scale {
       transform: scale(0.9);
-
-      // 居中位置时需要额外的 Y 偏移
       &.cp-card__overlay--center {
         transform: translateY(-50%) scale(0.9);
       }
     }
   }
 
-  // Hover 显示覆层
   &.is-has-overlay:hover {
-    .cp-card__overlay-backdrop {
-      opacity: 1;
-    }
-
+    .cp-card__overlay-backdrop { opacity: 1; }
     .cp-card__overlay {
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0) translateX(0) scale(1);
-
-      // 居中位置需要保持 Y 居中
-      &.cp-card__overlay--center {
-        transform: translateY(-50%);
-      }
+      &.cp-card__overlay--center { transform: translateY(-50%); }
     }
   }
 
   // ===== 减淡模式 (Dimmed Mode) =====
-  // 减淡模式：平常以无颜色的默认形态展示，hover 时显示真正的主题色
   @include when(dimmed) {
-    // 平常状态：覆盖颜色变量为默认值
     &:not(:hover) {
       --cp-card-color: var(--cp-border);
       --cp-card-color-light: rgba(255, 255, 255, 0.1);
 
-      // 针对 semi 变体，直接重置其背景变量
       &.cp-card--semi {
         --cp-card-bg: rgba(42, 42, 58, 0.5);
         --cp-card-border: var(--cp-border);
       }
 
       &.cp-card--solid {
-        > .cp-card__container::before {
-          opacity: 0 !important;
-        }
+        > .cp-card__container::before { opacity: 0 !important; }
       }
 
       &.cp-card--outline {
-        > .cp-card__container {
-          border-color: var(--cp-border);
-        }
+        > .cp-card__container { border-color: var(--cp-border); }
       }
 
-      // 重置 ghost 变体的分割线
       &.cp-card--ghost {
         --cp-card-divider-color: var(--cp-border);
       }
     }
   }
 
-  // ===== Card Hover 触发 Image Hover =====
-  // 当开启 triggerImageHover 时，Card hover 会触发内部 CpImage 的 hover 效果
   @include when(trigger-image-hover) {
     &:hover {
-      // Scale 模式
       .cp-image--hover-scale {
         transform: scale(1.02);
         box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
@@ -601,7 +494,6 @@
         }
       }
 
-      // Zoom 模式
       .cp-image--hover-zoom {
         box-shadow: 0 0 20px var(--cp-image-decor-color, var(--cp-color-primary-light));
 
@@ -618,11 +510,9 @@
     }
   }
 
-  // ===== Card Hover Scale =====
-  // 悬停时整卡放大效果
   @include when(hover-scale) {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s ease;
+    // 撤销清理错误的 flex 过渡
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 
     &:hover {
       transform: scale(1.02);
@@ -637,13 +527,14 @@
   // ===== 折叠过渡动画 (Collapse Transition) =====
   @include e(collapse-transition) {
     display: grid;
+    flex: 1 1 auto;
     min-height: 0;
     overflow: hidden;
     grid-template-rows: 1fr;
-    transition: 
-      grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+            grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     visibility: visible;
   }
 
@@ -652,52 +543,47 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
   }
 
   // ===== 折叠时尺寸锁定 =====
-  // 避免 Grid/Flex=1 场景下，展开首帧立刻被父布局拉伸导致头部抖动
-  //
-  // 🔑 核心原理 (CSS Grid/Flex Spec):
-  // Grid/Flex Item 的 min-height 默认为 auto。当 overflow 为 visible 时，
-  // min-height: auto 解析为 min-content（内容不可裁剪 → 不能低于内容高度）；
-  // 当 overflow 不为 visible 时，min-height: auto 解析为 0。
-  // 因此必须在卡片根元素上设置 overflow: hidden，使浏览器允许卡片高度
-  // 随内部 grid-template-rows: 0fr → 1fr 的过渡平滑收缩/展开。
   @include when(collapse-size-locked) {
-    // 用完整 flex shorthand 覆盖行内 style="flex: 1"，避免折叠态仍被父容器拉满
-    flex: 0 0 auto !important;
+    // 🚀 核心修复 4：将原来的 flex: 0 0 auto 改为 flex: 0 1 auto！
+    // "1" 代表 flex-shrink: 1。允许卡片在展开动画的 0.3s 期间，如果碰到了固定父容器的边界，
+    // 能够聪明地被压缩，彻底解决“示例二在展开时会把卡片二挤到容器外”的恶性 Bug。
+    flex: 0 1 auto !important;
     height: auto !important;
     min-height: 0 !important;
-    // 让 min-height: auto 在 Grid/Flex 上下文中解析为 0 而非 min-content
     overflow: hidden !important;
 
     .cp-card__container {
-      flex: 0 0 auto !important;
+      flex: 0 1 auto !important;
       height: auto !important;
       min-height: 0 !important;
+      overflow: hidden !important;
     }
   }
 
   // ===== 折叠模式 (Collapsed) =====
   @include when(collapsed) {
-    // 兜底：保证折叠落态时一定释放 flex 拉伸
-    flex: 0 0 auto !important;
+    // 同步保持折叠态允许挤压的特性
+    flex: 0 1 auto !important;
     height: auto !important;
     min-height: 0 !important;
-    // 同上：确保折叠态 Grid/Flex Item 可以收缩到 0
     overflow: hidden !important;
 
     .cp-card__container {
-      flex: 0 0 auto !important;
+      flex: 0 1 auto !important;
       height: auto !important;
       min-height: 0 !important;
+      overflow: hidden !important;
     }
 
     .cp-card__header {
       border-bottom-color: transparent;
       transition-delay: 0s;
     }
-    
+
     .cp-card__collapse-transition {
       grid-template-rows: 0fr;
       opacity: 0;
@@ -712,5 +598,99 @@
       pointer-events: none;
     }
   }
-}
 
+  // ===== 加载遮罩 (Loading Overlay) =====
+  @include e(loading-overlay) {
+    position: absolute;
+    inset: 0;
+    z-index: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cp-spacing-sm);
+    background: var(--cp-card-loading-bg, rgba(10, 10, 18, 0.75));
+    backdrop-filter: var(--cp-card-loading-backdrop, blur(4px));
+    pointer-events: auto;
+  }
+
+  @include e(loading-text) {
+    font-size: var(--cp-font-size-sm);
+    color: var(--cp-card-loading-text-color, var(--cp-text-secondary));
+    letter-spacing: 0.05em;
+    user-select: none;
+    margin-top: var(--cp-spacing-xs);
+  }
+
+  // ===== 加载遮罩过渡动画 =====
+  .cp-card-loading-enter-active,
+  .cp-card-loading-leave-active {
+    transition: opacity 0.3s ease;
+  }
+  .cp-card-loading-enter-from,
+  .cp-card-loading-leave-to {
+    opacity: 0;
+  }
+
+  // ===== 加载状态 (Loading) =====
+  @include when(loading) {
+    // loading 时仍可悬停查看效果，但内容被遮罩阻挡
+    > .cp-card__container {
+      // container 需要 position: relative 来定位 loading overlay
+      position: relative;
+    }
+  }
+
+  // ===== 禁用状态 (Disabled) =====
+  @include when(disabled) {
+    pointer-events: none;
+    cursor: not-allowed;
+
+    > .cp-card__container {
+      opacity: 0.5;
+      filter: grayscale(0.6);
+    }
+
+    // 加载遮罩也必须禁止 pointer-events，
+    // 否则子元素 pointer-events: auto 会让 :hover 冒泡到卡片根节点
+    .cp-card__loading-overlay {
+      pointer-events: none !important;
+    }
+
+    // 装饰块始终保持低透明度
+    &::after {
+      opacity: 0.2 !important;
+    }
+
+    // 彻底禁止所有 hover 视觉反馈
+    &:hover {
+      // 阻止阴影 hover
+      filter: none !important;
+      box-shadow: none !important;
+      // 阻止 hover-scale
+      transform: none !important;
+
+      // 装饰块不变亮
+      &::after {
+        opacity: 0.2 !important;
+      }
+
+      // 容器不响应 hover
+      > .cp-card__container {
+        border-color: inherit;
+        box-shadow: none !important;
+        filter: grayscale(0.6) !important;
+      }
+
+      // 覆层不弹出
+      .cp-card__overlay-backdrop {
+        opacity: 0 !important;
+      }
+      .cp-card__overlay {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: none !important;
+      }
+    }
+  }
+}

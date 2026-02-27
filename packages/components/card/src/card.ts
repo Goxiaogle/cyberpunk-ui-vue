@@ -106,6 +106,7 @@ export type CardCustomClass =
  * - `footer` - 卡片底部区域
  * - `cover` - 卡片封面区域（位于头部前）
  * - `overlay` - 卡片悬停操作层
+ * - `loading` - 自定义加载中内容
  */
 export const cardProps = {
   /**
@@ -361,6 +362,40 @@ export const cardProps = {
    * 主体自定义样式
    */
   bodyStyle: [String, Object] as PropType<string | CSSProperties>,
+  /**
+   * 是否处于加载状态
+   * 加载时会在卡片内容上显示遮罩层，阻止用户交互
+   * @default false
+   */
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 加载中显示的文字
+   * @default '加载中...'
+   */
+  loadingText: {
+    type: String,
+    default: '加载中...',
+  },
+  /**
+   * 加载遮罩自定义类名
+   */
+  loadingClass: [String, Object, Array] as PropType<CardCustomClass>,
+  /**
+   * 加载遮罩自定义样式
+   */
+  loadingStyle: [String, Object] as PropType<string | CSSProperties>,
+  /**
+   * 是否处于禁用状态
+   * 禁用时卡片整体变灰且不可交互
+   * @default false
+   */
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 
 export type CardProps = ExtractPropTypes<typeof cardProps>

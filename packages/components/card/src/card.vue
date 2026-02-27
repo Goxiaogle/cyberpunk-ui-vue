@@ -7,6 +7,7 @@ import { computed, onBeforeUnmount, ref, useSlots, watch } from 'vue'
 import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { cardProps } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { CpLoading } from '@cyberpunk-vue/components/loading'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Card`,
@@ -78,6 +79,8 @@ const rootClasses = computed(() => [
   ns.is('hover-scale', props.hoverScale),
   ns.is('collapse-size-locked', props.collapse || isExpanding.value),
   ns.is('collapsed', props.collapse),
+  ns.is('loading', props.loading),
+  ns.is('disabled', props.disabled),
 ])
 
 const cardClasses = computed(() => [
@@ -219,6 +222,12 @@ const overlayStyle = computed(() => ({
   '--cp-card-action-color': realActionColor.value,
   '--cp-card-action-blur': normalizeBlur(realActionBlur.value),
 }))
+
+// 加载遮罩类名
+const loadingOverlayClasses = computed(() => [
+  ns.e('loading-overlay'),
+  props.loadingClass,
+])
 </script>
 
 <template>
@@ -267,6 +276,16 @@ const overlayStyle = computed(() => ({
       <div v-if="hasOverlay" :class="overlayClasses" :style="overlayStyle">
         <slot name="overlay" />
       </div>
+
+      <!-- Loading Overlay -->
+      <Transition name="cp-card-loading">
+        <div v-if="loading" :class="loadingOverlayClasses" :style="loadingStyle">
+          <slot name="loading">
+            <CpLoading :color="realColor || undefined" />
+            <span v-if="loadingText" :class="ns.e('loading-text')">{{ loadingText }}</span>
+          </slot>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>

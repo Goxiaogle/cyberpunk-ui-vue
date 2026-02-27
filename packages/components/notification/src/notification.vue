@@ -2,8 +2,9 @@
 /**
  * CpNotification - 赛博朋克风格通知提醒
  * 从屏幕角落滑入，展示全局通知消息
+ * 支持模板式 (v-model) 和函数式 (notify()) 两种用法
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, type CSSProperties } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, isVNode, type VNode, type CSSProperties } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { notificationProps, notificationEmits } from './notification'
@@ -21,6 +22,9 @@ const ns = useNamespace('notification')
 
 // ===== 显示状态 =====
 const visible = ref(false)
+
+// ===== 是否为函数式模式 =====
+const isFunctionalMode = computed(() => !!props.id)
 
 // ===== 自动关闭定时器 =====
 let closeTimer: ReturnType<typeof setTimeout> | null = null
@@ -106,17 +110,19 @@ const containerStyle = computed<CSSProperties>(() => {
     zIndex: props.zIndex,
   }
 
-  // 定位
+  // 水平定位：始终使用 offset
   if (isRight.value) {
     style.right = `${props.offset}px`
   } else {
     style.left = `${props.offset}px`
   }
 
+  // 垂直定位：函数式模式使用 _verticalOffset，模板模式使用 offset
+  const verticalOffset = props._verticalOffset ?? props.offset
   if (isTop.value) {
-    style.top = `${props.offset}px`
+    style.top = `${verticalOffset}px`
   } else {
-    style.bottom = `${props.offset}px`
+    style.bottom = `${verticalOffset}px`
   }
 
   return style
@@ -131,11 +137,25 @@ const rootClasses = computed(() => [
   ns.m(props.position),
   ns.is('has-icon', props.type !== 'default' || !!slots.icon),
   ns.is('closable', props.showClose),
+  ns.is('selectable', props.selectable),
 ])
+
+// ===== 消息内容 =====
+const messageVNode = computed(() => {
+  if (isVNode(props.message)) return props.message
+  if (typeof props.message === 'function') return (props.message as () => VNode)()
+  return null
+})
+
+const isStringMessage = computed(() => typeof props.message === 'string')
 
 // ===== 事件处理 =====
 const handleClose = () => {
   visible.value = false
+}
+
+const handleClick = () => {
+  emit('click')
 }
 
 // ===== Transition 名称（左或右） =====
@@ -146,6 +166,11 @@ const transitionName = computed(() => {
 })
 
 // ===== 过渡回调 =====
+const handleBeforeLeave = () => {
+  // 函数式模式：在 before-leave 时通知外部进行偏移调整
+  props.onClose?.()
+}
+
 const handleAfterLeave = () => {
   emit('destroy')
 }
@@ -187,7 +212,12 @@ watch(visible, (val) => {
 
 // ===== 挂载 =====
 onMounted(() => {
-  if (props.modelValue) {
+  if (isFunctionalMode.value) {
+    // 函数式模式：mounted 时立即显示
+    visible.value = true
+    remainingTime = props.duration
+    startTimer()
+  } else if (props.modelValue) {
     visible.value = true
     remainingTime = props.duration
     startTimer()
@@ -208,8 +238,8 @@ defineExpose({
 </script>
 
 <template>
-  <Teleport to="body">
-    <Transition :name="transitionName" @after-leave="handleAfterLeave">
+  <Teleport v-if="!isFunctionalMode" to="body">
+    <Transition :name="transitionName" @before-leave="handleBeforeLeave" @after-leave="handleAfterLeave">
       <div
         v-if="visible"
         v-bind="$attrs"
@@ -218,6 +248,7 @@ defineExpose({
         role="alert"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
+        @click="handleClick"
       >
         <!-- 装饰方块 (右上角) -->
         <div :class="ns.e('decor')" />
@@ -241,12 +272,15 @@ defineExpose({
           <!-- 消息 -->
           <div :class="ns.e('content')">
             <slot>
-              <p
-                v-if="dangerouslyUseHTMLString"
-                v-html="message"
-              />
-              <p v-else>{{ message }}</p>
+              <p v-if="dangerouslyUseHTMLString && isStringMessage" v-html="message" />
+              <p v-else-if="isStringMessage">{{ message }}</p>
+              <component :is="() => messageVNode" v-else-if="messageVNode" />
             </slot>
+          </div>
+
+          <!-- 操作区插槽 -->
+          <div v-if="slots.actions" :class="ns.e('actions')" @click.stop>
+            <slot name="actions" />
           </div>
         </div>
 
@@ -255,7 +289,7 @@ defineExpose({
           v-if="showClose"
           :class="ns.e('close')"
           aria-label="Close"
-          @click="handleClose"
+          @click.stop="handleClose"
         >
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12" />
@@ -267,4 +301,67 @@ defineExpose({
       </div>
     </Transition>
   </Teleport>
+
+  <!-- 函数式模式：不使用 Teleport，由 notify.ts 管理 DOM 挂载 -->
+  <Transition v-else :name="transitionName" @before-leave="handleBeforeLeave" @after-leave="handleAfterLeave">
+    <div
+      v-show="visible"
+      v-bind="$attrs"
+      :class="rootClasses"
+      :style="containerStyle"
+      role="alert"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @click="handleClick"
+    >
+      <!-- 装饰方块 (右上角) -->
+      <div :class="ns.e('decor')" />
+
+      <!-- 图标区域 -->
+      <div v-if="iconPath || slots.icon" :class="ns.e('icon')">
+        <slot name="icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path :d="iconPath!" />
+          </svg>
+        </slot>
+      </div>
+
+      <!-- 内容区域 -->
+      <div :class="ns.e('group')">
+        <!-- 标题 -->
+        <div v-if="title || slots.title" :class="ns.e('title')">
+          <slot name="title">{{ title }}</slot>
+        </div>
+
+        <!-- 消息 -->
+        <div :class="ns.e('content')">
+          <slot>
+            <p v-if="dangerouslyUseHTMLString && isStringMessage" v-html="message" />
+            <p v-else-if="isStringMessage">{{ message }}</p>
+            <component :is="() => messageVNode" v-else-if="messageVNode" />
+          </slot>
+        </div>
+
+        <!-- 操作区插槽 -->
+        <div v-if="slots.actions" :class="ns.e('actions')" @click.stop>
+          <slot name="actions" />
+        </div>
+      </div>
+
+      <!-- 关闭按钮 -->
+      <button
+        v-if="showClose"
+        :class="ns.e('close')"
+        aria-label="Close"
+        @click.stop="handleClose"
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- 自动关闭进度条 -->
+      <div v-if="duration > 0" :class="ns.e('progress')" />
+    </div>
+  </Transition>
 </template>

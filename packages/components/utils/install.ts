@@ -15,3 +15,15 @@ export function withInstall<T extends Component>(component: T): SFCWithInstall<T
     }
     return component as SFCWithInstall<T>
 }
+
+/**
+ * 为函数式组件添加 install 方法，挂载至 app.config.globalProperties
+ * @param fn 函数式调用入口
+ * @param name globalProperties 上的属性名，如 '$notify'
+ */
+export function withInstallFunction<T>(fn: T, name: string): SFCWithInstall<T> {
+    ; (fn as SFCWithInstall<T>).install = (app: App) => {
+        app.config.globalProperties[name] = fn
+    }
+    return fn as SFCWithInstall<T>
+}

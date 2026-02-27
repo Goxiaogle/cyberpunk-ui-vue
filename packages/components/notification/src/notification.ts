@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { AppContext, ExtractPropTypes, PropType, VNode } from 'vue'
 
 /**
  * 通知位置
@@ -31,6 +31,11 @@ export type NotificationShape = 'clip' | 'no-clip' | 'round'
 export type NotificationType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
+ * 通知类型快捷方法列表
+ */
+export const notificationTypes = ['success', 'warning', 'error', 'info', 'primary'] as const
+
+/**
  * CpNotification Props 定义
  *
  * @description 赛博朋克风格通知提醒，从屏幕角落滑入显示
@@ -49,8 +54,17 @@ export type NotificationType = 'default' | 'primary' | 'success' | 'warning' | '
  * - `default` — 自定义消息内容（覆盖 message）
  * - `title`   — 自定义标题内容
  * - `icon`    — 自定义图标
+ * - `actions` — 操作区按钮
  */
 export const notificationProps = {
+  /**
+   * 通知实例 ID（函数式调用时自动生成）
+   * @internal
+   */
+  id: {
+    type: String,
+    default: '',
+  },
   /**
    * 是否显示通知 (v-model)
    * @default false
@@ -68,11 +82,11 @@ export const notificationProps = {
     default: '',
   },
   /**
-   * 通知消息文本
+   * 通知消息文本，支持字符串、VNode 或返回 VNode 的函数
    * @default ''
    */
   message: {
-    type: String,
+    type: [String, Object, Function] as PropType<string | VNode | (() => VNode)>,
     default: '',
   },
   /**
@@ -204,6 +218,33 @@ export const notificationProps = {
     type: Number,
     default: 300,
   },
+
+  /**
+   * 是否允许选中消息文本
+   * @default false
+   */
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * 内部垂直偏移（函数式调用时由 notify.ts 管理）
+   * @internal
+   */
+  _verticalOffset: {
+    type: Number,
+    default: undefined,
+  },
+
+  /**
+   * 关闭时回调（函数式调用内部使用）
+   * @internal
+   */
+  onClose: {
+    type: Function as PropType<() => void>,
+    default: undefined,
+  },
 } as const
 
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
@@ -218,6 +259,75 @@ export const notificationEmits = {
   close: () => true,
   /** 关闭动画结束后触发（DOM 即将销毁） */
   destroy: () => true,
+  /** 点击通知区域时触发（不包括关闭按钮和操作区） */
+  click: () => true,
 }
 
 export type NotificationEmits = typeof notificationEmits
+
+// ===== 函数式调用相关类型 =====
+
+/**
+ * 函数式调用选项
+ */
+export type NotificationOptions = Partial<Omit<NotificationProps, 'id' | 'onClose' | '_verticalOffset'>> & {
+  /** 挂载的目标元素 */
+  appendTo?: HTMLElement | string
+  /** 关闭时回调 */
+  onClose?: (vm: VNode) => void
+  /** 点击通知时触发的回调 */
+  onClick?: () => void
+  /**
+   * 堆叠模式
+   * - `false` (默认) 不堆叠，同位置通知重叠在同一位置
+   * - `true` / `'vertical'` 垂直堆叠，多个通知完整排列
+   * - `'overlap'` 重叠堆叠，新通知覆盖上一个，仅露出一小部分
+   */
+  stacking?: boolean | 'vertical' | 'overlap'
+}
+
+/** 不含 type 的选项（用于快捷方法） */
+export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>
+
+/** 函数式调用返回的句柄 */
+export interface NotificationHandle {
+  close: () => void
+}
+
+/** 函数式调用参数 */
+export type NotificationParams = Partial<NotificationOptions> | string | VNode
+export type NotificationParamsTyped = Partial<NotificationOptionsTyped> | string | VNode
+
+/** notify 函数签名 */
+export interface NotifyFn {
+  (options?: NotificationParams, appContext?: null | AppContext): NotificationHandle
+  closeAll(): void
+  _context: AppContext | null
+}
+
+/** 快捷方法函数签名 */
+export type NotifyTypedFn = (
+  options?: NotificationParamsTyped,
+  appContext?: null | AppContext,
+) => NotificationHandle
+
+/** 完整 Notify 接口 */
+export interface Notify extends NotifyFn {
+  success: NotifyTypedFn
+  warning: NotifyTypedFn
+  error: NotifyTypedFn
+  info: NotifyTypedFn
+  primary: NotifyTypedFn
+}
+
+/** 通知队列项 */
+export interface NotificationQueueItem {
+  vm: VNode
+  /** 实际 DOM 元素引用 */
+  el: HTMLElement
+  /** 堆叠模式 */
+  stacking: false | 'vertical' | 'overlap'
+}
+
+/** 通知队列 */
+export type NotificationQueue = NotificationQueueItem[]

@@ -149,9 +149,9 @@ declare module 'vue' {
      */
     CpMenuNav: typeof import('cyberpunk-ui-vue')['CpMenuNav']
     /**
-     * CpNotification 赛博朋克风格通知提醒
+     * CpNotification 组件式用法
      * 
-     * 用于在页面角落显示全局通知消息，支持多种类型、位置和变体。
+     * 用于在模板中使用 v-model 控制通知显隐。
      */
     CpNotification: typeof import('cyberpunk-ui-vue')['CpNotification']
     /**
