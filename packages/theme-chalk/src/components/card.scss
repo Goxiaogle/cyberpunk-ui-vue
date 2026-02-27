@@ -656,11 +656,20 @@
 
   // ===== 折叠时尺寸锁定 =====
   // 避免 Grid/Flex=1 场景下，展开首帧立刻被父布局拉伸导致头部抖动
+  //
+  // 🔑 核心原理 (CSS Grid/Flex Spec):
+  // Grid/Flex Item 的 min-height 默认为 auto。当 overflow 为 visible 时，
+  // min-height: auto 解析为 min-content（内容不可裁剪 → 不能低于内容高度）；
+  // 当 overflow 不为 visible 时，min-height: auto 解析为 0。
+  // 因此必须在卡片根元素上设置 overflow: hidden，使浏览器允许卡片高度
+  // 随内部 grid-template-rows: 0fr → 1fr 的过渡平滑收缩/展开。
   @include when(collapse-size-locked) {
     // 用完整 flex shorthand 覆盖行内 style="flex: 1"，避免折叠态仍被父容器拉满
     flex: 0 0 auto !important;
     height: auto !important;
     min-height: 0 !important;
+    // 让 min-height: auto 在 Grid/Flex 上下文中解析为 0 而非 min-content
+    overflow: hidden !important;
 
     .cp-card__container {
       flex: 0 0 auto !important;
@@ -675,6 +684,8 @@
     flex: 0 0 auto !important;
     height: auto !important;
     min-height: 0 !important;
+    // 同上：确保折叠态 Grid/Flex Item 可以收缩到 0
+    overflow: hidden !important;
 
     .cp-card__container {
       flex: 0 0 auto !important;
