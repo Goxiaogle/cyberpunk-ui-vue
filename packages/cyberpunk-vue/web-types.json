@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -4299,9 +4299,9 @@
               "name": "showWordLimit",
               "source": {
                 "file": "../components/input/src/input.ts",
-                "offset": 4265
+                "offset": 4329
               },
-              "description": "是否显示字数统计\n需配合 maxlength 使用，显示 \"当前/最大\" 格式",
+              "description": "是否显示字数统计\n无 maxlength 时仅显示当前字数，有 maxlength 时显示 \"当前/最大\" 格式",
               "default": "false",
               "type": [
                 "boolean"
@@ -4311,7 +4311,7 @@
               "name": "inactiveBorderColor",
               "source": {
                 "file": "../components/input/src/input.ts",
-                "offset": 4501
+                "offset": 4565
               },
               "description": "未聚焦状态边框颜色\n传入有效 CSS 颜色值，覆盖默认的 inactive 边框颜色",
               "default": "''",
@@ -4323,7 +4323,7 @@
               "name": "placeholderColor",
               "source": {
                 "file": "../components/input/src/input.ts",
-                "offset": 4743
+                "offset": 4807
               },
               "description": "Placeholder 文字颜色\n传入有效 CSS 颜色值，覆盖默认的 placeholder 颜色",
               "default": "''",
@@ -4335,7 +4335,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/input/src/input.ts",
-                "offset": 4955
+                "offset": 5019
               },
               "description": "文字颜色\n传入有效 CSS 颜色值，覆盖默认的文字颜色",
               "default": "''",
@@ -4347,7 +4347,7 @@
               "name": "clearDuration",
               "source": {
                 "file": "../components/input/src/input.ts",
-                "offset": 5167
+                "offset": 5231
               },
               "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
               "default": "150",
@@ -4372,7 +4372,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 5661
+                  "offset": 5725
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -4380,7 +4380,7 @@
                 "name": "input",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 5940
+                  "offset": 6004
                 },
                 "description": "输入时触发"
               },
@@ -4388,7 +4388,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 6168
+                  "offset": 6232
                 },
                 "description": "值确认变化时触发\n仅在失去焦点且值有变化时触发"
               },
@@ -4396,7 +4396,7 @@
                 "name": "focus",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 6341
+                  "offset": 6405
                 },
                 "description": "获取焦点时触发"
               },
@@ -4404,7 +4404,7 @@
                 "name": "blur",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 6481
+                  "offset": 6545
                 },
                 "description": "失去焦点时触发"
               },
@@ -4412,7 +4412,7 @@
                 "name": "clear",
                 "source": {
                   "file": "../components/input/src/input.ts",
-                  "offset": 6672
+                  "offset": 6736
                 },
                 "description": "点击清空按钮时触发\n触发后 modelValue 会被设为空字符串"
               }

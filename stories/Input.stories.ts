@@ -434,12 +434,13 @@ export const 字数统计: Story = {
     setup() {
       const bio = ref('')
       const comment = ref('已有内容')
-      return { bio, comment }
+      const note = ref('')
+      return { bio, comment, note }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
         <div>
-          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">个人简介</p>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">有最大长度限制</p>
           <CpInput 
             v-model="bio" 
             placeholder="请输入个人简介" 
@@ -455,6 +456,14 @@ export const 字数统计: Story = {
             :maxlength="100"
             show-word-limit
             clearable
+          />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">无限制 (仅显示字数)</p>
+          <CpInput 
+            v-model="note" 
+            placeholder="无 maxlength，仅显示当前字数" 
+            show-word-limit
           />
         </div>
       </div>

@@ -107,16 +107,28 @@ export const 字数统计: Story = {
     components: { CpTextarea },
     setup() {
       const value = ref('')
-      return { value }
+      const note = ref('')
+      return { value, note }
     },
     template: `
-      <div style="width: 400px;">
-        <CpTextarea 
-          v-model="value" 
-          placeholder="最多输入 200 字" 
-          :maxlength="200"
-          show-word-limit
-        />
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 400px;">
+        <div>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">有最大长度限制</p>
+          <CpTextarea 
+            v-model="value" 
+            placeholder="最多输入 200 字" 
+            :maxlength="200"
+            show-word-limit
+          />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">无限制 (仅显示字数)</p>
+          <CpTextarea 
+            v-model="note" 
+            placeholder="无 maxlength，仅显示当前字数" 
+            show-word-limit
+          />
+        </div>
       </div>
     `,
   }),

@@ -52,7 +52,7 @@ const customStyle = computed(() => {
 
 // 字数统计
 const textLength = computed(() => props.modelValue?.length || 0)
-const showLimit = computed(() => props.showWordLimit && props.maxlength !== undefined)
+const showLimit = computed(() => props.showWordLimit)
 
 // 自适应高度
 const textareaStyle = computed(() => {
@@ -142,7 +142,7 @@ defineExpose({
     
     <!-- Word Limit -->
     <span v-if="showLimit" :class="ns.e('count')">
-      {{ textLength }} / {{ maxlength }}
+      {{ textLength }}<template v-if="maxlength !== undefined"> / {{ maxlength }}</template>
     </span>
   </div>
 </template>

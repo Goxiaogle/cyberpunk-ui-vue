@@ -195,8 +195,9 @@ export const inputProps = {
     },
     /**
      * 是否显示字数统计
-     * 需配合 maxlength 使用，显示 "当前/最大" 格式
+     * 无 maxlength 时仅显示当前字数，有 maxlength 时显示 "当前/最大" 格式
      * @default false
+     * @example `<CpInput show-word-limit />`
      * @example `<CpInput :maxlength="100" show-word-limit />`
      */
     showWordLimit: {

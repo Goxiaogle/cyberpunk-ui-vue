@@ -105,7 +105,7 @@ const textLength = computed(() => {
 })
 
 const showLimit = computed(() => {
-  return props.showWordLimit && props.maxlength !== undefined
+  return props.showWordLimit
 })
 
 const hasPrefix = computed(() => !!slots.prefix)
@@ -228,7 +228,7 @@ onMounted(() => {
     
     <!-- Word Limit -->
     <span v-if="showLimit" :class="ns.e('count')">
-      {{ textLength }} / {{ maxlength }}
+      {{ textLength }}<template v-if="maxlength !== undefined"> / {{ maxlength }}</template>
     </span>
   </div>
 </template>
