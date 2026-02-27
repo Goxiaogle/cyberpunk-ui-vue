@@ -3,7 +3,7 @@
  * CpCard - 赛博朋克风格卡片容器
  * 支持多种变体、形状模式和灵活的插槽布局
  */
-import { computed, nextTick, onBeforeUnmount, ref, useSlots, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, useSlots, watch } from 'vue'
 import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { cardProps } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -18,25 +18,8 @@ const slots = useSlots()
 const ns = useNamespace('card')
 const collapseTransitionDurationMs = 320
 
-const rootRef = ref<HTMLElement | null>(null)
 const isExpanding = ref(false)
-const isHostHeightAnimating = ref(false)
-const expandingHostHeight = ref<string | null>(null)
 let expandUnlockTimer: ReturnType<typeof setTimeout> | null = null
-let expandMeasureRaf: number | null = null
-
-const clearExpandMeasureRaf = () => {
-  if (expandMeasureRaf !== null) {
-    cancelAnimationFrame(expandMeasureRaf)
-    expandMeasureRaf = null
-  }
-}
-
-const clearExpandHostState = () => {
-  clearExpandMeasureRaf()
-  isHostHeightAnimating.value = false
-  expandingHostHeight.value = null
-}
 
 const clearExpandUnlockTimer = () => {
   if (expandUnlockTimer !== null) {
@@ -49,31 +32,8 @@ const scheduleExpandUnlock = () => {
   clearExpandUnlockTimer()
   expandUnlockTimer = setTimeout(() => {
     isExpanding.value = false
-    clearExpandHostState()
     expandUnlockTimer = null
   }, collapseTransitionDurationMs)
-}
-
-const startExpandHostAnimation = () => {
-  const rootEl = rootRef.value
-  if (!rootEl) return
-
-  const startHeight = Math.max(0, Math.round(rootEl.getBoundingClientRect().height))
-  expandingHostHeight.value = `${startHeight}px`
-  isHostHeightAnimating.value = true
-
-  void nextTick(() => {
-    if (!isExpanding.value) return
-    const el = rootRef.value
-    if (!el) return
-
-    const targetHeight = Math.max(startHeight, Math.round(el.scrollHeight))
-    clearExpandMeasureRaf()
-    expandMeasureRaf = requestAnimationFrame(() => {
-      expandingHostHeight.value = `${targetHeight}px`
-      expandMeasureRaf = null
-    })
-  })
 }
 
 watch(
@@ -82,22 +42,27 @@ watch(
     if (collapsed) {
       isExpanding.value = false
       clearExpandUnlockTimer()
-      clearExpandHostState()
       return
     }
 
     if (prevCollapsed) {
       isExpanding.value = true
-      startExpandHostAnimation()
       scheduleExpandUnlock()
     }
   },
-  { flush: 'sync' },
 )
+
+const onCollapseTransitionEnd = (event: TransitionEvent) => {
+  if (props.collapse || !isExpanding.value) return
+  if (event.target !== event.currentTarget) return
+  if (event.propertyName !== 'grid-template-rows') return
+
+  isExpanding.value = false
+  clearExpandUnlockTimer()
+}
 
 onBeforeUnmount(() => {
   clearExpandUnlockTimer()
-  clearExpandHostState()
 })
 
 const rootClasses = computed(() => [
@@ -111,7 +76,6 @@ const rootClasses = computed(() => [
   ns.is('dimmed', props.dimmed),
   ns.is('trigger-image-hover', props.triggerImageHover),
   ns.is('hover-scale', props.hoverScale),
-  ns.is('expanding-host', isHostHeightAnimating.value),
   ns.is('collapse-size-locked', props.collapse || isExpanding.value),
   ns.is('collapsed', props.collapse),
 ])
@@ -181,7 +145,6 @@ const cardStyle = computed(() => {
   // 注入动画时长
   const dimmedDur = normalizeDuration(props.dimmedDuration)
   if (dimmedDur) styles['--cp-card-dimmed-duration'] = dimmedDur
-  if (expandingHostHeight.value) styles.height = expandingHostHeight.value
   
   return styles
 })
@@ -259,10 +222,10 @@ const overlayStyle = computed(() => ({
 </script>
 
 <template>
-  <div v-show="showCard" ref="rootRef" :class="rootClasses" :style="cardStyle">
+  <div v-show="showCard" :class="rootClasses" :style="cardStyle">
     <div :class="cardClasses" :style="backgroundStyle">
       <!-- Cover -->
-      <div v-if="$slots.cover" :class="ns.e('collapse-transition')">
+      <div v-if="$slots.cover" :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
         <div :class="ns.e('collapse-inner')">
           <div :class="ns.e('cover')">
             <slot name="cover" />
@@ -283,7 +246,7 @@ const overlayStyle = computed(() => ({
       </div>
 
       <!-- Body & Footer Wrapper for Collapse Animation -->
-      <div :class="ns.e('collapse-transition')">
+      <div :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
         <div :class="ns.e('collapse-inner')">
           <!-- Body -->
           <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
