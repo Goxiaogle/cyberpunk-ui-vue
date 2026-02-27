@@ -50,10 +50,6 @@ watch(
       scheduleExpandUnlock()
     }
   },
-  {
-    // Ensure lock class is set in the same tick as collapse=false, before render.
-    flush: 'sync',
-  },
 )
 
 const onCollapseTransitionEnd = (event: TransitionEvent) => {
