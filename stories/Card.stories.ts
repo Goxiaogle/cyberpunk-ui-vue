@@ -673,22 +673,34 @@ export const 折叠模式: Story = {
     render: () => ({
         components: {CpCard, CpButton, CpImage},
         setup() {
-            const isCollapsed = ref(true)
-            const toggleCollapse = () => {
-                isCollapsed.value = !isCollapsed.value
+            const collapsed1 = ref(true)
+            const collapsed2 = ref(true)
+            const collapsed3 = ref(true)
+
+            const allCollapsed = () => collapsed1.value && collapsed2.value && collapsed3.value
+            const toggleAll = () => {
+                const next = !allCollapsed()
+                collapsed1.value = next
+                collapsed2.value = next
+                collapsed3.value = next
             }
-            return { isCollapsed, toggleCollapse }
+            return { collapsed1, collapsed2, collapsed3, allCollapsed, toggleAll }
         },
         template: `
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div style="display: flex; gap: 16px;">
-              <CpButton @click="toggleCollapse" type="primary">
-                {{ isCollapsed ? '展开卡片' : '折叠卡片' }}
+              <CpButton @click="toggleAll" type="primary">
+                {{ allCollapsed() ? '展开全部' : '折叠全部' }}
               </CpButton>
             </div>
             
             <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
-              <CpCard title="受控制的卡片" :collapse="isCollapsed" style="width: 300px;">
+              <CpCard title="受控制的卡片" :collapse="collapsed1" style="width: 300px;">
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" @click="collapsed1 = !collapsed1">
+                    {{ collapsed1 ? '展开' : '折叠' }}
+                  </CpButton>
+                </template>
                 <p>点击上方按钮体验平滑的折叠动画。</p>
                 <p>内容高度由 CSS Grid 自动处理。</p>
                 <template #footer>
@@ -696,7 +708,12 @@ export const 折叠模式: Story = {
                 </template>
               </CpCard>
 
-              <CpCard title="带封面的卡片" :collapse="isCollapsed" style="width: 300px;" type="success">
+              <CpCard title="带封面的卡片" :collapse="collapsed2" style="width: 300px;" type="success">
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" type="success" @click="collapsed2 = !collapsed2">
+                    {{ collapsed2 ? '展开' : '折叠' }}
+                  </CpButton>
+                </template>
                 <template #cover>
                   <CpImage src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400" :height="120" fit="cover" />
                 </template>
@@ -706,8 +723,11 @@ export const 折叠模式: Story = {
                 </template>
               </CpCard>
               
-              <CpCard title="只有 Header" :collapse="isCollapsed" style="width: 300px;" type="warning">
+              <CpCard title="只有 Header" :collapse="collapsed3" style="width: 300px;" type="warning">
                 <template #extra>
+                  <CpButton size="sm" variant="ghost" type="warning" @click="collapsed3 = !collapsed3">
+                    {{ collapsed3 ? '展开' : '折叠' }}
+                  </CpButton>
                   <CpButton size="sm" variant="ghost" type="warning">操作</CpButton>
                 </template>
                 <p>只有头部时，折叠也不会影响整体渲染，依然稳定。</p>
