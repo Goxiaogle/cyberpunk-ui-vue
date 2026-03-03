@@ -1,6 +1,6 @@
 {
     "name": "cyberpunk-ui-vue",
-    "version": "1.7.5",
+    "version": "1.7.6",
     "description": "A futuristic Vue 3 component library with cyberpunk aesthetics",
     "type": "module",
     "main": "./dist/index.cjs",
@@ -25,11 +25,13 @@
         },
         "./web-types.json": "./web-types.json",
         "./dist/*": "./dist/*",
-        "./styles/*": "./styles/*"
+        "./styles/*": "./styles/*",
+        "./fonts/*": "./fonts/*"
     },
     "files": [
         "dist",
         "styles",
+        "fonts",
         "global.d.ts",
         "global.mjs",
         "resolver.mjs",
@@ -41,7 +43,7 @@
         "build": "npm run build:meta && vite build && npm run build:types && npm run build:styles",
         "build:meta": "node scripts/generate-meta.mjs",
         "build:types": "node scripts/build-types.mjs",
-        "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed && sass ../theme-chalk/src/fonts.scss styles/fonts.css --style=compressed"
+        "build:styles": "sass ../theme-chalk/src/index.scss styles/index.css --style=compressed && sass ../theme-chalk/src/fonts.scss styles/fonts.css --style=compressed && node -e \"require('fs').cpSync('../theme-chalk/fonts', 'fonts', { recursive: true })\""
     },
     "peerDependencies": {
         "vue": "^3.5.0"

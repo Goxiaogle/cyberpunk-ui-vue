@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { CpUpload, CpForm, CpFormItem, CpButton } from '@cyberpunk-vue/components'
 import type { UploadFile } from '@cyberpunk-vue/components'
 
@@ -634,6 +634,108 @@ export const 成功边框颜色: Story = {
           <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">默认（跟随 type="warning"）</h4>
           <CpUpload v-model="f3" :action="UPLOAD_URL" type="warning" />
         </div>
+      </div>
+    `,
+    }),
+}
+
+// ===== TXT 文件读取 =====
+export const TXT文件读取: Story = {
+    render: () => ({
+        components: { CpUpload, CpButton },
+        setup() {
+            const fileList = ref<UploadFile[]>([])
+            const textContent = ref('')
+            const fileName = ref('')
+            const lineCount = ref(0)
+            const charCount = ref(0)
+            const isReading = ref(false)
+
+            watch(fileList, (newList) => {
+                if (newList.length === 0) {
+                    textContent.value = ''
+                    fileName.value = ''
+                    lineCount.value = 0
+                    charCount.value = 0
+                    return
+                }
+                const file = newList[newList.length - 1]
+                if (file.raw) {
+                    isReading.value = true
+                    const reader = new FileReader()
+                    reader.onload = (e) => {
+                        const result = e.target?.result as string
+                        textContent.value = result
+                        fileName.value = file.name
+                        lineCount.value = result.split('\n').length
+                        charCount.value = result.length
+                        isReading.value = false
+                    }
+                    reader.onerror = () => {
+                        textContent.value = '❌ 读取文件失败'
+                        isReading.value = false
+                    }
+                    reader.readAsText(file.raw)
+                }
+            }, { deep: true })
+
+            const handleClear = () => {
+                fileList.value = []
+            }
+
+            return { fileList, textContent, fileName, lineCount, charCount, isReading, handleClear, UPLOAD_URL }
+        },
+        template: `
+      <div style="width: 560px;">
+        <CpUpload
+          v-model="fileList"
+          :action="UPLOAD_URL"
+          accept=".txt,text/plain"
+          :auto-upload="false"
+          drag
+          type="primary"
+          placeholder="拖拽或点击上传 .txt 文本文件"
+        />
+
+        <!-- 文件信息 + 清除按钮 -->
+        <div v-if="fileName" style="margin-top: 16px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-family: Rajdhani, sans-serif; font-size: 14px; color: var(--cp-color-primary); text-transform: uppercase; letter-spacing: 1px;">
+              📄 {{ fileName }}
+            </span>
+            <span style="font-size: 12px; color: var(--cp-text-muted); font-family: var(--cp-font-family-mono);">
+              {{ lineCount }} 行 · {{ charCount }} 字符
+            </span>
+          </div>
+          <CpButton size="sm" type="error" variant="ghost" @click="handleClear">清除</CpButton>
+        </div>
+
+        <!-- 文本内容预览 -->
+        <div v-if="isReading" style="margin-top: 12px; padding: 16px; color: var(--cp-text-muted); font-size: 13px; text-align: center;">
+          读取中...
+        </div>
+        <pre
+          v-else-if="textContent"
+          style="
+            margin-top: 12px;
+            padding: 16px;
+            background: var(--cp-bg-elevated, rgba(0,0,0,0.3));
+            border: 1px solid var(--cp-border-color, rgba(255,255,255,0.08));
+            border-radius: 4px;
+            color: var(--cp-text-primary, #e0e0e0);
+            font-family: var(--cp-font-family-mono, 'Fira Code', monospace);
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+          "
+        >{{ textContent }}</pre>
+
+        <p v-else style="margin-top: 12px; color: var(--cp-text-muted); font-size: 12px;">
+          上传 .txt 文件后，内容将在此处展示。
+        </p>
       </div>
     `,
     }),
