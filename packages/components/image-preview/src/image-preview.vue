@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * CpImagePreview - 赛博朋克风格全屏大图预览
- * 支持缩放、旋转、多图切换、键盘 & 滚轮交互
+ * 支持缩放、旋转、拖拽平移、多图切换、键盘 & 滚轮交互
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
@@ -25,6 +25,15 @@ const currentIndex = ref(0)
 const scale = ref(1)
 const rotate = ref(0)
 const loading = ref(true)
+
+// 拖拽平移状态
+const translateX = ref(0)
+const translateY = ref(0)
+const isDragging = ref(false)
+let dragStartX = 0
+let dragStartY = 0
+let dragStartTranslateX = 0
+let dragStartTranslateY = 0
 
 // 缩放范围
 const ZOOM_MIN = 0.2
@@ -51,7 +60,9 @@ const canNext = computed(() => {
 
 const imgTransform = computed(() => {
     return {
-        transform: `scale(${scale.value}) rotate(${rotate.value}deg)`,
+        transform: `translate(${translateX.value}px, ${translateY.value}px) scale(${scale.value}) rotate(${rotate.value}deg)`,
+        cursor: isDragging.value ? 'grabbing' : 'grab',
+        userSelect: 'none' as const,
     }
 })
 
@@ -63,6 +74,8 @@ const overlayStyle = computed(() => ({
 const resetTransform = () => {
     scale.value = 1
     rotate.value = 0
+    translateX.value = 0
+    translateY.value = 0
 }
 
 const zoomIn = () => {
@@ -116,6 +129,32 @@ const handleImageLoad = () => {
 
 const handleImageError = () => {
     loading.value = false
+}
+
+// ===== 拖拽平移 =====
+const handleMouseDown = (e: MouseEvent) => {
+    // 仅左键触发拖拽
+    if (e.button !== 0) return
+    e.preventDefault()
+    isDragging.value = true
+    dragStartX = e.clientX
+    dragStartY = e.clientY
+    dragStartTranslateX = translateX.value
+    dragStartTranslateY = translateY.value
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+}
+
+const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging.value) return
+    translateX.value = dragStartTranslateX + (e.clientX - dragStartX)
+    translateY.value = dragStartTranslateY + (e.clientY - dragStartY)
+}
+
+const handleMouseUp = () => {
+    isDragging.value = false
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('mouseup', handleMouseUp)
 }
 
 // ===== 下载图片 =====
@@ -233,6 +272,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     document.removeEventListener('keydown', handleKeydown)
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('mouseup', handleMouseUp)
 })
 
 // ===== 暴露 =====
@@ -331,11 +372,13 @@ defineExpose({
           <!-- 实际图片 -->
           <img
             v-show="!loading"
-            :class="ns.e('img')"
+            :class="[ns.e('img'), { 'is-dragging': isDragging }]"
             :src="currentUrl"
             :style="imgTransform"
+            draggable="false"
             @load="handleImageLoad"
             @error="handleImageError"
+            @mousedown="handleMouseDown"
           />
         </div>
 

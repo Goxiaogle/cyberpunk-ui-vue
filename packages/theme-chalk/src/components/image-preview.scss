@@ -93,6 +93,11 @@
         &:active {
             cursor: grabbing;
         }
+
+        // 拖拽中禁用过渡，消除不跟手感
+        &.is-dragging {
+            transition: none;
+        }
     }
 
     // ===== 底部工具栏 =====
