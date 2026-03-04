@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { CpUpload, CpForm, CpFormItem, CpButton } from '@cyberpunk-vue/components'
 import type { UploadFile } from '@cyberpunk-vue/components'
 
@@ -639,7 +639,7 @@ export const 成功边框颜色: Story = {
     }),
 }
 
-// ===== TXT 文件读取 =====
+// ===== TXT 文件读取（纯本地，无需 action） =====
 export const TXT文件读取: Story = {
     render: () => ({
         components: { CpUpload, CpButton },
@@ -651,50 +651,44 @@ export const TXT文件读取: Story = {
             const charCount = ref(0)
             const isReading = ref(false)
 
-            watch(fileList, (newList) => {
-                if (newList.length === 0) {
-                    textContent.value = ''
-                    fileName.value = ''
-                    lineCount.value = 0
-                    charCount.value = 0
-                    return
+            const handleChange = (file: UploadFile) => {
+                if (!file.raw) return
+                isReading.value = true
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    const result = e.target?.result as string
+                    textContent.value = result
+                    fileName.value = file.name
+                    lineCount.value = result.split('\n').length
+                    charCount.value = result.length
+                    isReading.value = false
                 }
-                const file = newList[newList.length - 1]
-                if (file.raw) {
-                    isReading.value = true
-                    const reader = new FileReader()
-                    reader.onload = (e) => {
-                        const result = e.target?.result as string
-                        textContent.value = result
-                        fileName.value = file.name
-                        lineCount.value = result.split('\n').length
-                        charCount.value = result.length
-                        isReading.value = false
-                    }
-                    reader.onerror = () => {
-                        textContent.value = '❌ 读取文件失败'
-                        isReading.value = false
-                    }
-                    reader.readAsText(file.raw)
+                reader.onerror = () => {
+                    textContent.value = '❌ 读取文件失败'
+                    isReading.value = false
                 }
-            }, { deep: true })
+                reader.readAsText(file.raw)
+            }
 
             const handleClear = () => {
                 fileList.value = []
+                textContent.value = ''
+                fileName.value = ''
+                lineCount.value = 0
+                charCount.value = 0
             }
 
-            return { fileList, textContent, fileName, lineCount, charCount, isReading, handleClear, UPLOAD_URL }
+            return { fileList, textContent, fileName, lineCount, charCount, isReading, handleChange, handleClear }
         },
         template: `
       <div style="width: 560px;">
         <CpUpload
           v-model="fileList"
-          :action="UPLOAD_URL"
           accept=".txt,text/plain"
-          :auto-upload="false"
           drag
           type="primary"
           placeholder="拖拽或点击上传 .txt 文本文件"
+          @change="handleChange"
         />
 
         <!-- 文件信息 + 清除按钮 -->
@@ -736,6 +730,43 @@ export const TXT文件读取: Story = {
         <p v-else style="margin-top: 12px; color: var(--cp-text-muted); font-size: 12px;">
           上传 .txt 文件后，内容将在此处展示。
         </p>
+      </div>
+    `,
+    }),
+}
+
+// ===== 文件夹上传 =====
+export const 文件夹上传: Story = {
+    render: () => ({
+        components: { CpUpload },
+        setup() {
+            const fileList = ref<UploadFile[]>([])
+            return { fileList }
+        },
+        template: `
+      <div style="width: 560px;">
+        <CpUpload
+          v-model="fileList"
+          directory
+          drag
+          type="primary"
+          placeholder="拖拽或点击选择文件夹"
+        />
+        <div v-if="fileList.length > 0" style="margin-top: 16px;">
+          <p style="color: var(--cp-text-secondary); font-size: 13px; margin-bottom: 8px; font-family: Rajdhani, sans-serif;">
+            共 {{ fileList.length }} 个文件
+          </p>
+          <div
+            v-for="file in fileList.slice(0, 20)"
+            :key="file.uid"
+            style="font-size: 12px; color: var(--cp-text-muted); font-family: var(--cp-font-family-mono); padding: 2px 0;"
+          >
+            {{ file.relativePath || file.name }}
+          </div>
+          <p v-if="fileList.length > 20" style="font-size: 12px; color: var(--cp-text-muted); margin-top: 4px;">
+            ... 还有 {{ fileList.length - 20 }} 个文件
+          </p>
+        </div>
       </div>
     `,
     }),

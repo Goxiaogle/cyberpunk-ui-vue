@@ -26,6 +26,8 @@ export interface UploadFile {
     response?: unknown
     /** 原始 File 对象 */
     raw?: File
+    /** 文件夹上传时的相对路径（webkitRelativePath） */
+    relativePath?: string
 }
 
 /**
@@ -131,6 +133,14 @@ export const uploadProps = {
      * @default false
      */
     multiple: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 是否支持选择文件夹（webkitdirectory）
+     * @default false
+     */
+    directory: {
         type: Boolean,
         default: false,
     },

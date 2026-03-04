@@ -275,6 +275,7 @@ async function handleFiles(files: FileList | File[]) {
             status: 'ready',
             percentage: 0,
             raw: file,
+            ...(file.webkitRelativePath ? { relativePath: file.webkitRelativePath } : {}),
         }
 
         // 生成 blob URL（用于预览 / 展示）
@@ -301,8 +302,22 @@ async function handleFiles(files: FileList | File[]) {
 
     // 自动上传
     if (props.autoUpload) {
-        for (const file of newFiles) {
-            uploadFile(file)
+        if (!props.action && !props.httpRequest) {
+            // 无上传目标：直接标记成功，仅作为文件选择器使用
+            for (const file of newFiles) {
+                file.status = 'success'
+                file.percentage = 100
+            }
+            const successList = [...updatedList]
+            for (const file of newFiles) {
+                emit('success', null, file, successList)
+                emit('change', file, successList)
+            }
+            updateFileList(successList)
+        } else {
+            for (const file of newFiles) {
+                uploadFile(file)
+            }
         }
     }
 }
@@ -432,8 +447,9 @@ function formatSize(bytes: number): string {
       type="file"
       :class="ns.e('input')"
       :accept="accept"
-      :multiple="multiple"
+      :multiple="multiple || directory"
       :disabled="isDisabled"
+      v-bind="directory ? { webkitdirectory: '' } : {}"
       @change="handleInputChange"
     />
 

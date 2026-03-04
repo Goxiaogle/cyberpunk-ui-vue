@@ -556,12 +556,13 @@ interface SegmentedOption {
 | 属性              | 类型                                                                    | 默认值      | 说明                                                                     |
 | ----------------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------ |
 | `v-model`         | `UploadFile[]`                                                          | `[]`        | 文件列表                                                                 |
-| `action`          | `string`                                                                | `''`        | 上传地址                                                                 |
+| `action`          | `string`                                                                | `''`        | 上传地址（留空则为纯本地文件选择器模式）                                 |
 | `headers`         | `Record<string, string>`                                                | `{}`        | 请求头                                                                   |
 | `data`            | `Record<string, string>`                                                | `{}`        | 附加参数                                                                 |
 | `name`            | `string`                                                                | `'file'`    | 上传字段名                                                               |
 | `accept`          | `string`                                                                | `''`        | 接受的文件类型（原生 accept）                                            |
 | `multiple`        | `boolean`                                                               | `false`     | 是否多文件                                                               |
+| `directory`       | `boolean`                                                               | `false`     | 是否选择文件夹（webkitdirectory，自动开启 multiple）                     |
 | `limit`           | `number`                                                                | `0`         | 最大文件数（0 = 无限制）                                                 |
 | `maxSize`         | `number`                                                                | `0`         | 最大文件大小 bytes（0 = 无限制）                                         |
 | `disabled`        | `boolean`                                                               | `false`     | 禁用（继承 Form disabled）                                               |
@@ -598,6 +599,7 @@ interface UploadFile {
   url?: string;
   response?: unknown;
   raw?: File;
+  relativePath?: string; // 文件夹上传时的相对路径
 }
 
 interface UploadRequestOptions {
@@ -708,4 +710,20 @@ interface UploadRequestOptions {
 <!-- 成功边框颜色自定义 -->
 <CpUpload v-model="fileList" action="/api/upload" success-type="primary" />
 <CpUpload v-model="fileList" action="/api/upload" success-type="#ff00ff" />
+
+<!-- 纯本地文件选择器（不传 action）：文件选择后自动标记 success，触发 @success / @change -->
+<CpUpload
+  v-model="fileList"
+  accept=".txt,text/plain"
+  drag
+  @change="handleFile"
+/>
+
+<!-- 文件夹选择 -->
+<CpUpload
+  v-model="fileList"
+  directory
+  drag
+  @change="(file) => console.log(file.relativePath)"
+/>
 ```
