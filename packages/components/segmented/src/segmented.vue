@@ -3,10 +3,11 @@
  * CpSegmented - 赛博朋克风格分段选择器
  * 一体化互斥选项控件条，选中项带滑块高亮效果
  */
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, inject, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { segmentedProps, segmentedEmits, type SegmentedOption, type SegmentedValueType } from './segmented'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Segmented`,
@@ -16,6 +17,8 @@ const props = defineProps(segmentedProps)
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 尺寸映射
 const segmentedSizeMap = { sm: 28, md: 36, lg: 44 }
@@ -101,7 +104,7 @@ const classes = computed(() => [
   ns.m(props.type),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(`shape-${props.shape}`),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('block', props.block),
   ns.is('custom-color', !!props.color),
   ns.is('custom-size', !isPresetSize(props.size)),
@@ -125,7 +128,7 @@ const customStyle = computed(() => {
 
 // ===== 选项点击 =====
 const handleItemClick = (option: SegmentedOption) => {
-  if (props.disabled || option.disabled) return
+  if (isDisabled.value || option.disabled) return
   if (option.value === props.modelValue) return
 
   emit('update:modelValue', option.value)
@@ -164,7 +167,7 @@ defineExpose({
       :key="option.value"
       :ref="(el) => setItemRef(el, index)"
       :class="getItemClasses(option)"
-      :disabled="disabled || option.disabled"
+      :disabled="isDisabled || option.disabled"
       type="button"
       role="radio"
       :aria-checked="option.value === modelValue"

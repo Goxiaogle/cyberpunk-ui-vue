@@ -8,6 +8,7 @@ import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { checkboxProps, checkboxEmits } from './checkbox'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { checkboxGroupContextKey } from '@cyberpunk-vue/components/checkbox-group/src/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Checkbox`,
@@ -23,13 +24,14 @@ const checkboxSizeMap = { sm: 14, md: 18, lg: 22 }
 
 // 注入 CheckboxGroup 上下文
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)
+const formContext = inject(formContextKey, undefined)
 
 // 是否在 Group 中
 const isGroup = computed(() => !!checkboxGroup)
 
 // 实际禁用状态
 const actualDisabled = computed(() => {
-  return props.disabled || checkboxGroup?.disabled?.value || false
+  return props.disabled || checkboxGroup?.disabled?.value || formContext?.disabled.value || false
 })
 
 // 实际尺寸

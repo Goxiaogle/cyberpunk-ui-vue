@@ -5,10 +5,11 @@
  * 支持 prefix/suffix 插槽、自定义颜色
  * 支持密码可见性切换、字数统计
  */
-import { computed, ref, useSlots, onMounted, nextTick } from 'vue'
+import { computed, ref, inject, useSlots, onMounted, nextTick } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputProps, inputEmits } from './input'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Input`,
@@ -19,6 +20,8 @@ const emit = defineEmits(inputEmits)
 const slots = useSlots()
 
 const ns = useNamespace('input')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 输入框尺寸预设映射
 const inputSizeMap = { sm: 28, md: 36, lg: 44 }
@@ -43,7 +46,7 @@ const classes = computed(() => [
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('clearable', props.clearable && !!props.modelValue),
@@ -91,12 +94,12 @@ const customStyle = computed(() => {
 
 // 是否显示清空按钮
 const showClear = computed(() => {
-  return props.clearable && !props.disabled && !props.readonly && !!props.modelValue
+  return props.clearable && !isDisabled.value && !props.readonly && !!props.modelValue
 })
 
 // 是否显示密码切换按钮
 const showPasswordToggle = computed(() => {
-  return props.type === 'password' && props.showPassword && !props.disabled
+  return props.type === 'password' && props.showPassword && !isDisabled.value
 })
 
 // 字数统计
@@ -185,7 +188,7 @@ onMounted(() => {
       :type="inputType"
       :value="modelValue"
       :placeholder="placeholder"
-      :disabled="disabled"
+      :disabled="isDisabled"
       :readonly="readonly"
       :maxlength="maxlength"
       @input="handleInput"

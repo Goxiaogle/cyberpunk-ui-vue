@@ -2,10 +2,11 @@
 /**
  * CpInputNumber - 赛博朋克风格数字输入框
  */
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}InputNumber`,
@@ -15,6 +16,8 @@ const props = defineProps(inputNumberProps)
 const emit = defineEmits(inputNumberEmits)
 
 const ns = useNamespace('input-number')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 尺寸预设映射
 const inputNumberSizeMap = { sm: 28, md: 36, lg: 44 }
@@ -38,7 +41,7 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(`controls-${props.controlsPosition}`),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('custom-color', !!props.color),
@@ -84,12 +87,12 @@ const setCurrentValue = (value: number) => {
 }
 
 const increase = () => {
-  if (props.disabled || props.readonly || maxDisabled.value) return
+  if (isDisabled.value || props.readonly || maxDisabled.value) return
   setCurrentValue(props.modelValue + props.step)
 }
 
 const decrease = () => {
-  if (props.disabled || props.readonly || minDisabled.value) return
+  if (isDisabled.value || props.readonly || minDisabled.value) return
   setCurrentValue(props.modelValue - props.step)
 }
 
@@ -143,8 +146,8 @@ defineExpose({
     <button
       v-if="controls && controlsPosition === 'both'"
       type="button"
-      :class="[ns.e('decrease'), { 'is-disabled': minDisabled || disabled }]"
-      :disabled="minDisabled || disabled"
+      :class="[ns.e('decrease'), { 'is-disabled': minDisabled || isDisabled }]"
+      :disabled="minDisabled || isDisabled"
       @click="decrease"
     >
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -160,7 +163,7 @@ defineExpose({
       inputmode="decimal"
       :value="displayValue"
       :placeholder="placeholder"
-      :disabled="disabled"
+      :disabled="isDisabled"
       :readonly="readonly"
       @input="handleInput"
       @change="handleChange"
@@ -172,8 +175,8 @@ defineExpose({
     <button
       v-if="controls && controlsPosition === 'both'"
       type="button"
-      :class="[ns.e('increase'), { 'is-disabled': maxDisabled || disabled }]"
-      :disabled="maxDisabled || disabled"
+      :class="[ns.e('increase'), { 'is-disabled': maxDisabled || isDisabled }]"
+      :disabled="maxDisabled || isDisabled"
       @click="increase"
     >
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -185,8 +188,8 @@ defineExpose({
     <div v-if="controls && controlsPosition === 'right'" :class="ns.e('controls')">
       <button
         type="button"
-        :class="[ns.e('increase'), { 'is-disabled': maxDisabled || disabled }]"
-        :disabled="maxDisabled || disabled"
+        :class="[ns.e('increase'), { 'is-disabled': maxDisabled || isDisabled }]"
+        :disabled="maxDisabled || isDisabled"
         @click="increase"
       >
         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -195,8 +198,8 @@ defineExpose({
       </button>
       <button
         type="button"
-        :class="[ns.e('decrease'), { 'is-disabled': minDisabled || disabled }]"
-        :disabled="minDisabled || disabled"
+        :class="[ns.e('decrease'), { 'is-disabled': minDisabled || isDisabled }]"
+        :disabled="minDisabled || isDisabled"
         @click="decrease"
       >
         <svg viewBox="0 0 24 24" fill="currentColor">

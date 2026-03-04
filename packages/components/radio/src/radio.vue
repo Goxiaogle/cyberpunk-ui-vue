@@ -8,6 +8,7 @@ import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { radioProps, radioEmits, type RadioValueType } from './radio'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { radioGroupContextKey } from '@cyberpunk-vue/components/radio-group/src/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Radio`,
@@ -23,13 +24,14 @@ const radioSizeMap = { sm: 14, md: 18, lg: 22 }
 
 // 注入 RadioGroup 上下文
 const radioGroup = inject(radioGroupContextKey, undefined)
+const formContext = inject(formContextKey, undefined)
 
 // 是否在 Group 中
 const isGroup = computed(() => !!radioGroup)
 
 // 实际禁用状态
 const actualDisabled = computed(() => {
-  return props.disabled || radioGroup?.disabled?.value || false
+  return props.disabled || radioGroup?.disabled?.value || formContext?.disabled.value || false
 })
 
 // 实际尺寸

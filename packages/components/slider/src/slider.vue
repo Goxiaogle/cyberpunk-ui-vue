@@ -3,10 +3,11 @@
  * CpSlider - 赛博朋克风格滑块
  * 支持单值/范围模式、刻度标记、垂直模式
  */
-import { computed, ref, onBeforeUnmount } from 'vue'
+import { computed, ref, inject, onBeforeUnmount } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { sliderProps, sliderEmits } from './slider'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Slider`,
@@ -16,6 +17,8 @@ const props = defineProps(sliderProps)
 const emit = defineEmits(sliderEmits)
 
 const ns = useNamespace('slider')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 滑块尺寸预设映射
 const sliderSizeMap = { sm: 4, md: 6, lg: 8 }
@@ -36,7 +39,7 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(`shape-${props.shape}`),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('vertical', props.vertical),
   ns.is('range', props.range),
   ns.is('dragging', isDragging.value),
@@ -231,7 +234,7 @@ const getValueFromPosition = (clientX: number, clientY: number) => {
 
 // 更新值
 const updateValue = (newValue: number, isEnd = false) => {
-  if (props.disabled) return
+  if (isDisabled.value) return
 
   let result: number | [number, number]
 
@@ -270,7 +273,7 @@ const determineActiveThumb = (value: number) => {
 
 // 事件处理
 const handleTrackClick = (event: MouseEvent) => {
-  if (props.disabled) return
+  if (isDisabled.value) return
   
   const value = getValueFromPosition(event.clientX, event.clientY)
   determineActiveThumb(value)
@@ -278,7 +281,7 @@ const handleTrackClick = (event: MouseEvent) => {
 }
 
 const handleThumbMouseDown = (event: MouseEvent, thumb: 'start' | 'end') => {
-  if (props.disabled) return
+  if (isDisabled.value) return
   
   event.preventDefault()
   event.stopPropagation()
@@ -301,7 +304,7 @@ const handleThumbMouseDown = (event: MouseEvent, thumb: 'start' | 'end') => {
 }
 
 const handleMouseMove = (event: MouseEvent) => {
-  if (!isDragging.value || props.disabled) return
+  if (!isDragging.value || isDisabled.value) return
 
   const value = getValueFromPosition(event.clientX, event.clientY)
   
@@ -349,7 +352,7 @@ const handleMouseUp = () => {
 
 // 键盘支持
 const handleKeyDown = (event: KeyboardEvent, thumb: 'start' | 'end') => {
-  if (props.disabled) return
+  if (isDisabled.value) return
 
   let delta = 0
   switch (event.key) {
@@ -379,7 +382,7 @@ const handleKeyDown = (event: KeyboardEvent, thumb: 'start' | 'end') => {
 
 // Tooltip 显示控制
 const handleThumbMouseEnter = (thumb: 'start' | 'end') => {
-  if (!props.showTooltip || props.disabled) return
+  if (!props.showTooltip || isDisabled.value) return
   if (thumb === 'start') {
     showStartTooltip.value = true
   } else {

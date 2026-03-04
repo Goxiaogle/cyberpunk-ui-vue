@@ -4,10 +4,11 @@
  * 支持多种尺寸、异步切换、内嵌文字
  * 支持自定义颜色、加载状态、长文本自适应 (fitText)
  */
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { switchProps, switchEmits } from './switch'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Switch`,
@@ -17,6 +18,7 @@ const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 
 const ns = useNamespace('switch')
+const formContext = inject(formContextKey, undefined)
 
 // 开关尺寸预设映射
 const switchSizeMap = { sm: 16, md: 20, lg: 24 }
@@ -27,7 +29,7 @@ const isSwitching = ref(false)
 
 // 是否实际禁用
 const actualDisabled = computed(() => {
-  return props.disabled || props.loading || isSwitching.value
+  return props.disabled || formContext?.disabled.value || props.loading || isSwitching.value
 })
 
 // 计算类名
@@ -35,7 +37,7 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.is('checked', props.modelValue),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', actualDisabled.value),
   ns.is('loading', props.loading),
   ns.is('fit-text', props.fitText),
   ns.is('custom-size', !isPresetSize(props.size)),

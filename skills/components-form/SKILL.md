@@ -11,19 +11,19 @@ description: 表单组件的详细属性参考：Form、FormItem、Input、Input
 
 ### Props
 
-| 属性                      | 类型                                     | 默认值    | 说明                       |
-| ------------------------- | ---------------------------------------- | --------- | -------------------------- |
-| `model`                   | `Record<string, any>`                    | —         | 表单数据对象               |
-| `rules`                   | `Record<string, FormRule \| FormRule[]>` | `{}`      | 验证规则                   |
-| `labelWidth`              | `string \| number`                       | `'auto'`  | 标签宽度                   |
-| `labelPosition`           | `'left' \| 'right' \| 'top'`             | `'right'` | 标签位置                   |
-| `labelSuffix`             | `string`                                 | `''`      | 标签后缀（如 `'：'`）      |
-| `size`                    | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | 控件尺寸                   |
-| `disabled`                | `boolean`                                | `false`   | 全局禁用                   |
-| `showMessage`             | `boolean`                                | `true`    | 全局：显示验证错误信息     |
-| `reserveErrorSpace`       | `boolean`                                | `false`   | 全局：预留错误信息占位高度 |
-| `inline`                  | `boolean`                                | `false`   | 行内表单模式               |
-| `requireAsteriskPosition` | `'left' \| 'right'`                      | `'left'`  | 必填星号位置               |
+| 属性                      | 类型                                     | 默认值    | 说明                         |
+| ------------------------- | ---------------------------------------- | --------- | ---------------------------- |
+| `model`                   | `Record<string, any>`                    | —         | 表单数据对象                 |
+| `rules`                   | `Record<string, FormRule \| FormRule[]>` | `{}`      | 验证规则                     |
+| `labelWidth`              | `string \| number`                       | `'auto'`  | 标签宽度                     |
+| `labelPosition`           | `'left' \| 'right' \| 'top'`             | `'right'` | 标签位置                     |
+| `labelSuffix`             | `string`                                 | `''`      | 标签后缀（如 `'：'`）        |
+| `size`                    | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | 控件尺寸                     |
+| `disabled`                | `boolean`                                | `false`   | 全局禁用（穿透到所有子控件） |
+| `showMessage`             | `boolean`                                | `true`    | 全局：显示验证错误信息       |
+| `reserveErrorSpace`       | `boolean`                                | `false`   | 全局：预留错误信息占位高度   |
+| `inline`                  | `boolean`                                | `false`   | 行内表单模式                 |
+| `requireAsteriskPosition` | `'left' \| 'right'`                      | `'left'`  | 必填星号位置                 |
 
 ### FormRule 接口
 
@@ -68,6 +68,13 @@ interface FormRule {
 | `--cp-form-error-height`      | `20px`                     | 错误信息预留高度      |
 | `--cp-form-error-margin-top`  | `4px`                      | 错误信息与控件间距    |
 
+### disabled 穿透
+
+设置 `disabled` 后，表单内所有控件均自动禁用，无需逐个设置。
+优先级：`控件自身 disabled` > `Group disabled` > `Form disabled`。
+
+支持的控件：Input、Textarea、InputNumber、Dropdown、Switch、Slider、Checkbox、Radio、Segmented、Button、Upload。
+
 ### 示例
 
 ```vue
@@ -81,6 +88,16 @@ interface FormRule {
   <CpFormItem>
     <CpButton type="primary" @click="onSubmit">提交</CpButton>
     <CpButton @click="formRef?.resetFields()">重置</CpButton>
+  </CpFormItem>
+</CpForm>
+
+<!-- 全局禁用：所有内部控件自动变为 disabled -->
+<CpForm :model="formData" disabled>
+  <CpFormItem label="名称">
+    <CpInput v-model="formData.name" />
+  </CpFormItem>
+  <CpFormItem label="类型">
+    <CpDropdown v-model="formData.type" :options="typeOptions" />
   </CpFormItem>
 </CpForm>
 ```
@@ -145,26 +162,26 @@ interface FormRule {
 
 ### Props
 
-| 属性                  | 类型                                                            | 默认值      | 说明              |
-| --------------------- | --------------------------------------------------------------- | ----------- | ----------------- |
-| `v-model`             | `string \| number`                                              | `''`        | 绑定值            |
-| `type`                | `'text' \| 'password' \| 'number' \| 'email' \| 'tel' \| 'url'` | `'text'`    | 输入类型          |
-| `size`                | `'sm' \| 'md' \| 'lg' \| number \| string`                      | `'md'`      | 尺寸              |
-| `shape`               | `'clip' \| 'no-clip' \| 'round'`                                | `'clip'`    | 形状              |
-| `variant`             | `'outline' \| 'filled' \| 'ghost'`                              | `'outline'` | 变体              |
-| `placeholder`         | `string`                                                        | `''`        | 占位文本          |
-| `disabled`            | `boolean`                                                       | `false`     | 禁用              |
-| `readonly`            | `boolean`                                                       | `false`     | 只读              |
-| `clearable`           | `boolean`                                                       | `false`     | 可清空            |
-| `clearDuration`       | `number`                                                        | `150`       | 清除动画时长 (ms) |
-| `maxlength`           | `number`                                                        | -           | 最大长度          |
-| `showPassword`        | `boolean`                                                       | `false`     | 显示密码切换按钮  |
-| `showWordLimit`       | `boolean`                                                       | `false`     | 显示字数统计      |
-| `color`               | `string`                                                        | `''`        | 聚焦颜色          |
-| `textColor`           | `string`                                                        | `''`        | 文字颜色          |
-| `placeholderColor`    | `string`                                                        | `''`        | 占位符颜色        |
-| `inactiveBorderColor` | `string`                                                        | `''`        | 未聚焦边框颜色    |
-| `autofocus`           | `boolean`                                                       | `false`     | 自动聚焦          |
+| 属性                  | 类型                                                            | 默认值      | 说明                       |
+| --------------------- | --------------------------------------------------------------- | ----------- | -------------------------- |
+| `v-model`             | `string \| number`                                              | `''`        | 绑定值                     |
+| `type`                | `'text' \| 'password' \| 'number' \| 'email' \| 'tel' \| 'url'` | `'text'`    | 输入类型                   |
+| `size`                | `'sm' \| 'md' \| 'lg' \| number \| string`                      | `'md'`      | 尺寸                       |
+| `shape`               | `'clip' \| 'no-clip' \| 'round'`                                | `'clip'`    | 形状                       |
+| `variant`             | `'outline' \| 'filled' \| 'ghost'`                              | `'outline'` | 变体                       |
+| `placeholder`         | `string`                                                        | `''`        | 占位文本                   |
+| `disabled`            | `boolean`                                                       | `false`     | 禁用（继承 Form disabled） |
+| `readonly`            | `boolean`                                                       | `false`     | 只读                       |
+| `clearable`           | `boolean`                                                       | `false`     | 可清空                     |
+| `clearDuration`       | `number`                                                        | `150`       | 清除动画时长 (ms)          |
+| `maxlength`           | `number`                                                        | -           | 最大长度                   |
+| `showPassword`        | `boolean`                                                       | `false`     | 显示密码切换按钮           |
+| `showWordLimit`       | `boolean`                                                       | `false`     | 显示字数统计               |
+| `color`               | `string`                                                        | `''`        | 聚焦颜色                   |
+| `textColor`           | `string`                                                        | `''`        | 文字颜色                   |
+| `placeholderColor`    | `string`                                                        | `''`        | 占位符颜色                 |
+| `inactiveBorderColor` | `string`                                                        | `''`        | 未聚焦边框颜色             |
+| `autofocus`           | `boolean`                                                       | `false`     | 自动聚焦                   |
 
 ### 插槽
 
@@ -208,21 +225,21 @@ interface FormRule {
 
 ### Props
 
-| 属性            | 类型                                                       | 默认值      | 说明           |
-| --------------- | ---------------------------------------------------------- | ----------- | -------------- |
-| `v-model`       | `boolean`                                                  | `false`     | 开关状态       |
-| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸           |
-| `type`          | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型       |
-| `disabled`      | `boolean`                                                  | `false`     | 禁用           |
-| `loading`       | `boolean`                                                  | `false`     | 加载中         |
-| `color`         | `string`                                                   | `''`        | 选中颜色       |
-| `inactiveColor` | `string`                                                   | `''`        | 未选中颜色     |
-| `activeText`    | `string`                                                   | `''`        | 选中时文字     |
-| `inactiveText`  | `string`                                                   | `''`        | 未选中时文字   |
-| `fitText`       | `boolean`                                                  | `false`     | 宽度适应文字   |
-| `width`         | `string \| number`                                         | `''`        | 固定宽度       |
-| `beforeChange`  | `() => Promise<boolean> \| boolean`                        | -           | 切换前钩子     |
-| `name`          | `string`                                                   | `''`        | 原生 name 属性 |
+| 属性            | 类型                                                       | 默认值      | 说明                       |
+| --------------- | ---------------------------------------------------------- | ----------- | -------------------------- |
+| `v-model`       | `boolean`                                                  | `false`     | 开关状态                   |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸                       |
+| `type`          | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型                   |
+| `disabled`      | `boolean`                                                  | `false`     | 禁用（继承 Form disabled） |
+| `loading`       | `boolean`                                                  | `false`     | 加载中                     |
+| `color`         | `string`                                                   | `''`        | 选中颜色                   |
+| `inactiveColor` | `string`                                                   | `''`        | 未选中颜色                 |
+| `activeText`    | `string`                                                   | `''`        | 选中时文字                 |
+| `inactiveText`  | `string`                                                   | `''`        | 未选中时文字               |
+| `fitText`       | `boolean`                                                  | `false`     | 宽度适应文字               |
+| `width`         | `string \| number`                                         | `''`        | 固定宽度                   |
+| `beforeChange`  | `() => Promise<boolean> \| boolean`                        | -           | 切换前钩子                 |
+| `name`          | `string`                                                   | `''`        | 原生 name 属性             |
 
 ### 示例
 
@@ -240,22 +257,22 @@ interface FormRule {
 
 ### Props
 
-| 属性            | 类型                                         | 默认值   | 说明           |
-| --------------- | -------------------------------------------- | -------- | -------------- |
-| `v-model`       | `number \| [number, number]`                 | `0`      | 当前值         |
-| `min`           | `number`                                     | `0`      | 最小值         |
-| `max`           | `number`                                     | `100`    | 最大值         |
-| `step`          | `number`                                     | `1`      | 步长           |
-| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`   | `'md'`   | 尺寸           |
-| `shape`         | `'clip' \| 'no-clip' \| 'round'`             | `'clip'` | 形状           |
-| `disabled`      | `boolean`                                    | `false`  | 禁用           |
-| `range`         | `boolean`                                    | `false`  | 范围选择模式   |
-| `vertical`      | `boolean`                                    | `false`  | 垂直模式       |
-| `showTooltip`   | `boolean`                                    | `true`   | 显示数值提示   |
-| `showStops`     | `boolean`                                    | `false`  | 显示刻度点     |
-| `marks`         | `Record<number, string \| { label, style }>` | -        | 刻度标记       |
-| `color`         | `string`                                     | `''`     | 自定义颜色     |
-| `formatTooltip` | `(value: number) => string`                  | -        | 格式化提示内容 |
+| 属性            | 类型                                         | 默认值   | 说明                       |
+| --------------- | -------------------------------------------- | -------- | -------------------------- |
+| `v-model`       | `number \| [number, number]`                 | `0`      | 当前值                     |
+| `min`           | `number`                                     | `0`      | 最小值                     |
+| `max`           | `number`                                     | `100`    | 最大值                     |
+| `step`          | `number`                                     | `1`      | 步长                       |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`   | `'md'`   | 尺寸                       |
+| `shape`         | `'clip' \| 'no-clip' \| 'round'`             | `'clip'` | 形状                       |
+| `disabled`      | `boolean`                                    | `false`  | 禁用（继承 Form disabled） |
+| `range`         | `boolean`                                    | `false`  | 范围选择模式               |
+| `vertical`      | `boolean`                                    | `false`  | 垂直模式                   |
+| `showTooltip`   | `boolean`                                    | `true`   | 显示数值提示               |
+| `showStops`     | `boolean`                                    | `false`  | 显示刻度点                 |
+| `marks`         | `Record<number, string \| { label, style }>` | -        | 刻度标记                   |
+| `color`         | `string`                                     | `''`     | 自定义颜色                 |
+| `formatTooltip` | `(value: number) => string`                  | -        | 格式化提示内容             |
 
 ### 示例
 
@@ -273,23 +290,23 @@ interface FormRule {
 
 ### Props
 
-| 属性            | 类型                                                         | 默认值           | 说明              |
-| --------------- | ------------------------------------------------------------ | ---------------- | ----------------- |
-| `v-model`       | `string \| number`                                           | `''`             | 选中值            |
-| `options`       | `{ label, value, disabled? }[]`                              | `[]`             | 选项列表          |
-| `placeholder`   | `string`                                                     | `'请选择'`       | 占位文本          |
-| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                   | `'md'`           | 尺寸              |
-| `shape`         | `'clip' \| 'no-clip' \| 'round'`                             | `'clip'`         | 形状              |
-| `variant`       | `'outline' \| 'filled' \| 'ghost'`                           | `'outline'`      | 变体              |
-| `width`         | `string \| number`                                           | `''`             | 宽度（空 = 100%） |
-| `disabled`      | `boolean`                                                    | `false`          | 禁用              |
-| `clearable`     | `boolean`                                                    | `false`          | 可清空            |
-| `clearDuration` | `number`                                                     | `150`            | 清除动画时长 (ms) |
-| `filterable`    | `boolean`                                                    | `false`          | 可搜索            |
-| `inline`        | `boolean`                                                    | `false`          | 行内搜索模式      |
-| `color`         | `string`                                                     | `''`             | 聚焦颜色          |
-| `placement`     | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| ...` | `'bottom-start'` | 弹出位置          |
-| `maxHeight`     | `number`                                                     | `256`            | 下拉面板最大高度  |
+| 属性            | 类型                                                         | 默认值           | 说明                       |
+| --------------- | ------------------------------------------------------------ | ---------------- | -------------------------- |
+| `v-model`       | `string \| number`                                           | `''`             | 选中值                     |
+| `options`       | `{ label, value, disabled? }[]`                              | `[]`             | 选项列表                   |
+| `placeholder`   | `string`                                                     | `'请选择'`       | 占位文本                   |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                   | `'md'`           | 尺寸                       |
+| `shape`         | `'clip' \| 'no-clip' \| 'round'`                             | `'clip'`         | 形状                       |
+| `variant`       | `'outline' \| 'filled' \| 'ghost'`                           | `'outline'`      | 变体                       |
+| `width`         | `string \| number`                                           | `''`             | 宽度（空 = 100%）          |
+| `disabled`      | `boolean`                                                    | `false`          | 禁用（继承 Form disabled） |
+| `clearable`     | `boolean`                                                    | `false`          | 可清空                     |
+| `clearDuration` | `number`                                                     | `150`            | 清除动画时长 (ms)          |
+| `filterable`    | `boolean`                                                    | `false`          | 可搜索                     |
+| `inline`        | `boolean`                                                    | `false`          | 行内搜索模式               |
+| `color`         | `string`                                                     | `''`             | 聚焦颜色                   |
+| `placement`     | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| ...` | `'bottom-start'` | 弹出位置                   |
+| `maxHeight`     | `number`                                                     | `256`            | 下拉面板最大高度           |
 
 ### CSS 变量
 
@@ -328,18 +345,18 @@ interface FormRule {
 
 ### Props
 
-| 属性            | 类型                                                       | 默认值      | 说明                        |
-| --------------- | ---------------------------------------------------------- | ----------- | --------------------------- |
-| `v-model`       | `boolean \| CheckboxValueType[]`                           | -           | 绑定值                      |
-| `label`         | `string \| number \| boolean`                              | -           | 选项值，在 Group 中使用     |
-| `trueValue`     | `string \| number \| boolean`                              | `true`      | 选中时的值（单独使用）      |
-| `falseValue`    | `string \| number \| boolean`                              | `false`     | 未选中时的值（单独使用）    |
-| `disabled`      | `boolean`                                                  | `false`     | 禁用                        |
-| `indeterminate` | `boolean`                                                  | `false`     | 半选状态                    |
-| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸                        |
-| `type`          | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型                    |
-| `color`         | `string`                                                   | `''`        | 自定义选中颜色（覆盖 type） |
-| `border`        | `boolean`                                                  | `false`     | 边框卡片模式                |
+| 属性            | 类型                                                       | 默认值      | 说明                             |
+| --------------- | ---------------------------------------------------------- | ----------- | -------------------------------- |
+| `v-model`       | `boolean \| CheckboxValueType[]`                           | -           | 绑定值                           |
+| `label`         | `string \| number \| boolean`                              | -           | 选项值，在 Group 中使用          |
+| `trueValue`     | `string \| number \| boolean`                              | `true`      | 选中时的值（单独使用）           |
+| `falseValue`    | `string \| number \| boolean`                              | `false`     | 未选中时的值（单独使用）         |
+| `disabled`      | `boolean`                                                  | `false`     | 禁用（继承 Group/Form disabled） |
+| `indeterminate` | `boolean`                                                  | `false`     | 半选状态                         |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸                             |
+| `type`          | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型                         |
+| `color`         | `string`                                                   | `''`        | 自定义选中颜色（覆盖 type）      |
+| `border`        | `boolean`                                                  | `false`     | 边框卡片模式                     |
 
 ### 示例
 
@@ -384,17 +401,17 @@ interface FormRule {
 
 ### Props
 
-| 属性       | 类型                                                       | 默认值      | 说明                        |
-| ---------- | ---------------------------------------------------------- | ----------- | --------------------------- |
-| `v-model`  | `string \| number \| boolean`                              | -           | 绑定值                      |
-| `value`    | `string \| number \| boolean`                              | -           | 此单选框对应的值            |
-| `label`    | `string \| number`                                         | `''`        | 显示标签                    |
-| `disabled` | `boolean`                                                  | `false`     | 禁用                        |
-| `size`     | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸                        |
-| `type`     | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型                    |
-| `color`    | `string`                                                   | `''`        | 自定义选中颜色（覆盖 type） |
-| `glow`     | `boolean`                                                  | `true`      | 霓虹辉光效果                |
-| `border`   | `boolean`                                                  | `false`     | 边框卡片模式                |
+| 属性       | 类型                                                       | 默认值      | 说明                             |
+| ---------- | ---------------------------------------------------------- | ----------- | -------------------------------- |
+| `v-model`  | `string \| number \| boolean`                              | -           | 绑定值                           |
+| `value`    | `string \| number \| boolean`                              | -           | 此单选框对应的值                 |
+| `label`    | `string \| number`                                         | `''`        | 显示标签                         |
+| `disabled` | `boolean`                                                  | `false`     | 禁用（继承 Group/Form disabled） |
+| `size`     | `'sm' \| 'md' \| 'lg' \| number \| string`                 | `'md'`      | 尺寸                             |
+| `type`     | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型                         |
+| `color`    | `string`                                                   | `''`        | 自定义选中颜色（覆盖 type）      |
+| `glow`     | `boolean`                                                  | `true`      | 霓虹辉光效果                     |
+| `border`   | `boolean`                                                  | `false`     | 边框卡片模式                     |
 
 ### 设计亮点
 
@@ -447,17 +464,17 @@ interface FormRule {
 
 ### Props
 
-| 属性       | 类型                                                                    | 默认值      | 说明                    |
-| ---------- | ----------------------------------------------------------------------- | ----------- | ----------------------- |
-| `v-model`  | `string \| number`                                                      | —           | 绑定值                  |
-| `options`  | `(string \| number \| SegmentedOption)[]`                               | `[]`        | 选项数组                |
-| `type`     | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色预设                |
-| `variant`  | `'solid' \| 'outline' \| 'semi' \| 'ghost' \| 'neon'`                   | `'solid'`   | 变体样式                |
-| `size`     | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 尺寸                    |
-| `shape`    | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`    | 形状模式                |
-| `color`    | `string`                                                                | `''`        | 自定义主题色，覆盖 type |
-| `disabled` | `boolean`                                                               | `false`     | 全局禁用                |
-| `block`    | `boolean`                                                               | `false`     | 撑满父容器宽度          |
+| 属性       | 类型                                                                    | 默认值      | 说明                           |
+| ---------- | ----------------------------------------------------------------------- | ----------- | ------------------------------ |
+| `v-model`  | `string \| number`                                                      | —           | 绑定值                         |
+| `options`  | `(string \| number \| SegmentedOption)[]`                               | `[]`        | 选项数组                       |
+| `type`     | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色预设                       |
+| `variant`  | `'solid' \| 'outline' \| 'semi' \| 'ghost' \| 'neon'`                   | `'solid'`   | 变体样式                       |
+| `size`     | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 尺寸                           |
+| `shape`    | `'clip' \| 'no-clip' \| 'round' \| 'circle'`                            | `'clip'`    | 形状模式                       |
+| `color`    | `string`                                                                | `''`        | 自定义主题色，覆盖 type        |
+| `disabled` | `boolean`                                                               | `false`     | 全局禁用（继承 Form disabled） |
+| `block`    | `boolean`                                                               | `false`     | 撑满父容器宽度                 |
 
 ### SegmentedOption 接口
 
@@ -547,7 +564,7 @@ interface SegmentedOption {
 | `multiple`        | `boolean`                                                               | `false`     | 是否多文件                                                               |
 | `limit`           | `number`                                                                | `0`         | 最大文件数（0 = 无限制）                                                 |
 | `maxSize`         | `number`                                                                | `0`         | 最大文件大小 bytes（0 = 无限制）                                         |
-| `disabled`        | `boolean`                                                               | `false`     | 禁用                                                                     |
+| `disabled`        | `boolean`                                                               | `false`     | 禁用（继承 Form disabled）                                               |
 | `drag`            | `boolean`                                                               | `false`     | 拖拽上传模式                                                             |
 | `autoUpload`      | `boolean`                                                               | `true`      | 选择后自动上传                                                           |
 | `listType`        | `'text' \| 'picture' \| 'picture-card'`                                 | `'text'`    | 文件列表展示类型                                                         |

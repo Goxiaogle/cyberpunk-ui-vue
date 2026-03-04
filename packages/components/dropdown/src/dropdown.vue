@@ -3,10 +3,11 @@
  * CpDropdown - 赛博朋克风格下拉选择器
  * 支持多种尺寸、形态变体、可搜索/可清空
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
+import { ref, computed, inject, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { dropdownProps, dropdownEmits, type DropdownOption } from './dropdown'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Dropdown`,
@@ -17,6 +18,8 @@ const emit = defineEmits(dropdownEmits)
 const slots = useSlots()
 
 const ns = useNamespace('dropdown')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 尺寸预设映射
 const sizeMap = { sm: 28, md: 36, lg: 44 }
@@ -73,7 +76,7 @@ const hasValue = computed(() => {
 
 // 是否显示清空按钮
 const showClear = computed(() => {
-  return props.clearable && !props.disabled && hasValue.value
+  return props.clearable && !isDisabled.value && hasValue.value
 })
 
 // 类名计算
@@ -82,7 +85,7 @@ const classes = computed(() => [
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('active', visible.value),
   ns.is('clearable', showClear.value),
   ns.is('clearing', isClearing.value),
@@ -175,7 +178,7 @@ const updatePosition = () => {
 
 // 打开下拉
 const open = () => {
-  if (props.disabled) return
+  if (isDisabled.value) return
   visible.value = true
   emit('visibleChange', true)
   emit('focus')
@@ -350,7 +353,7 @@ onBeforeUnmount(() => {
           :class="[ns.e('inline-input'), ns.is('active', visible)]"
           :placeholder="visible ? '' : (hasValue ? displayLabel : props.placeholder)"
           autocomplete="off"
-          :disabled="props.disabled"
+          :disabled="isDisabled"
           @click.stop
           @focus="open"
           @keydown="handleKeydown"

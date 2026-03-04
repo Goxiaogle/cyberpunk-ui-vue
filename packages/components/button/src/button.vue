@@ -4,12 +4,13 @@
  * 支持多种颜色、尺寸、形态变体
  * 支持 prefix/suffix 插槽、自定义颜色、无切角、虚线边框
  */
-import { computed, useSlots } from 'vue'
+import { computed, inject, useSlots } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { buttonProps, buttonEmits } from './button'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Button`,
@@ -21,6 +22,8 @@ const emit = defineEmits(buttonEmits)
 const slots = useSlots()
 
 const ns = useNamespace('button')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 按钮尺寸预设映射
 const buttonSizeMap = { sm: 24, md: 32, lg: 40 }
@@ -32,7 +35,7 @@ const classes = computed(() => [
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
-  ns.is('disabled', props.disabled || (props.loading && props.loadingDisabled)),
+  ns.is('disabled', isDisabled.value || (props.loading && props.loadingDisabled)),
   ns.is('loading', props.loading),
   ns.is('dimmed', props.dimmed),
   ns.is('block', props.block),
@@ -85,7 +88,7 @@ const customStyle = computed(() => {
 })
 
 const handleClick = (evt: MouseEvent) => {
-  if (props.disabled || props.loading) return
+  if (isDisabled.value || props.loading) return
   emit('click', evt)
 }
 
@@ -147,7 +150,7 @@ const loadingSize = computed(() => {
     :class="classes"
     :style="customStyle"
     :type="nativeType"
-    :disabled="disabled || loading"
+    :disabled="isDisabled || loading"
     @click="handleClick"
   >
     <!-- Icon-only 模式 -->

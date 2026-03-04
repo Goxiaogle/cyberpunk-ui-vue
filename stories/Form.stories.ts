@@ -460,3 +460,90 @@ export const CSS变量定制: Story = {
   }),
 };
 
+/**
+ * 全局禁用 — Form disabled 穿透到所有子控件
+ *
+ * 设置 `disabled` 后，内部所有表单控件（Input、Dropdown、Radio、Checkbox、Slider、Switch、Button）均自动禁用。
+ * 优先级：控件自身 disabled > Group disabled > Form disabled。
+ */
+export const 全局禁用: Story = {
+  render: () => ({
+    components: {
+      CpForm, CpFormItem, CpInput, CpButton, CpSwitch,
+      CpDropdown, CpCheckbox, CpCheckboxGroup, CpRadio, CpRadioGroup, CpSlider,
+    },
+    setup() {
+      const disabled = ref(true);
+
+      const formData = reactive({
+        name: "V",
+        region: "east",
+        type: "A",
+        features: ["stealth"],
+        active: true,
+        priority: 60,
+      });
+
+      const regionOptions = [
+        { label: "华东区域", value: "east" },
+        { label: "华西区域", value: "west" },
+        { label: "华南区域", value: "south" },
+        { label: "华北区域", value: "north" },
+      ];
+
+      return { disabled, formData, regionOptions };
+    },
+    template: `
+      <div style="max-width: 520px;">
+        <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <CpSwitch v-model="disabled" />
+          <span style="color: var(--cp-text-secondary); font-family: 'Rajdhani'; font-size: 14px;">
+            Form disabled = {{ disabled }}
+          </span>
+        </div>
+
+        <CpForm :model="formData" :disabled="disabled" label-width="80px" label-suffix="：">
+          <CpFormItem label="名称">
+            <CpInput v-model="formData.name" placeholder="请输入名称" />
+          </CpFormItem>
+
+          <CpFormItem label="区域">
+            <CpDropdown v-model="formData.region" :options="regionOptions" placeholder="请选择" />
+          </CpFormItem>
+
+          <CpFormItem label="类型">
+            <CpRadioGroup v-model="formData.type">
+              <CpRadio value="A">标准型</CpRadio>
+              <CpRadio value="B">增强型</CpRadio>
+              <CpRadio value="C">实验型</CpRadio>
+            </CpRadioGroup>
+          </CpFormItem>
+
+          <CpFormItem label="特性">
+            <CpCheckboxGroup v-model="formData.features">
+              <CpCheckbox label="stealth">隐身</CpCheckbox>
+              <CpCheckbox label="armor">护甲</CpCheckbox>
+              <CpCheckbox label="scan">扫描</CpCheckbox>
+            </CpCheckboxGroup>
+          </CpFormItem>
+
+          <CpFormItem label="优先级">
+            <CpSlider v-model="formData.priority" />
+          </CpFormItem>
+
+          <CpFormItem label="激活">
+            <CpSwitch v-model="formData.active" />
+          </CpFormItem>
+
+          <CpFormItem>
+            <div style="display: flex; gap: 12px;">
+              <CpButton type="primary">提交</CpButton>
+              <CpButton>重置</CpButton>
+            </div>
+          </CpFormItem>
+        </CpForm>
+      </div>
+    `,
+  }),
+};
+

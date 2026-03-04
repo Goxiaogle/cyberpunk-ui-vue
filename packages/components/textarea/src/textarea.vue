@@ -2,10 +2,11 @@
 /**
  * CpTextarea - 赛博朋克风格多行文本输入框
  */
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import { computed, ref, inject, watch, nextTick, onMounted } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textareaProps, textareaEmits } from './textarea'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Textarea`,
@@ -15,6 +16,8 @@ const props = defineProps(textareaProps)
 const emit = defineEmits(textareaEmits)
 
 const ns = useNamespace('textarea')
+const formContext = inject(formContextKey, undefined)
+const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
 
 // 尺寸预设映射
 const textareaSizeMap = { sm: 28, md: 36, lg: 44 }
@@ -27,7 +30,7 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
-  ns.is('disabled', props.disabled),
+  ns.is('disabled', isDisabled.value),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('custom-color', !!props.color),
@@ -129,7 +132,7 @@ defineExpose({
       :class="ns.e('inner')"
       :value="modelValue"
       :placeholder="placeholder"
-      :disabled="disabled"
+      :disabled="isDisabled"
       :readonly="readonly"
       :rows="rows"
       :maxlength="maxlength"
