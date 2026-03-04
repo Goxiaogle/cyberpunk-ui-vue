@@ -735,6 +735,69 @@ export const TXT文件读取: Story = {
     }),
 }
 
+// ===== 自定义 Hover 面板 =====
+export const 自定义Hover面板: Story = {
+    render: () => ({
+        components: { CpUpload, CpButton },
+        setup() {
+            const single = ref<UploadFile[]>([])
+            const multi = ref<UploadFile[]>([])
+            return { single, multi }
+        },
+        template: `
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">
+            单图模式 — 自定义操作（预览 + 替换 + 删除）
+          </h4>
+          <CpUpload
+            v-model="single"
+            list-type="picture-card"
+            accept="image/*"
+            :limit="1"
+            preview
+            type="primary"
+          >
+            <template #card-actions="{ file, handleRemove, handlePreview, handleReplace }">
+              <CpButton size="sm" variant="semi" dimmed square type="primary" title="查看" @click.stop="handlePreview(file)">
+                🔍
+              </CpButton>
+              <CpButton size="sm" variant="semi" dimmed square type="primary" title="替换" @click.stop="handleReplace()">
+                🔄
+              </CpButton>
+              <CpButton size="sm" variant="semi" dimmed square type="error" title="移除" @click.stop="handleRemove(file)">
+                🗑️
+              </CpButton>
+            </template>
+          </CpUpload>
+        </div>
+        <div>
+          <h4 style="color: var(--cp-text-secondary); margin-bottom: 8px; font-family: Rajdhani, sans-serif;">
+            多图模式 — 自定义操作（仅删除）
+          </h4>
+          <CpUpload
+            v-model="multi"
+            list-type="picture-card"
+            accept="image/*"
+            multiple
+            preview
+            type="warning"
+          >
+            <template #card-actions="{ file, handleRemove, handlePreview }">
+              <CpButton size="sm" variant="semi" dimmed square type="warning" title="预览" @click.stop="handlePreview(file)">
+                👁️
+              </CpButton>
+              <CpButton size="sm" variant="semi" dimmed square type="error" title="删除" @click.stop="handleRemove(file)">
+                ✕
+              </CpButton>
+            </template>
+          </CpUpload>
+        </div>
+      </div>
+    `,
+    }),
+}
+
 // ===== 文件夹上传 =====
 export const 文件夹上传: Story = {
     render: () => ({

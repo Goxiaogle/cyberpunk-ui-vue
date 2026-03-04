@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.7.5",
+  "version": "1.7.9",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -8439,7 +8439,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 1729
+                "offset": 1800
               },
               "description": "文件列表 (v-model)",
               "default": "() => []",
@@ -8451,7 +8451,7 @@
               "name": "action",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 1883
+                "offset": 1954
               },
               "description": "上传地址",
               "default": "''",
@@ -8463,7 +8463,7 @@
               "name": "headers",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2001
+                "offset": 2072
               },
               "description": "请求头",
               "default": "() => ({})",
@@ -8475,7 +8475,7 @@
               "name": "data",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2167
+                "offset": 2238
               },
               "description": "上传附加数据",
               "default": "() => ({})",
@@ -8487,7 +8487,7 @@
               "name": "name",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2335
+                "offset": 2406
               },
               "description": "上传文件字段名",
               "default": "'file'",
@@ -8499,7 +8499,7 @@
               "name": "accept",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2471
+                "offset": 2542
               },
               "description": "接受的文件类型 (原生 accept)",
               "default": "''",
@@ -8511,9 +8511,21 @@
               "name": "multiple",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2596
+                "offset": 2667
               },
               "description": "是否支持多文件",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "directory",
+              "source": {
+                "file": "../components/upload/src/upload.ts",
+                "offset": 2817
+              },
+              "description": "是否支持选择文件夹（webkitdirectory）",
               "default": "false",
               "type": [
                 "boolean"
@@ -8523,7 +8535,7 @@
               "name": "limit",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2731
+                "offset": 2953
               },
               "description": "最大文件数 (0 = 无限制)",
               "default": "0",
@@ -8535,7 +8547,7 @@
               "name": "maxSize",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2865
+                "offset": 3087
               },
               "description": "最大文件大小 bytes (0 = 无限制)",
               "default": "0",
@@ -8547,7 +8559,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 2987
+                "offset": 3209
               },
               "description": "是否禁用",
               "default": "false",
@@ -8559,7 +8571,7 @@
               "name": "drag",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3117
+                "offset": 3339
               },
               "description": "拖拽上传模式",
               "default": "false",
@@ -8571,7 +8583,7 @@
               "name": "autoUpload",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3243
+                "offset": 3465
               },
               "description": "选择后自动上传",
               "default": "true",
@@ -8583,7 +8595,7 @@
               "name": "listType",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3377
+                "offset": 3599
               },
               "description": "文件列表展示类型",
               "default": "'text'",
@@ -8595,7 +8607,7 @@
               "name": "showFileList",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3536
+                "offset": 3758
               },
               "description": "是否显示文件列表",
               "default": "true",
@@ -8607,7 +8619,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3670
+                "offset": 3892
               },
               "description": "变体样式",
               "default": "'dashed'",
@@ -8619,7 +8631,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3825
+                "offset": 4047
               },
               "description": "形状",
               "default": "'clip'",
@@ -8631,7 +8643,7 @@
               "name": "type",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 3979
+                "offset": 4201
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -8643,7 +8655,7 @@
               "name": "color",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 4137
+                "offset": 4359
               },
               "description": "自定义颜色（覆盖 type）",
               "default": "''",
@@ -8655,7 +8667,7 @@
               "name": "size",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 4261
+                "offset": 4483
               },
               "description": "按钮/触发器尺寸",
               "default": "'md'",
@@ -8667,7 +8679,7 @@
               "name": "httpRequest",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 4420
+                "offset": 4642
               },
               "description": "自定义上传函数\n若提供，则完全替代内置 XHR 上传逻辑",
               "type": [
@@ -8678,7 +8690,7 @@
               "name": "beforeUpload",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 4630
+                "offset": 4852
               },
               "description": "上传前钩子，返回 false 或 reject 可阻止上传",
               "type": [
@@ -8689,7 +8701,7 @@
               "name": "onExceed",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 4807
+                "offset": 5029
               },
               "description": "超出文件数限制时的回调",
               "type": [
@@ -8700,7 +8712,7 @@
               "name": "inlinePreview",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5112
+                "offset": 5334
               },
               "description": "单图内联预览（picture-card 模式下）\n仅在 limit = 1 且 listType = 'picture-card' 时生效。\n未显式传值时，在 limit = 1 场景下默认开启；\n可显式设为 false 关闭。",
               "type": [
@@ -8711,7 +8723,7 @@
               "name": "preview",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5259
+                "offset": 5481
               },
               "description": "是否开启图片卡片点击预览功能",
               "default": "false",
@@ -8723,7 +8735,7 @@
               "name": "download",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5397
+                "offset": 5619
               },
               "description": "在预览大图时，是否允许下载图片",
               "default": "false",
@@ -8735,7 +8747,7 @@
               "name": "showInnerStripe",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5543
+                "offset": 5765
               },
               "description": "是否显示 CpProgress 内圈虚线装饰",
               "default": "false",
@@ -8747,7 +8759,7 @@
               "name": "placeholder",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5753
+                "offset": 5975
               },
               "description": "自定义触发器文案\n- drag 模式默认: '拖拽文件到此处，或 点击上传'\n- 默认(按钮)模式默认: '选择文件'",
               "type": [
@@ -8758,7 +8770,7 @@
               "name": "placeholderIcon",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5927
+                "offset": 6149
               },
               "description": "自定义触发器图标组件\n传入 Vue 组件，替换默认 SVG 图标",
               "type": [
@@ -8769,7 +8781,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6167
+                "offset": 6389
               },
               "description": "是否为减淡模式\n减淡模式下组件默认以无色彩（default）外观展示，仅在 hover / 激活时显示主题色\n会穿透给内部 CpButton",
               "default": "false",
@@ -8781,7 +8793,7 @@
               "name": "successType",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6441
+                "offset": 6663
               },
               "description": "上传成功时的边框颜色\n可传入 type 关键词（'primary' | 'success' | 'warning' | 'error' | 'info'），\n也可传入任意 CSS 颜色值。\n默认跟随 Upload 自身的 type / color。",
               "type": [
@@ -8795,7 +8807,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6684
+                  "offset": 6906
                 },
                 "description": "v-model 绑定"
               },
@@ -8803,7 +8815,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6782
+                  "offset": 7004
                 },
                 "description": "文件列表变化"
               },
@@ -8811,7 +8823,7 @@
                 "name": "success",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 6893
+                  "offset": 7115
                 },
                 "description": "上传成功"
               },
@@ -8819,7 +8831,7 @@
                 "name": "error",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7025
+                  "offset": 7247
                 },
                 "description": "上传失败"
               },
@@ -8827,7 +8839,7 @@
                 "name": "progress",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7151
+                  "offset": 7373
                 },
                 "description": "上传进度"
               },
@@ -8835,7 +8847,7 @@
                 "name": "remove",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7269
+                  "offset": 7491
                 },
                 "description": "文件移除"
               }

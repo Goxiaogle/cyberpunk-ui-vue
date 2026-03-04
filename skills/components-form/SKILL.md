@@ -616,10 +616,11 @@ interface UploadRequestOptions {
 
 ### 插槽
 
-| 名称          | 作用域                                           | 说明                                              |
-| ------------- | ------------------------------------------------ | ------------------------------------------------- |
-| `default`     | —                                                | 完全替换触发区域（隐藏默认 drag / card / button） |
-| `placeholder` | `{ mode: 'drag' \| 'picture-card' \| 'button' }` | 自定义触发区内部内容（图标+文案），保留外层结构   |
+| 名称           | 作用域                                                             | 说明                                              |
+| -------------- | ------------------------------------------------------------------ | ------------------------------------------------- |
+| `default`      | —                                                                  | 完全替换触发区域（隐藏默认 drag / card / button） |
+| `placeholder`  | `{ mode: 'drag' \| 'picture-card' \| 'button' }`                   | 自定义触发区内部内容（图标+文案），保留外层结构   |
+| `card-actions` | `{ file: UploadFile, handleRemove, handlePreview, handleReplace }` | 自定义 picture-card 模式下的 hover 操作面板       |
 
 ### 事件
 
@@ -726,4 +727,19 @@ interface UploadRequestOptions {
   drag
   @change="(file) => console.log(file.relativePath)"
 />
+
+<!-- 自定义 hover 面板（picture-card 模式） -->
+<CpUpload
+  v-model="fileList"
+  list-type="picture-card"
+  accept="image/*"
+  multiple
+  preview
+>
+  <template #card-actions="{ file, handleRemove, handlePreview, handleReplace }">
+    <CpButton @click.stop="handlePreview(file)">预览</CpButton>
+    <CpButton @click.stop="handleReplace()">替换</CpButton>
+    <CpButton @click.stop="handleRemove(file)">删除</CpButton>
+  </template>
+</CpUpload>
 ```
