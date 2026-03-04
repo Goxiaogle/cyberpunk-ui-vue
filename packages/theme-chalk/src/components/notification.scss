@@ -103,7 +103,7 @@
   box-shadow:
     0 6px 24px rgba(0, 0, 0, 0.5),
     0 0 1px var(--cp-notification-color),
-    inset 0 0 20px rgba(0, 240, 255, 0.02);
+    inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 2%, transparent);
   transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--cp-font-family-ui);
 
@@ -153,7 +153,7 @@
 
   // Semi (毛玻璃)
   @include m(semi) {
-    --cp-notification-bg: rgba(42, 42, 58, 0.6);
+    --cp-notification-bg: color-mix(in srgb, var(--cp-border) 60%, transparent);
     backdrop-filter: blur(12px);
     border-color: var(--cp-notification-color-light);
 
@@ -343,6 +343,6 @@
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.6),
       0 0 4px var(--cp-notification-color),
-      inset 0 0 30px rgba(0, 240, 255, 0.03);
+      inset 0 0 30px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
   }
 }

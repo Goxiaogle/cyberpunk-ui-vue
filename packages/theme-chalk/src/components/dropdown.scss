@@ -144,7 +144,7 @@
       }
 
       &:focus:not(.is-disabled) {
-        background: rgba(0, 240, 255, 0.08);
+        background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
       }
     }
   }
@@ -372,7 +372,7 @@
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.4),
       0 0 1px var(--cp-color-primary),
-      inset 0 0 20px rgba(0, 240, 255, 0.03);
+      inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
     backdrop-filter: blur(8px);
     overflow: hidden;
     
@@ -497,7 +497,7 @@
 
     &:hover:not(.is-disabled),
     &.is-hover:not(.is-disabled) {
-      background: rgba(0, 240, 255, 0.08);
+      background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
       color: var(--cp-text-primary);
     }
 

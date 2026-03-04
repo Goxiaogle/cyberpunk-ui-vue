@@ -5,8 +5,8 @@
   // 基础变量，如果需要微调可以修改这里
   --cp-scrollbar-width: 6px;
   --cp-scrollbar-height: 6px;
-  --cp-scrollbar-thumb-bg: rgba(0, 240, 255, 0.3);
-  --cp-scrollbar-track-bg: rgba(26, 26, 36, 0.8);
+  --cp-scrollbar-thumb-bg: color-mix(in srgb, var(--cp-color-primary) 30%, transparent);
+  --cp-scrollbar-track-bg: color-mix(in srgb, var(--cp-bg-deep) 80%, transparent);
   --cp-scrollbar-radius: 3px;
 }
 

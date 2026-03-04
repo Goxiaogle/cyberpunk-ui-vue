@@ -260,7 +260,7 @@ $radio-sizes: (
     
     &.is-checked {
       border-color: var(--cp-radio-active-color);
-      background: var(--cp-state-selected);
+      background: color-mix(in srgb, var(--cp-radio-active-color) 15%, transparent);
       
       &::before {
         border-color: var(--cp-radio-active-color);

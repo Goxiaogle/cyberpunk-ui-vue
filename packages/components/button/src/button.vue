@@ -54,7 +54,7 @@ const customStyle = computed(() => {
   
   if (props.color) {
     style['--cp-button-custom-color'] = props.color
-    style['--cp-button-custom-color-light'] = `${props.color}33` // 20% opacity
+    style['--cp-button-custom-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   
   if (props.textColor) {

@@ -399,7 +399,7 @@ $tag-types: (
     &.cp-tag--variant-outline,
     &.cp-tag--variant-semi {
       --cp-tag-color: var(--cp-text-secondary);
-      --cp-tag-color-light: rgba(128, 128, 128, 0.1);
+      --cp-tag-color-light: color-mix(in srgb, var(--cp-text-secondary) 10%, transparent);
     }
   }
 

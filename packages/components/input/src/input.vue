@@ -61,7 +61,7 @@ const customStyle = computed(() => {
   
   if (props.color) {
     style['--cp-input-custom-color'] = props.color
-    style['--cp-input-custom-color-light'] = `${props.color}33`
+    style['--cp-input-custom-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
 
   // 自定义 inactive 边框颜色

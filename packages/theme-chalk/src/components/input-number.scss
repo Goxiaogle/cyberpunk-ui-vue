@@ -166,7 +166,7 @@
 
         &:hover:not(.is-disabled) {
             color: var(--cp-color-primary);
-            background: rgba(0, 240, 255, 0.1);
+            background: color-mix(in srgb, var(--cp-color-primary) 10%, transparent);
         }
 
         &.is-disabled {
@@ -199,7 +199,7 @@
 
         &:hover:not(.is-disabled) {
             color: var(--cp-color-primary);
-            background: rgba(0, 240, 255, 0.1);
+            background: color-mix(in srgb, var(--cp-color-primary) 10%, transparent);
         }
 
         &.is-disabled {

@@ -159,8 +159,8 @@
   }
 
   @include m(semi) {
-    --cp-card-bg: rgba(42, 42, 58, 0.5);
-    --cp-card-bg-hover: rgba(42, 42, 58, 0.7);
+    --cp-card-bg: color-mix(in srgb, var(--cp-border) 50%, transparent);
+    --cp-card-bg-hover: color-mix(in srgb, var(--cp-border) 70%, transparent);
     --cp-card-border: var(--cp-border);
 
     > .cp-card__container {
@@ -405,8 +405,8 @@
 
     &.cp-card__overlay-backdrop--effect-none { background: transparent; backdrop-filter: none; }
     &.cp-card__overlay-backdrop--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
-    &.cp-card__overlay-backdrop--effect-color { background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8)); backdrop-filter: none; }
-    &.cp-card__overlay-backdrop--effect-blur-color { background: var(--cp-card-overlay-color, rgba(26, 26, 36, 0.8)); backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
+    &.cp-card__overlay-backdrop--effect-color { background: var(--cp-card-overlay-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: none; }
+    &.cp-card__overlay-backdrop--effect-blur-color { background: var(--cp-card-overlay-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
   }
 
   // ===== 覆层操作区 =====
@@ -425,8 +425,8 @@
 
     &.cp-card__overlay--effect-none { background: transparent; backdrop-filter: none; }
     &.cp-card__overlay--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
-    &.cp-card__overlay--effect-color { background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8)); backdrop-filter: none; }
-    &.cp-card__overlay--effect-blur-color { background: var(--cp-card-action-color, rgba(26, 26, 36, 0.8)); backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
+    &.cp-card__overlay--effect-color { background: var(--cp-card-action-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: none; }
+    &.cp-card__overlay--effect-blur-color { background: var(--cp-card-action-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
 
     &.cp-card__overlay--bottom { bottom: 0; }
     &.cp-card__overlay--top { top: 0; border-top: none; border-bottom: 1px solid var(--cp-border); }
@@ -463,7 +463,7 @@
       --cp-card-color-light: rgba(255, 255, 255, 0.1);
 
       &.cp-card--semi {
-        --cp-card-bg: rgba(42, 42, 58, 0.5);
+        --cp-card-bg: color-mix(in srgb, var(--cp-border) 50%, transparent);
         --cp-card-border: var(--cp-border);
       }
 

@@ -54,7 +54,7 @@ const customStyle = computed(() => {
   const style: Record<string, string> = {}
   if (props.color) {
     style['--cp-input-number-custom-color'] = props.color
-    style['--cp-input-number-custom-color-light'] = `${props.color}33`
+    style['--cp-input-number-custom-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   if (!isPresetSize(props.size)) {
     style['--cp-input-number-height'] = normalizeSize(props.size, inputNumberSizeMap)

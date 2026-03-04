@@ -123,7 +123,7 @@
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.5),
       0 0 1px var(--cp-dialog-color),
-      inset 0 0 30px rgba(0, 240, 255, 0.02);
+      inset 0 0 30px color-mix(in srgb, var(--cp-color-primary) 2%, transparent);
     clip-path: var(--cp-dialog-clip-path);
     color: var(--cp-dialog-text-color, var(--cp-text-primary));
     transition: transform 0s;
@@ -169,7 +169,7 @@
       box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.5),
         0 0 12px var(--cp-dialog-color-light, var(--cp-color-primary-light)),
-        inset 0 0 30px rgba(0, 240, 255, 0.04);
+        inset 0 0 30px color-mix(in srgb, var(--cp-color-primary) 4%, transparent);
     }
 
 
@@ -219,7 +219,7 @@
 
     // Semi (毛玻璃)
     &.cp-dialog--semi {
-      --cp-dialog-bg: rgba(42, 42, 58, 0.6);
+      --cp-dialog-bg: color-mix(in srgb, var(--cp-border) 60%, transparent);
       backdrop-filter: blur(12px);
       border-color: var(--cp-dialog-color-light);
 

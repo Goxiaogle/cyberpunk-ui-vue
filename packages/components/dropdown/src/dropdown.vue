@@ -100,7 +100,7 @@ const customStyle = computed(() => {
   
   if (props.color) {
     style['--cp-dropdown-custom-color'] = props.color
-    style['--cp-dropdown-custom-color-light'] = `${props.color}33`
+    style['--cp-dropdown-custom-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   
   if (props.inactiveColor) {

@@ -250,7 +250,7 @@ $checkbox-sizes: (
     
     &.is-checked {
       border-color: var(--cp-checkbox-active-color);
-      background: var(--cp-state-selected);
+      background: color-mix(in srgb, var(--cp-checkbox-active-color) 15%, transparent);
       box-shadow: 0 0 12px var(--cp-checkbox-active-color-light);
     }
   }

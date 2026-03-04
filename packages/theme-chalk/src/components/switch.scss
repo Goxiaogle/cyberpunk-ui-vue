@@ -46,7 +46,7 @@ $switch-sizes: (
     --cp-switch-active-color: var(--cp-color-primary);
     --cp-switch-active-color-light: var(--cp-color-primary-light);
     --cp-switch-inactive-color: var(--cp-border);
-    --cp-switch-bg-color: rgba(20, 20, 25, 0.8);
+    --cp-switch-bg-color: color-mix(in srgb, var(--cp-bg-deep) 80%, transparent);
     --cp-switch-text-color: var(--cp-text-inverse);
 
     // ===== 隐藏原生 input =====

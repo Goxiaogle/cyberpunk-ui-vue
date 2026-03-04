@@ -42,7 +42,7 @@ const customStyle = computed(() => {
   const style: Record<string, string> = {}
   if (props.color) {
     style['--cp-textarea-custom-color'] = props.color
-    style['--cp-textarea-custom-color-light'] = `${props.color}33`
+    style['--cp-textarea-custom-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   if (props.textColor) {
     style['--cp-textarea-text-color'] = props.textColor

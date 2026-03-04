@@ -78,7 +78,7 @@ const customStyle = computed(() => {
   }
   if (props.color) {
     style['--cp-pagination-color'] = props.color
-    style['--cp-pagination-color-light'] = `${props.color}33`
+    style['--cp-pagination-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   return style
 })

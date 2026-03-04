@@ -64,9 +64,7 @@ $cp-borders: (
 $cp-states: (
   'hover': rgba(255, 255, 255, 0.05),
   'pressed': rgba(255, 255, 255, 0.1),
-  'selected': rgba(0, 240, 255, 0.15),
   'disabled': rgba(128, 128, 128, 0.3),
-  'focus-ring': rgba(0, 240, 255, 0.4),
 );
 
 // ===== 尺寸 =====
@@ -136,6 +134,8 @@ $cp-radius: (
   @each $name, $value in $cp-states {
     --cp-state-#{$name}: #{$value};
   }
+  --cp-state-selected: color-mix(in srgb, var(--cp-color-primary) 15%, transparent);
+  --cp-state-focus-ring: color-mix(in srgb, var(--cp-color-primary) 40%, transparent);
 
   // 尺寸
   @each $name, $value in $cp-sizes {
@@ -196,27 +196,27 @@ $cp-radius: (
   // primary (亮色 - 用深色文字)
   --cp-color-primary-text: var(--cp-text-on-bright);
   --cp-color-primary-border: var(--cp-color-primary);
-  --cp-color-primary-hover: #{rgba(#00f0ff, 0.1)};
+  --cp-color-primary-hover: color-mix(in srgb, var(--cp-color-primary) 10%, transparent);
 
   // success (亮色 - 用深色文字)
   --cp-color-success-text: var(--cp-text-on-bright);
   --cp-color-success-border: var(--cp-color-success);
-  --cp-color-success-hover: #{rgba(#39ff14, 0.1)};
+  --cp-color-success-hover: color-mix(in srgb, var(--cp-color-success) 10%, transparent);
 
   // warning (亮色 - 用深色文字)
   --cp-color-warning-text: var(--cp-text-on-bright);
   --cp-color-warning-border: var(--cp-color-warning);
-  --cp-color-warning-hover: #{rgba(#ff9f1c, 0.1)};
+  --cp-color-warning-hover: color-mix(in srgb, var(--cp-color-warning) 10%, transparent);
 
   // error (深色 - 用亮色文字)
   --cp-color-error-text: var(--cp-text-on-dark);
   --cp-color-error-border: var(--cp-color-error);
-  --cp-color-error-hover: #{rgba(#ff0055, 0.1)};
+  --cp-color-error-hover: color-mix(in srgb, var(--cp-color-error) 10%, transparent);
 
   // info (深色 - 用亮色文字)
   --cp-color-info-text: var(--cp-text-on-dark);
   --cp-color-info-border: var(--cp-color-info);
-  --cp-color-info-hover: #{rgba(#7b68ee, 0.1)};
+  --cp-color-info-hover: color-mix(in srgb, var(--cp-color-info) 10%, transparent);
 
   // 特效
   --cp-glow-primary: 0 0 10px var(--cp-color-primary),
@@ -279,5 +279,5 @@ $cp-radius: (
   // 交互状态
   --cp-state-hover: rgba(0, 0, 0, 0.04);
   --cp-state-pressed: rgba(0, 0, 0, 0.08);
-  --cp-state-selected: rgba(0, 240, 255, 0.12);
+  --cp-state-selected: color-mix(in srgb, var(--cp-color-primary) 12%, transparent);
 }

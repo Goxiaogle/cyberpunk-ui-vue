@@ -46,7 +46,7 @@
     backdrop-filter: blur(8px);
     
     // 内阴影
-    box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.03);
+    box-shadow: inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
 
     // 默认切角样式
     clip-path: polygon(

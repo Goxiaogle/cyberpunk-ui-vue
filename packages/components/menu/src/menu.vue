@@ -81,7 +81,7 @@ const menuStyle = computed(() => {
   const style: Record<string, string> = {}
   if (props.color) {
     style['--cp-menu-active-color'] = props.color
-    style['--cp-menu-active-color-light'] = `${props.color}33`
+    style['--cp-menu-active-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`
   }
   return style
 })

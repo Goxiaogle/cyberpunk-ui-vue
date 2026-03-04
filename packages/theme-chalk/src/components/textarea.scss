@@ -61,13 +61,13 @@
 
             &:hover:not(:disabled):not([readonly]) {
                 border-color: var(--cp-color-primary);
-                background: rgba(0, 240, 255, 0.05);
+                background: color-mix(in srgb, var(--cp-color-primary) 5%, transparent);
             }
         }
 
         &.is-focused .cp-textarea__inner {
             border-color: var(--cp-color-primary);
-            background: rgba(0, 240, 255, 0.08);
+            background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
             box-shadow: 0 0 10px var(--cp-color-primary-light);
         }
     }
