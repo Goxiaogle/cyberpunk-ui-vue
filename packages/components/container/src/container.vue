@@ -12,6 +12,10 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Container`,
 })
 
+defineSlots<{
+  default?: (props?: any) => any
+}>()
+
 const props = defineProps(containerProps)
 const ns = useNamespace('container')
 const slots = useSlots()
@@ -22,7 +26,7 @@ const isVertical = computed(() => {
     return props.direction === 'vertical'
   }
   // 检查子元素中是否包含 Header / Footer
-  const defaultSlot = slots.default?.()
+  const defaultSlot = slots.default ? slots.default() : []
   if (!defaultSlot) return false
 
   return defaultSlot.some((vnode: VNode) => {

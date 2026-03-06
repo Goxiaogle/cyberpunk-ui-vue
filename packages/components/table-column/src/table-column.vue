@@ -11,6 +11,11 @@ defineOptions({
   name: `${COMPONENT_PREFIX}TableColumn`,
 })
 
+defineSlots<{
+  default?: (props: any) => any
+  header?: (props: any) => any
+}>()
+
 const props = defineProps(tableColumnProps)
 const slots = useSlots()
 
@@ -30,8 +35,8 @@ onMounted(() => {
       align: props.align,
       headerAlign: props.headerAlign,
       slots: {
-        default: slots.default,
-        header: slots.header,
+        default: slots.default ? slots.default : undefined,
+        header: slots.header ? slots.header : undefined,
       },
     })
   }

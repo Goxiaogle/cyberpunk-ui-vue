@@ -13,6 +13,10 @@ defineOptions({
     name: `${COMPONENT_PREFIX}AvatarGroup`,
 })
 
+defineSlots<{
+  default?: () => any
+}>()
+
 const props = defineProps(avatarGroupProps)
 const slots = useSlots()
 
@@ -52,17 +56,17 @@ const styles = computed(() => ({
 const getAvatarChildren = (): VNode[] => {
     const slot = slots.default
     if (!slot) return []
-    const defaultSlot = (slot as Slot)()
+    const defaultSlot = slot()
     if (!defaultSlot) return []
 
     // 展平 Fragment
     const children: VNode[] = []
-    const flatten = (nodes: VNode[]) => {
+    const flatten = (nodes: any[]) => {
         nodes.forEach((node) => {
             if (Array.isArray(node.children)) {
-                flatten(node.children as VNode[])
+                flatten(node.children)
             } else {
-                children.push(node)
+                children.push(node as VNode)
             }
         })
     }
