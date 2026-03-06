@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.7.13",
+  "version": "1.7.14",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -348,6 +348,20 @@
           "name": "cp-textarea",
           "source": {
             "symbol": "CpTextarea"
+          }
+        },
+        {
+          "name": "cp-timeline",
+          "description": "CpTimeline 赛博朋克风格时间轴\n\n垂直时间轴容器，用于事件记录、进度流程、日志展示等场景。",
+          "source": {
+            "symbol": "CpTimeline"
+          }
+        },
+        {
+          "name": "cp-timeline-item",
+          "description": "CpTimelineItem 赛博朋克风格时间轴子项\n\n支持激活态、脉冲/发光/闪烁动画、空心节点、图标节点、丰富插槽。",
+          "source": {
+            "symbol": "CpTimelineItem"
           }
         },
         {
@@ -3678,18 +3692,18 @@
               "name": "icon",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 1672
+                "offset": 1708
               },
               "description": "图标来源\n\n支持以下格式：\n- **Vue Component**: 通过 unplugin-icons 导入的图标组件\n- **Iconify 名称**: `'mdi:home'`、`'ph:user-bold'` 等\n- **原始 SVG 字符串**: `'<svg>...</svg>'`\n- **CSS 类名**: `'iconfont icon-home'` (字体图标)",
               "type": [
-                "string | Component"
+                "string | Component | ((...args: unknown[]) => unknown)"
               ]
             },
             {
               "name": "size",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 2112
+                "offset": 2158
               },
               "description": "图标尺寸\n\n预设值: `'sm'` | `'md'` | `'lg'`\n也可传入数值 (px) 或 CSS 尺寸字符串 (如 `'2rem'`)",
               "default": "'md'",
@@ -3701,7 +3715,7 @@
               "name": "type",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 2352
+                "offset": 2398
               },
               "description": "图标颜色类型",
               "default": "'default'",
@@ -3713,7 +3727,7 @@
               "name": "color",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 2600
+                "offset": 2646
               },
               "description": "自定义图标颜色\n传入有效 CSS 颜色值，覆盖 `type` 的预设颜色",
               "default": "''",
@@ -3725,7 +3739,7 @@
               "name": "tag",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 2726
+                "offset": 2772
               },
               "description": "渲染的 HTML 标签",
               "default": "'i'",
@@ -3737,7 +3751,7 @@
               "name": "spin",
               "source": {
                 "file": "../components/icon/src/icon.ts",
-                "offset": 2970
+                "offset": 3016
               },
               "description": "是否启用旋转动画\n适用于加载图标，如 `mdi:loading`",
               "default": "false",
@@ -4934,7 +4948,7 @@
               },
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
               "type": [
-                "string | import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").Component"
+                "string | import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").Component | ((...args: unknown[]) => unknown)"
               ]
             },
             {
@@ -6951,7 +6965,7 @@
               },
               "description": "图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等）\n与 #icon 插槽共存，prop 优先",
               "type": [
-                "string | import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").Component"
+                "string | import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").Component | ((...args: unknown[]) => unknown)"
               ]
             },
             {
@@ -8099,6 +8113,291 @@
               }
             ]
           }
+        },
+        {
+          "name": "cp-timeline",
+          "source": {
+            "symbol": "CpTimeline"
+          },
+          "description": "CpTimeline 赛博朋克风格时间轴\n\n垂直时间轴容器，用于事件记录、进度流程、日志展示等场景。",
+          "props": [
+            {
+              "name": "mode",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1181
+              },
+              "description": "内容排列模式",
+              "default": "'left'",
+              "type": [
+                "'left' | 'right' | 'alternate'"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1324
+              },
+              "description": "全局颜色预设（子项可覆盖）",
+              "default": "'default'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
+              "name": "reverse",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1459
+              },
+              "description": "是否倒序排列",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1566
+              },
+              "description": "自定义全局颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "lineStyle",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1671
+              },
+              "description": "全局连线样式",
+              "default": "'solid'",
+              "type": [
+                "'solid' | 'dashed' | 'dotted'"
+              ]
+            },
+            {
+              "name": "lineColor",
+              "source": {
+                "file": "../components/timeline/src/timeline.ts",
+                "offset": 1828
+              },
+              "description": "全局连线颜色（默认跟随 type/color）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "CpTimelineItem 列表"
+            }
+          ]
+        },
+        {
+          "name": "cp-timeline-item",
+          "source": {
+            "symbol": "CpTimelineItem"
+          },
+          "description": "CpTimelineItem 赛博朋克风格时间轴子项\n\n支持激活态、脉冲/发光/闪烁动画、空心节点、图标节点、丰富插槽。",
+          "props": [
+            {
+              "name": "timestamp",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1160
+              },
+              "description": "时间戳文本",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "placement",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1269
+              },
+              "description": "时间戳位置",
+              "default": "'bottom'",
+              "type": [
+                "'top' | 'bottom'"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1423
+              },
+              "description": "颜色类型（空字符串时继承父级）",
+              "default": "''",
+              "type": [
+                "'' | TimelineItemType"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1558
+              },
+              "description": "自定义节点颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1658
+              },
+              "description": "节点尺寸",
+              "default": "'md'",
+              "type": [
+                "'sm' | 'md' | 'lg'"
+              ]
+            },
+            {
+              "name": "hollow",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1797
+              },
+              "description": "空心节点（仅显示边框）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "hideTimestamp",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1904
+              },
+              "description": "隐藏时间戳",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "icon",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 1999
+              },
+              "description": "自定义节点图标",
+              "type": [
+                "import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").ConcreteComponent<any, any, any, import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").ComputedOptions, import(\"D:/Projects/WebstormProjects/cyberpunk-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").MethodOptions, {}, any> | { new (...args: any[]): any; __isFragment?: never; __isTeleport?: never; __isSuspense?: never; }"
+              ]
+            },
+            {
+              "name": "active",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2146
+              },
+              "description": "激活态（高亮发光）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "animation",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2255
+              },
+              "description": "节点动画效果",
+              "default": "'none'",
+              "type": [
+                "'none' | 'pulse' | 'glow' | 'blink'"
+              ]
+            },
+            {
+              "name": "duration",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2449
+              },
+              "description": "动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')",
+              "default": "1500",
+              "type": [
+                "string | number | undefined"
+              ]
+            },
+            {
+              "name": "intensity",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2590
+              },
+              "description": "动画激烈程度",
+              "default": "1",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "lineStyle",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2699
+              },
+              "description": "该项连线样式（覆盖全局）",
+              "default": "''",
+              "type": [
+                "'' | TimelineItemLineStyle"
+              ]
+            },
+            {
+              "name": "lineColor",
+              "source": {
+                "file": "../components/timeline-item/src/timeline-item.ts",
+                "offset": 2849
+              },
+              "description": "该项连线颜色（覆盖全局）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "主内容区域"
+            },
+            {
+              "name": "dot",
+              "description": "自定义节点"
+            },
+            {
+              "name": "timestamp",
+              "description": "自定义时间戳"
+            },
+            {
+              "name": "extra",
+              "description": "附加区域"
+            },
+            {
+              "name": "connector",
+              "description": "自定义连线"
+            }
+          ]
         },
         {
           "name": "cp-tree",

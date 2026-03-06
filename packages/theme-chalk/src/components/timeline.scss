@@ -1,0 +1,379 @@
+// CpTimeline & CpTimelineItem 组件样式
+// 赛博朋克风格时间轴
+
+@use 'sass:map';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+// 节点尺寸映射
+$timeline-dot-sizes: (
+  sm: 10px,
+  md: 14px,
+  lg: 18px,
+);
+
+// 图标尺寸映射
+$timeline-icon-sizes: (
+  sm: 20px,
+  md: 26px,
+  lg: 32px,
+);
+
+// 字体尺寸映射
+$timeline-font-sizes: (
+  sm: 12px,
+  md: 13px,
+  lg: 14px,
+);
+
+@include b(timeline) {
+  // CSS 变量默认值
+  --cp-timeline-color: var(--cp-text-secondary);
+  --cp-timeline-line-color: var(--cp-border);
+  --cp-timeline-line-style: solid;
+  --cp-timeline-line-width: 2px;
+  // 轴线定位基准尺寸（容器级常量，不随子项变化）
+  --cp-timeline-axis-size: #{map.get($timeline-icon-sizes, lg)};
+  --cp-timeline-dot-size: 14px;
+  --cp-timeline-gap: 24px;
+  --cp-timeline-content-gap: 16px;
+  --cp-timeline-animation-duration: 1.5s;
+  --cp-timeline-animation-intensity: 1;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  // ===== 时间轴子项 =====
+  @include e(item) {
+    position: relative;
+    display: flex;
+    gap: var(--cp-timeline-content-gap);
+    padding-bottom: var(--cp-timeline-gap);
+    min-height: 60px;
+
+    // 最后一项不需要间距
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    // ===== 尺寸（只影响节点视觉大小，不影响轴线位置） =====
+    @each $name, $size in $timeline-dot-sizes {
+      &.is-#{$name} {
+        --cp-timeline-dot-size: #{$size};
+
+        .cp-timeline__item-icon {
+          width: map.get($timeline-icon-sizes, $name);
+          height: map.get($timeline-icon-sizes, $name);
+          font-size: calc(#{map.get($timeline-icon-sizes, $name)} * 0.56);
+        }
+
+        .cp-timeline__item-timestamp {
+          font-size: map.get($timeline-font-sizes, $name);
+        }
+      }
+    }
+
+    // ===== 颜色类型 =====
+    &.is-primary {
+      --cp-timeline-item-color: var(--cp-color-primary);
+    }
+
+    &.is-success {
+      --cp-timeline-item-color: var(--cp-color-success);
+    }
+
+    &.is-warning {
+      --cp-timeline-item-color: var(--cp-color-warning);
+    }
+
+    &.is-error {
+      --cp-timeline-item-color: var(--cp-color-error);
+    }
+
+    &.is-info {
+      --cp-timeline-item-color: var(--cp-color-info);
+    }
+
+    &.is-default {
+      --cp-timeline-item-color: var(--cp-text-secondary);
+    }
+
+    // ===== 自定义颜色 =====
+    @include when(custom-color) {
+      .cp-timeline__item-node {
+        background-color: var(--cp-timeline-item-color);
+        border-color: var(--cp-timeline-item-color);
+      }
+
+      .cp-timeline__item-icon {
+        background-color: var(--cp-timeline-item-color);
+        border-color: var(--cp-timeline-item-color);
+      }
+
+      .cp-timeline__item-pulse {
+        background-color: var(--cp-timeline-item-color);
+      }
+    }
+
+    // ===== 空心节点 =====
+    @include when(hollow) {
+      .cp-timeline__item-node {
+        background-color: var(--cp-bg-base, #0a0a14);
+        border: 2px solid var(--cp-timeline-item-color, var(--cp-text-secondary));
+      }
+    }
+
+    // ===== 图标节点 =====
+    @include when(has-icon) {
+      .cp-timeline__item-node {
+        display: none;
+      }
+    }
+
+    // ===== 激活态 =====
+    @include when(active) {
+      .cp-timeline__item-node,
+      .cp-timeline__item-icon {
+        box-shadow:
+          0 0 6px var(--cp-timeline-item-color, var(--cp-text-secondary)),
+          0 0 14px color-mix(in srgb, var(--cp-timeline-item-color, var(--cp-text-secondary)) 40%, transparent);
+      }
+
+      .cp-timeline__item-body {
+        color: var(--cp-text-primary);
+      }
+    }
+
+    // ===== 动画 - 发光呼吸 =====
+    &.is-animation-glow {
+      .cp-timeline__item-node,
+      .cp-timeline__item-icon {
+        animation: cp-timeline-glow var(--cp-timeline-animation-duration) ease-in-out infinite;
+      }
+    }
+
+    // ===== 动画 - 闪烁 =====
+    &.is-animation-blink {
+      .cp-timeline__item-node,
+      .cp-timeline__item-icon {
+        animation: cp-timeline-blink var(--cp-timeline-animation-duration) ease-in-out infinite;
+      }
+    }
+  }
+
+  // ===== 连线（尾巴）=====
+  // 始终基于 axis-size 定位，保证轴线在不同节点大小下稳定
+  @include e(item-tail) {
+    position: absolute;
+    // 从当前节点的正中心开始
+    top: calc(var(--cp-timeline-axis-size) / 2);
+    // 高度延伸该项目的总高度（等于一直画到下一个节点的正中心）
+    height: 100%;
+    // 基于 axis-size 居中（容器级常量）
+    left: calc(var(--cp-timeline-axis-size) / 2 - var(--cp-timeline-line-width) / 2);
+    width: var(--cp-timeline-line-width);
+    border-left: var(--cp-timeline-line-width) var(--cp-timeline-line-style) var(--cp-timeline-line-color);
+
+    // 最后一项隐藏连线
+    .cp-timeline__item:last-child & {
+      display: none;
+    }
+  }
+
+  // ===== 节点容器 =====
+  // 固定宽度为 axis-size，使所有节点（无论大小）都居中对齐在轴线上
+  @include e(item-dot) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    width: var(--cp-timeline-axis-size);
+    height: var(--cp-timeline-axis-size);
+    // 微调使节点中心对齐第一行文版基线
+    margin-top: 0px;
+  }
+
+  // ===== 圆点背景遮罩 =====
+  @include e(item-mask) {
+    position: absolute;
+    width: var(--cp-timeline-dot-size);
+    height: var(--cp-timeline-dot-size);
+    border-radius: 50%;
+    background-color: var(--cp-bg-base, #101014); // 默认底层背景色
+    z-index: 0;
+  }
+
+  // ===== 节点圆点 =====
+  @include e(item-node) {
+    width: var(--cp-timeline-dot-size);
+    height: var(--cp-timeline-dot-size);
+    border-radius: 50%;
+    background-color: var(--cp-timeline-item-color, var(--cp-text-secondary));
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  // ===== 图标节点 =====
+  @include e(item-icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--cp-timeline-item-color, var(--cp-text-secondary));
+    color: var(--cp-text-on-bright);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  // ===== 脉冲动画元素 =====
+  @include e(item-pulse) {
+    position: absolute;
+    width: var(--cp-timeline-dot-size);
+    height: var(--cp-timeline-dot-size);
+    border-radius: 50%;
+    background-color: var(--cp-timeline-item-color, var(--cp-text-secondary));
+    animation: cp-timeline-pulse var(--cp-timeline-animation-duration) ease-out infinite;
+    z-index: 0;
+  }
+
+  // ===== 内容区域 =====
+  @include e(item-content) {
+    flex: 1;
+    min-width: 0;
+    // 垂直居中对齐到节点中心
+    padding-top: calc((var(--cp-timeline-axis-size) - 1.6em) / 2);
+  }
+
+  // ===== 主内容 =====
+  @include e(item-body) {
+    font-size: 14px;
+    color: var(--cp-text-primary);
+    line-height: 1.6;
+  }
+
+  // ===== 附加区域 =====
+  @include e(item-extra) {
+    margin-top: 8px;
+  }
+
+  // ===== 时间戳 =====
+  @include e(item-timestamp) {
+    font-size: 13px;
+    color: var(--cp-text-muted);
+    font-family: var(--cp-font-family-mono);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  // ===== 排列模式 =====
+
+  // 左对齐（默认） — tail 已经由 axis-size 居中，无需额外调整
+  @include m(mode-left) {
+    // 默认即可
+  }
+
+  // 右对齐
+  @include m(mode-right) {
+    .cp-timeline__item {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .cp-timeline__item-tail {
+      left: auto;
+      right: calc(var(--cp-timeline-axis-size) / 2 - var(--cp-timeline-line-width) / 2);
+    }
+  }
+
+  // 交替排列
+  @include m(mode-alternate) {
+    .cp-timeline__item {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .cp-timeline__item-tail {
+      left: calc(50% - var(--cp-timeline-line-width) / 2);
+      transform: none;
+    }
+
+    .cp-timeline__item-dot {
+      position: absolute;
+      left: calc(50% - var(--cp-timeline-axis-size) / 2);
+      transform: none;
+    }
+
+    .cp-timeline__item-content {
+      width: calc(50% - var(--cp-timeline-content-gap) - var(--cp-timeline-axis-size) / 2);
+      flex: none;
+    }
+
+    // 奇数项（内容在右侧）
+    .cp-timeline__item:nth-child(odd) {
+      justify-content: flex-end;
+      text-align: left;
+    }
+
+    // 偶数项（内容在左侧）
+    .cp-timeline__item:nth-child(even) {
+      justify-content: flex-start;
+      text-align: right;
+    }
+  }
+
+  // ===== 倒序 =====
+  @include when(reverse) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// ===== 动画关键帧 =====
+
+// 脉冲扩散
+@keyframes cp-timeline-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(calc(1 + 1.5 * var(--cp-timeline-animation-intensity, 1)));
+    opacity: 0;
+  }
+}
+
+// 发光呼吸
+@keyframes cp-timeline-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 calc(2px * var(--cp-timeline-animation-intensity, 1)) currentColor);
+    opacity: 1;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 calc(8px * var(--cp-timeline-animation-intensity, 1)) currentColor)
+            drop-shadow(0 0 calc(12px * var(--cp-timeline-animation-intensity, 1)) currentColor);
+    opacity: 0.85;
+  }
+}
+
+// 闪烁
+@keyframes cp-timeline-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: calc(0.3 / var(--cp-timeline-animation-intensity, 1));
+  }
+}

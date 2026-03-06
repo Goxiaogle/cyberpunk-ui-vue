@@ -26,7 +26,7 @@ export type IconSize = 'sm' | 'md' | 'lg'
  * - `Component` - Vue 组件（如 unplugin-icons 导入的图标）
  * - `string` - 原始 SVG 字符串、Iconify 图标名或 CSS 类名
  */
-export type IconValue = Component | string
+export type IconValue = Component | ((...args: unknown[]) => unknown) | string
 
 /**
  * CpIcon 组件 Props 定义
@@ -72,7 +72,7 @@ export const iconProps = {
      * ```
      */
     icon: {
-        type: [Object, String] as PropType<IconValue>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**

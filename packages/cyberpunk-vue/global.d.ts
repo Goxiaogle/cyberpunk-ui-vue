@@ -233,6 +233,18 @@ declare module 'vue' {
     CpText: typeof import('cyberpunk-ui-vue')['CpText']
     CpTextarea: typeof import('cyberpunk-ui-vue')['CpTextarea']
     /**
+     * CpTimeline 赛博朋克风格时间轴
+     * 
+     * 垂直时间轴容器，用于事件记录、进度流程、日志展示等场景。
+     */
+    CpTimeline: typeof import('cyberpunk-ui-vue')['CpTimeline']
+    /**
+     * CpTimelineItem 赛博朋克风格时间轴子项
+     * 
+     * 支持激活态、脉冲/发光/闪烁动画、空心节点、图标节点、丰富插槽。
+     */
+    CpTimelineItem: typeof import('cyberpunk-ui-vue')['CpTimelineItem']
+    /**
      * CpTree 赛博朋克风格树形控件
      * 
      * 用于展示层级数据，支持展开/收起、复选框级联、手风琴模式。

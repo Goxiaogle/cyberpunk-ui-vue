@@ -1,6 +1,6 @@
 ---
 name: components-display
-description: 展示与反馈组件的详细属性参考：Card、Image、Avatar、Progress、Loading、StatusIndicator、Dialog、Notification、Popover、Tree、Table。
+description: 展示与反馈组件的详细属性参考：Card、Image、Avatar、Progress、Loading、StatusIndicator、Dialog、Notification、Popover、Tree、Table、Timeline。
 ---
 
 # 展示与反馈组件属性参考
@@ -1098,6 +1098,101 @@ CpNotify({ title: "通知 B", message: "...", stacking: "overlap", duration: 0 }
   <CpTableColumn prop="name" label="姓名" />
 </CpTable>
 <CpPagination v-model:current-page="page" :total="total" />
+```
+
+---
+
+## CpTimeline 时间轴
+
+赛博朋克风格垂直时间轴，支持交替排列、多种节点动画、丰富插槽及连线样式定制。
+
+### CpTimeline (容器) Props
+
+| 属性        | 类型                                                                    | 默认值      | 说明                                |
+| ----------- | ----------------------------------------------------------------------- | ----------- | ----------------------------------- |
+| `mode`      | `'left' \| 'right' \| 'alternate'`                                      | `'left'`    | 内容排列模式                        |
+| `type`      | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 全局颜色预设                        |
+| `reverse`   | `boolean`                                                               | `false`     | 是否倒序排列                        |
+| `color`     | `string`                                                                | `''`        | 自定义全局颜色                      |
+| `lineStyle` | `'solid' \| 'dashed' \| 'dotted'`                                       | `'solid'`   | 全局连线样式                        |
+| `lineColor` | `string`                                                                | `''`        | 全局连线颜色（默认跟随 type/color） |
+
+### CpTimelineItem (子项) Props
+
+| 属性            | 类型                                     | 默认值       | 说明                                 |
+| --------------- | ---------------------------------------- | ------------ | ------------------------------------ |
+| `timestamp`     | `string`                                 | `''`         | 时间戳文本                           |
+| `placement`     | `'top' \| 'bottom'`                      | `'bottom'`   | 时间戳位置                           |
+| `type`          | 同容器                                   | `''`（继承） | 颜色类型                             |
+| `color`         | `string`                                 | `''`         | 自定义颜色，覆盖预设                 |
+| `size`          | `'sm' \| 'md' \| 'lg'`                   | `'md'`       | 节点尺寸                             |
+| `hollow`        | `boolean`                                | `false`      | 空心节点                             |
+| `hideTimestamp` | `boolean`                                | `false`      | 隐藏时间戳                           |
+| `icon`          | `Component`                              | —            | 自定义图标节点                       |
+| `active`        | `boolean`                                | `false`      | 激活状态（发光效果）                 |
+| `animation`     | `'none' \| 'pulse' \| 'glow' \| 'blink'` | `'none'`     | 状态指示动画                         |
+| `duration`      | `number \| string`                       | `1500`       | 动画持续时间（数字默认为 ms）        |
+| `intensity`     | `number`                                 | `1`          | 动画强度系数                         |
+| `lineStyle`     | `'solid' \| 'dashed' \| 'dotted'`        | `''`（继承） | 该项的连线样式（影响本身发出的连线） |
+| `lineColor`     | `string`                                 | `''`（继承） | 该项连线颜色                         |
+
+### CpTimelineItem 插槽
+
+| 插槽名      | 说明                       |
+| ----------- | -------------------------- |
+| `default`   | 主内容区域                 |
+| `timestamp` | 自定义时间戳内容           |
+| `dot`       | 自定义节点（覆盖默认圆点） |
+| `extra`     | 附加操作区域，在主内容下方 |
+| `connector` | 自定义连线（替换默认直线） |
+
+### CSS 变量
+
+| 变量                               | 默认值                     | 说明                                         |
+| ---------------------------------- | -------------------------- | -------------------------------------------- |
+| `--cp-timeline-axis-size`          | `32px`                     | 轴线定位基准（容器级常量，确保节点居中对齐） |
+| `--cp-timeline-dot-size`           | `14px`                     | 节点圆点视觉尺寸（随 size prop 变化）        |
+| `--cp-timeline-line-color`         | `var(--cp-border)`         | 连线颜色                                     |
+| `--cp-timeline-line-style`         | `solid`                    | 连线样式                                     |
+| `--cp-timeline-line-width`         | `2px`                      | 连线宽度                                     |
+| `--cp-timeline-gap`                | `24px`                     | 节点间距                                     |
+| `--cp-timeline-content-gap`        | `16px`                     | 节点与内容间距                               |
+| `--cp-timeline-animation-duration` | `1.5s`                     | 动画持续时间                                 |
+| `--cp-timeline-item-color`         | `var(--cp-text-secondary)` | 节点颜色（由 type/color prop 注入）          |
+
+### 示例
+
+```vue
+<script setup>
+import { CpTimeline, CpTimelineItem } from "@cyberpunk-vue/components";
+import MdiShieldAlert from "~icons/mdi/shield-alert";
+</script>
+
+<template>
+  <!-- 基础 -->
+  <CpTimeline>
+    <CpTimelineItem timestamp="2077.04.15">系统核心唤醒</CpTimelineItem>
+    <CpTimelineItem timestamp="2077.04.16" type="success"
+      >协议初始化</CpTimelineItem
+    >
+  </CpTimeline>
+
+  <!-- 交替排列 + 连线定制 -->
+  <CpTimeline mode="alternate" lineStyle="dashed">
+    <CpTimelineItem type="primary" animation="glow" active>在线</CpTimelineItem>
+    <CpTimelineItem type="error" animation="pulse">警报</CpTimelineItem>
+  </CpTimeline>
+
+  <!-- 图标节点 + 自定义颜色 -->
+  <CpTimeline>
+    <CpTimelineItem :icon="MdiShieldAlert" color="#ff00ff" hollow>
+      入侵检测
+      <template #extra>
+        <CpButton size="sm" type="error">阻断</CpButton>
+      </template>
+    </CpTimelineItem>
+  </CpTimeline>
+</template>
 ```
 
 ---

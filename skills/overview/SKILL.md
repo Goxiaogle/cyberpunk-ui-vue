@@ -82,6 +82,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 | 组件            | 说明                                   |
 | --------------- | -------------------------------------- |
+| `CpTimeline`    | 时间轴，支持交替排列/节点动画/丰富插槽 |
 | `CpTree`        | 树形控件，支持勾选/过滤/自定义图标     |
 | `CpTable`       | 数据表格，排序/多选/条纹/边框/固定表头 |
 | `CpTableColumn` | 声明式列定义，配合 CpTable 使用        |
@@ -138,7 +139,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 - [基础组件参数](./components-basic/SKILL.md) - Button、Tag、Badge 的完整 Props
 - [表单组件参数](./components-form/SKILL.md) - Form、FormItem、Input、Switch、Slider、Dropdown、Checkbox、Radio、Segmented、Upload 的完整 Props
-- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table 等的完整 Props
+- [展示与反馈组件参数](./components-display/SKILL.md) - Card、Image、Avatar、Progress、Popover、Tree、Dialog、Notification、Table、Timeline 等的完整 Props
 - [全局函数/服务式调用](./components-service/SKILL.md) - CpNotify 等函数式 API 的完整参数与用法
 - [导航组件参数](./components-navigation/SKILL.md) - Menu、MenuItem、SubMenu、MenuItemGroup、MenuNav、Pagination 的完整 Props
 - [布局组件参数](./components-layout/SKILL.md) - Container、Header、Footer、Main、Aside、Row、Col 的完整 Props
