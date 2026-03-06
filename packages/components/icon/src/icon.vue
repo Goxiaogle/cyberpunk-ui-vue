@@ -26,7 +26,7 @@ const sizeMap: Record<string, number> = {
 // 计算图标类型
 const iconType = computed(() => {
   if (!props.icon) return 'slot'
-  if (typeof props.icon === 'object') return 'component'
+  if (typeof props.icon === 'object' || typeof props.icon === 'function') return 'component'
   if (typeof props.icon === 'string' && props.icon.trim().startsWith('<svg')) return 'svg'
   return 'class'
 })

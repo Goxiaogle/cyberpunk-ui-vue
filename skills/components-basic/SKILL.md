@@ -193,3 +193,59 @@ description: 基础组件的详细属性参考：Button、Icon、Text、Tag、Ba
 <!-- 自定义颜色和粗细 -->
 <CpDivider color="#ff00ff" :thickness="2" />
 ```
+
+---
+
+## CpIcon 图标
+
+统一图标组件，支持 Vue 组件、函数式组件、SVG 字符串、CSS 字体图标四种模式。
+
+### Props
+
+| 属性    | 类型                                                                    | 默认值      | 说明                              |
+| ------- | ----------------------------------------------------------------------- | ----------- | --------------------------------- |
+| `icon`  | `Component \| string`                                                   | -           | 图标来源（见下方模式说明）        |
+| `size`  | `'sm' \| 'md' \| 'lg' \| number \| string`                              | `'md'`      | 尺寸（sm=16px, md=24px, lg=32px） |
+| `type`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色类型                          |
+| `color` | `string`                                                                | `''`        | 自定义颜色（覆盖 type）           |
+| `tag`   | `'i' \| 'span' \| 'div'`                                                | `'i'`       | 渲染的 HTML 标签                  |
+| `spin`  | `boolean`                                                               | `false`     | 旋转动画（适合加载图标）          |
+
+### 图标模式
+
+CpIcon 自动识别 `icon` prop 的类型，选择对应的渲染模式：
+
+| 类型           | 判断条件                                    | 渲染方式                   |
+| -------------- | ------------------------------------------- | -------------------------- |
+| **Vue 组件**   | `typeof icon === 'object'`                  | `<component :is="icon" />` |
+| **函数式组件** | `typeof icon === 'function'`                | `<component :is="icon" />` |
+| **SVG 字符串** | `typeof icon === 'string'` 且以 `<svg` 开头 | `v-html` 渲染              |
+| **CSS 类名**   | 其他字符串                                  | `<i :class="icon" />`      |
+| **Slot**       | `icon` 未传                                 | 渲染 `default` 插槽        |
+
+> **注意**：函数式组件（箭头函数）也被视为组件模式，例如 `() => h('svg', ...)` 可以直接作为 `icon` 传入。
+
+### 插槽
+
+| 名称      | 说明           |
+| --------- | -------------- |
+| `default` | 自定义图标内容 |
+
+### 示例
+
+```vue
+<!-- Vue 组件 (unplugin-icons) -->
+<CpIcon :icon="MdiHome" />
+
+<!-- 函数式组件 -->
+<CpIcon :icon="() => h('svg', { viewBox: '0 0 24 24' }, [...])" />
+
+<!-- SVG 字符串 -->
+<CpIcon icon="<svg viewBox='0 0 24 24'>...</svg>" />
+
+<!-- 带颜色和尺寸 -->
+<CpIcon :icon="MdiCheck" type="success" size="lg" />
+
+<!-- 旋转动画 -->
+<CpIcon :icon="MdiLoading" spin />
+```

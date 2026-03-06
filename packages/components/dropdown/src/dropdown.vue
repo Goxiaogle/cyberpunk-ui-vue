@@ -34,6 +34,8 @@ const visible = ref(false)
 const filterQuery = ref('')
 const hoverIndex = ref(-1)
 const isClearing = ref(false)
+const actualPlacement = ref(props.placement)
+const dynamicMaxHeight = ref(props.maxHeight)
 
 const isInlineSearch = computed(() => props.inline && props.filterable)
 
@@ -47,6 +49,9 @@ const inputValue = computed({
 
 // 弹层位置
 const popperPosition = ref({ top: 0, left: 0, width: 0 })
+
+// 视口边界检测的间距 (px)
+const VIEWPORT_PADDING = 8
 
 // 计算当前选中的选项
 const selectedOption = computed(() => {
@@ -133,17 +138,17 @@ const popperStyle = computed<CSSProperties>(() => ({
   top: `${popperPosition.value.top}px`,
   left: `${popperPosition.value.left}px`,
   width: `${popperPosition.value.width}px`,
-  maxHeight: `${props.maxHeight}px`,
+  maxHeight: `${dynamicMaxHeight.value}px`,
 }))
 
 // 弹层类名
 const popperClasses = computed(() => [
   ns.e('popper'),
-  `${ns.e('popper')}--${props.placement.split('-')[0]}`,
+  `${ns.e('popper')}--${actualPlacement.value.split('-')[0]}`,
   ns.m(`shape-${props.shape}`),
 ])
 
-// 更新弹层位置
+// 更新弹层位置 (含视口边界检测 & 自动翻转)
 let ticking = false
 const updatePosition = () => {
   if (!visible.value || !triggerRef.value || ticking) return
@@ -157,19 +162,48 @@ const updatePosition = () => {
     
     const triggerRect = triggerRef.value.getBoundingClientRect()
     const offset = 4
+    const viewportHeight = window.innerHeight
     
-    let top = 0
     let left = triggerRect.left + window.scrollX
     const width = triggerRect.width
     
-    const mainAxis = props.placement.split('-')[0]
+    // 计算上下可用空间
+    const spaceBelow = viewportHeight - triggerRect.bottom - offset - VIEWPORT_PADDING
+    const spaceAbove = triggerRect.top - offset - VIEWPORT_PADDING
     
-    if (mainAxis === 'bottom') {
+    const preferredAxis = props.placement.split('-')[0] as 'bottom' | 'top'
+    let resolvedAxis: 'bottom' | 'top' = preferredAxis
+    
+    // 判断是否需要翻转方向
+    if (preferredAxis === 'bottom') {
+      // 下方空间不足 且 上方空间更大 → 翻转到上方
+      if (spaceBelow < props.maxHeight && spaceAbove > spaceBelow) {
+        resolvedAxis = 'top'
+      }
+    } else {
+      // 上方空间不足 且 下方空间更大 → 翻转到下方
+      if (spaceAbove < props.maxHeight && spaceBelow > spaceAbove) {
+        resolvedAxis = 'bottom'
+      }
+    }
+    
+    // 计算动态 maxHeight (确保不超出可视区域)
+    const availableSpace = resolvedAxis === 'bottom' ? spaceBelow : spaceAbove
+    dynamicMaxHeight.value = Math.min(props.maxHeight, Math.max(availableSpace, 120))
+    
+    // 计算实际位置
+    let top = 0
+    if (resolvedAxis === 'bottom') {
       top = triggerRect.bottom + offset + window.scrollY
     } else {
-      // 需要先获取 popper 高度，这里用估算值
-      top = triggerRect.top - props.maxHeight - offset + window.scrollY
+      // top 方向: 需要用实际弹层高度，此处用 dynamicMaxHeight 作为上限
+      const popperHeight = popperRef.value?.offsetHeight || dynamicMaxHeight.value
+      top = triggerRect.top - popperHeight - offset + window.scrollY
     }
+    
+    // 更新实际方向 (用于 CSS 类名 & 动画方向)
+    const crossAxis = props.placement.split('-')[1] || ''
+    actualPlacement.value = (crossAxis ? `${resolvedAxis}-${crossAxis}` : resolvedAxis) as typeof props.placement
     
     popperPosition.value = { top, left, width }
     ticking = false
@@ -297,6 +331,9 @@ const blur = () => {
 // 监听显示状态
 watch(visible, async (val) => {
   if (val) {
+    await nextTick()
+    updatePosition()
+    // 第二帧：popper 已渲染，使用实际高度修正 top 方向的偏移
     await nextTick()
     updatePosition()
   }

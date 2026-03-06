@@ -374,7 +374,7 @@
       0 0 1px var(--cp-color-primary),
       inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
     backdrop-filter: blur(8px);
-    overflow: hidden;
+    overflow: visible;
     
     // 切角样式
     clip-path: polygon(
@@ -468,7 +468,27 @@
     overflow-y: auto;
     max-height: inherit;
 
-    @include scrollbar();
+    // scrollbar 跟随 primary 颜色变量
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--cp-color-primary) 40%, transparent) rgba(26, 26, 36, 0.8);
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(26, 26, 36, 0.8);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--cp-color-primary) 40%, transparent);
+      border-radius: 3px;
+
+      &:hover {
+        background: color-mix(in srgb, var(--cp-color-primary) 60%, transparent);
+      }
+    }
   }
 
   @include e(option) {

@@ -665,3 +665,61 @@ export const 垂直且内容居中: Story = {
     `,
   }),
 }
+
+/** 封面插槽 - 在 header 上方展示图片 */
+export const 封面插槽: Story = {
+  render: () => ({
+    components: { CpDialog, CpButton, CpText },
+    setup() {
+      const visible = ref(false)
+      return { visible }
+    },
+    template: `
+      <div style="padding: 40px;">
+        <CpButton type="primary" @click="visible = true">带封面的对话框</CpButton>
+        <CpDialog v-model="visible" title="任务详情" type="primary" width="480px" shape="round">
+          <template #cover>
+            <img
+              src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=250&fit=crop"
+              alt="cover"
+              style="width: 100%; height: 180px; object-fit: cover;"
+            />
+          </template>
+          <CpText>对话框顶部展示了一张封面图片，使用 #cover 插槽。</CpText>
+          <CpText size="sm" style="margin-top: 8px; opacity: 0.6;">
+            与 Card 组件的 cover 插槽用法一致，可放置图片、视频等媒体内容。
+          </CpText>
+        </CpDialog>
+      </div>
+    `,
+  }),
+}
+
+/** 自定义底部操作 - 通过作用域插槽获取 close / confirm */
+export const 底部作用域插槽: Story = {
+  render: () => ({
+    components: { CpDialog, CpButton, CpText },
+    setup() {
+      const visible = ref(false)
+      return { visible }
+    },
+    template: `
+      <div style="padding: 40px;">
+        <CpButton type="success" @click="visible = true">作用域 Footer</CpButton>
+        <CpDialog v-model="visible" title="操作确认" type="success" width="440px"
+          :show-confirm-button="false" :show-cancel-button="false"
+        >
+          <CpText>使用 #footer="{ close, confirm }" 获取 Dialog 内置的关闭和确认方法。</CpText>
+          <CpText size="sm" style="margin-top: 8px; opacity: 0.6;">
+            无需再手动操作 v-model，直接调用 close() 或 confirm() 即可。
+          </CpText>
+          <template #footer="{ close, confirm }">
+            <CpButton @click="close">取消 (close)</CpButton>
+            <CpButton type="success" @click="confirm">确认 (confirm)</CpButton>
+          </template>
+        </CpDialog>
+      </div>
+    `,
+  }),
+}
+

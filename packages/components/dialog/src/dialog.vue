@@ -3,11 +3,19 @@
  * CpDialog - 赛博朋克风格模态对话框
  * 支持多种变体、形状、主题色、拖拽，以及各区域的颜色/样式/class 自定义
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, provide, toRef, useAttrs, type CSSProperties } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, provide, toRef, useAttrs, h, type CSSProperties } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn } from './dialog'
 import { CpButton } from '@cyberpunk-vue/components/button'
+
+// 关闭图标组件 — 供 CpButton icon prop 使用
+const CloseIcon = () => h('svg', {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': '2',
+}, [h('path', { d: 'M18 6L6 18M6 6l12 12' })])
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Dialog`,
@@ -313,6 +321,7 @@ const handleAfterEnter = () => {
 
 const handleAfterLeave = () => {
   emit('closed')
+  unlockBody() // 动画结束后再恢复滚动，防止关闭动画过程中页面出现卷轴导致弹窗跳动
   if (props.destroyOnClose) {
     rendered.value = false
   }
@@ -363,7 +372,6 @@ watch(visible, (val) => {
   if (!val && props.modelValue) {
     emit('close')
     emit('update:modelValue', false)
-    unlockBody()
     document.removeEventListener('keydown', handleKeydown)
     window.removeEventListener('resize', updateDragPosition)
   }
@@ -441,6 +449,11 @@ defineExpose({
             <!-- 装饰方块 (右上角) -->
             <div :class="ns.e('decor')" />
 
+            <!-- Cover -->
+            <div v-if="$slots.cover" :class="ns.e('cover')">
+              <slot name="cover" />
+            </div>
+
             <!-- Header -->
             <div
               v-if="showHeader"
@@ -453,16 +466,18 @@ defineExpose({
                 <div :class="ns.e('title')">
                   <slot name="title">{{ title }}</slot>
                 </div>
-                <button
+                <CpButton
                   v-if="showClose"
                   :class="ns.e('close')"
+                  :icon="CloseIcon"
+                  :shape="shape"
+                  :type="type"
+                  :color="closeColor || color"
+                  variant="ghost"
+                  size="sm"
                   aria-label="Close"
                   @click="handleClose"
-                >
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                </button>
+                />
               </slot>
             </div>
 
@@ -480,7 +495,7 @@ defineExpose({
               :class="footerClasses"
               :style="footerStyle"
             >
-              <slot name="footer">
+              <slot name="footer" :close="handleClose" :confirm="handleConfirm">
                 <!-- 内置取消/确认按钮 -->
                 <CpButton
                   v-if="showCancelButton"

@@ -81,6 +81,7 @@
     inset: 0;
     background: var(--cp-dialog-overlay-color, var(--cp-scrim));
     overflow: auto;
+    scrollbar-gutter: stable both-edges; // 两侧预留 scroll-bar 空间，避免弹窗跳动
   }
 
   // ===== 定位容器 =====
@@ -284,6 +285,18 @@
       opacity: 1;
     }
   }
+  // ===== 封面区域 =====
+  @include e(cover) {
+    line-height: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    img, video {
+      width: 100%;
+      display: block;
+    }
+  }
+
   // ===== 头部 =====
   @include e(header) {
     display: flex;
@@ -330,32 +343,10 @@
     }
   }
 
-  // ===== 关闭按钮 =====
+  // ===== 关闭按钮（CpButton） =====
   @include e(close) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: var(--cp-dialog-close-color, var(--cp-dialog-color));
-    cursor: pointer;
-    transition: all 0.2s ease;
     flex-shrink: 0;
     margin-left: var(--cp-spacing-sm);
-    padding: 0;
-
-    &:hover {
-      color: var(--cp-dialog-color);
-      border-color: var(--cp-dialog-color);
-      background: var(--cp-dialog-color-light);
-      box-shadow: 0 0 8px var(--cp-dialog-color-light);
-    }
-
-    &:active {
-      transform: scale(0.92);
-    }
   }
 
   // ===== 内容区 =====
