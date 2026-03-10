@@ -8,6 +8,7 @@ import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
+import { CpLoading } from '@cyberpunk-vue/components/loading'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Table`,
@@ -100,6 +101,7 @@ const isIndeterminate = computed(() => {
 })
 
 const handleSelectRow = (row: any) => {
+  if (props.loading || props.disabled) return
   const newSet = new Set(selectedRows.value)
   if (newSet.has(row)) {
     newSet.delete(row)
@@ -113,6 +115,7 @@ const handleSelectRow = (row: any) => {
 }
 
 const handleSelectAll = () => {
+  if (props.loading || props.disabled) return
   let newSet: Set<any>
   if (isAllSelected.value) {
     newSet = new Set()
@@ -129,6 +132,7 @@ const handleSelectAll = () => {
 const currentRow = ref<any>(null)
 
 const handleRowClick = (row: any, index: number, event: MouseEvent) => {
+  if (props.loading || props.disabled) return
   emit('row-click', row, index, event)
   if (props.highlightCurrentRow) {
     const oldRow = currentRow.value
@@ -156,7 +160,16 @@ const classes = computed(() => [
   ns.is('border', props.border),
   ns.is('highlight-current-row', props.highlightCurrentRow),
   ns.is('scrollable', !!(props.height || props.maxHeight)),
+  ns.is('loading', props.loading),
+  ns.is('disabled', props.disabled),
 ])
+
+// 计算最终主题色（用于 Loading spinner）
+const realColor = computed(() => {
+  if (props.color) return props.color
+  if (props.type && props.type !== 'default') return `var(--cp-color-${props.type})`
+  return null
+})
 
 // 自定义颜色 inline style
 const rootStyle = computed(() => {
@@ -376,5 +389,15 @@ defineExpose({
         </tbody>
       </table>
     </div>
+
+    <!-- Loading Overlay -->
+    <Transition name="cp-table-loading">
+      <div v-if="loading" :class="ns.e('loading-overlay')">
+        <slot name="loading">
+          <CpLoading :color="realColor || undefined" />
+          <span v-if="loadingText" :class="ns.e('loading-text')">{{ loadingText }}</span>
+        </slot>
+      </div>
+    </Transition>
   </div>
 </template>

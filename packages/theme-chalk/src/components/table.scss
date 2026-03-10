@@ -334,4 +334,66 @@ $table-sizes: (
       cursor: pointer;
     }
   }
+
+  // ===== 加载遮罩 (Loading Overlay) =====
+  @include e(loading-overlay) {
+    position: absolute;
+    inset: 0;
+    z-index: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cp-spacing-sm);
+    background: var(--cp-table-loading-bg, rgba(10, 10, 18, 0.75));
+    backdrop-filter: var(--cp-table-loading-backdrop, blur(4px));
+    pointer-events: auto;
+  }
+
+  @include e(loading-text) {
+    font-size: var(--cp-font-size-sm);
+    color: var(--cp-table-loading-text-color, var(--cp-text-secondary));
+    letter-spacing: 0.05em;
+    user-select: none;
+    margin-top: var(--cp-spacing-xs);
+  }
+
+  // ===== 加载遮罩过渡动画 =====
+  .cp-table-loading-enter-active,
+  .cp-table-loading-leave-active {
+    transition: opacity 0.3s ease;
+  }
+  .cp-table-loading-enter-from,
+  .cp-table-loading-leave-to {
+    opacity: 0;
+  }
+
+  // ===== 加载状态 (Loading) =====
+  @include when(loading) {
+    // loading 时仍可看到表格，但内容被遮罩阻挡
+    position: relative;
+  }
+
+  // ===== 禁用状态 (Disabled) =====
+  @include when(disabled) {
+    pointer-events: none;
+    cursor: not-allowed;
+
+    .cp-table__wrapper {
+      opacity: 0.5;
+      filter: grayscale(0.6);
+    }
+
+    // 禁止所有 hover 视觉反馈
+    .cp-table__row {
+      &:hover {
+        background: var(--cp-table-row-bg);
+      }
+    }
+
+    // 加载遮罩也必须禁止 pointer-events
+    .cp-table__loading-overlay {
+      pointer-events: none !important;
+    }
+  }
 }

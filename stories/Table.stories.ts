@@ -61,6 +61,18 @@ const meta: Meta<typeof CpTable> = {
       control: 'color',
       description: '自定义主题色（CSS 颜色值），优先级高于 type',
     },
+    loading: {
+      control: 'boolean',
+      description: '加载状态',
+    },
+    loadingText: {
+      control: 'text',
+      description: '加载中文案',
+    },
+    disabled: {
+      control: 'boolean',
+      description: '禁用状态',
+    },
   },
   args: {
     size: 'md',
@@ -70,6 +82,9 @@ const meta: Meta<typeof CpTable> = {
     highlightCurrentRow: false,
     emptyText: '暂无数据',
     color: '',
+    loading: false,
+    loadingText: '加载中...',
+    disabled: false,
   },
 }
 
@@ -630,6 +645,88 @@ export const PaginationWithSelection: Story = {
           :page-sizes="[5, 10, 20, 50]"
         />
       </div>
+    `,
+  }),
+}
+
+/**
+ * 加载状态
+ *
+ * 设置 `loading` 显示加载遮罩，阻止用户交互。
+ * 配合 `loadingText` 自定义加载文案。
+ */
+export const Loading: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpButton },
+    setup() {
+      const tableData = ref(smallData)
+      const loading = ref(true)
+      const toggle = () => { loading.value = !loading.value }
+      return { tableData, loading, toggle }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <CpButton type="primary" size="sm" @click="toggle">
+            {{ loading ? '停止加载' : '开始加载' }}
+          </CpButton>
+        </div>
+        <CpTable :data="tableData" :loading="loading" loading-text="数据加载中..." stripe border>
+          <CpTableColumn prop="id" label="ID" :width="60" />
+          <CpTableColumn prop="name" label="姓名" />
+          <CpTableColumn prop="age" label="年龄" />
+          <CpTableColumn prop="role" label="角色" />
+          <CpTableColumn prop="email" label="邮箱" />
+        </CpTable>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 禁用状态
+ *
+ * 设置 `disabled` 使表格整体变灰且不可交互。
+ */
+export const Disabled: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn },
+    setup() {
+      return { tableData: smallData }
+    },
+    template: `
+      <CpTable :data="tableData" disabled stripe border type="primary">
+        <CpTableColumn type="selection" />
+        <CpTableColumn prop="id" label="ID" :width="60" />
+        <CpTableColumn prop="name" label="姓名" sortable />
+        <CpTableColumn prop="age" label="年龄" />
+        <CpTableColumn prop="role" label="角色" />
+        <CpTableColumn prop="email" label="邮箱" />
+      </CpTable>
+    `,
+  }),
+}
+
+/**
+ * 加载 + 禁用
+ *
+ * `loading` 和 `disabled` 可以同时使用。
+ * 禁用时遮罩也不可交互。
+ */
+export const LoadingAndDisabled: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn },
+    setup() {
+      return { tableData: smallData }
+    },
+    template: `
+      <CpTable :data="tableData" loading disabled loading-text="系统维护中..." stripe border type="warning">
+        <CpTableColumn prop="id" label="ID" :width="60" />
+        <CpTableColumn prop="name" label="姓名" />
+        <CpTableColumn prop="age" label="年龄" />
+        <CpTableColumn prop="role" label="角色" />
+        <CpTableColumn prop="email" label="邮箱" />
+      </CpTable>
     `,
   }),
 }

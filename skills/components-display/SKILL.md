@@ -1006,6 +1006,9 @@ CpNotify({ title: "通知 B", message: "...", stacking: "overlap", duration: 0 }
 | `rowKey`              | `string \| (row) => string \| number`                                   | `'id'`       | 行唯一标识字段            |
 | `defaultSort`         | `{ prop: string, order: SortOrder }`                                    | -            | 默认排序                  |
 | `showHeader`          | `boolean`                                                               | `true`       | 是否显示表头              |
+| `loading`             | `boolean`                                                               | `false`      | 加载状态（显示遮罩阻止交互） |
+| `loadingText`         | `string`                                                                | `'加载中...'` | 加载中显示的文字          |
+| `disabled`            | `boolean`                                                               | `false`      | 禁用（变灰且不可交互）   |
 
 ### 事件
 
@@ -1033,6 +1036,15 @@ CpNotify({ title: "通知 B", message: "...", stacking: "overlap", duration: 0 }
 | --------- | -------------------- |
 | `default` | CpTableColumn 列定义 |
 | `empty`   | 空数据自定义内容     |
+| `loading` | 自定义加载中内容（替代默认 CpLoading + 文字） |
+
+### 加载遮罩 CSS 变量
+
+| 变量                            | 默认值                     | 说明                     |
+| ------------------------------- | -------------------------- | ------------------------ |
+| `--cp-table-loading-bg`         | `rgba(10, 10, 18, 0.75)`   | 加载遮罩背景颜色         |
+| `--cp-table-loading-backdrop`   | `blur(4px)`                | 加载遮罩 backdrop-filter |
+| `--cp-table-loading-text-color` | `var(--cp-text-secondary)` | 加载文字颜色             |
 
 ---
 
@@ -1098,6 +1110,18 @@ CpNotify({ title: "通知 B", message: "...", stacking: "overlap", duration: 0 }
   <CpTableColumn prop="name" label="姓名" />
 </CpTable>
 <CpPagination v-model:current-page="page" :total="total" />
+
+<!-- 加载状态 -->
+<CpTable :data="tableData" loading loading-text="数据加载中..." stripe border>
+  <CpTableColumn prop="name" label="姓名" />
+  <CpTableColumn prop="age" label="年龄" />
+</CpTable>
+
+<!-- 禁用状态 -->
+<CpTable :data="tableData" disabled stripe border type="primary">
+  <CpTableColumn type="selection" />
+  <CpTableColumn prop="name" label="姓名" />
+</CpTable>
 ```
 
 ---

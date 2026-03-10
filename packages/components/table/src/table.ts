@@ -154,6 +154,32 @@ export const tableProps = {
     type: Boolean,
     default: true,
   },
+  /**
+   * 是否处于加载状态
+   * 加载时会在表格内容上显示遮罩层，阻止用户交互
+   * @default false
+   */
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 加载中显示的文字
+   * @default '加载中...'
+   */
+  loadingText: {
+    type: String,
+    default: '加载中...',
+  },
+  /**
+   * 是否处于禁用状态
+   * 禁用时表格整体变灰且不可交互
+   * @default false
+   */
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
