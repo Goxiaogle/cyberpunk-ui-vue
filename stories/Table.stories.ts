@@ -730,3 +730,131 @@ export const LoadingAndDisabled: Story = {
     `,
   }),
 }
+
+// ===== 树形表格模拟数据 =====
+const treeData = [
+  {
+    id: 1,
+    name: '总部',
+    order: 0,
+    status: '正常',
+    createTime: '2026-01-18 10:58:14',
+    children: [
+      {
+        id: 2,
+        name: '技术中心',
+        order: 1,
+        status: '正常',
+        createTime: '2026-01-18 10:58:14',
+        children: [
+          { id: 3, name: '研发部门', order: 1, status: '正常', createTime: '2026-01-18 10:58:14' },
+          { id: 4, name: '市场部门', order: 2, status: '正常', createTime: '2026-01-18 10:58:15' },
+          { id: 5, name: '测试部门', order: 3, status: '正常', createTime: '2026-01-18 10:58:15' },
+          { id: 6, name: '财务部门', order: 4, status: '正常', createTime: '2026-01-18 10:58:15' },
+          { id: 7, name: '运维部门', order: 5, status: '正常', createTime: '2026-01-18 10:58:15' },
+        ],
+      },
+      {
+        id: 8,
+        name: '运营中心',
+        order: 2,
+        status: '正常',
+        createTime: '2026-01-18 10:58:14',
+        children: [
+          { id: 9, name: '市场部门', order: 1, status: '正常', createTime: '2026-01-18 10:58:15' },
+          { id: 10, name: '财务部门', order: 2, status: '正常', createTime: '2026-01-18 10:58:15' },
+        ],
+      },
+    ],
+  },
+]
+
+/**
+ * 树形表格
+ *
+ * 通过 `treeProps` 启用树形数据展示。
+ * 传入 `{ children: 'children' }` 指定子节点字段名。
+ * 点击行首箭头展开/折叠子行。
+ */
+export const TreeTable: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      const tableRef = ref()
+      const onExpandChange = (row: any, expanded: boolean) => {
+        console.log('expand-change:', row.name, expanded)
+      }
+      return { treeData, tableRef, onExpandChange }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; gap: 8px;">
+          <CpButton type="primary" size="sm" variant="outline" @click="tableRef?.expandAll()">展开全部</CpButton>
+          <CpButton size="sm" variant="outline" @click="tableRef?.collapseAll()">折叠全部</CpButton>
+        </div>
+        <CpTable
+          ref="tableRef"
+          :data="treeData"
+          :tree-props="{ children: 'children' }"
+          row-key="id"
+          border
+          @expand-change="onExpandChange"
+        >
+          <CpTableColumn prop="name" label="部门名称" min-width="200" />
+          <CpTableColumn prop="order" label="排序" width="100" align="center" />
+          <CpTableColumn prop="status" label="状态" width="100" align="center">
+            <template #default="{ row }">
+              <CpTag type="primary" variant="semi" size="sm">
+                {{ row.status }}
+              </CpTag>
+            </template>
+          </CpTableColumn>
+          <CpTableColumn prop="createTime" label="创建时间" width="200" align="center" />
+          <CpTableColumn label="操作" width="200" align="center">
+            <template #default="{ row }">
+              <div style="display: flex; gap: 6px; justify-content: center;">
+                <CpButton type="primary" variant="ghost" size="sm">修改</CpButton>
+                <CpButton type="primary" variant="ghost" size="sm">新增</CpButton>
+                <CpButton type="error" variant="ghost" size="sm" v-if="row.children">删除</CpButton>
+              </div>
+            </template>
+          </CpTableColumn>
+        </CpTable>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 树形表格 — 默认展开
+ *
+ * 设置 `default-expand-all` 使所有树节点默认展开。
+ */
+export const TreeTableDefaultExpandAll: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag },
+    setup() {
+      return { treeData }
+    },
+    template: `
+      <CpTable
+        :data="treeData"
+        :tree-props="{ children: 'children' }"
+        row-key="id"
+        default-expand-all
+        stripe
+      >
+        <CpTableColumn prop="name" label="部门名称" min-width="200" />
+        <CpTableColumn prop="order" label="排序" width="100" align="center" />
+        <CpTableColumn prop="status" label="状态" width="100" align="center">
+          <template #default="{ row }">
+            <CpTag type="success" variant="semi" size="sm">
+              {{ row.status }}
+            </CpTag>
+          </template>
+        </CpTableColumn>
+        <CpTableColumn prop="createTime" label="创建时间" width="200" align="center" />
+      </CpTable>
+    `,
+  }),
+}

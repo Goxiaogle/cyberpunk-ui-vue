@@ -1,10 +1,10 @@
 <script setup lang="ts">
 /**
  * CpTable - 赛博朋克风格数据表格
- * 支持排序、多选、条纹、边框、固定表头
+ * 支持排序、多选、条纹、边框、固定表头、树形数据
  */
-import { computed, ref, watch, provide, useSlots, onMounted, type VNode } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { computed, ref, watch, provide } from 'vue'
+import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
 import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
@@ -16,7 +16,6 @@ defineOptions({
 
 const props = defineProps(tableProps)
 const emit = defineEmits(tableEmits)
-const slots = useSlots()
 const ns = useNamespace('table')
 
 // ===== 列注册 =====
@@ -88,8 +87,6 @@ const isSortActive = (col: TableColumnConfig, order: Exclude<SortOrder, null>) =
 // ===== 选择 =====
 const selectedRows = ref<Set<any>>(new Set())
 
-const hasSelectionColumn = computed(() => columns.value.some(c => c.columnType === 'selection'))
-
 const isAllSelected = computed(() => {
   if (sortedData.value.length === 0) return false
   return sortedData.value.every(row => selectedRows.value.has(row))
@@ -149,9 +146,138 @@ const getRowKey = (row: any, index: number): string | number => {
   return row[props.rowKey] ?? index
 }
 
-// ===== 尺寸 =====
-const tableSizeMap: Record<string, number> = { sm: 32, md: 40, lg: 48 }
+// ===== 树形数据 =====
+const isTreeMode = computed(() => !!props.treeProps)
 
+// 获取子节点字段名
+const childrenField = computed(() => props.treeProps?.children || 'children')
+const hasChildrenField = computed(() => props.treeProps?.hasChildren || '')
+
+// 树形展开的行 key 集合
+const expandedRowKeys = ref<Set<string | number>>(new Set())
+
+// 初始化展开状态
+const initTreeExpanded = () => {
+  if (!isTreeMode.value) return
+  if (props.defaultExpandAll) {
+    const keys = new Set<string | number>()
+    const collectKeys = (data: any[]) => {
+      for (const row of data) {
+        const key = getRowKey(row, -1)
+        const children = row[childrenField.value]
+        if (children && children.length > 0) {
+          keys.add(key)
+          collectKeys(children)
+        }
+      }
+    }
+    collectKeys(props.data)
+    expandedRowKeys.value = keys
+  }
+}
+
+watch(() => props.data, initTreeExpanded, { immediate: true })
+watch(() => props.defaultExpandAll, initTreeExpanded)
+
+// 检查行是否有子节点
+const rowHasChildren = (row: any): boolean => {
+  if (hasChildrenField.value && row[hasChildrenField.value]) return true
+  const children = row[childrenField.value]
+  return Array.isArray(children) && children.length > 0
+}
+
+// 切换行展开
+const toggleRowExpansion = (row: any, expanded?: boolean) => {
+  const key = getRowKey(row, -1)
+  const newSet = new Set(expandedRowKeys.value)
+  const isExpanded = newSet.has(key)
+  const targetExpanded = expanded !== undefined ? expanded : !isExpanded
+
+  if (targetExpanded) {
+    newSet.add(key)
+  } else {
+    newSet.delete(key)
+  }
+  expandedRowKeys.value = newSet
+  emit('expand-change', row, targetExpanded)
+}
+
+// 展开所有树节点
+const expandAllRows = () => {
+  const keys = new Set<string | number>()
+  const collectKeys = (data: any[]) => {
+    for (const row of data) {
+      const key = getRowKey(row, -1)
+      if (rowHasChildren(row)) {
+        keys.add(key)
+        const children = row[childrenField.value]
+        if (Array.isArray(children)) collectKeys(children)
+      }
+    }
+  }
+  collectKeys(props.data)
+  expandedRowKeys.value = keys
+}
+
+// 折叠所有树节点
+const collapseAllRows = () => {
+  expandedRowKeys.value = new Set()
+}
+
+interface FlatRow {
+  row: any
+  level: number
+  hasChildren: boolean
+  expanded: boolean
+}
+
+// 将树形数据扁平化为渲染列表
+const flattenedData = computed<FlatRow[]>(() => {
+  if (!isTreeMode.value) return []
+
+  const result: FlatRow[] = []
+  const flatten = (data: any[], level: number) => {
+    for (const row of data) {
+      const key = getRowKey(row, -1)
+      const hasChild = rowHasChildren(row)
+      const expanded = expandedRowKeys.value.has(key)
+
+      result.push({ row, level, hasChildren: hasChild, expanded })
+
+      if (hasChild && expanded) {
+        const children = row[childrenField.value]
+        if (Array.isArray(children)) {
+          flatten(children, level + 1)
+        }
+      }
+    }
+  }
+
+  // In tree mode, use sortedData (the top-level sorted) and recursively flatten
+  flatten(sortedData.value, 0)
+  return result
+})
+
+// 最终渲染的数据（非树形时直接用 sortedData）
+const renderData = computed(() => {
+  if (isTreeMode.value) {
+    return flattenedData.value.map(f => f.row)
+  }
+  return sortedData.value
+})
+
+// 获取某行的 FlatRow 信息（用于缩进、箭头渲染）
+const getFlatRow = (row: any): FlatRow | undefined => {
+  return flattenedData.value.find(f => f.row === row)
+}
+
+// 判断当前列是否是第一个数据列（用于显示树形缩进和箭头）
+const isFirstDataColumn = (col: TableColumnConfig): boolean => {
+  const dataColumns = columns.value.filter(c => c.columnType === 'default')
+  return dataColumns.length > 0 && dataColumns[0].id === col.id
+}
+
+// ===== 尺寸 =====
 const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
@@ -252,6 +378,12 @@ defineExpose({
     currentRow.value = row
     emit('current-change', row, old)
   },
+  /** 切换行展开（树形模式） */
+  toggleRowExpansion,
+  /** 展开所有行（树形模式） */
+  expandAll: expandAllRows,
+  /** 折叠所有行（树形模式） */
+  collapseAll: collapseAllRows,
 })
 </script>
 
@@ -323,9 +455,9 @@ defineExpose({
 
         <!-- 表体 -->
         <tbody :class="ns.e('body')" :style="bodyStyle">
-          <template v-if="sortedData.length > 0">
+          <template v-if="renderData.length > 0">
             <tr
-              v-for="(row, rowIndex) in sortedData"
+              v-for="(row, rowIndex) in renderData"
               :key="getRowKey(row, rowIndex)"
               :class="[
                 ns.e('row'),
@@ -354,6 +486,39 @@ defineExpose({
                 <!-- Index 列 -->
                 <template v-else-if="col.columnType === 'index'">
                   {{ rowIndex + 1 }}
+                </template>
+                <!-- 树形模式：第一数据列带缩进和展开箭头 -->
+                <template v-else-if="isTreeMode && isFirstDataColumn(col)">
+                  <div :class="ns.e('tree-cell')">
+                    <!-- 缩进占位 -->
+                    <span
+                      v-if="getFlatRow(row)"
+                      :class="ns.e('tree-indent')"
+                      :style="{ width: `${(getFlatRow(row)?.level || 0) * indent}px` }"
+                    />
+                    <!-- 展开/折叠箭头 -->
+                    <span
+                      v-if="getFlatRow(row)?.hasChildren"
+                      :class="[ns.e('expand-icon'), ns.is('expanded', getFlatRow(row)?.expanded)]"
+                      @click.stop="toggleRowExpansion(row)"
+                    >
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <path d="M6 3l5 5-5 5V3z" />
+                      </svg>
+                    </span>
+                    <!-- 叶子节点占位 -->
+                    <span v-else :class="ns.e('expand-placeholder')" />
+                    <!-- 单元格内容 -->
+                    <span :class="ns.e('tree-content')">
+                      <component
+                        v-if="col.slots.default"
+                        :is="{ render: () => col.slots.default!({ row, column: col, $index: rowIndex }) }"
+                      />
+                      <template v-else>
+                        {{ getCellValue(row, col) }}
+                      </template>
+                    </span>
+                  </div>
                 </template>
                 <!-- 自定义内容插槽 -->
                 <template v-else-if="col.slots.default">

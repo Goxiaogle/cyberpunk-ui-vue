@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -7176,7 +7176,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1133
+                "offset": 1308
               },
               "description": "表格数据",
               "default": "() => []",
@@ -7188,7 +7188,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1254
+                "offset": 1429
               },
               "description": "尺寸",
               "default": "'md'",
@@ -7200,7 +7200,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1393
+                "offset": 1568
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -7212,7 +7212,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1526
+                "offset": 1701
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -7224,7 +7224,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1634
+                "offset": 1809
               },
               "description": "是否显示边框",
               "default": "false",
@@ -7236,7 +7236,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1743
+                "offset": 1918
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -7248,7 +7248,7 @@
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1850
+                "offset": 2025
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -7259,7 +7259,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 1952
+                "offset": 2127
               },
               "description": "最大高度",
               "type": [
@@ -7270,7 +7270,7 @@
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2080
+                "offset": 2255
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -7282,7 +7282,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2192
+                "offset": 2367
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -7294,7 +7294,7 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2341
+                "offset": 2516
               },
               "description": "默认排序",
               "type": [
@@ -7305,7 +7305,7 @@
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2484
+                "offset": 2659
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -7317,7 +7317,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2586
+                "offset": 2761
               },
               "description": "是否显示表头",
               "default": "true",
@@ -7329,7 +7329,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2728
+                "offset": 2903
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -7341,7 +7341,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2842
+                "offset": 3017
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -7353,12 +7353,47 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2980
+                "offset": 3155
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
               "type": [
                 "boolean"
+              ]
+            },
+            {
+              "name": "treeProps",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 3310
+              },
+              "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
+              "type": [
+                "TableTreeProps"
+              ]
+            },
+            {
+              "name": "defaultExpandAll",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 3457
+              },
+              "description": "是否默认展开所有树形行",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "indent",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 3574
+              },
+              "description": "每级层级缩进像素",
+              "default": "16",
+              "type": [
+                "number"
               ]
             }
           ],
@@ -7368,7 +7403,7 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3191
+                  "offset": 3779
                 },
                 "description": "排序变化"
               },
@@ -7376,7 +7411,7 @@
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3255
+                  "offset": 3843
                 },
                 "description": "行点击"
               },
@@ -7384,7 +7419,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3341
+                  "offset": 3929
                 },
                 "description": "选中行变化"
               },
@@ -7392,7 +7427,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3405
+                  "offset": 3993
                 },
                 "description": "全选"
               },
@@ -7400,7 +7435,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3465
+                  "offset": 4053
                 },
                 "description": "单行选中"
               },
@@ -7408,9 +7443,17 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 3532
+                  "offset": 4120
                 },
                 "description": "当前行变化"
+              },
+              {
+                "name": "expand-change",
+                "source": {
+                  "file": "../components/table/src/table.ts",
+                  "offset": 4214
+                },
+                "description": "树形行展开/折叠"
               }
             ]
           }

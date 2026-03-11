@@ -205,9 +205,22 @@ import "cyberpunk-ui-vue/styles/fonts.css"; // 可选
 
 ---
 
-## 全局配置提供者
+## CpConfigProvider 全局配置提供者
 
 使用 `CpConfigProvider` 为子组件提供默认配置：
+
+### Props
+
+| 属性       | 类型                                   | 默认值    | 说明                                   |
+| ---------- | -------------------------------------- | --------- | -------------------------------------- |
+| `defaults` | `Record<string, Record<string, any>>`  | `{}`      | 组件默认值配置，组件名使用小写驼峰命名 |
+| `theme`    | `'dark' \| 'light'`                    | `'dark'`  | 全局主题模式                           |
+
+### 插槽
+
+| 名称      | 说明                 |
+| --------- | -------------------- |
+| `default` | 被配置包裹的子组件树 |
 
 ```vue
 <template>

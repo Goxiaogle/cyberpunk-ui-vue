@@ -378,6 +378,7 @@ $table-sizes: (
   @include when(disabled) {
     pointer-events: none;
     cursor: not-allowed;
+    user-select: none;
 
     .cp-table__wrapper {
       opacity: 0.5;
@@ -395,5 +396,60 @@ $table-sizes: (
     .cp-table__loading-overlay {
       pointer-events: none !important;
     }
+  }
+
+  // ===== 树形表格 (Tree) =====
+
+  @include e(tree-cell) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  @include e(tree-indent) {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @include e(expand-icon) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-right: 4px;
+    cursor: pointer;
+    color: var(--cp-text-muted);
+    transition: transform 0.25s ease, color 0.2s ease;
+    transform: rotate(0deg);
+
+    &:hover {
+      color: var(--cp-table-color, var(--cp-text-primary));
+    }
+
+    @include when(expanded) {
+      transform: rotate(90deg);
+      color: var(--cp-table-color, var(--cp-text-secondary));
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  @include e(expand-placeholder) {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+
+  @include e(tree-content) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

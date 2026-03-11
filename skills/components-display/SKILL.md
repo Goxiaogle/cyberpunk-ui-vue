@@ -1299,3 +1299,49 @@ import MdiShieldAlert from "~icons/mdi/shield-alert";
   "
 />
 ```
+
+---
+
+## CpAvatarGroup 头像组
+
+头像组组件，用于展示多个头像，支持堆叠、折叠和统一尺寸/形状控制。
+
+### Props
+
+| 属性                     | 类型                                             | 默认值      | 说明                           |
+| ------------------------ | ------------------------------------------------ | ----------- | ------------------------------ |
+| `max`                    | `number`                                         | `undefined` | 最多显示数量，超出折叠为 `+N`  |
+| `size`                   | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number` | `'md'`      | 统一头像尺寸                   |
+| `shape`                  | `'circle' \| 'square' \| 'clip'`                 | `'circle'`  | 统一头像形状                   |
+| `spacing`                | `string \| number`                               | `-8`        | 头像间距，负值表示重叠         |
+| `collapseAvatars`        | `boolean`                                        | `false`     | 是否开启堆叠折叠模式           |
+| `collapseClass`          | `string`                                         | `''`        | 折叠计数器自定义类名           |
+| `collapseStyle`          | `CSSProperties`                                  | `{}`        | 折叠计数器自定义样式           |
+| `collapseAvatarsTooltip` | `string`                                         | `''`        | 折叠计数器 hover 提示文本      |
+| `collapseShape`          | `'circle' \| 'square' \| 'clip'`                 | `undefined` | 折叠计数器形状，默认跟随 shape |
+
+### 插槽
+
+| 名称      | 说明             |
+| --------- | ---------------- |
+| `default` | 多个 `CpAvatar` |
+
+### CSS 变量
+
+| 变量                        | 默认值 | 说明     |
+| --------------------------- | ------ | -------- |
+| `--cp-avatar-group-spacing` | `-8px` | 头像间距 |
+
+### 示例
+
+```vue
+<CpAvatarGroup>
+  <CpAvatar src="/avatar-1.png" />
+  <CpAvatar src="/avatar-2.png" />
+  <CpAvatar src="/avatar-3.png" />
+</CpAvatarGroup>
+
+<CpAvatarGroup collapse-avatars :max="3" spacing="-10">
+  <CpAvatar v-for="i in 5" :key="i" :src="`/avatar-${i}.png`" />
+</CpAvatarGroup>
+```

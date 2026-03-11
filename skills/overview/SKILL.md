@@ -41,6 +41,19 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 ---
 
+## 快查脚本
+
+如果只想快速摘出某个组件在使用者 `skills/` 中的章节，直接运行：
+
+```shell
+python skills/overview/scripts/find-component.py CpButton
+```
+
+支持 `CpButton`、`button`、`cp-button`、`timeline-item` 这类输入。
+脚本只会从 `skills/*/SKILL.md` 中匹配并输出对应章节，不读取源码。
+
+---
+
 ## 组件分类
 
 ### 基础组件
@@ -75,14 +88,14 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 
 | 组件       | 说明                            |
 | ---------- | ------------------------------- |
-| `CpImage`  | 图片展示，支持懒加载和hover效果 |
-| `CpAvatar` | 用户头像                        |
+| `CpImage` / `CpImagePreview` | 图片展示与大图预览      |
+| `CpAvatar` / `CpAvatarGroup` | 用户头像与头像组        |
 
 ### 数据展示
 
 | 组件            | 说明                                   |
 | --------------- | -------------------------------------- |
-| `CpTimeline`    | 时间轴，支持交替排列/节点动画/丰富插槽 |
+| `CpTimeline` / `CpTimelineItem` | 时间轴与节点            |
 | `CpTree`        | 树形控件，支持勾选/过滤/自定义图标     |
 | `CpTable`       | 数据表格，排序/多选/条纹/边框/固定表头 |
 | `CpTableColumn` | 声明式列定义，配合 CpTable 使用        |
@@ -109,7 +122,7 @@ import { CpButton, CpCard, CpInput } from "@cyberpunk-vue/components";
 | `CpMenuItemGroup` | 菜单分组                                     |
 | `CpMenuNav`       | 数据驱动菜单 (MenuNavItem[])                 |
 | `CpPagination`    | 分页导航，支持 spacer/CpButton/自定义插槽    |
-| `CpBreadcrumb`    | 面包屑导航，支持文本/图标/插槽分隔符         |
+| `CpBreadcrumb` / `CpBreadcrumbItem` | 面包屑导航与子项     |
 
 ### 容器
 

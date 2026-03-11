@@ -25,6 +25,16 @@ export interface SortState {
 }
 
 /**
+ * 树形数据配置
+ */
+export interface TableTreeProps {
+  /** 子节点字段名 @default 'children' */
+  children?: string
+  /** 标记是否有子节点的字段名（用于懒加载场景） */
+  hasChildren?: string
+}
+
+/**
  * 列定义 (内部使用，由 CpTableColumn 注册)
  */
 export interface TableColumnConfig {
@@ -180,6 +190,31 @@ export const tableProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * 树形数据配置
+   * 传入后启用树形模式，表格将递归渲染子行
+   * @example { children: 'children' }
+   */
+  treeProps: {
+    type: Object as PropType<TableTreeProps>,
+    default: undefined,
+  },
+  /**
+   * 是否默认展开所有树形行
+   * @default false
+   */
+  defaultExpandAll: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 每级层级缩进像素
+   * @default 16
+   */
+  indent: {
+    type: Number,
+    default: 16,
+  },
 } as const
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
@@ -200,6 +235,8 @@ export const tableEmits = {
   'select': (selection: any[], row: any) => true,
   /** 当前行变化 */
   'current-change': (currentRow: any | null, oldRow: any | null) => true,
+  /** 树形行展开/折叠 */
+  'expand-change': (row: any, expanded: boolean) => true,
 }
 
 export type TableEmits = typeof tableEmits

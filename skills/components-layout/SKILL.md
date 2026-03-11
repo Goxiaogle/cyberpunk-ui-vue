@@ -263,3 +263,32 @@ Flex 行容器，配合 CpCol 实现 24 栅格布局系统。
   <CpCol :span="4">居中</CpCol>
 </CpRow>
 ```
+
+---
+
+## CpPatternBackground 图案背景
+
+装饰性背景组件，用于渲染网格、棋盘格、点阵、条纹、十字线等图案。
+
+### Props
+
+| 属性              | 类型                                                                    | 默认值          | 说明                           |
+| ----------------- | ----------------------------------------------------------------------- | --------------- | ------------------------------ |
+| `pattern`         | `'grid' \| 'checkerboard' \| 'dots' \| 'stripes' \| 'cross'`            | `'grid'`        | 图案类型                       |
+| `size`            | `number \| string`                                                      | `20`            | 图案尺寸                       |
+| `color`           | `string`                                                                | `'currentColor'` | 图案颜色                      |
+| `backgroundColor` | `string`                                                                | `'transparent'` | 背景色                         |
+| `direction`       | `'horizontal' \| 'vertical' \| 'diagonal' \| 'diagonal-reverse'`        | `'diagonal'`    | 图案方向                       |
+| `opacity`         | `number`                                                                | `1`             | 图案透明度                     |
+| `lineWidth`       | `number \| string`                                                      | `1`             | 线条粗细                       |
+| `dotScale`        | `number`                                                                | `0.1`           | 点阵大小比例                   |
+| `cover`           | `boolean`                                                               | `false`         | 是否绝对定位覆盖整个父容器     |
+| `decorative`      | `boolean`                                                               | `true`          | 是否禁用鼠标事件，作为纯装饰层 |
+
+### 示例
+
+```vue
+<CpPatternBackground pattern="grid" color="var(--cp-color-primary)" />
+<CpPatternBackground pattern="checkerboard" :size="20" />
+<CpPatternBackground pattern="dots" cover decorative :opacity="0.1" />
+```

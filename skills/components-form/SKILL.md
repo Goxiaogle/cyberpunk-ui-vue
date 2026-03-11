@@ -743,3 +743,84 @@ interface UploadRequestOptions {
   </template>
 </CpUpload>
 ```
+
+---
+
+## CpInputNumber 数字输入
+
+数值输入组件，支持范围、步长、精度以及增减控制按钮。
+
+### Props
+
+| 属性               | 类型                                | 默认值      | 说明               |
+| ------------------ | ----------------------------------- | ----------- | ------------------ |
+| `v-model`          | `number`                            | `0`         | 当前值             |
+| `min`              | `number`                            | `-Infinity` | 最小值             |
+| `max`              | `number`                            | `Infinity`  | 最大值             |
+| `step`             | `number`                            | `1`         | 步长               |
+| `precision`        | `number`                            | `undefined` | 小数位数           |
+| `size`             | `'sm' \| 'md' \| 'lg' \| number \| string` | `'md'` | 尺寸               |
+| `disabled`         | `boolean`                           | `false`     | 禁用               |
+| `readonly`         | `boolean`                           | `false`     | 只读               |
+| `placeholder`      | `string`                            | `''`        | 占位文本           |
+| `color`            | `string`                            | `''`        | 自定义主题色       |
+| `controls`         | `boolean`                           | `true`      | 是否显示增减按钮   |
+| `controlsPosition` | `'right' \| 'both'`                 | `'both'`    | 控制按钮显示位置   |
+
+### 事件
+
+| 事件名              | 参数                           | 说明         |
+| ------------------- | ------------------------------ | ------------ |
+| `update:modelValue` | `(value: number)`              | v-model 绑定 |
+| `change`            | `(value: number, oldValue: number)` | 值变化时触发 |
+| `focus`             | `(event: FocusEvent)`          | 获取焦点     |
+| `blur`              | `(event: FocusEvent)`          | 失去焦点     |
+
+### 示例
+
+```vue
+<CpInputNumber v-model="count" :min="0" :max="100" />
+<CpInputNumber v-model="price" :step="0.5" :precision="2" />
+<CpInputNumber v-model="qty" controls-position="right" />
+```
+
+---
+
+## CpTextarea 多行输入
+
+多行文本输入组件，支持固定行数、自适应高度和字数统计。
+
+### Props
+
+| 属性            | 类型                                      | 默认值      | 说明             |
+| --------------- | ----------------------------------------- | ----------- | ---------------- |
+| `v-model`       | `string`                                  | `''`        | 当前值           |
+| `placeholder`   | `string`                                  | `''`        | 占位文本         |
+| `size`          | `'sm' \| 'md' \| 'lg' \| number \| string` | `'md'`    | 尺寸             |
+| `variant`       | `'outline' \| 'filled'`                   | `'outline'` | 视觉变体         |
+| `disabled`      | `boolean`                                 | `false`     | 禁用             |
+| `readonly`      | `boolean`                                 | `false`     | 只读             |
+| `maxlength`     | `number`                                  | `undefined` | 最大输入长度     |
+| `showWordLimit` | `boolean`                                 | `false`     | 显示字数统计     |
+| `rows`          | `number`                                  | `3`         | 默认行数         |
+| `autosize`      | `boolean \| { minRows?: number; maxRows?: number }` | `false` | 自适应高度 |
+| `color`         | `string`                                  | `''`        | 自定义主题色     |
+| `textColor`     | `string`                                  | `''`        | 文本颜色         |
+
+### 事件
+
+| 事件名              | 参数                      | 说明         |
+| ------------------- | ------------------------- | ------------ |
+| `update:modelValue` | `(value: string)`         | v-model 绑定 |
+| `input`             | `(value: string, event: Event)` | 输入时触发 |
+| `change`            | `(value: string)`         | 值确认变化   |
+| `focus`             | `(event: FocusEvent)`     | 获取焦点     |
+| `blur`              | `(event: FocusEvent)`     | 失去焦点     |
+
+### 示例
+
+```vue
+<CpTextarea v-model="content" :rows="4" placeholder="请输入内容" />
+<CpTextarea v-model="content" show-word-limit :maxlength="200" />
+<CpTextarea v-model="content" :autosize="{ minRows: 3, maxRows: 8 }" />
+```

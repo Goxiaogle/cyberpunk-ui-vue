@@ -249,3 +249,67 @@ CpIcon 自动识别 `icon` prop 的类型，选择对应的渲染模式：
 <!-- 旋转动画 -->
 <CpIcon :icon="MdiLoading" spin />
 ```
+
+---
+
+## CpText 文本
+
+赛博朋克风格文本组件，可快速叠加下划线、方框、发光、光波、马克笔和重影等视觉效果。
+
+### Props
+
+| 属性                | 类型                                                                    | 默认值      | 说明                 |
+| ------------------- | ----------------------------------------------------------------------- | ----------- | -------------------- |
+| `type`              | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 文字颜色预设         |
+| `color`             | `string`                                                                | `''`        | 自定义颜色           |
+| `size`              | `'sm' \| 'md' \| 'lg' \| number`                                        | `'md'`      | 字号                 |
+| `align`             | `'top' \| 'middle' \| 'bottom'`                                         | `'middle'`  | 垂直对齐             |
+| `underline`         | `boolean`                                                               | `false`     | 下划线               |
+| `boxed`             | `boolean`                                                               | `false`     | 方框边框             |
+| `dashed`            | `boolean`                                                               | `false`     | 虚线样式             |
+| `bold`              | `boolean`                                                               | `false`     | 加粗                 |
+| `italic`            | `boolean`                                                               | `false`     | 斜体                 |
+| `strikethrough`     | `boolean`                                                               | `false`     | 删除线               |
+| `glow`              | `boolean`                                                               | `false`     | 霓虹发光             |
+| `glowIntensity`     | `number`                                                                | `3`         | 发光强度             |
+| `glowPulse`         | `boolean`                                                               | `false`     | 发光呼吸动画         |
+| `glowPulseDuration` | `number \| string`                                                      | `1500`      | 发光呼吸动画时长     |
+| `lightWave`         | `boolean`                                                               | `false`     | 光波扫射动画         |
+| `lightWaveDuration` | `number \| string`                                                      | `2000`      | 光波动画时长         |
+| `marker`            | `boolean`                                                               | `false`     | 马克笔高亮           |
+| `markerColor`       | `string`                                                                | `''`        | 马克笔颜色           |
+| `overlap`           | `boolean`                                                               | `false`     | 重影效果             |
+| `overlapOffsetX`    | `number`                                                                | `2`         | 重影 X 轴偏移        |
+| `overlapOffsetY`    | `number`                                                                | `2`         | 重影 Y 轴偏移        |
+| `overlapColor`      | `string`                                                                | `''`        | 重影颜色             |
+| `unselectable`      | `boolean`                                                               | `false`     | 禁止文本选中和复制   |
+
+### 示例
+
+```vue
+<CpText>普通文字</CpText>
+<CpText underline type="primary">主色下划线</CpText>
+<CpText boxed glow type="error">告警文本</CpText>
+<CpText marker type="warning">高亮标记</CpText>
+<CpText overlap color="#ff00ff">重影效果</CpText>
+```
+
+---
+
+## CpSpacer 弹性间距
+
+弹性占位组件，用于在 Flex 容器中把左右内容自动撑开。
+
+### Props
+
+无。
+
+### 示例
+
+```vue
+<div style="display: flex; align-items: center;">
+  <span>左侧</span>
+  <CpSpacer />
+  <span>右侧</span>
+</div>
+```
