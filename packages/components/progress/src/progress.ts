@@ -69,6 +69,8 @@ export type ProgressShape = 'clip' | 'no-clip' | 'round'
  *
  * @slots
  * - `default` - 自定义进度文字内容（覆盖默认百分比显示）
+  * @category 展示组件
+ * @displayName CpProgress 进度条
  */
 export const progressProps = {
     /**

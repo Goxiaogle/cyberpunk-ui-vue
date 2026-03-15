@@ -48,6 +48,10 @@ export type ImageDecorPosition = 'bottom-left' | 'bottom-right' | 'top-left' | '
  * <!-- 圆形头像 -->
  * <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
  * ```
+  * @category 展示组件
+ * @displayName CpImage 图片
+  * @slots placeholder - 自定义加载占位
+ * @slots error - 自定义错误状态
  */
 export const imageProps = {
     /**

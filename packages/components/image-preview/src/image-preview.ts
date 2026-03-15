@@ -9,6 +9,16 @@ import type { ExtractPropTypes, PropType } from 'vue'
  * ```vue
  * <CpImagePreview v-model="visible" :url-list="urls" />
  * ```
+  * @category 展示组件
+ * @displayName CpImagePreview 图片预览
+  * @exposes close() - 关闭预览
+ * @exposes prev() - 上一张
+ * @exposes next() - 下一张
+ * @exposes zoomIn() - 放大
+ * @exposes zoomOut() - 缩小
+ * @exposes rotateLeft() - 左旋 90 度
+ * @exposes rotateRight() - 右旋 90 度
+ * @exposes resetTransform() - 还原缩放/旋转
  */
 export const imagePreviewProps = {
     /**

@@ -28,6 +28,9 @@ export type RowAlign = 'top' | 'middle' | 'bottom'
  *   <CpCol :span="12">右半</CpCol>
  * </CpRow>
  * ```
+  * @category 布局组件
+ * @displayName CpRow 行容器
+  * @slots default - 行内容（CpCol 组合）
  */
 export const rowProps = {
     /**

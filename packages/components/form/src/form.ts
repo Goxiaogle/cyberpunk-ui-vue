@@ -38,6 +38,22 @@ export type RequireAsteriskPosition = 'left' | 'right'
 
 /**
  * CpForm Props
+  * @category 表单组件
+ * @displayName CpForm 表单
+  * @description 表单容器，提供表单布局（label 位置、行内模式）、验证管理和全局配置注入
+ * @slots default - 表单内容（CpFormItem 组合）
+ * @exposes validate() - 校验全部字段，返回 Promise
+ * @exposes validateField(prop) - 校验指定字段
+ * @exposes resetFields() - 重置所有字段到初始值并清除验证
+ * @exposes clearValidate(props?) - 仅清除验证状态
+ * @example
+ * ```vue
+ * <CpForm :model="formData" :rules="rules" label-position="right">
+ *   <CpFormItem label="用户名" prop="username" required>
+ *     <CpInput v-model="formData.username" />
+ *   </CpFormItem>
+ * </CpForm>
+ * ```
  */
 export const formProps = {
   /** 表单数据对象 */

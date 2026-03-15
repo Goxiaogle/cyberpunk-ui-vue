@@ -8,8 +8,8 @@ from pathlib import Path
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[2]
-SKILLS_DIR = REPO_ROOT / "skills"
+SKILL_DIR = SCRIPT_DIR.parent
+REFERENCES_DIR = SKILL_DIR / "references"
 
 
 def normalize(value: str) -> str:
@@ -41,8 +41,8 @@ def score_candidate(component_name: str, query: str) -> int:
 def collect_sections() -> list[dict[str, object]]:
     sections: list[dict[str, object]] = []
 
-    for skill_file in sorted(SKILLS_DIR.glob("*/SKILL.md")):
-        text = skill_file.read_text(encoding="utf-8")
+    for ref_file in sorted(REFERENCES_DIR.glob("*.md")):
+        text = ref_file.read_text(encoding="utf-8")
         lines = text.splitlines()
         headings = []
 
@@ -92,7 +92,7 @@ def collect_sections() -> list[dict[str, object]]:
             sections.append(
                 {
                     "component": heading["component"],
-                    "skill_file": skill_file,
+                    "ref_file": ref_file,
                     "block": block,
                 }
             )
@@ -101,8 +101,7 @@ def collect_sections() -> list[dict[str, object]]:
 
 
 def print_usage() -> None:
-    print("用法: py -3 skills/overview/scripts/find-component.py <组件名>")
-    print("或:   python skills/overview/scripts/find-component.py <组件名>")
+    print("用法: py -3 skills/cyberpunk-vue/scripts/find-component.py <组件名>")
     print("支持: CpButton / button / cp-button / timeline-item 等格式")
 
 
@@ -128,9 +127,8 @@ def main() -> int:
     matches.sort(
         key=lambda item: (
             -int(item["score"]),
-            "overview" in str(item["skill_file"]),
             -len(str(item["block"])),
-            str(item["skill_file"]),
+            str(item["ref_file"]),
         )
     )
 
@@ -148,7 +146,7 @@ def main() -> int:
                 break
         return 0
 
-    relative_path = Path(best["skill_file"]).relative_to(REPO_ROOT).as_posix()
+    relative_path = Path(best["ref_file"]).relative_to(SKILL_DIR).as_posix()
     print(f"来源: {relative_path}")
     print()
     print(str(best["block"]).rstrip())

@@ -51,7 +51,7 @@ export interface TableColumnConfig {
   /** 是否可排序 */
   sortable: boolean
   /** 特殊列类型 */
-  columnType: 'default' | 'selection' | 'index'
+  columnType: 'default' | 'selection' | 'index' | 'expand'
   /** 内容对齐 */
   align: 'left' | 'center' | 'right'
   /** 表头对齐 */
@@ -65,6 +65,50 @@ export interface TableColumnConfig {
 
 /**
  * CpTable 组件 Props 定义
+  * @category 展示组件
+ * @displayName CpTable 表格
+  * @description 赛博朋克风格数据表格，支持排序、多选、条纹、边框、固定表头、树形展开、行展开。配合 CpTableColumn 声明式定义列
+ * @slots default - CpTableColumn 列定义
+ * @slots empty - 空数据自定义内容 (默认: CpEmpty 组件)
+ * @slots loading - 自定义加载中内容（替代默认 CpLoading + 文字）
+ * @exposes clearSelection() - 清空选择
+ * @exposes getSelectionRows() - 获取选中行数组
+ * @exposes sort(prop, order) - 编程式排序
+ * @exposes setCurrentRow(row) - 设置当前行
+ * @exposes toggleRowExpand(row, expanded?) - 切换行展开（展开列模式）
+ * @example
+ * ```vue
+ * <!-- 基础用法 -->
+ * <CpTable :data="tableData" stripe border>
+ *   <CpTableColumn prop="name" label="姓名" sortable />
+ *   <CpTableColumn prop="age" label="年龄" sortable />
+ * </CpTable>
+ *
+ * <!-- 行展开：使用 type="expand" 列 -->
+ * <CpTable :data="tableData" row-key="id">
+ *   <CpTableColumn type="expand">
+ *     <template #default="{ row }">
+ *       <p>邮箱: {{ row.email }}</p>
+ *       <p>备注: {{ row.remark }}</p>
+ *     </template>
+ *   </CpTableColumn>
+ *   <CpTableColumn prop="name" label="姓名" />
+ * </CpTable>
+ *
+ * <!-- 行展开：控制哪些行可展开 -->
+ * <CpTable
+ *   :data="tableData"
+ *   row-key="id"
+ *   :row-expandable="(row) => !!row.details"
+ *   :expand-row-keys="[1, 3]"
+ *   @expand-change="handleExpandChange"
+ * >
+ *   <CpTableColumn type="expand">
+ *     <template #default="{ row }">{{ row.details }}</template>
+ *   </CpTableColumn>
+ *   <CpTableColumn prop="name" label="姓名" />
+ * </CpTable>
+ * ```
  */
 export const tableProps = {
   /**
@@ -215,6 +259,26 @@ export const tableProps = {
     type: Number,
     default: 16,
   },
+  /**
+   * 受控展开行 key 数组（展开列模式）
+   * 传入后组件变为受控模式，由外部决定哪些行处于展开状态
+   * @example [1, 3, 5]
+   */
+  expandRowKeys: {
+    type: Array as PropType<(string | number)[]>,
+    default: undefined,
+  },
+  /**
+   * 控制每行是否可展开
+   * 不传则所有行均可展开；返回 false 的行不显示展开按钮
+   * @param row 当前行数据
+   * @returns true 可展开 / false 不可展开
+   * @example (row) => !!row.details
+   */
+  rowExpandable: {
+    type: Function as PropType<(row: any) => boolean>,
+    default: undefined,
+  },
 } as const
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
@@ -235,7 +299,7 @@ export const tableEmits = {
   'select': (selection: any[], row: any) => true,
   /** 当前行变化 */
   'current-change': (currentRow: any | null, oldRow: any | null) => true,
-  /** 树形行展开/折叠 */
+  /** 树形行展开/折叠 或 行展开列展开/折叠 */
   'expand-change': (row: any, expanded: boolean) => true,
 }
 

@@ -1,4 +1,5 @@
-import type { ExtractPropTypes, PropType, Component } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
@@ -39,6 +40,8 @@ export type AvatarShape = 'circle' | 'square' | 'clip'
  * <!-- 形状 -->
  * <CpAvatar src="/avatar.jpg" shape="square" />
  * ```
+  * @category 展示组件
+ * @displayName CpAvatar 头像
  */
 export const avatarProps = {
     /**
@@ -83,7 +86,7 @@ export const avatarProps = {
      * 传入图标组件
      */
     icon: {
-        type: Object as PropType<Component>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**

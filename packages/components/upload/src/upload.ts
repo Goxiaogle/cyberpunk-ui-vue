@@ -1,5 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 
 /**
  * 上传文件状态
@@ -78,6 +79,18 @@ export type UploadType = 'default' | 'primary' | 'success' | 'warning' | 'error'
  * CpUpload 组件 Props 定义
  *
  * @description 赛博朋克风格文件上传组件，支持拖拽、图片预览、多种变体和形状。
+  * @category 表单组件
+ * @displayName CpUpload 上传
+  * @slots default - 完全替换触发区域（隐藏默认 drag / card / button）
+ * @slots placeholder - 自定义触发区内部内容 (作用域: { mode })
+ * @slots card-actions - 自定义 picture-card 的 hover 操作面板 (作用域: { file, handleRemove, handlePreview, handleReplace })
+ * @exposes submit() - 手动触发上传（autoUpload=false 时使用）
+ * @exposes clearFiles() - 清空文件列表
+ * @example
+ * ```vue
+ * <CpUpload v-model="fileList" action="/api/upload" />
+ * <CpUpload v-model="fileList" action="/api/upload" drag />
+ * ```
  */
 export const uploadProps = {
     /**
@@ -312,7 +325,7 @@ export const uploadProps = {
      * @default undefined
      */
     placeholderIcon: {
-        type: Object as PropType<object>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**

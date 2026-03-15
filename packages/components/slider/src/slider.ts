@@ -49,6 +49,8 @@ export type SliderMarks = Record<number, string | SliderMarkConfig>
  * <!-- 带刻度标记 -->
  * <CpSlider v-model="value" :marks="{ 0: '0°C', 100: '100°C' }" />
  * ```
+  * @category 表单组件
+ * @displayName CpSlider 滑块
  */
 export const sliderProps = {
     /**

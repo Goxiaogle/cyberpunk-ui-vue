@@ -9,6 +9,13 @@ export type InputNumberSize = Size
 
 /**
  * CpInputNumber 组件 Props 定义
+  * @category 表单组件
+ * @displayName CpInputNumber 数字输入
+  * @example
+ * ```vue
+ * <CpInputNumber v-model="count" :min="0" :max="100" />
+ * <CpInputNumber v-model="price" :step="0.5" :precision="2" />
+ * ```
  */
 export const inputNumberProps = {
     /** 绑定值 (v-model) */

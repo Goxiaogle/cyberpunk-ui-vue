@@ -35,6 +35,8 @@ export type PatternDirection = 'horizontal' | 'vertical' | 'diagonal' | 'diagona
  * <!-- 装饰层覆盖 -->
  * <CpPatternBackground pattern="dots" cover decorative :opacity="0.1" />
  * ```
+  * @category 布局组件
+ * @displayName CpPatternBackground 图案背景
  */
 export const patternBackgroundProps = {
   /**

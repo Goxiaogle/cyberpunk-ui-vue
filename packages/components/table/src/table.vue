@@ -277,6 +277,54 @@ const isFirstDataColumn = (col: TableColumnConfig): boolean => {
   return dataColumns.length > 0 && dataColumns[0].id === col.id
 }
 
+// ===== 行展开（expand 列模式） =====
+const rowExpandedKeys = ref<Set<string | number>>(new Set())
+
+// 检测展开列
+const expandColumn = computed(() => columns.value.find(c => c.columnType === 'expand'))
+
+// 检查行是否可展开
+const isRowExpandable = (row: any): boolean => {
+  if (!expandColumn.value) return false
+  if (typeof props.rowExpandable === 'function') return props.rowExpandable(row)
+  return true
+}
+
+// 检查行是否已展开
+const isRowExpanded = (row: any): boolean => {
+  const key = getRowKey(row, -1)
+  return rowExpandedKeys.value.has(key)
+}
+
+// 切换行展开
+const toggleRowExpand = (row: any, expanded?: boolean) => {
+  if (props.loading || props.disabled) return
+  if (!isRowExpandable(row)) return
+  const key = getRowKey(row, -1)
+  const newSet = new Set(rowExpandedKeys.value)
+  const isExpanded = newSet.has(key)
+  const targetExpanded = expanded !== undefined ? expanded : !isExpanded
+
+  if (targetExpanded) {
+    newSet.add(key)
+  } else {
+    newSet.delete(key)
+  }
+  rowExpandedKeys.value = newSet
+  emit('expand-change', row, targetExpanded)
+}
+
+// 受控模式：watch expandRowKeys prop
+watch(
+  () => props.expandRowKeys,
+  (keys) => {
+    if (keys !== undefined) {
+      rowExpandedKeys.value = new Set(keys)
+    }
+  },
+  { immediate: true },
+)
+
 // ===== 尺寸 =====
 const classes = computed(() => [
   ns.b(),
@@ -338,7 +386,7 @@ const getColStyle = (col: TableColumnConfig) => {
   if (col.minWidth) {
     style.minWidth = typeof col.minWidth === 'number' ? `${col.minWidth}px` : col.minWidth
   }
-  if (col.columnType === 'selection' || col.columnType === 'index') {
+  if (col.columnType === 'selection' || col.columnType === 'index' || col.columnType === 'expand') {
     if (!col.width) style.width = '50px'
   }
   return style
@@ -384,6 +432,8 @@ defineExpose({
   expandAll: expandAllRows,
   /** 折叠所有行（树形模式） */
   collapseAll: collapseAllRows,
+  /** 切换行展开（展开列模式） */
+  toggleRowExpand,
 })
 </script>
 
@@ -456,14 +506,17 @@ defineExpose({
         <!-- 表体 -->
         <tbody :class="ns.e('body')" :style="bodyStyle">
           <template v-if="renderData.length > 0">
-            <tr
+            <template
               v-for="(row, rowIndex) in renderData"
               :key="getRowKey(row, rowIndex)"
+            >
+            <tr
               :class="[
                 ns.e('row'),
                 ns.is('striped', stripe && rowIndex % 2 === 1),
                 ns.is('current', highlightCurrentRow && currentRow === row),
                 ns.is('selected', selectedRows.has(row)),
+                ns.is('expanded', expandColumn && isRowExpanded(row)),
               ]"
               @click="handleRowClick(row, rowIndex, $event)"
             >
@@ -482,6 +535,18 @@ defineExpose({
                     @change="handleSelectRow(row)"
                     @click.stop
                   />
+                </template>
+                <!-- Expand 展开列 -->
+                <template v-else-if="col.columnType === 'expand'">
+                  <span
+                    v-if="isRowExpandable(row)"
+                    :class="[ns.e('expand-trigger'), ns.is('expanded', isRowExpanded(row))]"
+                    @click.stop="toggleRowExpand(row)"
+                  >
+                    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                      <path d="M6 3l5 5-5 5V3z" />
+                    </svg>
+                  </span>
                 </template>
                 <!-- Index 列 -->
                 <template v-else-if="col.columnType === 'index'">
@@ -532,6 +597,21 @@ defineExpose({
                 </template>
               </td>
             </tr>
+            <!-- 展开内容行 -->
+            <tr
+              v-if="expandColumn && isRowExpanded(row)"
+              :class="ns.e('expanded-row')"
+            >
+              <td :colspan="columns.length" :class="ns.e('expanded-cell')">
+                <div :class="ns.e('expanded-content')">
+                  <component
+                    v-if="expandColumn?.slots.default"
+                    :is="{ render: () => expandColumn!.slots.default!({ row, $index: rowIndex }) }"
+                  />
+                </div>
+              </td>
+            </tr>
+            </template>
           </template>
 
           <!-- 空状态 -->

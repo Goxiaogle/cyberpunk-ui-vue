@@ -42,6 +42,9 @@ export type MenuVariant = 'solid' | 'outline' | 'note'
  *   </CpSubMenu>
  * </CpMenu>
  * ```
+  * @category 导航组件
+ * @displayName CpMenu 菜单
+  * @slots default - 菜单内容（CpMenuItem / CpSubMenu 等组合）
  */
 export const menuProps = {
   /**

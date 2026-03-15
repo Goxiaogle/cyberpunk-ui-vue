@@ -52,6 +52,8 @@ export type CheckboxValueType = string | number | boolean
  *   <CpCheckbox label="B">选项 B</CpCheckbox>
  * </CpCheckboxGroup>
  * ```
+  * @category 表单组件
+ * @displayName CpCheckbox 复选框
  */
 export const checkboxProps = {
   /**

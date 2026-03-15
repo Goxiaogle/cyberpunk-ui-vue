@@ -42,6 +42,12 @@ export type PaginationLayout = 'total' | 'sizes' | 'prev' | 'pager' | 'next' | '
  *   layout="total, sizes, prev, pager, next, jumper"
  * />
  * ```
+  * @category 导航组件
+ * @displayName CpPagination 分页
+  * @slots prev - 上一页按钮 (作用域: { disabled, onClick, currentPage })
+ * @slots next - 下一页按钮 (作用域: { disabled, onClick, currentPage })
+ * @slots pager - 整个页码区 (作用域: { pages, currentPage, pageCount, onPageClick })
+ * @slots pager-item - 单个页码项 (作用域: { page, active, disabled, onClick })
  */
 export const paginationProps = {
     /**

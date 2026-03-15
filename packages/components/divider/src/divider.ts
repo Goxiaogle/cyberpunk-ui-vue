@@ -62,6 +62,8 @@ export type DividerBorderStyle = 'solid' | 'dashed' | 'dotted' | 'double'
  * <!-- 发光效果 -->
  * <CpDivider type="primary" variant="glow" />
  * ```
+  * @category 基础组件
+ * @displayName CpDivider 分割线
  */
 export const dividerProps = {
     /**

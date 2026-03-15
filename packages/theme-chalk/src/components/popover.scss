@@ -78,8 +78,12 @@
       drop-shadow(0 4px 16px rgba(0, 0, 0, 0.4))
       drop-shadow(0 0 var(--cp-popover-glow-spread) var(--cp-popover-glow-color));
 
-    // 入场动画
-    animation: cp-popover-fade-in 0.2s ease-out;
+    // 入场动画由 <Transition> 管理
+
+    // 无动画模式
+    &.is-no-transition {
+      animation: none !important;
+    }
 
     // 标记角 (保留在 content 层，位于切角之外的尖角处)
     &::before {
@@ -379,4 +383,56 @@
 
 .cp-popover-fade-leave-active {
   animation: cp-popover-fade-out 0.15s ease-in;
+}
+
+// ===== Slide 过渡动画 =====
+
+// Top: 弹层在上方，从上方滑入
+@keyframes cp-popover-slide-top-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cp-popover-slide-top-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+// Bottom: 弹层在下方，从下方滑入
+@keyframes cp-popover-slide-bottom-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cp-popover-slide-bottom-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+// Left: 弹层在左侧，从左方滑入
+@keyframes cp-popover-slide-left-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes cp-popover-slide-left-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-8px); }
+}
+
+// Right: 弹层在右侧，从右方滑入
+@keyframes cp-popover-slide-right-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes cp-popover-slide-right-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(8px); }
+}
+
+// Slide transition classes
+@each $dir in top, bottom, left, right {
+  .cp-popover-slide-#{$dir}-enter-active {
+    animation: cp-popover-slide-#{$dir}-in 0.2s ease-out;
+  }
+  .cp-popover-slide-#{$dir}-leave-active {
+    animation: cp-popover-slide-#{$dir}-out 0.15s ease-in;
+  }
 }

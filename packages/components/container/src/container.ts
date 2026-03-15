@@ -91,6 +91,9 @@ const layoutDividerProps = {
  *   <CpFooter>底部</CpFooter>
  * </CpContainer>
  * ```
+  * @category 布局组件
+ * @displayName CpContainer 容器
+  * @slots default - 容器内容（CpHeader / CpFooter / CpMain / CpAside 等）
  */
 export const containerProps = {
     /**
@@ -107,6 +110,13 @@ export type ContainerProps = ExtractPropTypes<typeof containerProps>
 
 /**
  * CpHeader 组件 Props
+  * @category 布局组件
+ * @displayName CpHeader 顶栏
+  * @slots default - 顶栏内容
+ * @example
+ * ```vue
+ * <CpHeader>Logo / 导航</CpHeader>
+ * ```
  */
 export const headerProps = {
     /**
@@ -124,6 +134,9 @@ export type HeaderProps = ExtractPropTypes<typeof headerProps>
 
 /**
  * CpFooter 组件 Props
+  * @category 布局组件
+ * @displayName CpFooter 底栏
+  * @slots default - 底栏内容
  */
 export const footerProps = {
     /**
@@ -141,6 +154,9 @@ export type FooterProps = ExtractPropTypes<typeof footerProps>
 
 /**
  * CpMain 组件 Props
+  * @category 布局组件
+ * @displayName CpMain 主区域
+  * @slots default - 主要内容
  */
 export const mainProps = {
     ...layoutScrollOverlayProps,
@@ -150,6 +166,13 @@ export type MainProps = ExtractPropTypes<typeof mainProps>
 
 /**
  * CpAside 组件 Props
+  * @category 布局组件
+ * @displayName CpAside 侧边栏
+  * @slots default - 侧边栏内容
+ * @example
+ * ```vue
+ * <CpAside width="220px">导航菜单</CpAside>
+ * ```
  */
 export const asideProps = {
     /**

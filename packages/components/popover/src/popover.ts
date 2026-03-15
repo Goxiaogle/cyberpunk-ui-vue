@@ -34,6 +34,23 @@ export type PopoverPlacement =
 export type PopoverShape = 'clip' | 'no-clip' | 'round'
 
 /**
+ * 弹层过渡动画
+ * - `fade` - 渐入淡出 + 缩放（默认，从中心展开）
+ * - `slide` - 从 placement 方向滑入/滑出
+ * - `slide-reverse` - 从 placement 反方向滑入/滑出
+ * - `none` - 无动画
+ */
+export type PopoverTransition = 'fade' | 'slide' | 'slide-reverse' | 'none'
+
+/**
+ * 弹层退避策略（视口边界检测）
+ * - `flip` - 空间不足时自动翻转到反方向
+ * - `shift` - 保持方向不变，但将弹层位移到视口可见范围内
+ * - `none` - 不做任何退避
+ */
+export type PopoverFallback = 'flip' | 'shift' | 'none'
+
+/**
  * 触发方式
  * - `hover` - 鼠标悬停
  * - `click` - 点击触发
@@ -66,6 +83,12 @@ export type PopoverTrigger = 'hover' | 'click' | 'focus' | 'manual'
  * @slots
  * - `default` - 触发器内容
  * - `content` - 弹层内容
+  * @category 展示组件
+ * @displayName CpPopover 弹出层
+  * @exposes open() - 打开弹层
+ * @exposes close() - 关闭弹层
+ * @exposes toggle() - 切换弹层
+ * @exposes updatePosition() - 更新位置
  */
 export const popoverProps = {
   /**
@@ -85,11 +108,12 @@ export const popoverProps = {
     default: 'top',
   },
   /**
-   * 触发方式
+   * 触发方式，支持单个或多个同时启用
+   * 多模式时各触发方式独立退出（hover 入→hover 出；click 入→click 出）
    * @default 'hover'
    */
   trigger: {
-    type: String as PropType<PopoverTrigger>,
+    type: [String, Array] as PropType<PopoverTrigger | PopoverTrigger[]>,
     default: 'hover',
   },
   /**
@@ -241,6 +265,29 @@ export const popoverProps = {
   color: {
     type: String,
     default: '',
+  },
+  /**
+   * 过渡动画类型
+   * - `fade` - 渐入淡出 + 缩放（从中心展开）
+   * - `slide` - 从 placement 方向滑入/滑出
+   * - `slide-reverse` - 从 placement 反方向滑入/滑出
+   * - `none` - 无动画
+   * @default 'fade'
+   */
+  transition: {
+    type: String as PropType<PopoverTransition>,
+    default: 'fade',
+  },
+  /**
+   * 视口边界退避策略
+   * - `flip` - 空间不足时自动翻转到反方向
+   * - `shift` - 保持方向不变，将弹层位移到视口可见范围内
+   * - `none` - 不做任何退避
+   * @default 'flip'
+   */
+  fallback: {
+    type: String as PropType<PopoverFallback>,
+    default: 'flip',
   },
 } as const
 

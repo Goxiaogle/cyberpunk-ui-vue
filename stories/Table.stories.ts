@@ -858,3 +858,63 @@ export const TreeTableDefaultExpandAll: Story = {
     `,
   }),
 }
+
+// ===== 行展开模拟数据 =====
+const expandData = [
+  { id: 1, name: '张三', age: 28, role: '工程师', email: 'zhangsan@cyber.net', remark: '负责前端架构设计，熟悉 Vue/React 技术栈。', details: '入职日期: 2024-03-15\n部门: 技术中心 - 研发部\n技能: Vue, React, TypeScript, Node.js' },
+  { id: 2, name: '李四', age: 32, role: '设计师', email: 'lisi@cyber.net', remark: '视觉设计主管，擅长赛博朋克风格。', details: '入职日期: 2023-06-01\n部门: 设计中心\n技能: Figma, Sketch, Photoshop, Motion Design' },
+  { id: 3, name: '王五', age: 25, role: '产品经理', email: 'wangwu@cyber.net', remark: '负责B端产品线。', details: null },
+  { id: 4, name: '赵六', age: 30, role: '运维', email: 'zhaoliu@cyber.net', remark: '基础设施运维，Kubernetes 专家。', details: '入职日期: 2022-11-20\n部门: 技术中心 - 运维部\n技能: Kubernetes, Docker, AWS, Linux' },
+  { id: 5, name: '孙七', age: 27, role: '测试', email: 'sunqi@cyber.net', remark: '自动化测试工程师。', details: '入职日期: 2025-01-10\n部门: 技术中心 - 测试部\n技能: Cypress, Playwright, Jest, Selenium' },
+]
+
+/**
+ * 行展开
+ *
+ * 通过 `type="expand"` 列启用行展开功能。
+ * 点击行首箭头展开/折叠自定义详情内容。
+ * 使用 `row-expandable` 控制哪些行可以展开（此处只展开有 `details` 的行）。
+ */
+export const ExpandRow: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      const onExpandChange = (row: any, expanded: boolean) => {
+        console.log('expand-change:', row.name, expanded)
+      }
+      const isExpandable = (row: any) => !!row.details
+      return { expandData, onExpandChange, isExpandable }
+    },
+    template: `
+      <CpTable
+        :data="expandData"
+        row-key="id"
+        border
+        stripe
+        :row-expandable="isExpandable"
+        @expand-change="onExpandChange"
+      >
+        <CpTableColumn type="expand">
+          <template #default="{ row }">
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-size: 13px;">
+              <span style="color: var(--cp-text-muted);">邮箱</span>
+              <span>{{ row.email }}</span>
+              <span style="color: var(--cp-text-muted);">备注</span>
+              <span>{{ row.remark }}</span>
+              <span style="color: var(--cp-text-muted);">详细信息</span>
+              <pre style="margin: 0; white-space: pre-wrap; font-family: var(--cp-font-family-ui);">{{ row.details }}</pre>
+            </div>
+          </template>
+        </CpTableColumn>
+        <CpTableColumn prop="id" label="ID" :width="60" />
+        <CpTableColumn prop="name" label="姓名" />
+        <CpTableColumn prop="age" label="年龄" align="center" />
+        <CpTableColumn prop="role" label="角色">
+          <template #default="{ row }">
+            <CpTag type="primary" variant="semi" size="sm">{{ row.role }}</CpTag>
+          </template>
+        </CpTableColumn>
+      </CpTable>
+    `,
+  }),
+}

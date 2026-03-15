@@ -59,6 +59,9 @@ export type TagShape = 'clip' | 'no-clip' | 'round' | 'circle'
  * <!-- 自定义颜色 -->
  * <CpTag color="#ff00ff">自定义颜色</CpTag>
  * ```
+  * @category 展示组件
+ * @displayName CpTag 标签
+  * @slots default - 标签文本内容
  */
 export const tagProps = {
     /**

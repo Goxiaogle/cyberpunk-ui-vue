@@ -107,6 +107,8 @@ export type CardCustomClass =
  * - `cover` - 卡片封面区域（位于头部前）
  * - `overlay` - 卡片悬停操作层
  * - `loading` - 自定义加载中内容
+  * @category 展示组件
+ * @displayName CpCard 卡片
  */
 export const cardProps = {
   /**

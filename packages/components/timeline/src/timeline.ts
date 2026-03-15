@@ -49,6 +49,8 @@ export const TIMELINE_CONTEXT_KEY: InjectionKey<TimelineContext> = Symbol('cp-ti
  *
  * @slots
  * - `default` - CpTimelineItem 列表
+  * @category 展示组件
+ * @displayName CpTimeline 时间轴
  */
 export const timelineProps = {
   /**

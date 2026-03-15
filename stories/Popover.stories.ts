@@ -36,9 +36,9 @@ const meta: Meta<typeof CpPopover> = {
       },
     },
     trigger: {
-      control: 'select',
+      control: 'multi-select',
       options: ['hover', 'click', 'focus', 'manual'],
-      description: '触发方式',
+      description: '触发方式（支持多选）',
       table: {
         defaultValue: { summary: 'hover' },
       },
@@ -134,6 +134,22 @@ const meta: Meta<typeof CpPopover> = {
       description: '弹层形状',
       table: {
         defaultValue: { summary: 'clip' },
+      },
+    },
+    transition: {
+      control: 'select',
+      options: ['fade', 'slide', 'slide-reverse', 'none'],
+      description: '过渡动画',
+      table: {
+        defaultValue: { summary: 'fade' },
+      },
+    },
+    fallback: {
+      control: 'select',
+      options: ['flip', 'shift', 'none'],
+      description: '视口边界退避策略',
+      table: {
+        defaultValue: { summary: 'flip' },
       },
     },
   },
@@ -531,6 +547,163 @@ export const 弹层形状: Story = {
         
         <CpPopover title="Round" content="圆角矩形样式" shape="round" trigger="click">
           <CpButton type="primary" variant="outline">Shape: round</CpButton>
+        </CpPopover>
+      </div>
+    `,
+  }),
+}
+
+/** 过渡动画 */
+export const 过渡动画: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="padding: 80px; display: flex; flex-direction: column; gap: 40px; align-items: center;">
+        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
+          <CpButton size="sm" style="pointer-events: none; min-width: 140px;">fade (默认)</CpButton>
+          <CpPopover content="从中心缩放" tooltip transition="fade" placement="top">
+            <CpButton type="primary">Top</CpButton>
+          </CpPopover>
+          <CpPopover content="从中心缩放" tooltip transition="fade" placement="bottom">
+            <CpButton type="primary">Bottom</CpButton>
+          </CpPopover>
+          <CpPopover content="从中心缩放" tooltip transition="fade" placement="left">
+            <CpButton type="primary">Left</CpButton>
+          </CpPopover>
+          <CpPopover content="从中心缩放" tooltip transition="fade" placement="right">
+            <CpButton type="primary">Right</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
+          <CpButton size="sm" style="pointer-events: none; min-width: 140px;">slide</CpButton>
+          <CpPopover content="从上方滑入" tooltip transition="slide" placement="top">
+            <CpButton type="success">Top</CpButton>
+          </CpPopover>
+          <CpPopover content="从下方滑入" tooltip transition="slide" placement="bottom">
+            <CpButton type="success">Bottom</CpButton>
+          </CpPopover>
+          <CpPopover content="从左方滑入" tooltip transition="slide" placement="left">
+            <CpButton type="success">Left</CpButton>
+          </CpPopover>
+          <CpPopover content="从右方滑入" tooltip transition="slide" placement="right">
+            <CpButton type="success">Right</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
+          <CpButton size="sm" style="pointer-events: none; min-width: 140px;">slide-reverse</CpButton>
+          <CpPopover content="从下方滑入（反向）" tooltip transition="slide-reverse" placement="top">
+            <CpButton type="warning">Top</CpButton>
+          </CpPopover>
+          <CpPopover content="从上方滑入（反向）" tooltip transition="slide-reverse" placement="bottom">
+            <CpButton type="warning">Bottom</CpButton>
+          </CpPopover>
+          <CpPopover content="从右方滑入（反向）" tooltip transition="slide-reverse" placement="left">
+            <CpButton type="warning">Left</CpButton>
+          </CpPopover>
+          <CpPopover content="从左方滑入（反向）" tooltip transition="slide-reverse" placement="right">
+            <CpButton type="warning">Right</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
+          <CpButton size="sm" style="pointer-events: none; min-width: 140px;">none</CpButton>
+          <CpPopover content="无动画，直接显示" tooltip transition="none" placement="top">
+            <CpButton>Top</CpButton>
+          </CpPopover>
+          <CpPopover content="无动画，直接显示" tooltip transition="none" placement="bottom">
+            <CpButton>Bottom</CpButton>
+          </CpPopover>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 退避行为 */
+export const 退避行为: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="position: relative; height: 100vh; width: 100%;">
+        <p style="text-align: center; padding-top: 40px; color: var(--cp-text-color-secondary);">
+          按钮使用 position: fixed 固定在视口角落，<br/>
+          悬停查看退避效果
+        </p>
+
+        <!-- ===== Flip 模式 ===== -->
+        <div style="position: fixed; top: 8px; left: 8px; z-index: 9999;">
+          <CpPopover content="placement=top，顶部空间不足 → 翻转到 bottom" tooltip placement="top" fallback="flip" transition="slide">
+            <CpButton type="primary" size="sm">↑ Top Flip</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="position: fixed; top: 8px; right: 8px; z-index: 9999;">
+          <CpPopover content="placement=right，右侧空间不足 → 翻转到 left" tooltip placement="right" fallback="flip" transition="slide">
+            <CpButton type="primary" size="sm">→ Right Flip</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="position: fixed; bottom: 8px; left: 8px; z-index: 9999;">
+          <CpPopover content="placement=left，左侧空间不足 → 翻转到 right" tooltip placement="left" fallback="flip" transition="slide">
+            <CpButton type="primary" size="sm">← Left Flip</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="position: fixed; bottom: 8px; right: 8px; z-index: 9999;">
+          <CpPopover content="placement=bottom，底部空间不足 → 翻转到 top" tooltip placement="bottom" fallback="flip" transition="slide">
+            <CpButton type="success" size="sm">↓ Bottom Flip</CpButton>
+          </CpPopover>
+        </div>
+
+        <!-- ===== Shift 模式 ===== -->
+        <div style="position: fixed; top: 50%; left: 8px; transform: translateY(-50%); z-index: 9999;">
+          <CpPopover content="placement=top 始终向上，但水平方向被钳制在视口内" tooltip placement="top" fallback="shift" :max-width="320">
+            <CpButton type="warning" size="sm">↑ Top Shift (左边缘)</CpButton>
+          </CpPopover>
+        </div>
+
+        <div style="position: fixed; top: 50%; right: 8px; transform: translateY(-50%); z-index: 9999;">
+          <CpPopover content="placement=top 始终向上，但水平方向被钳制在视口内" tooltip placement="top" fallback="shift" :max-width="320">
+            <CpButton type="warning" size="sm">↑ Top Shift (右边缘)</CpButton>
+          </CpPopover>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 多触发模式 */
+export const 多触发模式: Story = {
+  render: () => ({
+    components: { CpPopover, CpButton },
+    template: `
+      <div style="display: flex; gap: 40px; padding: 80px 40px; flex-wrap: wrap;">
+        <CpPopover
+          content="hover 进入 → hover 离开关闭；click 进入 → click 关闭。两者独立。"
+          :trigger="['hover', 'click']"
+          transition="slide"
+          placement="top"
+        >
+          <CpButton type="primary">hover + click</CpButton>
+        </CpPopover>
+
+        <CpPopover
+          content="可同时由 hover/focus/click 任一方式打开，按对应方式关闭"
+          :trigger="['hover', 'click', 'focus']"
+          transition="slide"
+          placement="bottom"
+        >
+          <CpButton type="success">hover + click + focus</CpButton>
+        </CpPopover>
+
+        <CpPopover
+          content="仅点击打开/关闭（单触发——兼容原有行为）"
+          trigger="click"
+          placement="bottom"
+        >
+          <CpButton type="warning">仅 click</CpButton>
         </CpPopover>
       </div>
     `,

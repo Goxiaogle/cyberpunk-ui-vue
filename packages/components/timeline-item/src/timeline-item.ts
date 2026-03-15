@@ -1,4 +1,5 @@
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
@@ -48,6 +49,8 @@ export type TimelineItemLineStyle = 'solid' | 'dashed' | 'dotted'
  * - `timestamp` - 自定义时间戳内容
  * - `extra` - 内容下方附加区域
  * - `connector` - 自定义连线
+  * @category 展示组件
+ * @displayName CpTimelineItem 时间轴项
  */
 export const timelineItemProps = {
   /**
@@ -110,7 +113,7 @@ export const timelineItemProps = {
    * 自定义节点图标
    */
   icon: {
-    type: [Object, Function] as PropType<Component>,
+    type: [Object, Function, String] as PropType<IconValue>,
     default: undefined,
   },
   /**

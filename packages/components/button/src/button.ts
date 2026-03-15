@@ -1,5 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 
 /**
  * 按钮颜色类型
@@ -35,6 +36,8 @@ export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'neon' | 'semi'
  * CpButton 组件 Props 定义
  *
  * @description 赛博朋克风格按钮组件，支持多种颜色、尺寸、形态变体。
+ * @category 基础组件
+ * @displayName CpButton 按钮
  *
  * @example
  * ```vue
@@ -209,7 +212,7 @@ export const buttonProps = {
      * @example `<CpButton :icon="MdiHome" />`
      */
     icon: {
-        type: Object as PropType<object>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**
@@ -240,7 +243,7 @@ export const buttonProps = {
      * @example `<CpButton :prefix-icon="MdiHome">首页</CpButton>`
      */
     prefixIcon: {
-        type: Object as PropType<object>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**
@@ -250,7 +253,7 @@ export const buttonProps = {
      * @example `<CpButton :suffix-icon="MdiArrowRight">下一步</CpButton>`
      */
     suffixIcon: {
-        type: Object as PropType<object>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: undefined,
     },
     /**

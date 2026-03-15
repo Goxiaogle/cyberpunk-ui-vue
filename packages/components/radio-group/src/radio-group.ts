@@ -15,6 +15,8 @@ import type { RadioValueType, RadioType } from '@cyberpunk-vue/components/radio/
  *   <CpRadio value="C">选项 C</CpRadio>
  * </CpRadioGroup>
  * ```
+  * @category 表单组件
+ * @displayName CpRadioGroup 单选框组
  */
 export const radioGroupProps = {
   /**

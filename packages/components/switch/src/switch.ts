@@ -39,6 +39,8 @@ export type SwitchType = 'primary' | 'success' | 'warning' | 'error' | 'info'
  *
  * @exposes
  * - `inputRef` - 原生 input 元素引用
+  * @category 表单组件
+ * @displayName CpSwitch 开关
  */
 export const switchProps = {
     /**

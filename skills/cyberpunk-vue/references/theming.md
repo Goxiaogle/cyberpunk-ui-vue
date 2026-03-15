@@ -1,8 +1,3 @@
----
-name: theming
-description: Cyberpunk Vue 主题定制指南。包含颜色系统、CSS 变量和暗色/亮色模式切换。
----
-
 # 主题定制指南
 
 ## 颜色系统

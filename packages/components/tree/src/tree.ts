@@ -71,6 +71,11 @@ export type TreeType = 'primary' | 'success' | 'warning' | 'error' | 'info'
  * ```vue
  * <CpTree :data="treeData" show-checkbox />
  * ```
+  * @category 展示组件
+ * @displayName CpTree 树形控件
+  * @slots default - 自定义节点内容 (作用域: { node, data })
+ * @slots icon - 自定义展开/叶子图标 (作用域: { node, data, expanded })
+ * @slots empty - 空数据时的展示内容
  */
 export const treeProps = {
   /**

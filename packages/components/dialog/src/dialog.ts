@@ -55,6 +55,8 @@ export type DialogCustomClass =
  * - `header` - 自定义整个头部区域（覆盖 title + 关闭按钮）
  * - `title` - 仅标题区域
  * - `footer` - 底部操作区域，作用域 props: `{ close: () => void, confirm: () => void }`
+  * @category 展示组件
+ * @displayName CpDialog 对话框
  */
 export const dialogProps = {
   /**

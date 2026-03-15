@@ -19,6 +19,9 @@ import type { AvatarSize, AvatarShape } from './avatar'
  *   <CpAvatar v-for="i in 5" :src="`/avatar${i}.jpg`" />
  * </CpAvatarGroup>
  * ```
+  * @category 展示组件
+ * @displayName CpAvatarGroup 头像组
+  * @slots default - 多个 CpAvatar
  */
 export const avatarGroupProps = {
     /**

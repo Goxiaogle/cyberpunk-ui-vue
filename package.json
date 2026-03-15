@@ -39,7 +39,8 @@
     "release:patch": "pnpm release patch",
     "release:minor": "pnpm release minor",
     "release:major": "pnpm release major",
-    "chromatic": "npx chromatic"
+    "chromatic": "npx chromatic",
+    "gen:skills": "node scripts/generate-skills.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

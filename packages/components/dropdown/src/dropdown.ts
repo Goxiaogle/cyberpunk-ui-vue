@@ -76,6 +76,8 @@ export type DropdownPlacement = 'bottom' | 'bottom-start' | 'bottom-end' | 'top'
  * - `blur()` - 使下拉框失去焦点
  * - `open()` - 打开下拉面板
  * - `close()` - 关闭下拉面板
+  * @category 表单组件
+ * @displayName CpDropdown 下拉选择
  */
 export const dropdownProps = {
   /**

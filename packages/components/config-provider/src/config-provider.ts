@@ -42,6 +42,8 @@ export type ComponentDefaults = Record<string, Record<string, any>>
  *
  * @slots
  * - `default` - 被配置包裹的子组件
+  * @category 基础组件
+ * @displayName CpConfigProvider 全局配置
  */
 export const configProviderProps = {
     /**

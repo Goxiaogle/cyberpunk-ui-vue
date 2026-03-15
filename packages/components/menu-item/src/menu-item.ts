@@ -3,6 +3,10 @@ import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 
 /**
  * CpMenuItem 组件 Props 定义
+  * @category 导航组件
+ * @displayName CpMenuItem 菜单项
+  * @slots default - 菜单项文本
+ * @slots icon - 自定义图标
  */
 export const menuItemProps = {
   /**
@@ -25,7 +29,7 @@ export const menuItemProps = {
    * 与 #icon 插槽共存，prop 优先
    */
   icon: {
-    type: [Object, String] as PropType<IconValue>,
+    type: [Object, Function, String] as PropType<IconValue>,
     default: undefined,
   },
   /**

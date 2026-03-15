@@ -74,6 +74,8 @@ export type SegmentedSize = Size
  *   ]"
  * />
  * ```
+  * @category 表单组件
+ * @displayName CpSegmented 分段选择器
  */
 export const segmentedProps = {
   /**

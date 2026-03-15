@@ -14,6 +14,13 @@ export type TextareaVariant = 'outline' | 'filled'
 
 /**
  * CpTextarea 组件 Props 定义
+  * @category 表单组件
+ * @displayName CpTextarea 多行输入
+  * @example
+ * ```vue
+ * <CpTextarea v-model="content" :rows="4" placeholder="请输入内容" />
+ * <CpTextarea v-model="content" show-word-limit :maxlength="200" />
+ * ```
  */
 export const textareaProps = {
     /** 绑定值 (v-model) */

@@ -1,8 +1,3 @@
----
-name: components-service
-description: 全局函数/服务式调用 API 参考：CpNotify 等无需模板声明、通过函数直接调用的组件服务。
----
-
 # 全局函数 / 服务式调用
 
 部分组件提供函数式（命令式）API，无需在模板中声明 `<CpXxx>`，直接通过 JS/TS 调用即可。

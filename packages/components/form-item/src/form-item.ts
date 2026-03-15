@@ -4,6 +4,23 @@ import type { FormRule } from '@cyberpunk-vue/components/form/src/form'
 
 /**
  * CpFormItem Props
+  * @category 表单组件
+ * @displayName CpFormItem 表单项
+  * @description 表单项组件，包含标签、内容区和错误信息区域，支持验证规则和 Form 上下文继承
+ * @slots default - 表单控件
+ * @slots label - 自定义标签内容
+ * @slots error - 自定义错误信息 (作用域: { error })
+ * @exposes validate() - 验证该表单项
+ * @exposes resetField() - 重置该表单项
+ * @exposes clearValidate() - 清除验证状态
+ * @exposes validateState - 当前验证状态 (ref)
+ * @exposes validateMessage - 当前验证信息 (ref)
+ * @example
+ * ```vue
+ * <CpFormItem label="名称" prop="name" required reserve-error-space>
+ *   <CpInput v-model="formData.name" />
+ * </CpFormItem>
+ * ```
  */
 export const formItemProps = {
   /** 标签文本 */

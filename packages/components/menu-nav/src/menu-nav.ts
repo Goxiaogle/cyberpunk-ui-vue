@@ -47,6 +47,12 @@ export interface MenuNavItem {
  * CpMenuNav 组件 Props 定义
  *
  * 透传 CpMenu 所有 props + data 数据源
+  * @category 导航组件
+ * @displayName CpMenuNav 数据菜单
+  * @example
+ * ```vue
+ * <CpMenuNav :data="menuData" default-active="1" />
+ * ```
  */
 export const menuNavProps = {
   /**

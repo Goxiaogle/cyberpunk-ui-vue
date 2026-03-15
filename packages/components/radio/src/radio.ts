@@ -41,6 +41,8 @@ export type RadioValueType = string | number | boolean
  *   <CpRadio value="B">选项 B</CpRadio>
  * </CpRadioGroup>
  * ```
+  * @category 表单组件
+ * @displayName CpRadio 单选框
  */
 export const radioProps = {
   /**

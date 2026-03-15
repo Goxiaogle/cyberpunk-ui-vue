@@ -38,6 +38,9 @@ export type BadgeSize = 'small' | 'default' | 'large'
  *   <CpButton>消息</CpButton>
  * </CpBadge>
  * ```
+  * @category 展示组件
+ * @displayName CpBadge 徽章
+  * @slots default - 被包裹的目标元素
  */
 export const badgeProps = {
     /**

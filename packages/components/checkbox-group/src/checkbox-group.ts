@@ -15,6 +15,8 @@ import type { CheckboxValueType, CheckboxType, CheckboxShape } from '@cyberpunk-
  *   <CpCheckbox label="C">选项 C</CpCheckbox>
  * </CpCheckboxGroup>
  * ```
+  * @category 表单组件
+ * @displayName CpCheckboxGroup 复选框组
  */
 export const checkboxGroupProps = {
   /**

@@ -47,6 +47,8 @@ export type LoadingSize = Size
  * <!-- 自定义颜色和描边 -->
  * <CpLoading color="#ff00ff" :stroke-width="2" />
  * ```
+  * @category 基础组件
+ * @displayName CpLoading 加载
  */
 export const loadingProps = {
     /**

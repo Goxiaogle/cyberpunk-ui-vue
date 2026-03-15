@@ -164,6 +164,7 @@ declare module 'vue' {
      * 用于展示各种装饰性背景图案，如网格、棋盘格、点阵、条纹等。
      */
     CpPatternBackground: typeof import('cyberpunk-ui-vue')['CpPatternBackground']
+    CpPopover: typeof import('cyberpunk-ui-vue')['CpPopover']
     /**
      * CpProgress 赛博朋克风格进度条
      * 

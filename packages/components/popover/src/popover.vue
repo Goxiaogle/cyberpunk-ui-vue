@@ -3,7 +3,8 @@
  * CpPopover - 赛博朋克风格弹出提示层
  * 支持多种弹出位置、触发方式，可作为 Tooltip 或 Popover 使用
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
+import type { PopoverTrigger } from './popover'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { popoverProps, popoverEmits } from './popover'
@@ -18,24 +19,85 @@ const emit = defineEmits(popoverEmits)
 const ns = useNamespace('popover')
 const slots = useSlots()
 
-// 内部显示状态
-const internalVisible = ref(false)
+// ── 多触发模式状态机 ──────────────────────────────────
 
-// 实际显示状态，支持 v-model 和内部控制
+// 标准化 trigger prop 为 Set
+const triggerModes = computed<Set<PopoverTrigger>>(() => {
+  const t = props.trigger
+  if (Array.isArray(t)) return new Set(t)
+  return new Set([t])
+})
+
+// 当前激活的触发模式集合，popover 在集合非空时保持显示
+const activeTriggers = reactive(new Set<PopoverTrigger>())
+
+// hover 模式的延时器
+let hoverOpenTimer: ReturnType<typeof setTimeout> | null = null
+let hoverCloseTimer: ReturnType<typeof setTimeout> | null = null
+
+const clearHoverTimers = () => {
+  if (hoverOpenTimer) { clearTimeout(hoverOpenTimer); hoverOpenTimer = null }
+  if (hoverCloseTimer) { clearTimeout(hoverCloseTimer); hoverCloseTimer = null }
+}
+
+/**
+ * 激活一个触发模式
+ */
+const activate = (mode: PopoverTrigger) => {
+  if (props.disabled) return
+  if (mode === 'hover') {
+    clearHoverTimers()
+    if (props.openDelay > 0) {
+      hoverOpenTimer = setTimeout(() => activeTriggers.add(mode), props.openDelay)
+    } else {
+      activeTriggers.add(mode)
+    }
+  } else {
+    activeTriggers.add(mode)
+  }
+}
+
+/**
+ * 停用一个触发模式
+ */
+const deactivate = (mode: PopoverTrigger) => {
+  if (mode === 'hover') {
+    clearHoverTimers()
+    if (props.closeDelay > 0) {
+      hoverCloseTimer = setTimeout(() => activeTriggers.delete(mode), props.closeDelay)
+    } else {
+      activeTriggers.delete(mode)
+    }
+  } else {
+    activeTriggers.delete(mode)
+  }
+}
+
+// 实际显示状态，从 activeTriggers + v-model 派生
 const visible = computed({
-  get: () => props.modelValue !== undefined ? props.modelValue : internalVisible.value,
+  get: () => {
+    if (props.modelValue !== undefined) return props.modelValue
+    return activeTriggers.size > 0
+  },
   set: (val: boolean) => {
     if (props.modelValue !== undefined) {
       emit('update:modelValue', val)
-    } else {
-      internalVisible.value = val
     }
+    // 强制开/关时清空或标记 manual
     if (val) {
-      emit('open')
+      activeTriggers.add('manual')
     } else {
-      emit('close')
+      activeTriggers.clear()
+      clearHoverTimers()
     }
   },
+})
+
+// 发送事件
+watch(() => activeTriggers.size > 0, (open) => {
+  if (props.modelValue !== undefined) return // v-model 场景由外部控制
+  if (open) emit('open')
+  else emit('close')
 })
 
 // 触发器和弹层引用
@@ -45,56 +107,24 @@ const popoverRef = ref<HTMLElement | null>(null)
 // 弹层位置
 const popoverPosition = ref({ top: 0, left: 0 })
 
-// 延时器
-let openTimer: ReturnType<typeof setTimeout> | null = null
-let closeTimer: ReturnType<typeof setTimeout> | null = null
+// 实际弹出方向（经 flip 后可能与 props.placement 不同）
+const actualPlacement = ref(props.placement)
 
-// 清除定时器
-const clearTimers = () => {
-  if (openTimer) {
-    clearTimeout(openTimer)
-    openTimer = null
-  }
-  if (closeTimer) {
-    clearTimeout(closeTimer)
-    closeTimer = null
-  }
-}
+// 视口边界间距 (px)
+const VIEWPORT_PADDING = 8
 
-// 打开弹层
-const open = () => {
-  if (props.disabled) return
-  clearTimers()
-  
-  if (props.trigger === 'hover' && props.openDelay > 0) {
-    openTimer = setTimeout(() => {
-      visible.value = true
-    }, props.openDelay)
-  } else {
-    visible.value = true
-  }
-}
+// ── 公开方法 ──────────────────────────────────────────
 
-// 关闭弹层
-const close = () => {
-  clearTimers()
-  
-  if (props.trigger === 'hover' && props.closeDelay > 0) {
-    closeTimer = setTimeout(() => {
-      visible.value = false
-    }, props.closeDelay)
-  } else {
-    visible.value = false
-  }
-}
+/** 强制打开弹层（激活 manual 模式） */
+const open = () => { activate('manual') }
 
-// 切换弹层
+/** 强制关闭弹层（清空所有激活模式） */
+const close = () => { visible.value = false }
+
+/** 切换弹层 */
 const toggle = () => {
-  if (visible.value) {
-    close()
-  } else {
-    open()
-  }
+  if (visible.value) close()
+  else open()
 }
 
 // 更新弹层位置 (带有简单节流)
@@ -119,13 +149,45 @@ const updatePosition = () => {
     const popoverWidth = popoverRef.value.offsetWidth
     const popoverHeight = popoverRef.value.offsetHeight
 
-    let top = 0
-    let left = 0
-
-    // 主轴位置
-    const [mainAxis, align] = props.placement.includes('-')
+    // 解析主轴和对齐
+    const [preferredAxis, align] = props.placement.includes('-')
       ? props.placement.split('-') as [string, string]
       : [props.placement, 'center']
+
+    let mainAxis = preferredAxis
+
+    // ===== Flip 退避 =====
+    if (props.fallback === 'flip') {
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+
+      if (mainAxis === 'top' || mainAxis === 'bottom') {
+        const spaceAbove = triggerRect.top - dynamicOffset - VIEWPORT_PADDING
+        const spaceBelow = viewportHeight - triggerRect.bottom - dynamicOffset - VIEWPORT_PADDING
+
+        if (mainAxis === 'top' && spaceAbove < popoverHeight && spaceBelow > spaceAbove) {
+          mainAxis = 'bottom'
+        } else if (mainAxis === 'bottom' && spaceBelow < popoverHeight && spaceAbove > spaceBelow) {
+          mainAxis = 'top'
+        }
+      } else {
+        const spaceLeft = triggerRect.left - dynamicOffset - VIEWPORT_PADDING
+        const spaceRight = viewportWidth - triggerRect.right - dynamicOffset - VIEWPORT_PADDING
+
+        if (mainAxis === 'left' && spaceLeft < popoverWidth && spaceRight > spaceLeft) {
+          mainAxis = 'right'
+        } else if (mainAxis === 'right' && spaceRight < popoverWidth && spaceLeft > spaceRight) {
+          mainAxis = 'left'
+        }
+      }
+    }
+
+    // 更新实际 placement
+    actualPlacement.value = (align !== 'center' ? `${mainAxis}-${align}` : mainAxis) as typeof props.placement
+
+    // ===== 计算位置 =====
+    let top = 0
+    let left = 0
 
     switch (mainAxis) {
       case 'top':
@@ -167,6 +229,17 @@ const updatePosition = () => {
       }
     }
 
+    // ===== Shift 退避 =====
+    if (props.fallback === 'shift') {
+      const minLeft = window.scrollX + VIEWPORT_PADDING
+      const maxLeft = window.scrollX + window.innerWidth - popoverWidth - VIEWPORT_PADDING
+      const minTop = window.scrollY + VIEWPORT_PADDING
+      const maxTop = window.scrollY + window.innerHeight - popoverHeight - VIEWPORT_PADDING
+
+      left = Math.max(minLeft, Math.min(left, maxLeft))
+      top = Math.max(minTop, Math.min(top, maxTop))
+    }
+
     popoverPosition.value = { top, left }
     ticking = false
   })
@@ -205,7 +278,7 @@ const popoverStyle = computed<CSSProperties>(() => {
 // 弹层类名
 const popoverClasses = computed(() => [
   ns.e('content'),
-  `${ns.e('content')}--${props.placement.split('-')[0]}`,
+  `${ns.e('content')}--${actualPlacement.value.split('-')[0]}`,
   `${ns.e('content')}--${props.variant}`,
   `${ns.e('content')}--shape-${props.shape}`,
   props.type !== 'default' ? `${ns.e('content')}--${props.type}` : '',
@@ -213,71 +286,84 @@ const popoverClasses = computed(() => [
   ns.is('has-title', !!props.title && !props.tooltip),
   ns.is('has-arrow', props.showArrow),
   ns.is('flipped', props.flipArrow),
+  ns.is('no-transition', props.transition === 'none'),
 ])
+
+// 计算过渡动画名称
+const reverseDirection: Record<string, string> = {
+  top: 'bottom', bottom: 'top', left: 'right', right: 'left',
+}
+
+const transitionName = computed(() => {
+  if (props.transition === 'none') return ''
+  const direction = actualPlacement.value.split('-')[0] // top | bottom | left | right
+  if (props.transition === 'slide') {
+    return `${ns.namespace}-popover-slide-${direction}`
+  }
+  if (props.transition === 'slide-reverse') {
+    return `${ns.namespace}-popover-slide-${reverseDirection[direction] ?? direction}`
+  }
+  // fade (default)
+  return `${ns.namespace}-popover-fade`
+})
 
 // 箭头位置类名
 const arrowClasses = computed(() => [
   ns.e('arrow'),
-  `${ns.e('arrow')}--${props.placement.split('-')[0]}`,
+  `${ns.e('arrow')}--${actualPlacement.value.split('-')[0]}`,
 ])
 
-// 触发器事件处理
+// ── 触发器事件处理 ──────────────────────────────────
+
 const handleMouseEnter = () => {
-  if (props.trigger === 'hover') {
-    open()
-  }
+  if (triggerModes.value.has('hover')) activate('hover')
 }
 
 const handleMouseLeave = () => {
-  if (props.trigger === 'hover') {
-    close()
-  }
+  if (triggerModes.value.has('hover')) deactivate('hover')
 }
 
 const handleClick = () => {
-  if (props.trigger === 'click') {
-    toggle()
+  if (!triggerModes.value.has('click')) return
+  if (activeTriggers.has('click')) {
+    deactivate('click')
+  } else {
+    activate('click')
   }
 }
 
 const handleFocus = () => {
-  if (props.trigger === 'focus') {
-    open()
-  }
+  if (triggerModes.value.has('focus')) activate('focus')
 }
 
 const handleBlur = () => {
-  if (props.trigger === 'focus') {
-    close()
-  }
+  if (triggerModes.value.has('focus')) deactivate('focus')
 }
 
 // 弹层内鼠标事件 (hover 模式保持显示)
 const handlePopoverMouseEnter = () => {
-  if (props.trigger === 'hover') {
-    clearTimers()
-  }
+  if (triggerModes.value.has('hover')) clearHoverTimers()
 }
 
 const handlePopoverMouseLeave = () => {
-  if (props.trigger === 'hover') {
-    close()
-  }
+  if (triggerModes.value.has('hover')) deactivate('hover')
 }
 
-// 点击外部关闭
+// 点击外部关闭（仅移除 click 激活）
 const handleClickOutside = (event: MouseEvent) => {
   if (!props.closeOnClickOutside) return
-  if (props.trigger !== 'click' && props.trigger !== 'manual') return
   if (!visible.value) return
+  // 仅当 click 或 manual 激活时生效
+  if (!activeTriggers.has('click') && !triggerModes.value.has('manual')) return
 
   const target = event.target as Node
-  const isClickInside = 
-    triggerRef.value?.contains(target) || 
+  const isClickInside =
+    triggerRef.value?.contains(target) ||
     popoverRef.value?.contains(target)
 
   if (!isClickInside) {
-    close()
+    deactivate('click')
+    deactivate('manual')
   }
 }
 
@@ -291,6 +377,9 @@ const handleKeydown = (event: KeyboardEvent) => {
 // 监听显示状态，更新位置
 watch(visible, async (val) => {
   if (val) {
+    await nextTick()
+    updatePosition()
+    // 第二帧：popover 已渲染，使用实际尺寸修正位置
     await nextTick()
     updatePosition()
   }
@@ -318,7 +407,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  clearTimers()
+  clearHoverTimers()
   document.removeEventListener('click', handleClickOutside)
   document.removeEventListener('keydown', handleKeydown)
   window.removeEventListener('resize', updatePosition)
@@ -343,7 +432,7 @@ onBeforeUnmount(() => {
 
     <!-- 弹层 -->
     <Teleport :to="teleportTo">
-      <Transition :name="ns.namespace + '-popover-fade'">
+      <Transition :name="transitionName">
         <div
           v-if="visible"
           ref="popoverRef"

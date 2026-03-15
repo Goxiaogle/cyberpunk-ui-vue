@@ -58,6 +58,8 @@ export type StatusIndicatorAnimation = 'none' | 'pulse' | 'glow' | 'blink'
  * <!-- 自定义颜色 -->
  * <CpStatusIndicator color="#ff00ff" shape="diamond" />
  * ```
+  * @category 展示组件
+ * @displayName CpStatusIndicator 状态指示器
  */
 export const statusIndicatorProps = {
   /**

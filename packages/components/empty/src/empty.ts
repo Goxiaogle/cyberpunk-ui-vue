@@ -1,4 +1,5 @@
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
 
 /**
  * 空状态颜色类型
@@ -10,6 +11,19 @@ export type EmptyType = 'primary' | 'success' | 'warning' | 'error' | 'info' | '
  *
  * @description 赛博朋克风格空状态组件，用于无数据、无搜索结果等场景。
  * 组件始终撑满父容器，水平+垂直居中展示。
+  * @category 展示组件
+ * @displayName CpEmpty 空状态
+  * @slots default - 底部操作区域（按钮等）
+ * @slots image - 自定义图标/图片（替代内置 SVG）
+ * @slots title - 自定义标题内容
+ * @slots description - 自定义描述内容
+ * @example
+ * ```vue
+ * <CpEmpty />
+ * <CpEmpty title="暂无数据" description="点击刷新加载数据">
+ *   <CpButton type="primary" size="sm">刷新</CpButton>
+ * </CpEmpty>
+ * ```
  */
 export const emptyProps = {
     /**
@@ -35,7 +49,7 @@ export const emptyProps = {
      * @default ''
      */
     icon: {
-        type: [String, Object] as PropType<string | Component>,
+        type: [Object, Function, String] as PropType<IconValue>,
         default: '',
     },
 

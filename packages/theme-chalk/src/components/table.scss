@@ -162,7 +162,7 @@ $table-sizes: (
         filter: drop-shadow(0 0 4px var(--cp-table-color));
       }
     }
-    
+
     &.is-descending {
       .cp-table__sort-caret.is-descending {
         opacity: 1;
@@ -451,5 +451,64 @@ $table-sizes: (
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  // ===== 行展开（expand 列） =====
+
+  @include e(expand-trigger) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    color: var(--cp-text-muted);
+    transition: transform 0.25s ease, color 0.2s ease;
+    transform: rotate(0deg);
+
+    &:hover {
+      color: var(--cp-table-color, var(--cp-text-primary));
+    }
+
+    @include when(expanded) {
+      transform: rotate(90deg);
+      color: var(--cp-table-color, var(--cp-text-secondary));
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  @include e(expanded-row) {
+    background: color-mix(in srgb, var(--cp-table-color) 4%, transparent);
+    border-bottom: 1px solid var(--cp-table-border);
+
+    &:hover {
+      background: color-mix(in srgb, var(--cp-table-color) 6%, transparent);
+    }
+  }
+
+  @include e(expanded-cell) {
+    padding: 0 !important;
+    position: relative;
+
+    // 左侧发光边线
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--cp-table-color);
+      box-shadow: 0 0 6px var(--cp-table-color);
+      opacity: 0.6;
+    }
+  }
+
+  @include e(expanded-content) {
+    padding: var(--cp-table-cell-padding);
+    padding-left: 24px;
   }
 }

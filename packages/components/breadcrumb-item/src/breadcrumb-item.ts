@@ -10,6 +10,10 @@ import type { ExtractPropTypes, PropType } from 'vue'
  * <CpBreadcrumbItem to="/home">首页</CpBreadcrumbItem>
  * <CpBreadcrumbItem>当前页</CpBreadcrumbItem>
  * ```
+  * @category 导航组件
+ * @displayName CpBreadcrumbItem 面包屑项
+  * @slots default - 面包屑项文本内容
+ * @slots separator - 自定义分隔符（覆盖父级 separator/separatorIcon）
  */
 export const breadcrumbItemProps = {
     /**

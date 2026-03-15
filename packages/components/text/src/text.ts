@@ -47,6 +47,9 @@ export type TextAlign = 'top' | 'middle' | 'bottom'
  * <!-- 组合效果 -->
  * <CpText bold italic underline>加粗斜体下划线</CpText>
  * ```
+  * @category 基础组件
+ * @displayName CpText 文字
+  * @slots default - 文字内容
  */
 export const textProps = {
     /**

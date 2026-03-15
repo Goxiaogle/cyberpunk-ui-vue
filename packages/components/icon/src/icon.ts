@@ -54,6 +54,8 @@ export type IconValue = Component | ((...args: unknown[]) => unknown) | string
  *
  * @slots
  * - `default` - 可用于传入自定义 SVG 内容
+  * @category 基础组件
+ * @displayName CpIcon 图标
  */
 export const iconProps = {
     /**

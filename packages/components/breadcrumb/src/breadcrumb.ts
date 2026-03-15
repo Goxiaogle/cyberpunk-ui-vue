@@ -27,6 +27,9 @@ export type BreadcrumbVariant = 'default' | 'plain' | 'outline' | 'background'
  *   <CpBreadcrumbItem>用户管理</CpBreadcrumbItem>
  * </CpBreadcrumb>
  * ```
+  * @category 导航组件
+ * @displayName CpBreadcrumb 面包屑
+  * @slots default - CpBreadcrumbItem 列表
  */
 export const breadcrumbProps = {
     /**

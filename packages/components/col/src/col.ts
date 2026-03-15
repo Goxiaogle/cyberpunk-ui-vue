@@ -12,6 +12,9 @@ import type { ExtractPropTypes } from 'vue'
  *   <CpCol :span="8" :offset="8">1/3 偏移</CpCol>
  * </CpRow>
  * ```
+  * @category 布局组件
+ * @displayName CpCol 列容器
+  * @slots default - 列内容
  */
 export const colProps = {
     /**

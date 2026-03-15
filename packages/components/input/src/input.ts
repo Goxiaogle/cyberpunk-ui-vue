@@ -67,6 +67,8 @@ export type InputVariant = 'outline' | 'filled' | 'ghost'
  * - `focus()` - 使输入框获取焦点
  * - `blur()` - 使输入框失去焦点
  * - `inputRef` - 原生 input 元素引用
+  * @category 表单组件
+ * @displayName CpInput 输入框
  */
 export const inputProps = {
     /**

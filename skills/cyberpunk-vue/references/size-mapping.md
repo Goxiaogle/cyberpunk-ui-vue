@@ -1,8 +1,3 @@
----
-name: size-mapping
-description: Cyberpunk Vue 尺寸系统详解。包含 Size 预设映射值和自定义尺寸用法。
----
-
 # 尺寸系统指南
 
 ## 通用尺寸类型

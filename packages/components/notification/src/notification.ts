@@ -55,6 +55,8 @@ export const notificationTypes = ['success', 'warning', 'error', 'info', 'primar
  * - `title`   — 自定义标题内容
  * - `icon`    — 自定义图标
  * - `actions` — 操作区按钮
+  * @category 展示组件
+ * @displayName CpNotification 通知
  */
 export const notificationProps = {
   /**
