@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, getCurrentInstance } from 'vue'
+import { computed, inject, getCurrentInstance, onMounted, onBeforeUnmount } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { menuItemProps, menuItemEmits } from './menu-item'
@@ -22,6 +22,14 @@ const isActive = computed(() => menuCtx?.activeIndex.value === resolvedIndex)
 const indexPath = computed(() => {
   const parentPath = subMenuCtx?.indexPath ?? []
   return [...parentPath, resolvedIndex]
+})
+
+// 注册到 Menu 上下文（供路由反查）
+onMounted(() => {
+  menuCtx?.addItem(resolvedIndex, indexPath.value)
+})
+onBeforeUnmount(() => {
+  menuCtx?.removeItem(resolvedIndex)
 })
 
 const paddingStyle = computed(() => {

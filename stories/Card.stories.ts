@@ -220,6 +220,20 @@ const meta: Meta<typeof CpCard> = {
                 defaultValue: {summary: 'false'},
             },
         },
+        halfCollapse: {
+            control: 'boolean',
+            description: '半折叠模式 — 仅在 collapse=true 时生效，保留部分 body 内容并底部渐隐',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
+        },
+        peekHeight: {
+            control: {type: 'number', min: 20, max: 300, step: 10},
+            description: '半折叠时 body 区域的可见高度 (px)',
+            table: {
+                defaultValue: {summary: '80'},
+            },
+        },
         shadowColor: {
             control: 'color',
             description: '自定义阴影颜色 (默认与主题色一致)',
@@ -760,6 +774,107 @@ export const 折叠模式: Story = {
                   <CpButton size="sm" variant="ghost" type="warning">操作</CpButton>
                 </template>
                 <p>只有头部时，折叠也不会影响整体渲染，依然稳定。</p>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 半折叠预览 */
+export const 半折叠预览: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        setup() {
+            const collapsed1 = ref(true)
+            const half1 = ref(true)
+            const mode2 = ref<'expanded' | 'half' | 'collapsed'>('half')
+            const mode3 = ref<'expanded' | 'half' | 'collapsed'>('half')
+
+            // 第一个卡片：半折叠 ↔ 展开 直接切换
+            const toggle1 = () => {
+                if (collapsed1.value && half1.value) {
+                    // 半折叠 → 展开
+                    collapsed1.value = false
+                    half1.value = false
+                } else {
+                    // 展开 → 半折叠
+                    collapsed1.value = true
+                    half1.value = true
+                }
+            }
+
+            const isCollapsed = (m: string) => m === 'half' || m === 'collapsed'
+            const isHalf = (m: string) => m === 'half'
+            const cycleMode = (current: string) => {
+                if (current === 'expanded') return 'half'
+                if (current === 'half') return 'collapsed'
+                return 'expanded'
+            }
+            const modeLabel = (m: string) => {
+                if (m === 'expanded') return '展开'
+                if (m === 'half') return '半折叠'
+                return '折叠'
+            }
+            return { collapsed1, half1, toggle1, mode2, mode3, isCollapsed, isHalf, cycleMode, modeLabel }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">半折叠 — 使用 mask-image 渐隐底部内容（任何背景下均工作）</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              collapse + halfCollapse 同时为 true 时，body 区域保留 peekHeight 高度，底部通过 CSS mask 渐变淡出。
+            </p>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+              <CpCard
+                title="查看更多示例"
+                :collapse="collapsed1"
+                :half-collapse="half1"
+                style="width: 320px;"
+              >
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" @click="toggle1">
+                    {{ collapsed1 ? '查看更多' : '收起' }}
+                  </CpButton>
+                </template>
+                <p>《重生七零咸鱼翻身》--- 第0集 --- 【内容简介】二十一世纪孤女——顾之夏，意外激活祖传手链空间，囤货期间意外穿越至1971年东北山村，恰好砸进执行任务的军官陆景逸怀中。携空间、医术与内功的她，为自保装失忆暂居陆家。</p>
+                <p>凭借空间物资和现代知识，她渐渐融入乡村生活，与陆景逸从误解到并肩，共同面对时代的风浪。</p>
+              </CpCard>
+
+              <CpCard
+                title="三态循环 (120px)"
+                :collapse="isCollapsed(mode2)"
+                :half-collapse="isHalf(mode2)"
+                :peek-height="120"
+                type="primary"
+                style="width: 320px;"
+              >
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" type="primary" @click="mode2 = cycleMode(mode2)">
+                    {{ modeLabel(mode2) }}
+                  </CpButton>
+                </template>
+                <p>更高的预览区域，适合需要展示更多内容摘要的场景。</p>
+                <p>通过 peekHeight 控制半折叠时 body 区域的可见高度，支持数字 (px) 和字符串 (如 '6rem')。</p>
+                <p>mask-image 渐变操作的是 alpha 通道，因此在任何背景色（纯色、渐变、半透明）下都完美工作。</p>
+              </CpCard>
+
+              <CpCard
+                title="Semi 变体 (60px)"
+                :collapse="isCollapsed(mode3)"
+                :half-collapse="isHalf(mode3)"
+                :peek-height="60"
+                variant="semi"
+                type="success"
+                style="width: 320px;"
+              >
+                <template #extra>
+                  <CpButton size="sm" variant="ghost" type="success" @click="mode3 = cycleMode(mode3)">
+                    {{ modeLabel(mode3) }}
+                  </CpButton>
+                </template>
+                <p>半透明背景下的半折叠效果。peekHeight = 60px。</p>
+                <p>毛玻璃效果与 mask-image 渐变完美配合。内容淡出到透明后自然融入任何底层背景。</p>
               </CpCard>
             </div>
           </div>

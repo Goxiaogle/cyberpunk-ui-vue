@@ -3,6 +3,9 @@
 ## CpMenu 菜单
 
 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
+内置路由前缀匹配：当 `defaultActive` 为 `/model-specs/xxx` 时，
+会自动匹配 `index="/model-specs"` 的菜单项并高亮其父级 SubMenu。
+页面刷新或路由变化时，对应的子菜单会自动展开。
 
 ### Props
 
@@ -11,13 +14,13 @@
 | `mode` | `'horizontal' \| 'vertical'` | `'vertical'` | 菜单布局方向 |
 | `shape` | `'clip' \| 'no-clip' \| 'round' \| 'circle'` | `'clip'` | 菜单形状 |
 | `variant` | `'solid' \| 'outline' \| 'note'` | `'solid'` | 菜单变体 |
-| `defaultActive` | `string` | `''` | 默认激活的菜单项 index |
+| `defaultActive` | `string` | `''` | 默认激活的菜单项 index。 |
 | `defaultOpeneds` | `string[]` | `[]` | 默认展开的子菜单 index 数组 |
 | `uniqueOpened` | `boolean` | `false` | 是否只保持一个子菜单展开（手风琴模式） |
 | `collapse` | `boolean` | `false` | 是否折叠菜单（仅 vertical 模式有效） |
 | `type` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 颜色预设类型 |
 | `color` | `string` | `''` | 自定义高亮颜色（覆盖 type 预设） |
-| `router` | `boolean` | `false` | 是否启用 vue-router 模式 |
+| `router` | `boolean` | `false` | 是否启用 vue-router 模式。 |
 | `index` | `string` | — | 菜单项唯一标识（可选，不传时自动生成） |
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `icon` | `IconValue` | — | 图标（CpIcon 兼容值：Vue 组件、Iconify 名称、SVG 字符串等） |
@@ -68,18 +71,6 @@
 | `--cp-menu-border` | `var(--cp-border)` |  |
 | `--cp-menu-item-height` | `46px` |  |
 | `--cp-menu-item-font-weight` | `var(--cp-menu-active-font-weight)` |  |
-
-### 示例
-
-```vue
-<CpMenu default-active="1">
-  <CpMenuItem index="1">菜单项一</CpMenuItem>
-  <CpSubMenu index="2">
-    <template #title>子菜单</template>
-    <CpMenuItem index="2-1">子菜单项</CpMenuItem>
-  </CpSubMenu>
-</CpMenu>
-```
 
 ---
 

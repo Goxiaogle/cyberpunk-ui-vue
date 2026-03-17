@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref, reactive } from "vue";
 import { CpForm, CpFormItem } from "@cyberpunk-vue/components";
 import { CpInput } from "@cyberpunk-vue/components";
+import { CpTextarea } from "@cyberpunk-vue/components";
 import { CpButton } from "@cyberpunk-vue/components";
 import { CpSwitch } from "@cyberpunk-vue/components";
 import { CpDropdown } from "@cyberpunk-vue/components";
@@ -61,6 +62,11 @@ const meta: Meta<typeof CpForm> = {
       control: "select",
       options: ["left", "right"],
       description: "必填星号位置",
+    },
+    labelVerticalAlign: {
+      control: "select",
+      options: ["center", "top", "bottom", "auto"],
+      description: "标签垂直对齐方式（仅 labelPosition 为 left/right 时生效）",
     },
     labelAlign: {
       control: "select",
@@ -547,3 +553,60 @@ export const 全局禁用: Story = {
   }),
 };
 
+/**
+ * Label 垂直对齐 — center / top / bottom / auto
+ *
+ * 当 labelPosition 为 left/right 时，通过 `labelVerticalAlign` 控制 label 在垂直方向的行为。
+ * - `center`（默认）：居中对齐
+ * - `top`：顶部对齐，带顶部间距
+ * - `bottom`：底部对齐
+ * - `auto`：内容矮时居中，超过阈值（默认 80px）后自动切为顶部对齐
+ */
+export const Label垂直对齐: Story = {
+  render: () => ({
+    components: { CpForm, CpFormItem, CpInput, CpTextarea },
+    setup() {
+      const align = ref<'center' | 'top' | 'bottom' | 'auto'>('center');
+      const aligns = ['center', 'top', 'bottom', 'auto'] as const;
+      const formData = reactive({
+        name: '',
+        desc: '',
+        notes: '',
+      });
+      return { align, aligns, formData };
+    },
+    template: `
+      <div style="max-width: 560px;">
+        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 20px;">
+          <span style="color: var(--cp-text-secondary); font-family: 'Rajdhani'; font-size: 14px;">labelVerticalAlign：</span>
+          <button
+            v-for="a in aligns"
+            :key="a"
+            @click="align = a"
+            :style="{
+              padding: '4px 12px',
+              border: '1px solid ' + (align === a ? 'var(--cp-color-primary)' : 'var(--cp-border)'),
+              background: align === a ? 'rgba(0,240,255,0.1)' : 'transparent',
+              color: align === a ? 'var(--cp-color-primary)' : 'var(--cp-text-secondary)',
+              cursor: 'pointer',
+              fontFamily: 'Rajdhani',
+              fontSize: '14px',
+            }"
+          >{{ a }}</button>
+        </div>
+
+        <CpForm :model="formData" label-width="100px" label-position="right" :label-vertical-align="align">
+          <CpFormItem label="名称">
+            <CpInput v-model="formData.name" placeholder="单行输入（矮内容）" />
+          </CpFormItem>
+          <CpFormItem label="描述">
+            <CpTextarea v-model="formData.desc" :rows="4" placeholder="多行输入（中等高度）" />
+          </CpFormItem>
+          <CpFormItem label="备注">
+            <CpTextarea v-model="formData.notes" :rows="8" placeholder="大段输入（高内容，auto 模式下会切换为顶部对齐）" />
+          </CpFormItem>
+        </CpForm>
+      </div>
+    `,
+  }),
+};

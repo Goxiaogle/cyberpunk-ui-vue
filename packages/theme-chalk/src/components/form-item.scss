@@ -38,7 +38,6 @@
         flex-wrap: wrap;
         align-items: center;
         flex: 1;
-        width: 100%;
         min-width: 0;
         position: relative;
     }
@@ -133,6 +132,35 @@
                 content: '';
                 width: 100%;
                 height: calc(var(--cp-form-error-height, 20px) + var(--cp-form-error-margin-top, 4px));
+            }
+        }
+    }
+
+    // ===== Label 垂直对齐 =====
+
+    // 顶部对齐
+    @include m(label-v-top) {
+        align-items: flex-start;
+
+        > .cp-form-item__label {
+            padding-top: var(--cp-form-label-top-offset, 8px);
+        }
+    }
+
+    // 底部对齐
+    @include m(label-v-bottom) {
+        align-items: flex-end;
+    }
+
+    // 自动模式：默认居中，JS 动态切换 is-label-v-top-active
+    @include m(label-v-auto) {
+        align-items: center;
+
+        &.is-label-v-top-active {
+            align-items: flex-start;
+
+            > .cp-form-item__label {
+                padding-top: var(--cp-form-label-auto-top-offset, 8px);
             }
         }
     }

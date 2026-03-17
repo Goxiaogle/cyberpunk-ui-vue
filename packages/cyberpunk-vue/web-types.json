@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.9.4",
+  "version": "1.9.10",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -95,6 +95,20 @@
           "description": "CpContainer 页面布局容器",
           "source": {
             "symbol": "CpContainer"
+          }
+        },
+        {
+          "name": "cp-descriptions",
+          "description": "CpDescriptions 描述列表组件",
+          "source": {
+            "symbol": "CpDescriptions"
+          }
+        },
+        {
+          "name": "cp-descriptions-item",
+          "description": "CpDescriptionsItem 描述列表条目组件",
+          "source": {
+            "symbol": "CpDescriptionsItem"
           }
         },
         {
@@ -1274,7 +1288,7 @@
               "name": "title",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2513
+                "offset": 2515
               },
               "description": "卡片标题",
               "default": "''",
@@ -1286,7 +1300,7 @@
               "name": "shadow",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2689
+                "offset": 2691
               },
               "description": "阴影显示时机\n- `always` - 始终显示\n- `hover` - 悬停时显示\n- `never` - 不显示",
               "default": "'hover'",
@@ -1298,7 +1312,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2880
+                "offset": 2882
               },
               "description": "卡片变体/形态",
               "default": "'solid'",
@@ -1310,7 +1324,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3088
+                "offset": 3090
               },
               "description": "卡片形状\n- `clip` - 切角样式（默认）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -1322,7 +1336,7 @@
               "name": "bodyPadding",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3280
+                "offset": 3282
               },
               "description": "自定义内容区内边距\n传入有效 CSS 值，如 '20px' 或 '1rem 2rem'",
               "type": [
@@ -1333,7 +1347,7 @@
               "name": "headerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3398
+                "offset": 3400
               },
               "description": "是否显示头部分隔线",
               "default": "true",
@@ -1345,7 +1359,7 @@
               "name": "footerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3513
+                "offset": 3515
               },
               "description": "是否显示底部分隔线",
               "default": "true",
@@ -1357,7 +1371,7 @@
               "name": "overlayAnimation",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3633
+                "offset": 3635
               },
               "description": "覆层出场动画类型",
               "default": "'slide-up'",
@@ -1369,7 +1383,7 @@
               "name": "overlayPosition",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3790
+                "offset": 3792
               },
               "description": "覆层位置",
               "default": "'bottom'",
@@ -1381,7 +1395,7 @@
               "name": "overlayDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3990
+                "offset": 3992
               },
               "description": "覆层动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1393,7 +1407,7 @@
               "name": "overlayEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4148
+                "offset": 4150
               },
               "description": "覆层效果类型",
               "default": "'blur-color'",
@@ -1405,7 +1419,7 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4335
+                "offset": 4337
               },
               "description": "覆层颜色\n支持任意 CSS 颜色值",
               "default": "'rgba(26, 26, 36, 0.8)'",
@@ -1417,7 +1431,7 @@
               "name": "overlayBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4489
+                "offset": 4491
               },
               "description": "覆层毛玻璃模糊程度\n数字默认 px，字符串可指定单位",
               "default": "10",
@@ -1429,7 +1443,7 @@
               "name": "actionEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4673
+                "offset": 4675
               },
               "description": "操作区域效果类型\n如果未指定，则继承 overlayEffect",
               "type": [
@@ -1440,7 +1454,7 @@
               "name": "actionColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4854
+                "offset": 4856
               },
               "description": "操作区域颜色\n如果未指定，则继承 overlayColor",
               "type": [
@@ -1451,7 +1465,7 @@
               "name": "actionBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5004
+                "offset": 5006
               },
               "description": "操作区域模糊程度\n如果未指定，则继承 overlayBlur",
               "type": [
@@ -1462,7 +1476,7 @@
               "name": "type",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5165
+                "offset": 5167
               },
               "description": "卡片的主题颜色类型",
               "default": "'default'",
@@ -1474,7 +1488,7 @@
               "name": "color",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5283
+                "offset": 5285
               },
               "description": "自定义颜色，优先于 type",
               "default": "''",
@@ -1486,7 +1500,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5449
+                "offset": 5451
               },
               "description": "自定义背景颜色\n支持任意 CSS 颜色值，包括渐变",
               "default": "''",
@@ -1498,7 +1512,7 @@
               "name": "shadowColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5555
+                "offset": 5557
               },
               "description": "自定义阴影颜色\n默认与卡片最终主题色保持一致",
               "type": [
@@ -1509,7 +1523,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5631
+                "offset": 5633
               },
               "description": "是否开启平常减淡显示",
               "default": "false",
@@ -1521,7 +1535,7 @@
               "name": "dimmedDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5789
+                "offset": 5791
               },
               "description": "减淡模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1533,7 +1547,7 @@
               "name": "triggerImageHover",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5970
+                "offset": 5972
               },
               "description": "Card hover 时是否触发内部 CpImage 的 hover 效果",
               "default": "false",
@@ -1545,7 +1559,7 @@
               "name": "hoverScale",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6099
+                "offset": 6101
               },
               "description": "Card hover 时放大效果",
               "default": "false",
@@ -1557,7 +1571,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6218
+                "offset": 6220
               },
               "description": "是否折叠卡片（仅显示头部）",
               "default": "false",
@@ -1566,10 +1580,34 @@
               ]
             },
             {
+              "name": "halfCollapse",
+              "source": {
+                "file": "../components/card/src/card.ts",
+                "offset": 6430
+              },
+              "description": "半折叠模式 — 仅在 collapse=true 时生效\n开启后 body 区域不会完全收起，而是保留 peekHeight 高度，\n通过 mask-image 渐变使底部内容淡出融入背景",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "peekHeight",
+              "source": {
+                "file": "../components/card/src/card.ts",
+                "offset": 6575
+              },
+              "description": "半折叠时 body 区域的可见高度\n数字默认 px，字符串可指定单位",
+              "default": "80",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
               "name": "borderColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6308
+                "offset": 6702
               },
               "description": "自定义边框颜色",
               "type": [
@@ -1580,7 +1618,7 @@
               "name": "dividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6364
+                "offset": 6758
               },
               "description": "全局设置头尾分隔线颜色",
               "type": [
@@ -1591,7 +1629,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6421
+                "offset": 6815
               },
               "description": "单独设置头部分隔线颜色",
               "type": [
@@ -1602,7 +1640,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6484
+                "offset": 6878
               },
               "description": "单独设置底部分隔线颜色",
               "type": [
@@ -1613,7 +1651,7 @@
               "name": "backgroundClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6546
+                "offset": 6940
               },
               "description": "容器/背景自定义类名",
               "type": [
@@ -1624,7 +1662,7 @@
               "name": "backgroundStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6651
+                "offset": 7045
               },
               "description": "容器/背景自定义样式",
               "type": [
@@ -1635,7 +1673,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6753
+                "offset": 7147
               },
               "description": "头部自定义类名",
               "type": [
@@ -1646,7 +1684,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6851
+                "offset": 7245
               },
               "description": "头部自定义样式",
               "type": [
@@ -1657,7 +1695,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6949
+                "offset": 7343
               },
               "description": "主体自定义类名",
               "type": [
@@ -1668,7 +1706,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7045
+                "offset": 7439
               },
               "description": "主体自定义样式",
               "type": [
@@ -1679,7 +1717,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7192
+                "offset": 7586
               },
               "description": "是否处于加载状态\n加载时会在卡片内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -1691,7 +1729,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7306
+                "offset": 7700
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -1703,7 +1741,7 @@
               "name": "loadingClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7403
+                "offset": 7797
               },
               "description": "加载遮罩自定义类名",
               "type": [
@@ -1714,7 +1752,7 @@
               "name": "loadingStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7504
+                "offset": 7898
               },
               "description": "加载遮罩自定义样式",
               "type": [
@@ -1725,7 +1763,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7646
+                "offset": 8040
               },
               "description": "是否处于禁用状态\n禁用时卡片整体变灰且不可交互",
               "default": "false",
@@ -2200,6 +2238,336 @@
               "default": "''",
               "type": [
                 "'horizontal' | 'vertical'"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cp-descriptions",
+          "source": {
+            "symbol": "CpDescriptions"
+          },
+          "description": "CpDescriptions 描述列表组件",
+          "props": [
+            {
+              "name": "title",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2160
+              },
+              "description": "标题",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "extra",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2256
+              },
+              "description": "额外说明文字（右侧）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "column",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2345
+              },
+              "description": "一行几列",
+              "default": "3",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "direction",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2445
+              },
+              "description": "排列方向",
+              "default": "'horizontal'",
+              "type": [
+                "'horizontal' | 'vertical'"
+              ]
+            },
+            {
+              "name": "variant",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2669
+              },
+              "description": "变体样式\n- `solid` — 带边框 + label 背景（默认）\n- `outline` — 仅边框\n- `ghost` — 无边框",
+              "default": "'solid'",
+              "type": [
+                "'solid' | 'outline' | 'ghost'"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2799
+              },
+              "description": "尺寸",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 2925
+              },
+              "description": "颜色类型",
+              "default": "'default'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3053
+              },
+              "description": "自定义主题色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "labelWidth",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3150
+              },
+              "description": "全局 label 宽度",
+              "default": "''",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "labelAlign",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3294
+              },
+              "description": "label 水平对齐",
+              "default": "'left'",
+              "type": [
+                "'left' | 'center' | 'right'"
+              ]
+            },
+            {
+              "name": "labelVerticalAlign",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3476
+              },
+              "description": "label 垂直对齐（仅 direction 为 horizontal 时生效）",
+              "default": "'center'",
+              "type": [
+                "'center' | 'top' | 'bottom' | 'auto'"
+              ]
+            },
+            {
+              "name": "contentAlign",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3630
+              },
+              "description": "内容水平对齐",
+              "default": "'left'",
+              "type": [
+                "'left' | 'center' | 'right'"
+              ]
+            },
+            {
+              "name": "contentVerticalAlign",
+              "source": {
+                "file": "../components/descriptions/src/descriptions.ts",
+                "offset": 3810
+              },
+              "description": "内容垂直对齐（仅 direction 为 horizontal 时生效）",
+              "default": "'center'",
+              "type": [
+                "'center' | 'top' | 'bottom' | 'auto'"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cp-descriptions-item",
+          "source": {
+            "symbol": "CpDescriptionsItem"
+          },
+          "description": "CpDescriptionsItem 描述列表条目组件",
+          "props": [
+            {
+              "name": "label",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 460
+              },
+              "description": "标签文字",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "span",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 549
+              },
+              "description": "占多少列",
+              "default": "1",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "labelWidth",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 646
+              },
+              "description": "覆盖父级 label 宽度",
+              "default": "''",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "labelAlign",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 791
+              },
+              "description": "覆盖父级 label 水平对齐",
+              "default": "''",
+              "type": [
+                "'' | 'left' | 'center' | 'right'"
+              ]
+            },
+            {
+              "name": "labelVerticalAlign",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 943
+              },
+              "description": "覆盖父级 label 垂直对齐",
+              "default": "''",
+              "type": [
+                "'' | DescriptionsVerticalAlign"
+              ]
+            },
+            {
+              "name": "contentAlign",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1096
+              },
+              "description": "覆盖父级内容水平对齐",
+              "default": "''",
+              "type": [
+                "'' | 'left' | 'center' | 'right'"
+              ]
+            },
+            {
+              "name": "contentVerticalAlign",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1245
+              },
+              "description": "覆盖父级内容垂直对齐",
+              "default": "''",
+              "type": [
+                "'' | DescriptionsVerticalAlign"
+              ]
+            },
+            {
+              "name": "labelClassName",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1401
+              },
+              "description": "label 自定义类名",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "contentClassName",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1509
+              },
+              "description": "content 自定义类名",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "labelColor",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1625
+              },
+              "description": "label 颜色（覆盖 CSS 变量）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "contentColor",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1737
+              },
+              "description": "content 颜色（覆盖 CSS 变量）",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1842
+              },
+              "description": "单项颜色类型（覆盖父级）",
+              "default": "''",
+              "type": [
+                "'' | DescriptionsType"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/descriptions-item/src/descriptions-item.ts",
+                "offset": 1974
+              },
+              "description": "单项自定义色（覆盖父级）",
+              "default": "''",
+              "type": [
+                "string"
               ]
             }
           ]
@@ -3412,7 +3780,7 @@
               "name": "model",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 1419
+                "offset": 1652
               },
               "description": "表单数据对象",
               "type": [
@@ -3423,7 +3791,7 @@
               "name": "rules",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 1533
+                "offset": 1766
               },
               "description": "验证规则",
               "default": "() => ({})",
@@ -3435,7 +3803,7 @@
               "name": "labelWidth",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 1666
+                "offset": 1899
               },
               "description": "标签宽度",
               "default": "'auto'",
@@ -3447,7 +3815,7 @@
               "name": "labelPosition",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 1817
+                "offset": 2050
               },
               "description": "标签位置",
               "default": "'right'",
@@ -3459,7 +3827,7 @@
               "name": "labelSuffix",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 1962
+                "offset": 2195
               },
               "description": "标签后缀（如 ':'）",
               "default": "''",
@@ -3471,7 +3839,7 @@
               "name": "size",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2068
+                "offset": 2301
               },
               "description": "控件尺寸",
               "default": "'md'",
@@ -3483,7 +3851,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2198
+                "offset": 2431
               },
               "description": "全局禁用",
               "default": "false",
@@ -3495,7 +3863,7 @@
               "name": "showMessage",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2314
+                "offset": 2547
               },
               "description": "全局：是否显示验证错误信息",
               "default": "true",
@@ -3507,7 +3875,7 @@
               "name": "reserveErrorSpace",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2435
+                "offset": 2668
               },
               "description": "全局：是否预留错误信息占位高度",
               "default": "false",
@@ -3519,7 +3887,7 @@
               "name": "inline",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2554
+                "offset": 2787
               },
               "description": "行内表单模式",
               "default": "false",
@@ -3531,12 +3899,24 @@
               "name": "requireAsteriskPosition",
               "source": {
                 "file": "../components/form/src/form.ts",
-                "offset": 2663
+                "offset": 2896
               },
               "description": "必填星号位置",
               "default": "'left'",
               "type": [
                 "'left' | 'right'"
+              ]
+            },
+            {
+              "name": "labelVerticalAlign",
+              "source": {
+                "file": "../components/form/src/form.ts",
+                "offset": 3100
+              },
+              "description": "标签垂直对齐方式（仅在 labelPosition 为 left / right 时生效）",
+              "default": "'center'",
+              "type": [
+                "'top' | 'center' | 'bottom' | 'auto'"
               ]
             }
           ]
@@ -3552,7 +3932,7 @@
               "name": "label",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 804
+                "offset": 815
               },
               "description": "标签文本",
               "default": "''",
@@ -3564,7 +3944,7 @@
               "name": "prop",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 913
+                "offset": 916
               },
               "description": "对应 Form model 中的字段名\n用于验证和重置",
               "default": "''",
@@ -3576,7 +3956,7 @@
               "name": "required",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1021
+                "offset": 1016
               },
               "description": "是否必填（显示星号标记）",
               "default": "false",
@@ -3588,7 +3968,7 @@
               "name": "rules",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1123
+                "offset": 1111
               },
               "description": "单项验证规则（覆盖 Form 级规则）",
               "type": [
@@ -3599,7 +3979,7 @@
               "name": "labelWidth",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1270
+                "offset": 1251
               },
               "description": "覆盖 Form 的 labelWidth",
               "type": [
@@ -3610,7 +3990,7 @@
               "name": "showMessage",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1429
+                "offset": 1402
               },
               "description": "独立控制是否显示错误信息\n不传时继承 Form 设置",
               "type": [
@@ -3621,7 +4001,7 @@
               "name": "reserveErrorSpace",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1555
+                "offset": 1520
               },
               "description": "独立控制是否预留错误信息占位高度\n不传时继承 Form 设置",
               "type": [
@@ -3632,7 +4012,7 @@
               "name": "error",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1659
+                "offset": 1617
               },
               "description": "手动设置错误信息",
               "default": "''",
@@ -3644,11 +4024,22 @@
               "name": "size",
               "source": {
                 "file": "../components/form-item/src/form-item.ts",
-                "offset": 1749
+                "offset": 1700
               },
               "description": "覆盖 Form 的 size",
               "type": [
                 "string | number"
+              ]
+            },
+            {
+              "name": "labelVerticalAlign",
+              "source": {
+                "file": "../components/form-item/src/form-item.ts",
+                "offset": 1850
+              },
+              "description": "覆盖 Form 的 labelVerticalAlign\n不传时继承 Form 设置",
+              "type": [
+                "'center' | 'top' | 'bottom' | 'auto'"
               ]
             }
           ],
@@ -4770,7 +5161,7 @@
               "name": "mode",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1130
+                "offset": 2483
               },
               "description": "菜单布局方向",
               "default": "'vertical'",
@@ -4782,7 +5173,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1342
+                "offset": 2695
               },
               "description": "菜单形状\n- `clip` - 切角样式（默认，赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -4794,7 +5185,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1556
+                "offset": 2909
               },
               "description": "菜单变体\n- `solid` - 实心填充背景（默认）\n- `outline` - 边框样式\n- `note` - 透明背景 + 发光条高亮",
               "default": "'solid'",
@@ -4806,9 +5197,9 @@
               "name": "defaultActive",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1696
+                "offset": 3191
               },
-              "description": "默认激活的菜单项 index",
+              "description": "默认激活的菜单项 index。\n支持前缀匹配：传入 `/model-specs/xxx` 会自动匹配 `index=\"/model-specs\"` 的菜单项，\n并高亮其所有父级 SubMenu、自动展开对应子菜单目录。\n常见用法：绑定 `route.path` 实现路由同步。",
               "default": "''",
               "type": [
                 "string"
@@ -4818,7 +5209,7 @@
               "name": "defaultOpeneds",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1815
+                "offset": 3310
               },
               "description": "默认展开的子菜单 index 数组",
               "default": "() => []",
@@ -4830,7 +5221,7 @@
               "name": "uniqueOpened",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 1967
+                "offset": 3462
               },
               "description": "是否只保持一个子菜单展开（手风琴模式）",
               "default": "false",
@@ -4842,7 +5233,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2098
+                "offset": 3593
               },
               "description": "是否折叠菜单（仅 vertical 模式有效）",
               "default": "false",
@@ -4854,7 +5245,7 @@
               "name": "type",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2212
+                "offset": 3707
               },
               "description": "颜色预设类型",
               "default": "'default'",
@@ -4866,7 +5257,7 @@
               "name": "color",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2353
+                "offset": 3848
               },
               "description": "自定义高亮颜色（覆盖 type 预设）",
               "default": "''",
@@ -4878,9 +5269,9 @@
               "name": "router",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2468
+                "offset": 4104
               },
-              "description": "是否启用 vue-router 模式",
+              "description": "是否启用 vue-router 模式。\n开启后点击 CpMenuItem 会自动调用 `router.push(index)`，\n并监听路由变化自动同步激活状态。\n不开启时也可通过 `:default-active=\"route.path\"` + `@select` 实现等效效果。",
               "default": "false",
               "type": [
                 "boolean"
@@ -4893,7 +5284,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 2677
+                  "offset": 4313
                 },
                 "description": "菜单项被选中"
               },
@@ -4901,7 +5292,7 @@
                 "name": "open",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 2804
+                  "offset": 4440
                 },
                 "description": "子菜单展开"
               },
@@ -4909,7 +5300,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 2929
+                  "offset": 4565
                 },
                 "description": "子菜单收起"
               }
@@ -7493,7 +7884,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2005
+                "offset": 2762
               },
               "description": "表格数据",
               "default": "() => []",
@@ -7505,7 +7896,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2126
+                "offset": 2883
               },
               "description": "尺寸",
               "default": "'md'",
@@ -7517,7 +7908,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2265
+                "offset": 3022
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -7529,7 +7920,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2398
+                "offset": 3155
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -7541,7 +7932,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2506
+                "offset": 3263
               },
               "description": "是否显示边框",
               "default": "false",
@@ -7553,7 +7944,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2615
+                "offset": 3372
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -7565,7 +7956,7 @@
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2722
+                "offset": 3479
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -7576,7 +7967,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2824
+                "offset": 3581
               },
               "description": "最大高度",
               "type": [
@@ -7587,7 +7978,7 @@
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2952
+                "offset": 3709
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -7599,7 +7990,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3064
+                "offset": 3821
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -7611,7 +8002,7 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3213
+                "offset": 3970
               },
               "description": "默认排序",
               "type": [
@@ -7622,7 +8013,7 @@
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3356
+                "offset": 4113
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -7634,7 +8025,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3458
+                "offset": 4215
               },
               "description": "是否显示表头",
               "default": "true",
@@ -7646,7 +8037,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3600
+                "offset": 4357
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -7658,7 +8049,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3714
+                "offset": 4471
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -7670,7 +8061,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3852
+                "offset": 4609
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
@@ -7682,7 +8073,7 @@
               "name": "treeProps",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4007
+                "offset": 4764
               },
               "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
               "type": [
@@ -7693,7 +8084,7 @@
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4154
+                "offset": 4911
               },
               "description": "是否默认展开所有树形行",
               "default": "false",
@@ -7705,7 +8096,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4271
+                "offset": 5028
               },
               "description": "每级层级缩进像素",
               "default": "16",
@@ -7717,9 +8108,9 @@
               "name": "expandRowKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4385
+                "offset": 5182
               },
-              "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式",
+              "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式，由外部决定哪些行处于展开状态",
               "type": [
                 "(string | number)[]"
               ]
@@ -7728,9 +8119,9 @@
               "name": "rowExpandable",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4594
+                "offset": 5448
               },
-              "description": "控制每行是否可展开\n不传则所有行均可展开",
+              "description": "控制每行是否可展开\n不传则所有行均可展开；返回 false 的行不显示展开按钮",
               "type": [
                 "(row: any) => boolean"
               ]
@@ -7742,7 +8133,7 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 4850
+                  "offset": 5704
                 },
                 "description": "排序变化"
               },
@@ -7750,7 +8141,7 @@
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 4914
+                  "offset": 5768
                 },
                 "description": "行点击"
               },
@@ -7758,7 +8149,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5000
+                  "offset": 5854
                 },
                 "description": "选中行变化"
               },
@@ -7766,7 +8157,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5064
+                  "offset": 5918
                 },
                 "description": "全选"
               },
@@ -7774,7 +8165,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5124
+                  "offset": 5978
                 },
                 "description": "单行选中"
               },
@@ -7782,7 +8173,7 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5191
+                  "offset": 6045
                 },
                 "description": "当前行变化"
               },
@@ -7790,9 +8181,9 @@
                 "name": "expand-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5285
+                  "offset": 6151
                 },
-                "description": "树形行展开/折叠"
+                "description": "树形行展开/折叠 或 行展开列展开/折叠"
               }
             ]
           }
@@ -7808,7 +8199,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 534
+                "offset": 1368
               },
               "description": "列特殊类型",
               "default": "'default'",
@@ -7820,7 +8211,7 @@
               "name": "prop",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 663
+                "offset": 1497
               },
               "description": "数据字段名",
               "default": "''",
@@ -7832,7 +8223,7 @@
               "name": "label",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 759
+                "offset": 1593
               },
               "description": "列标题",
               "default": "''",
@@ -7844,7 +8235,7 @@
               "name": "width",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 847
+                "offset": 1681
               },
               "description": "列宽 (px 或百分比)",
               "type": [
@@ -7855,7 +8246,7 @@
               "name": "minWidth",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 948
+                "offset": 1782
               },
               "description": "最小列宽",
               "type": [
@@ -7866,7 +8257,7 @@
               "name": "sortable",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1074
+                "offset": 1908
               },
               "description": "是否可排序",
               "default": "false",
@@ -7878,7 +8269,7 @@
               "name": "align",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1185
+                "offset": 2019
               },
               "description": "内容对齐方式",
               "default": "'left'",
@@ -7890,7 +8281,7 @@
               "name": "headerAlign",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1325
+                "offset": 2159
               },
               "description": "表头对齐方式 (默认跟随 align)",
               "default": "''",

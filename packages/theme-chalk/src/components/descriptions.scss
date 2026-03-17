@@ -1,0 +1,236 @@
+// CpDescriptions 组件样式
+// 赛博朋克/机甲风格描述列表
+
+@use "sass:map";
+@use "../common/var" as *;
+@use "../mixins/mixins" as *;
+
+// 颜色映射
+$descriptions-types: (
+  default: var(--cp-text-secondary),
+  primary: var(--cp-color-primary),
+  success: var(--cp-color-success),
+  warning: var(--cp-color-warning),
+  error: var(--cp-color-error),
+  info: var(--cp-color-info),
+);
+
+// 尺寸配置
+$descriptions-sizes: (
+  sm: (
+    cell-padding: 6px 10px,
+    font-size: 12px,
+    header-font-size: 13px,
+    header-padding: 10px 0,
+  ),
+  md: (
+    cell-padding: 10px 14px,
+    font-size: 13px,
+    header-font-size: 15px,
+    header-padding: 14px 0,
+  ),
+  lg: (
+    cell-padding: 14px 18px,
+    font-size: 14px,
+    header-font-size: 16px,
+    header-padding: 18px 0,
+  ),
+);
+
+@include b(descriptions) {
+  --cp-descriptions-color: var(--cp-text-secondary);
+  --cp-descriptions-border: var(--cp-border);
+  --cp-descriptions-label-color: var(--cp-text-secondary);
+  --cp-descriptions-content-color: var(--cp-text-primary);
+  --cp-descriptions-label-bg: rgba(255, 255, 255, 0.03);
+  --cp-descriptions-cell-padding: 10px 14px;
+  --cp-descriptions-font-size: 13px;
+  --cp-descriptions-header-font-size: 15px;
+  --cp-descriptions-header-padding: 14px 0;
+
+  width: 100%;
+  font-family: var(--cp-font-family-ui);
+  font-size: var(--cp-descriptions-font-size);
+  color: var(--cp-descriptions-content-color);
+
+  // ===== 尺寸 =====
+  @each $size-name, $size-config in $descriptions-sizes {
+    @include m(#{$size-name}) {
+      --cp-descriptions-cell-padding: #{map.get($size-config, cell-padding)};
+      --cp-descriptions-font-size: #{map.get($size-config, font-size)};
+      --cp-descriptions-header-font-size: #{map.get($size-config, header-font-size)};
+      --cp-descriptions-header-padding: #{map.get($size-config, header-padding)};
+    }
+  }
+
+  // ===== 颜色类型 =====
+  @each $type-name, $type-color in $descriptions-types {
+    @include m(type-#{$type-name}) {
+      --cp-descriptions-color: #{$type-color};
+      --cp-descriptions-label-color: #{$type-color};
+      --cp-descriptions-border: color-mix(in srgb, #{$type-color} 30%, transparent);
+      --cp-descriptions-label-bg: color-mix(in srgb, #{$type-color} 6%, transparent);
+    }
+  }
+
+  // ===== Header =====
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--cp-descriptions-header-padding);
+    margin-bottom: 0;
+  }
+
+  @include e(title) {
+    font-size: var(--cp-descriptions-header-font-size);
+    font-weight: 600;
+    color: var(--cp-text-primary);
+    letter-spacing: 0.04em;
+  }
+
+  @include e(extra) {
+    font-size: var(--cp-descriptions-font-size);
+    color: var(--cp-text-secondary);
+  }
+
+  // ===== Body =====
+  @include e(body) {
+    width: 100%;
+    overflow: auto;
+  }
+
+  // ===== Table =====
+  @include e(table) {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  // ===== Label Cell =====
+  @include e(label) {
+    padding: var(--cp-descriptions-cell-padding);
+    color: var(--cp-descriptions-label-color);
+    font-weight: 500;
+    font-size: 0.9em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: left;
+    user-select: none;
+    transition: color 0.2s ease;
+
+    // 垂直对齐变体
+    &.is-v-top {
+      vertical-align: top;
+    }
+
+    &.is-v-bottom {
+      vertical-align: bottom;
+    }
+
+    &.is-v-auto {
+      vertical-align: middle;
+    }
+
+    &.is-v-top-active {
+      vertical-align: top;
+    }
+  }
+
+  // ===== Content Cell =====
+  @include e(content) {
+    padding: var(--cp-descriptions-cell-padding);
+    color: var(--cp-descriptions-content-color);
+    vertical-align: middle;
+    text-align: left;
+    word-break: break-word;
+
+    // 垂直对齐变体
+    &.is-v-top {
+      vertical-align: top;
+    }
+
+    &.is-v-bottom {
+      vertical-align: bottom;
+    }
+
+    &.is-v-auto {
+      vertical-align: middle;
+    }
+
+    &.is-v-top-active {
+      vertical-align: top;
+    }
+  }
+
+  // ===== solid 变体（默认：边框 + label 背景） =====
+  @include m(solid) {
+    .cp-descriptions__table {
+      border: 1px solid var(--cp-descriptions-border);
+    }
+
+    .cp-descriptions__label,
+    .cp-descriptions__content {
+      border: 1px solid var(--cp-descriptions-border);
+    }
+
+    .cp-descriptions__label {
+      background: var(--cp-descriptions-label-bg);
+      // 赛博朋克扫描线
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.01) 2px,
+        rgba(255, 255, 255, 0.01) 4px
+      ), linear-gradient(180deg, var(--cp-descriptions-label-bg), var(--cp-descriptions-label-bg));
+    }
+  }
+
+  // ===== outline 变体（仅边框，无 label 背景） =====
+  @include m(outline) {
+    .cp-descriptions__table {
+      border: 1px solid var(--cp-descriptions-border);
+    }
+
+    .cp-descriptions__label,
+    .cp-descriptions__content {
+      border: 1px solid var(--cp-descriptions-border);
+    }
+  }
+
+  // ===== ghost 变体（无边框、无背景） =====
+  @include m(ghost) {
+    .cp-descriptions__label {
+      padding-right: 8px;
+    }
+  }
+
+  // ===== Vertical 方向 =====
+  @include m(direction-vertical) {
+    .cp-descriptions__label {
+      white-space: normal;
+      font-weight: 600;
+      padding-bottom: 4px;
+    }
+
+    .cp-descriptions__content {
+      padding-top: 4px;
+    }
+
+    // ghost 时 vertical 样式
+    &.cp-descriptions--ghost {
+      .cp-descriptions__label-row {
+        border-bottom: none;
+      }
+
+      .cp-descriptions__content-row {
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

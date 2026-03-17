@@ -58,6 +58,7 @@ const context: FormContext = {
   rules: toRef(props, 'rules'),
   labelWidth: toRef(props, 'labelWidth'),
   labelPosition: toRef(props, 'labelPosition'),
+  labelVerticalAlign: toRef(props, 'labelVerticalAlign'),
   labelSuffix: toRef(props, 'labelSuffix'),
   size: toRef(props, 'size'),
   disabled: toRef(props, 'disabled'),

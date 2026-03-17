@@ -62,6 +62,14 @@ declare module 'vue' {
      */
     CpContainer: typeof import('cyberpunk-ui-vue')['CpContainer']
     /**
+     * CpDescriptions 描述列表组件
+     */
+    CpDescriptions: typeof import('cyberpunk-ui-vue')['CpDescriptions']
+    /**
+     * CpDescriptionsItem 描述列表条目组件
+     */
+    CpDescriptionsItem: typeof import('cyberpunk-ui-vue')['CpDescriptionsItem']
+    /**
      * CpDialog 赛博朋克风格模态对话框
      * 
      * 用于在保留页面上下文的情况下展示重要交互内容，支持多种变体、形状和主题色。

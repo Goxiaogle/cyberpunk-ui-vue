@@ -32,6 +32,15 @@ export type FormRules = Record<string, FormRule | FormRule[]>
 export type LabelPosition = 'left' | 'right' | 'top'
 
 /**
+ * 标签垂直对齐方式（仅在 labelPosition 为 left / right 时生效）
+ * - `center` - 垂直居中
+ * - `top` - 顶部对齐
+ * - `bottom` - 底部对齐
+ * - `auto` - 内容矮时居中，超过阈值后自动切换为顶部对齐
+ */
+export type LabelVerticalAlign = 'center' | 'top' | 'bottom' | 'auto'
+
+/**
  * 必填星号位置
  */
 export type RequireAsteriskPosition = 'left' | 'right'
@@ -137,6 +146,14 @@ export const formProps = {
   requireAsteriskPosition: {
     type: String as PropType<RequireAsteriskPosition>,
     default: 'left',
+  },
+  /**
+   * 标签垂直对齐方式（仅在 labelPosition 为 left / right 时生效）
+   * @default 'center'
+   */
+  labelVerticalAlign: {
+    type: String as PropType<LabelVerticalAlign>,
+    default: 'center',
   },
 } as const
 

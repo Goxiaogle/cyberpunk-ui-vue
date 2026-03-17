@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
-import type { FormRules, LabelPosition, RequireAsteriskPosition } from './form'
+import type { FormRules, LabelPosition, LabelVerticalAlign, RequireAsteriskPosition } from './form'
 import type { Size } from '@cyberpunk-vue/hooks'
 
 export interface FormItemContext {
@@ -14,6 +14,7 @@ export interface FormContext {
   rules: Ref<FormRules>
   labelWidth: Ref<string | number>
   labelPosition: Ref<LabelPosition>
+  labelVerticalAlign: Ref<LabelVerticalAlign>
   labelSuffix: Ref<string>
   size: Ref<Size>
   disabled: Ref<boolean>

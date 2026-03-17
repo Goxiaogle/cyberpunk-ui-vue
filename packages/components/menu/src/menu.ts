@@ -31,8 +31,11 @@ export type MenuVariant = 'solid' | 'outline' | 'note'
  * CpMenu 组件 Props 定义
  *
  * @description 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
+ * 内置路由前缀匹配：当 `defaultActive` 为 `/model-specs/xxx` 时，
+ * 会自动匹配 `index="/model-specs"` 的菜单项并高亮其父级 SubMenu。
+ * 页面刷新或路由变化时，对应的子菜单会自动展开。
  *
- * @example
+ * @example 基础用法
  * ```vue
  * <CpMenu default-active="1">
  *   <CpMenuItem index="1">菜单项一</CpMenuItem>
@@ -42,9 +45,48 @@ export type MenuVariant = 'solid' | 'outline' | 'note'
  *   </CpSubMenu>
  * </CpMenu>
  * ```
-  * @category 导航组件
+ *
+ * @example 配合 vue-router（推荐：defaultActive + @select）
+ * ```vue
+ * <script setup>
+ * import { computed } from 'vue'
+ * import { useRouter, useRoute } from 'vue-router'
+ *
+ * const router = useRouter()
+ * const route = useRoute()
+ *
+ * // 绑定 route.path 实现路由同步，支持子路由前缀匹配：
+ * // 访问 /model-specs/xxx 会自动匹配 index="/model-specs" 并高亮父级 SubMenu
+ * const activeMenu = computed(() => route.path)
+ *
+ * function handleMenuSelect(index: string) {
+ *   router.push(index)
+ * }
+ * </script>
+ *
+ * <template>
+ *   <CpMenu :default-active="activeMenu" @select="handleMenuSelect">
+ *     <CpMenuItem index="/dashboard">仪表盘</CpMenuItem>
+ *     <CpSubMenu index="ai-group">
+ *       <template #title>AI Provider</template>
+ *       <CpMenuItem index="/providers">Provider 管理</CpMenuItem>
+ *       <CpMenuItem index="/model-specs">模型规格</CpMenuItem>
+ *     </CpSubMenu>
+ *   </CpMenu>
+ * </template>
+ * ```
+ *
+ * @example 内置 router 模式（自动调用 router.push）
+ * ```vue
+ * <!-- router 模式下点击菜单项自动导航，无需手动处理 @select -->
+ * <CpMenu :router="true" :default-active="route.path">
+ *   <CpMenuItem index="/dashboard">仪表盘</CpMenuItem>
+ *   <CpMenuItem index="/settings">设置</CpMenuItem>
+ * </CpMenu>
+ * ```
+ * @category 导航组件
  * @displayName CpMenu 菜单
-  * @slots default - 菜单内容（CpMenuItem / CpSubMenu 等组合）
+ * @slots default - 菜单内容（CpMenuItem / CpSubMenu 等组合）
  */
 export const menuProps = {
   /**
@@ -78,7 +120,10 @@ export const menuProps = {
     default: 'solid',
   },
   /**
-   * 默认激活的菜单项 index
+   * 默认激活的菜单项 index。
+   * 支持前缀匹配：传入 `/model-specs/xxx` 会自动匹配 `index="/model-specs"` 的菜单项，
+   * 并高亮其所有父级 SubMenu、自动展开对应子菜单目录。
+   * 常见用法：绑定 `route.path` 实现路由同步。
    * @default ''
    */
   defaultActive: {
@@ -126,7 +171,10 @@ export const menuProps = {
     default: '',
   },
   /**
-   * 是否启用 vue-router 模式
+   * 是否启用 vue-router 模式。
+   * 开启后点击 CpMenuItem 会自动调用 `router.push(index)`，
+   * 并监听路由变化自动同步激活状态。
+   * 不开启时也可通过 `:default-active="route.path"` + `@select` 实现等效效果。
    * @default false
    */
   router: {

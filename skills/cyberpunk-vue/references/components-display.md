@@ -422,6 +422,8 @@
 | `triggerImageHover` | `boolean` | `false` | Card hover 时是否触发内部 CpImage 的 hover 效果 |
 | `hoverScale` | `boolean` | `false` | Card hover 时放大效果 |
 | `collapse` | `boolean` | `false` | 是否折叠卡片（仅显示头部） |
+| `halfCollapse` | `boolean` | `false` | 半折叠模式 — 仅在 collapse=true 时生效 |
+| `peekHeight` | `number \| string` | `80` | 半折叠时 body 区域的可见高度 |
 | `loading` | `boolean` | `false` | 是否处于加载状态 |
 | `loadingText` | `string` | `'加载中...'` | 加载中显示的文字 |
 | `disabled` | `boolean` | `false` | 是否处于禁用状态 |

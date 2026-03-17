@@ -79,6 +79,7 @@ const rootClasses = computed(() => [
   ns.is('hover-scale', props.hoverScale),
   ns.is('collapse-size-locked', props.collapse || isExpanding.value),
   ns.is('collapsed', props.collapse),
+  ns.is('half-collapsed', props.collapse && props.halfCollapse),
   ns.is('loading', props.loading),
   ns.is('disabled', props.disabled),
 ])
@@ -148,6 +149,12 @@ const cardStyle = computed(() => {
   // 注入动画时长
   const dimmedDur = normalizeDuration(props.dimmedDuration)
   if (dimmedDur) styles['--cp-card-dimmed-duration'] = dimmedDur
+
+  // 半折叠时注入 peek 高度
+  if (props.halfCollapse) {
+    const ph = props.peekHeight
+    styles['--cp-card-peek-height'] = typeof ph === 'number' ? `${ph}px` : ph
+  }
   
   return styles
 })

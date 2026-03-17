@@ -325,6 +325,25 @@ export const cardProps = {
     default: false,
   },
   /**
+   * 半折叠模式 — 仅在 collapse=true 时生效
+   * 开启后 body 区域不会完全收起，而是保留 peekHeight 高度，
+   * 通过 mask-image 渐变使底部内容淡出融入背景
+   * @default false
+   */
+  halfCollapse: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 半折叠时 body 区域的可见高度
+   * 数字默认 px，字符串可指定单位
+   * @default 80
+   */
+  peekHeight: {
+    type: [Number, String] as PropType<number | string>,
+    default: 80,
+  },
+  /**
    * 自定义边框颜色
    */
   borderColor: String,

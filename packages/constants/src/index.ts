@@ -22,6 +22,12 @@ export const TABLE_CONTEXT_KEY: InjectionKey<{
   unregisterColumn: (id: string) => void
 }> = Symbol('cp-table-context')
 
+/** Descriptions 上下文注入 Key — CpDescriptionsItem 注册到父 CpDescriptions */
+export const DESCRIPTIONS_CONTEXT_KEY: InjectionKey<{
+  registerItem: (config: any) => string
+  unregisterItem: (id: string) => void
+}> = Symbol('cp-descriptions-context')
+
 /** 组件前缀 */
 export const COMPONENT_PREFIX = 'Cp'
 

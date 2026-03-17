@@ -531,8 +531,23 @@
     min-height: 0;
     overflow: hidden;
     grid-template-rows: 1fr;
+    // 大值 max-height 用于半折叠 ↔ 展开时的插值过渡
+    max-height: 2000px;
+
+    // 预置 mask 渐变（200% 高），初始 position=top → 实心区域覆盖全部，无视觉效果
+    // 半折叠时 position 滑到 bottom → 底部渐隐生效，实现渐显动画
+    -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+    -webkit-mask-size: 100% 200%;
+    mask-size: 100% 200%;
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+
     transition:
             grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            -webkit-mask-position 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            mask-position 0.3s cubic-bezier(0.4, 0, 0.2, 1),
             opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
             visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     visibility: visible;
@@ -586,6 +601,7 @@
 
     .cp-card__collapse-transition {
       grid-template-rows: 0fr;
+      max-height: 0;
       opacity: 0;
       pointer-events: none;
       visibility: hidden;
@@ -596,6 +612,32 @@
     .cp-card__overlay {
       opacity: 0;
       pointer-events: none;
+    }
+  }
+
+  // ===== 半折叠模式 (Half-Collapsed) — collapse + halfCollapse =====
+  // 覆写 collapsed 的 grid-template-rows: 0fr，保留部分 body 并用 mask-image 渐隐
+  @include when(half-collapsed) {
+    .cp-card__collapse-transition {
+      grid-template-rows: 1fr;
+      max-height: var(--cp-card-peek-height, 80px);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+
+      // mask-position 滑到底部 → 渐变区域覆盖底部 → 内容底部渐隐
+      -webkit-mask-position: 0 100%;
+      mask-position: 0 100%;
+    }
+
+    // 半折叠时隐藏 footer（在 collapse-transition 内部，pointer-events: none 导致不可交互）
+    .cp-card__footer {
+      display: none;
+    }
+
+    // 半折叠时保留 header 分隔线
+    .cp-card__header {
+      border-bottom-color: var(--cp-card-header-divider-color, var(--cp-card-divider-color, var(--cp-border)));
     }
   }
 

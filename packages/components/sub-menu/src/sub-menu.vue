@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, provide, ref } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { subMenuProps } from './sub-menu'
@@ -25,7 +25,19 @@ const indexPath = computed(() => {
   return [...parentPath, resolvedIndex]
 })
 
-const isOpen = computed(() => menuCtx?.openedMenus.value.has(resolvedIndex) ?? false)
+// 注册到 Menu 上下文（供路由反查）
+onMounted(() => {
+  menuCtx?.addSubMenu(resolvedIndex, indexPath.value)
+})
+onBeforeUnmount(() => {
+  menuCtx?.removeSubMenu(resolvedIndex)
+})
+
+const isOpen = computed(() => {
+  // 折叠切换期间强制关闭所有弹出
+  if (menuCtx?.suppressTransition?.value) return false
+  return menuCtx?.openedMenus.value.has(resolvedIndex) ?? false
+})
 
 // 子元素被选中时，父级 SubMenu 高亮
 const isActive = computed(() => {
@@ -74,6 +86,8 @@ const handleClick = () => {
 // ===== Hover 模式处理 =====
 const handleMouseenter = () => {
   if (props.disabled || !isHoverMode.value) return
+  // 折叠动画期间不触发 hover 打开
+  if (menuCtx?.suppressTransition?.value) return
   clearTimers()
   openTimer = setTimeout(() => {
     menuCtx?.openMenu(resolvedIndex, indexPath.value)
@@ -125,6 +139,84 @@ const subCtx: SubMenuContext = {
   handleMouseleave,
 }
 provide(subMenuContextKey, subCtx)
+
+// ===== JS 高度过渡动画 (针对垂直内联展开模式) =====
+const onBeforeEnter = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  element.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+  if (!element.dataset) (element as any).dataset = {}
+  element.dataset.oldPaddingTop = element.style.paddingTop
+  element.dataset.oldPaddingBottom = element.style.paddingBottom
+  element.style.height = '0'
+  element.style.paddingTop = '0'
+  element.style.paddingBottom = '0'
+}
+
+const onEnter = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  element.dataset.oldOverflow = element.style.overflow
+  
+  // Force a layout/reflow here to ensure the browser registers the height: 0 set in onBeforeEnter
+  void element.offsetHeight
+
+  if (element.scrollHeight !== 0) {
+    element.style.height = `${element.scrollHeight}px`
+    element.style.paddingTop = element.dataset.oldPaddingTop || ''
+    element.style.paddingBottom = element.dataset.oldPaddingBottom || ''
+  } else {
+    element.style.height = ''
+    element.style.paddingTop = element.dataset.oldPaddingTop || ''
+    element.style.paddingBottom = element.dataset.oldPaddingBottom || ''
+  }
+  element.style.overflow = 'hidden'
+}
+
+const onAfterEnter = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  element.style.transition = ''
+  element.style.height = ''
+  element.style.overflow = element.dataset.oldOverflow || ''
+}
+
+const onBeforeLeave = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  if (!element.dataset) (element as any).dataset = {}
+  element.dataset.oldPaddingTop = element.style.paddingTop
+  element.dataset.oldPaddingBottom = element.style.paddingBottom
+  element.dataset.oldOverflow = element.style.overflow
+
+  element.style.height = `${element.scrollHeight}px`
+  element.style.overflow = 'hidden'
+}
+
+const onLeave = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  if (element.scrollHeight !== 0) {
+    element.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+    
+    // Force a layout/reflow after transition is applied
+    void element.offsetHeight
+
+    element.style.height = '0'
+    element.style.paddingTop = '0'
+    element.style.paddingBottom = '0'
+  }
+}
+
+const onAfterLeave = (el: Element) => {
+  if (isHoverMode.value) return
+  const element = el as HTMLElement
+  element.style.transition = ''
+  element.style.height = ''
+  element.style.overflow = element.dataset.oldOverflow || ''
+  element.style.paddingTop = element.dataset.oldPaddingTop || ''
+  element.style.paddingBottom = element.dataset.oldPaddingBottom || ''
+}
 </script>
 
 <template>
@@ -159,10 +251,19 @@ provide(subMenuContextKey, subCtx)
         </svg>
       </span>
     </div>
-    <transition name="cp-sub-menu">
+    <transition
+      :name="menuCtx?.suppressTransition?.value ? '' : (isHoverMode ? 'cp-sub-menu' : 'cp-collapse-transition')"
+      @before-enter="onBeforeEnter"
+      @enter="onEnter"
+      @after-enter="onAfterEnter"
+      @before-leave="onBeforeLeave"
+      @leave="onLeave"
+      @after-leave="onAfterLeave"
+    >
       <div
         v-show="isOpen"
         :class="ns.e('popup')"
+        :style="menuCtx?.suppressTransition?.value ? { display: 'none !important' } : {}"
         @mouseenter="handleContentMouseenter"
         @mouseleave="handleContentMouseleave"
       >

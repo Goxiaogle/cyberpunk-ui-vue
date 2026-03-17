@@ -3,12 +3,12 @@
  * CpFormItem - 表单项
  * 包含 label + content + error message，支持验证
  */
-import { computed, inject, onMounted, onBeforeUnmount, ref, watch, reactive } from 'vue'
+import { computed, inject, onMounted, onBeforeUnmount, ref, watch, reactive, nextTick } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formItemProps } from './form-item'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
-import type { FormRule } from '@cyberpunk-vue/components/form/src/form'
+import type { FormRule, LabelVerticalAlign } from '@cyberpunk-vue/components/form/src/form'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}FormItem`,
@@ -36,12 +36,15 @@ onMounted(() => {
     // 注册到 Form
     formContext.addField(fieldContext)
   }
+  // auto 模式 ResizeObserver
+  nextTick(() => setupResizeObserver())
 })
 
 onBeforeUnmount(() => {
   if (formContext) {
     formContext.removeField(fieldContext)
   }
+  cleanupResizeObserver()
 })
 
 // 深拷贝基础类型/数组
@@ -99,6 +102,52 @@ const labelWidthValue = computed(() => {
   const w = props.labelWidth ?? formContext?.labelWidth.value ?? 'auto'
   if (w === 'auto') return undefined
   return typeof w === 'number' ? `${w}px` : w
+})
+
+/** label 垂直对齐（自身优先，否则继承 Form） */
+const labelVerticalAlign = computed<LabelVerticalAlign>(() => {
+  return props.labelVerticalAlign ?? formContext?.labelVerticalAlign.value ?? 'center'
+})
+
+// ===== auto 模式：ResizeObserver 动态检测内容高度 =====
+const contentRef = ref<HTMLElement | null>(null)
+const isAutoTopActive = ref(false)
+let resizeObserver: ResizeObserver | null = null
+
+const AUTO_THRESHOLD_DEFAULT = 80
+
+function getAutoThreshold(): number {
+  if (!contentRef.value) return AUTO_THRESHOLD_DEFAULT
+  const val = getComputedStyle(contentRef.value).getPropertyValue('--cp-form-label-auto-threshold').trim()
+  return val ? parseFloat(val) || AUTO_THRESHOLD_DEFAULT : AUTO_THRESHOLD_DEFAULT
+}
+
+function checkAutoHeight() {
+  if (labelVerticalAlign.value !== 'auto' || !contentRef.value) {
+    isAutoTopActive.value = false
+    return
+  }
+  const threshold = getAutoThreshold()
+  isAutoTopActive.value = contentRef.value.scrollHeight > threshold
+}
+
+function setupResizeObserver() {
+  cleanupResizeObserver()
+  if (labelVerticalAlign.value !== 'auto' || !contentRef.value) return
+  resizeObserver = new ResizeObserver(() => checkAutoHeight())
+  resizeObserver.observe(contentRef.value)
+  checkAutoHeight()
+}
+
+function cleanupResizeObserver() {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
+}
+
+watch(labelVerticalAlign, () => {
+  nextTick(() => setupResizeObserver())
 })
 
 /** 当前显示的错误信息 */
@@ -225,6 +274,8 @@ const classes = computed(() => [
   hasError.value ? 'is-error' : '',
   validateState.value === 'validating' ? 'is-validating' : '',
   shouldReserveSpace.value ? 'is-reserve-space' : '',
+  labelVerticalAlign.value !== 'center' ? ns.m(`label-v-${labelVerticalAlign.value}`) : '',
+  isAutoTopActive.value ? 'is-label-v-top-active' : '',
 ])
 
 const labelClasses = computed(() => [
@@ -272,7 +323,7 @@ defineExpose({
     </label>
 
     <!-- Content -->
-    <div :class="ns.e('content')">
+    <div ref="contentRef" :class="ns.e('content')">
       <slot />
 
       <!-- Error Message — always rendered, CSS controls visibility -->

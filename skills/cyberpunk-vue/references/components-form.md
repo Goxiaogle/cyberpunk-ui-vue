@@ -19,6 +19,7 @@
 | `reserveErrorSpace` | `boolean` | `false` | 全局：是否预留错误信息占位高度 |
 | `inline` | `boolean` | `false` | 行内表单模式 |
 | `requireAsteriskPosition` | `'left' \| 'right'` | `'left'` | 必填星号位置 |
+| `labelVerticalAlign` | `'center' \| 'top' \| 'bottom' \| 'auto'` | `'center'` | 标签垂直对齐方式（仅在 labelPosition 为 left / right 时生效） |
 | `label` | `string` | `''` | 标签文本 |
 | `prop` | `string` | `''` | 对应 Form model 中的字段名 |
 | `required` | `boolean` | `false` | 是否必填（显示星号标记） |
@@ -28,6 +29,7 @@
 | `reserveErrorSpace` | `boolean` | — | 独立控制是否预留错误信息占位高度 |
 | `error` | `string` | `''` | 手动设置错误信息 |
 | `size` | `Size` | — | 覆盖 Form 的 size |
+| `labelVerticalAlign` | `LabelVerticalAlign` | — | 覆盖 Form 的 labelVerticalAlign |
 
 ### CSS 变量
 

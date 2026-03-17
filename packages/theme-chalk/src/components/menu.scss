@@ -150,21 +150,27 @@ $menu-type-colors: (
   @include when(collapse) {
     width: 56px;
 
-    // 仅顶层菜单项/标题 — 居中、无 padding
+    // 仅顶层菜单项/标题 — 通过 padding 过渡实现图标居中
+    // (56px - 20px icon) / 2 = 18px
     > .cp-menu-item,
     > .cp-sub-menu > .cp-sub-menu__title {
-      padding: 0 !important;
-      justify-content: center;
+      padding: 0 18px !important;
     }
 
-    // 隐藏顶层文字
+    // 隐藏顶层文字（使用 opacity + width 以支持过渡动画）
     > .cp-menu-item > .cp-menu-item__content,
     > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__title-content {
-      display: none;
+      opacity: 0;
+      flex: 0;
+      width: 0;
+      overflow: hidden;
     }
 
     > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__arrow {
-      display: none;
+      opacity: 0;
+      flex: 0;
+      width: 0;
+      overflow: hidden;
     }
 
     // 顶层图标居中且大一点
@@ -263,13 +269,7 @@ $menu-type-colors: (
       );
     }
 
-    .cp-sub-menu__popup {
-      clip-path: polygon(
-        8px 0, 100% 0,
-        100% calc(100% - 8px), calc(100% - 8px) 100%,
-        0 100%, 0 8px
-      );
-    }
+    // popup 不加 clip-path，防止嵌套飞出被裁切
   }
 
   @include m(shape-no-clip) {
@@ -395,8 +395,6 @@ $menu-type-colors: (
       border-left: none;
     }
 
-
-
     // 水平模式
     &.cp-menu--horizontal {
       border: none;
@@ -437,6 +435,7 @@ $menu-type-colors: (
     background-color 0.2s ease,
     border-color 0.2s ease,
     filter 0.2s ease,
+    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     font-weight var(--cp-menu-font-weight-transition),
     font-variation-settings var(--cp-menu-font-weight-transition);
   position: relative;
@@ -469,7 +468,8 @@ $menu-type-colors: (
     }
 
     &:hover {
-      filter: brightness(1.15);
+      filter: brightness(1.2);
+      text-shadow: 0 0 8px var(--cp-menu-active-color-light);
     }
 
     // 左侧发光条
@@ -517,6 +517,9 @@ $menu-type-colors: (
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition:
+      opacity 0.25s ease,
+      flex 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -541,13 +544,14 @@ $menu-type-colors: (
       background-color 0.2s ease,
       border-color 0.2s ease,
       filter 0.2s ease,
+      padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       font-weight var(--cp-menu-font-weight-transition),
       font-variation-settings var(--cp-menu-font-weight-transition);
     position: relative;
     border-left: 2px solid transparent;
     color: var(--cp-menu-text);
 
-    &:hover:not(.is-disabled \u003e &) {
+    &:hover:not(.is-disabled > &) {
       background: var(--cp-menu-hover-bg);
       color: var(--cp-menu-hover-text);
       border-left-color: var(--cp-menu-active-color);
@@ -566,6 +570,12 @@ $menu-type-colors: (
     > .cp-sub-menu__title {
       color: var(--cp-menu-active-text);
       --cp-menu-item-font-weight: var(--cp-menu-active-font-weight);
+
+      &:hover {
+        color: var(--cp-menu-active-text);
+        filter: brightness(1.2);
+        text-shadow: 0 0 8px var(--cp-menu-active-color-light);
+      }
     }
   }
 
@@ -602,6 +612,9 @@ $menu-type-colors: (
     text-overflow: ellipsis;
     white-space: nowrap;
     letter-spacing: 0.02em;
+    transition:
+      opacity 0.25s ease,
+      flex 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   // ===== 箭头 =====
@@ -616,6 +629,8 @@ $menu-type-colors: (
     opacity: 0.6;
     transition:
       transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.25s ease,
+      flex 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       color 0.2s ease;
 
     &.is-open {

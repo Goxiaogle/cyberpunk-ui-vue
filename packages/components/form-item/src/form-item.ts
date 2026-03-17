@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { FormRule } from '@cyberpunk-vue/components/form/src/form'
+import type { FormRule, LabelVerticalAlign } from '@cyberpunk-vue/components/form/src/form'
 
 /**
  * CpFormItem Props
@@ -86,6 +86,14 @@ export const formItemProps = {
    */
   size: {
     type: [String, Number] as PropType<Size>,
+    default: undefined,
+  },
+  /**
+   * 覆盖 Form 的 labelVerticalAlign
+   * 不传时继承 Form 设置
+   */
+  labelVerticalAlign: {
+    type: String as PropType<LabelVerticalAlign>,
     default: undefined,
   },
 } as const

@@ -35,6 +35,16 @@ export interface MenuContext {
   openMenu: (index: string, indexPath: string[]) => void
   /** 关闭子菜单（hover 模式） */
   closeMenu: (index: string, indexPath: string[]) => void
+  /** 注册菜单项（供路由反查） */
+  addItem: (index: string, indexPath: string[]) => void
+  /** 注销菜单项 */
+  removeItem: (index: string) => void
+  /** 注册子菜单（供路由反查） */
+  addSubMenu: (index: string, indexPath: string[]) => void
+  /** 注销子菜单 */
+  removeSubMenu: (index: string) => void
+  /** 折叠切换时禁用子菜单动画 */
+  suppressTransition: Ref<boolean>
 }
 
 /** SubMenu → 子项的上下文（索引路径 + hover 管理） */
