@@ -322,6 +322,60 @@ async function handleFiles(files: FileList | File[]) {
     }
 }
 
+// ===== 拖拽目录递归读取 =====
+
+/** 从单个 FileSystemEntry 递归读取所有 File */
+function readEntryFiles(entry: FileSystemEntry): Promise<File[]> {
+    return new Promise((resolve) => {
+        if (entry.isFile) {
+            ;(entry as FileSystemFileEntry).file(
+                (f) => resolve([f]),
+                () => resolve([]),
+            )
+        } else if (entry.isDirectory) {
+            const reader = (entry as FileSystemDirectoryEntry).createReader()
+            const collected: File[] = []
+            const readBatch = () => {
+                reader.readEntries(
+                    async (entries) => {
+                        if (entries.length === 0) {
+                            resolve(collected)
+                            return
+                        }
+                        const nested = await Promise.all(entries.map(readEntryFiles))
+                        collected.push(...nested.flat())
+                        readBatch() // readEntries 每次最多返回 100 条，需循环读完
+                    },
+                    () => resolve(collected),
+                )
+            }
+            readBatch()
+        } else {
+            resolve([])
+        }
+    })
+}
+
+/** 从一组 FileSystemEntry 中收集所有文件（递归展开目录） */
+async function collectFilesFromEntries(entries: FileSystemEntry[]): Promise<File[]> {
+    const nested = await Promise.all(entries.map(readEntryFiles))
+    const allFiles = nested.flat()
+    // 如果设置了 accept，按 accept 过滤
+    if (props.accept) {
+        const acceptTypes = props.accept.split(',').map((s) => s.trim().toLowerCase())
+        return allFiles.filter((f) => {
+            const mimeType = f.type.toLowerCase()
+            const ext = '.' + f.name.split('.').pop()?.toLowerCase()
+            return acceptTypes.some((a) => {
+                if (a.startsWith('.')) return ext === a
+                if (a.endsWith('/*')) return mimeType.startsWith(a.replace('/*', '/'))
+                return mimeType === a
+            })
+        })
+    }
+    return allFiles
+}
+
 // ===== 事件处理 =====
 
 function handleClick() {
@@ -360,11 +414,34 @@ function handleDragLeave(e: DragEvent) {
     }
 }
 
-function handleDrop(e: DragEvent) {
+async function handleDrop(e: DragEvent) {
     e.preventDefault()
     isDragover.value = false
     dragCounter.value = 0
     if (isDisabled.value) return
+
+    // 尝试通过 webkitGetAsEntry 递归读取目录中的文件
+    const items = e.dataTransfer?.items
+    if (items) {
+        const entries: FileSystemEntry[] = []
+        let hasDirectory = false
+        for (let i = 0; i < items.length; i++) {
+            const entry = items[i].webkitGetAsEntry?.()
+            if (entry) {
+                entries.push(entry)
+                if (entry.isDirectory) hasDirectory = true
+            }
+        }
+        if (hasDirectory) {
+            const files = await collectFilesFromEntries(entries)
+            if (files.length > 0) {
+                handleFiles(files)
+            }
+            return
+        }
+    }
+
+    // 无目录或不支持 webkitGetAsEntry，回退到 files
     if (e.dataTransfer?.files) {
         handleFiles(e.dataTransfer.files)
     }
