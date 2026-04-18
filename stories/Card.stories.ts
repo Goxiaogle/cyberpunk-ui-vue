@@ -234,6 +234,27 @@ const meta: Meta<typeof CpCard> = {
                 defaultValue: {summary: '80'},
             },
         },
+        showCollapseAction: {
+            control: 'boolean',
+            description: '显示内置折叠控制器（"查看更多"/"收起"）。仅在 halfCollapse=true 时生效',
+            table: {
+                defaultValue: {summary: 'false'},
+            },
+        },
+        collapseActionExpandText: {
+            control: 'text',
+            description: '内置控制器展开文案',
+            table: {
+                defaultValue: {summary: '查看更多'},
+            },
+        },
+        collapseActionCollapseText: {
+            control: 'text',
+            description: '内置控制器收起文案',
+            table: {
+                defaultValue: {summary: '收起'},
+            },
+        },
         shadowColor: {
             control: 'color',
             description: '自定义阴影颜色 (默认与主题色一致)',
@@ -875,6 +896,77 @@ export const 半折叠预览: Story = {
                 </template>
                 <p>半透明背景下的半折叠效果。peekHeight = 60px。</p>
                 <p>毛玻璃效果与 mask-image 渐变完美配合。内容淡出到透明后自然融入任何底层背景。</p>
+              </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 内置折叠控制器 */
+export const 内置折叠控制器: Story = {
+    render: () => ({
+        components: {CpCard, CpButton},
+        setup() {
+            const log1 = ref('')
+            const log2 = ref('')
+            const onCollapseChange1 = (p: { needed: boolean }) => {
+                log1.value = `needed: ${p.needed}`
+            }
+            const onCollapseChange2 = (p: { needed: boolean }) => {
+                log2.value = `needed: ${p.needed}`
+            }
+            return { log1, log2, onCollapseChange1, onCollapseChange2 }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">内置折叠控制器 — showCollapseAction 自治模式</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              无需外部传 collapse prop，组件内部自行管理折叠状态。内容不足 peekHeight 时控制器自动隐藏。
+            </p>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+              <div style="display: flex; flex-direction: column; gap: 8px; width: 320px;">
+                <CpCard
+                  title="长内容 — 自治模式"
+                  half-collapse
+                  show-collapse-action
+                  @collapse-change="onCollapseChange1"
+                >
+                  <p>《重生七零咸鱼翻身》--- 第0集 --- 【内容简介】二十一世纪孤女——顾之夏，意外激活祖传手链空间，囤货期间意外穿越至1971年东北山村，恰好砸进执行任务的军官陆景逸怀中。携空间、医术与内功的她，为自保装失忆暂居陆家。</p>
+                  <p>凭借空间物资和现代知识，她渐渐融入乡村生活，与陆景逸从误解到并肩，共同面对时代的风浪。</p>
+                </CpCard>
+                <code style="font-size: 11px; color: var(--cp-text-tertiary);">collapse-change: {{ log1 || '等待...' }}</code>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 8px; width: 320px;">
+                <CpCard
+                  title="短内容 — 控制器自动隐藏"
+                  half-collapse
+                  show-collapse-action
+                  type="primary"
+                  @collapse-change="onCollapseChange2"
+                >
+                  <p>这段文字很短，不足 peekHeight。</p>
+                </CpCard>
+                <code style="font-size: 11px; color: var(--cp-text-tertiary);">collapse-change: {{ log2 || '等待...' }}</code>
+              </div>
+
+              <CpCard
+                title="自定义 Slot"
+                half-collapse
+                show-collapse-action
+                type="success"
+                style="width: 320px;"
+              >
+                <template #collapse-action="{ collapsed, toggle }">
+                  <CpButton size="sm" variant="ghost" type="success" @click="toggle" style="width: 100%;">
+                    {{ collapsed ? '🔽 展开查看全部' : '🔼 折叠起来' }}
+                  </CpButton>
+                </template>
+                <p>通过 #collapse-action 作用域 slot 自定义控制器。</p>
+                <p>slot 传递 collapsed、needed、toggle，使用者可完全掌控渲染内容和交互逻辑。</p>
+                <p>这是第三段文字，确保内容超过 peekHeight 以触发控制器显示。</p>
               </CpCard>
             </div>
           </div>

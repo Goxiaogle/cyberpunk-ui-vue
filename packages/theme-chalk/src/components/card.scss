@@ -375,7 +375,7 @@
     flex: 1;
     // 🚀 同步解除 body 层的最小高度限制，配合内部可能出现的滚动条
     min-height: 0;
-    padding: var(--cp-spacing-lg);
+    padding: var(--cp-spacing-md);
     color: var(--cp-text-secondary);
   }
 
@@ -531,8 +531,9 @@
     min-height: 0;
     overflow: hidden;
     grid-template-rows: 1fr;
-    // 大值 max-height 用于半折叠 ↔ 展开时的插值过渡
-    max-height: 2000px;
+    // 动态 max-height：由 JS ResizeObserver 测量实际内容高度并设为 CSS 变量，
+    // 避免从 2000px 过渡导致的"两段式动画"视觉停顿
+    max-height: var(--cp-card-expanded-height, none);
 
     // 预置 mask 渐变（200% 高），初始 position=top → 实心区域覆盖全部，无视觉效果
     // 半折叠时 position 滑到 bottom → 底部渐隐生效，实现渐显动画
@@ -601,7 +602,7 @@
 
     .cp-card__collapse-transition {
       grid-template-rows: 0fr;
-      max-height: 0;
+      // 移除 max-height: 0; 避免 max-height 动画从 none 到 0 直接报错导致无动画（全折叠卡顿原因）
       opacity: 0;
       pointer-events: none;
       visibility: hidden;
@@ -618,6 +619,14 @@
   // ===== 半折叠模式 (Half-Collapsed) — collapse + halfCollapse =====
   // 覆写 collapsed 的 grid-template-rows: 0fr，保留部分 body 并用 mask-image 渐隐
   @include when(half-collapsed) {
+    // 仅覆写 is-collapsed 的 flex-shrink 为 0，半折叠时禁止收缩，
+    // 防止兄弟 Card 展开时将半折叠卡片压扁，同时保留原有的 overflow: hidden 以维持动画
+    flex-shrink: 0 !important;
+
+    .cp-card__container {
+      flex-shrink: 0 !important;
+    }
+
     .cp-card__collapse-transition {
       grid-template-rows: 1fr;
       max-height: var(--cp-card-peek-height, 80px);
@@ -631,13 +640,63 @@
     }
 
     // 半折叠时隐藏 footer（在 collapse-transition 内部，pointer-events: none 导致不可交互）
+    // 使用 opacity 和 visibility 代替 display: none，避免 DOM render 树的突变中断外层容器的展开收起动画
     .cp-card__footer {
-      display: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     // 半折叠时保留 header 分隔线
     .cp-card__header {
       border-bottom-color: var(--cp-card-header-divider-color, var(--cp-card-divider-color, var(--cp-border)));
+    }
+
+    // 内置控制器悬浮于文字上方
+    .cp-card__collapse-action {
+      position: absolute;
+      bottom: var(--cp-spacing-xs);
+      left: 0;
+      width: 100%;
+      z-index: 10;
+    }
+  }
+
+  // ===== 内置折叠控制器 (Collapse Action) =====
+  @include e(collapse-action) {
+    // 移除 border-top，依靠布局和渐变与内容融合
+  }
+
+  @include e(collapse-action-default) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cp-spacing-xs);
+    padding: var(--cp-spacing-sm) var(--cp-spacing-md);
+    cursor: pointer;
+    user-select: none;
+    color: var(--cp-text-tertiary);
+    font-size: var(--cp-font-size-sm);
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      color: var(--cp-card-color, var(--cp-text-primary));
+      background: color-mix(in srgb, var(--cp-card-color, var(--cp-text-primary)) 8%, transparent);
+    }
+  }
+
+  @include e(collapse-action-text) {
+    line-height: 1;
+  }
+
+  @include e(collapse-action-icon) {
+    font-size: 10px;
+    line-height: 1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.is-expanded {
+      transform: rotate(180deg);
     }
   }
 

@@ -3,9 +3,9 @@
  * CpCard - 赛博朋克风格卡片容器
  * 支持多种变体、形状模式和灵活的插槽布局
  */
-import { computed, onBeforeUnmount, ref, useSlots, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
-import { cardProps } from './card'
+import { cardProps, cardEmits } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 
@@ -14,11 +14,13 @@ defineOptions({
 })
 
 const props = defineProps(cardProps)
+const emit = defineEmits(cardEmits)
 const slots = useSlots()
 
 const ns = useNamespace('card')
 const collapseTransitionDurationMs = 320
 
+// ========== 折叠展开动画锁定 ==========
 const isExpanding = ref(false)
 let expandUnlockTimer: ReturnType<typeof setTimeout> | null = null
 
@@ -37,8 +39,29 @@ const scheduleExpandUnlock = () => {
   }, collapseTransitionDurationMs)
 }
 
+// ========== 折叠状态（受控 / 自治） ==========
+const internalCollapsed = ref(true)
+const collapseNeeded = ref(true)
+
+// 判断外部是否传入了 collapse prop
+const isControlled = computed(() => props.collapse !== undefined)
+
+// 合并折叠状态
+const isCollapsed = computed(() => {
+  if (isControlled.value) return props.collapse!
+  // 自治模式：showCollapseAction + halfCollapse 开启时使用内部状态
+  if (props.showCollapseAction && props.halfCollapse) return internalCollapsed.value && collapseNeeded.value
+  return false
+})
+
+// 切换内部折叠状态
+const toggleCollapse = () => {
+  if (isControlled.value) return
+  internalCollapsed.value = !internalCollapsed.value
+}
+
 watch(
-  () => props.collapse,
+  isCollapsed,
   (collapsed, prevCollapsed) => {
     if (collapsed) {
       isExpanding.value = false
@@ -54,7 +77,7 @@ watch(
 )
 
 const onCollapseTransitionEnd = (event: TransitionEvent) => {
-  if (props.collapse || !isExpanding.value) return
+  if (isCollapsed.value || !isExpanding.value) return
   if (event.target !== event.currentTarget) return
   if (event.propertyName !== 'grid-template-rows') return
 
@@ -62,24 +85,105 @@ const onCollapseTransitionEnd = (event: TransitionEvent) => {
   clearExpandUnlockTimer()
 }
 
-onBeforeUnmount(() => {
-  clearExpandUnlockTimer()
+// ========== ResizeObserver：检测内容高度 vs peekHeight ==========
+const collapseInnerRef = ref<HTMLElement>()
+// collapseNeeded 已提前声明（isCollapsed 依赖它）
+const expandedHeight = ref<number | null>(null)
+let resizeObserver: ResizeObserver | null = null
+
+function parsePeekHeightPx(): number {
+  const v = props.peekHeight
+  return typeof v === 'number' ? v : (parseFloat(v) || 80)
+}
+
+function checkCollapseNeeded() {
+  if (!props.halfCollapse || !collapseInnerRef.value) return
+  const contentH = collapseInnerRef.value.scrollHeight
+  const needed = contentH > parsePeekHeightPx()
+  if (collapseNeeded.value !== needed) {
+    collapseNeeded.value = needed
+    emit('collapse-change', { needed })
+  }
+}
+
+function updateExpandedHeight() {
+  if (collapseInnerRef.value) {
+    expandedHeight.value = collapseInnerRef.value.scrollHeight
+  }
+}
+
+function setupResizeObserver() {
+  cleanupResizeObserver()
+  if (!props.halfCollapse || !collapseInnerRef.value) return
+  resizeObserver = new ResizeObserver(() => {
+    checkCollapseNeeded()
+    updateExpandedHeight()
+  })
+  resizeObserver.observe(collapseInnerRef.value)
+}
+
+function cleanupResizeObserver() {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
+}
+
+watch(
+  () => props.halfCollapse,
+  (val) => {
+    if (val) {
+      nextTick(() => {
+        setupResizeObserver()
+        checkCollapseNeeded()
+      })
+    } else {
+      cleanupResizeObserver()
+      // 重置为 true（默认需要折叠）以备下次开启
+      collapseNeeded.value = true
+    }
+  },
+)
+
+watch(
+  () => props.peekHeight,
+  () => checkCollapseNeeded(),
+)
+
+onMounted(() => {
+  if (props.halfCollapse) {
+    nextTick(() => {
+      setupResizeObserver()
+      checkCollapseNeeded()
+      updateExpandedHeight()
+    })
+  }
 })
 
+onBeforeUnmount(() => {
+  clearExpandUnlockTimer()
+  cleanupResizeObserver()
+})
+
+// ========== 内置折叠控制器 ==========
+const showController = computed(() =>
+  props.showCollapseAction && props.halfCollapse && collapseNeeded.value
+)
+
+// ========== 样式/类名计算 ==========
 const rootClasses = computed(() => [
   ns.b(),
   ns.m(props.variant),
   ns.m(`shape-${props.shape}`),
   ns.m(`shadow-${props.shadow}`),
   ns.m(props.type),
-  // 当存在 overlay 插槽时添加 has-overlay 状态类
   ns.is('has-overlay', !!slots.overlay),
   ns.is('dimmed', props.dimmed),
   ns.is('trigger-image-hover', props.triggerImageHover),
   ns.is('hover-scale', props.hoverScale),
-  ns.is('collapse-size-locked', props.collapse || isExpanding.value),
-  ns.is('collapsed', props.collapse),
-  ns.is('half-collapsed', props.collapse && props.halfCollapse),
+  ns.is('collapse-size-locked', isCollapsed.value || isExpanding.value),
+  ns.is('collapsed', isCollapsed.value),
+  ns.is('half-collapsed', isCollapsed.value && props.halfCollapse),
   ns.is('loading', props.loading),
   ns.is('disabled', props.disabled),
 ])
@@ -90,40 +194,30 @@ const cardClasses = computed(() => [
 ])
 
 // ========== 统一颜色计算 ==========
-// 优先级：color > type > default
-
-// 计算最终主题色
 const realColor = computed(() => {
   if (props.color) return props.color
   if (props.type && props.type !== 'default') return `var(--cp-color-${props.type})`
   return null
 })
 
-// 计算最终浅色
 const realColorLight = computed(() => {
   if (props.color) return `color-mix(in srgb, ${props.color} 30%, transparent)`
   if (props.type && props.type !== 'default') return `var(--cp-color-${props.type}-light)`
   return null
 })
 
-// 卡片根样式 (注入颜色变量)
 const cardStyle = computed(() => {
   const styles: Record<string, string> = {}
   
-  // 统一颜色
   if (realColor.value) {
     styles['--cp-card-color'] = realColor.value
   }
   if (realColorLight.value) {
     styles['--cp-card-color-light'] = realColorLight.value
   }
-  
-  // 背景色
   if (props.bgColor) {
     styles['--cp-card-bg'] = props.bgColor
   }
-
-  // 边框与分隔线颜色
   if (props.borderColor) {
     styles['--cp-card-border-color'] = props.borderColor
   }
@@ -136,30 +230,26 @@ const cardStyle = computed(() => {
   if (props.footerDividerColor) {
     styles['--cp-card-footer-divider-color'] = props.footerDividerColor
   }
-
-  // 阴影颜色
-  // 优先级：shadowColor > realColor > default(rgba(0,0,0,0.4))
   if (props.shadowColor) {
     styles['--cp-card-shadow-color'] = props.shadowColor
   } else if (realColor.value) {
-    // 如果有主题色，阴影颜色基于主题色，但带有透明度以保证视觉效果
     styles['--cp-card-shadow-color'] = `color-mix(in srgb, ${realColor.value} 40%, black)`
   }
 
-  // 注入动画时长
   const dimmedDur = normalizeDuration(props.dimmedDuration)
   if (dimmedDur) styles['--cp-card-dimmed-duration'] = dimmedDur
 
-  // 半折叠时注入 peek 高度
   if (props.halfCollapse) {
     const ph = props.peekHeight
     styles['--cp-card-peek-height'] = typeof ph === 'number' ? `${ph}px` : ph
+    if (expandedHeight.value !== null) {
+      styles['--cp-card-expanded-height'] = `${expandedHeight.value}px`
+    }
   }
   
   return styles
 })
 
-// 自定义 body 样式
 const realBodyStyle = computed(() => {
   const style = typeof props.bodyStyle === 'string' ? {} : { ...props.bodyStyle }
   if (props.bodyPadding) {
@@ -168,39 +258,30 @@ const realBodyStyle = computed(() => {
   return style
 })
 
-// 是否显示头部区域
 const showHeader = computed(() => 
   !!(props.title || slots.header || slots.title || slots.extra)
 )
 
-// 是否显示卡片整体
-const showCard = computed(() => !props.collapse || showHeader.value)
+const showCard = computed(() => !isCollapsed.value || showHeader.value)
 
-// 是否显示底部区域
 const hasFooter = computed(() => !!slots.footer)
-
-// 是否显示覆层
 const hasOverlay = computed(() => !!slots.overlay)
 
-// 头部类名
 const headerClasses = computed(() => [
   ns.e('header'),
   ns.is('bordered', props.headerBorder),
   props.headerClass,
 ])
 
-// 底部类名
 const footerClasses = computed(() => [
   ns.e('footer'),
   ns.is('bordered', props.footerBorder),
 ])
 
-// 计算实际应用的操作区域效果（继承逻辑）
 const realActionEffect = computed(() => props.actionEffect ?? props.overlayEffect)
 const realActionColor = computed(() => props.actionColor ?? props.overlayColor)
 const realActionBlur = computed(() => props.actionBlur ?? props.overlayBlur)
 
-// 覆层类名（操作区域定位、动画和效果）
 const overlayClasses = computed(() => [
   ns.e('overlay'),
   ns.bem('', 'overlay', props.overlayAnimation),
@@ -208,20 +289,17 @@ const overlayClasses = computed(() => [
   ns.bem('', 'overlay', `effect-${realActionEffect.value}`),
 ])
 
-// 背景遮罩类名（覆盖整个卡片）
 const backdropClasses = computed(() => [
   ns.e('overlay-backdrop'),
   ns.bem('', 'overlay-backdrop', `effect-${props.overlayEffect}`),
 ])
 
-// 规范化 blur 值
 const normalizeBlur = (value: number | string | undefined): string => {
   if (value === undefined) return '10px'
   if (typeof value === 'number') return `${value}px`
   return value
 }
 
-// 覆层样式（动画时长、整卡+操作区颜色/模糊度）
 const overlayStyle = computed(() => ({
   '--cp-card-overlay-duration': normalizeDuration(props.overlayDuration),
   '--cp-card-overlay-color': props.overlayColor,
@@ -230,7 +308,6 @@ const overlayStyle = computed(() => ({
   '--cp-card-action-blur': normalizeBlur(realActionBlur.value),
 }))
 
-// 加载遮罩类名
 const loadingOverlayClasses = computed(() => [
   ns.e('loading-overlay'),
   props.loadingClass,
@@ -263,7 +340,7 @@ const loadingOverlayClasses = computed(() => [
 
       <!-- Body & Footer Wrapper for Collapse Animation -->
       <div :class="ns.e('collapse-transition')" @transitionend="onCollapseTransitionEnd">
-        <div :class="ns.e('collapse-inner')">
+        <div ref="collapseInnerRef" :class="ns.e('collapse-inner')">
           <!-- Body -->
           <div :class="[ns.e('body'), bodyClass]" :style="realBodyStyle">
             <slot />
@@ -276,10 +353,25 @@ const loadingOverlayClasses = computed(() => [
         </div>
       </div>
 
-      <!-- Overlay Backdrop (covers entire card with blur/color effect) -->
+      <!-- Built-in Collapse Controller -->
+      <div
+        v-if="showController"
+        :class="ns.e('collapse-action')"
+      >
+        <slot name="collapse-action" :collapsed="isCollapsed" :needed="collapseNeeded" :toggle="toggleCollapse">
+          <div :class="ns.e('collapse-action-default')" @click="toggleCollapse">
+            <span :class="ns.e('collapse-action-text')">
+              {{ isCollapsed ? collapseActionExpandText : collapseActionCollapseText }}
+            </span>
+            <span :class="[ns.e('collapse-action-icon'), { 'is-expanded': !isCollapsed }]">▼</span>
+          </div>
+        </slot>
+      </div>
+
+      <!-- Overlay Backdrop -->
       <div v-if="hasOverlay" :class="backdropClasses" :style="overlayStyle" />
 
-      <!-- Overlay Actions (transparent, positioned for action buttons) -->
+      <!-- Overlay Actions -->
       <div v-if="hasOverlay" :class="overlayClasses" :style="overlayStyle">
         <slot name="overlay" />
       </div>

@@ -107,6 +107,7 @@ export type CardCustomClass =
  * - `cover` - 卡片封面区域（位于头部前）
  * - `overlay` - 卡片悬停操作层
  * - `loading` - 自定义加载中内容
+ * - `collapse-action` - 自定义折叠控制器内容，作用域：`{ collapsed: boolean, needed: boolean, toggle: () => void }`
   * @category 展示组件
  * @displayName CpCard 卡片
  */
@@ -318,11 +319,12 @@ export const cardProps = {
   },
   /**
    * 是否折叠卡片（仅显示头部）
-   * @default false
+   * 不传时若 showCollapseAction 开启则由组件内部自治
+   * @default undefined
    */
   collapse: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   /**
    * 半折叠模式 — 仅在 collapse=true 时生效
@@ -342,6 +344,33 @@ export const cardProps = {
   peekHeight: {
     type: [Number, String] as PropType<number | string>,
     default: 80,
+  },
+  /**
+   * 是否显示内置折叠控制器（"查看更多" / "收起"）
+   * 开启后组件在半折叠 body 底部渲染操作条，点击自动切换展开/半折叠。
+   * 仅在 halfCollapse=true 时生效。
+   * 当内容不足 peekHeight 时控制器自动隐藏。
+   * @default false
+   */
+  showCollapseAction: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 内置控制器展开文案
+   * @default '查看更多'
+   */
+  collapseActionExpandText: {
+    type: String,
+    default: '查看更多',
+  },
+  /**
+   * 内置控制器收起文案
+   * @default '收起'
+   */
+  collapseActionCollapseText: {
+    type: String,
+    default: '收起',
   },
   /**
    * 自定义边框颜色
@@ -420,3 +449,14 @@ export const cardProps = {
 } as const
 
 export type CardProps = ExtractPropTypes<typeof cardProps>
+
+/**
+ * CpCard 组件事件定义
+ */
+export const cardEmits = {
+  /**
+   * 半折叠模式下，内容高度变化时触发
+   * @param payload.needed - true: 内容超出 peekHeight，需要折叠；false: 内容不足，不需要折叠
+   */
+  'collapse-change': (payload: { needed: boolean }) => typeof payload.needed === 'boolean',
+}
