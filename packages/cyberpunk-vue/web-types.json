@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.9.10",
+  "version": "1.9.24",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -1288,7 +1288,7 @@
               "name": "title",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2515
+                "offset": 2618
               },
               "description": "卡片标题",
               "default": "''",
@@ -1300,7 +1300,7 @@
               "name": "shadow",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2691
+                "offset": 2794
               },
               "description": "阴影显示时机\n- `always` - 始终显示\n- `hover` - 悬停时显示\n- `never` - 不显示",
               "default": "'hover'",
@@ -1312,7 +1312,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2882
+                "offset": 2985
               },
               "description": "卡片变体/形态",
               "default": "'solid'",
@@ -1324,7 +1324,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3090
+                "offset": 3193
               },
               "description": "卡片形状\n- `clip` - 切角样式（默认）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -1336,7 +1336,7 @@
               "name": "bodyPadding",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3282
+                "offset": 3385
               },
               "description": "自定义内容区内边距\n传入有效 CSS 值，如 '20px' 或 '1rem 2rem'",
               "type": [
@@ -1347,7 +1347,7 @@
               "name": "headerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3400
+                "offset": 3503
               },
               "description": "是否显示头部分隔线",
               "default": "true",
@@ -1359,7 +1359,7 @@
               "name": "footerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3515
+                "offset": 3618
               },
               "description": "是否显示底部分隔线",
               "default": "true",
@@ -1371,7 +1371,7 @@
               "name": "overlayAnimation",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3635
+                "offset": 3738
               },
               "description": "覆层出场动画类型",
               "default": "'slide-up'",
@@ -1383,7 +1383,7 @@
               "name": "overlayPosition",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3792
+                "offset": 3895
               },
               "description": "覆层位置",
               "default": "'bottom'",
@@ -1395,7 +1395,7 @@
               "name": "overlayDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3992
+                "offset": 4095
               },
               "description": "覆层动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1407,7 +1407,7 @@
               "name": "overlayEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4150
+                "offset": 4253
               },
               "description": "覆层效果类型",
               "default": "'blur-color'",
@@ -1419,7 +1419,7 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4337
+                "offset": 4440
               },
               "description": "覆层颜色\n支持任意 CSS 颜色值",
               "default": "'rgba(26, 26, 36, 0.8)'",
@@ -1431,7 +1431,7 @@
               "name": "overlayBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4491
+                "offset": 4594
               },
               "description": "覆层毛玻璃模糊程度\n数字默认 px，字符串可指定单位",
               "default": "10",
@@ -1443,7 +1443,7 @@
               "name": "actionEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4675
+                "offset": 4778
               },
               "description": "操作区域效果类型\n如果未指定，则继承 overlayEffect",
               "type": [
@@ -1454,7 +1454,7 @@
               "name": "actionColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4856
+                "offset": 4959
               },
               "description": "操作区域颜色\n如果未指定，则继承 overlayColor",
               "type": [
@@ -1465,7 +1465,7 @@
               "name": "actionBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5006
+                "offset": 5109
               },
               "description": "操作区域模糊程度\n如果未指定，则继承 overlayBlur",
               "type": [
@@ -1476,7 +1476,7 @@
               "name": "type",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5167
+                "offset": 5270
               },
               "description": "卡片的主题颜色类型",
               "default": "'default'",
@@ -1488,7 +1488,7 @@
               "name": "color",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5285
+                "offset": 5388
               },
               "description": "自定义颜色，优先于 type",
               "default": "''",
@@ -1500,7 +1500,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5451
+                "offset": 5554
               },
               "description": "自定义背景颜色\n支持任意 CSS 颜色值，包括渐变",
               "default": "''",
@@ -1512,7 +1512,7 @@
               "name": "shadowColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5557
+                "offset": 5660
               },
               "description": "自定义阴影颜色\n默认与卡片最终主题色保持一致",
               "type": [
@@ -1523,7 +1523,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5633
+                "offset": 5736
               },
               "description": "是否开启平常减淡显示",
               "default": "false",
@@ -1535,7 +1535,7 @@
               "name": "dimmedDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5791
+                "offset": 5894
               },
               "description": "减淡模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1547,7 +1547,7 @@
               "name": "triggerImageHover",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5972
+                "offset": 6075
               },
               "description": "Card hover 时是否触发内部 CpImage 的 hover 效果",
               "default": "false",
@@ -1559,7 +1559,7 @@
               "name": "hoverScale",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6101
+                "offset": 6204
               },
               "description": "Card hover 时放大效果",
               "default": "false",
@@ -1571,10 +1571,9 @@
               "name": "collapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6220
+                "offset": 6368
               },
-              "description": "是否折叠卡片（仅显示头部）",
-              "default": "false",
+              "description": "是否折叠卡片（仅显示头部）\n不传时若 showCollapseAction 开启则由组件内部自治",
               "type": [
                 "boolean"
               ]
@@ -1583,7 +1582,7 @@
               "name": "halfCollapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6430
+                "offset": 6582
               },
               "description": "半折叠模式 — 仅在 collapse=true 时生效\n开启后 body 区域不会完全收起，而是保留 peekHeight 高度，\n通过 mask-image 渐变使底部内容淡出融入背景",
               "default": "false",
@@ -1595,7 +1594,7 @@
               "name": "peekHeight",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6575
+                "offset": 6727
               },
               "description": "半折叠时 body 区域的可见高度\n数字默认 px，字符串可指定单位",
               "default": "80",
@@ -1604,10 +1603,46 @@
               ]
             },
             {
+              "name": "showCollapseAction",
+              "source": {
+                "file": "../components/card/src/card.ts",
+                "offset": 7002
+              },
+              "description": "是否显示内置折叠控制器（\"查看更多\" / \"收起\"）\n开启后组件在半折叠 body 底部渲染操作条，点击自动切换展开/半折叠。\n仅在 halfCollapse=true 时生效。\n当内容不足 peekHeight 时控制器自动隐藏。",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "collapseActionExpandText",
+              "source": {
+                "file": "../components/card/src/card.ts",
+                "offset": 7126
+              },
+              "description": "内置控制器展开文案",
+              "default": "'查看更多'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "collapseActionCollapseText",
+              "source": {
+                "file": "../components/card/src/card.ts",
+                "offset": 7254
+              },
+              "description": "内置控制器收起文案",
+              "default": "'收起'",
+              "type": [
+                "string"
+              ]
+            },
+            {
               "name": "borderColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6702
+                "offset": 7360
               },
               "description": "自定义边框颜色",
               "type": [
@@ -1618,7 +1653,7 @@
               "name": "dividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6758
+                "offset": 7416
               },
               "description": "全局设置头尾分隔线颜色",
               "type": [
@@ -1629,7 +1664,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6815
+                "offset": 7473
               },
               "description": "单独设置头部分隔线颜色",
               "type": [
@@ -1640,7 +1675,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6878
+                "offset": 7536
               },
               "description": "单独设置底部分隔线颜色",
               "type": [
@@ -1651,7 +1686,7 @@
               "name": "backgroundClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6940
+                "offset": 7598
               },
               "description": "容器/背景自定义类名",
               "type": [
@@ -1662,7 +1697,7 @@
               "name": "backgroundStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7045
+                "offset": 7703
               },
               "description": "容器/背景自定义样式",
               "type": [
@@ -1673,7 +1708,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7147
+                "offset": 7805
               },
               "description": "头部自定义类名",
               "type": [
@@ -1684,7 +1719,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7245
+                "offset": 7903
               },
               "description": "头部自定义样式",
               "type": [
@@ -1695,7 +1730,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7343
+                "offset": 8001
               },
               "description": "主体自定义类名",
               "type": [
@@ -1706,7 +1741,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7439
+                "offset": 8097
               },
               "description": "主体自定义样式",
               "type": [
@@ -1717,7 +1752,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7586
+                "offset": 8244
               },
               "description": "是否处于加载状态\n加载时会在卡片内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -1729,7 +1764,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7700
+                "offset": 8358
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -1741,7 +1776,7 @@
               "name": "loadingClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7797
+                "offset": 8455
               },
               "description": "加载遮罩自定义类名",
               "type": [
@@ -1752,7 +1787,7 @@
               "name": "loadingStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7898
+                "offset": 8556
               },
               "description": "加载遮罩自定义样式",
               "type": [
@@ -1763,7 +1798,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8040
+                "offset": 8698
               },
               "description": "是否处于禁用状态\n禁用时卡片整体变灰且不可交互",
               "default": "false",
@@ -1805,7 +1840,19 @@
               "name": "loading",
               "description": "自定义加载中内容"
             }
-          ]
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "collapse-change",
+                "source": {
+                  "file": "../components/card/src/card.ts",
+                  "offset": 9004
+                },
+                "description": "半折叠模式下，内容高度变化时触发"
+              }
+            ]
+          }
         },
         {
           "name": "cp-checkbox",
@@ -2583,7 +2630,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1568
+                "offset": 1589
               },
               "description": "是否显示对话框 (v-model)",
               "default": "false",
@@ -2595,7 +2642,7 @@
               "name": "title",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1676
+                "offset": 1697
               },
               "description": "对话框标题",
               "default": "''",
@@ -2607,7 +2654,7 @@
               "name": "width",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1809
+                "offset": 1830
               },
               "description": "对话框宽度\n数字则为 px，字符串可以是任意 CSS 值",
               "default": "'520px'",
@@ -2619,7 +2666,7 @@
               "name": "top",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1958
+                "offset": 1979
               },
               "description": "距离顶部的距离",
               "default": "'15vh'",
@@ -2631,7 +2678,7 @@
               "name": "fullscreen",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2063
+                "offset": 2084
               },
               "description": "是否全屏显示",
               "default": "false",
@@ -2643,7 +2690,7 @@
               "name": "modal",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2174
+                "offset": 2195
               },
               "description": "是否显示遮罩",
               "default": "true",
@@ -2655,7 +2702,7 @@
               "name": "appendToBody",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2314
+                "offset": 2335
               },
               "description": "是否将对话框挂载到 body\n嵌套 Dialog 时建议设为 true",
               "default": "true",
@@ -2667,7 +2714,7 @@
               "name": "closeOnClickModal",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2428
+                "offset": 2449
               },
               "description": "点击遮罩是否关闭",
               "default": "true",
@@ -2679,7 +2726,7 @@
               "name": "closeOnEscape",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2550
+                "offset": 2571
               },
               "description": "按下 ESC 是否关闭",
               "default": "true",
@@ -2691,7 +2738,7 @@
               "name": "showClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2665
+                "offset": 2686
               },
               "description": "是否显示关闭按钮",
               "default": "true",
@@ -2703,7 +2750,7 @@
               "name": "beforeClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2810
+                "offset": 2831
               },
               "description": "关闭前回调，调用 done() 才真正关闭\ndone(true) 表示取消关闭\n可用于关闭前二次确认",
               "type": [
@@ -2714,7 +2761,7 @@
               "name": "draggable",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2962
+                "offset": 2983
               },
               "description": "是否可拖拽移动",
               "default": "false",
@@ -2726,7 +2773,7 @@
               "name": "overflow",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3080
+                "offset": 3101
               },
               "description": "拖拽时是否允许超出视口边界",
               "default": "false",
@@ -2738,7 +2785,7 @@
               "name": "lockScroll",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3194
+                "offset": 3215
               },
               "description": "打开时是否锁定页面滚动",
               "default": "true",
@@ -2750,7 +2797,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3306
+                "offset": 3327
               },
               "description": "对话框变体",
               "default": "'solid'",
@@ -2762,7 +2809,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3443
+                "offset": 3464
               },
               "description": "对话框形状",
               "default": "'clip'",
@@ -2774,7 +2821,7 @@
               "name": "type",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3579
+                "offset": 3600
               },
               "description": "主题颜色类型",
               "default": "'default'",
@@ -2786,7 +2833,7 @@
               "name": "destroyOnClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3713
+                "offset": 3734
               },
               "description": "关闭时销毁内容",
               "default": "false",
@@ -2798,7 +2845,7 @@
               "name": "center",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3846
+                "offset": 3867
               },
               "description": "居中布局（标题和 footer 对齐方式居中）",
               "default": "false",
@@ -2810,7 +2857,7 @@
               "name": "alignCenter",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3965
+                "offset": 3986
               },
               "description": "垂直居中布局（容器在屏幕中垂直居中）",
               "default": "true",
@@ -2822,7 +2869,7 @@
               "name": "headerBorder",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4079
+                "offset": 4100
               },
               "description": "是否显示头部分隔线",
               "default": "true",
@@ -2834,7 +2881,7 @@
               "name": "footerBorder",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4194
+                "offset": 4215
               },
               "description": "是否显示底部分隔线",
               "default": "true",
@@ -2846,7 +2893,7 @@
               "name": "color",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4342
+                "offset": 4363
               },
               "description": "自定义主色调，优先于 type\n支持任意 CSS 颜色值",
               "default": "''",
@@ -2858,7 +2905,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4425
+                "offset": 4446
               },
               "description": "自定义背景颜色",
               "default": "''",
@@ -2870,7 +2917,7 @@
               "name": "borderColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4510
+                "offset": 4531
               },
               "description": "自定义边框颜色",
               "default": "''",
@@ -2882,7 +2929,7 @@
               "name": "titleColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4601
+                "offset": 4622
               },
               "description": "自定义标题文字颜色",
               "default": "''",
@@ -2894,7 +2941,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4692
+                "offset": 4713
               },
               "description": "自定义内容区文字颜色",
               "default": "''",
@@ -2906,7 +2953,7 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4779
+                "offset": 4800
               },
               "description": "自定义遮罩颜色",
               "default": "''",
@@ -2918,7 +2965,7 @@
               "name": "closeColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4871
+                "offset": 4892
               },
               "description": "自定义关闭按钮颜色",
               "default": "''",
@@ -2930,7 +2977,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4962
+                "offset": 4983
               },
               "description": "自定义头部分隔线颜色",
               "default": "''",
@@ -2942,7 +2989,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5061
+                "offset": 5082
               },
               "description": "自定义底部分隔线颜色",
               "default": "''",
@@ -2954,7 +3001,7 @@
               "name": "dialogClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5197
+                "offset": 5218
               },
               "description": "对话框根容器自定义 class",
               "type": [
@@ -2965,7 +3012,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5347
+                "offset": 5368
               },
               "description": "头部区域自定义 class",
               "type": [
@@ -2976,7 +3023,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5499
+                "offset": 5520
               },
               "description": "主体内容区域自定义 class",
               "type": [
@@ -2987,7 +3034,7 @@
               "name": "footerClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5647
+                "offset": 5668
               },
               "description": "底部区域自定义 class",
               "type": [
@@ -2998,7 +3045,7 @@
               "name": "overlayClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5796
+                "offset": 5817
               },
               "description": "遮罩层自定义 class",
               "type": [
@@ -3009,7 +3056,7 @@
               "name": "modalClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5966
+                "offset": 5987
               },
               "description": "遮罩层追加 class（与 overlayClass 合并使用）",
               "default": "''",
@@ -3021,7 +3068,7 @@
               "name": "dialogStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6093
+                "offset": 6114
               },
               "description": "对话框面板自定义 style",
               "type": [
@@ -3032,7 +3079,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6241
+                "offset": 6262
               },
               "description": "头部区域自定义 style",
               "type": [
@@ -3043,7 +3090,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6391
+                "offset": 6412
               },
               "description": "主体内容区域自定义 style",
               "type": [
@@ -3054,7 +3101,7 @@
               "name": "footerStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6537
+                "offset": 6558
               },
               "description": "底部区域自定义 style",
               "type": [
@@ -3065,9 +3112,55 @@
               "name": "overlayStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6684
+                "offset": 6705
               },
               "description": "遮罩层自定义 style",
+              "type": [
+                "string | CSSProperties"
+              ]
+            },
+            {
+              "name": "loading",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 6891
+              },
+              "description": "是否处于加载状态\n加载时会在对话框面板上显示遮罩层，阻止用户交互",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "loadingText",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 6997
+              },
+              "description": "加载中显示的文字",
+              "default": "'加载中...'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "loadingClass",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 7087
+              },
+              "description": "加载遮罩自定义类名",
+              "type": [
+                "string | Record<string, boolean> | (string | Record<string, boolean>)[]"
+              ]
+            },
+            {
+              "name": "loadingStyle",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 7227
+              },
+              "description": "加载遮罩自定义样式",
               "type": [
                 "string | CSSProperties"
               ]
@@ -3076,7 +3169,7 @@
               "name": "zIndex",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6849
+                "offset": 7384
               },
               "description": "z-index",
               "default": "2000",
@@ -3088,7 +3181,7 @@
               "name": "showConfirmButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7008
+                "offset": 7543
               },
               "description": "是否显示确认按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3100,7 +3193,7 @@
               "name": "showCancelButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7145
+                "offset": 7680
               },
               "description": "是否显示取消按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3112,7 +3205,7 @@
               "name": "confirmText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7261
+                "offset": 7796
               },
               "description": "确认按钮文本",
               "default": "'确认'",
@@ -3124,7 +3217,7 @@
               "name": "cancelText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7371
+                "offset": 7906
               },
               "description": "取消按钮文本",
               "default": "'取消'",
@@ -3157,7 +3250,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7585
+                  "offset": 8120
                 },
                 "description": "v-model 更新事件"
               },
@@ -3165,7 +3258,7 @@
                 "name": "open",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7683
+                  "offset": 8218
                 },
                 "description": "对话框打开时触发（动画开始前）"
               },
@@ -3173,7 +3266,7 @@
                 "name": "opened",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7727
+                  "offset": 8262
                 },
                 "description": "对话框打开动画结束后触发"
               },
@@ -3181,7 +3274,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7776
+                  "offset": 8311
                 },
                 "description": "对话框关闭时触发（动画开始前）"
               },
@@ -3189,7 +3282,7 @@
                 "name": "closed",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7821
+                  "offset": 8356
                 },
                 "description": "对话框关闭动画结束后触发"
               },
@@ -3197,7 +3290,7 @@
                 "name": "confirm",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7864
+                  "offset": 8399
                 },
                 "description": "点击确认按钮时触发"
               },
@@ -3205,7 +3298,7 @@
                 "name": "cancel",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 7908
+                  "offset": 8443
                 },
                 "description": "点击取消按钮时触发"
               }
@@ -5161,7 +5254,7 @@
               "name": "mode",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2483
+                "offset": 2558
               },
               "description": "菜单布局方向",
               "default": "'vertical'",
@@ -5173,7 +5266,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2695
+                "offset": 2770
               },
               "description": "菜单形状\n- `clip` - 切角样式（默认，赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -5185,7 +5278,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 2909
+                "offset": 2979
               },
               "description": "菜单变体\n- `solid` - 实心填充背景（默认）\n- `outline` - 边框样式\n- `note` - 透明背景 + 发光条高亮",
               "default": "'solid'",
@@ -5194,10 +5287,22 @@
               ]
             },
             {
+              "name": "size",
+              "source": {
+                "file": "../components/menu/src/menu.ts",
+                "offset": 3206
+              },
+              "description": "菜单尺寸\n- `sm` - 更紧凑的字号与行高\n- `md` - 默认尺寸\n- `lg` - 更大的字号与行高\n- 也支持数字 (px) 或带单位字符串 (如 '1rem')",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
               "name": "defaultActive",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3191
+                "offset": 3482
               },
               "description": "默认激活的菜单项 index。\n支持前缀匹配：传入 `/model-specs/xxx` 会自动匹配 `index=\"/model-specs\"` 的菜单项，\n并高亮其所有父级 SubMenu、自动展开对应子菜单目录。\n常见用法：绑定 `route.path` 实现路由同步。",
               "default": "''",
@@ -5209,7 +5314,7 @@
               "name": "defaultOpeneds",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3310
+                "offset": 3601
               },
               "description": "默认展开的子菜单 index 数组",
               "default": "() => []",
@@ -5221,7 +5326,7 @@
               "name": "uniqueOpened",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3462
+                "offset": 3753
               },
               "description": "是否只保持一个子菜单展开（手风琴模式）",
               "default": "false",
@@ -5233,7 +5338,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3593
+                "offset": 3884
               },
               "description": "是否折叠菜单（仅 vertical 模式有效）",
               "default": "false",
@@ -5245,7 +5350,7 @@
               "name": "type",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3707
+                "offset": 3998
               },
               "description": "颜色预设类型",
               "default": "'default'",
@@ -5257,7 +5362,7 @@
               "name": "color",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 3848
+                "offset": 4139
               },
               "description": "自定义高亮颜色（覆盖 type 预设）",
               "default": "''",
@@ -5269,7 +5374,7 @@
               "name": "router",
               "source": {
                 "file": "../components/menu/src/menu.ts",
-                "offset": 4104
+                "offset": 4395
               },
               "description": "是否启用 vue-router 模式。\n开启后点击 CpMenuItem 会自动调用 `router.push(index)`，\n并监听路由变化自动同步激活状态。\n不开启时也可通过 `:default-active=\"route.path\"` + `@select` 实现等效效果。",
               "default": "false",
@@ -5284,7 +5389,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 4313
+                  "offset": 4604
                 },
                 "description": "菜单项被选中"
               },
@@ -5292,7 +5397,7 @@
                 "name": "open",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 4440
+                  "offset": 4731
                 },
                 "description": "子菜单展开"
               },
@@ -5300,7 +5405,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/menu/src/menu.ts",
-                  "offset": 4565
+                  "offset": 4856
                 },
                 "description": "子菜单收起"
               }
@@ -5404,7 +5509,7 @@
               "name": "data",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1372
+                "offset": 1379
               },
               "description": "菜单数据",
               "type": [
@@ -5415,7 +5520,7 @@
               "name": "mode",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1515
+                "offset": 1518
               },
               "description": "菜单模式",
               "default": "'vertical'",
@@ -5424,10 +5529,22 @@
               ]
             },
             {
+              "name": "size",
+              "source": {
+                "file": "../components/menu-nav/src/menu-nav.ts",
+                "offset": 1639
+              },
+              "description": "菜单尺寸",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
               "name": "defaultActive",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1649
+                "offset": 1769
               },
               "description": "默认激活项 index",
               "default": "''",
@@ -5439,7 +5556,7 @@
               "name": "defaultOpeneds",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1774
+                "offset": 1894
               },
               "description": "默认展开的 sub-menu index 列表",
               "default": "() => []",
@@ -5451,7 +5568,7 @@
               "name": "uniqueOpened",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 1923
+                "offset": 2043
               },
               "description": "是否只展开一个 sub-menu",
               "default": "false",
@@ -5463,7 +5580,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2050
+                "offset": 2170
               },
               "description": "是否折叠（仅 vertical 有效）",
               "default": "false",
@@ -5475,7 +5592,7 @@
               "name": "type",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2162
+                "offset": 2282
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -5487,7 +5604,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2292
+                "offset": 2412
               },
               "description": "菜单形状",
               "default": "'clip'",
@@ -5499,7 +5616,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2422
+                "offset": 2542
               },
               "description": "菜单变体",
               "default": "'solid'",
@@ -5511,7 +5628,7 @@
               "name": "color",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2555
+                "offset": 2675
               },
               "description": "自定义高亮颜色",
               "default": "''",
@@ -5523,7 +5640,7 @@
               "name": "router",
               "source": {
                 "file": "../components/menu-nav/src/menu-nav.ts",
-                "offset": 2670
+                "offset": 2790
               },
               "description": "是否启用 vue-router 模式",
               "default": "false",
@@ -5538,21 +5655,21 @@
                 "name": "select",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 2874
+                  "offset": 2994
                 }
               },
               {
                 "name": "open",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 2985
+                  "offset": 3105
                 }
               },
               {
                 "name": "close",
                 "source": {
                   "file": "../components/menu-nav/src/menu-nav.ts",
-                  "offset": 3094
+                  "offset": 3214
                 }
               }
             ]
