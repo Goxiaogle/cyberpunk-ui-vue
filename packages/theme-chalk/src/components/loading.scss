@@ -16,6 +16,10 @@ $loading-sizes: (
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    transform-origin: center center;
+    will-change: transform;
 
     // ===== 尺寸 =====
     @each $name, $size in $loading-sizes {
@@ -25,34 +29,42 @@ $loading-sizes: (
         }
     }
 
+    // 自定义尺寸支持
+    @include when(custom-size) {
+        width: var(--cp-loading-size);
+        height: var(--cp-loading-size);
+    }
+
+    // ===== 布局稳定化 =====
+    vertical-align: middle;
+    line-height: 0;   // 消除行内基线间隙
+
+    // ===== 旋转层 =====
+    @include m(circular) {
+        animation: cp-loading-rotate 1.4s linear infinite;
+    }
+
+    @include m(spinner) {
+        animation: cp-loading-rotate 1s steps(12, end) infinite;
+    }
+
+    @include m(spinner-solid) {
+        animation: cp-loading-rotate 1.5s linear infinite;
+    }
+
     // ===== SVG 容器 =====
     @include e(svg) {
-        // circular 和 spinner-solid 使用线性旋转
-        animation: cp-loading-rotate 2s linear infinite;
-
-        // spinner （渐变款）使用逐帧停顿旋转
-        @include when(spinner) {
-            animation-timing-function: steps(12, end);
-            animation-duration: 1s;
-        }
-
-        // 可以稍微加快 spinner-solid 线性旋转的速度（个人感觉1.5s比2s更像菊花图）
-        @include when(spinner-solid) {
-            animation-duration: 1.5s;
-        }
+        display: block; // 消除 inline 带来的基线偏移
+        width: 100%;
+        height: 100%;
     }
 
-    // ===== 轨道 (半透明背景圆) =====
-    @include e(track) {
-        stroke: currentColor;
-        opacity: 0.15;
-    }
-
-    // ===== 动态弧线 =====
+    // ===== SVG Circle (Circular variant) =====
     @include e(circle) {
         stroke: currentColor;
-        transform-origin: center;
-        animation: cp-loading-dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        // MUI 参考：1.4s ease-in-out 弧线伸缩动画
+        animation: cp-loading-circular-dash 1.4s ease-in-out infinite;
     }
 
     // ===== 颜色类型 =====
@@ -96,23 +108,21 @@ $loading-sizes: (
     }
 }
 
-// 弧线伸缩动画 - Google Material Design 风格
-// 配合 pathLength="100" 使用标准化数值
-// 0% 和 100% 必须完全相同 (除了 offset 差一个周期 -100)
-// 使用 1 作为最小值保持 Google 原版质感，用户提到的消失问题已由 Geometry 修复解决
-@keyframes cp-loading-dash {
+// ===== Circular (MUI 参考) =====
+// 弧线伸缩动画：stroke-dasharray 控制弧长
+@keyframes cp-loading-circular-dash {
     0% {
-        stroke-dasharray: 1, 200;
+        stroke-dasharray: 8px, 200px;
         stroke-dashoffset: 0;
     }
 
     50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35;
+        stroke-dasharray: 100px, 200px;
+        stroke-dashoffset: -15px;
     }
 
     100% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: -100;
+        stroke-dasharray: 8px, 200px;
+        stroke-dashoffset: -120px;
     }
 }

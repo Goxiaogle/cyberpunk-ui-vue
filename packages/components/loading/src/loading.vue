@@ -28,12 +28,33 @@ const sizeMap: Record<string, number> = {
 const svgSize = computed(() => {
   return parseSizeNumber(props.size, sizeMap, sizeMap.md)
 })
-const radius = computed(() => (svgSize.value - props.strokeWidth) / 2)
+
+// ===== Circular (SVG) 参数 =====
+// 参考 MUI CircularProgress：ViewBox 44x44，圆心 (44,44)
+const CIRCULAR_SIZE = 44
+const circularStrokeWidth = computed(() => {
+  return props.strokeWidth * (CIRCULAR_SIZE / svgSize.value)
+})
+const circularRadius = computed(() => {
+  return (CIRCULAR_SIZE - circularStrokeWidth.value) / 2
+})
+
+// ===== Spinner 参数 =====
+// 将实际笔触宽度映射到 50x50 的内部视口
+const viewBoxSize = 50;
+const mappedStrokeWidth = computed(() => {
+  return props.strokeWidth * (viewBoxSize / svgSize.value);
+});
+
+// 计算长条变体的 Y 轴起止坐标
+const spinnerY1 = computed(() => -(viewBoxSize / 2) + mappedStrokeWidth.value / 2 + 2.5);
+const spinnerY2 = computed(() => -(viewBoxSize / 2) + mappedStrokeWidth.value / 2 + (viewBoxSize / 4) + 2.5);
 
 
 const classes = computed(() => [
   ns.b(),
   ns.m(props.type),
+  ns.m(props.variant),
   isPresetSize(props.size) && ns.m(props.size),
   ns.is('custom-color', !!props.color),
   ns.is('custom-size', !isPresetSize(props.size)),
@@ -45,6 +66,7 @@ const customStyle = computed(() => {
   if (props.color) {
     style['--cp-loading-color'] = props.color
   }
+  style['--cp-loading-stroke-width'] = `${props.strokeWidth}px`
   if (!isPresetSize(props.size)) {
     style['--cp-loading-size'] = normalizeSize(props.size, sizeMap)
   }
@@ -57,47 +79,35 @@ const customStyle = computed(() => {
     <svg
       v-if="variant === 'circular'"
       :class="[ns.e('svg'), ns.is('circular')]"
-      :width="svgSize"
-      :height="svgSize"
-      :viewBox="`0 0 ${svgSize} ${svgSize}`"
+      viewBox="22 22 44 44"
     >
       <circle
-        :class="ns.e('track')"
-        :cx="svgSize / 2"
-        :cy="svgSize / 2"
-        :r="radius"
-        fill="none"
-        :stroke-width="strokeWidth"
-      />
-      <circle
         :class="ns.e('circle')"
-        :cx="svgSize / 2"
-        :cy="svgSize / 2"
-        :r="radius"
+        cx="44"
+        cy="44"
+        :r="circularRadius"
         fill="none"
-        :stroke-width="strokeWidth"
+        :stroke-width="circularStrokeWidth"
+        stroke="currentColor"
         stroke-linecap="round"
-        pathLength="100"
       />
     </svg>
 
     <svg
       v-else-if="variant === 'spinner'"
       :class="[ns.e('svg'), ns.is('spinner')]"
-      :width="svgSize"
-      :height="svgSize"
-      :viewBox="`0 0 ${svgSize} ${svgSize}`"
+      viewBox="0 0 50 50"
     >
-      <g :transform="`translate(${svgSize / 2}, ${svgSize / 2})`">
+      <g transform="translate(25, 25)">
         <line
           v-for="i in 12"
           :key="i"
           x1="0"
-          :y1="-(svgSize / 2) + strokeWidth / 2"
+          :y1="spinnerY1"
           x2="0"
-          :y2="-(svgSize / 2) + strokeWidth / 2 + (svgSize / 4)"
+          :y2="spinnerY2"
           :transform="`rotate(${(i - 1) * 30})`"
-          :stroke-width="strokeWidth"
+          :stroke-width="mappedStrokeWidth"
           stroke="currentColor"
           stroke-linecap="round"
           :style="{ opacity: i === 1 ? 1 : (i - 1) / 12 }"
@@ -108,20 +118,18 @@ const customStyle = computed(() => {
     <svg
       v-else-if="variant === 'spinner-solid'"
       :class="[ns.e('svg'), ns.is('spinner-solid')]"
-      :width="svgSize"
-      :height="svgSize"
-      :viewBox="`0 0 ${svgSize} ${svgSize}`"
+      viewBox="0 0 50 50"
     >
-      <g :transform="`translate(${svgSize / 2}, ${svgSize / 2})`">
+      <g transform="translate(25, 25)">
         <line
           v-for="i in 12"
           :key="i"
           x1="0"
-          :y1="-(svgSize / 2) + strokeWidth / 2"
+          :y1="spinnerY1"
           x2="0"
-          :y2="-(svgSize / 2) + strokeWidth / 2 + (svgSize / 4)"
+          :y2="spinnerY2"
           :transform="`rotate(${(i - 1) * 30})`"
-          :stroke-width="strokeWidth"
+          :stroke-width="mappedStrokeWidth"
           stroke="currentColor"
           stroke-linecap="round"
         />
