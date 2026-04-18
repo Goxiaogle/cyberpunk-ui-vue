@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/play",
-    "version": "1.9.11",
+    "version": "1.9.25",
     "private": true,
     "type": "module",
     "scripts": {
