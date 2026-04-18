@@ -54,6 +54,7 @@ export type DialogCustomClass =
  * - `cover` - 封面区域（位于头部上方，与 Card 的 cover 插槽一致）
  * - `header` - 自定义整个头部区域（覆盖 title + 关闭按钮）
  * - `title` - 仅标题区域
+ * - `loading` - 自定义加载中内容
  * - `footer` - 底部操作区域，作用域 props: `{ close: () => void, confirm: () => void }`
   * @category 展示组件
  * @displayName CpDialog 对话框
@@ -385,6 +386,37 @@ export const dialogProps = {
    * 遮罩层自定义 style
    */
   overlayStyle: {
+    type: [String, Object] as PropType<string | CSSProperties>,
+    default: undefined,
+  },
+  /**
+   * 是否处于加载状态
+   * 加载时会在对话框面板上显示遮罩层，阻止用户交互
+   * @default false
+   */
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 加载中显示的文字
+   * @default '加载中...'
+   */
+  loadingText: {
+    type: String,
+    default: '加载中...',
+  },
+  /**
+   * 加载遮罩自定义类名
+   */
+  loadingClass: {
+    type: [String, Object, Array] as PropType<DialogCustomClass>,
+    default: undefined,
+  },
+  /**
+   * 加载遮罩自定义样式
+   */
+  loadingStyle: {
     type: [String, Object] as PropType<string | CSSProperties>,
     default: undefined,
   },

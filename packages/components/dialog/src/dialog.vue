@@ -8,6 +8,7 @@ import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn } from './dialog'
 import { CpButton } from '@cyberpunk-vue/components/button'
+import { CpLoading } from '@cyberpunk-vue/components/loading'
 
 // 关闭图标组件 — 供 CpButton icon prop 使用
 const CloseIcon = () => h('svg', {
@@ -212,6 +213,7 @@ const panelClasses = computed(() => [
   ns.is('center', props.center),
   ns.is('draggable', props.draggable),
   ns.is('dragging', isDragging.value),
+  ns.is('loading', props.loading),
   ns.is('shaking', shaking.value),
   props.dialogClass,
 ])
@@ -240,6 +242,11 @@ const overlayClasses = computed(() => [
   ns.e('overlay'),
   props.overlayClass,
   props.modalClass,
+])
+
+const loadingOverlayClasses = computed(() => [
+  ns.e('loading-overlay'),
+  props.loadingClass,
 ])
 
 // ===== 是否显示头部/底部 =====
@@ -515,6 +522,15 @@ defineExpose({
                 </CpButton>
               </slot>
             </div>
+
+            <Transition name="cp-dialog-loading">
+              <div v-if="loading" :class="loadingOverlayClasses" :style="loadingStyle">
+                <slot name="loading">
+                  <CpLoading :color="realColor || undefined" />
+                  <span v-if="loadingText" :class="ns.e('loading-text')">{{ loadingText }}</span>
+                </slot>
+              </div>
+            </Transition>
           </div>
         </div>
       </div>

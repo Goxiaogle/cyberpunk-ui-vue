@@ -162,6 +162,10 @@
       user-select: none;
     }
 
+    &.is-loading {
+      cursor: progress;
+    }
+
     // 抖动反馈 — 禁止关闭时触发
     &.is-shaking {
       animation: cp-dialog-shake 0.4s ease-out !important;
@@ -359,6 +363,25 @@
 
   }
 
+  @include e(loading-overlay) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cp-spacing-sm);
+    background: var(--cp-dialog-loading-bg, rgba(10, 10, 18, 0.75));
+    backdrop-filter: var(--cp-dialog-loading-backdrop, blur(4px));
+    z-index: 4;
+  }
+
+  @include e(loading-text) {
+    font-size: var(--cp-font-size-sm);
+    color: var(--cp-dialog-loading-text-color, var(--cp-text-secondary));
+    letter-spacing: 0.04em;
+  }
+
   // ===== 底部 =====
   @include e(footer) {
     display: flex;
@@ -386,4 +409,14 @@
   @include e(confirm-btn) {
     // 用户可通过 .cp-dialog__confirm-btn 覆盖样式
   }
+}
+
+.cp-dialog-loading-enter-active,
+.cp-dialog-loading-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.cp-dialog-loading-enter-from,
+.cp-dialog-loading-leave-to {
+  opacity: 0;
 }

@@ -137,6 +137,15 @@ const meta: Meta<typeof CpDialog> = {
       control: 'color',
       description: '遮罩颜色',
     },
+    loading: {
+      control: 'boolean',
+      description: '显示加载遮罩',
+    },
+    loadingText: {
+      control: 'text',
+      description: '加载文案',
+      table: { defaultValue: { summary: '加载中...' } },
+    },
     closeColor: {
       control: 'color',
       description: '关闭按钮颜色',
@@ -238,6 +247,48 @@ export const 自定义内容: Story = {
           <template #footer>
             <CpButton @click="visible = false">取消</CpButton>
             <CpButton type="primary" @click="visible = false">登录</CpButton>
+          </template>
+        </CpDialog>
+      </div>
+    `,
+  }),
+}
+
+/** 加载状态 */
+export const 加载状态: Story = {
+  render: () => ({
+    components: { CpDialog, CpButton, CpText },
+    setup() {
+      const visible = ref(false)
+      const loading = ref(false)
+
+      const openDialog = () => {
+        visible.value = true
+        loading.value = true
+        window.setTimeout(() => {
+          loading.value = false
+        }, 2200)
+      }
+
+      return { visible, loading, openDialog }
+    },
+    template: `
+      <div style="padding: 40px;">
+        <CpButton type="primary" @click="openDialog">打开加载中的对话框</CpButton>
+        <CpDialog
+          v-model="visible"
+          title="正在同步数据"
+          type="primary"
+          width="440px"
+          :loading="loading"
+          loading-text="正在建立安全连接..."
+        >
+          <CpText>对话框内容仍然保留，但在 loading 期间会被遮罩层阻止交互。</CpText>
+          <template #footer>
+            <CpButton @click="visible = false">后台运行</CpButton>
+            <CpButton type="primary" :disabled="loading" @click="loading = !loading">
+              {{ loading ? '同步中' : '重新同步' }}
+            </CpButton>
           </template>
         </CpDialog>
       </div>
