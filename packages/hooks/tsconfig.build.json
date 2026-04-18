@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declarationMap": false,
+    "baseUrl": "../..",
+    "paths": {
+      "@cyberpunk-vue/constants": [
+        "packages/constants/src/index.ts"
+      ],
+      "@cyberpunk-vue/constants/*": [
+        "packages/constants/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

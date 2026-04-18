@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "../..",
     "noEmit": false,
+    "declarationMap": false,
     "paths": {
       "@cyberpunk-vue/components": ["packages/components/index.ts"],
       "@cyberpunk-vue/components/*": ["packages/components/*"],
@@ -21,6 +22,7 @@
   "exclude": [
     "dist",
     "node_modules",
+    "vite.config.ts",
     "**/*.stories.ts",
     "**/*.test.ts"
   ]

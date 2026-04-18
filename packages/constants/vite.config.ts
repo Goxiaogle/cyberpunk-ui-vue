@@ -7,7 +7,11 @@ export default defineConfig({
         dts({
             entryRoot: 'src',
             outDir: 'dist',
-            tsconfigPath: '../../tsconfig.json'
+            tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
+            exclude: ['dist/**'],
+            compilerOptions: {
+                declarationMap: false
+            }
         })
     ],
     build: {

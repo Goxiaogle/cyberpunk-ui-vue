@@ -10,7 +10,10 @@ export default defineConfig({
             entryRoot: '.', // components has flat structure with index.ts at root
             outDir: 'dist',
             tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
-            exclude: ['**/*.stories.ts', '**/*.test.ts', 'dist/**'],
+            exclude: ['**/*.stories.ts', '**/*.test.ts', 'dist/**', 'vite.config.ts'],
+            compilerOptions: {
+                declarationMap: false
+            },
             pathsToAliases: false
         })
     ],
