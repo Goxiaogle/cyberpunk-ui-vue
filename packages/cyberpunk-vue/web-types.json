@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.9.24",
+  "version": "1.9.25",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -7290,7 +7290,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 1620
+                "offset": 1622
               },
               "description": "绑定值 (v-model)",
               "type": [
@@ -7301,7 +7301,7 @@
               "name": "options",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 1800
+                "offset": 1802
               },
               "description": "选项数组\n支持 string/number 简写或 SegmentedOption 对象",
               "default": "() => []",
@@ -7313,7 +7313,7 @@
               "name": "type",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 1965
+                "offset": 1967
               },
               "description": "颜色预设类型",
               "default": "'default'",
@@ -7325,7 +7325,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2101
+                "offset": 2103
               },
               "description": "变体样式",
               "default": "'solid'",
@@ -7337,7 +7337,7 @@
               "name": "size",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2236
+                "offset": 2238
               },
               "description": "尺寸",
               "default": "'md'",
@@ -7349,7 +7349,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2376
+                "offset": 2378
               },
               "description": "形状模式",
               "default": "'clip'",
@@ -7361,7 +7361,7 @@
               "name": "color",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2541
+                "offset": 2543
               },
               "description": "自定义主题色\n传入有效 CSS 颜色值会覆盖 type 的预设颜色",
               "default": "''",
@@ -7373,7 +7373,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2646
+                "offset": 2648
               },
               "description": "是否禁用所有选项",
               "default": "false",
@@ -7385,9 +7385,21 @@
               "name": "block",
               "source": {
                 "file": "../components/segmented/src/segmented.ts",
-                "offset": 2765
+                "offset": 2767
               },
               "description": "是否撑满父容器宽度（选项等宽）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "clearable",
+              "source": {
+                "file": "../components/segmented/src/segmented.ts",
+                "offset": 2907
+              },
+              "description": "是否允许清空选中项\n启用后可通过再次点击已选项或按 Esc 键清空",
               "default": "false",
               "type": [
                 "boolean"
@@ -7400,17 +7412,25 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/segmented/src/segmented.ts",
-                  "offset": 3016
+                  "offset": 3198
                 },
-                "description": "值变化时触发 (v-model 绑定)"
+                "description": "值变化时触发 (v-model 绑定)\n启用 clearable 并清空时值为 undefined"
               },
               {
                 "name": "change",
                 "source": {
                   "file": "../components/segmented/src/segmented.ts",
-                  "offset": 3159
+                  "offset": 3412
                 },
-                "description": "值变化时触发"
+                "description": "值变化时触发\n启用 clearable 并清空时值为 undefined"
+              },
+              {
+                "name": "clear",
+                "source": {
+                  "file": "../components/segmented/src/segmented.ts",
+                  "offset": 3594
+                },
+                "description": "清空选中项时触发（需启用 clearable）"
               }
             ]
           }
