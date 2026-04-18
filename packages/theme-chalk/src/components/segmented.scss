@@ -27,7 +27,7 @@ $segmented-types: (primary, success, warning, error, info);
   --cp-segmented-font-weight: var(--cp-font-weight-semibold);
   --cp-segmented-active-font-weight: var(--cp-font-weight-bold);
   --cp-segmented-font-weight-transition: var(--cp-font-weight-transition-fast);
-  --cp-segmented-indicator-offset: -2px;
+  --cp-segmented-indicator-offset: 0px;
 
   // ===== 基础样式 =====
   position: relative;
