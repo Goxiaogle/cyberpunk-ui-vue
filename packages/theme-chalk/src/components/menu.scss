@@ -32,19 +32,43 @@ $menu-type-colors: (
   --cp-menu-active-color-light: var(--cp-color-primary-light);
   --cp-menu-hover-bg: var(--cp-state-hover);
   --cp-menu-border: var(--cp-border);
+  --cp-menu-font-size: var(--cp-font-size-md);
   --cp-menu-item-height: 46px;
+  --cp-menu-icon-size: 16px;
+  --cp-menu-group-title-font-size: 11px;
 
   position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
   font-family: var(--cp-menu-font-family);
-  font-size: 14px;
+  font-size: var(--cp-menu-font-size);
   font-weight: var(--cp-menu-font-weight);
   font-variation-settings: 'wght' var(--cp-menu-font-weight);
   color: var(--cp-menu-text);
   background: var(--cp-menu-bg);
   user-select: none;
+
+  @include m(sm) {
+    --cp-menu-font-size: var(--cp-font-size-sm);
+    --cp-menu-item-height: 40px;
+    --cp-menu-icon-size: 14px;
+    --cp-menu-group-title-font-size: 10px;
+  }
+
+  @include m(md) {
+    --cp-menu-font-size: var(--cp-font-size-md);
+    --cp-menu-item-height: 46px;
+    --cp-menu-icon-size: 16px;
+    --cp-menu-group-title-font-size: 11px;
+  }
+
+  @include m(lg) {
+    --cp-menu-font-size: var(--cp-font-size-lg);
+    --cp-menu-item-height: 54px;
+    --cp-menu-icon-size: 18px;
+    --cp-menu-group-title-font-size: 12px;
+  }
 
   // ===== 垂直模式 =====
   @include m(vertical) {
@@ -88,7 +112,7 @@ $menu-type-colors: (
     > .cp-menu-item,
     > .cp-sub-menu > .cp-sub-menu__title {
       height: 100%;
-      min-height: 48px;
+      min-height: var(--cp-menu-item-height);
       border-bottom: 2px solid transparent;
       border-left: none;
       padding: 0 16px !important;
@@ -177,7 +201,7 @@ $menu-type-colors: (
     > .cp-menu-item > .cp-menu-item__icon,
     > .cp-sub-menu > .cp-sub-menu__title > .cp-sub-menu__icon {
       margin: 0;
-      font-size: 18px;
+      font-size: calc(var(--cp-menu-icon-size) + 2px);
     }
 
     .cp-menu-item-group__title {
@@ -234,7 +258,7 @@ $menu-type-colors: (
 
       .cp-menu-item__icon,
       .cp-sub-menu__icon {
-        font-size: 16px;
+        font-size: var(--cp-menu-icon-size);
       }
     }
 
@@ -502,7 +526,7 @@ $menu-type-colors: (
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: var(--cp-menu-icon-size);
     transition: color 0.2s ease;
 
     svg {
@@ -596,7 +620,7 @@ $menu-type-colors: (
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: var(--cp-menu-icon-size);
 
     svg {
       width: 16px;
@@ -691,7 +715,7 @@ $menu-type-colors: (
   // ===== 分组标题 =====
   @include e(title) {
     padding: 8px 20px 4px;
-    font-size: 11px;
+    font-size: var(--cp-menu-group-title-font-size);
     font-variation-settings: 'wght' 600;
     text-transform: uppercase;
     color: var(--cp-text-muted);

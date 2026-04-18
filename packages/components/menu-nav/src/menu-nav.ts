@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { IconValue } from '@cyberpunk-vue/components/icon/src/icon'
-import type { MenuType, MenuMode, MenuShape, MenuVariant } from '@cyberpunk-vue/components/menu/src/menu'
+import type { MenuType, MenuMode, MenuShape, MenuVariant, MenuSize } from '@cyberpunk-vue/components/menu/src/menu'
 
 /**
  * 菜单项数据结构
@@ -69,6 +69,14 @@ export const menuNavProps = {
   mode: {
     type: String as PropType<MenuMode>,
     default: 'vertical',
+  },
+  /**
+   * 菜单尺寸
+   * @default 'md'
+   */
+  size: {
+    type: [String, Number] as PropType<MenuSize>,
+    default: 'md',
   },
   /**
    * 默认激活项 index

@@ -64,6 +64,11 @@ const meta: Meta<typeof CpMenu> = {
       options: ['solid', 'outline', 'note'],
       description: '菜单变体',
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '菜单尺寸',
+    },
     collapse: {
       control: 'boolean',
       description: '是否折叠（仅 vertical 有效）',
@@ -82,6 +87,7 @@ const meta: Meta<typeof CpMenu> = {
     type: 'default',
     shape: 'clip',
     variant: 'solid',
+    size: 'md',
     collapse: false,
     uniqueOpened: false,
   },

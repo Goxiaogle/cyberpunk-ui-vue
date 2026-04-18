@@ -40,6 +40,7 @@ const isGroupItem = (item: MenuNavItem) => !!item.group
 <template>
   <CpMenu
     :mode="mode"
+    :size="size"
     :default-active="defaultActive"
     :default-openeds="defaultOpeneds"
     :unique-opened="uniqueOpened"

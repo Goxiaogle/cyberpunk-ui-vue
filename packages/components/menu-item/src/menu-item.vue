@@ -10,6 +10,8 @@ defineOptions({ name: 'CpMenuItem' })
 const props = defineProps(menuItemProps)
 const emit = defineEmits(menuItemEmits)
 const ns = useNamespace('menu-item')
+const instance = getCurrentInstance()
+const router = instance?.appContext.config.globalProperties.$router
 
 const menuCtx = inject(menuContextKey, undefined)
 const subMenuCtx = inject(subMenuContextKey, undefined)
@@ -51,19 +53,15 @@ const handleClick = () => {
   emit('click', resolvedIndex)
 
   // Router 模式
-  if (menuCtx?.router) {
-    const instance = getCurrentInstance()
-    const router = instance?.appContext.config.globalProperties.$router
-    if (router) {
-      const target = props.route ?? resolvedIndex
-      router.push(target).catch((err: unknown) => {
-        const error = err as { name?: string }
-        // NavigationDuplicated 等错误静默处理
-        if (error.name !== 'NavigationDuplicated') {
-          console.warn('[CpMenuItem] Router navigation failed:', err)
-        }
-      })
-    }
+  if (menuCtx?.router && router) {
+    const target = props.route ?? resolvedIndex
+    router.push(target).catch((err: unknown) => {
+      const error = err as { name?: string }
+      // NavigationDuplicated 等错误静默处理
+      if (error.name !== 'NavigationDuplicated') {
+        console.warn('[CpMenuItem] Router navigation failed:', err)
+      }
+    })
   }
 }
 </script>

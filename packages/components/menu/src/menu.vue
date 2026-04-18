@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, nextTick, onMounted, provide, ref, toRef, watch } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { isPresetSize, normalizeSize, useNamespace } from '@cyberpunk-vue/hooks'
 import { menuProps, menuEmits } from './menu'
 import { menuContextKey } from './constants'
 import type { MenuContext } from './constants'
@@ -10,6 +10,9 @@ defineOptions({ name: 'CpMenu' })
 const props = defineProps(menuProps)
 const emit = defineEmits(menuEmits)
 const ns = useNamespace('menu')
+const instance = getCurrentInstance()
+const routerInstance = instance?.appContext.config.globalProperties.$router
+const menuSizeMap = { sm: 13, md: 14, lg: 16 }
 
 // ===== 状态 =====
 const activeIndex = ref(props.defaultActive)
@@ -120,8 +123,11 @@ watch(
 
 // ===== 方法 =====
 const handleSelect = (index: string, indexPath: string[]) => {
-  activeIndex.value = index
-  activeIndexPath.value = indexPath
+  // router 模式下不立即更新高亮，由路由 watcher 在导航成功后驱动
+  if (!props.router) {
+    activeIndex.value = index
+    activeIndexPath.value = indexPath
+  }
   emit('select', index, indexPath)
 }
 
@@ -172,17 +178,13 @@ onMounted(() => {
   })
 
   // router 模式额外监听路由变化
-  if (props.router) {
-    const instance = getCurrentInstance()
-    const routerInstance = instance?.appContext.config.globalProperties.$router
-    if (routerInstance) {
-      watch(
-        () => routerInstance.currentRoute.value.path,
-        (path: string) => {
-          syncActiveState(path)
-        },
-      )
-    }
+  if (props.router && routerInstance) {
+    watch(
+      () => routerInstance.currentRoute.value.path,
+      (path: string) => {
+        syncActiveState(path)
+      },
+    )
   }
 })
 
@@ -196,13 +198,22 @@ const classes = computed(() => [
   ns.m(props.mode),
   ns.m(`shape-${props.shape}`),
   ns.m(props.variant),
+  isPresetSize(props.size) && ns.m(props.size),
   ns.is('collapse', props.collapse && props.mode === 'vertical'),
+  ns.is('custom-size', !isPresetSize(props.size)),
   props.type !== 'default' ? ns.m(props.type) : '',
   props.color ? ns.is('custom-color') : '',
 ])
 
 const menuStyle = computed(() => {
   const style: Record<string, string> = {}
+  if (!isPresetSize(props.size)) {
+    const normalizedSize = normalizeSize(props.size, menuSizeMap)
+    style['--cp-menu-font-size'] = normalizedSize
+    style['--cp-menu-item-height'] = `calc(${normalizedSize} * 3.25)`
+    style['--cp-menu-icon-size'] = `calc(${normalizedSize} * 1.15)`
+    style['--cp-menu-group-title-font-size'] = `calc(${normalizedSize} * 0.8)`
+  }
   if (props.color) {
     style['--cp-menu-active-color'] = props.color
     style['--cp-menu-active-color-light'] = `color-mix(in srgb, ${props.color} 20%, transparent)`

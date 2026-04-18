@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { Size } from '@cyberpunk-vue/hooks'
 
 /**
  * Menu 颜色类型
@@ -26,6 +27,7 @@ export type MenuShape = 'clip' | 'no-clip' | 'round' | 'circle'
  * - `note` - 透明背景 + 发光条高亮（旧默认样式）
  */
 export type MenuVariant = 'solid' | 'outline' | 'note'
+export type MenuSize = Size
 
 /**
  * CpMenu 组件 Props 定义
@@ -118,6 +120,18 @@ export const menuProps = {
   variant: {
     type: String as PropType<MenuVariant>,
     default: 'solid',
+  },
+  /**
+   * 菜单尺寸
+   * - `sm` - 更紧凑的字号与行高
+   * - `md` - 默认尺寸
+   * - `lg` - 更大的字号与行高
+   * - 也支持数字 (px) 或带单位字符串 (如 '1rem')
+   * @default 'md'
+   */
+  size: {
+    type: [String, Number] as PropType<MenuSize>,
+    default: 'md',
   },
   /**
    * 默认激活的菜单项 index。
