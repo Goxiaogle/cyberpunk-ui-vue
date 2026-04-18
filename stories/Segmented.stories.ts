@@ -35,6 +35,10 @@ const meta: Meta<typeof CpSegmented> = {
       control: 'boolean',
       description: '是否撑满宽度',
     },
+    clearable: {
+      control: 'boolean',
+      description: '是否允许清空（再次点击已选项或按 Esc 清空）',
+    },
     color: {
       control: 'color',
       description: '自定义主题色',
@@ -47,6 +51,7 @@ const meta: Meta<typeof CpSegmented> = {
     shape: 'clip',
     disabled: false,
     block: false,
+    clearable: false,
   },
 }
 
@@ -275,6 +280,73 @@ export const Disabled: Story = {
         <div>
           <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">单项禁用 (B, D)</p>
           <CpSegmented v-model="v2" :options="optionsMixed" type="primary" />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 可清空 — 再次点击已选项或按 Esc 清空
+ *
+ * 启用 `clearable` 后：
+ * - **再次点击**当前已选项：清空为 `undefined`
+ * - **按 Esc 键**（组件内聚焦时）：清空为 `undefined`
+ * - 清空时触发 `clear` 事件以及 `update:modelValue(undefined)` / `change(undefined)`
+ */
+export const Clearable: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const mode = ref<string | undefined>('scan')
+      const view = ref<string | undefined>(undefined)
+      const clearLog = ref<string[]>([])
+      const options = [
+        { label: 'SCAN', value: 'scan' },
+        { label: 'BREACH', value: 'breach' },
+        { label: 'DECODE', value: 'decode' },
+      ]
+      const viewOptions = ['列表', '网格', '画廊']
+      const onClear = () => {
+        clearLog.value.unshift(new Date().toLocaleTimeString())
+        if (clearLog.value.length > 5) clearLog.value.pop()
+      }
+      return { mode, view, options, viewOptions, clearLog, onClear }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">
+            可清空 (再次点击已选项 / 聚焦后按 Esc)
+          </p>
+          <CpSegmented
+            v-model="mode"
+            :options="options"
+            type="warning"
+            variant="neon"
+            clearable
+            @clear="onClear"
+          />
+          <p style="margin-top: 8px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+            MODE:
+            <span v-if="mode" style="color: var(--cp-color-warning); text-transform: uppercase;">{{ mode }}</span>
+            <span v-else style="color: var(--cp-text-muted); font-style: italic;">(未选)</span>
+          </p>
+          <p v-if="clearLog.length" style="margin-top: 4px; color: var(--cp-text-muted); font-size: 12px; font-family: monospace;">
+            clear 事件: {{ clearLog.join(' · ') }}
+          </p>
+        </div>
+
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">
+            初始空值 + clearable
+          </p>
+          <CpSegmented v-model="view" :options="viewOptions" type="primary" clearable />
+          <p style="margin-top: 8px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+            当前:
+            <span v-if="view" style="color: var(--cp-color-primary);">{{ view }}</span>
+            <span v-else style="color: var(--cp-text-muted); font-style: italic;">(未选)</span>
+          </p>
         </div>
       </div>
     `,

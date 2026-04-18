@@ -54,14 +54,13 @@ const updateIndicator = () => {
   }
 
   const activeEl = itemRefs.value[activeIndex]
-  const trackEl = trackRef.value
 
-  const trackRect = trackEl.getBoundingClientRect()
-  const itemRect = activeEl.getBoundingClientRect()
-
+  // 使用 offsetLeft / offsetWidth 代替 getBoundingClientRect()
+  // 因为 getBoundingClientRect 会受到祖先元素 CSS transform 的影响
+  // （如 Dialog 入场动画的 scale(0.92)），导致计算出的宽度和位置不正确
   indicatorStyle.value = {
-    width: `${itemRect.width}px`,
-    transform: `translateX(calc(${itemRect.left - trackRect.left}px + var(--cp-segmented-indicator-offset, -2px)))`,
+    width: `${activeEl.offsetWidth}px`,
+    transform: `translateX(calc(${activeEl.offsetLeft}px + var(--cp-segmented-indicator-offset, 0px)))`,
     opacity: '1',
   }
 }
@@ -83,7 +82,12 @@ watch(
 let resizeObserver: ResizeObserver | null = null
 
 onMounted(() => {
-  nextTick(updateIndicator)
+  // requestAnimationFrame 确保浏览器已完成布局计算
+  // （nextTick 仅保证 Vue DOM 已刷新，不保证浏览器布局完成）
+  requestAnimationFrame(updateIndicator)
+
+  // 自定义字体加载完成后重新计算（字体影响文字宽度和元素偏移量）
+  document.fonts.ready.then(updateIndicator)
 
   if (trackRef.value) {
     resizeObserver = new ResizeObserver(() => {
@@ -126,13 +130,34 @@ const customStyle = computed(() => {
   return style
 })
 
+// ===== 清空 =====
+const clearValue = () => {
+  if (isDisabled.value || props.modelValue === undefined) return
+  emit('update:modelValue', undefined)
+  emit('change', undefined)
+  emit('clear')
+}
+
 // ===== 选项点击 =====
 const handleItemClick = (option: SegmentedOption) => {
   if (isDisabled.value || option.disabled) return
-  if (option.value === props.modelValue) return
+  if (option.value === props.modelValue) {
+    // 再次点击已选项：clearable 时清空，否则忽略
+    if (props.clearable) clearValue()
+    return
+  }
 
   emit('update:modelValue', option.value)
   emit('change', option.value)
+}
+
+// ===== 键盘：Esc 清空 =====
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key !== 'Escape') return
+  if (!props.clearable || isDisabled.value) return
+  if (props.modelValue === undefined) return
+  e.preventDefault()
+  clearValue()
 }
 
 // ===== 选项类名 =====
@@ -154,6 +179,7 @@ defineExpose({
     :class="classes"
     :style="customStyle"
     role="radiogroup"
+    @keydown="handleKeydown"
   >
     <!-- 滑块指示器 -->
     <div

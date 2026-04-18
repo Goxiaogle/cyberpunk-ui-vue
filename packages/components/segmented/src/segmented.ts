@@ -150,6 +150,15 @@ export const segmentedProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * 是否允许清空选中项
+   * 启用后可通过再次点击已选项或按 Esc 键清空
+   * @default false
+   */
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
@@ -160,14 +169,20 @@ export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
 export const segmentedEmits = {
   /**
    * 值变化时触发 (v-model 绑定)
+   * 启用 clearable 并清空时值为 undefined
    */
-  'update:modelValue': (value: SegmentedValueType) =>
-    typeof value === 'string' || typeof value === 'number',
+  'update:modelValue': (value: SegmentedValueType | undefined) =>
+    value === undefined || typeof value === 'string' || typeof value === 'number',
   /**
    * 值变化时触发
+   * 启用 clearable 并清空时值为 undefined
    */
-  change: (value: SegmentedValueType) =>
-    typeof value === 'string' || typeof value === 'number',
+  change: (value: SegmentedValueType | undefined) =>
+    value === undefined || typeof value === 'string' || typeof value === 'number',
+  /**
+   * 清空选中项时触发（需启用 clearable）
+   */
+  clear: () => true,
 }
 
 export type SegmentedEmits = typeof segmentedEmits
