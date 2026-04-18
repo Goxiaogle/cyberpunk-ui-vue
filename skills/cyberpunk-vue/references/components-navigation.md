@@ -14,6 +14,7 @@
 | `mode` | `'horizontal' \| 'vertical'` | `'vertical'` | 菜单布局方向 |
 | `shape` | `'clip' \| 'no-clip' \| 'round' \| 'circle'` | `'clip'` | 菜单形状 |
 | `variant` | `'solid' \| 'outline' \| 'note'` | `'solid'` | 菜单变体 |
+| `size` | `Size` | `'md'` | 菜单尺寸 |
 | `defaultActive` | `string` | `''` | 默认激活的菜单项 index。 |
 | `defaultOpeneds` | `string[]` | `[]` | 默认展开的子菜单 index 数组 |
 | `uniqueOpened` | `boolean` | `false` | 是否只保持一个子菜单展开（手风琴模式） |
@@ -32,6 +33,7 @@
 | `title` | `string` | `''` | 分组标题 |
 | `data` | `MenuNavItem[]` | — | 菜单数据 |
 | `mode` | `MenuMode` | `'vertical'` | 菜单模式 |
+| `size` | `MenuSize` | `'md'` | 菜单尺寸 |
 | `defaultActive` | `string` | `''` | 默认激活项 index |
 | `defaultOpeneds` | `string[]` | `[]` | 默认展开的 sub-menu index 列表 |
 | `uniqueOpened` | `boolean` | `false` | 是否只展开一个 sub-menu |
@@ -69,7 +71,10 @@
 | `--cp-menu-active-color-light` | `var(--cp-color-#{$type}-light)` |  |
 | `--cp-menu-hover-bg` | `var(--cp-state-hover)` |  |
 | `--cp-menu-border` | `var(--cp-border)` |  |
-| `--cp-menu-item-height` | `46px` |  |
+| `--cp-menu-font-size` | `var(--cp-font-size-lg)` |  |
+| `--cp-menu-item-height` | `54px` |  |
+| `--cp-menu-icon-size` | `18px` |  |
+| `--cp-menu-group-title-font-size` | `12px` |  |
 | `--cp-menu-item-font-weight` | `var(--cp-menu-active-font-weight)` |  |
 
 ---

@@ -421,12 +421,21 @@
 | `dimmedDuration` | `DurationValue` | `300` | 减淡模式动画持续时间 |
 | `triggerImageHover` | `boolean` | `false` | Card hover 时是否触发内部 CpImage 的 hover 效果 |
 | `hoverScale` | `boolean` | `false` | Card hover 时放大效果 |
-| `collapse` | `boolean` | `false` | 是否折叠卡片（仅显示头部） |
+| `collapse` | `boolean` | `undefined` | 是否折叠卡片（仅显示头部） |
 | `halfCollapse` | `boolean` | `false` | 半折叠模式 — 仅在 collapse=true 时生效 |
 | `peekHeight` | `number \| string` | `80` | 半折叠时 body 区域的可见高度 |
+| `showCollapseAction` | `boolean` | `false` | 是否显示内置折叠控制器（"查看更多" / "收起"） |
+| `collapseActionExpandText` | `string` | `'查看更多'` | 内置控制器展开文案 |
+| `collapseActionCollapseText` | `string` | `'收起'` | 内置控制器收起文案 |
 | `loading` | `boolean` | `false` | 是否处于加载状态 |
 | `loadingText` | `string` | `'加载中...'` | 加载中显示的文字 |
 | `disabled` | `boolean` | `false` | 是否处于禁用状态 |
+
+### 事件
+
+| 事件名 | 参数 | 说明 |
+|--------|------|------|
+| `collapse-change` | `(payload: { needed: boolean })` | 半折叠模式下，内容高度变化时触发 |
 
 ### 插槽
 
@@ -440,6 +449,7 @@
 | `cover` | 卡片封面区域（位于头部前） |
 | `overlay` | 卡片悬停操作层 |
 | `loading` | 自定义加载中内容 |
+| `collapse-action` | 自定义折叠控制器内容，作用域：`{ collapsed: boolean, needed: boolean, toggle: () => void }` |
 
 ### CSS 变量
 
@@ -534,6 +544,10 @@
 | `bodyStyle` | `string \| CSSProperties` | — | 主体内容区域自定义 style |
 | `footerStyle` | `string \| CSSProperties` | — | 底部区域自定义 style |
 | `overlayStyle` | `string \| CSSProperties` | — | 遮罩层自定义 style |
+| `loading` | `boolean` | `false` | 是否处于加载状态 |
+| `loadingText` | `string` | `'加载中...'` | 加载中显示的文字 |
+| `loadingClass` | `\| string` | — | 加载遮罩自定义类名 |
+| `loadingStyle` | `string \| CSSProperties` | — | 加载遮罩自定义样式 |
 | `zIndex` | `number` | `2000` | z-index |
 | `showConfirmButton` | `boolean` | `true` | 是否显示确认按钮（当无 #footer 插槽时生效） |
 | `showCancelButton` | `boolean` | `true` | 是否显示取消按钮（当无 #footer 插槽时生效） |
@@ -559,6 +573,7 @@
 | `cover` | 封面区域（位于头部上方，与 Card 的 cover 插槽一致） |
 | `header` | 自定义整个头部区域（覆盖 title + 关闭按钮） |
 | `title` | 仅标题区域 |
+| `loading` | 自定义加载中内容 |
 | `footer` | 底部操作区域，作用域 props: `{ close: () => void, confirm: () => void }` |
 
 ### CSS 变量
