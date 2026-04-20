@@ -85,11 +85,12 @@ const onCollapseTransitionEnd = (event: TransitionEvent) => {
   clearExpandUnlockTimer()
 }
 
-// ========== ResizeObserver：检测内容高度 vs peekHeight ==========
+// ========== 内容变更监听：检测内容高度 vs peekHeight ==========
 const collapseInnerRef = ref<HTMLElement>()
 // collapseNeeded 已提前声明（isCollapsed 依赖它）
 const expandedHeight = ref<number | null>(null)
 let resizeObserver: ResizeObserver | null = null
+let mutationObserver: MutationObserver | null = null
 
 function parsePeekHeightPx(): number {
   const v = props.peekHeight
@@ -112,20 +113,39 @@ function updateExpandedHeight() {
   }
 }
 
-function setupResizeObserver() {
-  cleanupResizeObserver()
+function setupObservers() {
+  cleanupObservers()
   if (!props.halfCollapse || !collapseInnerRef.value) return
+
+  // ResizeObserver 检测元素边框盒变化（字体加载、窗口 resize 等引起的 reflow）
   resizeObserver = new ResizeObserver(() => {
     checkCollapseNeeded()
     updateExpandedHeight()
   })
   resizeObserver.observe(collapseInnerRef.value)
+
+  // MutationObserver 兜底：当 max-height 已 clamp 到小于当前 scrollHeight 的值时，
+  // 新增 DOM 节点不会引起观察元素边框盒变化，ResizeObserver 不会触发。
+  // 需要监听 DOM 变更以捕获 v-if/v-for 切换、外部动态替换内容等场景。
+  mutationObserver = new MutationObserver(() => {
+    checkCollapseNeeded()
+    updateExpandedHeight()
+  })
+  mutationObserver.observe(collapseInnerRef.value, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  })
 }
 
-function cleanupResizeObserver() {
+function cleanupObservers() {
   if (resizeObserver) {
     resizeObserver.disconnect()
     resizeObserver = null
+  }
+  if (mutationObserver) {
+    mutationObserver.disconnect()
+    mutationObserver = null
   }
 }
 
@@ -134,11 +154,11 @@ watch(
   (val) => {
     if (val) {
       nextTick(() => {
-        setupResizeObserver()
+        setupObservers()
         checkCollapseNeeded()
       })
     } else {
-      cleanupResizeObserver()
+      cleanupObservers()
       // 重置为 true（默认需要折叠）以备下次开启
       collapseNeeded.value = true
     }
@@ -153,7 +173,7 @@ watch(
 onMounted(() => {
   if (props.halfCollapse) {
     nextTick(() => {
-      setupResizeObserver()
+      setupObservers()
       checkCollapseNeeded()
       updateExpandedHeight()
     })
@@ -162,7 +182,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearExpandUnlockTimer()
-  cleanupResizeObserver()
+  cleanupObservers()
 })
 
 // ========== 内置折叠控制器 ==========

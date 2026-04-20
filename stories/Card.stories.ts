@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import {CpCard, CpButton, CpImage, CpTag, CpTextarea, CpText, CpIcon, CpLoading, CpSwitch} from '@cyberpunk-vue/components'
 
 // 资产管理卡片示例所需图标 (使用 MDI 填充图标)
@@ -968,6 +968,99 @@ export const 内置折叠控制器: Story = {
                 <p>slot 传递 collapsed、needed、toggle，使用者可完全掌控渲染内容和交互逻辑。</p>
                 <p>这是第三段文字，确保内容超过 peekHeight 以触发控制器显示。</p>
               </CpCard>
+            </div>
+          </div>
+        `,
+    }),
+}
+
+/** 动态内容 — 短/长切换 */
+export const 动态内容切换: Story = {
+    render: () => ({
+        components: {CpCard, CpButton, CpSwitch},
+        setup() {
+            const SHORT_PARAGRAPHS = ['这是一段基础说明文字。']
+            const LONG_PARAGRAPHS = [
+                '这是一段基础说明文字。',
+                '【追加段落 1】切换到长内容后，原本已完整显示的内容不应突然折叠。',
+                '【追加段落 2】修复前 internalCollapsed 默认 true 被 collapseNeeded=false 屏蔽；切到长内容后 needed 变 true，折叠意图被"解蔽"，卡片瞬间塌缩。',
+                '【追加段落 3】修复后 needed 由 false → true 时自动重置 internalCollapsed=false，保持用户正在看到的视觉状态。',
+                '【追加段落 4】这一行用于确保总内容高度超过 peekHeight (80px) 以触发折叠判定。',
+            ]
+
+            const isLong1 = ref(false)
+            const paragraphs1 = computed(() => isLong1.value ? LONG_PARAGRAPHS : SHORT_PARAGRAPHS)
+
+            const isLong2 = ref(false)
+            const paragraphs2 = computed(() => isLong2.value ? LONG_PARAGRAPHS : SHORT_PARAGRAPHS)
+
+            const autoMode = ref(false)
+            let autoTimer: ReturnType<typeof setInterval> | null = null
+
+            const toggleAuto = () => {
+                autoMode.value = !autoMode.value
+                if (autoMode.value) {
+                    autoTimer = setInterval(() => {
+                        isLong2.value = !isLong2.value
+                    }, 1800)
+                } else if (autoTimer) {
+                    clearInterval(autoTimer)
+                    autoTimer = null
+                }
+            }
+
+            return { isLong1, isLong2, paragraphs1, paragraphs2, autoMode, toggleAuto }
+        },
+        template: `
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h4 style="color: #fff; margin-bottom: 0;">动态内容 — 短/长切换（自治 halfCollapse 场景）</h4>
+            <p style="color: var(--cp-text-tertiary); font-size: 12px; margin: 0;">
+              验证：外部动态替换内容，从"无需折叠"→"需要折叠"时，卡片应进入半折叠并显示"查看更多"按钮，而不是卡在短内容布局不响应。
+            </p>
+
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;">
+              <div style="display: flex; flex-direction: column; gap: 12px; width: 360px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <CpSwitch v-model="isLong1" />
+                  <span style="color: var(--cp-text-secondary); font-size: 13px;">
+                    当前内容：<code>{{ isLong1 ? '长' : '短' }}</code>（{{ paragraphs1.length }} 段）
+                  </span>
+                </div>
+                <CpCard
+                  title="手动切换"
+                  half-collapse
+                  show-collapse-action
+                  style="width: 100%;"
+                >
+                  <p v-for="(para, idx) in paragraphs1" :key="idx">{{ para }}</p>
+                </CpCard>
+                <p style="color: var(--cp-text-tertiary); font-size: 11px; margin: 0; line-height: 1.6;">
+                  预期：切到"长"后，卡片进入半折叠（peekHeight 可见），底部显示 <b>查看更多</b>；点击后展开全部。
+                </p>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px; width: 360px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <CpButton size="sm" :type="autoMode ? 'error' : 'primary'" @click="toggleAuto">
+                    {{ autoMode ? '停止自动切换' : '开始自动切换 (1.8s)' }}
+                  </CpButton>
+                  <span style="color: var(--cp-text-secondary); font-size: 13px;">
+                    当前内容：<code>{{ isLong2 ? '长' : '短' }}</code>（{{ paragraphs2.length }} 段）
+                  </span>
+                </div>
+                <CpCard
+                  title="自动循环切换"
+                  half-collapse
+                  show-collapse-action
+                  type="primary"
+                  style="width: 100%;"
+                >
+                  <p v-for="(para, idx) in paragraphs2" :key="idx">{{ para }}</p>
+                </CpCard>
+                <p style="color: var(--cp-text-tertiary); font-size: 11px; margin: 0; line-height: 1.6;">
+                  预期：循环切换中短内容全显、长内容半折叠显示 <b>查看更多</b>；切换过程应丝滑无卡死。
+                </p>
+              </div>
             </div>
           </div>
         `,
