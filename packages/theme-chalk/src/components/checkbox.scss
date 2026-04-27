@@ -278,12 +278,53 @@ $checkbox-sizes: (
   
   // ===== 禁用状态 =====
   @include when(disabled) {
-    opacity: 0.5;
     cursor: not-allowed;
-    filter: grayscale(0.6);
-    
-    .cp-checkbox__indicator {
-      background: var(--cp-surface-bright);
+
+    .cp-checkbox__label {
+      color: var(--cp-text-disabled);
+    }
+
+    // 未选中：占位底色 + dashed 边框 表达"禁用且为空"
+    &:not(.is-checked):not(.is-indeterminate) {
+      .cp-checkbox__indicator {
+        background: var(--cp-surface-bright);
+        border-color: var(--cp-border-disabled);
+        border-style: dashed;
+        box-shadow: none;
+      }
+    }
+
+    // 选中 / 半选：保留主题色与勾标，但 dashed 边框 + 半透明
+    // 表达"已选但锁定"，与正常选中态形成明确区分
+    &.is-checked,
+    &.is-indeterminate {
+      .cp-checkbox__indicator {
+        box-shadow: none;
+        border-style: dashed;
+        opacity: 0.55;
+      }
+    }
+
+    // 边框模式：外框 dashed + 去发光，让"禁用"在外观上明确可读
+    &.is-border {
+      border-style: dashed;
+      box-shadow: none;
+
+      &:not(.is-checked):not(.is-indeterminate) {
+        border-color: var(--cp-border-disabled);
+        background: var(--cp-surface-variant);
+      }
+
+      // 选中态：用外层 opacity 整体弱化，并重置内部 indicator opacity，
+      // 避免与上面 .is-checked 的 0.55 叠加导致几乎不可见
+      &.is-checked,
+      &.is-indeterminate {
+        opacity: 0.7;
+
+        .cp-checkbox__indicator {
+          opacity: 1;
+        }
+      }
     }
   }
 }

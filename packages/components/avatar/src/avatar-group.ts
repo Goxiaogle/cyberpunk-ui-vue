@@ -34,6 +34,16 @@ export const avatarGroupProps = {
         default: undefined,
     },
     /**
+     * 自定义总数
+     * 指定后折叠计数器显示为 total - 已显示数量，用于仅传入部分头像却想展示真实总数的场景
+     * 若小于已显示数量则不生效
+     * @default undefined (使用插槽子项实际数量)
+     */
+    total: {
+        type: Number,
+        default: undefined,
+    },
+    /**
      * 统一尺寸
      * 会通过 provide 注入到子 Avatar
      * @default 'md'

@@ -3,9 +3,9 @@
  * CpTable - 赛博朋克风格数据表格
  * 支持排序、多选、条纹、边框、固定表头、树形数据
  */
-import { computed, ref, watch, provide } from 'vue'
+import { computed, ref, shallowRef, toRaw, watch, provide } from 'vue'
 import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
-import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState } from './table'
+import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState, type SelectionDetail, type SelectionPayload } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
@@ -85,44 +85,219 @@ const isSortActive = (col: TableColumnConfig, order: Exclude<SortOrder, null>) =
   sortState.value.prop === col.prop && sortState.value.order === order
 
 // ===== 选择 =====
-const selectedRows = ref<Set<any>>(new Set())
+// 使用 shallowRef 避免 Vue 把 Set 包成 reactive 代理——
+// 一旦 Set 被代理，iterator / has / add 会在 raw 与 reactive 两种引用间切换，
+// 同一行可能以两种引用混入 Set，导致 delete 失效、重复计数等问题。
+// 所有进入 Set 的行引用都通过 toRaw 归一化为 raw。
+const selectedRows = shallowRef<Set<any>>(new Set())
+
+// 归一化 row 引用：统一存 raw，避免 reactive 包装引入的身份差异
+const rawRow = (row: any): any => toRaw(row)
+
+// 树形节点索引：父、直接子、所有后代（不含自身）
+// 声明在 childrenField 之前，通过闭包在访问时读取；非树模式下返回空 Map
+// 所有 key 与 descendants 都用 raw 引用
+interface TreeNodeInfo {
+  parent: any | null
+  children: any[]
+  descendants: any[]
+}
+
+const treeNodeInfoMap = computed<Map<any, TreeNodeInfo>>(() => {
+  const map = new Map<any, TreeNodeInfo>()
+  if (!isTreeMode.value) return map
+  const field = childrenField.value
+  const walk = (nodes: any[], parent: any | null) => {
+    for (const node of nodes) {
+      const rawNode = rawRow(node)
+      const rawChildren: any[] = Array.isArray(rawNode[field])
+        ? rawNode[field].map(rawRow)
+        : []
+      const info: TreeNodeInfo = { parent, children: rawChildren, descendants: [] }
+      map.set(rawNode, info)
+      walk(rawChildren, rawNode)
+      for (const c of rawChildren) {
+        const ci = map.get(c)
+        if (ci) info.descendants.push(c, ...ci.descendants)
+      }
+    }
+  }
+  walk(props.data, null)
+  return map
+})
+
+// 整棵树全部节点（仅树模式下非空）
+const allTreeRows = computed<any[]>(() => Array.from(treeNodeInfoMap.value.keys()))
+
+// key → raw row 查找，用于受控 checkedKeys 回填以及 setSelectionKeys
+// 树模式走整棵树，非树模式走 props.data
+const keyToRowMap = computed<Map<string | number, any>>(() => {
+  const m = new Map<string | number, any>()
+  if (isTreeMode.value) {
+    for (const r of allTreeRows.value) {
+      m.set(getRowKey(r, -1), r)
+    }
+  } else {
+    props.data.forEach((r, i) => {
+      m.set(getRowKey(r, i), rawRow(r))
+    })
+  }
+  return m
+})
+
+// 当前树选择策略：非树模式强制视为 strict
+const treeCheckMode = computed<'strict' | 'cascade' | 'bubble'>(() => {
+  if (!isTreeMode.value) return 'strict'
+  return props.treeCheckMode
+})
+
+// 跨树行聚合：全选/半选/父行半选等需要遍历整棵树
+const isCrossTreeSelect = computed(() => treeCheckMode.value !== 'strict')
+
+// 模板中使用：某行是否已选中（统一 raw 引用比较）
+const isRowSelected = (row: any): boolean => selectedRows.value.has(rawRow(row))
 
 const isAllSelected = computed(() => {
-  if (sortedData.value.length === 0) return false
-  return sortedData.value.every(row => selectedRows.value.has(row))
+  const target = isCrossTreeSelect.value ? allTreeRows.value : sortedData.value
+  if (target.length === 0) return false
+  return target.every(row => selectedRows.value.has(rawRow(row)))
 })
 
 const isIndeterminate = computed(() => {
-  const count = sortedData.value.filter(row => selectedRows.value.has(row)).length
-  return count > 0 && count < sortedData.value.length
+  const target = isCrossTreeSelect.value ? allTreeRows.value : sortedData.value
+  const count = target.filter(row => selectedRows.value.has(rawRow(row))).length
+  return count > 0 && count < target.length
 })
+
+// 父行半选：联动 / 半联动模式下有后代且部分后代被选
+const isRowIndeterminate = (row: any): boolean => {
+  if (!isCrossTreeSelect.value) return false
+  const info = treeNodeInfoMap.value.get(rawRow(row))
+  if (!info || info.descendants.length === 0) return false
+  const selectedCount = info.descendants.filter(d => selectedRows.value.has(d)).length
+  return selectedCount > 0 && selectedCount < info.descendants.length
+}
+
+// 半选行集合（仅 cascade / bubble 模式下非空），内部均为 raw
+const halfCheckedRows = computed<any[]>(() => {
+  if (!isCrossTreeSelect.value) return []
+  return allTreeRows.value.filter(r => isRowIndeterminate(r))
+})
+
+// 根据 props 构造 selection 事件 payload
+const rowsToKeys = (rows: any[]) => rows.map(r => getRowKey(r, -1))
+
+// 当前选中集合的 keys 数组是否与给定 keys 完全一致（不计顺序）
+const currentKeysMatch = (keys: readonly (string | number)[]): boolean => {
+  const cur = selectedRows.value
+  if (cur.size !== keys.length) return false
+  const lookup = keyToRowMap.value
+  for (const k of keys) {
+    const r = lookup.get(k)
+    if (r === undefined || !cur.has(r)) return false
+  }
+  return true
+}
+
+// 将外部 keys 同步到内部选择集（受控回填 / setSelectionKeys 共用）
+// 不做级联归一化——传什么 key 就只勾中那些行
+const applyCheckedKeys = (keys: readonly (string | number)[]) => {
+  if (currentKeysMatch(keys)) return
+  const lookup = keyToRowMap.value
+  const next = new Set<any>()
+  for (const k of keys) {
+    const r = lookup.get(k)
+    if (r !== undefined) next.add(r)
+  }
+  selectedRows.value = next
+}
+
+// 统一提交：写 state + 广播 selection-change + 同步 v-model
+const commitSelection = (newSet: Set<any>): SelectionPayload => {
+  selectedRows.value = newSet
+  const rows = Array.from(newSet)
+  const payload = buildSelectionPayload(rows)
+  emit('selection-change', payload)
+  emit('update:checkedKeys', rowsToKeys(rows))
+  return payload
+}
+
+const buildSelectionPayload = (rows: any[]): SelectionPayload => {
+  if (props.selectionPayload === 'detail') {
+    const halves = halfCheckedRows.value
+    const detail: SelectionDetail = {
+      rows,
+      keys: rowsToKeys(rows),
+      halfRows: [...halves],
+      halfKeys: rowsToKeys(halves),
+    }
+    return detail
+  }
+  const combined = props.includeHalfChecked ? [...rows, ...halfCheckedRows.value] : rows
+  if (props.selectionPayload === 'keys') return rowsToKeys(combined)
+  return combined
+}
 
 const handleSelectRow = (row: any) => {
   if (props.loading || props.disabled) return
+  const rawTarget = rawRow(row)
   const newSet = new Set(selectedRows.value)
-  if (newSet.has(row)) {
-    newSet.delete(row)
+  const mode = treeCheckMode.value
+  // info 里的 children / descendants 已经是 raw，map key 也是 raw
+  const info = mode !== 'strict' ? treeNodeInfoMap.value.get(rawTarget) : undefined
+
+  if (info && mode === 'cascade') {
+    // 双向联动：向下同步 + 向上回溯
+    const family = [rawTarget, ...info.descendants]
+    const targetChecked = !family.every(n => newSet.has(n))
+    for (const n of family) {
+      if (targetChecked) newSet.add(n)
+      else newSet.delete(n)
+    }
+    let p = info.parent
+    while (p) {
+      const pInfo = treeNodeInfoMap.value.get(p)
+      if (!pInfo) break
+      const allChildrenChecked = pInfo.children.length > 0 && pInfo.children.every(c => newSet.has(c))
+      if (allChildrenChecked) newSet.add(p)
+      else newSet.delete(p)
+      p = pInfo.parent
+    }
+  } else if (info && mode === 'bubble') {
+    // 半联动：
+    // - 勾选：自身 + 全部后代 + 向上冒泡勾选祖先（维护"已勾选节点的祖先必然已勾选"不变式）
+    // - 取消：自身 + 全部后代；祖先保持原状态（cascade 与 bubble 的关键差异——
+    //   子全部取消后父仍可保持选中，表达"父被显式保留"的语义）
+    if (newSet.has(rawTarget)) {
+      newSet.delete(rawTarget)
+      for (const d of info.descendants) newSet.delete(d)
+    } else {
+      newSet.add(rawTarget)
+      for (const d of info.descendants) newSet.add(d)
+      let p = info.parent
+      while (p) {
+        newSet.add(p)
+        const pInfo = treeNodeInfoMap.value.get(p)
+        p = pInfo ? pInfo.parent : null
+      }
+    }
   } else {
-    newSet.add(row)
+    if (newSet.has(rawTarget)) newSet.delete(rawTarget)
+    else newSet.add(rawTarget)
   }
-  selectedRows.value = newSet
-  const selection = Array.from(newSet)
-  emit('select', selection, row)
-  emit('selection-change', selection)
+
+  const payload = commitSelection(newSet)
+  emit('select', payload, row)
 }
 
 const handleSelectAll = () => {
   if (props.loading || props.disabled) return
-  let newSet: Set<any>
-  if (isAllSelected.value) {
-    newSet = new Set()
-  } else {
-    newSet = new Set(sortedData.value)
-  }
-  selectedRows.value = newSet
-  const selection = Array.from(newSet)
-  emit('select-all', selection)
-  emit('selection-change', selection)
+  const target = isCrossTreeSelect.value ? allTreeRows.value : sortedData.value
+  const newSet: Set<any> = isAllSelected.value
+    ? new Set()
+    : new Set(target.map(rawRow))
+  const payload = commitSelection(newSet)
+  emit('select-all', payload)
 }
 
 // ===== 当前行 =====
@@ -177,6 +352,24 @@ const initTreeExpanded = () => {
 }
 
 watch(() => props.data, initTreeExpanded, { immediate: true })
+
+// 受控 checkedKeys：外部传入 / 外部变更 / 数据异步加载后回填
+// - undefined 走非受控，不处理
+// - 有值则把 key → row 映射后写入 selectedRows；不做级联归一化
+// - currentKeysMatch 判重避免"emit → parent 更新 → watch 再回写"的无意义抖动
+watch(
+  () => props.checkedKeys,
+  (keys) => {
+    if (keys !== undefined) applyCheckedKeys(keys)
+  },
+  { immediate: true },
+)
+
+// 数据异步到达时，用最新的 key→row 映射重放一次受控 keys，
+// 否则初次挂载时 props.data 还是空数组会把 selectedRows 打成空
+watch(keyToRowMap, () => {
+  if (props.checkedKeys !== undefined) applyCheckedKeys(props.checkedKeys)
+})
 watch(() => props.defaultExpandAll, initTreeExpanded)
 
 // 检查行是否有子节点
@@ -410,11 +603,38 @@ const getAlignClass = (align: string) => {
 defineExpose({
   /** 清空选择 */
   clearSelection: () => {
-    selectedRows.value = new Set()
-    emit('selection-change', [])
+    commitSelection(new Set())
   },
-  /** 获取选中行 */
-  getSelectionRows: () => Array.from(selectedRows.value),
+  /** 程序式设置选中 rowKey 数组（不做级联归一化，与受控 prop 语义一致） */
+  setSelectionKeys: (keys: (string | number)[]) => {
+    if (currentKeysMatch(keys)) return
+    const lookup = keyToRowMap.value
+    const next = new Set<any>()
+    for (const k of keys) {
+      const r = lookup.get(k)
+      if (r !== undefined) next.add(r)
+    }
+    commitSelection(next)
+  },
+  /** 获取完全选中行对象数组 */
+  getSelectionRows: (): any[] => Array.from(selectedRows.value),
+  /** 获取完全选中行的 rowKey 数组 */
+  getSelectionKeys: (): (string | number)[] => rowsToKeys(Array.from(selectedRows.value)),
+  /** 获取半选行对象数组（仅 cascade / bubble 模式可能非空） */
+  getHalfCheckedRows: (): any[] => [...halfCheckedRows.value],
+  /** 获取半选行的 rowKey 数组（仅 cascade / bubble 模式可能非空） */
+  getHalfCheckedKeys: (): (string | number)[] => rowsToKeys(halfCheckedRows.value),
+  /** 获取结构化选中详情 { rows, keys, halfRows, halfKeys } */
+  getSelectionDetail: (): SelectionDetail => {
+    const rows = Array.from(selectedRows.value)
+    const halves = halfCheckedRows.value
+    return {
+      rows,
+      keys: rowsToKeys(rows),
+      halfRows: [...halves],
+      halfKeys: rowsToKeys(halves),
+    }
+  },
   /** 排序 */
   sort: (prop: string, order: SortOrder) => {
     sortState.value = { prop, order }
@@ -515,7 +735,7 @@ defineExpose({
                 ns.e('row'),
                 ns.is('striped', stripe && rowIndex % 2 === 1),
                 ns.is('current', highlightCurrentRow && currentRow === row),
-                ns.is('selected', selectedRows.has(row)),
+                ns.is('selected', isRowSelected(row)),
                 ns.is('expanded', expandColumn && isRowExpanded(row)),
               ]"
               @click="handleRowClick(row, rowIndex, $event)"
@@ -529,7 +749,8 @@ defineExpose({
                 <!-- Selection 列 -->
                 <template v-if="col.columnType === 'selection'">
                   <CpCheckbox
-                    :model-value="selectedRows.has(row)"
+                    :model-value="isRowSelected(row)"
+                    :indeterminate="isRowIndeterminate(row)"
                     :type="checkboxType"
                     :color="checkboxColor"
                     @change="handleSelectRow(row)"

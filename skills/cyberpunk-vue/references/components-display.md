@@ -170,6 +170,9 @@
 | `indent` | `number` | `16` | 每级层级缩进像素 |
 | `expandRowKeys` | `(string \| number)[]` | — | 受控展开行 key 数组（展开列模式） |
 | `rowExpandable` | `(row: any) =` | — | 控制每行是否可展开 |
+| `treeCheckMode` | `'strict' \| 'cascade' \| 'bubble'` | `'strict'` | 树形 + 多选场景下，父子节点的联动策略 |
+| `selectionPayload` | `'rows' \| 'keys' \| 'detail'` | `'rows'` | selection-change / select / select-all 事件 payload 的输出形态 |
+| `includeHalfChecked` | `boolean` | `false` | `selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组 |
 | `type` | `'default' \| 'selection' \| 'index' \| 'expand'` | `'default'` | 列特殊类型 |
 | `prop` | `string` | `''` | 数据字段名 |
 | `label` | `string` | `''` | 列标题 |
@@ -185,9 +188,9 @@
 |--------|------|------|
 | `sort-change` | `(sortState: SortState)` | 排序变化 |
 | `row-click` | `(row: any, index: number, event: MouseEvent)` | 行点击 |
-| `selection-change` | `(selection: any[])` | 选中行变化 |
-| `select-all` | `(selection: any[])` | 全选 |
-| `select` | `(selection: any[], row: any)` | 单行选中 |
+| `selection-change` | `(selection: SelectionPayload)` | 选中行变化 |
+| `select-all` | `(selection: SelectionPayload)` | 全选 |
+| `select` | `(selection: SelectionPayload, row: any)` | 单行选中 |
 | `current-change` | `(currentRow: any \| null, oldRow: any \| null)` | 当前行变化 |
 | `expand-change` | `(row: any, expanded: boolean)` | 树形行展开/折叠 或 行展开列展开/折叠 |
 
@@ -873,8 +876,9 @@
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
 | `data` | `TreeNodeData[]` | — | 树节点数据 |
-| `showCheckbox` | `boolean` | `false` | 是否显示复选框 |
-| `checkStrictly` | `boolean` | `false` | 严格模式：父子节点互不关联 |
+| `showCheckbox` | `boolean` | `false` | 是否显示复选框（多选模式） |
+| `showRadio` | `boolean` | `false` | 是否显示单选框（单选模式） |
+| `checkMode` | `'strict' \| 'cascade' \| 'bubble'` | — | 复选框父子联动策略（参考 CpTable `treeCheckMode`） |
 | `defaultExpandAll` | `boolean` | `false` | 默认展开所有节点 |
 | `defaultExpandedKeys` | `(string \| number)[]` | — | 默认展开的节点 key |
 | `expandedKeys` | `(string \| number)[]` | — | 受控展开的节点 key (v-model:expandedKeys) |
@@ -884,6 +888,8 @@
 | `nodeKey` | `string` | `'value'` | 节点唯一标识字段名 |
 | `props` | `TreeFieldProps` | — | 字段映射 { label, children, disabled, isLeaf } |
 | `highlightCurrent` | `boolean` | `false` | 是否高亮当前点击节点 |
+| `defaultCurrentKey` | `string \| number \| null` | `null` | 默认当前选中节点 key（非受控） |
+| `currentKey` | `string \| number \| null` | — | 受控当前选中节点 key（v-model:currentKey） |
 | `type` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 颜色类型 |
 | `color` | `string` | `''` | 自定义主题颜色 |
 | `connectorLine` | `boolean` | `true` | 是否显示连接线 |

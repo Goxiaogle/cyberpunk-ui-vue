@@ -252,13 +252,21 @@ export const 边框模式: Story = {
       const c1 = ref(true);
       const c2 = ref(false);
       const c3 = ref(false);
-      return { c1, c2, c3 };
+      const c4 = ref(true);
+      const c5 = ref(true);
+      return { c1, c2, c3, c4, c5 };
     },
     template: `
-      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-        <CpCheckbox v-model="c1" border type="primary">神经接口</CpCheckbox>
-        <CpCheckbox v-model="c2" border type="success">义体增强</CpCheckbox>
-        <CpCheckbox v-model="c3" border type="error" disabled>核心屏蔽</CpCheckbox>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <CpCheckbox v-model="c1" border type="primary">神经接口</CpCheckbox>
+          <CpCheckbox v-model="c2" border type="success">义体增强</CpCheckbox>
+          <CpCheckbox v-model="c3" border type="error" disabled>核心屏蔽</CpCheckbox>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <CpCheckbox v-model="c4" border type="primary" disabled>已锁定（选中+禁用）</CpCheckbox>
+          <CpCheckbox v-model="c5" border type="success" disabled indeterminate>已固化（半选+禁用）</CpCheckbox>
+        </div>
       </div>
     `,
   }),

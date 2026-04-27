@@ -3,6 +3,9 @@
  * CpTreeNode - 递归树节点组件
  * 负责渲染单个节点及其子节点
  *
+ * 节点内渲染顺序：
+ *   [展开箭头] → [单选/复选指示器] → [节点前缀图标] → [标签]
+ *
  * 图标优先级（展开/收起/叶子区域）：
  * 1. #icon 插槽（完全自定义模板）
  * 2. expandIcon / collapseIcon / leafIcon prop（支持函数形式）
@@ -50,8 +53,13 @@ const isChecked = computed(() => ctx.checkedKeys.value.has(props.node.key))
 const isIndeterminate = computed(() =>
   ctx.indeterminateKeys.value.has(props.node.key)
 )
+// 当前节点（currentKey 指向该节点）
+const isSelected = computed(
+  () => ctx.currentNodeKey.value === props.node.key
+)
+// 是否以高亮态渲染：仅在 highlightCurrent 开启时生效
 const isCurrent = computed(
-  () => ctx.highlightCurrent && ctx.currentNodeKey.value === props.node.key
+  () => ctx.highlightCurrent && isSelected.value
 )
 const isVisible = computed(() => {
   if (!ctx.visibleKeys.value) return true
@@ -161,10 +169,16 @@ const handleCheckChange = (e: Event) => {
 
 const handleContentClick = () => {
   ctx.handleNodeClick(props.node)
-  // 点击内容区也触发展开/收起（如果有子节点）
-  if (!props.node.isLeaf && !ctx.showCheckbox) {
+  // 点击内容区也触发展开/收起（单选 / 复选模式除外：留给对应指示器处理，避免误操作）
+  if (!props.node.isLeaf && !ctx.showCheckbox && !ctx.showRadio) {
     ctx.toggleExpand(props.node)
   }
+}
+
+const handleRadioChange = (e: Event) => {
+  e.stopPropagation()
+  if (props.node.disabled) return
+  ctx.setCurrentNode(props.node)
 }
 
 // 子节点展开/收起动画
@@ -225,18 +239,20 @@ const childrenRef = ref<HTMLElement>()
         </template>
       </span>
 
-      <!-- 节点前缀图标（可选，在展开箭头后、复选框/内容前） -->
+      <!-- 单选框（位于展开箭头后、节点图标前） -->
       <span
-        v-if="hasNodeIcon"
-        :class="ns.e('node-icon')"
+        v-if="ctx.showRadio && !ctx.showCheckbox"
+        :class="[
+          ns.e('radio'),
+          ns.is('checked', isSelected),
+          ns.is('disabled', node.disabled),
+        ]"
+        @click.stop="handleRadioChange"
       >
-        <!-- 组件形式直接渲染 -->
-        <component :is="nodeIconResolved.component" v-if="nodeIconResolved.component" />
-        <!-- 字符串形式通过 CpIcon 渲染 -->
-        <CpIcon v-else-if="nodeIconResolved.iconString" :icon="nodeIconResolved.iconString" size="sm" />
+        <span v-if="isSelected" :class="ns.e('radio-dot')" />
       </span>
 
-      <!-- 复选框 -->
+      <!-- 复选框（位于展开箭头后、节点图标前） -->
       <span
         v-if="ctx.showCheckbox"
         :class="[
@@ -269,6 +285,17 @@ const childrenRef = ref<HTMLElement>()
         >
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
+      </span>
+
+      <!-- 节点前缀图标（展开箭头与选择指示器之后、label 之前） -->
+      <span
+        v-if="hasNodeIcon"
+        :class="ns.e('node-icon')"
+      >
+        <!-- 组件形式直接渲染 -->
+        <component :is="nodeIconResolved.component" v-if="nodeIconResolved.component" />
+        <!-- 字符串形式通过 CpIcon 渲染 -->
+        <CpIcon v-else-if="nodeIconResolved.iconString" :icon="nodeIconResolved.iconString" size="sm" />
       </span>
 
       <!-- 节点内容 -->

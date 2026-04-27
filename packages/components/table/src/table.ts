@@ -25,6 +25,39 @@ export interface SortState {
 }
 
 /**
+ * 树形 + 多选联动策略
+ */
+export type TreeCheckMode = 'strict' | 'cascade' | 'bubble'
+
+/**
+ * selection-change / select / select-all 事件 payload 的输出形态
+ * - `'rows'`：数组，每项为完整行对象（默认）
+ * - `'keys'`：数组，每项为该行的 rowKey 值
+ * - `'detail'`：结构化对象，同时返回 checked 与 half-checked 两套数据
+ */
+export type SelectionPayloadShape = 'rows' | 'keys' | 'detail'
+
+/**
+ * `selectionPayload === 'detail'` 时的事件 payload 结构
+ */
+export interface SelectionDetail {
+  /** 完全选中的行对象数组 */
+  rows: any[]
+  /** 完全选中行的 rowKey 数组 */
+  keys: (string | number)[]
+  /** 半选行对象数组（仅 cascade / bubble 模式可能非空） */
+  halfRows: any[]
+  /** 半选行的 rowKey 数组 */
+  halfKeys: (string | number)[]
+}
+
+/**
+ * selection-change 等事件 payload 的联合类型
+ * 具体形态由 `selectionPayload` prop 决定
+ */
+export type SelectionPayload = any[] | (string | number)[] | SelectionDetail
+
+/**
  * 树形数据配置
  */
 export interface TableTreeProps {
@@ -72,7 +105,12 @@ export interface TableColumnConfig {
  * @slots empty - 空数据自定义内容 (默认: CpEmpty 组件)
  * @slots loading - 自定义加载中内容（替代默认 CpLoading + 文字）
  * @exposes clearSelection() - 清空选择
- * @exposes getSelectionRows() - 获取选中行数组
+ * @exposes getSelectionRows() - 获取选中行对象数组
+ * @exposes getSelectionKeys() - 获取选中行 rowKey 数组
+ * @exposes getHalfCheckedRows() - 获取半选行对象数组（仅联动模式）
+ * @exposes getHalfCheckedKeys() - 获取半选行 rowKey 数组（仅联动模式）
+ * @exposes getSelectionDetail() - 获取结构化选中详情 { rows, keys, halfRows, halfKeys }
+ * @exposes setSelectionKeys(keys) - 程序式设置选中 rowKey 数组
  * @exposes sort(prop, order) - 编程式排序
  * @exposes setCurrentRow(row) - 设置当前行
  * @exposes toggleRowExpand(row, expanded?) - 切换行展开（展开列模式）
@@ -279,12 +317,68 @@ export const tableProps = {
     type: Function as PropType<(row: any) => boolean>,
     default: undefined,
   },
+  /**
+   * 树形 + 多选场景下，父子节点的联动策略
+   * - `'strict'`（默认）：父子独立，互不影响
+   * - `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）
+   * - `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父（子全部取消时父仍可保持选中）
+   * 仅在同时启用 `treeProps` 与 `type="selection"` 列时生效
+   * @default 'strict'
+   */
+  treeCheckMode: {
+    type: String as PropType<TreeCheckMode>,
+    default: 'strict',
+  },
+  /**
+   * selection-change / select / select-all 事件 payload 的输出形态
+   * - `'rows'`（默认）：数组，每项是完整行对象（等价原行为）
+   * - `'keys'`：数组，每项是该行的 rowKey 值
+   * - `'detail'`：结构化对象 `{ rows, keys, halfRows, halfKeys }`，同时返回全选与半选
+   * @default 'rows'
+   */
+  selectionPayload: {
+    type: String as PropType<SelectionPayloadShape>,
+    default: 'rows',
+  },
+  /**
+   * `selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组
+   * 仅在联动模式（cascade / bubble）下可能产生半选节点
+   * `selectionPayload === 'detail'` 时此 prop 无效（detail 本身已分离全选与半选）
+   * @default false
+   */
+  includeHalfChecked: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 受控选中 rowKey 数组（配合 `v-model:checked-keys`）
+   * 典型场景：表单回填、编辑已有记录、权限/批量分配等
+   *
+   * - 传入 `undefined`（默认）：组件使用内部状态，非受控
+   * - 传入数组（含空数组）：进入受控模式，外部数组为真相来源
+   *
+   * 回填时**不做级联归一化**：传 `[3]` 就只选中 id=3 那一行，即便在 cascade/bubble 模式下也不会
+   * 自动补勾父节点或后代。父节点的 indeterminate 视觉态由组件自动计算。
+   * 这样保证 `v-model:checkedKeys` 读写对称——`getSelectionKeys()` 输出什么，回填就能用什么。
+   *
+   * @example
+   * ```vue
+   * <CpTable v-model:checked-keys="form.selectedIds" row-key="id" :data="list">
+   *   <CpTableColumn type="selection" />
+   * </CpTable>
+   * ```
+   */
+  checkedKeys: {
+    type: Array as PropType<(string | number)[]>,
+    default: undefined,
+  },
 } as const
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
 
 /**
  * CpTable 事件定义
+ * selection / select / select-all payload 的具体形态由 `selectionPayload` prop 决定
  */
 export const tableEmits = {
   /** 排序变化 */
@@ -292,15 +386,17 @@ export const tableEmits = {
   /** 行点击 */
   'row-click': (row: any, index: number, event: MouseEvent) => true,
   /** 选中行变化 */
-  'selection-change': (selection: any[]) => true,
+  'selection-change': (selection: SelectionPayload) => true,
   /** 全选 */
-  'select-all': (selection: any[]) => true,
+  'select-all': (selection: SelectionPayload) => true,
   /** 单行选中 */
-  'select': (selection: any[], row: any) => true,
+  'select': (selection: SelectionPayload, row: any) => true,
   /** 当前行变化 */
   'current-change': (currentRow: any | null, oldRow: any | null) => true,
   /** 树形行展开/折叠 或 行展开列展开/折叠 */
   'expand-change': (row: any, expanded: boolean) => true,
+  /** 受控 checkedKeys 变化（用于 `v-model:checked-keys`） */
+  'update:checkedKeys': (keys: (string | number)[]) => true,
 }
 
 export type TableEmits = typeof tableEmits

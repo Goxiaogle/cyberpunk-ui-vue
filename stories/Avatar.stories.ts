@@ -306,6 +306,14 @@ export const GroupCollapse: Story = {
                         <CpAvatar v-for="i in 5" :key="i" :src="'https://picsum.photos/100/100?random=c4' + i" />
                     </CpAvatarGroup>
                 </div>
+                <div>
+                    <div style="color: var(--cp-text-muted); margin-bottom: 12px; font-size: 14px;">
+                        use total (自定义总数：max=3，total=20)
+                    </div>
+                    <CpAvatarGroup collapse-avatars :max="3" :total="20">
+                        <CpAvatar v-for="i in 5" :key="i" :src="'https://picsum.photos/100/100?random=c5' + i" />
+                    </CpAvatarGroup>
+                </div>
             </div>
         `,
     }),

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.10.0",
+  "version": "1.12.2",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -589,9 +589,20 @@
               "name": "max",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 751
+                "offset": 754
               },
               "description": "最多显示数量\n超出的头像将折叠为 +N 计数器",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "total",
+              "source": {
+                "file": "../components/avatar/src/avatar-group.ts",
+                "offset": 974
+              },
+              "description": "自定义总数\n指定后折叠计数器显示为 total - 已显示数量，用于仅传入部分头像却想展示真实总数的场景\n若小于已显示数量则不生效",
               "type": [
                 "number"
               ]
@@ -600,7 +611,7 @@
               "name": "size",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 908
+                "offset": 1133
               },
               "description": "统一尺寸\n会通过 provide 注入到子 Avatar",
               "default": "'md'",
@@ -612,7 +623,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1099
+                "offset": 1324
               },
               "description": "统一形状\n会通过 provide 注入到子 Avatar",
               "default": "'circle'",
@@ -624,7 +635,7 @@
               "name": "spacing",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1274
+                "offset": 1499
               },
               "description": "头像间距\n负值实现堆叠重叠效果，正值实现间距",
               "default": "-8",
@@ -636,7 +647,7 @@
               "name": "collapseAvatars",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1471
+                "offset": 1696
               },
               "description": "是否开启折叠模式（堆叠显示）\n开启后头像会重叠显示，并带有边框",
               "default": "false",
@@ -648,7 +659,7 @@
               "name": "collapseClass",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1609
+                "offset": 1834
               },
               "description": "折叠计数器自定义类名",
               "default": "''",
@@ -660,7 +671,7 @@
               "name": "collapseStyle",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1721
+                "offset": 1946
               },
               "description": "折叠计数器自定义样式",
               "default": "() => ({})",
@@ -672,7 +683,7 @@
               "name": "collapseAvatarsTooltip",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1892
+                "offset": 2117
               },
               "description": "折叠提示文本（鼠标悬停显示）",
               "default": "''",
@@ -684,7 +695,7 @@
               "name": "collapseShape",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 2077
+                "offset": 2302
               },
               "description": "折叠计数器形状\n默认与 shape 保持一致，可单独设置",
               "type": [
@@ -8021,7 +8032,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2762
+                "offset": 3892
               },
               "description": "表格数据",
               "default": "() => []",
@@ -8033,7 +8044,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 2883
+                "offset": 4013
               },
               "description": "尺寸",
               "default": "'md'",
@@ -8045,7 +8056,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3022
+                "offset": 4152
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -8057,7 +8068,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3155
+                "offset": 4285
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -8069,7 +8080,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3263
+                "offset": 4393
               },
               "description": "是否显示边框",
               "default": "false",
@@ -8081,7 +8092,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3372
+                "offset": 4502
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -8093,7 +8104,7 @@
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3479
+                "offset": 4609
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -8104,7 +8115,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3581
+                "offset": 4711
               },
               "description": "最大高度",
               "type": [
@@ -8115,7 +8126,7 @@
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3709
+                "offset": 4839
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -8127,7 +8138,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3821
+                "offset": 4951
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -8139,7 +8150,7 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3970
+                "offset": 5100
               },
               "description": "默认排序",
               "type": [
@@ -8150,7 +8161,7 @@
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4113
+                "offset": 5243
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -8162,7 +8173,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4215
+                "offset": 5345
               },
               "description": "是否显示表头",
               "default": "true",
@@ -8174,7 +8185,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4357
+                "offset": 5487
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -8186,7 +8197,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4471
+                "offset": 5601
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -8198,7 +8209,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4609
+                "offset": 5739
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
@@ -8210,7 +8221,7 @@
               "name": "treeProps",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4764
+                "offset": 5894
               },
               "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
               "type": [
@@ -8221,7 +8232,7 @@
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4911
+                "offset": 6041
               },
               "description": "是否默认展开所有树形行",
               "default": "false",
@@ -8233,7 +8244,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5028
+                "offset": 6158
               },
               "description": "每级层级缩进像素",
               "default": "16",
@@ -8245,7 +8256,7 @@
               "name": "expandRowKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5182
+                "offset": 6312
               },
               "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式，由外部决定哪些行处于展开状态",
               "type": [
@@ -8256,11 +8267,58 @@
               "name": "rowExpandable",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5448
+                "offset": 6578
               },
               "description": "控制每行是否可展开\n不传则所有行均可展开；返回 false 的行不显示展开按钮",
               "type": [
                 "(row: any) => boolean"
+              ]
+            },
+            {
+              "name": "treeCheckMode",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 6981
+              },
+              "description": "树形 + 多选场景下，父子节点的联动策略\n- `'strict'`（默认）：父子独立，互不影响\n- `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）\n- `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父（子全部取消时父仍可保持选中）\n仅在同时启用 `treeProps` 与 `type=\"selection\"` 列时生效",
+              "default": "'strict'",
+              "type": [
+                "'strict' | 'cascade' | 'bubble'"
+              ]
+            },
+            {
+              "name": "selectionPayload",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 7323
+              },
+              "description": "selection-change / select / select-all 事件 payload 的输出形态\n- `'rows'`（默认）：数组，每项是完整行对象（等价原行为）\n- `'keys'`：数组，每项是该行的 rowKey 值\n- `'detail'`：结构化对象 `{ rows, keys, halfRows, halfKeys }`，同时返回全选与半选",
+              "default": "'rows'",
+              "type": [
+                "'rows' | 'keys' | 'detail'"
+              ]
+            },
+            {
+              "name": "includeHalfChecked",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 7633
+              },
+              "description": "`selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组\n仅在联动模式（cascade / bubble）下可能产生半选节点\n`selectionPayload === 'detail'` 时此 prop 无效（detail 本身已分离全选与半选）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "checkedKeys",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 8264
+              },
+              "description": "受控选中 rowKey 数组（配合 `v-model:checked-keys`）\n典型场景：表单回填、编辑已有记录、权限/批量分配等\n\n- 传入 `undefined`（默认）：组件使用内部状态，非受控\n- 传入数组（含空数组）：进入受控模式，外部数组为真相来源\n\n回填时**不做级联归一化**：传 `[3]` 就只选中 id=3 那一行，即便在 cascade/bubble 模式下也不会\n自动补勾父节点或后代。父节点的 indeterminate 视觉态由组件自动计算。\n这样保证 `v-model:checkedKeys` 读写对称——`getSelectionKeys()` 输出什么，回填就能用什么。",
+              "type": [
+                "(string | number)[]"
               ]
             }
           ],
@@ -8270,7 +8328,7 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5704
+                  "offset": 8591
                 },
                 "description": "排序变化"
               },
@@ -8278,7 +8336,7 @@
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5768
+                  "offset": 8655
                 },
                 "description": "行点击"
               },
@@ -8286,7 +8344,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5854
+                  "offset": 8741
                 },
                 "description": "选中行变化"
               },
@@ -8294,7 +8352,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5918
+                  "offset": 8816
                 },
                 "description": "全选"
               },
@@ -8302,7 +8360,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 5978
+                  "offset": 8887
                 },
                 "description": "单行选中"
               },
@@ -8310,7 +8368,7 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 6045
+                  "offset": 8965
                 },
                 "description": "当前行变化"
               },
@@ -8318,9 +8376,17 @@
                 "name": "expand-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 6151
+                  "offset": 9071
                 },
                 "description": "树形行展开/折叠 或 行展开列展开/折叠"
+              },
+              {
+                "name": "update:checkedKeys",
+                "source": {
+                  "file": "../components/table/src/table.ts",
+                  "offset": 9185
+                },
+                "description": "受控 checkedKeys 变化（用于 `v-model:checked-keys`）"
               }
             ]
           }
@@ -9356,7 +9422,7 @@
               "name": "data",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 1516
+                "offset": 1769
               },
               "description": "树节点数据",
               "default": "() => []",
@@ -9368,9 +9434,21 @@
               "name": "showCheckbox",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 1652
+                "offset": 1911
               },
-              "description": "是否显示复选框",
+              "description": "是否显示复选框（多选模式）",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "showRadio",
+              "source": {
+                "file": "../components/tree/src/tree.ts",
+                "offset": 2168
+              },
+              "description": "是否显示单选框（单选模式）\n与 `showCheckbox` 互斥；开启后每个节点左侧渲染单选指示器，\n点击节点（非禁用）即将该节点设为当前选中节点，状态通过 `currentKey` / `update:currentKey` / `current-change` 反馈。",
               "default": "false",
               "type": [
                 "boolean"
@@ -9380,7 +9458,7 @@
               "name": "checkStrictly",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 1858
+                "offset": 2443
               },
               "description": "严格模式：父子节点互不关联\n- `false`（默认）：勾选父节点自动勾选所有子节点，子节点全选时自动勾上父节点，部分选中显示半选\n- `true`：父子独立勾选，互不影响",
               "default": "false",
@@ -9389,10 +9467,21 @@
               ]
             },
             {
+              "name": "checkMode",
+              "source": {
+                "file": "../components/tree/src/tree.ts",
+                "offset": 2760
+              },
+              "description": "复选框父子联动策略（参考 CpTable `treeCheckMode`）\n- `'strict'`：父子独立，互不影响\n- `'cascade'`：完全双向联动\n- `'bubble'`：勾选级联+向上冒泡；取消父 → 后代全部取消；取消子不影响父\n\n未显式传入时：若 `checkStrictly` 为 `true` 则等价 `'strict'`，否则等价 `'cascade'`（兼容旧行为）。",
+              "type": [
+                "'strict' | 'cascade' | 'bubble'"
+              ]
+            },
+            {
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 1975
+                "offset": 2905
               },
               "description": "默认展开所有节点",
               "default": "false",
@@ -9404,7 +9493,7 @@
               "name": "defaultExpandedKeys",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2077
+                "offset": 3007
               },
               "description": "默认展开的节点 key",
               "default": "() => []",
@@ -9416,7 +9505,7 @@
               "name": "expandedKeys",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2239
+                "offset": 3169
               },
               "description": "受控展开的节点 key (v-model:expandedKeys)",
               "type": [
@@ -9427,7 +9516,7 @@
               "name": "checkedKeys",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2394
+                "offset": 3324
               },
               "description": "受控勾选的节点 key (v-model:checkedKeys)",
               "type": [
@@ -9438,7 +9527,7 @@
               "name": "accordion",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2551
+                "offset": 3481
               },
               "description": "手风琴模式：同级只展开一个节点",
               "default": "false",
@@ -9450,7 +9539,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2659
+                "offset": 3589
               },
               "description": "每级缩进像素",
               "default": "16",
@@ -9462,7 +9551,7 @@
               "name": "nodeKey",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2768
+                "offset": 3698
               },
               "description": "节点唯一标识字段名",
               "default": "'value'",
@@ -9474,7 +9563,7 @@
               "name": "props",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 2893
+                "offset": 3823
               },
               "description": "字段映射 { label, children, disabled, isLeaf }",
               "type": [
@@ -9485,7 +9574,7 @@
               "name": "highlightCurrent",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3035
+                "offset": 3965
               },
               "description": "是否高亮当前点击节点",
               "default": "false",
@@ -9494,10 +9583,33 @@
               ]
             },
             {
+              "name": "defaultCurrentKey",
+              "source": {
+                "file": "../components/tree/src/tree.ts",
+                "offset": 4073
+              },
+              "description": "默认当前选中节点 key（非受控）",
+              "default": "null",
+              "type": [
+                "string | number | null"
+              ]
+            },
+            {
+              "name": "currentKey",
+              "source": {
+                "file": "../components/tree/src/tree.ts",
+                "offset": 4396
+              },
+              "description": "受控当前选中节点 key（v-model:currentKey）\n与 `highlightCurrent` / `showRadio` 共用同一份状态：\n- `highlightCurrent`=true：点击节点高亮并写入 currentKey\n- `showRadio`=true：点击节点选中并写入 currentKey",
+              "type": [
+                "string | number | null"
+              ]
+            },
+            {
               "name": "type",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3155
+                "offset": 4565
               },
               "description": "颜色类型",
               "default": "'primary'",
@@ -9509,7 +9621,7 @@
               "name": "color",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3316
+                "offset": 4726
               },
               "description": "自定义主题颜色\n传入有效 CSS 颜色值，覆盖 type 预设颜色",
               "default": "''",
@@ -9521,7 +9633,7 @@
               "name": "connectorLine",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3419
+                "offset": 4829
               },
               "description": "是否显示连接线",
               "default": "true",
@@ -9533,7 +9645,7 @@
               "name": "lazy",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3532
+                "offset": 4942
               },
               "description": "是否懒加载",
               "default": "false",
@@ -9545,7 +9657,7 @@
               "name": "load",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3616
+                "offset": 5026
               },
               "description": "懒加载回调",
               "type": [
@@ -9556,7 +9668,7 @@
               "name": "filterMethod",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 3783
+                "offset": 5193
               },
               "description": "过滤方法",
               "type": [
@@ -9567,7 +9679,7 @@
               "name": "expandIcon",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 4045
+                "offset": 5455
               },
               "description": "自定义展开图标（节点未展开时显示）\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
               "type": [
@@ -9578,7 +9690,7 @@
               "name": "collapseIcon",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 4330
+                "offset": 5740
               },
               "description": "自定义收起图标（节点已展开时显示）\n如果未提供，则复用 expandIcon（带旋转动画）\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
               "type": [
@@ -9589,7 +9701,7 @@
               "name": "leafIcon",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 4575
+                "offset": 5985
               },
               "description": "自定义叶子节点图标\n- `Component`: 统一图标\n- `(node: TreeNode) => Component`: 按节点返回不同图标",
               "type": [
@@ -9600,9 +9712,9 @@
               "name": "nodeIcon",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 4930
+                "offset": 6380
               },
-              "description": "自定义节点前缀图标\n在展开箭头之后、复选框之前显示\n- `Component`: 统一图标\n- `(node: TreeNode) => Component | string | undefined`: 按节点返回不同图标\n当 showNodeIcon 为 true 时，如果未设置此 prop，则自动读取 `TreeNodeData.icon` 字段",
+              "description": "自定义节点前缀图标\n在单选/复选指示器之后、标签之前显示（若未启用 showRadio/showCheckbox 则紧跟展开箭头）\n- `Component`: 统一图标\n- `(node: TreeNode) => Component | string | undefined`: 按节点返回不同图标\n当 showNodeIcon 为 true 时，如果未设置此 prop，则自动读取 `TreeNodeData.icon` 字段",
               "type": [
                 "Component | ((node: TreeNode) => Component | string | undefined)"
               ]
@@ -9611,7 +9723,7 @@
               "name": "showNodeIcon",
               "source": {
                 "file": "../components/tree/src/tree.ts",
-                "offset": 5213
+                "offset": 6663
               },
               "description": "是否自动显示节点数据中的 icon 字段\n当为 true 且未设置 nodeIcon 时，自动读取 TreeNodeData.icon 并通过 CpIcon 渲染",
               "default": "true",
@@ -9626,7 +9738,7 @@
                 "name": "node-click",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 5426
+                  "offset": 6876
                 },
                 "description": "节点被点击"
               },
@@ -9634,7 +9746,7 @@
                 "name": "node-expand",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 5545
+                  "offset": 6995
                 },
                 "description": "节点展开"
               },
@@ -9642,7 +9754,7 @@
                 "name": "node-collapse",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 5665
+                  "offset": 7115
                 },
                 "description": "节点收起"
               },
@@ -9650,15 +9762,23 @@
                 "name": "check-change",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 5787
+                  "offset": 7237
                 },
                 "description": "勾选变化"
+              },
+              {
+                "name": "current-change",
+                "source": {
+                  "file": "../components/tree/src/tree.ts",
+                  "offset": 7407
+                },
+                "description": "当前选中节点变化（highlightCurrent / showRadio 场景）"
               },
               {
                 "name": "update:checkedKeys",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 5935
+                  "offset": 7601
                 },
                 "description": "v-model:checkedKeys"
               },
@@ -9666,9 +9786,17 @@
                 "name": "update:expandedKeys",
                 "source": {
                   "file": "../components/tree/src/tree.ts",
-                  "offset": 6043
+                  "offset": 7709
                 },
                 "description": "v-model:expandedKeys"
+              },
+              {
+                "name": "update:currentKey",
+                "source": {
+                  "file": "../components/tree/src/tree.ts",
+                  "offset": 7816
+                },
+                "description": "v-model:currentKey"
               }
             ]
           }

@@ -262,6 +262,53 @@ $tree-type-colors: (
     color: var(--cp-text-inverse);
   }
 
+  // ===== 单选框（showRadio）=====
+  @include e(radio) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--cp-bg-deep) 80%, transparent);
+    border: 1px solid var(--cp-border);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    // 八边形：与 CpRadio 视觉语言对齐
+    clip-path: polygon(
+      30% 0%, 70% 0%,
+      100% 30%, 100% 70%,
+      70% 100%, 30% 100%,
+      0% 70%, 0% 30%
+    );
+
+    &:hover:not(.is-disabled) {
+      border-color: var(--cp-tree-active-color);
+      box-shadow: 0 0 6px var(--cp-tree-active-color-light);
+    }
+
+    &.is-checked {
+      border-color: var(--cp-tree-active-color);
+      box-shadow: 0 0 8px var(--cp-tree-active-color-light);
+    }
+
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+  }
+
+  @include e(radio-dot) {
+    width: 60%;
+    height: 60%;
+    background: var(--cp-tree-active-color);
+    box-shadow: 0 0 4px var(--cp-tree-active-color);
+    // 内部菱形小点
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
   // ===== 标签 =====
   @include e(label) {
     font-weight: var(--cp-tree-item-font-weight);

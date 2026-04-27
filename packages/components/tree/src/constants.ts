@@ -1,5 +1,5 @@
 import type { Component, InjectionKey, Ref, Slots } from 'vue'
-import type { TreeNode, TreeType } from './tree'
+import type { TreeCascadeMode, TreeNode, TreeType } from './tree'
 
 /**
  * 图标 Prop 值类型
@@ -23,8 +23,12 @@ export interface TreeContext {
   currentNodeKey: Ref<string | number | null>
   /** 是否显示复选框 */
   showCheckbox: boolean
-  /** 是否严格模式（父子不关联） */
+  /** 是否显示单选框 */
+  showRadio: boolean
+  /** 是否严格模式（父子不关联） —— 兼容字段，实际联动策略以 `checkMode` 为准 */
   checkStrictly: boolean
+  /** 复选框父子联动策略 */
+  checkMode: TreeCascadeMode
   /** 是否手风琴模式 */
   accordion: boolean
   /** 缩进像素 */
@@ -43,8 +47,8 @@ export interface TreeContext {
   toggleExpand: (node: TreeNode) => void
   /** 切换勾选 */
   toggleCheck: (node: TreeNode) => void
-  /** 设置当前高亮节点 */
-  setCurrentNode: (node: TreeNode) => void
+  /** 设置当前高亮/单选节点 */
+  setCurrentNode: (node: TreeNode | null, emitEvent?: boolean) => void
   /** 触发 node-click 事件 */
   handleNodeClick: (node: TreeNode) => void
   /** 获取所有节点的映射 */

@@ -826,6 +826,403 @@ export const TreeTable: Story = {
 }
 
 /**
+ * 树形表格 + 多选
+ *
+ * 同时启用 `tree-props` 与 `type="selection"` 列。
+ * 通过 `tree-check-mode` 控制父子节点联动策略：
+ *
+ * - **`strict`（默认）**：父子独立，互不影响。表头全选仅覆盖顶层根节点。
+ * - **`cascade`**：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）；表头覆盖整棵树。
+ * - **`bubble`**：半联动。勾任一节点 → 级联勾全部后代 + 向上冒泡勾祖先；取消父 → 后代全部取消；取消子不影响父（子全取消后父仍保留选中）。
+ *
+ * 示例中可切换模式观察差异：
+ */
+export const TreeTableWithSelection: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      const tableRef = ref()
+      const mode = ref<'strict' | 'cascade' | 'bubble'>('strict')
+      const selected = ref<any[]>([])
+      const onSelectionChange = (selection: any[]) => {
+        selected.value = selection
+      }
+      const modeLabel: Record<string, string> = {
+        strict: '严格独立',
+        cascade: '完全联动',
+        bubble: '冒泡半联动',
+      }
+      const modeDesc: Record<string, string> = {
+        strict: '父子独立，各自勾选。表头全选仅覆盖顶层节点。',
+        cascade: '勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）。',
+        bubble: '勾选任一节点 → 自身 + 全部后代 + 向上冒泡勾选祖先；取消父 → 全部后代取消；取消子不影响父（子全取消后父仍保留选中）。',
+      }
+      // 切模式时清空选择，避免跨模式语义不一致
+      const switchMode = (next: 'strict' | 'cascade' | 'bubble') => {
+        mode.value = next
+        tableRef.value?.clearSelection()
+      }
+      return { treeData, tableRef, mode, selected, modeLabel, modeDesc, onSelectionChange, switchMode }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="color: var(--cp-text-muted); font-size: 12px;">联动模式:</span>
+          <CpButton
+            v-for="m in ['strict', 'cascade', 'bubble']"
+            :key="m"
+            size="sm"
+            :type="mode === m ? 'primary' : 'default'"
+            :variant="mode === m ? 'solid' : 'outline'"
+            @click="switchMode(m)"
+          >
+            {{ modeLabel[m] }}
+          </CpButton>
+          <CpButton size="sm" variant="ghost" @click="tableRef?.expandAll()">展开全部</CpButton>
+          <CpButton size="sm" variant="ghost" @click="tableRef?.collapseAll()">折叠全部</CpButton>
+          <CpButton size="sm" variant="ghost" @click="tableRef?.clearSelection()">清空选择</CpButton>
+        </div>
+
+        <div style="color: var(--cp-text-muted); font-size: 12px; line-height: 1.6;">
+          <strong style="color: var(--cp-color-primary);">{{ modeLabel[mode] }}</strong> — {{ modeDesc[mode] }}
+        </div>
+
+        <CpTable
+          ref="tableRef"
+          :data="treeData"
+          :tree-props="{ children: 'children' }"
+          :tree-check-mode="mode"
+          row-key="id"
+          default-expand-all
+          border
+          type="primary"
+          @selection-change="onSelectionChange"
+        >
+          <CpTableColumn type="selection" :width="50" />
+          <CpTableColumn prop="name" label="部门名称" min-width="220" />
+          <CpTableColumn prop="order" label="排序" width="80" align="center" />
+          <CpTableColumn prop="status" label="状态" width="100" align="center">
+            <template #default="{ row }">
+              <CpTag type="success" variant="semi" size="sm">{{ row.status }}</CpTag>
+            </template>
+          </CpTableColumn>
+          <CpTableColumn prop="createTime" label="创建时间" width="200" align="center" />
+        </CpTable>
+
+        <div style="color: var(--cp-text-muted); font-size: 12px;">
+          已选中 {{ selected.length }} 项: {{ selected.map(r => r.name).join('、') || '无' }}
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 选中值输出形态
+ *
+ * 通过 `selection-payload` 控制 `selection-change` 等事件的 payload 形态：
+ *
+ * - **`rows`（默认）**：行对象数组
+ * - **`keys`**：rowKey 数组（根据 `row-key` prop 取值）
+ * - **`detail`**：结构化对象 `{ rows, keys, halfRows, halfKeys }`，独立返回半选
+ *
+ * 配合 `include-half-checked` 可在 `rows` / `keys` 输出中混入半选节点（`detail` 本身已分离，该 prop 对其无效）。
+ *
+ * 同时演示程序式 API：
+ * - `getSelectionRows()` / `getSelectionKeys()`
+ * - `getHalfCheckedRows()` / `getHalfCheckedKeys()`
+ * - `getSelectionDetail()`
+ */
+export const TreeTableSelectionPayload: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      const tableRef = ref()
+      const payloadShape = ref<'rows' | 'keys' | 'detail'>('rows')
+      const includeHalf = ref(false)
+      const checkMode = ref<'strict' | 'cascade' | 'bubble'>('strict')
+      const lastPayload = ref<any>(null)
+      const modeLabel: Record<string, string> = {
+        strict: '不联动 strict',
+        cascade: '完全联动 cascade',
+        bubble: '冒泡半联动 bubble',
+      }
+
+      const onSelectionChange = (selection: any) => {
+        lastPayload.value = selection
+      }
+
+      const switchShape = (next: 'rows' | 'keys' | 'detail') => {
+        payloadShape.value = next
+      }
+
+      const formatPayload = (p: any): string => {
+        if (p == null) return '(尚未触发 selection-change)'
+        const summarize = (item: any) => {
+          if (item && typeof item === 'object' && 'name' in item) return `${item.name}#${item.id}`
+          return JSON.stringify(item)
+        }
+        if (Array.isArray(p)) return `[${p.map(summarize).join(', ')}]`
+        return JSON.stringify({
+          rows: p.rows.map(summarize),
+          keys: p.keys,
+          halfRows: p.halfRows.map(summarize),
+          halfKeys: p.halfKeys,
+        }, null, 2)
+      }
+
+      const callGetDetail = () => {
+        const d = tableRef.value?.getSelectionDetail()
+        console.log('getSelectionDetail():', d)
+        alert('已输出到 console.log，详情:\n' + JSON.stringify({
+          keys: d.keys,
+          halfKeys: d.halfKeys,
+        }, null, 2))
+      }
+
+      return {
+        treeData,
+        tableRef,
+        payloadShape,
+        includeHalf,
+        checkMode,
+        modeLabel,
+        lastPayload,
+        onSelectionChange,
+        switchShape,
+        formatPayload,
+        callGetDetail,
+      }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- 模式切换 -->
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="color: var(--cp-text-muted); font-size: 12px; min-width: 80px;">联动模式:</span>
+          <CpButton
+            v-for="m in ['strict', 'cascade', 'bubble']"
+            :key="m"
+            size="sm"
+            :type="checkMode === m ? 'primary' : 'default'"
+            :variant="checkMode === m ? 'solid' : 'outline'"
+            @click="checkMode = m; tableRef?.clearSelection()"
+          >{{ modeLabel[m] }}</CpButton>
+        </div>
+
+        <!-- payload 形态切换 -->
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="color: var(--cp-text-muted); font-size: 12px; min-width: 80px;">输出形态:</span>
+          <CpButton
+            v-for="s in ['rows', 'keys', 'detail']"
+            :key="s"
+            size="sm"
+            :type="payloadShape === s ? 'primary' : 'default'"
+            :variant="payloadShape === s ? 'solid' : 'outline'"
+            @click="switchShape(s)"
+          >{{ s }}</CpButton>
+
+          <span style="color: var(--cp-text-muted); font-size: 12px; margin-left: 16px;">
+            <input
+              type="checkbox"
+              v-model="includeHalf"
+              :disabled="payloadShape === 'detail'"
+              style="vertical-align: middle; margin-right: 4px;"
+            />
+            include-half-checked
+            <span v-if="payloadShape === 'detail'" style="opacity: 0.5;">(detail 模式无效)</span>
+          </span>
+
+          <CpButton size="sm" variant="ghost" @click="callGetDetail">调用 getSelectionDetail()</CpButton>
+          <CpButton size="sm" variant="ghost" @click="tableRef?.clearSelection()">清空选择</CpButton>
+        </div>
+
+        <CpTable
+          ref="tableRef"
+          :data="treeData"
+          :tree-props="{ children: 'children' }"
+          :tree-check-mode="checkMode"
+          :selection-payload="payloadShape"
+          :include-half-checked="includeHalf"
+          row-key="id"
+          default-expand-all
+          border
+          type="primary"
+          @selection-change="onSelectionChange"
+        >
+          <CpTableColumn type="selection" :width="50" />
+          <CpTableColumn prop="name" label="部门名称" min-width="200" />
+          <CpTableColumn prop="order" label="排序" width="80" align="center" />
+          <CpTableColumn prop="status" label="状态" width="100" align="center">
+            <template #default="{ row }">
+              <CpTag type="success" variant="semi" size="sm">{{ row.status }}</CpTag>
+            </template>
+          </CpTableColumn>
+        </CpTable>
+
+        <div style="font-size: 12px; line-height: 1.6;">
+          <div style="color: var(--cp-text-muted); margin-bottom: 4px;">@selection-change payload:</div>
+          <pre style="margin: 0; padding: 8px 12px; background: var(--cp-bg-subtle, rgba(0,0,0,0.25)); border-radius: 4px; color: var(--cp-color-primary); white-space: pre-wrap; word-break: break-all;">{{ formatPayload(lastPayload) }}</pre>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 表单回填（v-model:checkedKeys）
+ *
+ * 配合 `row-key` + `v-model:checked-keys` 双向绑定选中的 rowKey 数组，
+ * 常用于编辑已有记录、权限分配、批量操作等表单场景。
+ *
+ * 关键点：
+ * - 回填**不做级联归一化**——传什么 key 就只勾中那行。
+ *   所以编辑场景里后端存什么 key 进来，就能原样显示，保存时的 keys 也能原样回存。
+ * - 父行的 indeterminate 视觉由组件自动计算（从当前勾选集派生）。
+ * - `selection-payload="keys"` 只是为了让 `@selection-change` 的 payload 是 keys 数组，
+ *   `v-model:checked-keys` 本身始终同步 keys 数组，与 `selection-payload` 无关。
+ */
+export const FormRestoreSelection: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      // 模拟表单状态
+      const form = ref({
+        name: '工程师组',
+        memberIds: [3, 5, 7] as (string | number)[], // 回填：研发、测试、运维
+      })
+      // 模拟"从后端拉回详情" — 延迟 600ms 才得到数据
+      const list = ref<any[]>([])
+      const loading = ref(true)
+      setTimeout(() => {
+        list.value = [
+          { id: 3, name: '研发部门', order: 1, status: '正常' },
+          { id: 4, name: '市场部门', order: 2, status: '正常' },
+          { id: 5, name: '测试部门', order: 3, status: '正常' },
+          { id: 6, name: '财务部门', order: 4, status: '正常' },
+          { id: 7, name: '运维部门', order: 5, status: '正常' },
+        ]
+        loading.value = false
+      }, 600)
+
+      const reset = () => { form.value.memberIds = [3, 5, 7] }
+      const clearAll = () => { form.value.memberIds = [] }
+      const selectAll = () => { form.value.memberIds = list.value.map(r => r.id) }
+      const loadFromBackend = () => { form.value.memberIds = [4, 6] } // 模拟另一套已存数据
+
+      return { form, list, loading, reset, clearAll, selectAll, loadFromBackend }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <CpButton size="sm" variant="outline" @click="reset">重置到初始值 [3,5,7]</CpButton>
+          <CpButton size="sm" variant="outline" @click="loadFromBackend">加载另一套 [4,6]</CpButton>
+          <CpButton size="sm" variant="outline" @click="selectAll">全部勾选</CpButton>
+          <CpButton size="sm" variant="outline" @click="clearAll">清空</CpButton>
+        </div>
+
+        <div style="color: var(--cp-text-muted); font-size: 12px; line-height: 1.6;">
+          <strong>form.memberIds（真相来源）:</strong>
+          <code style="color: var(--cp-color-primary);">{{ JSON.stringify(form.memberIds) }}</code>
+          <div>↕ 双向绑定</div>
+          <strong>表格选中：</strong>点击行内复选框会立刻写回 form.memberIds；点击上方按钮修改 form.memberIds 会立刻同步到表格。
+        </div>
+
+        <CpTable
+          :data="list"
+          row-key="id"
+          v-model:checked-keys="form.memberIds"
+          :loading="loading"
+          border
+          type="primary"
+        >
+          <CpTableColumn type="selection" :width="50" />
+          <CpTableColumn prop="id" label="ID" :width="80" align="center" />
+          <CpTableColumn prop="name" label="部门名称" min-width="160" />
+          <CpTableColumn prop="status" label="状态" :width="100" align="center">
+            <template #default="{ row }">
+              <CpTag type="success" variant="semi" size="sm">{{ row.status }}</CpTag>
+            </template>
+          </CpTableColumn>
+        </CpTable>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 表单回填 — 树形 + 级联
+ *
+ * 展示 `v-model:checked-keys` 在树形表格下与 `tree-check-mode` 的组合：
+ * - 回填时不会做级联（传 `[3]` 只勾 id=3 那行，即便处于 cascade/bubble 模式）
+ * - 用户手动点击时才按 `tree-check-mode` 触发级联
+ * - 这样"后端存的 keys 等于组件读的 keys"，读写保持对称
+ */
+export const FormRestoreSelectionTree: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag, CpButton },
+    setup() {
+      const checkedKeys = ref<(string | number)[]>([3, 5, 9])
+      const mode = ref<'strict' | 'cascade' | 'bubble'>('cascade')
+      const presets: Record<string, (string | number)[]> = {
+        'only-leaves': [3, 5, 9],
+        'subtree-tech': [2, 3, 4, 5, 6, 7],
+        'all': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        'empty': [],
+      }
+      const loadPreset = (k: string) => { checkedKeys.value = presets[k] }
+      return { treeData, checkedKeys, mode, loadPreset }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="color: var(--cp-text-muted); font-size: 12px;">联动模式:</span>
+          <CpButton
+            v-for="m in ['strict', 'cascade', 'bubble']"
+            :key="m"
+            size="sm"
+            :type="mode === m ? 'primary' : 'default'"
+            :variant="mode === m ? 'solid' : 'outline'"
+            @click="mode = m"
+          >{{ m }}</CpButton>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="color: var(--cp-text-muted); font-size: 12px;">回填预设:</span>
+          <CpButton size="sm" variant="outline" @click="loadPreset('only-leaves')">仅叶子 [3,5,9]</CpButton>
+          <CpButton size="sm" variant="outline" @click="loadPreset('subtree-tech')">技术中心整棵 [2..7]</CpButton>
+          <CpButton size="sm" variant="outline" @click="loadPreset('all')">全部</CpButton>
+          <CpButton size="sm" variant="outline" @click="loadPreset('empty')">清空</CpButton>
+        </div>
+
+        <div style="color: var(--cp-text-muted); font-size: 12px;">
+          <strong>checkedKeys:</strong>
+          <code style="color: var(--cp-color-primary);">{{ JSON.stringify(checkedKeys) }}</code>
+        </div>
+
+        <CpTable
+          :data="treeData"
+          :tree-props="{ children: 'children' }"
+          :tree-check-mode="mode"
+          v-model:checked-keys="checkedKeys"
+          row-key="id"
+          default-expand-all
+          border
+          type="primary"
+        >
+          <CpTableColumn type="selection" :width="50" />
+          <CpTableColumn prop="name" label="部门名称" min-width="220" />
+          <CpTableColumn prop="order" label="排序" width="80" align="center" />
+          <CpTableColumn prop="status" label="状态" width="100" align="center">
+            <template #default="{ row }">
+              <CpTag type="success" variant="semi" size="sm">{{ row.status }}</CpTag>
+            </template>
+          </CpTableColumn>
+        </CpTable>
+      </div>
+    `,
+  }),
+}
+
+/**
  * 树形表格 — 默认展开
  *
  * 设置 `default-expand-all` 使所有树节点默认展开。

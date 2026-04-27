@@ -361,12 +361,14 @@
 | `color` | `string` | `''` | 自定义主题色 |
 | `disabled` | `boolean` | `false` | 是否禁用所有选项 |
 | `block` | `boolean` | `false` | 是否撑满父容器宽度（选项等宽） |
+| `clearable` | `boolean` | `false` | 是否允许清空选中项 |
 
 ### 事件
 
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
-| `change` | `(value: SegmentedValueType)` | 值变化时触发 |
+| `change` | `(value: SegmentedValueType \| undefined)` | 值变化时触发 启用 clearable 并清空时值为 undefined |
+| `clear` | `—` | 清空选中项时触发（需启用 clearable） |
 
 ### CSS 变量
 
@@ -390,7 +392,7 @@
 | `--cp-segmented-font-weight` | `var(--cp-font-weight-semibold)` |  |
 | `--cp-segmented-active-font-weight` | `var(--cp-font-weight-bold)` |  |
 | `--cp-segmented-font-weight-transition` | `var(--cp-font-weight-transition-fast)` |  |
-| `--cp-segmented-indicator-offset` | `-2px` |  |
+| `--cp-segmented-indicator-offset` | `0px` |  |
 | `--cp-segmented-item-font-weight` | `var(--cp-segmented-active-font-weight)` |  |
 
 ### 示例

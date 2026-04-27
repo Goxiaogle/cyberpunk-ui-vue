@@ -101,11 +101,20 @@ const meta: Meta<typeof CpTree> = {
     },
     showCheckbox: {
       control: "boolean",
-      description: "是否显示复选框",
+      description: "是否显示复选框（多选）",
+    },
+    showRadio: {
+      control: "boolean",
+      description: "是否显示单选框（与 showCheckbox 互斥）",
+    },
+    checkMode: {
+      control: "select",
+      options: ["strict", "cascade", "bubble"],
+      description: "父子联动策略",
     },
     checkStrictly: {
       control: "boolean",
-      description: "严格模式（父子不关联）",
+      description: "严格模式（已废弃，请使用 checkMode）",
     },
     defaultExpandAll: {
       control: "boolean",
@@ -136,6 +145,8 @@ const meta: Meta<typeof CpTree> = {
   args: {
     data: basicTreeData,
     showCheckbox: false,
+    showRadio: false,
+    checkMode: undefined,
     checkStrictly: false,
     defaultExpandAll: false,
     accordion: false,
@@ -163,6 +174,8 @@ export const Playground: Story = {
         <CpTree
           :data="args.data"
           :show-checkbox="args.showCheckbox"
+          :show-radio="args.showRadio"
+          :check-mode="args.checkMode"
           :check-strictly="args.checkStrictly"
           :default-expand-all="args.defaultExpandAll"
           :accordion="args.accordion"
@@ -176,16 +189,32 @@ export const Playground: Story = {
   }),
 };
 
-/** 基础用法 */
+/** 基础用法：highlight-current + v-model:currentKey + default-current-key */
 export const 基础用法: Story = {
   render: () => ({
     components: { CpTree },
     setup() {
-      return { data: basicTreeData };
+      // 通过 default-current-key 指定初始选中节点（非受控初始值）
+      const currentKey = ref<string | number | null>("photon-cache");
+      return { data: basicTreeData, currentKey };
     },
     template: `
       <div style="max-width: 500px;">
-        <CpTree :data="data" default-expand-all highlight-current />
+        <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">
+          无需 showCheckbox / showRadio：仅凭 highlight-current 即可实现单选反馈。
+          通过 v-model:current-key 受控绑定（此处 ref 初始值即作为默认选中）。
+        </p>
+        <CpTree
+          :data="data"
+          default-expand-all
+          highlight-current
+          v-model:current-key="currentKey"
+        />
+        <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+          font-family: 'Rajdhani', monospace; font-size: 13px; color: var(--cp-text-secondary);">
+          <span style="color: var(--cp-color-primary);">// 当前选中</span>
+          {{ currentKey ?? '(未选择，点击任一节点)' }}
+        </div>
       </div>
     `,
   }),
@@ -399,16 +428,17 @@ export const 连接线样式: Story = {
   }),
 };
 
-/** 高亮当前节点 */
+/** 高亮当前节点（v-model:currentKey 反馈） */
 export const 高亮当前节点: Story = {
   render: () => ({
     components: { CpTree },
     setup() {
-      const currentNode = ref("");
-      const handleClick = (data: any) => {
-        currentNode.value = data.label;
+      const currentKey = ref<string | number | null>("photon-cache");
+      const currentLabel = ref("");
+      const handleCurrent = (data: any) => {
+        currentLabel.value = data?.label ?? "";
       };
-      return { data: basicTreeData, currentNode, handleClick };
+      return { data: basicTreeData, currentKey, currentLabel, handleCurrent };
     },
     template: `
       <div style="max-width: 500px;">
@@ -416,12 +446,277 @@ export const 高亮当前节点: Story = {
           :data="data"
           default-expand-all
           highlight-current
-          @node-click="handleClick"
+          v-model:current-key="currentKey"
+          @current-change="handleCurrent"
         />
-        <div v-if="currentNode"
-          style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
-            font-family: 'Rajdhani', monospace; font-size: 13px; color: var(--cp-text-secondary);">
-          当前节点: <span style="color: var(--cp-color-primary);">{{ currentNode }}</span>
+        <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+          font-family: 'Rajdhani', monospace; font-size: 13px; color: var(--cp-text-secondary);">
+          <div style="color: var(--cp-color-primary); margin-bottom: 4px;">// 当前 key</div>
+          {{ currentKey ?? '(无)' }}
+          <div v-if="currentLabel" style="margin-top: 4px;">
+            <span style="color: var(--cp-color-primary);">current-change →</span> {{ currentLabel }}
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** 禁用节点 + 默认选中 */
+export const 禁用与默认选中: Story = {
+  render: () => ({
+    components: { CpTree },
+    setup() {
+      // 构造一份含多层禁用节点的数据，覆盖单选 / 复选两种模式
+      const disabledTree = [
+        {
+          label: "系统核心",
+          value: "core",
+          children: [
+            { label: "量子运算单元", value: "quantum-unit" },
+            { label: "光子缓存阵列", value: "photon-cache" },
+            {
+              label: "熵值监控器（只读）",
+              value: "entropy-monitor",
+              disabled: true,
+            },
+          ],
+        },
+        {
+          label: "义体增强（维护中）",
+          value: "cyberware",
+          disabled: true,
+          children: [
+            { label: "钛合金手臂", value: "titanium-arm" },
+            { label: "视觉增强目镜", value: "optic-enhance" },
+            { label: "反射弧加速器", value: "reflex-boost", disabled: true },
+          ],
+        },
+        {
+          label: "网络接口",
+          value: "network",
+          children: [
+            { label: "加密通道 Alpha", value: "channel-alpha" },
+            { label: "加密通道 Beta", value: "channel-beta" },
+            { label: "深网连接器", value: "deep-net", disabled: true },
+          ],
+        },
+      ];
+
+      // 面板 1：纯 highlightCurrent（非受控 defaultCurrentKey）
+      const highlightClicked = ref<string>("");
+      const handleHighlightClick = (data: any) => {
+        highlightClicked.value = data.disabled
+          ? `${data.label}（已禁用，忽略）`
+          : data.label;
+      };
+
+      // 面板 2：showRadio 单选（受控 v-model），默认选中 "光子缓存阵列"
+      const radioKey = ref<string | number | null>("photon-cache");
+      const lastClicked = ref<string>("");
+      const handleRadioClick = (data: any) => {
+        lastClicked.value = data.disabled
+          ? `${data.label}（已禁用，忽略）`
+          : data.label;
+      };
+
+      // 面板 3：showCheckbox 复选，默认勾中两个节点；点击禁用节点不会影响状态
+      const checkedKeys = ref<(string | number)[]>([
+        "quantum-unit",
+        "channel-alpha",
+      ]);
+
+      return {
+        disabledTree,
+        highlightClicked,
+        handleHighlightClick,
+        radioKey,
+        lastClicked,
+        handleRadioClick,
+        checkedKeys,
+      };
+    },
+    template: `
+      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <!-- 纯 highlightCurrent + defaultCurrentKey（非受控） -->
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="color: var(--cp-color-info); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase;">
+            highlight-current · 非受控 · default-current-key
+          </h3>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 12px;">
+            无 showRadio / showCheckbox，仅依靠 highlight-current 做单选。
+            default-current-key 指定初始高亮节点；disabled 节点点击无效。
+          </p>
+          <CpTree
+            :data="disabledTree"
+            type="info"
+            highlight-current
+            default-expand-all
+            default-current-key="channel-alpha"
+            @node-click="handleHighlightClick"
+          />
+          <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+            font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-secondary);">
+            <div>
+              <span style="color: var(--cp-color-info);">// 初始</span> channel-alpha（非受控）
+            </div>
+            <div v-if="highlightClicked" style="margin-top: 4px;">
+              <span style="color: var(--cp-color-info);">// node-click</span>
+              {{ highlightClicked }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 单选 + disabled -->
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="color: var(--cp-color-primary); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase;">
+            showRadio · 受控 · v-model 初始 photon-cache
+          </h3>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 12px;">
+            初始已选中"光子缓存阵列"。点击灰色节点——current-change 不触发、
+            v-model 值不变；node-click 仍然回调。
+          </p>
+          <CpTree
+            :data="disabledTree"
+            show-radio
+            highlight-current
+            default-expand-all
+            v-model:current-key="radioKey"
+            @node-click="handleRadioClick"
+          />
+          <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+            font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-secondary);">
+            <div>
+              <span style="color: var(--cp-color-primary);">// currentKey</span>
+              {{ radioKey ?? '(无)' }}
+            </div>
+            <div v-if="lastClicked" style="margin-top: 4px;">
+              <span style="color: var(--cp-color-primary);">// node-click</span>
+              {{ lastClicked }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 复选 + disabled -->
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="color: var(--cp-color-success); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase;">
+            showCheckbox · 默认勾选 + disabled 拦截
+          </h3>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 12px;">
+            cascade 联动下勾选"系统核心"会自动勾上子节点，但"熵值监控器（只读）"
+            被 disabled 保护、不会被级联勾中；整个"义体增强"分支都无法操作。
+          </p>
+          <CpTree
+            :data="disabledTree"
+            type="success"
+            show-checkbox
+            check-mode="cascade"
+            default-expand-all
+            v-model:checked-keys="checkedKeys"
+          />
+          <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+            font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-secondary);">
+            <span style="color: var(--cp-color-success);">// checkedKeys ({{ checkedKeys.length }})</span>
+            <div style="margin-top: 4px;">{{ checkedKeys.join(', ') || '(无)' }}</div>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** 单选模式（showRadio） */
+export const 单选模式: Story = {
+  render: () => ({
+    components: { CpTree },
+    setup() {
+      const selectedKey = ref<string | number | null>(null);
+      return { data: basicTreeData, selectedKey };
+    },
+    template: `
+      <div style="max-width: 500px;">
+        <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">
+          showRadio = true：节点左侧渲染单选指示器，点击节点即选中，反馈走 v-model:currentKey
+        </p>
+        <CpTree
+          :data="data"
+          show-radio
+          default-expand-all
+          v-model:current-key="selectedKey"
+        />
+        <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+          font-family: 'Rajdhani', monospace; font-size: 13px; color: var(--cp-text-secondary);">
+          <span style="color: var(--cp-color-primary);">// 已选 key</span>
+          {{ selectedKey ?? '(无)' }}
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** 复选框三种联动策略对比 */
+export const 复选框联动策略: Story = {
+  render: () => ({
+    components: { CpTree },
+    setup() {
+      const strictKeys = ref<(string | number)[]>([]);
+      const cascadeKeys = ref<(string | number)[]>([]);
+      const bubbleKeys = ref<(string | number)[]>([]);
+      return { data: basicTreeData, strictKeys, cascadeKeys, bubbleKeys };
+    },
+    template: `
+      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <h3 style="color: var(--cp-text-muted); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;">
+            strict · 父子独立
+          </h3>
+          <CpTree
+            :data="data"
+            show-checkbox
+            check-mode="strict"
+            default-expand-all
+            v-model:checked-keys="strictKeys"
+          />
+          <div style="margin-top: 8px; font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-muted);">
+            已选: {{ strictKeys.join(', ') || '无' }}
+          </div>
+        </div>
+        <div style="flex: 1; min-width: 260px;">
+          <h3 style="color: var(--cp-color-primary); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;">
+            cascade · 完全双向联动
+          </h3>
+          <CpTree
+            :data="data"
+            show-checkbox
+            check-mode="cascade"
+            default-expand-all
+            v-model:checked-keys="cascadeKeys"
+          />
+          <div style="margin-top: 8px; font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-muted);">
+            已选: {{ cascadeKeys.join(', ') || '无' }}
+          </div>
+        </div>
+        <div style="flex: 1; min-width: 260px;">
+          <h3 style="color: var(--cp-color-warning); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;">
+            bubble · 冒泡但子取消不影响父
+          </h3>
+          <CpTree
+            :data="data"
+            show-checkbox
+            check-mode="bubble"
+            type="warning"
+            default-expand-all
+            v-model:checked-keys="bubbleKeys"
+          />
+          <div style="margin-top: 8px; font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-muted);">
+            已选: {{ bubbleKeys.join(', ') || '无' }}
+          </div>
         </div>
       </div>
     `,
@@ -707,3 +1002,112 @@ export const 自定义图标对比: Story = {
   }),
 };
 
+/** 图标 + 选择：文件目录风格的单选/复选组合演示 */
+export const 图标与选择组合: Story = {
+  render: () => ({
+    components: { CpTree },
+    setup() {
+      // 带 icon 字段的文件树数据
+      const fileTree = ref([
+        {
+          key: "src",
+          label: "src",
+          icon: markRaw(MdiFolder),
+          children: [
+            {
+              key: "components",
+              label: "components",
+              icon: markRaw(MdiFolder),
+              children: [
+                { key: "App.vue", label: "App.vue", icon: markRaw(MdiLanguageVue) },
+                { key: "Tree.vue", label: "Tree.vue", icon: markRaw(MdiLanguageVue) },
+                { key: "Button.vue", label: "Button.vue", icon: markRaw(MdiLanguageVue) },
+              ],
+            },
+            {
+              key: "utils",
+              label: "utils",
+              icon: markRaw(MdiFolder),
+              children: [
+                { key: "helpers.ts", label: "helpers.ts", icon: markRaw(MdiLanguageTypescript) },
+                { key: "format.ts", label: "format.ts", icon: markRaw(MdiLanguageTypescript) },
+              ],
+            },
+            { key: "main.ts", label: "main.ts", icon: markRaw(MdiLanguageTypescript) },
+          ],
+        },
+        { key: "package.json", label: "package.json", icon: markRaw(MdiNpm) },
+        { key: "README.md", label: "README.md", icon: markRaw(MdiFileDocumentOutline) },
+      ]);
+
+      // 左：单选 + 自定义展开/收起图标
+      const radioKey = ref<string | number | null>("Tree.vue");
+
+      // 右：复选 + bubble 联动 + 数据驱动图标
+      const checkedKeys = ref<(string | number)[]>(["helpers.ts"]);
+
+      // 自定义展开/收起/叶子图标（按节点类型）
+      const expandIconFn = (node: any) => markRaw(MdiChevronRight);
+      const collapseIconFn = (node: any) => markRaw(MdiChevronDown);
+      const leafIconFn = (node: any) => markRaw(MdiCircleSmall);
+
+      return {
+        fileTree,
+        radioKey,
+        checkedKeys,
+        expandIconFn,
+        collapseIconFn,
+        leafIconFn,
+      };
+    },
+    template: `
+      <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+        <!-- 单选 + 图标 -->
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="color: var(--cp-color-primary); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;">
+            showRadio · 数据驱动文件图标 + 自定义展开箭头
+          </h3>
+          <CpTree
+            :data="fileTree"
+            node-key="key"
+            show-radio
+            highlight-current
+            default-expand-all
+            v-model:current-key="radioKey"
+            :expand-icon="expandIconFn"
+            :collapse-icon="collapseIconFn"
+            :leaf-icon="leafIconFn"
+          />
+          <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+            font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-secondary);">
+            <span style="color: var(--cp-color-primary);">// 已选文件</span>
+            {{ radioKey ?? '(无)' }}
+          </div>
+        </div>
+
+        <!-- 复选 bubble + 图标 -->
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="color: var(--cp-color-warning); font-family: 'Rajdhani'; font-size: 13px;
+            letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;">
+            showCheckbox · bubble 联动 + 数据驱动图标
+          </h3>
+          <CpTree
+            :data="fileTree"
+            node-key="key"
+            type="warning"
+            show-checkbox
+            check-mode="bubble"
+            default-expand-all
+            v-model:checked-keys="checkedKeys"
+          />
+          <div style="margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-border);
+            font-family: 'Rajdhani', monospace; font-size: 12px; color: var(--cp-text-secondary);">
+            <span style="color: var(--cp-color-warning);">// 已勾选 ({{ checkedKeys.length }})</span>
+            <div style="margin-top: 4px;">{{ checkedKeys.join(', ') || '(无)' }}</div>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};

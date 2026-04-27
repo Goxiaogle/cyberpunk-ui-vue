@@ -63,6 +63,14 @@ export interface TreeNode {
 export type TreeType = 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
+ * 复选框父子联动策略
+ * - `'strict'`：父子独立，互不影响
+ * - `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）
+ * - `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父
+ */
+export type TreeCascadeMode = 'strict' | 'cascade' | 'bubble'
+
+/**
  * CpTree 组件 Props 定义
  *
  * @description 赛博朋克风格树形控件，用于展示层级数据。
@@ -86,7 +94,7 @@ export const treeProps = {
     default: () => [],
   },
   /**
-   * 是否显示复选框
+   * 是否显示复选框（多选模式）
    * @default false
    */
   showCheckbox: {
@@ -94,14 +102,37 @@ export const treeProps = {
     default: false,
   },
   /**
+   * 是否显示单选框（单选模式）
+   * 与 `showCheckbox` 互斥；开启后每个节点左侧渲染单选指示器，
+   * 点击节点（非禁用）即将该节点设为当前选中节点，状态通过 `currentKey` / `update:currentKey` / `current-change` 反馈。
+   * @default false
+   */
+  showRadio: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * 严格模式：父子节点互不关联
    * - `false`（默认）：勾选父节点自动勾选所有子节点，子节点全选时自动勾上父节点，部分选中显示半选
    * - `true`：父子独立勾选，互不影响
+   * @deprecated 请使用 `checkMode` 指定联动策略。当 `checkMode` 显式传入时本 prop 被忽略。
    * @default false
    */
   checkStrictly: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * 复选框父子联动策略（参考 CpTable `treeCheckMode`）
+   * - `'strict'`：父子独立，互不影响
+   * - `'cascade'`：完全双向联动
+   * - `'bubble'`：勾选级联+向上冒泡；取消父 → 后代全部取消；取消子不影响父
+   *
+   * 未显式传入时：若 `checkStrictly` 为 `true` 则等价 `'strict'`，否则等价 `'cascade'`（兼容旧行为）。
+   */
+  checkMode: {
+    type: String as PropType<TreeCascadeMode>,
+    default: undefined,
   },
   /**
    * 默认展开所有节点
@@ -170,6 +201,23 @@ export const treeProps = {
   highlightCurrent: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * 默认当前选中节点 key（非受控）
+   */
+  defaultCurrentKey: {
+    type: [String, Number, null] as PropType<string | number | null>,
+    default: null,
+  },
+  /**
+   * 受控当前选中节点 key（v-model:currentKey）
+   * 与 `highlightCurrent` / `showRadio` 共用同一份状态：
+   * - `highlightCurrent`=true：点击节点高亮并写入 currentKey
+   * - `showRadio`=true：点击节点选中并写入 currentKey
+   */
+  currentKey: {
+    type: [String, Number, null] as PropType<string | number | null>,
+    default: undefined,
   },
   /**
    * 颜色类型
@@ -248,7 +296,7 @@ export const treeProps = {
   },
   /**
    * 自定义节点前缀图标
-   * 在展开箭头之后、复选框之前显示
+   * 在单选/复选指示器之后、标签之前显示（若未启用 showRadio/showCheckbox 则紧跟展开箭头）
    * - `Component`: 统一图标
    * - `(node: TreeNode) => Component | string | undefined`: 按节点返回不同图标
    * 当 showNodeIcon 为 true 时，如果未设置此 prop，则自动读取 `TreeNodeData.icon` 字段
@@ -286,10 +334,20 @@ export const treeEmits = {
   /** 勾选变化 */
   'check-change': (data: TreeNodeData, checked: boolean) =>
     data !== undefined && typeof checked === 'boolean',
+  /** 当前选中节点变化（highlightCurrent / showRadio 场景） */
+  'current-change': (
+    data: TreeNodeData | null,
+    node: TreeNode | null,
+    prevData: TreeNodeData | null,
+    prevNode: TreeNode | null
+  ) => true,
   /** v-model:checkedKeys */
   'update:checkedKeys': (keys: (string | number)[]) => Array.isArray(keys),
   /** v-model:expandedKeys */
   'update:expandedKeys': (keys: (string | number)[]) => Array.isArray(keys),
+  /** v-model:currentKey */
+  'update:currentKey': (key: string | number | null) =>
+    key === null || typeof key === 'string' || typeof key === 'number',
 }
 
 export type TreeEmits = typeof treeEmits

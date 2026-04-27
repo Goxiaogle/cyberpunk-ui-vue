@@ -6,7 +6,13 @@
 import { computed, provide, ref, watch, useSlots } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
-import { treeProps, treeEmits, type TreeNode, type TreeNodeData } from './tree'
+import {
+  treeProps,
+  treeEmits,
+  type TreeCascadeMode,
+  type TreeNode,
+  type TreeNodeData,
+} from './tree'
 import { treeContextKey, type TreeContext } from './constants'
 import CpTreeNode from './tree-node.vue'
 
@@ -136,9 +142,17 @@ watch(
 // ===== 半选状态 =====
 const indeterminateKeys = ref<Set<string | number>>(new Set())
 
+// ===== 联动策略 =====
+// checkMode 显式传入时生效；否则回退到 checkStrictly 的旧语义
+const effectiveCheckMode = computed<TreeCascadeMode>(() => {
+  if (props.checkMode) return props.checkMode
+  return props.checkStrictly ? 'strict' : 'cascade'
+})
+
 // 计算半选 key
 const updateIndeterminateKeys = () => {
-  if (props.checkStrictly) {
+  const mode = effectiveCheckMode.value
+  if (mode === 'strict') {
     indeterminateKeys.value = new Set()
     return
   }
@@ -146,7 +160,29 @@ const updateIndeterminateKeys = () => {
   const newIndeterminate = new Set<string | number>()
   const checked = checkedKeysSet.value
 
-  // 从叶子节点开始向上计算
+  if (mode === 'bubble') {
+    // bubble 语义：勾选冒泡到祖先 → 若节点本身被勾选但某个后代未勾选，则为半选
+    const walk = (nodes: TreeNode[]) => {
+      for (const node of nodes) {
+        if (node.children.length > 0) {
+          walk(node.children)
+          if (checked.has(node.key)) {
+            const hasUncheckedDescendant = node.children.some(
+              (c) =>
+                !c.disabled &&
+                (!checked.has(c.key) || newIndeterminate.has(c.key))
+            )
+            if (hasUncheckedDescendant) newIndeterminate.add(node.key)
+          }
+        }
+      }
+    }
+    walk(treeNodes.value)
+    indeterminateKeys.value = newIndeterminate
+    return
+  }
+
+  // cascade：从叶子节点开始向上计算
   const computeFromBottom = (nodes: TreeNode[]) => {
     for (const node of nodes) {
       if (node.children.length > 0) {
@@ -171,10 +207,19 @@ const updateIndeterminateKeys = () => {
   indeterminateKeys.value = newIndeterminate
 }
 
-watch(checkedKeysSet, updateIndeterminateKeys, { immediate: true })
+watch([checkedKeysSet, effectiveCheckMode], updateIndeterminateKeys, {
+  immediate: true,
+})
 
-// ===== 当前高亮节点 =====
-const currentNodeKey = ref<string | number | null>(null)
+// ===== 当前高亮/单选节点 =====
+const internalCurrentKey = ref<string | number | null>(
+  props.defaultCurrentKey ?? null
+)
+
+const currentNodeKey = computed<string | number | null>(() => {
+  if (props.currentKey !== undefined) return props.currentKey
+  return internalCurrentKey.value
+})
 
 // ===== 过滤 =====
 const filterText = ref('')
@@ -251,26 +296,35 @@ const toggleCheck = (node: TreeNode) => {
 
   const keys = new Set(checkedKeysSet.value)
   const isChecked = keys.has(node.key)
+  const mode = effectiveCheckMode.value
 
-  if (props.checkStrictly) {
+  if (mode === 'strict') {
     // 严格模式：只切换当前节点
+    if (isChecked) keys.delete(node.key)
+    else keys.add(node.key)
+  } else if (mode === 'bubble') {
+    // 冒泡模式：勾选 = 自身 + 全部后代 + 向上冒泡祖先；取消 = 自身 + 全部后代，祖先保持
     if (isChecked) {
-      keys.delete(node.key)
-    } else {
-      keys.add(node.key)
-    }
-  } else {
-    // 级联模式
-    if (isChecked) {
-      // 取消勾选：向下取消所有子节点
       keys.delete(node.key)
       uncheckChildren(node, keys)
     } else {
-      // 勾选：向下勾选所有子节点
+      keys.add(node.key)
+      checkChildren(node, keys)
+      let p = node.parent
+      while (p) {
+        if (!p.disabled) keys.add(p.key)
+        p = p.parent
+      }
+    }
+  } else {
+    // cascade：完全双向联动
+    if (isChecked) {
+      keys.delete(node.key)
+      uncheckChildren(node, keys)
+    } else {
       keys.add(node.key)
       checkChildren(node, keys)
     }
-    // 向上更新父节点
     updateParentCheck(node.parent, keys)
   }
 
@@ -324,14 +378,37 @@ const updateParentCheck = (
   updateParentCheck(parent.parent, keys)
 }
 
-const setCurrentNode = (node: TreeNode) => {
-  if (props.highlightCurrent) {
-    currentNodeKey.value = node.key
+const setCurrentNode = (node: TreeNode | null, emitEvent = true) => {
+  const prevKey = currentNodeKey.value
+  const nextKey = node ? node.key : null
+  if (prevKey === nextKey) return
+
+  if (props.currentKey !== undefined) {
+    emit('update:currentKey', nextKey)
+  } else {
+    internalCurrentKey.value = nextKey
+  }
+
+  if (emitEvent) {
+    const prev = prevKey != null ? nodeMap.get(prevKey) ?? null : null
+    emit(
+      'current-change',
+      node ? node.data : null,
+      node,
+      prev ? prev.data : null,
+      prev
+    )
   }
 }
 
 const handleNodeClick = (node: TreeNode) => {
-  setCurrentNode(node)
+  // 高亮 / 单选模式下，点击节点即写入 currentKey 并触发反馈事件
+  // disabled 节点不参与选中（但 node-click 事件仍然触发，便于外部业务感知）
+  if (!node.disabled) {
+    if (props.showRadio || props.highlightCurrent) {
+      setCurrentNode(node)
+    }
+  }
   emit('node-click', node.data, node)
 }
 
@@ -359,7 +436,11 @@ const context: TreeContext = {
   indeterminateKeys,
   currentNodeKey,
   showCheckbox: props.showCheckbox,
+  showRadio: props.showRadio,
   checkStrictly: props.checkStrictly,
+  get checkMode() {
+    return effectiveCheckMode.value
+  },
   accordion: props.accordion,
   indent: props.indent,
   highlightCurrent: props.highlightCurrent,
@@ -430,11 +511,34 @@ const collapseAll = () => {
 /** 获取半选的 key */
 const getHalfCheckedKeys = () => Array.from(indeterminateKeys.value)
 
+/** 获取当前选中节点的 key（highlightCurrent / showRadio 场景） */
+const getCurrentKey = () => currentNodeKey.value
+
+/** 获取当前选中节点的数据（highlightCurrent / showRadio 场景） */
+const getCurrentNode = () => {
+  const key = currentNodeKey.value
+  if (key == null) return null
+  return nodeMap.get(key)?.data ?? null
+}
+
+/** 以编程方式设置当前选中节点；传 null 清除 */
+const setCurrentKey = (key: string | number | null) => {
+  if (key == null) {
+    setCurrentNode(null, false)
+    return
+  }
+  const node = nodeMap.get(key)
+  if (node) setCurrentNode(node, false)
+}
+
 defineExpose({
   filter,
   getCheckedKeys,
   setCheckedKeys,
   getHalfCheckedKeys,
+  getCurrentKey,
+  getCurrentNode,
+  setCurrentKey,
   expandAll,
   collapseAll,
   treeNodes,

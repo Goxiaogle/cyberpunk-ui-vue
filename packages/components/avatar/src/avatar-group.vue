@@ -85,6 +85,11 @@ const visibleCount = computed(() => {
 
 const hiddenCount = computed(() => {
     const children = getAvatarChildren()
+    const shown = props.max === undefined ? children.length : Math.min(props.max, children.length)
+    // 优先使用自定义 total；仅当 total 大于已显示数量时生效
+    if (props.total !== undefined && props.total > shown) {
+        return props.total - shown
+    }
     if (props.max === undefined || props.max >= children.length) {
         return 0
     }
