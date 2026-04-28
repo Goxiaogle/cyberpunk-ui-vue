@@ -5,7 +5,7 @@
  */
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
-import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dropdownProps, dropdownEmits, type DropdownOption } from './dropdown'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
@@ -19,7 +19,12 @@ const slots = useSlots()
 
 const ns = useNamespace('dropdown')
 const formContext = inject(formContextKey, undefined)
+const dialogContext = inject(DIALOG_CONTEXT_KEY, undefined)
 const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
+
+// Unique id for this instance — used to distinguish self from others in the mutual-close event
+const uid = Symbol()
+const DROPDOWN_OPEN_EVENT = 'cp:dropdown-open'
 
 // 尺寸预设映射
 const sizeMap = { sm: 28, md: 36, lg: 44 }
@@ -214,6 +219,8 @@ const updatePosition = () => {
 const open = () => {
   if (isDisabled.value) return
   visible.value = true
+  // Tell all other open dropdowns to close (bypasses stopPropagation in parent elements)
+  document.dispatchEvent(new CustomEvent(DROPDOWN_OPEN_EVENT, { detail: uid }))
   emit('visibleChange', true)
   emit('focus')
   
@@ -273,6 +280,13 @@ const isSelected = (option: DropdownOption) => {
   return option.value === props.modelValue
 }
 
+// 关闭其他下拉框时的处理 (互斥关闭)
+const handleOtherDropdownOpen = (e: Event) => {
+  if ((e as CustomEvent).detail !== uid && visible.value) {
+    close()
+  }
+}
+
 // 点击外部关闭
 const handleClickOutside = (event: MouseEvent) => {
   if (!visible.value) return
@@ -328,6 +342,15 @@ const blur = () => {
   triggerRef.value?.blur()
 }
 
+// 父级 Dialog 关闭时同步关闭下拉
+if (dialogContext?.visible) {
+  watch(dialogContext.visible, (dialogVisible) => {
+    if (!dialogVisible && visible.value) {
+      close()
+    }
+  })
+}
+
 // 监听显示状态
 watch(visible, async (val) => {
   if (val) {
@@ -355,12 +378,14 @@ defineExpose({
 
 // 生命周期
 onMounted(() => {
+  document.addEventListener(DROPDOWN_OPEN_EVENT, handleOtherDropdownOpen)
   document.addEventListener('click', handleClickOutside)
   window.addEventListener('resize', updatePosition)
   window.addEventListener('scroll', updatePosition, true)
 })
 
 onBeforeUnmount(() => {
+  document.removeEventListener(DROPDOWN_OPEN_EVENT, handleOtherDropdownOpen)
   document.removeEventListener('click', handleClickOutside)
   window.removeEventListener('resize', updatePosition)
   window.removeEventListener('scroll', updatePosition, true)

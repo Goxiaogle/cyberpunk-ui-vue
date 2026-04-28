@@ -34,6 +34,7 @@ const ns = useNamespace('dialog')
 provide(DIALOG_CONTEXT_KEY, {
   type: toRef(props, 'type'),
   color: toRef(props, 'color'),
+  visible,
 })
 
 // ===== 显示状态 =====

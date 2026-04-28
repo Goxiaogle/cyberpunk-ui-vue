@@ -10,10 +10,11 @@ export const DEFAULTS_KEY: InjectionKey<Record<string, any>> = Symbol('cp-defaul
 /** 主题注入 Key */
 export const THEME_KEY: InjectionKey<Ref<ThemeType>> = Symbol('cp-theme')
 
-/** Dialog 上下文注入 Key — 子组件可继承 Dialog 的 type / color */
+/** Dialog 上下文注入 Key — 子组件可继承 Dialog 的 type / color / visible */
 export const DIALOG_CONTEXT_KEY: InjectionKey<{
   type: Ref<string>
   color: Ref<string>
+  visible?: Ref<boolean>
 }> = Symbol('cp-dialog-context')
 
 /** Table 上下文注入 Key — CpTableColumn 注册到父 CpTable */
