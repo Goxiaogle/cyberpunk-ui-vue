@@ -50,15 +50,16 @@ $segmented-types: (primary, success, warning, error, info);
   // ===== 滑块指示器 =====
   @include e(indicator) {
     position: absolute;
-    top: var(--cp-segmented-padding);
-    bottom: var(--cp-segmented-padding);
+    top: 0;
     left: 0;
     background: var(--cp-segmented-indicator-bg);
     border: 1px solid var(--cp-segmented-indicator-border);
     box-shadow: var(--cp-segmented-indicator-shadow);
+    // height 由 JS 注入（offsetHeight），避免选项换行时被拉伸到整个容器高度
     transition:
       transform var(--cp-segmented-transition),
       width var(--cp-segmented-transition),
+      height var(--cp-segmented-transition),
       opacity var(--cp-segmented-transition);
     pointer-events: none;
     z-index: 0;
@@ -527,6 +528,43 @@ $segmented-types: (primary, success, warning, error, info);
 
     .cp-segmented__item {
       flex: 1;
+    }
+  }
+
+  // ===== 换行模式（横向） =====
+  @include when(wrap) {
+    flex-wrap: wrap;
+    row-gap: var(--cp-segmented-gap);
+  }
+
+  // ===== 垂直布局 =====
+  @include when(vertical) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .cp-segmented__item {
+      // 垂直布局下选项左对齐，宽度占满
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
+
+  // ===== 字重切换防止宽度抖动 =====
+  // font-variation-settings 的 wght 切换会让文字宽度细微变化，
+  // 进而触发 indicator transition 期间宽度计算反复抖动。
+  // 用 ::after 隐藏一份激活态字重的同文本，预先撑开稳定占位。
+  @include e(item-label) {
+    position: relative;
+
+    &::after {
+      content: attr(data-label);
+      display: block;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      pointer-events: none;
+      font-weight: var(--cp-segmented-active-font-weight);
+      font-variation-settings: 'wght' var(--cp-segmented-active-font-weight);
     }
   }
 

@@ -1,6 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { ref } from 'vue'
-import { CpSegmented } from '@cyberpunk-vue/components'
+import { ref, computed } from 'vue'
+import { CpSegmented, CpForm, CpFormItem, CpButton } from '@cyberpunk-vue/components'
+import MdiViewList from '~icons/mdi/view-list'
+import MdiViewGrid from '~icons/mdi/view-grid'
+import MdiViewModule from '~icons/mdi/view-module'
+import MdiPlay from '~icons/mdi/play'
+import MdiPause from '~icons/mdi/pause'
+import MdiStop from '~icons/mdi/stop'
+import MdiHome from '~icons/mdi/home'
+import MdiAccount from '~icons/mdi/account'
+import MdiCog from '~icons/mdi/cog'
+import MdiBell from '~icons/mdi/bell'
 
 const meta: Meta<typeof CpSegmented> = {
   title: '表单 Form/Segmented 分段选择器',
@@ -35,6 +45,14 @@ const meta: Meta<typeof CpSegmented> = {
       control: 'boolean',
       description: '是否撑满宽度',
     },
+    vertical: {
+      control: 'boolean',
+      description: '是否纵向排列',
+    },
+    wrap: {
+      control: 'boolean',
+      description: '是否允许换行（仅横向）',
+    },
     clearable: {
       control: 'boolean',
       description: '是否允许清空（再次点击已选项或按 Esc 清空）',
@@ -51,6 +69,8 @@ const meta: Meta<typeof CpSegmented> = {
     shape: 'clip',
     disabled: false,
     block: false,
+    vertical: false,
+    wrap: false,
     clearable: false,
   },
 }
@@ -60,6 +80,12 @@ type Story = StoryObj<typeof meta>
 
 /**
  * 基础用法 — 字符串选项
+ *
+ * 键盘可用：
+ * - **←/→**：在选项间移焦（垂直模式为 ↑/↓）
+ * - **Home / End**：跳到首/末项
+ * - **Space / Enter**：选中当前聚焦项
+ * - **Esc**：启用 `clearable` 时清空
  */
 export const Default: Story = {
   render: (args) => ({
@@ -175,6 +201,40 @@ export const Sizes: Story = {
 }
 
 /**
+ * 自定义尺寸 — `size` 传入数字（px）或 CSS 长度字符串
+ *
+ * 数字会被解析为 `px`，字符串原样作为 `--cp-segmented-height` 写入。
+ */
+export const CustomSize: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const v1 = ref('A')
+      const v2 = ref('A')
+      const v3 = ref('A')
+      const options = ['A', 'B', 'C']
+      return { v1, v2, v3, options }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <span style="width: 70px; color: var(--cp-text-muted); font-family: monospace;">size=20</span>
+          <CpSegmented v-model="v1" :options="options" :size="20" type="primary" />
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <span style="width: 70px; color: var(--cp-text-muted); font-family: monospace;">size=52</span>
+          <CpSegmented v-model="v2" :options="options" :size="52" type="primary" />
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <span style="width: 70px; color: var(--cp-text-muted); font-family: monospace;">size='3.5rem'</span>
+          <CpSegmented v-model="v3" :options="options" size="3.5rem" type="primary" />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
  * 形状模式 — clip / no-clip / round / circle
  */
 export const Shapes: Story = {
@@ -254,6 +314,111 @@ export const Block: Story = {
 }
 
 /**
+ * 图标选项 — 通过 `option.icon` 传入图标组件
+ *
+ * 同时演示「仅图标」「图标 + 文本」两种排版。
+ */
+export const WithIcons: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const view = ref('list')
+      const playState = ref('play')
+
+      const viewOptions = [
+        { label: '列表', value: 'list', icon: MdiViewList },
+        { label: '网格', value: 'grid', icon: MdiViewGrid },
+        { label: '画廊', value: 'gallery', icon: MdiViewModule },
+      ]
+      // 仅图标（label 为空字符串）
+      const playOptions = [
+        { label: '', value: 'play', icon: MdiPlay },
+        { label: '', value: 'pause', icon: MdiPause },
+        { label: '', value: 'stop', icon: MdiStop },
+      ]
+      return { view, playState, viewOptions, playOptions }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">图标 + 文本</p>
+          <CpSegmented v-model="view" :options="viewOptions" type="primary" variant="neon" />
+        </div>
+        <div>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">仅图标</p>
+          <CpSegmented v-model="playState" :options="playOptions" type="success" variant="solid" />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 多行换行 — `wrap` 启用后空间不足时自动换行
+ *
+ * 指示器会跟随激活项所在的行，不会跨行拉伸高度。
+ */
+export const Wrap: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const view = ref('正面')
+      const options = ['正面', '侧面', '背面', '俯视', '仰视', '特写', '远景', '中景']
+      return { view, options }
+    },
+    template: `
+      <div style="max-width: 280px; padding: 12px; border: 1px dashed var(--cp-border); border-radius: 8px;">
+        <p style="margin-bottom: 12px; color: var(--cp-text-muted); font-size: 12px; font-family: monospace;">
+          容器宽度受限，启用 wrap 自动换行 ↓
+        </p>
+        <CpSegmented v-model="view" :options="options" type="warning" variant="outline" wrap />
+        <p style="margin-top: 12px; color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+          视角: <span style="color: var(--cp-color-warning);">{{ view }}</span>
+        </p>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 垂直布局 — `vertical` 选项纵向堆叠
+ *
+ * 键盘导航自动切换为 ↑/↓，常用于侧栏导航。
+ */
+export const Vertical: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const tab = ref('home')
+      const options = [
+        { label: '首页', value: 'home', icon: MdiHome },
+        { label: '账户', value: 'account', icon: MdiAccount },
+        { label: '通知', value: 'bell', icon: MdiBell },
+        { label: '设置', value: 'settings', icon: MdiCog },
+      ]
+      return { tab, options }
+    },
+    template: `
+      <div style="display: flex; gap: 24px;">
+        <CpSegmented
+          v-model="tab"
+          :options="options"
+          type="primary"
+          variant="ghost"
+          vertical
+          style="min-width: 160px;"
+        />
+        <div style="flex: 1; padding: 16px; border: 1px solid var(--cp-border);">
+          <p style="color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+            当前页签: <span style="color: var(--cp-color-primary); text-transform: uppercase;">{{ tab }}</span>
+          </p>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/**
  * 禁用状态 — 整体禁用 & 单项禁用
  */
 export const Disabled: Story = {
@@ -278,7 +443,7 @@ export const Disabled: Story = {
           <CpSegmented v-model="v1" :options="optionsAll" type="primary" disabled />
         </div>
         <div>
-          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">单项禁用 (B, D)</p>
+          <p style="margin-bottom: 8px; color: var(--cp-text-muted); font-size: 12px;">单项禁用 (B, D) — 键盘导航会自动跳过</p>
           <CpSegmented v-model="v2" :options="optionsMixed" type="primary" />
         </div>
       </div>
@@ -381,6 +546,220 @@ export const ObjectOptions: Story = {
 }
 
 /**
+ * 动态 options — 增删项时指示器自动重算位置
+ */
+export const DynamicOptions: Story = {
+  render: () => ({
+    components: { CpSegmented, CpButton },
+    setup() {
+      const value = ref('A')
+      const items = ref(['A', 'B', 'C'])
+      let nextChar = 'D'.charCodeAt(0)
+
+      const addItem = () => {
+        items.value.push(String.fromCharCode(nextChar++))
+      }
+      const removeItem = () => {
+        if (items.value.length <= 1) return
+        const removed = items.value.pop()
+        if (removed === value.value) {
+          value.value = items.value[0]
+        }
+      }
+      const reset = () => {
+        items.value = ['A', 'B', 'C']
+        nextChar = 'D'.charCodeAt(0)
+        value.value = 'A'
+      }
+      return { value, items, addItem, removeItem, reset }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start;">
+        <CpSegmented v-model="value" :options="items" type="primary" variant="outline" />
+        <div style="display: flex; gap: 8px;">
+          <CpButton size="sm" @click="addItem">+ 新增</CpButton>
+          <CpButton size="sm" type="error" :disabled="items.length <= 1" @click="removeItem">- 删除末项</CpButton>
+          <CpButton size="sm" variant="outline" @click="reset">重置</CpButton>
+        </div>
+        <p style="color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+          选中: <span style="color: var(--cp-color-primary);">{{ value }}</span> / 共 {{ items.length }} 项
+        </p>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 切换前钩子 `beforeChange` — 异步拦截切换
+ *
+ * 钩子返回 `false` 或 reject 的 Promise 会取消切换。
+ * 适合做权限校验、未保存提示、远程检查等。
+ */
+export const BeforeChange: Story = {
+  render: () => ({
+    components: { CpSegmented, CpButton },
+    setup() {
+      const env = ref('dev')
+      const dirty = ref(false)
+      const log = ref<string[]>([])
+      const options = [
+        { label: '开发', value: 'dev' },
+        { label: '预发', value: 'staging' },
+        { label: '生产', value: 'prod' },
+      ]
+
+      const pushLog = (msg: string) => {
+        log.value.unshift(`[${new Date().toLocaleTimeString()}] ${msg}`)
+        if (log.value.length > 6) log.value.pop()
+      }
+
+      const beforeChange = async (next: string, current: string) => {
+        if (dirty.value) {
+          // eslint-disable-next-line no-alert
+          const ok = window.confirm(`存在未保存的修改，确认从 ${current} 切到 ${next}？`)
+          if (!ok) {
+            pushLog(`取消切换：${current} → ${next}`)
+            return false
+          }
+          dirty.value = false
+        }
+        if (next === 'prod') {
+          pushLog(`正在校验生产权限...`)
+          await new Promise((r) => setTimeout(r, 600))
+        }
+        pushLog(`允许切换：${current} → ${next}`)
+        return true
+      }
+
+      return { env, dirty, log, options, beforeChange }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <CpSegmented
+          v-model="env"
+          :options="options"
+          type="error"
+          variant="neon"
+          :before-change="beforeChange"
+        />
+        <label style="display: flex; gap: 8px; align-items: center; color: var(--cp-text-secondary);">
+          <input type="checkbox" v-model="dirty" />
+          模拟「存在未保存修改」（切换时弹出确认）
+        </label>
+        <p style="color: var(--cp-text-secondary); font-family: 'Rajdhani', sans-serif;">
+          环境: <span style="color: var(--cp-color-error); text-transform: uppercase;">{{ env }}</span>
+        </p>
+        <pre v-if="log.length" style="margin: 0; padding: 12px; background: var(--cp-bg-elevated); color: var(--cp-text-muted); font-size: 12px; max-height: 160px; overflow: auto;">{{ log.join('\\n') }}</pre>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 自定义内容 — `option` 作用域插槽
+ *
+ * 插槽参数：`{ option, index, active }`，可用于渲染头像、徽标、副标题等。
+ */
+export const CustomSlot: Story = {
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const role = ref('admin')
+      const options = [
+        { label: 'ADMIN', value: 'admin', count: 12 },
+        { label: 'EDITOR', value: 'editor', count: 48 },
+        { label: 'VIEWER', value: 'viewer', count: 230 },
+      ]
+      return { role, options }
+    },
+    template: `
+      <CpSegmented v-model="role" :options="options" type="primary" variant="outline" size="lg">
+        <template #option="{ option, active }">
+          <span style="display: inline-flex; align-items: center; gap: 8px;">
+            <span>{{ option.label }}</span>
+            <span :style="{
+              padding: '2px 8px',
+              borderRadius: '999px',
+              fontSize: '10px',
+              background: active ? 'var(--cp-color-primary)' : 'var(--cp-bg-elevated)',
+              color: active ? 'var(--cp-color-primary-text)' : 'var(--cp-text-muted)',
+              transition: 'all 0.2s',
+            }">{{ option.count }}</span>
+          </span>
+        </template>
+      </CpSegmented>
+    `,
+  }),
+}
+
+/**
+ * 表单集成 — 在 `CpForm` / `CpFormItem` 中使用
+ *
+ * 自动接管 `disabled`，并参与表单的 `model` / `rules` 校验。
+ */
+export const InForm: Story = {
+  render: () => ({
+    components: { CpSegmented, CpForm, CpFormItem, CpButton },
+    setup() {
+      const form = ref({
+        priority: 'normal',
+        channel: '',
+      })
+      const rules = {
+        priority: [{ required: true, message: '请选择优先级' }],
+        channel: [{ required: true, message: '请选择推送渠道' }],
+      }
+      const formRef = ref()
+
+      const submit = async () => {
+        try {
+          const valid = await formRef.value?.validate()
+          if (valid) {
+            // eslint-disable-next-line no-alert
+            window.alert(`提交：${JSON.stringify(form.value)}`)
+          }
+        } catch {
+          // 校验失败
+        }
+      }
+      const reset = () => formRef.value?.resetFields()
+
+      return { form, rules, formRef, submit, reset }
+    },
+    template: `
+      <CpForm ref="formRef" :model="form" :rules="rules" label-width="100px" style="max-width: 520px;">
+        <CpFormItem label="优先级" prop="priority">
+          <CpSegmented
+            v-model="form.priority"
+            :options="[
+              { label: '低', value: 'low' },
+              { label: '中', value: 'normal' },
+              { label: '高', value: 'high' },
+              { label: '紧急', value: 'urgent' },
+            ]"
+            type="warning"
+          />
+        </CpFormItem>
+        <CpFormItem label="推送渠道" prop="channel">
+          <CpSegmented
+            v-model="form.channel"
+            :options="['邮件', '短信', '站内信']"
+            type="primary"
+            clearable
+          />
+        </CpFormItem>
+        <CpFormItem>
+          <div style="display: flex; gap: 8px;">
+            <CpButton type="primary" @click="submit">提交</CpButton>
+            <CpButton variant="outline" @click="reset">重置</CpButton>
+          </div>
+        </CpFormItem>
+      </CpForm>
+    `,
+  }),
+}
+
+/**
  * 变体 × 类型 组合展示
  */
 export const VariantTypeCombinations: Story = {
@@ -392,8 +771,8 @@ export const VariantTypeCombinations: Story = {
       const types = ['primary', 'success', 'warning', 'error', 'info']
       const options = ['ON', 'OFF', 'AUTO']
 
-      variants.forEach(v => {
-        types.forEach(t => {
+      variants.forEach((v) => {
+        types.forEach((t) => {
           values.value[`${v}-${t}`] = 'ON'
         })
       })

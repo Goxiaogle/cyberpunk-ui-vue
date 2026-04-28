@@ -159,6 +159,43 @@ export const segmentedProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * 是否纵向排列选项
+   * 启用后选项按列堆叠，键盘导航使用 ↑/↓
+   * @default false
+   */
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 是否允许选项换行（仅横向布局生效）
+   * 启用后空间不足时选项会自动换到下一行，指示器跟随激活项所在行
+   * @default false
+   */
+  wrap: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 切换前钩子
+   *
+   * 返回 `false` 或 reject 的 Promise 会取消本次切换；
+   * 返回 `true`、其他值或 resolve 的 Promise 会执行切换。
+   * 适合在切换前做权限校验、未保存提示等。
+   *
+   * @param next - 即将切换到的目标值（清空时为 `undefined`）
+   * @param current - 当前值
+   */
+  beforeChange: {
+    type: Function as PropType<
+      (
+        next: SegmentedValueType | undefined,
+        current: SegmentedValueType | undefined,
+      ) => boolean | Promise<boolean | void> | void
+    >,
+    default: undefined,
+  },
 } as const
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
