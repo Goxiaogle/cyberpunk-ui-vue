@@ -1,6 +1,6 @@
 # 展示组件属性参考
 
-## CpImage 图片
+## CpImage / CpImagePreview 图片
 
 赛博朋克风格图片组件，支持懒加载、加载占位、错误处理等功能。
 
@@ -65,6 +65,8 @@
 
 ### 示例
 
+#### CpImage
+
 ```vue
 <!-- 基础用法 -->
 <CpImage src="/image.jpg" alt="示例图片" />
@@ -79,9 +81,32 @@
 <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
 ```
 
+#### CpImagePreview
+
+```vue
+<!-- 基础用法 -->
+<CpImagePreview v-model="visible" :url-list="urls" />
+
+<!-- 在内置工具栏末尾追加按钮 -->
+<CpImagePreview v-model="visible" :url-list="urls">
+  <template #toolbar-append="{ currentUrl, close }">
+    <CpButton variant="ghost" dimmed square @click="share(currentUrl)">分享</CpButton>
+  </template>
+</CpImagePreview>
+
+<!-- 完全替换工具栏 -->
+<CpImagePreview v-model="visible" :url-list="urls">
+  <template #toolbar="{ zoomIn, zoomOut, resetTransform }">
+    <CpButton @click="zoomOut">-</CpButton>
+    <CpButton @click="zoomIn">+</CpButton>
+    <CpButton @click="resetTransform">重置</CpButton>
+  </template>
+</CpImagePreview>
+```
+
 ---
 
-## CpTimeline 时间轴
+## CpTimeline / CpTimelineItem 时间轴
 
 赛博朋克风格时间轴容器组件，用于事件记录、进度流程、日志展示等场景。
 
@@ -139,6 +164,8 @@
 
 ### 示例
 
+#### CpTimeline
+
 ```vue
 <CpTimeline>
   <CpTimelineItem timestamp="2024-01-01">事件一</CpTimelineItem>
@@ -146,9 +173,17 @@
 </CpTimeline>
 ```
 
+#### CpTimelineItem
+
+```vue
+<CpTimelineItem timestamp="2024-01-01" type="primary" active animation="pulse">
+  系统初始化完成
+</CpTimelineItem>
+```
+
 ---
 
-## CpTable 表格
+## CpTable / CpTableColumn 表格
 
 赛博朋克风格数据表格，支持排序、多选、条纹、边框、固定表头、树形展开、行展开。配合 CpTableColumn 声明式定义列
 
@@ -221,6 +256,8 @@
 
 ### 示例
 
+#### CpTable
+
 ```vue
 <!-- 基础用法 -->
 <CpTable :data="tableData" stripe border>
@@ -245,6 +282,36 @@
   row-key="id"
   :row-expandable="(row) => !!row.details"
   :expand-row-keys="[1, 3]"
+```
+
+#### CpTableColumn
+
+```vue
+<!-- 普通数据列 -->
+<CpTableColumn prop="name" label="姓名" sortable />
+
+<!-- 自定义单元格渲染 -->
+<CpTableColumn prop="status" label="状态">
+  <template #default="{ row }">
+    <CpTag :type="row.active ? 'success' : 'error'">
+      {{ row.active ? '在线' : '离线' }}
+    </CpTag>
+  </template>
+</CpTableColumn>
+
+<!-- 展开列：点击箭头展开行详情 -->
+<CpTableColumn type="expand">
+  <template #default="{ row }">
+    <p>邮箱: {{ row.email }}</p>
+    <p>备注: {{ row.remark }}</p>
+  </template>
+</CpTableColumn>
+
+<!-- 多选列 -->
+<CpTableColumn type="selection" />
+
+<!-- 序号列 -->
+<CpTableColumn type="index" label="#" :width="50" />
 ```
 
 ---

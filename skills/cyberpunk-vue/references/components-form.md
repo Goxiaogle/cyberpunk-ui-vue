@@ -1,6 +1,6 @@
 # 表单组件属性参考
 
-## CpForm 表单
+## CpForm / CpFormItem 表单
 
 表单容器，提供表单布局（label 位置、行内模式）、验证管理和全局配置注入
 
@@ -39,6 +39,8 @@
 
 ### 示例
 
+#### CpForm
+
 ```vue
 <CpForm :model="formData" :rules="rules" label-position="right">
   <CpFormItem label="用户名" prop="username" required>
@@ -47,9 +49,17 @@
 </CpForm>
 ```
 
+#### CpFormItem
+
+```vue
+<CpFormItem label="名称" prop="name" required reserve-error-space>
+  <CpInput v-model="formData.name" />
+</CpFormItem>
+```
+
 ---
 
-## CpInput 输入框
+## CpInput / CpInputNumber / CpTextarea 输入框
 
 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。
 
@@ -133,6 +143,8 @@
 
 ### 示例
 
+#### CpInput
+
 ```vue
 <!-- 基础用法 -->
 <CpInput v-model="value" placeholder="请输入" />
@@ -149,9 +161,23 @@
 <CpInput v-model="password" type="password" />
 ```
 
+#### CpInputNumber
+
+```vue
+<CpInputNumber v-model="count" :min="0" :max="100" />
+<CpInputNumber v-model="price" :step="0.5" :precision="2" />
+```
+
+#### CpTextarea
+
+```vue
+<CpTextarea v-model="content" :rows="4" placeholder="请输入内容" />
+<CpTextarea v-model="content" show-word-limit :maxlength="200" />
+```
+
 ---
 
-## CpCheckbox 复选框
+## CpCheckbox / CpCheckboxGroup 复选框
 
 赛博朋克风格复选框组件，支持半选状态、分组、自定义颜色。
 
@@ -199,6 +225,8 @@
 
 ### 示例
 
+#### CpCheckbox
+
 ```vue
 <!-- 基础用法 -->
 <CpCheckbox v-model="checked">选项</CpCheckbox>
@@ -213,9 +241,19 @@
 </CpCheckboxGroup>
 ```
 
+#### CpCheckboxGroup
+
+```vue
+<CpCheckboxGroup v-model="selected">
+  <CpCheckbox label="A">选项 A</CpCheckbox>
+  <CpCheckbox label="B">选项 B</CpCheckbox>
+  <CpCheckbox label="C">选项 C</CpCheckbox>
+</CpCheckboxGroup>
+```
+
 ---
 
-## CpRadio 单选框
+## CpRadio / CpRadioGroup 单选框
 
 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。
 
@@ -259,6 +297,8 @@
 
 ### 示例
 
+#### CpRadio
+
 ```vue
 <!-- 基础用法 -->
 <CpRadio v-model="picked" value="A">选项 A</CpRadio>
@@ -267,6 +307,16 @@
 <CpRadioGroup v-model="picked">
   <CpRadio value="A">选项 A</CpRadio>
   <CpRadio value="B">选项 B</CpRadio>
+</CpRadioGroup>
+```
+
+#### CpRadioGroup
+
+```vue
+<CpRadioGroup v-model="picked">
+  <CpRadio value="A">选项 A</CpRadio>
+  <CpRadio value="B">选项 B</CpRadio>
+  <CpRadio value="C">选项 C</CpRadio>
 </CpRadioGroup>
 ```
 

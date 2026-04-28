@@ -43,7 +43,15 @@ def score_candidate(component_name: str, query: str) -> int:
 
 
 def collect_sections() -> list[dict[str, object]]:
+    """收集组件章节。
+
+    模板约定：组件定义只在 level-2（``##``）出现；level-3 是 Props / 示例 等子段；
+    level-4+ 仅用于段内细分（如合并组的多组示例 ``#### CpXxx``），不应被当作独立组件入口。
+    因此此处只扫描 ``##`` 标题，并把行内所有 ``CpXxx`` 词元都登记为可查询的别名，
+    以支持形如 ``## CpImage / CpImagePreview 图片`` 的合并标题。
+    """
     sections: list[dict[str, object]] = []
+    component_token_re = re.compile(r"\bCp[A-Z][A-Za-z0-9]*\b")
 
     for ref_file in sorted(REFERENCES_DIR.glob("*.md")):
         text = ref_file.read_text(encoding="utf-8")
@@ -51,55 +59,27 @@ def collect_sections() -> list[dict[str, object]]:
         headings = []
 
         for index, line in enumerate(lines):
-            match = re.match(r"^(#{2,6})\s+.*\b(Cp[A-Z][A-Za-z0-9]*)\b.*$", line)
+            match = re.match(r"^(##)\s+(.*)$", line)
             if not match:
                 continue
 
-            headings.append(
-                {
-                    "index": index,
-                    "level": len(match.group(1)),
-                    "component": match.group(2),
-                }
-            )
+            components = component_token_re.findall(match.group(2))
+            if not components:
+                continue
+
+            headings.append({"index": index, "components": components})
 
         for heading in headings:
+            start = int(heading["index"])
             end_index = len(lines)
-            current_level = int(heading["level"])
-            current_component = str(heading["component"])
-
-            for next_index in range(int(heading["index"]) + 1, len(lines)):
-                line = lines[next_index]
-                heading_match = re.match(r"^(#{2,6})\s+.*$", line)
-                if not heading_match:
-                    continue
-
-                next_level = len(heading_match.group(1))
-                component_match = re.search(r"\b(Cp[A-Z][A-Za-z0-9]*)\b", line)
-                next_component = component_match.group(1) if component_match else ""
-
-                if current_level == 2:
-                    if next_level <= 2:
-                        end_index = next_index
-                        break
-                    continue
-
-                if next_level < current_level:
+            for next_index in range(start + 1, len(lines)):
+                if re.match(r"^##\s+", lines[next_index]):
                     end_index = next_index
                     break
 
-                if next_level == current_level and next_component and next_component != current_component:
-                    end_index = next_index
-                    break
-
-            block = "\n".join(lines[heading["index"] : end_index]).strip()
-            sections.append(
-                {
-                    "component": heading["component"],
-                    "ref_file": ref_file,
-                    "block": block,
-                }
-            )
+            block = "\n".join(lines[start:end_index]).strip()
+            for component in heading["components"]:
+                sections.append({"component": component, "ref_file": ref_file, "block": block})
 
     return sections
 

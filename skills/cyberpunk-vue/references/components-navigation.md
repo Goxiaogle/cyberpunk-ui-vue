@@ -1,6 +1,6 @@
 # 导航组件属性参考
 
-## CpMenu 菜单
+## CpMenu / CpMenuItem / CpSubMenu / CpMenuItemGroup / CpMenuNav 菜单
 
 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
 内置路由前缀匹配：当 `defaultActive` 为 `/model-specs/xxx` 时，
@@ -77,9 +77,15 @@
 | `--cp-menu-group-title-font-size` | `12px` |  |
 | `--cp-menu-item-font-weight` | `var(--cp-menu-active-font-weight)` |  |
 
+### 示例
+
+```vue
+<CpMenuNav :data="menuData" default-active="1" />
+```
+
 ---
 
-## CpBreadcrumb 面包屑
+## CpBreadcrumb / CpBreadcrumbItem 面包屑
 
 赛博朋克风格面包屑导航，展示当前页面在层级结构中的位置。
 
@@ -112,12 +118,21 @@
 
 ### 示例
 
+#### CpBreadcrumb
+
 ```vue
 <CpBreadcrumb>
   <CpBreadcrumbItem>首页</CpBreadcrumbItem>
   <CpBreadcrumbItem>系统管理</CpBreadcrumbItem>
   <CpBreadcrumbItem>用户管理</CpBreadcrumbItem>
 </CpBreadcrumb>
+```
+
+#### CpBreadcrumbItem
+
+```vue
+<CpBreadcrumbItem to="/home">首页</CpBreadcrumbItem>
+<CpBreadcrumbItem>当前页</CpBreadcrumbItem>
 ```
 
 ---

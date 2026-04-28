@@ -101,6 +101,7 @@ yarn.lock
 .agent/
 .agents/
 .gemini/
+.claude/
 
 # ========================
 # Misc

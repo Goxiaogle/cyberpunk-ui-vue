@@ -46,7 +46,7 @@
 
 ---
 
-## CpRow 行容器
+## CpRow / CpCol 行容器
 
 Flex 行容器，配合 CpCol 实现 24 栅格布局系统。
 
@@ -67,10 +67,21 @@ Flex 行容器，配合 CpCol 实现 24 栅格布局系统。
 
 ### 示例
 
+#### CpRow
+
 ```vue
 <CpRow :gutter="20">
   <CpCol :span="12">左半</CpCol>
   <CpCol :span="12">右半</CpCol>
+</CpRow>
+```
+
+#### CpCol
+
+```vue
+<CpRow :gutter="20">
+  <CpCol :span="8">1/3</CpCol>
+  <CpCol :span="8" :offset="8">1/3 偏移</CpCol>
 </CpRow>
 ```
 

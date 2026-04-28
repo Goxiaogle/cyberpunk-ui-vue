@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""按组件名定位 cyberpunk-vue 源码：输出本地相对路径与 GitHub 链接。"""
+"""按组件名定位 cyberpunk-vue 源码：列出 GitHub 上的源码文件，可选下载到本地目录。"""
 
 from __future__ import annotations
 
+import argparse
 import json
+import os
 import re
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -13,21 +17,11 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-GITHUB_FALLBACK = "https://github.com/Goxiaogle/cyberpunk-ui-vue"
+GITHUB_OWNER = "Goxiaogle"
+GITHUB_REPO = "cyberpunk-ui-vue"
 DEFAULT_BRANCH = "master"
+USER_AGENT = "cyberpunk-vue-find-source"
 SKIP_DIRS = {"node_modules", "dist", "__tests__", "__snapshots__"}
-
-
-def find_repo_root() -> Path | None:
-    current = SCRIPT_DIR
-    for _ in range(10):
-        if (current / "packages" / "components").is_dir():
-            return current
-        if current.parent == current:
-            break
-        current = current.parent
-    return None
 
 
 def normalize_to_kebab(query: str) -> str:
@@ -38,96 +32,133 @@ def normalize_to_kebab(query: str) -> str:
     return s.lower()
 
 
-def get_repo_url(repo_root: Path | None) -> str:
-    if repo_root is None:
-        return GITHUB_FALLBACK
-    pkg_path = repo_root / "package.json"
-    if not pkg_path.is_file():
-        return GITHUB_FALLBACK
-    try:
-        data = json.loads(pkg_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return GITHUB_FALLBACK
-
-    repo = data.get("repository")
-    url = repo.get("url") if isinstance(repo, dict) else repo
-    if not isinstance(url, str):
-        url = data.get("homepage")
-    if not isinstance(url, str):
-        return GITHUB_FALLBACK
-
-    url = re.sub(r"^git\+", "", url)
-    url = re.sub(r"\.git$", "", url)
-    url = re.sub(r"#.*$", "", url)
-    return url
+def auth_headers() -> dict:
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    return headers
 
 
-def list_source_files(component_dir: Path) -> list[Path]:
-    files: list[Path] = []
-    for path in sorted(component_dir.rglob("*")):
-        if not path.is_file():
+def github_api_get(path: str, ref: str) -> list[dict]:
+    url = (
+        f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}"
+        f"/contents/{path}?ref={ref}"
+    )
+    req = urllib.request.Request(url, headers=auth_headers())
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+    return data if isinstance(data, list) else [data]
+
+
+def walk_github_tree(repo_path: str, ref: str) -> list[dict]:
+    """递归扫描 GitHub 路径下的全部文件，返回 file 项数组。"""
+    files: list[dict] = []
+    items = github_api_get(repo_path, ref)
+    for item in items:
+        parts = item["path"].split("/")
+        if any(p in SKIP_DIRS for p in parts):
             continue
-        if any(part in SKIP_DIRS for part in path.parts):
-            continue
-        files.append(path)
+        if item["type"] == "dir":
+            files.extend(walk_github_tree(item["path"], ref))
+        elif item["type"] == "file":
+            files.append(item)
     return files
 
 
-def fuzzy_candidates(components_dir: Path, target: str) -> list[str]:
-    if not components_dir.is_dir():
-        return []
-    names = sorted(p.name for p in components_dir.iterdir() if p.is_dir())
-    return [n for n in names if target and (target in n or n in target)]
+def download_file(url: str, dest: Path) -> int:
+    req = urllib.request.Request(url, headers=auth_headers())
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        data = resp.read()
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(data)
+    return len(data)
 
 
-def print_usage() -> None:
-    print("用法: py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>")
-    print("支持: CpButton / button / cp-button / image-preview 等格式")
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="find-source.py",
+        description="定位 cyberpunk-vue 组件源码（GitHub），可选下载到本地目录。",
+    )
+    parser.add_argument(
+        "component",
+        help="组件名：CpButton / button / cp-button / image-preview 等",
+    )
+    parser.add_argument(
+        "--download",
+        "-d",
+        metavar="DIR",
+        help="下载源码到指定目录（保留组件目录下的子结构）",
+    )
+    parser.add_argument(
+        "--ref",
+        default=DEFAULT_BRANCH,
+        help=f"分支 / tag / commit（默认: {DEFAULT_BRANCH}）",
+    )
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    if len(sys.argv) < 2:
-        print_usage()
-        return 1
-
-    query = sys.argv[1]
-    target = normalize_to_kebab(query)
+def main(argv: list[str]) -> int:
+    args = parse_args(argv)
+    target = normalize_to_kebab(args.component)
     if not target:
-        print_usage()
+        print("组件名无效", file=sys.stderr)
         return 1
 
-    repo_root = find_repo_root()
-    repo_url = get_repo_url(repo_root)
-    rel_dir = f"packages/components/{target}"
-    github_dir = f"{repo_url}/tree/{DEFAULT_BRANCH}/{rel_dir}"
+    repo_path = f"packages/components/{target}"
+    tree_url = (
+        f"https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}"
+        f"/tree/{args.ref}/{repo_path}"
+    )
 
-    print(f"目标组件目录: {rel_dir}")
+    print(f"目标组件: {repo_path}  (ref={args.ref})")
+    print(f"GitHub:   {tree_url}")
+    print()
 
-    if repo_root is None:
-        print("（脚本未在 cyberpunk-vue 仓库内运行；仅输出 GitHub 链接）")
-        print(f"GitHub: {github_dir}")
-        return 0
+    try:
+        files = walk_github_tree(repo_path, args.ref)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            print(f"未找到 GitHub 路径: {repo_path}", file=sys.stderr)
+            print("请检查组件名拼写。", file=sys.stderr)
+            return 3
+        if e.code == 403:
+            print(
+                "GitHub API 速率受限（匿名 60 次/小时）。"
+                "请稍后重试，或设置环境变量 GITHUB_TOKEN（5000 次/小时）。",
+                file=sys.stderr,
+            )
+            return 4
+        print(f"GitHub 请求失败: HTTP {e.code} {e.reason}", file=sys.stderr)
+        return 5
+    except urllib.error.URLError as e:
+        print(f"网络错误: {e.reason}", file=sys.stderr)
+        return 5
 
-    component_dir = repo_root / "packages" / "components" / target
-    if not component_dir.is_dir():
-        print(f'未找到本地目录: {rel_dir}')
-        fuzzy = fuzzy_candidates(repo_root / "packages" / "components", target)
-        if fuzzy:
-            print("最接近的目录:")
-            for name in fuzzy[:8]:
-                print(f"  - packages/components/{name}")
-        else:
-            print(f"GitHub 备用链接: {github_dir}")
+    if not files:
+        print("目录下无可用文件。", file=sys.stderr)
         return 3
 
-    print(f"GitHub:      {github_dir}")
-    print()
-    print("源码文件 (相对仓库根)：")
-    for path in list_source_files(component_dir):
-        rel = path.relative_to(repo_root).as_posix()
+    if args.download:
+        dst_root = Path(args.download).resolve()
+        print(f"下载到: {dst_root}")
+        for item in files:
+            rel = item["path"][len(repo_path) + 1 :]
+            dest = dst_root / rel
+            size = download_file(item["download_url"], dest)
+            print(f"  ✓ {rel}  ({size} B)")
+        print(f"\n完成：共下载 {len(files)} 个文件到 {dst_root}")
+        return 0
+
+    print("源码文件 (相对组件目录)：")
+    for item in files:
+        rel = item["path"][len(repo_path) + 1 :]
         print(f"  {rel}")
+    print()
+    print("如需下载到本地，加 --download <目录>：")
+    print(f"  py -3 {Path(sys.argv[0]).name} {args.component} --download <output-dir>")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

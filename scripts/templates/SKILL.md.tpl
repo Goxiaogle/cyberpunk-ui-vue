@@ -34,13 +34,20 @@ py -3 skills/cyberpunk-vue/scripts/find-component.py dialog    # 支持模糊匹
 
 ### 源码快查脚本
 
-当 API 文档不足以判断组件实现细节（例如内部 DOM 结构、CSS 变量、边缘行为）时，用此脚本定位组件源码，再用 Read 打开对应 `.vue` / `.ts` 文件查阅：
+当 API 文档不足以判断组件实现细节（例如内部 DOM 结构、CSS 变量、边缘行为）时，用此脚本通过 GitHub Contents API 查询并下载源码（仓库 [Goxiaogle/cyberpunk-ui-vue](https://github.com/Goxiaogle/cyberpunk-ui-vue)，开源 MIT）：
 
 ```shell
-py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
+# 列出组件源码文件
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton
+
+# 下载源码到本地目录（保留 src/ 子结构），随后用 Read 查阅
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --download .tmp/cp-button
+
+# 指定分支 / tag / commit
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 ```
 
-输出包含本地相对路径与 GitHub 链接（仓库 [Goxiaogle/cyberpunk-ui-vue](https://github.com/Goxiaogle/cyberpunk-ui-vue)，开源 MIT）。在仓库外运行时只输出 GitHub 链接。源码用于辅助理解，不要据此修改 `node_modules` 内的依赖代码。
+匿名调用受 GitHub 限制（60 次/小时）。如频繁触发限流，设置环境变量 `GITHUB_TOKEN` 即可放宽到 5000 次/小时。源码用于辅助理解，**不要**据此修改 `node_modules` 内的依赖代码。
 
 ## 组件清单
 

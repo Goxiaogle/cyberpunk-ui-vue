@@ -487,14 +487,33 @@ async function getComponentTemplate() {
   return _componentTpl
 }
 
+/**
+ * 合并组的标题需要包含全部子组件别名，否则下游快查脚本（find-component.py）
+ * 无法通过次要组件名（如 CpImagePreview / CpTableColumn）定位到对应章节。
+ */
+function formatTitle(comp) {
+  const display = comp.meta.displayName
+  if (!display) return comp.pascalName
+  if (comp.pascalName.includes(' / ')) {
+    return display.replace(/^Cp[A-Z][A-Za-z0-9]*/, comp.pascalName)
+  }
+  return display
+}
+
 async function generateComponentMarkdown(comp) {
   let tpl = await getComponentTemplate()
-  const title = comp.meta.displayName || comp.pascalName
+  const title = formatTitle(comp)
   const desc = comp.meta.description || ''
 
   let exampleSection = ''
-  if (comp.meta.example) {
-    exampleSection = '### 示例\n\n```vue\n' + comp.meta.example + '\n```'
+  const examples = comp.allExamples && comp.allExamples.length > 0
+    ? comp.allExamples
+    : (comp.meta.example ? [{ name: '', code: comp.meta.example }] : [])
+  if (examples.length === 1) {
+    exampleSection = '### 示例\n\n```vue\n' + examples[0].code + '\n```'
+  } else if (examples.length > 1) {
+    const parts = examples.map((ex) => `#### ${ex.name}\n\n\`\`\`vue\n${ex.code}\n\`\`\``)
+    exampleSection = '### 示例\n\n' + parts.join('\n\n')
   }
 
   tpl = tpl.replace('{{DISPLAY_NAME}}', title)
@@ -568,6 +587,7 @@ async function main() {
     let allProps = []
     let allEvents = []
     let allCssVars = []
+    let allExamples = [] // [{ name: 'CpXxx', code: string }]
     let meta = null
 
     for (const compName of target.components) {
@@ -603,6 +623,11 @@ async function main() {
         if (blockMeta.exposes.length > 0) {
           meta.exposes = [...meta.exposes, ...blockMeta.exposes]
         }
+      }
+
+      // 收集 example（每个子组件一份），合并组渲染时按子组件名分块
+      if (blockMeta.example) {
+        allExamples.push({ name: `Cp${toPascalCase(compName)}`, code: blockMeta.example })
       }
 
       // 如果是合并组中的子组件，加上子组件名称前缀
@@ -645,6 +670,7 @@ async function main() {
       allProps: allProps.filter((p) => !p.isSeparator),
       allEvents,
       allCssVars,
+      allExamples,
     })
   }
 
@@ -728,7 +754,7 @@ async function generateSkillOverview(categoryData) {
     tableSections.push('| 组件 | 说明 |')
     tableSections.push('|------|------|')
     for (const comp of data.components) {
-      const displayName = comp.meta.displayName || comp.pascalName
+      const displayName = formatTitle(comp)
       const desc = comp.meta.description || ''
       tableSections.push('| ' + displayName + ' | ' + desc + ' |')
     }

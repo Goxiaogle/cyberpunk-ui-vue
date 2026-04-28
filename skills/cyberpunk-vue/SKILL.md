@@ -34,13 +34,20 @@ py -3 skills/cyberpunk-vue/scripts/find-component.py dialog    # 支持模糊匹
 
 ### 源码快查脚本
 
-当 API 文档不足以判断组件实现细节（例如内部 DOM 结构、CSS 变量、边缘行为）时，用此脚本定位组件源码，再用 Read 打开对应 `.vue` / `.ts` 文件查阅：
+当 API 文档不足以判断组件实现细节（例如内部 DOM 结构、CSS 变量、边缘行为）时，用此脚本通过 GitHub Contents API 查询并下载源码（仓库 [Goxiaogle/cyberpunk-ui-vue](https://github.com/Goxiaogle/cyberpunk-ui-vue)，开源 MIT）：
 
 ```shell
-py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
+# 列出组件源码文件
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton
+
+# 下载源码到本地目录（保留 src/ 子结构），随后用 Read 查阅
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --download .tmp/cp-button
+
+# 指定分支 / tag / commit
+py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 ```
 
-输出包含本地相对路径与 GitHub 链接（仓库 [Goxiaogle/cyberpunk-ui-vue](https://github.com/Goxiaogle/cyberpunk-ui-vue)，开源 MIT）。在仓库外运行时只输出 GitHub 链接。源码用于辅助理解，不要据此修改 `node_modules` 内的依赖代码。
+匿名调用受 GitHub 限制（60 次/小时）。如频繁触发限流，设置环境变量 `GITHUB_TOKEN` 即可放宽到 5000 次/小时。源码用于辅助理解，**不要**据此修改 `node_modules` 内的依赖代码。
 
 ## 组件清单
 
@@ -65,10 +72,10 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
 
 | 组件 | 说明 |
 |------|------|
-| CpForm 表单 | 表单容器，提供表单布局（label 位置、行内模式）、验证管理和全局配置注入 |
-| CpInput 输入框 | 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。 |
-| CpCheckbox 复选框 | 赛博朋克风格复选框组件，支持半选状态、分组、自定义颜色。 |
-| CpRadio 单选框 | 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。 |
+| CpForm / CpFormItem 表单 | 表单容器，提供表单布局（label 位置、行内模式）、验证管理和全局配置注入 |
+| CpInput / CpInputNumber / CpTextarea 输入框 | 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。 |
+| CpCheckbox / CpCheckboxGroup 复选框 | 赛博朋克风格复选框组件，支持半选状态、分组、自定义颜色。 |
+| CpRadio / CpRadioGroup 单选框 | 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。 |
 | CpDropdown 下拉选择 | 赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。 |
 | CpSegmented 分段选择器 | 赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。 |
 | CpSlider 滑块 | 赛博朋克风格滑块组件，用于在给定的数值范围内进行选择。 |
@@ -79,9 +86,9 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
 
 | 组件 | 说明 |
 |------|------|
-| CpImage 图片 | 赛博朋克风格图片组件，支持懒加载、加载占位、错误处理等功能。 |
-| CpTimeline 时间轴 | 赛博朋克风格时间轴容器组件，用于事件记录、进度流程、日志展示等场景。 |
-| CpTable 表格 | 赛博朋克风格数据表格，支持排序、多选、条纹、边框、固定表头、树形展开、行展开。配合 CpTableColumn 声明式定义列 |
+| CpImage / CpImagePreview 图片 | 赛博朋克风格图片组件，支持懒加载、加载占位、错误处理等功能。 |
+| CpTimeline / CpTimelineItem 时间轴 | 赛博朋克风格时间轴容器组件，用于事件记录、进度流程、日志展示等场景。 |
+| CpTable / CpTableColumn 表格 | 赛博朋克风格数据表格，支持排序、多选、条纹、边框、固定表头、树形展开、行展开。配合 CpTableColumn 声明式定义列 |
 | CpNotification 通知 | 赛博朋克风格通知提醒，从屏幕角落滑入显示 |
 | CpAvatar 头像 | 赛博朋克风格头像组件，支持多种尺寸和形状。 |
 | CpBadge 徽章 | 赛博朋克风格徽章组件，用于在另一个元素上显示数字、小红点或状态标识。 |
@@ -100,11 +107,11 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
 
 | 组件 | 说明 |
 |------|------|
-| CpMenu 菜单 | 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
+| CpMenu / CpMenuItem / CpSubMenu / CpMenuItemGroup / CpMenuNav 菜单 | 赛博朋克风格导航菜单，支持水平/垂直模式、折叠、多色彩类型。
 内置路由前缀匹配：当 `defaultActive` 为 `/model-specs/xxx` 时，
 会自动匹配 `index="/model-specs"` 的菜单项并高亮其父级 SubMenu。
 页面刷新或路由变化时，对应的子菜单会自动展开。 |
-| CpBreadcrumb 面包屑 | 赛博朋克风格面包屑导航，展示当前页面在层级结构中的位置。 |
+| CpBreadcrumb / CpBreadcrumbItem 面包屑 | 赛博朋克风格面包屑导航，展示当前页面在层级结构中的位置。 |
 | CpPagination 分页 | 赛博朋克风格分页组件，用于长列表数据分页导航。 |
 
 ### 布局组件属性参考
@@ -113,7 +120,7 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py <组件名>
 |------|------|
 | CpContainer 容器 | 赛博朋克风格页面布局容器。
 当子元素包含 CpHeader 或 CpFooter 时自动切换为垂直排列。 |
-| CpRow 行容器 | Flex 行容器，配合 CpCol 实现 24 栅格布局系统。 |
+| CpRow / CpCol 行容器 | Flex 行容器，配合 CpCol 实现 24 栅格布局系统。 |
 | CpPatternBackground 图案背景 | 图案背景组件，用于展示各种装饰性背景图案。 |
 
 ### 未分类组件属性参考
