@@ -3,15 +3,37 @@ import type { ExtractPropTypes, PropType } from 'vue'
 /**
  * CpImagePreview 组件 Props 定义
  *
- * @description 赛博朋克风格全屏大图预览组件，支持缩放、旋转、多图切换。
+ * @description 赛博朋克风格全屏大图预览组件，支持缩放、旋转、多图切换，工具栏支持插槽自定义。
  *
  * @example
  * ```vue
+ * <!-- 基础用法 -->
  * <CpImagePreview v-model="visible" :url-list="urls" />
+ *
+ * <!-- 在内置工具栏末尾追加按钮 -->
+ * <CpImagePreview v-model="visible" :url-list="urls">
+ *   <template #toolbar-append="{ currentUrl, close }">
+ *     <CpButton variant="ghost" dimmed square @click="share(currentUrl)">分享</CpButton>
+ *   </template>
+ * </CpImagePreview>
+ *
+ * <!-- 完全替换工具栏 -->
+ * <CpImagePreview v-model="visible" :url-list="urls">
+ *   <template #toolbar="{ zoomIn, zoomOut, resetTransform }">
+ *     <CpButton @click="zoomOut">-</CpButton>
+ *     <CpButton @click="zoomIn">+</CpButton>
+ *     <CpButton @click="resetTransform">重置</CpButton>
+ *   </template>
+ * </CpImagePreview>
  * ```
-  * @category 展示组件
+ *
+ * @slots
+ * - `toolbar` - 完全替换底部工具栏（覆盖内置按钮）。作用域 props: `{ scale, rotate, currentIndex, currentUrl, urlList, isSingle, canPrev, canNext, zoomMin, zoomMax, zoomIn(), zoomOut(), rotateLeft(), rotateRight(), resetTransform(), prev(), next(), close(), download() }`
+ * - `toolbar-append` - 在内置工具栏末尾追加自定义按钮。作用域 props 与 `toolbar` 一致
+ *
+ * @category 展示组件
  * @displayName CpImagePreview 图片预览
-  * @exposes close() - 关闭预览
+ * @exposes close() - 关闭预览
  * @exposes prev() - 上一张
  * @exposes next() - 下一张
  * @exposes zoomIn() - 放大

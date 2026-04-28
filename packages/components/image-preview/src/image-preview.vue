@@ -40,6 +40,39 @@ const ZOOM_MIN = 0.2
 const ZOOM_MAX = 7
 const ZOOM_STEP = 0.2
 
+defineSlots<{
+    /**
+     * 完全替换底部工具栏（覆盖内置按钮）
+     */
+    toolbar?: (props: ToolbarSlotProps) => unknown
+    /**
+     * 在内置工具栏末尾追加自定义按钮
+     */
+    'toolbar-append'?: (props: ToolbarSlotProps) => unknown
+}>()
+
+interface ToolbarSlotProps {
+    scale: number
+    rotate: number
+    currentIndex: number
+    currentUrl: string
+    urlList: string[]
+    isSingle: boolean
+    canPrev: boolean
+    canNext: boolean
+    zoomMin: number
+    zoomMax: number
+    zoomIn: () => void
+    zoomOut: () => void
+    rotateLeft: () => void
+    rotateRight: () => void
+    resetTransform: () => void
+    prev: () => void
+    next: () => void
+    close: () => void
+    download: () => void
+}
+
 // ===== 计算属性 =====
 const currentUrl = computed(() => {
     if (props.urlList.length === 0) return ''
@@ -194,6 +227,29 @@ const downloadImage = async () => {
         document.body.removeChild(a)
     }
 }
+
+// ===== 工具栏插槽 props =====
+const toolbarSlotProps = computed<ToolbarSlotProps>(() => ({
+    scale: scale.value,
+    rotate: rotate.value,
+    currentIndex: currentIndex.value,
+    currentUrl: currentUrl.value,
+    urlList: props.urlList,
+    isSingle: isSingle.value,
+    canPrev: canPrev.value,
+    canNext: canNext.value,
+    zoomMin: ZOOM_MIN,
+    zoomMax: ZOOM_MAX,
+    zoomIn,
+    zoomOut,
+    rotateLeft,
+    rotateRight,
+    resetTransform,
+    prev,
+    next,
+    close,
+    download: downloadImage,
+}))
 
 // ===== 键盘事件 =====
 const handleKeydown = (e: KeyboardEvent) => {
@@ -384,6 +440,7 @@ defineExpose({
 
         <!-- 底部工具栏 -->
         <div :class="ns.e('toolbar')" @click.stop>
+          <slot name="toolbar" v-bind="toolbarSlotProps">
           <!-- 缩小 -->
           <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="缩小 (-)" :disabled="scale <= ZOOM_MIN" @click="zoomOut">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
@@ -435,6 +492,9 @@ defineExpose({
               </svg>
             </CpButton>
           </template>
+          <!-- 自定义追加按钮插槽 -->
+          <slot name="toolbar-append" v-bind="toolbarSlotProps" />
+          </slot>
         </div>
 
         <!-- 图片计数 -->

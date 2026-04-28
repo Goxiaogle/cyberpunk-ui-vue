@@ -50,6 +50,13 @@
 | `close` | `—` | 关闭时触发 |
 | `switch` | `(index: number)` | 切换图片时触发 |
 
+### 插槽
+
+| 名称 | 说明 |
+|------|------|
+| `toolbar` | 完全替换底部工具栏（覆盖内置按钮）。作用域 props: `{ scale, rotate, currentIndex, currentUrl, urlList, isSingle, canPrev, canNext, zoomMin, zoomMax, zoomIn(), zoomOut(), rotateLeft(), rotateRight(), resetTransform(), prev(), next(), close(), download() }` |
+| `toolbar-append` | 在内置工具栏末尾追加自定义按钮。作用域 props 与 `toolbar` 一致 |
+
 ### CSS 变量
 
 | 变量 | 默认值 | 说明 |
@@ -173,6 +180,7 @@
 | `treeCheckMode` | `'strict' \| 'cascade' \| 'bubble'` | `'strict'` | 树形 + 多选场景下，父子节点的联动策略 |
 | `selectionPayload` | `'rows' \| 'keys' \| 'detail'` | `'rows'` | selection-change / select / select-all 事件 payload 的输出形态 |
 | `includeHalfChecked` | `boolean` | `false` | `selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组 |
+| `checkedKeys` | `(string \| number)[]` | — | 受控选中 rowKey 数组（配合 `v-model:checked-keys`） |
 | `type` | `'default' \| 'selection' \| 'index' \| 'expand'` | `'default'` | 列特殊类型 |
 | `prop` | `string` | `''` | 数据字段名 |
 | `label` | `string` | `''` | 列标题 |
