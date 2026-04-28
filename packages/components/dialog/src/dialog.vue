@@ -30,16 +30,16 @@ const attrs = useAttrs()
 
 const ns = useNamespace('dialog')
 
+// ===== 显示状态 =====
+const visible = ref(false)
+const rendered = ref(false)
+
 // ===== 向子组件提供 Dialog 上下文 =====
 provide(DIALOG_CONTEXT_KEY, {
   type: toRef(props, 'type'),
   color: toRef(props, 'color'),
   visible,
 })
-
-// ===== 显示状态 =====
-const visible = ref(false)
-const rendered = ref(false)
 
 // ===== 抖动反馈 =====
 const shaking = ref(false)
