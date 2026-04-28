@@ -735,19 +735,10 @@ async function generateSkillOverview(categoryData) {
     tableSections.push('')
   }
 
-  // Build {{REFERENCE_LINKS}}
-  const linkLines = []
-  for (const key of categoryOrder) {
-    const data = categoryData[key]
-    if (!data) continue
-    linkLines.push('- [' + data.title + '](references/' + key + '.md)')
-  }
-
   // Read template and fill placeholders
   const templatePath = path.join(TEMPLATES_DIR, 'SKILL.md.tpl')
   let template = await fs.readFile(templatePath, 'utf-8')
   template = template.replace('{{COMPONENT_TABLES}}', tableSections.join('\n').trim())
-  template = template.replace('{{REFERENCE_LINKS}}', linkLines.join('\n'))
 
   const skillPath = path.join(SKILL_DIR, 'SKILL.md')
   await fs.writeFile(skillPath, template, 'utf-8')
