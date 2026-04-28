@@ -257,6 +257,23 @@ $table-sizes: (
     @include when(selected) {
       background: var(--cp-table-row-selected-bg);
     }
+
+    // rowClassName 常用状态类：用户可直接返回这些 class 实现业务行高亮
+    @each $row-type, $row-color in (
+      success: var(--cp-color-success),
+      warning: var(--cp-color-warning),
+      error: var(--cp-color-error),
+      info: var(--cp-color-info)
+    ) {
+      @include when(#{$row-type}-row) {
+        background: color-mix(in srgb, #{$row-color} 12%, transparent);
+        box-shadow: inset 2px 0 0 #{$row-color};
+
+        &:hover {
+          background: color-mix(in srgb, #{$row-color} 18%, transparent);
+        }
+      }
+    }
   }
 
   @include e(cell) {

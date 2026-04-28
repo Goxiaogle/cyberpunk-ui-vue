@@ -110,7 +110,7 @@ $pagination-types: (
     font-variation-settings: 'wght' var(--cp-pagination-active-font-weight);
   }
 
-  // ===== Sizes (uses CpDropdown) =====
+  // ===== Sizes (uses CpSelect) =====
   @include e(sizes) {
     display: inline-flex;
     align-items: center;

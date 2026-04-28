@@ -1,17 +1,8 @@
-import type Dropdown from './dropdown.vue'
+import type { SelectInstance } from '@cyberpunk-vue/components/select/src/instance'
 
 /**
- * CpDropdown 组件实例类型
- * 
- * @description 用于 ref 引用时获取正确的类型提示
- * 
- * @example
- * ```vue
- * <script setup lang="ts">
- * import type { DropdownInstance } from '@cyberpunk-vue/components'
- * const dropdownRef = ref<DropdownInstance>()
- * dropdownRef.value?.open()
- * </script>
- * ```
+ * @deprecated 请使用 `SelectInstance`
+ *
+ * CpDropdown 组件实例类型 —— 自 1.13.0 起作为 `SelectInstance` 的别名保留。
  */
-export type DropdownInstance = InstanceType<typeof Dropdown> & unknown
+export type DropdownInstance = SelectInstance

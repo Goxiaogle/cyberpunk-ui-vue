@@ -8,8 +8,8 @@ import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { paginationProps, paginationEmits } from './pagination'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpButton from '@cyberpunk-vue/components/button/src/button.vue'
-import CpDropdown from '@cyberpunk-vue/components/dropdown/src/dropdown.vue'
-import type { DropdownOption, DropdownShape } from '@cyberpunk-vue/components/dropdown/src/dropdown'
+import CpSelect from '@cyberpunk-vue/components/select/src/select.vue'
+import type { SelectOption, SelectShape } from '@cyberpunk-vue/components/select/src/select'
 
 defineOptions({
   name: `${COMPONENT_PREFIX}Pagination`,
@@ -83,8 +83,8 @@ const customStyle = computed(() => {
   return style
 })
 
-// ===== Sizes Dropdown =====
-const sizeOptions = computed<DropdownOption[]>(() => {
+// ===== Sizes Select =====
+const sizeOptions = computed<SelectOption[]>(() => {
   return props.pageSizes.map(s => ({
     label: props.sizeTemplate.replace('{size}', String(s)),
     value: s,
@@ -100,14 +100,14 @@ const typeColorMap: Record<string, string> = {
   info: 'var(--cp-color-info)',
 }
 
-const dropdownColor = computed(() => {
+const selectColor = computed(() => {
   if (props.color) return props.color
   if (props.type !== 'default') return typeColorMap[props.type] || ''
   return ''
 })
 
-// CpDropdown 不支持 circle，分页传入 circle 时回退为 round
-const dropdownShape = computed<DropdownShape>(() => (props.shape === 'circle' ? 'round' : props.shape))
+// CpSelect 不支持 circle，分页传入 circle 时回退为 round
+const selectShape = computed<SelectShape>(() => (props.shape === 'circle' ? 'round' : props.shape))
 
 // Total 文案渲染
 const totalParts = computed(() => {
@@ -257,19 +257,19 @@ const handleJump = () => {
           :onChange="handleSizeSelect"
           :disabled="disabled"
           :type="type"
-          :color="color || dropdownColor"
+          :color="color || selectColor"
           :shape="shape"
           :size="size"
         >
           <span :class="ns.e('sizes')">
-            <CpDropdown
+            <CpSelect
               :model-value="innerPageSize"
               :options="sizeOptions"
               :disabled="disabled"
-              :shape="dropdownShape"
+              :shape="selectShape"
               :size="size"
               variant="filled"
-              :color="dropdownColor"
+              :color="selectColor"
               @change="handleSizeSelect"
             />
           </span>

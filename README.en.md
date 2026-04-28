@@ -131,7 +131,7 @@ export default defineConfig({
 | `CpTextarea`                     | Multi-line text input         |
 | `CpSwitch`                       | Toggle switch                 |
 | `CpSlider`                       | Range slider                  |
-| `CpDropdown`                     | Dropdown selector with search |
+| `CpSelect`                       | Dropdown selector with search (legacy `CpDropdown` kept as a deprecated alias) |
 | `CpCheckbox` / `CpCheckboxGroup` | Checkbox                      |
 | `CpRadio` / `CpRadioGroup`       | Radio button                  |
 

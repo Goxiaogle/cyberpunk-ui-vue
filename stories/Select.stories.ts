@@ -1,13 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpDropdown } from '@cyberpunk-vue/components'
-import type { DropdownOption } from '@cyberpunk-vue/components'
+import { CpSelect } from '@cyberpunk-vue/components'
+import type { SelectOption } from '@cyberpunk-vue/components'
 
 /**
- * # CpDropdown 下拉选择器
- * 
+ * # CpSelect 下拉选择器
+ *
  * 赛博朋克风格下拉选择器组件，支持多种尺寸和形态变体。
- * 
+ * 浮层基于 [@floating-ui/dom](https://floating-ui.com/) 定位，
+ * 自动处理翻转、越界以及触发器位置/尺寸变化的实时跟随。
+ *
+ * > 早期版本叫 `CpDropdown`，自 1.13.0 起更名为 `CpSelect`，与主流组件库（Element Plus、Ant Design、PrimeVue v4 等）的命名约定保持一致。
+ * > `CpDropdown` 作为 deprecated 别名继续可用，建议迁移。
+ *
  * ## 特性
  * - 🎨 3 种形态：outline、filled、ghost
  * - 📐 3 种尺寸：sm、md、lg
@@ -16,10 +21,11 @@ import type { DropdownOption } from '@cyberpunk-vue/components'
  * - ⌨️ 键盘导航
  * - ⚡ 机甲风切角设计
  * - ✨ Focus 霓虹发光效果
+ * - 🛰 浮层跟随触发器位置/尺寸自动更新
  */
-const meta: Meta<typeof CpDropdown> = {
-  title: '表单 Form/Dropdown 下拉框',
-  component: CpDropdown,
+const meta: Meta<typeof CpSelect> = {
+  title: '表单 Form/Select 下拉选择',
+  component: CpSelect,
   tags: ['autodocs'],
   argTypes: {
     modelValue: {
@@ -29,7 +35,7 @@ const meta: Meta<typeof CpDropdown> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '下拉框尺寸',
+      description: '选择器尺寸',
       table: {
         defaultValue: { summary: 'md' },
       },
@@ -95,7 +101,7 @@ const meta: Meta<typeof CpDropdown> = {
     },
     width: {
       control: 'text',
-      description: '下拉框宽度 (数字 px 或带单位字符串)',
+      description: '选择器宽度 (数字 px 或带单位字符串)',
       table: {
         defaultValue: { summary: "''" },
       },
@@ -104,10 +110,10 @@ const meta: Meta<typeof CpDropdown> = {
 }
 
 export default meta
-type Story = StoryObj<typeof CpDropdown>
+type Story = StoryObj<typeof CpSelect>
 
 // 基础选项
-const basicOptions: DropdownOption[] = [
+const basicOptions: SelectOption[] = [
   { label: 'Netrunner 网络侵入者', value: 'netrunner' },
   { label: 'Solo 独狼', value: 'solo' },
   { label: 'Techie 技术专家', value: 'techie' },
@@ -116,7 +122,7 @@ const basicOptions: DropdownOption[] = [
 ]
 
 // 更多选项
-const moreOptions: DropdownOption[] = [
+const moreOptions: SelectOption[] = [
   { label: 'Arasaka 荒坂', value: 'arasaka' },
   { label: 'Militech 军用科技', value: 'militech' },
   { label: 'Kang Tao 康涛', value: 'kangtao' },
@@ -128,7 +134,7 @@ const moreOptions: DropdownOption[] = [
 ]
 
 // 带禁用项的选项
-const optionsWithDisabled: DropdownOption[] = [
+const optionsWithDisabled: SelectOption[] = [
   { label: 'V - 可选择', value: 'v' },
   { label: 'Johnny Silverhand - 禁用', value: 'johnny', disabled: true },
   { label: 'Jackie Welles - 可选择', value: 'jackie' },
@@ -144,14 +150,14 @@ export const 基础用法: Story = {
     variant: 'outline',
   },
   render: (args) => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('')
       return { args, value, basicOptions }
     },
     template: `
       <div style="width: 300px;">
-        <CpDropdown v-model="value" v-bind="args" :options="basicOptions" />
+        <CpSelect v-model="value" v-bind="args" :options="basicOptions" />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           当前值: {{ value || '(未选择)' }}
         </p>
@@ -163,15 +169,15 @@ export const 基础用法: Story = {
 /** 尺寸 */
 export const 尺寸: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       return { basicOptions }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px; width: 300px;">
-        <CpDropdown size="sm" :options="basicOptions" placeholder="小型 Small" />
-        <CpDropdown size="md" :options="basicOptions" placeholder="中型 Medium" />
-        <CpDropdown size="lg" :options="basicOptions" placeholder="大型 Large" />
+        <CpSelect size="sm" :options="basicOptions" placeholder="小型 Small" />
+        <CpSelect size="md" :options="basicOptions" placeholder="中型 Medium" />
+        <CpSelect size="lg" :options="basicOptions" placeholder="大型 Large" />
       </div>
     `,
   }),
@@ -180,7 +186,7 @@ export const 尺寸: Story = {
 /** 形态变体 */
 export const 形态变体: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       return { basicOptions }
     },
@@ -188,15 +194,15 @@ export const 形态变体: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Outline (默认)</p>
-          <CpDropdown variant="outline" :options="basicOptions" placeholder="描边下拉框" />
+          <CpSelect variant="outline" :options="basicOptions" placeholder="描边选择器" />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Filled</p>
-          <CpDropdown variant="filled" :options="basicOptions" placeholder="填充下拉框" />
+          <CpSelect variant="filled" :options="basicOptions" placeholder="填充选择器" />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Ghost</p>
-          <CpDropdown variant="ghost" :options="basicOptions" placeholder="幽灵下拉框" />
+          <CpSelect variant="ghost" :options="basicOptions" placeholder="幽灵选择器" />
         </div>
       </div>
     `,
@@ -206,7 +212,7 @@ export const 形态变体: Story = {
 /** 形状模式 */
 export const 形状模式: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       return { basicOptions }
     },
@@ -214,15 +220,15 @@ export const 形状模式: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Clip (切角)</p>
-          <CpDropdown shape="clip" :options="basicOptions" placeholder="机甲切角" />
+          <CpSelect shape="clip" :options="basicOptions" placeholder="机甲切角" />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">No-clip (直角)</p>
-          <CpDropdown shape="no-clip" :options="basicOptions" placeholder="直角下拉框" />
+          <CpSelect shape="no-clip" :options="basicOptions" placeholder="直角选择器" />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">Round (圆角)</p>
-          <CpDropdown shape="round" :options="basicOptions" placeholder="圆角下拉框" />
+          <CpSelect shape="round" :options="basicOptions" placeholder="圆角选择器" />
         </div>
       </div>
     `,
@@ -232,14 +238,14 @@ export const 形状模式: Story = {
 /** 可清空 */
 export const 可清空: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('netrunner')
       return { value, basicOptions }
     },
     template: `
       <div style="width: 300px;">
-        <CpDropdown v-model="value" :options="basicOptions" clearable placeholder="选择后可清空" />
+        <CpSelect v-model="value" :options="basicOptions" clearable placeholder="选择后可清空" />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           💡 选择后，悬停时右侧会出现清空按钮
         </p>
@@ -251,7 +257,7 @@ export const 可清空: Story = {
 /** 清除动画速度 */
 export const 清除动画速度: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const fast = ref('netrunner')
       const normal = ref('solo')
@@ -262,15 +268,15 @@ export const 清除动画速度: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">快速 (80ms)</p>
-          <CpDropdown v-model="fast" :options="basicOptions" clearable :clear-duration="80" />
+          <CpSelect v-model="fast" :options="basicOptions" clearable :clear-duration="80" />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">默认 (150ms)</p>
-          <CpDropdown v-model="normal" :options="basicOptions" clearable />
+          <CpSelect v-model="normal" :options="basicOptions" clearable />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">慢速 (500ms)</p>
-          <CpDropdown v-model="slow" :options="basicOptions" clearable :clear-duration="500" />
+          <CpSelect v-model="slow" :options="basicOptions" clearable :clear-duration="500" />
         </div>
         <p style="color: var(--cp-text-secondary); font-size: 12px;">
           ⏱ 通过 clear-duration 属性控制清除动画的速度
@@ -283,14 +289,14 @@ export const 清除动画速度: Story = {
 /** 可搜索 */
 export const 可搜索: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('')
       return { value, moreOptions }
     },
     template: `
       <div style="width: 300px;">
-        <CpDropdown v-model="value" :options="moreOptions" filterable placeholder="输入搜索公司..." />
+        <CpSelect v-model="value" :options="moreOptions" filterable placeholder="输入搜索公司..." />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           🔍 打开下拉后可输入关键词过滤选项
         </p>
@@ -302,19 +308,19 @@ export const 可搜索: Story = {
 /** 行内搜索 */
 export const 行内搜索: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('')
       return { value, moreOptions }
     },
     template: `
       <div style="width: 300px;">
-        <CpDropdown 
-          v-model="value" 
-          :options="moreOptions" 
-          :filterable="true" 
-          :inline="true" 
-          placeholder="点击直接在此输入搜索..." 
+        <CpSelect
+          v-model="value"
+          :options="moreOptions"
+          :filterable="true"
+          :inline="true"
+          placeholder="点击直接在此输入搜索..."
         />
         <p style="color: var(--cp-text-secondary); font-size: 12px; margin-top: 8px;">
           ⌨️ 触发器本身就是搜索框，无需在弹层中寻找搜索框
@@ -327,14 +333,14 @@ export const 行内搜索: Story = {
 /** 禁用项 */
 export const 禁用项: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('')
       return { value, optionsWithDisabled }
     },
     template: `
       <div style="width: 300px;">
-        <CpDropdown v-model="value" :options="optionsWithDisabled" placeholder="部分选项不可选" />
+        <CpSelect v-model="value" :options="optionsWithDisabled" placeholder="部分选项不可选" />
       </div>
     `,
   }),
@@ -343,14 +349,14 @@ export const 禁用项: Story = {
 /** 禁用状态 */
 export const 禁用状态: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       return { basicOptions }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px; width: 300px;">
-        <CpDropdown disabled :options="basicOptions" placeholder="禁用状态" />
-        <CpDropdown disabled model-value="netrunner" :options="basicOptions" />
+        <CpSelect disabled :options="basicOptions" placeholder="禁用状态" />
+        <CpSelect disabled model-value="netrunner" :options="basicOptions" />
       </div>
     `,
   }),
@@ -359,7 +365,7 @@ export const 禁用状态: Story = {
 /** 高度自定义 */
 export const 高度自定义: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const value = ref('')
       return { value, moreOptions }
@@ -368,20 +374,20 @@ export const 高度自定义: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px; width: 300px;">
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">自定义搜索提示</p>
-          <CpDropdown 
-            v-model="value" 
-            :options="moreOptions" 
-            filterable 
-            filter-placeholder="输入你感兴趣的公司..." 
+          <CpSelect
+            v-model="value"
+            :options="moreOptions"
+            filterable
+            filter-placeholder="输入你感兴趣的公司..."
           />
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">自定义颜色 (Inactive & Placeholder)</p>
-          <CpDropdown 
-            :options="moreOptions" 
-            inactive-color="#3d3d3d" 
-            placeholder-color="#555" 
-            placeholder="暗淡风格下拉框"
+          <CpSelect
+            :options="moreOptions"
+            inactive-color="#3d3d3d"
+            placeholder-color="#555"
+            placeholder="暗淡风格选择器"
           />
         </div>
       </div>
@@ -392,15 +398,15 @@ export const 高度自定义: Story = {
 /** 自定义颜色 */
 export const 自定义颜色: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       return { basicOptions }
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px; width: 300px;">
-        <CpDropdown color="#ff6b6b" :options="basicOptions" placeholder="珊瑚红" />
-        <CpDropdown color="#4ecdc4" :options="basicOptions" placeholder="薄荷绿" variant="filled" />
-        <CpDropdown color="#a29bfe" :options="basicOptions" placeholder="薰衣草紫" variant="ghost" />
+        <CpSelect color="#ff6b6b" :options="basicOptions" placeholder="珊瑚红" />
+        <CpSelect color="#4ecdc4" :options="basicOptions" placeholder="薄荷绿" variant="filled" />
+        <CpSelect color="#a29bfe" :options="basicOptions" placeholder="薰衣草紫" variant="ghost" />
       </div>
     `,
   }),
@@ -409,7 +415,7 @@ export const 自定义颜色: Story = {
 /** 综合示例 */
 export const 综合示例: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const job = ref('')
       const corp = ref('')
@@ -425,10 +431,10 @@ export const 综合示例: Story = {
             <label style="display: block; color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">
               职业类型
             </label>
-            <CpDropdown 
-              v-model="job" 
-              :options="basicOptions" 
-              placeholder="选择职业" 
+            <CpSelect
+              v-model="job"
+              :options="basicOptions"
+              placeholder="选择职业"
               variant="filled"
               clearable
             />
@@ -437,10 +443,10 @@ export const 综合示例: Story = {
             <label style="display: block; color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 4px;">
               所属公司
             </label>
-            <CpDropdown 
-              v-model="corp" 
-              :options="moreOptions" 
-              placeholder="搜索公司..." 
+            <CpSelect
+              v-model="corp"
+              :options="moreOptions"
+              placeholder="搜索公司..."
               variant="filled"
               filterable
               clearable
@@ -455,7 +461,7 @@ export const 综合示例: Story = {
 /** Flex 布局 */
 export const Flex布局: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const v1 = ref('')
       const v2 = ref('')
@@ -467,22 +473,22 @@ export const Flex布局: Story = {
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">固定宽度 (width prop)</p>
           <div style="display: flex; gap: 12px; align-items: center;">
-            <CpDropdown v-model="v1" :options="basicOptions" :width="200" placeholder="200px" />
-            <CpDropdown v-model="v2" :options="moreOptions" width="15rem" placeholder="15rem" />
+            <CpSelect v-model="v1" :options="basicOptions" :width="200" placeholder="200px" />
+            <CpSelect v-model="v2" :options="moreOptions" width="15rem" placeholder="15rem" />
           </div>
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">Flex 自动分配空间</p>
           <div style="display: flex; gap: 12px;">
-            <CpDropdown v-model="v1" :options="basicOptions" placeholder="职业" style="flex: 1;" />
-            <CpDropdown v-model="v2" :options="moreOptions" placeholder="公司" style="flex: 2;" />
+            <CpSelect v-model="v1" :options="basicOptions" placeholder="职业" style="flex: 1;" />
+            <CpSelect v-model="v2" :options="moreOptions" placeholder="公司" style="flex: 2;" />
           </div>
         </div>
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">混合使用</p>
           <div style="display: flex; gap: 12px; align-items: center;">
-            <CpDropdown v-model="v1" :options="basicOptions" :width="180" placeholder="固定宽度" />
-            <CpDropdown v-model="v2" :options="moreOptions" placeholder="剩余空间" style="flex: 1;" />
+            <CpSelect v-model="v1" :options="basicOptions" :width="180" placeholder="固定宽度" />
+            <CpSelect v-model="v2" :options="moreOptions" placeholder="剩余空间" style="flex: 1;" />
           </div>
         </div>
       </div>
@@ -491,7 +497,7 @@ export const Flex布局: Story = {
 }
 
 // 长选项列表（用于测试滚动）
-const longOptions: DropdownOption[] = Array.from({ length: 20 }, (_, i) => ({
+const longOptions: SelectOption[] = Array.from({ length: 20 }, (_, i) => ({
   label: `选项 ${i + 1} - Item #${i + 1}`,
   value: `item-${i + 1}`,
 }))
@@ -499,7 +505,7 @@ const longOptions: DropdownOption[] = Array.from({ length: 20 }, (_, i) => ({
 /** 自动翻转 & 滚动 */
 export const 自动翻转与滚动: Story = {
   render: () => ({
-    components: { CpDropdown },
+    components: { CpSelect },
     setup() {
       const v1 = ref('')
       const v2 = ref('')
@@ -511,7 +517,7 @@ export const 自动翻转与滚动: Story = {
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">
             📍 顶部 — 长列表（20 项），弹层内自动滚动
           </p>
-          <CpDropdown v-model="v1" :options="longOptions" :width="300" placeholder="长列表，自动滚动" />
+          <CpSelect v-model="v1" :options="longOptions" :width="300" placeholder="长列表，自动滚动" />
         </div>
         <div style="text-align: center; color: var(--cp-text-muted); font-size: 12px;">
           ⬆️ 上方正常展开 &nbsp;&nbsp;|&nbsp;&nbsp; ⬇️ 下方自动翻转到上方 ⬆️
@@ -520,7 +526,7 @@ export const 自动翻转与滚动: Story = {
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">
             📍 底部 — 空间不足时自动翻转到上方展开
           </p>
-          <CpDropdown v-model="v2" :options="longOptions" :width="300" placeholder="底部，自动翻转" />
+          <CpSelect v-model="v2" :options="longOptions" :width="300" placeholder="底部，自动翻转" />
         </div>
       </div>
     `,
@@ -529,4 +535,3 @@ export const 自动翻转与滚动: Story = {
     layout: 'fullscreen',
   },
 }
-

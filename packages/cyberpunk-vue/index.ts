@@ -12,10 +12,17 @@ function isInstallable(value: unknown): value is Installable {
 }
 
 export const install: Plugin['install'] = (app: App) => {
+  const seen = new Set<unknown>()
   for (const entry of Object.values(components)) {
-    if (isInstallable(entry)) {
+    if (isInstallable(entry) && !seen.has(entry)) {
+      seen.add(entry)
       app.use(entry)
     }
+  }
+  // Deprecated 别名：CpDropdown → CpSelect
+  // 让 `<CpDropdown>` 模板用法在仅通过 app.use(CyberpunkVue) 注册的场景下继续可用。
+  if (components.CpSelect) {
+    app.component('CpDropdown', components.CpSelect)
   }
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/components",
-    "version": "1.12.7",
+    "version": "1.13.2",
     "description": "Cyberpunk Vue components - A futuristic Vue 3 component library",
     "type": "module",
     "main": "./dist/index.cjs",
@@ -26,9 +26,10 @@
         "vue": "^3.5.0"
     },
     "dependencies": {
-        "@cyberpunk-vue/hooks": "workspace:*",
         "@cyberpunk-vue/constants": "workspace:*",
-        "@cyberpunk-vue/theme-chalk": "workspace:*"
+        "@cyberpunk-vue/hooks": "workspace:*",
+        "@cyberpunk-vue/theme-chalk": "workspace:*",
+        "@floating-ui/dom": "^1.7.6"
     },
     "author": "Juxest",
     "license": "MIT",

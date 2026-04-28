@@ -313,6 +313,15 @@ const handleRowClick = (row: any, index: number, event: MouseEvent) => {
   }
 }
 
+// 行 class 透传给 Vue :class，支持用户按业务状态高亮一行或多行。
+const getRowClassName = (row: any, rowIndex: number) => {
+  const rowClassName = props.rowClassName
+  if (typeof rowClassName === 'function') {
+    return rowClassName({ row, rowIndex })
+  }
+  return rowClassName
+}
+
 // ===== rowKey =====
 const getRowKey = (row: any, index: number): string | number => {
   if (typeof props.rowKey === 'function') {
@@ -737,6 +746,7 @@ defineExpose({
                 ns.is('current', highlightCurrentRow && currentRow === row),
                 ns.is('selected', isRowSelected(row)),
                 ns.is('expanded', expandColumn && isRowExpanded(row)),
+                getRowClassName(row, rowIndex),
               ]"
               @click="handleRowClick(row, rowIndex, $event)"
             >

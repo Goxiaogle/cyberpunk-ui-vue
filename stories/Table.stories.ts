@@ -53,6 +53,15 @@ const meta: Meta<typeof CpTable> = {
       control: 'boolean',
       description: '高亮当前行',
     },
+    rowClassName: {
+      control: false,
+      description: '行 class 名。可传字符串、数组、对象，或函数按行动态返回 class，常用于业务状态行高亮',
+      table: {
+        type: {
+          summary: 'string | string[] | Record<string, boolean> | ({ row, rowIndex }) => string | string[] | Record<string, boolean>',
+        },
+      },
+    },
     emptyText: {
       control: 'text',
       description: '空数据文案',
@@ -80,6 +89,7 @@ const meta: Meta<typeof CpTable> = {
     stripe: false,
     border: false,
     highlightCurrentRow: false,
+    rowClassName: '',
     emptyText: '暂无数据',
     color: '',
     loading: false,
@@ -474,6 +484,48 @@ export const HighlightCurrentRow: Story = {
           当前行: {{ currentRow ? currentRow.name : '未选择' }}
         </div>
       </div>
+    `,
+  }),
+}
+
+/**
+ * 行状态高亮
+ *
+ * 使用 `rowClassName` 按业务条件返回行 class，可高亮一行或多行。
+ * 组件内置 `is-success-row`、`is-warning-row`、`is-error-row`、`is-info-row` 四个常用状态类。
+ */
+export const RowClassName: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag },
+    setup() {
+      const tableData = ref(mediumData.slice(0, 9))
+      const statusMap: Record<string, { label: string; type: 'success' | 'warning' | 'error' }> = {
+        active: { label: '在线', type: 'success' },
+        inactive: { label: '离线', type: 'error' },
+        pending: { label: '待审', type: 'warning' },
+      }
+      const rowClassName = ({ row }: { row: any }) => ({
+        'is-success-row': row.status === 'active',
+        'is-warning-row': row.status === 'pending',
+        'is-error-row': row.status === 'inactive',
+      })
+
+      return { tableData, statusMap, rowClassName }
+    },
+    template: `
+      <CpTable :data="tableData" :row-class-name="rowClassName" border>
+        <CpTableColumn prop="id" label="ID" :width="60" />
+        <CpTableColumn prop="name" label="姓名" />
+        <CpTableColumn prop="role" label="角色" />
+        <CpTableColumn prop="status" label="状态" align="center">
+          <template #default="{ row }">
+            <CpTag :type="statusMap[row.status].type" size="sm">
+              {{ statusMap[row.status].label }}
+            </CpTag>
+          </template>
+        </CpTableColumn>
+        <CpTableColumn prop="email" label="邮箱" />
+      </CpTable>
     `,
   }),
 }

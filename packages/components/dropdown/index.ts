@@ -1,24 +1,19 @@
-import { withInstall } from '@cyberpunk-vue/components/utils'
-import Dropdown from './src/dropdown.vue'
-
 /**
- * CpDropdown 赛博朋克风格下拉选择器
+ * @deprecated 自 1.13.0 起 `CpDropdown` 已更名为 `CpSelect`。
  *
- * 支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。
+ * 改名原因：业界（Element Plus / Ant Design / Naive UI / PrimeVue v4 等）一致约定
+ * `Select` 用于表单选值控件，`Dropdown` 用于动作菜单，本组件属于前者。
  *
- * @example
- * ```vue
- * <CpDropdown v-model="value" :options="options" placeholder="请选择" />
- * <CpDropdown v-model="search" filterable clearable />
+ * 本入口保留 `CpDropdown` 名称以及 `Dropdown*` 类型别名，作为兼容期过渡。
+ * 新代码请使用：
+ * ```ts
+ * import { CpSelect, type SelectOption } from 'cyberpunk-ui-vue'
  * ```
- *
- * @see {@link DropdownProps} 查看所有可用属性
- *
- * @slot default - 自定义选项内容
- * @slot prefix - 触发器前缀
- * @slot empty - 无选项时的空状态
  */
-export const CpDropdown = withInstall(Dropdown)
+import { CpSelect } from '@cyberpunk-vue/components/select'
+
+/** @deprecated 请使用 `CpSelect` */
+export const CpDropdown = CpSelect
 export default CpDropdown
 
 export * from './src/dropdown'

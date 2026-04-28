@@ -5,7 +5,7 @@ import { CpInput } from "@cyberpunk-vue/components";
 import { CpTextarea } from "@cyberpunk-vue/components";
 import { CpButton } from "@cyberpunk-vue/components";
 import { CpSwitch } from "@cyberpunk-vue/components";
-import { CpDropdown } from "@cyberpunk-vue/components";
+import { CpSelect } from "@cyberpunk-vue/components";
 import { CpCheckbox, CpCheckboxGroup } from "@cyberpunk-vue/components";
 import { CpRadio, CpRadioGroup } from "@cyberpunk-vue/components";
 import { CpSlider } from "@cyberpunk-vue/components";
@@ -339,7 +339,7 @@ export const 综合表单: Story = {
   render: () => ({
     components: {
       CpForm, CpFormItem, CpInput, CpButton, CpSwitch,
-      CpDropdown, CpCheckbox, CpCheckboxGroup, CpRadio, CpRadioGroup, CpSlider,
+      CpSelect, CpCheckbox, CpCheckboxGroup, CpRadio, CpRadioGroup, CpSlider,
     },
     setup() {
       const formRef = ref<InstanceType<typeof CpForm> | null>(null);
@@ -389,7 +389,7 @@ export const 综合表单: Story = {
           </CpFormItem>
 
           <CpFormItem label="区域" prop="region" required reserve-error-space>
-            <CpDropdown v-model="formData.region" :options="regionOptions" placeholder="请选择区域" />
+            <CpSelect v-model="formData.region" :options="regionOptions" placeholder="请选择区域" />
           </CpFormItem>
 
           <CpFormItem label="类型" prop="type">
@@ -469,14 +469,14 @@ export const CSS变量定制: Story = {
 /**
  * 全局禁用 — Form disabled 穿透到所有子控件
  *
- * 设置 `disabled` 后，内部所有表单控件（Input、Dropdown、Radio、Checkbox、Slider、Switch、Button）均自动禁用。
+ * 设置 `disabled` 后，内部所有表单控件（Input、Select、Radio、Checkbox、Slider、Switch、Button）均自动禁用。
  * 优先级：控件自身 disabled > Group disabled > Form disabled。
  */
 export const 全局禁用: Story = {
   render: () => ({
     components: {
       CpForm, CpFormItem, CpInput, CpButton, CpSwitch,
-      CpDropdown, CpCheckbox, CpCheckboxGroup, CpRadio, CpRadioGroup, CpSlider,
+      CpSelect, CpCheckbox, CpCheckboxGroup, CpRadio, CpRadioGroup, CpSlider,
     },
     setup() {
       const disabled = ref(true);
@@ -514,7 +514,7 @@ export const 全局禁用: Story = {
           </CpFormItem>
 
           <CpFormItem label="区域">
-            <CpDropdown v-model="formData.region" :options="regionOptions" placeholder="请选择" />
+            <CpSelect v-model="formData.region" :options="regionOptions" placeholder="请选择" />
           </CpFormItem>
 
           <CpFormItem label="类型">

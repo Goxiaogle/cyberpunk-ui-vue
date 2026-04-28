@@ -76,8 +76,8 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 | CpInput / CpInputNumber / CpTextarea 输入框 | 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。 |
 | CpCheckbox / CpCheckboxGroup 复选框 | 赛博朋克风格复选框组件，支持半选状态、分组、自定义颜色。 |
 | CpRadio / CpRadioGroup 单选框 | 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。 |
-| CpDropdown 下拉选择 | 赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。 |
 | CpSegmented 分段选择器 | 赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。 |
+| CpSelect 下拉选择 | 赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。 |
 | CpSlider 滑块 | 赛博朋克风格滑块组件，用于在给定的数值范围内进行选择。 |
 | CpSwitch 开关 | 赛博朋克风格开关组件，支持异步切换、内嵌文字、自定义颜色。 |
 | CpUpload 上传 | 赛博朋克风格文件上传组件，支持拖拽、图片预览、多种变体和形状。 |
@@ -129,3 +129,4 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 |------|------|
 | CpDescriptions 描述列表 | 赛博朋克风格描述列表，以键值对形式展示结构化数据。配合 CpDescriptionsItem 声明式定义条目 |
 | CpDescriptionsItem 描述列表项 | 描述列表条目，在 CpDescriptions 内部使用 |
+| CpDropdown |  |

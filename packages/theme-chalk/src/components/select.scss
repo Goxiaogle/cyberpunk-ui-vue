@@ -1,36 +1,36 @@
-// CpDropdown 组件样式
+// CpSelect 组件样式
 // 赛博朋克/机甲风格下拉选择器
 
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
 // 动画
-@keyframes cp-dropdown-fade-in {
+@keyframes cp-select-fade-in {
   from {
     opacity: 0;
-    transform: scaleY(0.8);
+    scale: 1 0.8;
   }
   to {
     opacity: 1;
-    transform: scaleY(1);
+    scale: 1 1;
   }
 }
 
-@keyframes cp-dropdown-fade-out {
+@keyframes cp-select-fade-out {
   from {
     opacity: 1;
-    transform: scaleY(1);
+    scale: 1 1;
   }
   to {
     opacity: 0;
-    transform: scaleY(0.8);
+    scale: 1 0.8;
   }
 }
 
-@include b(dropdown) {
+@include b(select) {
   position: relative;
   display: inline-flex;
-  width: var(--cp-dropdown-width, 100%);
+  width: var(--cp-select-width, 100%);
 
   // ===== 触发器 =====
   @include e(trigger) {
@@ -40,7 +40,7 @@
     width: 100%;
     padding: 0 var(--cp-spacing-md);
     background: transparent;
-    border: 1px solid var(--cp-dropdown-inactive-color, var(--cp-border));
+    border: 1px solid var(--cp-select-inactive-color, var(--cp-border));
     color: var(--cp-text-primary);
     font-family: var(--cp-font-family-ui);
     cursor: pointer;
@@ -92,7 +92,7 @@
 
   // ===== 尺寸 =====
   @include m(sm) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       height: var(--cp-size-sm);
       font-size: var(--cp-font-size-sm);
       padding: 0 var(--cp-spacing-sm);
@@ -106,14 +106,14 @@
   }
 
   @include m(md) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       height: var(--cp-size-md);
       font-size: var(--cp-font-size-md);
     }
   }
 
   @include m(lg) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       height: var(--cp-size-lg);
       font-size: var(--cp-font-size-lg);
       padding: 0 var(--cp-spacing-lg);
@@ -128,16 +128,16 @@
 
   // ===== 变体 =====
   @include m(outline) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       background: transparent;
-      border-color: var(--cp-dropdown-inactive-color, var(--cp-border));
+      border-color: var(--cp-select-inactive-color, var(--cp-border));
     }
   }
 
   @include m(filled) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       background: var(--cp-bg-elevated);
-      border-color: var(--cp-dropdown-inactive-color, var(--cp-border));
+      border-color: var(--cp-select-inactive-color, var(--cp-border));
 
       &:hover:not(.is-disabled) {
         background: rgba(var(--cp-color-primary-rgb), 0.05);
@@ -150,7 +150,7 @@
   }
 
   @include m(ghost) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       background: transparent;
       border-color: transparent;
       border-bottom-color: var(--cp-border);
@@ -173,7 +173,7 @@
 
   // ===== 形状 =====
   @include m(shape-no-clip) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       clip-path: none;
 
       &::after {
@@ -183,7 +183,7 @@
   }
 
   @include m(shape-round) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       clip-path: none;
       border-radius: var(--cp-radius-lg);
 
@@ -195,7 +195,7 @@
 
   // ===== 状态 =====
   @include when(disabled) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       cursor: not-allowed;
       opacity: 0.5;
       filter: grayscale(0.5);
@@ -203,7 +203,7 @@
   }
 
   @include when(active) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       border-color: var(--cp-color-primary);
       box-shadow: 0 0 10px var(--cp-color-primary-light);
 
@@ -213,59 +213,59 @@
       }
     }
 
-    .cp-dropdown__arrow {
+    .cp-select__arrow {
       color: var(--cp-color-primary);
     }
   }
 
   // ===== 自定义颜色 =====
   @include when(custom-color) {
-    .cp-dropdown__trigger {
+    .cp-select__trigger {
       &:hover:not(.is-disabled) {
-        border-color: var(--cp-dropdown-custom-color);
+        border-color: var(--cp-select-custom-color);
 
         &::after {
-          background: var(--cp-dropdown-custom-color);
+          background: var(--cp-select-custom-color);
         }
       }
 
       &:focus:not(.is-disabled) {
-        border-color: var(--cp-dropdown-custom-color);
-        box-shadow: 0 0 10px var(--cp-dropdown-custom-color-light), inset 0 0 5px var(--cp-dropdown-custom-color-light);
+        border-color: var(--cp-select-custom-color);
+        box-shadow: 0 0 10px var(--cp-select-custom-color-light), inset 0 0 5px var(--cp-select-custom-color-light);
 
         &::after {
-          background: var(--cp-dropdown-custom-color);
-          box-shadow: 0 0 5px var(--cp-dropdown-custom-color);
+          background: var(--cp-select-custom-color);
+          box-shadow: 0 0 5px var(--cp-select-custom-color);
         }
       }
     }
 
-    &.is-active .cp-dropdown__trigger {
-      border-color: var(--cp-dropdown-custom-color);
-      box-shadow: 0 0 10px var(--cp-dropdown-custom-color-light);
+    &.is-active .cp-select__trigger {
+      border-color: var(--cp-select-custom-color);
+      box-shadow: 0 0 10px var(--cp-select-custom-color-light);
 
       &::after {
-        background: var(--cp-dropdown-custom-color);
+        background: var(--cp-select-custom-color);
       }
     }
 
-    &.is-active .cp-dropdown__arrow {
-      color: var(--cp-dropdown-custom-color);
+    &.is-active .cp-select__arrow {
+      color: var(--cp-select-custom-color);
     }
 
-    .cp-dropdown__option.is-selected {
-      color: var(--cp-dropdown-custom-color);
+    .cp-select__option.is-selected {
+      color: var(--cp-select-custom-color);
 
       &::before {
-        background: var(--cp-dropdown-custom-color);
+        background: var(--cp-select-custom-color);
       }
     }
   }
 
   // ===== 自定义尺寸 =====
   @include when(custom-size) {
-    .cp-dropdown__trigger {
-      height: var(--cp-dropdown-height);
+    .cp-select__trigger {
+      height: var(--cp-select-height);
     }
   }
 
@@ -290,10 +290,10 @@
     font-size: inherit;
     outline: none;
     cursor: pointer;
-    transition: opacity var(--cp-dropdown-clear-duration, 150ms) ease, transform var(--cp-dropdown-clear-duration, 150ms) ease, letter-spacing var(--cp-dropdown-clear-duration, 150ms) ease;
+    transition: opacity var(--cp-select-clear-duration, 150ms) ease, transform var(--cp-select-clear-duration, 150ms) ease, letter-spacing var(--cp-select-clear-duration, 150ms) ease;
 
     &::placeholder {
-      color: var(--cp-dropdown-placeholder-color, var(--cp-text-muted));
+      color: var(--cp-select-placeholder-color, var(--cp-text-muted));
     }
 
     @include when(active) {
@@ -307,17 +307,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     user-select: none;
-    transition: opacity var(--cp-dropdown-clear-duration, 150ms) ease, transform var(--cp-dropdown-clear-duration, 150ms) ease, letter-spacing var(--cp-dropdown-clear-duration, 150ms) ease;
+    transition: opacity var(--cp-select-clear-duration, 150ms) ease, transform var(--cp-select-clear-duration, 150ms) ease, letter-spacing var(--cp-select-clear-duration, 150ms) ease;
 
     @include when(placeholder) {
-      color: var(--cp-dropdown-placeholder-color, var(--cp-text-muted));
+      color: var(--cp-select-placeholder-color, var(--cp-text-muted));
     }
   }
 
   // 清除动画状态
   @include when(clearing) {
-    .cp-dropdown__value,
-    .cp-dropdown__inline-input {
+    .cp-select__value,
+    .cp-select__inline-input {
       opacity: 0;
       transform: scaleX(0.8);
       letter-spacing: -0.5em;
@@ -364,18 +364,19 @@
   }
 
   // ===== 弹层 =====
+  // position: fixed —— 配合 @floating-ui/dom 的 fixed strategy，避开 transformed ancestor 影响
   @include e(popper) {
-    position: absolute;
+    position: fixed;
     z-index: 2000;
     background: var(--cp-bg-elevated);
     border: 1px solid var(--cp-border);
-    box-shadow: 
+    box-shadow:
       0 4px 16px rgba(0, 0, 0, 0.4),
       0 0 1px var(--cp-color-primary),
       inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
     backdrop-filter: blur(8px);
     overflow: visible;
-    
+
     // 切角样式
     clip-path: polygon(
       8px 0, 100% 0,
@@ -384,7 +385,7 @@
     );
 
     // 入场动画
-    animation: cp-dropdown-fade-in 0.2s ease-out;
+    animation: cp-select-fade-in 0.2s ease-out;
     transform-origin: top center;
 
     @include m(top) {
@@ -419,11 +420,11 @@
     }
 
     // 形状变体
-    &.cp-dropdown--shape-no-clip {
+    &.cp-select--shape-no-clip {
       clip-path: none;
     }
 
-    &.cp-dropdown--shape-round {
+    &.cp-select--shape-round {
       clip-path: none;
       border-radius: var(--cp-radius-lg);
 
@@ -558,10 +559,10 @@
 }
 
 // 过渡动画
-.cp-dropdown-fade-enter-active {
-  animation: cp-dropdown-fade-in 0.2s ease-out;
+.cp-select-fade-enter-active {
+  animation: cp-select-fade-in 0.2s ease-out;
 }
 
-.cp-dropdown-fade-leave-active {
-  animation: cp-dropdown-fade-out 0.15s ease-in;
+.cp-select-fade-leave-active {
+  animation: cp-select-fade-out 0.15s ease-in;
 }

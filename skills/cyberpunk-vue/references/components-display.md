@@ -197,6 +197,7 @@
 | `stripe` | `boolean` | `false` | 是否显示条纹行 |
 | `border` | `boolean` | `false` | 是否显示边框 |
 | `highlightCurrentRow` | `boolean` | `false` | 是否高亮当前行 |
+| `rowClassName` | `TableRowClassValue \| ((params: TableRowClassNameParams) => TableRowClassValue)` | `''` | 行 class 名 |
 | `height` | `string \| number` | — | 固定高度 (启用固定表头) |
 | `maxHeight` | `string \| number` | — | 最大高度 |
 | `emptyText` | `string` | `'暂无数据'` | 空数据文案 |

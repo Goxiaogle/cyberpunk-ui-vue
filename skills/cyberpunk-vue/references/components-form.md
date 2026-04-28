@@ -322,78 +322,6 @@
 
 ---
 
-## CpDropdown 下拉选择
-
-赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。
-
-### Props
-
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `modelValue` | `string \| number` | `''` | 绑定值 (v-model) |
-| `options` | `DropdownOption[]` | `[]` | 选项列表 |
-| `placeholder` | `string` | `'请选择'` | 占位文本 |
-| `filterPlaceholder` | `string` | `'搜索...'` | 搜索框占位文本 (仅在面板开启搜索时有效) |
-| `disabled` | `boolean` | `false` | 是否禁用 |
-| `clearable` | `boolean` | `false` | 是否可清空 |
-| `filterable` | `boolean` | `false` | 是否可搜索过滤 |
-| `size` | `Size` | `'md'` | 下拉框尺寸 |
-| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 下拉框形状 |
-| `variant` | `'outline' \| 'filled' \| 'ghost'` | `'outline'` | 下拉框变体 |
-| `color` | `string` | `''` | 自定义聚焦颜色 |
-| `inactiveColor` | `string` | `''` | 未激活状态边框颜色 |
-| `placeholderColor` | `string` | `''` | Placeholder 文字颜色 |
-| `inline` | `boolean` | `false` | 是否启用行内搜索 (直接在触发器输入) |
-| `placement` | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| 'top-start' \| 'top-end'` | `'bottom-start'` | 弹出位置 |
-| `teleportTo` | `string \| HTMLElement` | `'body'` | Teleport 目标 |
-| `maxHeight` | `number` | `256` | 下拉面板最大高度 (px) |
-| `noMatchText` | `string` | `'无匹配数据'` | 无匹配时的文本 |
-| `noDataText` | `string` | `'无数据'` | 无数据时的文本 |
-| `clearDuration` | `number` | `150` | 清除动画持续时间 (ms) |
-| `width` | `string \| number` | `''` | 下拉框宽度 |
-
-### 事件
-
-| 事件名 | 参数 | 说明 |
-|--------|------|------|
-| `change` | `(value: string \| number)` | 选中值变化时触发 |
-| `clear` | `—` | 清空时触发 |
-| `focus` | `—` | 获取焦点时触发 |
-| `blur` | `—` | 失去焦点时触发 |
-| `visibleChange` | `(visible: boolean)` | 下拉面板显示时触发 |
-
-### 插槽
-
-| 名称 | 说明 |
-|------|------|
-| `default` | 自定义选项内容 |
-| `prefix` | 触发器前缀 |
-| `empty` | 无选项时的空状态 |
-
-### 暴露方法
-
-| 方法 | 说明 |
-|------|------|
-| `focus()` | 使下拉框获取焦点 |
-| `blur()` | 使下拉框失去焦点 |
-| `open()` | 打开下拉面板 |
-| `close()` | 关闭下拉面板 |
-
-### 示例
-
-```vue
-<!-- 基础用法 -->
-<CpDropdown v-model="value" :options="options" placeholder="请选择" />
-
-<!-- 可搜索 -->
-<CpDropdown v-model="value" :options="options" filterable />
-
-<!-- 可清空 -->
-<CpDropdown v-model="value" :options="options" clearable />
-```
-
----
-
 ## CpSegmented 分段选择器
 
 赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。
@@ -412,6 +340,9 @@
 | `disabled` | `boolean` | `false` | 是否禁用所有选项 |
 | `block` | `boolean` | `false` | 是否撑满父容器宽度（选项等宽） |
 | `clearable` | `boolean` | `false` | 是否允许清空选中项 |
+| `vertical` | `boolean` | `false` | 是否纵向排列选项 |
+| `wrap` | `boolean` | `false` | 是否允许选项换行（仅横向布局生效） |
+| `beforeChange` | `Function as PropType<` | — | 切换前钩子 |
 
 ### 事件
 
@@ -459,6 +390,78 @@
     { label: '网格', value: 'grid' },
   ]"
 />
+```
+
+---
+
+## CpSelect 下拉选择
+
+赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。
+
+### Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `modelValue` | `string \| number` | `''` | 绑定值 (v-model) |
+| `options` | `SelectOption[]` | `[]` | 选项列表 |
+| `placeholder` | `string` | `'请选择'` | 占位文本 |
+| `filterPlaceholder` | `string` | `'搜索...'` | 搜索框占位文本 (仅在面板开启搜索时有效) |
+| `disabled` | `boolean` | `false` | 是否禁用 |
+| `clearable` | `boolean` | `false` | 是否可清空 |
+| `filterable` | `boolean` | `false` | 是否可搜索过滤 |
+| `size` | `Size` | `'md'` | 选择器尺寸 |
+| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 选择器形状 |
+| `variant` | `'outline' \| 'filled' \| 'ghost'` | `'outline'` | 选择器变体 |
+| `color` | `string` | `''` | 自定义聚焦颜色 |
+| `inactiveColor` | `string` | `''` | 未激活状态边框颜色 |
+| `placeholderColor` | `string` | `''` | Placeholder 文字颜色 |
+| `inline` | `boolean` | `false` | 是否启用行内搜索 (直接在触发器输入) |
+| `placement` | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| 'top-start' \| 'top-end'` | `'bottom-start'` | 弹出位置 |
+| `teleportTo` | `string \| HTMLElement` | `'body'` | Teleport 目标 |
+| `maxHeight` | `number` | `256` | 下拉面板最大高度 (px) |
+| `noMatchText` | `string` | `'无匹配数据'` | 无匹配时的文本 |
+| `noDataText` | `string` | `'无数据'` | 无数据时的文本 |
+| `clearDuration` | `number` | `150` | 清除动画持续时间 (ms) |
+| `width` | `string \| number` | `''` | 选择器宽度 |
+
+### 事件
+
+| 事件名 | 参数 | 说明 |
+|--------|------|------|
+| `change` | `(value: string \| number)` | 选中值变化时触发 |
+| `clear` | `—` | 清空时触发 |
+| `focus` | `—` | 获取焦点时触发 |
+| `blur` | `—` | 失去焦点时触发 |
+| `visibleChange` | `(visible: boolean)` | 下拉面板显示时触发 |
+
+### 插槽
+
+| 名称 | 说明 |
+|------|------|
+| `default` | 自定义选项内容 |
+| `prefix` | 触发器前缀 |
+| `empty` | 无选项时的空状态 |
+
+### 暴露方法
+
+| 方法 | 说明 |
+|------|------|
+| `focus()` | 使下拉框获取焦点 |
+| `blur()` | 使下拉框失去焦点 |
+| `open()` | 打开下拉面板 |
+| `close()` | 关闭下拉面板 |
+
+### 示例
+
+```vue
+<!-- 基础用法 -->
+<CpSelect v-model="value" :options="options" placeholder="请选择" />
+
+<!-- 可搜索 -->
+<CpSelect v-model="value" :options="options" filterable />
+
+<!-- 可清空 -->
+<CpSelect v-model="value" :options="options" clearable />
 ```
 
 ---

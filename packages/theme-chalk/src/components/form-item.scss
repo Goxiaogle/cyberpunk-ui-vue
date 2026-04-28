@@ -109,7 +109,7 @@
         // 给内部 Input 等控件加上错误边框色
         .cp-input,
         .cp-textarea,
-        .cp-dropdown {
+        .cp-select {
             border-color: var(--cp-form-error-color, var(--cp-color-error));
 
             &::after {

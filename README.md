@@ -131,7 +131,7 @@ export default defineConfig({
 | `CpTextarea`                     | 多行文本输入         |
 | `CpSwitch`                       | 开关切换             |
 | `CpSlider`                       | 滑块选择器           |
-| `CpDropdown`                     | 下拉选择器，支持搜索 |
+| `CpSelect`                       | 下拉选择器，支持搜索（旧名 `CpDropdown` 仍作为 deprecated 别名可用） |
 | `CpCheckbox` / `CpCheckboxGroup` | 复选框               |
 | `CpRadio` / `CpRadioGroup`       | 单选框               |
 

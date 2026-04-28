@@ -75,8 +75,8 @@ const DOCS = {
   sliderProps: {
     example: '<CpSlider v-model="value" />\n<CpSlider v-model="range" range />',
   },
-  dropdownProps: {
-    example: '<CpDropdown v-model="selected" :options="options" />\n<CpDropdown v-model="selected" :options="options" filterable />',
+  selectProps: {
+    example: '<CpSelect v-model="selected" :options="options" />\n<CpSelect v-model="selected" :options="options" filterable />',
   },
   checkboxProps: {
     example: '<CpCheckbox v-model="checked">同意协议</CpCheckbox>',

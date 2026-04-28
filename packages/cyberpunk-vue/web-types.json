@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.12.6",
+  "version": "1.13.2",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -123,13 +123,6 @@
           "description": "CpDivider 分割线组件",
           "source": {
             "symbol": "CpDivider"
-          }
-        },
-        {
-          "name": "cp-dropdown",
-          "description": "CpDropdown 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。",
-          "source": {
-            "symbol": "CpDropdown"
           }
         },
         {
@@ -300,6 +293,13 @@
           "description": "CpSegmented 分段选择器\n\n一组按钮式互斥选项，选中项带滑块高亮效果。",
           "source": {
             "symbol": "CpSegmented"
+          }
+        },
+        {
+          "name": "cp-select",
+          "description": "CpSelect 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。\n浮层定位基于 @floating-ui/dom，自动处理翻转、越界、以及触发器位置/尺寸变化的跟随。",
+          "source": {
+            "symbol": "CpSelect"
           }
         },
         {
@@ -3444,333 +3444,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "cp-dropdown",
-          "source": {
-            "symbol": "CpDropdown"
-          },
-          "description": "CpDropdown 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。",
-          "props": [
-            {
-              "name": "modelValue",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 1673
-              },
-              "description": "绑定值 (v-model)",
-              "default": "''",
-              "type": [
-                "string | number"
-              ]
-            },
-            {
-              "name": "options",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 1815
-              },
-              "description": "选项列表",
-              "default": "() => []",
-              "type": [
-                "DropdownOption[]"
-              ]
-            },
-            {
-              "name": "placeholder",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 1953
-              },
-              "description": "占位文本",
-              "default": "'请选择'",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "filterPlaceholder",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2082
-              },
-              "description": "搜索框占位文本 (仅在面板开启搜索时有效)",
-              "default": "'搜索...'",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "disabled",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2200
-              },
-              "description": "是否禁用",
-              "default": "false",
-              "type": [
-                "boolean"
-              ]
-            },
-            {
-              "name": "clearable",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2309
-              },
-              "description": "是否可清空",
-              "default": "false",
-              "type": [
-                "boolean"
-              ]
-            },
-            {
-              "name": "filterable",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2421
-              },
-              "description": "是否可搜索过滤",
-              "default": "false",
-              "type": [
-                "boolean"
-              ]
-            },
-            {
-              "name": "size",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2531
-              },
-              "description": "下拉框尺寸",
-              "default": "'md'",
-              "type": [
-                "string | number"
-              ]
-            },
-            {
-              "name": "shape",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2671
-              },
-              "description": "下拉框形状",
-              "default": "'clip'",
-              "type": [
-                "'clip' | 'no-clip' | 'round'"
-              ]
-            },
-            {
-              "name": "variant",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2808
-              },
-              "description": "下拉框变体",
-              "default": "'outline'",
-              "type": [
-                "'outline' | 'filled' | 'ghost'"
-              ]
-            },
-            {
-              "name": "color",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 2947
-              },
-              "description": "自定义聚焦颜色",
-              "default": "''",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "inactiveColor",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3050
-              },
-              "description": "未激活状态边框颜色",
-              "default": "''",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "placeholderColor",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3168
-              },
-              "description": "Placeholder 文字颜色",
-              "default": "''",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "inline",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3295
-              },
-              "description": "是否启用行内搜索 (直接在触发器输入)",
-              "default": "false",
-              "type": [
-                "boolean"
-              ]
-            },
-            {
-              "name": "placement",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3410
-              },
-              "description": "弹出位置",
-              "default": "'bottom-start'",
-              "type": [
-                "'bottom' | 'bottom-start' | 'bottom-end' | 'top' | 'top-start' | 'top-end'"
-              ]
-            },
-            {
-              "name": "teleportTo",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3566
-              },
-              "description": "Teleport 目标",
-              "default": "'body'",
-              "type": [
-                "string | HTMLElement"
-              ]
-            },
-            {
-              "name": "maxHeight",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3727
-              },
-              "description": "下拉面板最大高度 (px)",
-              "default": "256",
-              "type": [
-                "number"
-              ]
-            },
-            {
-              "name": "noMatchText",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3838
-              },
-              "description": "无匹配时的文本",
-              "default": "'无匹配数据'",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "noDataText",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 3953
-              },
-              "description": "无数据时的文本",
-              "default": "'无数据'",
-              "type": [
-                "string"
-              ]
-            },
-            {
-              "name": "clearDuration",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 4148
-              },
-              "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
-              "default": "150",
-              "type": [
-                "number"
-              ]
-            },
-            {
-              "name": "width",
-              "source": {
-                "file": "../components/dropdown/src/dropdown.ts",
-                "offset": 4327
-              },
-              "description": "下拉框宽度\n支持数字 (px) 或带单位字符串 (如 '200px', '15rem')。\n为空时默认 100%（铺满父容器）。",
-              "default": "''",
-              "type": [
-                "string | number"
-              ]
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "自定义选项内容"
-            },
-            {
-              "name": "prefix",
-              "description": "触发器前缀"
-            },
-            {
-              "name": "empty",
-              "description": "无选项时的空状态"
-            }
-          ],
-          "js": {
-            "events": [
-              {
-                "name": "update:modelValue",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 4609
-                },
-                "description": "值变化时触发 (v-model 绑定)"
-              },
-              {
-                "name": "change",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 4746
-                },
-                "description": "选中值变化时触发"
-              },
-              {
-                "name": "clear",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 4867
-                },
-                "description": "清空时触发"
-              },
-              {
-                "name": "focus",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 4917
-                },
-                "description": "获取焦点时触发"
-              },
-              {
-                "name": "blur",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 4967
-                },
-                "description": "失去焦点时触发"
-              },
-              {
-                "name": "visibleChange",
-                "source": {
-                  "file": "../components/dropdown/src/dropdown.ts",
-                  "offset": 5018
-                },
-                "description": "下拉面板显示时触发"
-              }
-            ]
-          }
         },
         {
           "name": "cp-empty",
@@ -7482,6 +7155,333 @@
           }
         },
         {
+          "name": "cp-select",
+          "source": {
+            "symbol": "CpSelect"
+          },
+          "description": "CpSelect 赛博朋克风格下拉选择器\n\n支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。\n浮层定位基于 @floating-ui/dom，自动处理翻转、越界、以及触发器位置/尺寸变化的跟随。",
+          "props": [
+            {
+              "name": "modelValue",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 1564
+              },
+              "description": "绑定值 (v-model)",
+              "default": "''",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "options",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 1698
+              },
+              "description": "选项列表",
+              "default": "() => []",
+              "type": [
+                "SelectOption[]"
+              ]
+            },
+            {
+              "name": "placeholder",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 1826
+              },
+              "description": "占位文本",
+              "default": "'请选择'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "filterPlaceholder",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 1947
+              },
+              "description": "搜索框占位文本 (仅在面板开启搜索时有效)",
+              "default": "'搜索...'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "disabled",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2057
+              },
+              "description": "是否禁用",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "clearable",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2158
+              },
+              "description": "是否可清空",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "filterable",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2262
+              },
+              "description": "是否可搜索过滤",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "size",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2364
+              },
+              "description": "选择器尺寸",
+              "default": "'md'",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "shape",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2494
+              },
+              "description": "选择器形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
+              "name": "variant",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2621
+              },
+              "description": "选择器变体",
+              "default": "'outline'",
+              "type": [
+                "'outline' | 'filled' | 'ghost'"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2750
+              },
+              "description": "自定义聚焦颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "inactiveColor",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2845
+              },
+              "description": "未激活状态边框颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "placeholderColor",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 2955
+              },
+              "description": "Placeholder 文字颜色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "inline",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3074
+              },
+              "description": "是否启用行内搜索 (直接在触发器输入)",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "placement",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3181
+              },
+              "description": "弹出位置",
+              "default": "'bottom-start'",
+              "type": [
+                "'bottom' | 'bottom-start' | 'bottom-end' | 'top' | 'top-start' | 'top-end'"
+              ]
+            },
+            {
+              "name": "teleportTo",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3327
+              },
+              "description": "Teleport 目标",
+              "default": "'body'",
+              "type": [
+                "string | HTMLElement"
+              ]
+            },
+            {
+              "name": "maxHeight",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3480
+              },
+              "description": "下拉面板最大高度 (px)",
+              "default": "256",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "noMatchText",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3583
+              },
+              "description": "无匹配时的文本",
+              "default": "'无匹配数据'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "noDataText",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3690
+              },
+              "description": "无数据时的文本",
+              "default": "'无数据'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "clearDuration",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3873
+              },
+              "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
+              "default": "150",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "width",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 4042
+              },
+              "description": "选择器宽度\n支持数字 (px) 或带单位字符串 (如 '200px', '15rem')。\n为空时默认 100%（铺满父容器）。",
+              "default": "''",
+              "type": [
+                "string | number"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "自定义选项内容"
+            },
+            {
+              "name": "prefix",
+              "description": "触发器前缀"
+            },
+            {
+              "name": "empty",
+              "description": "无选项时的空状态"
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "update:modelValue",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4301
+                },
+                "description": "值变化时触发 (v-model 绑定)"
+              },
+              {
+                "name": "change",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4434
+                },
+                "description": "选中值变化时触发"
+              },
+              {
+                "name": "clear",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4551
+                },
+                "description": "清空时触发"
+              },
+              {
+                "name": "focus",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4597
+                },
+                "description": "获取焦点时触发"
+              },
+              {
+                "name": "blur",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4643
+                },
+                "description": "失去焦点时触发"
+              },
+              {
+                "name": "visibleChange",
+                "source": {
+                  "file": "../components/select/src/select.ts",
+                  "offset": 4690
+                },
+                "description": "下拉面板显示时触发"
+              }
+            ]
+          }
+        },
+        {
           "name": "cp-slider",
           "source": {
             "symbol": "CpSlider"
@@ -8067,7 +8067,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 3892
+                "offset": 4575
               },
               "description": "表格数据",
               "default": "() => []",
@@ -8079,7 +8079,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4013
+                "offset": 4696
               },
               "description": "尺寸",
               "default": "'md'",
@@ -8091,7 +8091,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4152
+                "offset": 4835
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -8103,7 +8103,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4285
+                "offset": 4968
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -8115,7 +8115,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4393
+                "offset": 5076
               },
               "description": "是否显示边框",
               "default": "false",
@@ -8127,7 +8127,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4502
+                "offset": 5185
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -8136,10 +8136,22 @@
               ]
             },
             {
+              "name": "rowClassName",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 5615
+              },
+              "description": "行 class 名\n\n可传字符串、数组、对象，或函数按行动态返回 class。函数参数包含当前行数据与渲染索引。\n常用于根据业务状态高亮一行或多行；组件内置可直接使用的状态类：\n`is-success-row`、`is-warning-row`、`is-error-row`、`is-info-row`。",
+              "default": "''",
+              "type": [
+                "TableRowClassValue | ((params: TableRowClassNameParams) => TableRowClassValue)"
+              ]
+            },
+            {
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4609
+                "offset": 5762
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -8150,7 +8162,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4711
+                "offset": 5864
               },
               "description": "最大高度",
               "type": [
@@ -8161,7 +8173,7 @@
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4839
+                "offset": 5992
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -8173,7 +8185,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4951
+                "offset": 6104
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -8185,7 +8197,7 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5100
+                "offset": 6253
               },
               "description": "默认排序",
               "type": [
@@ -8196,7 +8208,7 @@
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5243
+                "offset": 6396
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -8208,7 +8220,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5345
+                "offset": 6498
               },
               "description": "是否显示表头",
               "default": "true",
@@ -8220,7 +8232,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5487
+                "offset": 6640
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -8232,7 +8244,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5601
+                "offset": 6754
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -8244,7 +8256,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5739
+                "offset": 6892
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
@@ -8256,7 +8268,7 @@
               "name": "treeProps",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5894
+                "offset": 7047
               },
               "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
               "type": [
@@ -8267,7 +8279,7 @@
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6041
+                "offset": 7194
               },
               "description": "是否默认展开所有树形行",
               "default": "false",
@@ -8279,7 +8291,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6158
+                "offset": 7311
               },
               "description": "每级层级缩进像素",
               "default": "16",
@@ -8291,7 +8303,7 @@
               "name": "expandRowKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6312
+                "offset": 7465
               },
               "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式，由外部决定哪些行处于展开状态",
               "type": [
@@ -8302,7 +8314,7 @@
               "name": "rowExpandable",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6578
+                "offset": 7731
               },
               "description": "控制每行是否可展开\n不传则所有行均可展开；返回 false 的行不显示展开按钮",
               "type": [
@@ -8313,7 +8325,7 @@
               "name": "treeCheckMode",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6981
+                "offset": 8134
               },
               "description": "树形 + 多选场景下，父子节点的联动策略\n- `'strict'`（默认）：父子独立，互不影响\n- `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）\n- `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父（子全部取消时父仍可保持选中）\n仅在同时启用 `treeProps` 与 `type=\"selection\"` 列时生效",
               "default": "'strict'",
@@ -8325,7 +8337,7 @@
               "name": "selectionPayload",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7323
+                "offset": 8476
               },
               "description": "selection-change / select / select-all 事件 payload 的输出形态\n- `'rows'`（默认）：数组，每项是完整行对象（等价原行为）\n- `'keys'`：数组，每项是该行的 rowKey 值\n- `'detail'`：结构化对象 `{ rows, keys, halfRows, halfKeys }`，同时返回全选与半选",
               "default": "'rows'",
@@ -8337,7 +8349,7 @@
               "name": "includeHalfChecked",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7633
+                "offset": 8786
               },
               "description": "`selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组\n仅在联动模式（cascade / bubble）下可能产生半选节点\n`selectionPayload === 'detail'` 时此 prop 无效（detail 本身已分离全选与半选）",
               "default": "false",
@@ -8349,7 +8361,7 @@
               "name": "checkedKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8264
+                "offset": 9417
               },
               "description": "受控选中 rowKey 数组（配合 `v-model:checked-keys`）\n典型场景：表单回填、编辑已有记录、权限/批量分配等\n\n- 传入 `undefined`（默认）：组件使用内部状态，非受控\n- 传入数组（含空数组）：进入受控模式，外部数组为真相来源\n\n回填时**不做级联归一化**：传 `[3]` 就只选中 id=3 那一行，即便在 cascade/bubble 模式下也不会\n自动补勾父节点或后代。父节点的 indeterminate 视觉态由组件自动计算。\n这样保证 `v-model:checkedKeys` 读写对称——`getSelectionKeys()` 输出什么，回填就能用什么。",
               "type": [
@@ -8363,7 +8375,7 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8591
+                  "offset": 9744
                 },
                 "description": "排序变化"
               },
@@ -8371,7 +8383,7 @@
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8655
+                  "offset": 9808
                 },
                 "description": "行点击"
               },
@@ -8379,7 +8391,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8741
+                  "offset": 9894
                 },
                 "description": "选中行变化"
               },
@@ -8387,7 +8399,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8816
+                  "offset": 9969
                 },
                 "description": "全选"
               },
@@ -8395,7 +8407,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8887
+                  "offset": 10040
                 },
                 "description": "单行选中"
               },
@@ -8403,7 +8415,7 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 8965
+                  "offset": 10118
                 },
                 "description": "当前行变化"
               },
@@ -8411,7 +8423,7 @@
                 "name": "expand-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9071
+                  "offset": 10224
                 },
                 "description": "树形行展开/折叠 或 行展开列展开/折叠"
               },
@@ -8419,7 +8431,7 @@
                 "name": "update:checkedKeys",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9185
+                  "offset": 10338
                 },
                 "description": "受控 checkedKeys 变化（用于 `v-model:checked-keys`）"
               }

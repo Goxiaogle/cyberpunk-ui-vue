@@ -80,12 +80,6 @@ declare module 'vue' {
      */
     CpDivider: typeof import('cyberpunk-ui-vue')['CpDivider']
     /**
-     * CpDropdown 赛博朋克风格下拉选择器
-     * 
-     * 支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。
-     */
-    CpDropdown: typeof import('cyberpunk-ui-vue')['CpDropdown']
-    /**
      * CpEmpty 赛博朋克风格空状态组件
      * 
      * 用于无数据、无搜索结果、网络错误等场景的占位展示。
@@ -202,6 +196,13 @@ declare module 'vue' {
      */
     CpSegmented: typeof import('cyberpunk-ui-vue')['CpSegmented']
     /**
+     * CpSelect 赛博朋克风格下拉选择器
+     * 
+     * 支持多种尺寸、形态变体、可搜索/可清空功能。具有特色的切角造型。
+     * 浮层定位基于 @floating-ui/dom，自动处理翻转、越界、以及触发器位置/尺寸变化的跟随。
+     */
+    CpSelect: typeof import('cyberpunk-ui-vue')['CpSelect']
+    /**
      * CpSlider 赛博朋克风格滑块
      * 
      * 用于在给定的数值范围内进行选择，支持单值和范围模式。
@@ -266,6 +267,10 @@ declare module 'vue' {
      * 复用 CpImage、CpProgress、CpButton 等组件。
      */
     CpUpload: typeof import('cyberpunk-ui-vue')['CpUpload']
+    /**
+     * @deprecated 自 1.13.0 起请使用 `CpSelect`。CpDropdown 已更名为 CpSelect，命名与主流组件库（Element Plus / Ant Design / PrimeVue v4 等）一致。
+     */
+    CpDropdown: typeof import('cyberpunk-ui-vue')['CpSelect']
   }
 }
 

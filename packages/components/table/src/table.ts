@@ -58,6 +58,26 @@ export interface SelectionDetail {
 export type SelectionPayload = any[] | (string | number)[] | SelectionDetail
 
 /**
+ * 行 class 绑定值，保持与 Vue `:class` 支持的形态一致
+ */
+export type TableRowClassValue = string | string[] | Record<string, boolean> | null | undefined
+
+/**
+ * rowClassName 函数参数
+ */
+export interface TableRowClassNameParams {
+  /** 当前行数据 */
+  row: any
+  /** 当前渲染行索引（树形表格下为展开后的可见行索引） */
+  rowIndex: number
+}
+
+/**
+ * 行 class 配置
+ */
+export type TableRowClassName = TableRowClassValue | ((params: TableRowClassNameParams) => TableRowClassValue)
+
+/**
  * 树形数据配置
  */
 export interface TableTreeProps {
@@ -146,6 +166,15 @@ export interface TableColumnConfig {
  *   </CpTableColumn>
  *   <CpTableColumn prop="name" label="姓名" />
  * </CpTable>
+ *
+ * <!-- 行状态高亮：按业务条件返回 class -->
+ * <CpTable
+ *   :data="tableData"
+ *   :row-class-name="({ row }) => row.status === 'error' ? 'is-error-row' : ''"
+ * >
+ *   <CpTableColumn prop="name" label="姓名" />
+ *   <CpTableColumn prop="status" label="状态" />
+ * </CpTable>
  * ```
  */
 export const tableProps = {
@@ -195,6 +224,25 @@ export const tableProps = {
   highlightCurrentRow: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * 行 class 名
+   *
+   * 可传字符串、数组、对象，或函数按行动态返回 class。函数参数包含当前行数据与渲染索引。
+   * 常用于根据业务状态高亮一行或多行；组件内置可直接使用的状态类：
+   * `is-success-row`、`is-warning-row`、`is-error-row`、`is-info-row`。
+   *
+   * @example
+   * ```vue
+   * <CpTable
+   *   :data="tableData"
+   *   :row-class-name="({ row }) => row.status === 'offline' ? 'is-error-row' : ''"
+   * />
+   * ```
+   */
+  rowClassName: {
+    type: [String, Array, Object, Function] as PropType<TableRowClassName>,
+    default: '',
   },
   /**
    * 固定高度 (启用固定表头)
