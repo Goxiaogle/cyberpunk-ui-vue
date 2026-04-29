@@ -106,6 +106,37 @@ export const Default: Story = {
 }
 
 /**
+ * 文字居中 — 中文标签在等宽分段中保持横向居中
+ */
+export const LabelCentering: Story = {
+  name: '文字居中',
+  render: () => ({
+    components: { CpSegmented },
+    setup() {
+      const value = ref('three-view')
+      const options = [
+        { label: '上半身照', value: 'half-body' },
+        { label: '三视图', value: 'three-view' },
+        { label: '拼图', value: 'collage' },
+      ]
+      return { value, options }
+    },
+    template: `
+      <div style="width: 560px; max-width: 100%;">
+        <CpSegmented
+          v-model="value"
+          :options="options"
+          type="primary"
+          variant="outline"
+          size="lg"
+          block
+        />
+      </div>
+    `,
+  }),
+}
+
+/**
  * 颜色类型 — default / primary / success / warning / error / info
  */
 export const Types: Story = {

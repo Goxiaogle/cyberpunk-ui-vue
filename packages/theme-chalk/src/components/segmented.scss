@@ -136,8 +136,13 @@ $segmented-types: (primary, success, warning, error, info);
 
   // 文本
   @include e(item-label) {
-    display: inline-flex;
+    display: inline-grid;
     align-items: center;
+    justify-items: center;
+  }
+
+  @include e(item-label-text) {
+    grid-area: 1 / 1;
   }
 
   // ===== 尺寸 =====
@@ -557,6 +562,7 @@ $segmented-types: (primary, success, warning, error, info);
     position: relative;
 
     &::after {
+      grid-area: 1 / 1;
       content: attr(data-label);
       display: block;
       height: 0;

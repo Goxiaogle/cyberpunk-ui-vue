@@ -3,7 +3,16 @@
  * CpSegmented - 赛博朋克风格分段选择器
  * 一体化互斥选项控件条，选中项带滑块高亮效果
  */
-import { computed, ref, inject, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import {
+  computed,
+  ref,
+  inject,
+  watch,
+  nextTick,
+  onMounted,
+  onBeforeUnmount,
+  type ComponentPublicInstance,
+} from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { segmentedProps, segmentedEmits, type SegmentedOption, type SegmentedValueType } from './segmented'
@@ -33,15 +42,15 @@ const normalizedOptions = computed<SegmentedOption[]>(() => {
   })
 })
 
+const isDev = (import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV
+
 // 开发模式下校验 modelValue 是否在 options 中
-// （使用 import.meta.env.DEV，构建时会被静态替换为 false 并被 Tree-shaking 移除）
-if (import.meta.env?.DEV) {
+if (isDev) {
   watch(
     [() => props.modelValue, normalizedOptions],
     ([value, options]) => {
       if (value === undefined) return
       if (!options.some((opt) => opt.value === value)) {
-        // eslint-disable-next-line no-console
         console.warn(
           `[CpSegmented] modelValue "${String(value)}" 不在 options 中，指示器将不会显示。` +
             `请检查 v-model 绑定值是否与 options 的 value 字段匹配。`,
@@ -57,9 +66,9 @@ const trackRef = ref<HTMLElement>()
 const itemRefs = ref<HTMLElement[]>([])
 const indicatorStyle = ref<Record<string, string>>({})
 
-const setItemRef = (el: any, index: number) => {
-  if (el) {
-    itemRefs.value[index] = el as HTMLElement
+const setItemRef = (el: Element | ComponentPublicInstance | null, index: number) => {
+  if (el instanceof HTMLElement) {
+    itemRefs.value[index] = el
   }
 }
 
@@ -361,12 +370,14 @@ defineExpose({
       <slot name="option" :option="option" :index="index" :active="option.value === modelValue">
         <!-- 图标 -->
         <component
-          v-if="option.icon"
           :is="option.icon"
+          v-if="option.icon"
           :class="ns.e('item-icon')"
         />
         <!-- 文本（data-label 给伪元素占位用，避免字重切换时文字宽度抖动） -->
-        <span :class="ns.e('item-label')" :data-label="option.label">{{ option.label }}</span>
+        <span :class="ns.e('item-label')" :data-label="option.label">
+          <span :class="ns.e('item-label-text')">{{ option.label }}</span>
+        </span>
       </slot>
     </button>
   </div>

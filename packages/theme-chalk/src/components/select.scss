@@ -4,29 +4,6 @@
 @use '../common/var' as *;
 @use '../mixins/mixins' as *;
 
-// 动画
-@keyframes cp-select-fade-in {
-  from {
-    opacity: 0;
-    scale: 1 0.8;
-  }
-  to {
-    opacity: 1;
-    scale: 1 1;
-  }
-}
-
-@keyframes cp-select-fade-out {
-  from {
-    opacity: 1;
-    scale: 1 1;
-  }
-  to {
-    opacity: 0;
-    scale: 1 0.8;
-  }
-}
-
 @include b(select) {
   position: relative;
   display: inline-flex;
@@ -368,6 +345,25 @@
   @include e(popper) {
     position: fixed;
     z-index: 2000;
+    overflow: visible;
+    will-change: transform;
+    pointer-events: none;
+
+    @include when(visible) {
+      pointer-events: auto;
+
+      .cp-select__popper-panel {
+        opacity: 1;
+        transform: scaleY(1);
+        transition:
+          opacity 0.2s ease-out,
+          transform 0.2s ease-out;
+      }
+    }
+  }
+
+  @include e(popper-panel) {
+    max-height: inherit;
     background: var(--cp-bg-elevated);
     border: 1px solid var(--cp-border);
     box-shadow:
@@ -384,11 +380,15 @@
       0 100%, 0 8px
     );
 
-    // 入场动画
-    animation: cp-select-fade-in 0.2s ease-out;
+    opacity: 0;
+    transform: scaleY(0.8);
     transform-origin: top center;
+    transition:
+      opacity 0.15s ease-in,
+      transform 0.15s ease-in;
+    will-change: opacity, transform;
 
-    @include m(top) {
+    .cp-select__popper--top & {
       transform-origin: bottom center;
     }
 
@@ -420,11 +420,11 @@
     }
 
     // 形状变体
-    &.cp-select--shape-no-clip {
+    .cp-select--shape-no-clip & {
       clip-path: none;
     }
 
-    &.cp-select--shape-round {
+    .cp-select--shape-round & {
       clip-path: none;
       border-radius: var(--cp-radius-lg);
 
@@ -556,13 +556,4 @@
     color: var(--cp-text-muted);
     font-size: var(--cp-font-size-sm);
   }
-}
-
-// 过渡动画
-.cp-select-fade-enter-active {
-  animation: cp-select-fade-in 0.2s ease-out;
-}
-
-.cp-select-fade-leave-active {
-  animation: cp-select-fade-out 0.15s ease-in;
 }

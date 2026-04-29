@@ -33,6 +33,7 @@ const sizeMap = { sm: 28, md: 36, lg: 44 }
 
 // 视口边界检测的间距 (px)
 const VIEWPORT_PADDING = 8
+const POPPER_LEAVE_DURATION = 150
 
 // 内部状态
 const triggerRef = ref<HTMLElement | null>(null)
@@ -41,6 +42,8 @@ const filterInputRef = ref<HTMLInputElement | null>(null)
 const inlineInputRef = ref<HTMLInputElement | null>(null)
 
 const visible = ref(false)
+const popperRendered = ref(false)
+const popperOpen = ref(false)
 const filterQuery = ref('')
 const hoverIndex = ref(-1)
 const isClearing = ref(false)
@@ -114,10 +117,13 @@ const popperClasses = computed(() => [
   ns.e('popper'),
   `${ns.e('popper')}--${actualPlacement.value.split('-')[0]}`,
   ns.m(`shape-${props.shape}`),
+  ns.is('visible', popperOpen.value),
 ])
 
 // === Floating UI 定位 ===
 let cleanupAutoUpdate: (() => void) | null = null
+let closePopperTimer: ReturnType<typeof setTimeout> | null = null
+let openPopperFrame = 0
 
 const updatePosition = async () => {
   if (!triggerRef.value || !popperRef.value) return
@@ -157,6 +163,20 @@ const teardownAutoUpdate = () => {
   cleanupAutoUpdate = null
 }
 
+const clearClosePopperTimer = () => {
+  if (closePopperTimer) {
+    clearTimeout(closePopperTimer)
+    closePopperTimer = null
+  }
+}
+
+const clearOpenPopperFrame = () => {
+  if (openPopperFrame) {
+    cancelAnimationFrame(openPopperFrame)
+    openPopperFrame = 0
+  }
+}
+
 const primePopperPosition = () => {
   if (!triggerRef.value) return
   const rect = triggerRef.value.getBoundingClientRect()
@@ -173,15 +193,20 @@ const primePopperPosition = () => {
   actualPlacement.value = props.placement
 }
 
-// === 开关控制 ===
-const open = () => {
-  if (isDisabled.value) return
+const applyOpen = () => {
+  clearClosePopperTimer()
+  clearOpenPopperFrame()
   primePopperPosition()
   visible.value = true
+  popperRendered.value = true
   document.dispatchEvent(new CustomEvent(SELECT_OPEN_EVENT, { detail: uid }))
   emit('visibleChange', true)
   emit('focus')
   nextTick(() => {
+    openPopperFrame = requestAnimationFrame(() => {
+      popperOpen.value = true
+      openPopperFrame = 0
+    })
     if (isInlineSearch.value && inlineInputRef.value) {
       inlineInputRef.value.focus()
     } else if (props.filterable && filterInputRef.value) {
@@ -190,17 +215,42 @@ const open = () => {
   })
 }
 
-const close = () => {
+const applyClose = () => {
+  clearOpenPopperFrame()
   visible.value = false
-  filterQuery.value = ''
-  hoverIndex.value = -1
+  popperOpen.value = false
   emit('visibleChange', false)
   emit('blur')
+  clearClosePopperTimer()
+  closePopperTimer = setTimeout(() => {
+    if (!visible.value) {
+      popperRendered.value = false
+      filterQuery.value = ''
+      hoverIndex.value = -1
+    }
+    closePopperTimer = null
+  }, POPPER_LEAVE_DURATION)
+}
+
+const setVisible = (nextVisible: boolean) => {
+  if (nextVisible && isDisabled.value) return
+  if (visible.value === nextVisible) return
+
+  if (nextVisible) applyOpen()
+  else applyClose()
+}
+
+// === 开关控制 ===
+const open = () => {
+  setVisible(true)
+}
+
+const close = () => {
+  setVisible(false)
 }
 
 const toggle = () => {
-  if (visible.value) close()
-  else open()
+  setVisible(!visible.value)
 }
 
 const handleSelect = (option: SelectOption) => {
@@ -311,6 +361,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  clearClosePopperTimer()
+  clearOpenPopperFrame()
   teardownAutoUpdate()
   document.removeEventListener(SELECT_OPEN_EVENT, handleOtherSelectOpen)
   document.removeEventListener('click', handleClickOutside)
@@ -371,13 +423,13 @@ onBeforeUnmount(() => {
 
     <!-- 下拉面板 -->
     <Teleport :to="teleportTo">
-      <Transition :name="ns.namespace + '-select-fade'">
-        <div
-          v-if="visible"
-          ref="popperRef"
-          :class="popperClasses"
-          :style="popperStyle"
-        >
+      <div
+        v-if="popperRendered"
+        ref="popperRef"
+        :class="popperClasses"
+        :style="popperStyle"
+      >
+        <div :class="ns.e('popper-panel')">
           <!-- 搜索过滤 (仅在非行内搜索时显示) -->
           <div v-if="props.filterable && !isInlineSearch" :class="ns.e('filter')">
             <input
@@ -427,7 +479,7 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </div>
-      </Transition>
+      </div>
     </Teleport>
   </div>
 </template>
