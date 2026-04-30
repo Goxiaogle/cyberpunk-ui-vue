@@ -17,12 +17,38 @@ export type TableSize = Size
 export type SortOrder = 'ascending' | 'descending' | null
 
 /**
+ * 列排序模式
+ * - `false`：不可排序
+ * - `true`：组件内部本地排序
+ * - `'custom'`：只维护排序 UI 与事件，由调用者远程排序
+ */
+export type ColumnSortable = boolean | 'custom'
+
+/**
  * 排序配置
  */
 export interface SortState {
   prop: string
   order: SortOrder
 }
+
+/**
+ * sort-change 事件 payload
+ */
+export interface SortChangePayload extends SortState {
+  /** 当前触发排序的列配置；通过编程式排序且未匹配到列时为 null */
+  column: TableColumnConfig | null
+}
+
+/**
+ * 排序取值配置
+ */
+export type SortBy = string | string[] | ((row: any) => any)
+
+/**
+ * 自定义本地排序函数
+ */
+export type SortMethod = (a: any, b: any, order: Exclude<SortOrder, null>) => number
 
 /**
  * 树形 + 多选联动策略
@@ -102,7 +128,13 @@ export interface TableColumnConfig {
   /** 最小列宽 */
   minWidth?: string | number
   /** 是否可排序 */
-  sortable: boolean
+  sortable: ColumnSortable
+  /** 自定义本地排序函数 */
+  sortMethod?: SortMethod
+  /** 自定义排序取值字段或函数 */
+  sortBy?: SortBy
+  /** 排序切换顺序 */
+  sortOrders?: SortOrder[]
   /** 特殊列类型 */
   columnType: 'default' | 'selection' | 'index' | 'expand'
   /** 内容对齐 */
@@ -132,10 +164,22 @@ export interface TableColumnConfig {
  * @exposes getSelectionDetail() - 获取结构化选中详情 { rows, keys, halfRows, halfKeys }
  * @exposes setSelectionKeys(keys) - 程序式设置选中 rowKey 数组
  * @exposes sort(prop, order) - 编程式排序
+ * @exposes clearSort() - 清空排序
+ * @exposes getSortState() - 获取当前排序状态
  * @exposes setCurrentRow(row) - 设置当前行
  * @exposes toggleRowExpand(row, expanded?) - 切换行展开（展开列模式）
  * @example
  * ```vue
+ * <!-- 远程排序：只维护排序状态，不做本地排序 -->
+ * <CpTable
+ *   v-model:sort-state="sortState"
+ *   :data="tableData"
+ *   manual-sort
+ *   @sort-change="fetchTableData"
+ * >
+ *   <CpTableColumn prop="createdAt" label="创建时间" sortable />
+ * </CpTable>
+ *
  * <!-- 基础用法 -->
  * <CpTable :data="tableData" stripe border>
  *   <CpTableColumn prop="name" label="姓名" sortable />
@@ -274,9 +318,52 @@ export const tableProps = {
   },
   /**
    * 默认排序
+   *
+   * 仅作为非受控模式下的初始排序状态；后续外部变更不会自动覆盖内部状态。
    */
   defaultSort: {
     type: Object as PropType<SortState>,
+  },
+  /**
+   * 受控排序状态（配合 `v-model:sort-state`）
+   *
+   * 传入后排序状态由外部维护；组件点击表头只触发 `update:sortState`
+   * 与 `sort-change`，视觉状态会跟随外部传回的新值。
+   *
+   * @example
+   * ```vue
+   * <CpTable v-model:sort-state="sortState" :data="rows" />
+   * ```
+   */
+  sortState: {
+    type: Object as PropType<SortState>,
+    default: undefined,
+  },
+  /**
+   * 手动排序模式
+   *
+   * 开启后组件只维护排序状态与排序图标，不会对 `data` 做本地排序。
+   * 适用于服务端排序、URL 状态同步、外部 store 管理等场景。
+   *
+   * 也可以在列上设置 `sortable="custom"` 仅让某一列进入手动排序。
+   *
+   * @default false
+   */
+  manualSort: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 排序切换顺序
+   *
+   * 默认按升序、降序、取消排序循环。可传 `['descending', 'ascending']`
+   * 让列始终保持有序状态，不进入取消排序。
+   *
+   * @default ['ascending', 'descending', null]
+   */
+  sortOrders: {
+    type: Array as PropType<SortOrder[]>,
+    default: () => ['ascending', 'descending', null],
   },
   /**
    * 自定义主题色（CSS 颜色值）
@@ -430,7 +517,7 @@ export type TableProps = ExtractPropTypes<typeof tableProps>
  */
 export const tableEmits = {
   /** 排序变化 */
-  'sort-change': (sortState: SortState) => true,
+  'sort-change': (_sortState: SortChangePayload) => true,
   /** 行点击 */
   'row-click': (row: any, index: number, event: MouseEvent) => true,
   /** 选中行变化 */
@@ -445,6 +532,8 @@ export const tableEmits = {
   'expand-change': (row: any, expanded: boolean) => true,
   /** 受控 checkedKeys 变化（用于 `v-model:checked-keys`） */
   'update:checkedKeys': (keys: (string | number)[]) => true,
+  /** 受控 sortState 变化（用于 `v-model:sort-state`） */
+  'update:sortState': (_sortState: SortState) => true,
 }
 
 export type TableEmits = typeof tableEmits

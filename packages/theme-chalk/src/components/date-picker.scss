@@ -1,0 +1,935 @@
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+
+@include b(date-picker) {
+  position: relative;
+  display: inline-flex;
+  width: var(--cp-date-picker-width, 100%);
+
+  @include e(trigger) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    height: var(--cp-size-md);
+    padding: 0 var(--cp-spacing-md);
+    background: transparent;
+    border: 1px solid var(--cp-date-picker-inactive-color, var(--cp-border));
+    color: var(--cp-text-primary);
+    font-family: var(--cp-font-family-ui);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 6px;
+      height: 6px;
+      background: var(--cp-border);
+      opacity: 0.65;
+      transition: background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    &:hover {
+      border-color: var(--cp-color-primary);
+
+      &::after {
+        background: var(--cp-color-primary);
+        opacity: 0.9;
+      }
+    }
+  }
+
+  @include m(sm) {
+    .cp-date-picker__trigger {
+      height: var(--cp-size-sm);
+      padding: 0 var(--cp-spacing-sm);
+      font-size: var(--cp-font-size-sm);
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    }
+  }
+
+  @include m(md) {
+    .cp-date-picker__trigger {
+      height: var(--cp-size-md);
+      font-size: var(--cp-font-size-md);
+    }
+  }
+
+  @include m(lg) {
+    .cp-date-picker__trigger {
+      height: var(--cp-size-lg);
+      padding: 0 var(--cp-spacing-lg);
+      font-size: var(--cp-font-size-lg);
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+  }
+
+  @include m(filled) {
+    .cp-date-picker__trigger {
+      background: var(--cp-bg-elevated);
+
+      &:hover {
+        background: rgba(var(--cp-color-primary-rgb), 0.05);
+      }
+    }
+  }
+
+  @include m(ghost) {
+    .cp-date-picker__trigger {
+      border-color: transparent;
+      border-bottom-color: var(--cp-date-picker-inactive-color, var(--cp-border));
+      clip-path: none;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        border-bottom-color: var(--cp-color-primary);
+      }
+    }
+  }
+
+  @include m(shape-no-clip) {
+    .cp-date-picker__trigger {
+      clip-path: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  @include m(shape-round) {
+    .cp-date-picker__trigger {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  @include when(active) {
+    .cp-date-picker__trigger {
+      border-color: var(--cp-color-primary);
+      box-shadow: 0 0 10px var(--cp-color-primary-light), inset 0 0 5px var(--cp-color-primary-light);
+
+      &::after {
+        background: var(--cp-color-primary);
+        opacity: 1;
+        box-shadow: 0 0 5px var(--cp-color-primary);
+      }
+    }
+  }
+
+  @include when(disabled) {
+    .cp-date-picker__trigger {
+      cursor: not-allowed;
+      opacity: 0.5;
+      filter: grayscale(0.5);
+
+      &:hover {
+        border-color: var(--cp-date-picker-inactive-color, var(--cp-border));
+      }
+    }
+  }
+
+  @include when(custom-color) {
+    .cp-date-picker__trigger:hover,
+    &.is-active .cp-date-picker__trigger {
+      border-color: var(--cp-date-picker-custom-color);
+      box-shadow: 0 0 10px var(--cp-date-picker-custom-color-light), inset 0 0 5px var(--cp-date-picker-custom-color-light);
+
+      &::after {
+        background: var(--cp-date-picker-custom-color);
+        box-shadow: 0 0 5px var(--cp-date-picker-custom-color);
+      }
+    }
+
+    .cp-date-picker__cell.is-selected,
+    .cp-date-picker__month-cell.is-selected,
+    .cp-date-picker__year-cell.is-selected,
+    .cp-date-picker__time-option.is-selected,
+    .cp-date-picker__panel-month.is-selected,
+    .cp-date-picker__panel-year.is-selected {
+      border-color: var(--cp-date-picker-custom-color);
+      color: var(--cp-date-picker-custom-color);
+      box-shadow: none;
+    }
+
+    .cp-date-picker__panel-day-cell.is-today .cp-date-picker__panel-day-btn,
+    .cp-date-picker__panel-day-cell.is-selected .cp-date-picker__panel-day-btn {
+      border-color: var(--cp-date-picker-custom-color);
+      color: var(--cp-date-picker-custom-color);
+    }
+
+    .cp-date-picker__panel-day-cell.is-selected .cp-date-picker__panel-day-btn,
+    .cp-date-picker__panel-month.is-selected,
+    .cp-date-picker__panel-year.is-selected {
+      background: var(--cp-date-picker-custom-color-light);
+    }
+  }
+
+  @include when(custom-size) {
+    .cp-date-picker__trigger {
+      height: var(--cp-date-picker-height);
+    }
+  }
+
+  @include e(prefix) {
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(--cp-spacing-sm);
+    color: var(--cp-text-secondary);
+  }
+
+  @include e(suffix) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--cp-spacing-sm);
+    color: var(--cp-text-secondary);
+  }
+  @include e(icon) {
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(--cp-spacing-sm);
+    color: var(--cp-text-secondary);
+    font-size: 1.05em;
+
+    svg {
+      width: 1.1em;
+      height: 1.1em;
+    }
+  }
+
+  @include e(inner) {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--cp-text-primary);
+    font: inherit;
+    outline: none;
+    cursor: pointer;
+
+    &::placeholder {
+      color: var(--cp-date-picker-placeholder-color, var(--cp-text-muted));
+    }
+
+    &:read-only {
+      user-select: none;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(clear) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--cp-spacing-sm);
+    color: var(--cp-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      color: var(--cp-text-secondary);
+      transform: rotate(90deg);
+    }
+
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+  @include e(popper) {
+    position: fixed;
+    z-index: 2000;
+    overflow: visible;
+    pointer-events: none;
+
+    @include when(visible) {
+      pointer-events: auto;
+
+      .cp-date-picker__panel {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+    }
+  }
+
+  @include e(panel) {
+    display: flex;
+    max-height: inherit;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    box-shadow:
+      0 4px 18px rgba(0, 0, 0, 0.42),
+      0 0 1px var(--cp-color-primary),
+      inset 0 0 22px color-mix(in srgb, var(--cp-color-primary) 4%, transparent);
+    color: var(--cp-text-primary);
+    font-family: var(--cp-font-family-ui);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: scaleY(0.88);
+    transform-origin: top center;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    &::before {
+      top: 0;
+      right: 0;
+      border-top: 2px solid var(--cp-color-primary);
+      border-right: 2px solid var(--cp-color-primary);
+    }
+
+    &::after {
+      bottom: 0;
+      left: 0;
+      border-bottom: 2px solid var(--cp-color-primary);
+      border-left: 2px solid var(--cp-color-primary);
+    }
+  }
+
+  @include e(shortcuts) {
+    display: flex;
+    flex-direction: column;
+    min-width: 116px;
+    padding: var(--cp-spacing-sm);
+    border-right: 1px solid var(--cp-border);
+    gap: var(--cp-spacing-xs);
+  }
+
+  @include e(shortcut) {
+    padding: var(--cp-spacing-xs) var(--cp-spacing-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--cp-text-secondary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--cp-color-primary) 35%, transparent);
+      color: var(--cp-text-primary);
+    }
+  }
+
+  @include e(body) {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  @include e(calendars) {
+    display: flex;
+  }
+
+  @include e(calendar) {
+    width: 308px;
+    padding: var(--cp-spacing-md);
+
+    & + & {
+      border-left: 1px solid var(--cp-border);
+    }
+  }
+
+  @include e(header) {
+    display: grid;
+    grid-template-columns: 32px 32px 1fr 32px 32px;
+    align-items: center;
+    gap: var(--cp-spacing-xs);
+    margin-bottom: var(--cp-spacing-sm);
+  }
+
+  @include e(nav) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    background: transparent;
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-secondary);
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+      box-shadow: 0 0 8px var(--cp-color-primary-light);
+    }
+  }
+
+  @include e(title) {
+    color: var(--cp-text-primary);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  @include e(weeks) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--cp-spacing-xs);
+    color: var(--cp-text-muted);
+    font-size: var(--cp-font-size-sm);
+    text-align: center;
+  }
+
+  @include e(grid) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  @include e(cell) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: 34px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--cp-text-secondary);
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--cp-color-primary) 32%, transparent);
+      color: var(--cp-text-primary);
+    }
+
+    @include when(outside) {
+      color: var(--cp-text-muted);
+      opacity: 0.55;
+    }
+
+    @include when(today) {
+      color: var(--cp-color-primary);
+    }
+
+    @include when(in-range) {
+      background: color-mix(in srgb, var(--cp-color-primary) 10%, transparent);
+    }
+
+    @include when(selected) {
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+      box-shadow: 0 0 10px var(--cp-color-primary-light);
+    }
+
+    @include when(range-start) {
+      clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+    }
+
+    @include when(range-end) {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+    }
+
+    &:disabled,
+    &.is-disabled {
+      color: var(--cp-text-muted);
+      cursor: not-allowed;
+      opacity: 0.38;
+    }
+  }
+
+  @include e(year-grid) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--cp-spacing-sm);
+  }
+
+  @include e(month-grid) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--cp-spacing-sm);
+  }
+
+  .cp-date-picker__month-cell,
+  .cp-date-picker__year-cell {
+    height: 42px;
+    background: transparent;
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-secondary);
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover:not(.is-disabled) {
+      background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+      border-color: var(--cp-color-primary);
+      color: var(--cp-text-primary);
+    }
+
+    @include when(selected) {
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+      box-shadow: 0 0 10px var(--cp-color-primary-light);
+    }
+
+    @include when(disabled) {
+      cursor: not-allowed;
+      opacity: 0.38;
+    }
+  }
+
+  @include e(times) {
+    display: flex;
+    min-width: 228px;
+    border-left: 1px solid var(--cp-border);
+  }
+
+  @include e(time) {
+    min-width: 228px;
+    padding: var(--cp-spacing-md);
+
+    & + & {
+      border-left: 1px solid var(--cp-border);
+    }
+
+    @include when(active) {
+      background: color-mix(in srgb, var(--cp-color-primary) 4%, transparent);
+    }
+  }
+
+  @include e(time-title) {
+    margin-bottom: var(--cp-spacing-sm);
+    color: var(--cp-text-muted);
+    font-size: var(--cp-font-size-sm);
+    text-align: center;
+  }
+
+  @include e(time-columns) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(52px, 1fr));
+    gap: var(--cp-spacing-xs);
+  }
+
+  @include e(time-column) {
+    max-height: 238px;
+    overflow-y: auto;
+    border: 1px solid var(--cp-border);
+    background: color-mix(in srgb, var(--cp-bg-base) 70%, transparent);
+    @include scrollbar('thin');
+  }
+
+  @include e(time-option) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    border: 0;
+    color: var(--cp-text-secondary);
+    font: inherit;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+      color: var(--cp-text-primary);
+    }
+
+    @include when(selected) {
+      background: color-mix(in srgb, var(--cp-color-primary) 12%, transparent);
+      color: var(--cp-color-primary);
+    }
+
+    &:disabled {
+      color: var(--cp-text-muted);
+      cursor: not-allowed;
+      opacity: 0.36;
+    }
+  }
+
+  @include e(footer) {
+    display: flex;
+    align-items: center;
+    gap: var(--cp-spacing-xs);
+    padding: var(--cp-spacing-sm) var(--cp-spacing-md);
+    border-top: 1px solid var(--cp-border);
+  }
+
+  @include e(footer-spacer) {
+    flex: 1;
+  }
+
+  @include e(footer-btn) {
+    min-width: 52px;
+    height: 30px;
+    padding: 0 var(--cp-spacing-sm);
+    background: transparent;
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-secondary);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+    }
+
+    @include when(primary) {
+      background: color-mix(in srgb, var(--cp-color-primary) 12%, transparent);
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+      box-shadow: 0 0 8px var(--cp-color-primary-light);
+    }
+  }
+
+  @include m(panel) {
+    display: inline-flex;
+    flex-direction: column;
+    width: 360px;
+    max-width: 100%;
+    background: var(--cp-bg-elevated);
+    border: 1px solid var(--cp-border);
+    color: var(--cp-text-primary);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.42);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    .cp-date-picker__panel {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      box-shadow: none;
+    }
+  }
+
+  @include e(panel-header) {
+    padding: 16px 24px 12px;
+    background: var(--cp-bg-elevated);
+  }
+
+  @include e(panel-title) {
+    color: var(--cp-text-primary);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  @include e(panel-selected) {
+    margin-top: 28px;
+    color: var(--cp-text-primary);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+  }
+
+  @include e(panel-layout) {
+    display: block;
+  }
+
+  @include e(month-pane) {
+    min-width: 0;
+    padding: 0 12px 8px;
+  }
+
+  @include e(controls) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 56px;
+    column-gap: 18px;
+    padding: 4px 0;
+  }
+
+  @include e(control-group) {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) 32px;
+    align-items: center;
+    gap: 2px;
+
+    .cp-button {
+      width: 32px;
+      min-width: 32px;
+      height: 32px;
+      padding: 0;
+      border-color: transparent;
+      border-radius: 9999px;
+      color: var(--cp-text-secondary);
+      font-family: var(--cp-font-family-ui);
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: none;
+      box-shadow: none;
+      text-shadow: none;
+      filter: none;
+
+      &:hover:not(.is-disabled) {
+        background: color-mix(in srgb, var(--cp-text-primary) 8%, transparent);
+        color: var(--cp-text-primary);
+        box-shadow: none;
+        text-shadow: none;
+        filter: none;
+      }
+    }
+  }
+
+  @include e(control-label) {
+    min-width: 40px;
+    height: 32px;
+    padding: 0 6px;
+    background: transparent;
+    border: 0;
+    color: var(--cp-text-primary);
+    font-family: var(--cp-font-family-ui);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 32px;
+    cursor: pointer;
+    border-radius: 9999px;
+
+    &:hover {
+      background: color-mix(in srgb, var(--cp-text-primary) 8%, transparent);
+      color: var(--cp-color-primary);
+    }
+  }
+
+  @include e(view-body) {
+    height: 288px;
+  }
+
+  @include e(panel-weekdays) {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    height: 32px;
+    align-items: center;
+    color: var(--cp-text-primary);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  @include e(panel-days) {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    row-gap: 4px;
+    justify-items: center;
+  }
+
+  @include e(panel-day-cell) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: relative;
+
+    @include when(adjacent) {
+      opacity: 0.42;
+    }
+
+    @include when(hidden) {
+      visibility: hidden;
+    }
+
+    @include when(today) {
+      .cp-date-picker__panel-day-btn {
+        border-color: var(--cp-color-primary);
+        color: var(--cp-color-primary);
+      }
+    }
+
+    @include when(selected) {
+      .cp-date-picker__panel-day-btn {
+        background: color-mix(in srgb, var(--cp-color-primary) 18%, transparent);
+        border-color: var(--cp-color-primary);
+        color: var(--cp-color-primary);
+      }
+    }
+  }
+
+  @include e(panel-day-btn) {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0;
+    border-color: transparent;
+    color: var(--cp-text-primary);
+    font-family: var(--cp-font-family-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow: none;
+    text-shadow: none;
+    filter: none;
+
+    &::after {
+      display: none;
+    }
+
+    .cp-button__content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      gap: 0;
+      line-height: 1;
+    }
+
+    &:hover:not(.is-disabled) {
+      background: color-mix(in srgb, var(--cp-text-primary) 8%, transparent);
+      color: var(--cp-text-primary);
+      box-shadow: none;
+      text-shadow: none;
+      filter: none;
+    }
+  }
+
+  @include e(panel-months) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    height: 100%;
+    gap: 0 24px;
+    padding: 0 36px;
+
+    .cp-button {
+      height: 36px;
+      padding: 0 8px;
+      font-family: var(--cp-font-family-ui);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      box-shadow: none;
+      text-shadow: none;
+      filter: none;
+
+      &:hover:not(.is-disabled) {
+        box-shadow: none;
+        text-shadow: none;
+        filter: none;
+      }
+    }
+
+    .cp-date-picker__panel-month.is-selected {
+      background: color-mix(in srgb, var(--cp-color-primary) 18%, transparent);
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+    }
+  }
+
+  @include e(panel-years) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px 24px;
+    height: 100%;
+    padding: 0 32px;
+    overflow-y: auto;
+    @include scrollbar('thin');
+
+    .cp-button {
+      height: 36px;
+      padding: 0 8px;
+      font-family: var(--cp-font-family-ui);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      box-shadow: none;
+      text-shadow: none;
+      filter: none;
+
+      &:hover:not(.is-disabled) {
+        box-shadow: none;
+        text-shadow: none;
+        filter: none;
+      }
+    }
+
+    .cp-date-picker__panel-year.is-selected {
+      background: color-mix(in srgb, var(--cp-color-primary) 18%, transparent);
+      border-color: var(--cp-color-primary);
+      color: var(--cp-color-primary);
+    }
+  }
+
+  @include e(panel-actions) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 12px;
+    border-top: 1px solid var(--cp-border);
+  }
+
+  @media (max-width: 720px) {
+    &.cp-date-picker--panel {
+      width: min(100%, 360px);
+    }
+
+    .cp-date-picker__panel-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .cp-date-picker__controls {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
+    }
+
+    .cp-date-picker__panel,
+    .cp-date-picker__calendars,
+    .cp-date-picker__times {
+      flex-direction: column;
+    }
+
+    .cp-date-picker__calendar,
+    .cp-date-picker__time {
+      width: min(308px, calc(100vw - 32px));
+    }
+
+    .cp-date-picker__calendar + .cp-date-picker__calendar,
+    .cp-date-picker__times,
+    .cp-date-picker__time + .cp-date-picker__time {
+      border-left: 0;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    .cp-date-picker__shortcuts {
+      flex-direction: row;
+      flex-wrap: wrap;
+      border-right: 0;
+      border-bottom: 1px solid var(--cp-border);
+    }
+  }
+}

@@ -33,6 +33,13 @@ export type DialogCustomClass =
   | Record<string, boolean>
   | Array<string | Record<string, boolean>>
 
+export type DialogFullscreenInsetValue = string | number
+
+/**
+ * 全屏模式下对话框相对视口的安全边距
+ */
+export type DialogFullscreenInset = DialogFullscreenInsetValue | Partial<Record<'top' | 'right' | 'bottom' | 'left', DialogFullscreenInsetValue>>
+
 /**
  * CpDialog Props 定义
  *
@@ -46,6 +53,16 @@ export type DialogCustomClass =
  *     <CpButton @click="visible = false">取消</CpButton>
  *     <CpButton type="primary" @click="visible = false">确认</CpButton>
  *   </template>
+ * </CpDialog>
+ *
+ * <CpDialog
+ *   v-model="visible"
+ *   title="全屏安全边距"
+ *   fullscreen
+ *   :fullscreen-inset="{ top: '64px', right: '24px', bottom: '32px', left: '24px' }"
+ *   :body-style="{ padding: '24px 32px' }"
+ * >
+ *   <p>为固定顶栏、底栏或设备安全区预留空间。</p>
  * </CpDialog>
  * ```
  *
@@ -100,6 +117,15 @@ export const dialogProps = {
   fullscreen: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * 全屏模式下对话框相对视口的安全边距
+   * 数字则为 px，字符串可以是任意 CSS 长度；对象可分别控制 top/right/bottom/left
+   * @default undefined
+   */
+  fullscreenInset: {
+    type: [String, Number, Object] as PropType<DialogFullscreenInset>,
+    default: undefined,
   },
   /**
    * 是否显示遮罩

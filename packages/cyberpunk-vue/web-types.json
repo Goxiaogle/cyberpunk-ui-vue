@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.5",
+  "version": "1.13.6",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -95,6 +95,26 @@
           "description": "CpContainer 页面布局容器",
           "source": {
             "symbol": "CpContainer"
+          }
+        },
+        {
+          "name": "cp-date-picker",
+          "description": "CpDatePicker 日期选择器\n\n可嵌入日期面板，年份置于左侧，月份置于右侧。",
+          "source": {
+            "symbol": "CpDatePicker"
+          }
+        },
+        {
+          "name": "cp-date-picker-select",
+          "source": {
+            "symbol": "CpDatePickerSelect"
+          }
+        },
+        {
+          "name": "cp-date-time-picker",
+          "description": "CpDateTimePicker 日期时间选择器\n\n支持日期与时间组合选择、日期时间范围选择和确认式提交。",
+          "source": {
+            "symbol": "CpDateTimePicker"
           }
         },
         {
@@ -382,6 +402,13 @@
           "description": "CpTimelineItem 赛博朋克风格时间轴子项\n\n支持激活态、脉冲/发光/闪烁动画、空心节点、图标节点、丰富插槽。",
           "source": {
             "symbol": "CpTimelineItem"
+          }
+        },
+        {
+          "name": "cp-time-picker",
+          "description": "CpTimePicker 时间选择器\n\n支持单时间、时间范围、时分秒步长和禁用时间段。",
+          "source": {
+            "symbol": "CpTimePicker"
           }
         },
         {
@@ -2301,6 +2328,211 @@
           ]
         },
         {
+          "name": "cp-date-picker",
+          "source": {
+            "symbol": "CpDatePicker"
+          },
+          "description": "CpDatePicker 日期选择器\n\n可嵌入日期面板，年份置于左侧，月份置于右侧。",
+          "props": [
+            {
+              "name": "modelValue",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 988
+              },
+              "description": "绑定值 (v-model)",
+              "default": "null",
+              "type": [
+                "string | number | Date | null | undefined"
+              ]
+            },
+            {
+              "name": "valueFormat",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1165
+              },
+              "description": "输出值格式。为空时输出 Date；传入 `timestamp` 时输出时间戳。",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "title",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1265
+              },
+              "description": "标题文本",
+              "default": "'选择日期'",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "showAdjacentMonths",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1367
+              },
+              "description": "是否显示相邻月份日期",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "viewMode",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1478
+              },
+              "description": "初始视图模式",
+              "default": "'day'",
+              "type": [
+                "'day' | 'month' | 'year'"
+              ]
+            },
+            {
+              "name": "defaultValue",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1615
+              },
+              "description": "默认展示日期",
+              "type": [
+                "string | number | Date"
+              ]
+            },
+            {
+              "name": "min",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1800
+              },
+              "description": "最小可选日期",
+              "type": [
+                "string | number | Date"
+              ]
+            },
+            {
+              "name": "max",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 1976
+              },
+              "description": "最大可选日期",
+              "type": [
+                "string | number | Date"
+              ]
+            },
+            {
+              "name": "disabledDate",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 2130
+              },
+              "description": "禁用日期判断函数",
+              "type": [
+                "(date: Date) => boolean"
+              ]
+            },
+            {
+              "name": "color",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 2275
+              },
+              "description": "自定义主题色",
+              "default": "''",
+              "type": [
+                "string"
+              ]
+            },
+            {
+              "name": "disabled",
+              "source": {
+                "file": "../components/date-picker/src/date-picker.ts",
+                "offset": 2372
+              },
+              "description": "是否禁用整个面板",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "update:modelValue",
+                "source": {
+                  "file": "../components/date-picker/src/date-picker.ts",
+                  "offset": 2608
+                },
+                "description": "v-model 更新事件"
+              },
+              {
+                "name": "change",
+                "source": {
+                  "file": "../components/date-picker/src/date-picker.ts",
+                  "offset": 2689
+                },
+                "description": "值变化事件"
+              },
+              {
+                "name": "update:month",
+                "source": {
+                  "file": "../components/date-picker/src/date-picker.ts",
+                  "offset": 2760
+                },
+                "description": "展示月份变化事件"
+              },
+              {
+                "name": "update:year",
+                "source": {
+                  "file": "../components/date-picker/src/date-picker.ts",
+                  "offset": 2848
+                },
+                "description": "展示年份变化事件"
+              },
+              {
+                "name": "update:viewMode",
+                "source": {
+                  "file": "../components/date-picker/src/date-picker.ts",
+                  "offset": 2933
+                },
+                "description": "视图模式变化事件"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cp-date-picker-select",
+          "source": {
+            "symbol": "CpDatePickerSelect"
+          }
+        },
+        {
+          "name": "cp-date-time-picker",
+          "source": {
+            "symbol": "CpDateTimePicker"
+          },
+          "description": "CpDateTimePicker 日期时间选择器\n\n支持日期与时间组合选择、日期时间范围选择和确认式提交。",
+          "props": [
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/date-time-picker/src/date-time-picker.ts",
+                "offset": 807
+              },
+              "description": "日期时间选择器类型",
+              "default": "'datetime'"
+            }
+          ]
+        },
+        {
           "name": "cp-descriptions",
           "source": {
             "symbol": "CpDescriptions"
@@ -2641,7 +2873,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1589
+                "offset": 2069
               },
               "description": "是否显示对话框 (v-model)",
               "default": "false",
@@ -2653,7 +2885,7 @@
               "name": "title",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1697
+                "offset": 2177
               },
               "description": "对话框标题",
               "default": "''",
@@ -2665,7 +2897,7 @@
               "name": "width",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1830
+                "offset": 2310
               },
               "description": "对话框宽度\n数字则为 px，字符串可以是任意 CSS 值",
               "default": "'520px'",
@@ -2677,7 +2909,7 @@
               "name": "top",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 1979
+                "offset": 2459
               },
               "description": "距离顶部的距离",
               "default": "'15vh'",
@@ -2689,7 +2921,7 @@
               "name": "fullscreen",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2084
+                "offset": 2564
               },
               "description": "是否全屏显示",
               "default": "false",
@@ -2698,10 +2930,21 @@
               ]
             },
             {
+              "name": "fullscreenInset",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 2742
+              },
+              "description": "全屏模式下对话框相对视口的安全边距\n数字则为 px，字符串可以是任意 CSS 长度；对象可分别控制 top/right/bottom/left",
+              "type": [
+                "DialogFullscreenInsetValue | Partial<Record<'top' | 'right' | 'bottom' | 'left', DialogFullscreenInsetValue>>"
+              ]
+            },
+            {
               "name": "modal",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2195
+                "offset": 2910
               },
               "description": "是否显示遮罩",
               "default": "true",
@@ -2713,7 +2956,7 @@
               "name": "appendToBody",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2335
+                "offset": 3050
               },
               "description": "是否将对话框挂载到 body\n嵌套 Dialog 时建议设为 true",
               "default": "true",
@@ -2725,7 +2968,7 @@
               "name": "closeOnClickModal",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2449
+                "offset": 3164
               },
               "description": "点击遮罩是否关闭",
               "default": "true",
@@ -2737,7 +2980,7 @@
               "name": "closeOnEscape",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2571
+                "offset": 3286
               },
               "description": "按下 ESC 是否关闭",
               "default": "true",
@@ -2749,7 +2992,7 @@
               "name": "showClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2686
+                "offset": 3401
               },
               "description": "是否显示关闭按钮",
               "default": "true",
@@ -2761,7 +3004,7 @@
               "name": "beforeClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2831
+                "offset": 3546
               },
               "description": "关闭前回调，调用 done() 才真正关闭\ndone(true) 表示取消关闭\n可用于关闭前二次确认",
               "type": [
@@ -2772,7 +3015,7 @@
               "name": "draggable",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 2983
+                "offset": 3698
               },
               "description": "是否可拖拽移动",
               "default": "false",
@@ -2784,7 +3027,7 @@
               "name": "overflow",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3101
+                "offset": 3816
               },
               "description": "拖拽时是否允许超出视口边界",
               "default": "false",
@@ -2796,7 +3039,7 @@
               "name": "lockScroll",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3215
+                "offset": 3930
               },
               "description": "打开时是否锁定页面滚动",
               "default": "true",
@@ -2808,7 +3051,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3327
+                "offset": 4042
               },
               "description": "对话框变体",
               "default": "'solid'",
@@ -2820,7 +3063,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3464
+                "offset": 4179
               },
               "description": "对话框形状",
               "default": "'clip'",
@@ -2832,7 +3075,7 @@
               "name": "type",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3600
+                "offset": 4315
               },
               "description": "主题颜色类型",
               "default": "'default'",
@@ -2844,7 +3087,7 @@
               "name": "destroyOnClose",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3734
+                "offset": 4449
               },
               "description": "关闭时销毁内容",
               "default": "false",
@@ -2856,7 +3099,7 @@
               "name": "center",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3867
+                "offset": 4582
               },
               "description": "居中布局（标题和 footer 对齐方式居中）",
               "default": "false",
@@ -2868,7 +3111,7 @@
               "name": "alignCenter",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 3986
+                "offset": 4701
               },
               "description": "垂直居中布局（容器在屏幕中垂直居中）",
               "default": "true",
@@ -2880,7 +3123,7 @@
               "name": "headerBorder",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4100
+                "offset": 4815
               },
               "description": "是否显示头部分隔线",
               "default": "true",
@@ -2892,7 +3135,7 @@
               "name": "footerBorder",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4215
+                "offset": 4930
               },
               "description": "是否显示底部分隔线",
               "default": "true",
@@ -2904,7 +3147,7 @@
               "name": "color",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4363
+                "offset": 5078
               },
               "description": "自定义主色调，优先于 type\n支持任意 CSS 颜色值",
               "default": "''",
@@ -2916,7 +3159,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4446
+                "offset": 5161
               },
               "description": "自定义背景颜色",
               "default": "''",
@@ -2928,7 +3171,7 @@
               "name": "borderColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4531
+                "offset": 5246
               },
               "description": "自定义边框颜色",
               "default": "''",
@@ -2940,7 +3183,7 @@
               "name": "titleColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4622
+                "offset": 5337
               },
               "description": "自定义标题文字颜色",
               "default": "''",
@@ -2952,7 +3195,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4713
+                "offset": 5428
               },
               "description": "自定义内容区文字颜色",
               "default": "''",
@@ -2964,7 +3207,7 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4800
+                "offset": 5515
               },
               "description": "自定义遮罩颜色",
               "default": "''",
@@ -2976,7 +3219,7 @@
               "name": "closeColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4892
+                "offset": 5607
               },
               "description": "自定义关闭按钮颜色",
               "default": "''",
@@ -2988,7 +3231,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 4983
+                "offset": 5698
               },
               "description": "自定义头部分隔线颜色",
               "default": "''",
@@ -3000,7 +3243,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5082
+                "offset": 5797
               },
               "description": "自定义底部分隔线颜色",
               "default": "''",
@@ -3012,7 +3255,7 @@
               "name": "dialogClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5218
+                "offset": 5933
               },
               "description": "对话框根容器自定义 class",
               "type": [
@@ -3023,7 +3266,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5368
+                "offset": 6083
               },
               "description": "头部区域自定义 class",
               "type": [
@@ -3034,7 +3277,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5520
+                "offset": 6235
               },
               "description": "主体内容区域自定义 class",
               "type": [
@@ -3045,7 +3288,7 @@
               "name": "footerClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5668
+                "offset": 6383
               },
               "description": "底部区域自定义 class",
               "type": [
@@ -3056,7 +3299,7 @@
               "name": "overlayClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5817
+                "offset": 6532
               },
               "description": "遮罩层自定义 class",
               "type": [
@@ -3067,7 +3310,7 @@
               "name": "modalClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 5987
+                "offset": 6702
               },
               "description": "遮罩层追加 class（与 overlayClass 合并使用）",
               "default": "''",
@@ -3079,7 +3322,7 @@
               "name": "dialogStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6114
+                "offset": 6829
               },
               "description": "对话框面板自定义 style",
               "type": [
@@ -3090,7 +3333,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6262
+                "offset": 6977
               },
               "description": "头部区域自定义 style",
               "type": [
@@ -3101,7 +3344,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6412
+                "offset": 7127
               },
               "description": "主体内容区域自定义 style",
               "type": [
@@ -3112,7 +3355,7 @@
               "name": "footerStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6558
+                "offset": 7273
               },
               "description": "底部区域自定义 style",
               "type": [
@@ -3123,7 +3366,7 @@
               "name": "overlayStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6705
+                "offset": 7420
               },
               "description": "遮罩层自定义 style",
               "type": [
@@ -3134,7 +3377,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6891
+                "offset": 7606
               },
               "description": "是否处于加载状态\n加载时会在对话框面板上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -3146,7 +3389,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 6997
+                "offset": 7712
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -3158,7 +3401,7 @@
               "name": "loadingClass",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7087
+                "offset": 7802
               },
               "description": "加载遮罩自定义类名",
               "type": [
@@ -3169,7 +3412,7 @@
               "name": "loadingStyle",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7227
+                "offset": 7942
               },
               "description": "加载遮罩自定义样式",
               "type": [
@@ -3180,7 +3423,7 @@
               "name": "zIndex",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7384
+                "offset": 8099
               },
               "description": "z-index",
               "default": "2000",
@@ -3192,7 +3435,7 @@
               "name": "showConfirmButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7543
+                "offset": 8258
               },
               "description": "是否显示确认按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3204,7 +3447,7 @@
               "name": "showCancelButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7680
+                "offset": 8395
               },
               "description": "是否显示取消按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3216,7 +3459,7 @@
               "name": "confirmText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7796
+                "offset": 8511
               },
               "description": "确认按钮文本",
               "default": "'确认'",
@@ -3228,7 +3471,7 @@
               "name": "cancelText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 7906
+                "offset": 8621
               },
               "description": "取消按钮文本",
               "default": "'取消'",
@@ -3261,7 +3504,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8120
+                  "offset": 8835
                 },
                 "description": "v-model 更新事件"
               },
@@ -3269,7 +3512,7 @@
                 "name": "open",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8218
+                  "offset": 8933
                 },
                 "description": "对话框打开时触发（动画开始前）"
               },
@@ -3277,7 +3520,7 @@
                 "name": "opened",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8262
+                  "offset": 8977
                 },
                 "description": "对话框打开动画结束后触发"
               },
@@ -3285,7 +3528,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8311
+                  "offset": 9026
                 },
                 "description": "对话框关闭时触发（动画开始前）"
               },
@@ -3293,7 +3536,7 @@
                 "name": "closed",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8356
+                  "offset": 9071
                 },
                 "description": "对话框关闭动画结束后触发"
               },
@@ -3301,7 +3544,7 @@
                 "name": "confirm",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8399
+                  "offset": 9114
                 },
                 "description": "点击确认按钮时触发"
               },
@@ -3309,7 +3552,7 @@
                 "name": "cancel",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8443
+                  "offset": 9158
                 },
                 "description": "点击取消按钮时触发"
               }
@@ -8067,7 +8310,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4575
+                "offset": 5493
               },
               "description": "表格数据",
               "default": "() => []",
@@ -8079,7 +8322,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4696
+                "offset": 5614
               },
               "description": "尺寸",
               "default": "'md'",
@@ -8091,7 +8334,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4835
+                "offset": 5753
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -8103,7 +8346,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 4968
+                "offset": 5886
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -8115,7 +8358,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5076
+                "offset": 5994
               },
               "description": "是否显示边框",
               "default": "false",
@@ -8127,7 +8370,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5185
+                "offset": 6103
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -8139,7 +8382,7 @@
               "name": "rowClassName",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5615
+                "offset": 6533
               },
               "description": "行 class 名\n\n可传字符串、数组、对象，或函数按行动态返回 class。函数参数包含当前行数据与渲染索引。\n常用于根据业务状态高亮一行或多行；组件内置可直接使用的状态类：\n`is-success-row`、`is-warning-row`、`is-error-row`、`is-info-row`。",
               "default": "''",
@@ -8151,7 +8394,7 @@
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5762
+                "offset": 6680
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -8162,7 +8405,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5864
+                "offset": 6782
               },
               "description": "最大高度",
               "type": [
@@ -8173,7 +8416,7 @@
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5992
+                "offset": 6910
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -8185,7 +8428,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6104
+                "offset": 7022
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -8197,18 +8440,53 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6253
+                "offset": 7213
               },
-              "description": "默认排序",
+              "description": "默认排序\n\n仅作为非受控模式下的初始排序状态；后续外部变更不会自动覆盖内部状态。",
               "type": [
                 "SortState"
+              ]
+            },
+            {
+              "name": "sortState",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 7515
+              },
+              "description": "受控排序状态（配合 `v-model:sort-state`）\n\n传入后排序状态由外部维护；组件点击表头只触发 `update:sortState`\n与 `sort-change`，视觉状态会跟随外部传回的新值。",
+              "type": [
+                "SortState"
+              ]
+            },
+            {
+              "name": "manualSort",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 7786
+              },
+              "description": "手动排序模式\n\n开启后组件只维护排序状态与排序图标，不会对 `data` 做本地排序。\n适用于服务端排序、URL 状态同步、外部 store 管理等场景。\n\n也可以在列上设置 `sortable=\"custom\"` 仅让某一列进入手动排序。",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "sortOrders",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 8007
+              },
+              "description": "排序切换顺序\n\n默认按升序、降序、取消排序循环。可传 `['descending', 'ascending']`\n让列始终保持有序状态，不进入取消排序。",
+              "default": "() => ['ascending', 'descending', null]",
+              "type": [
+                "SortOrder[]"
               ]
             },
             {
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6396
+                "offset": 8201
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -8220,7 +8498,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6498
+                "offset": 8303
               },
               "description": "是否显示表头",
               "default": "true",
@@ -8232,7 +8510,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6640
+                "offset": 8445
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -8244,7 +8522,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6754
+                "offset": 8559
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -8256,7 +8534,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6892
+                "offset": 8697
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
@@ -8268,7 +8546,7 @@
               "name": "treeProps",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7047
+                "offset": 8852
               },
               "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
               "type": [
@@ -8279,7 +8557,7 @@
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7194
+                "offset": 8999
               },
               "description": "是否默认展开所有树形行",
               "default": "false",
@@ -8291,7 +8569,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7311
+                "offset": 9116
               },
               "description": "每级层级缩进像素",
               "default": "16",
@@ -8303,7 +8581,7 @@
               "name": "expandRowKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7465
+                "offset": 9270
               },
               "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式，由外部决定哪些行处于展开状态",
               "type": [
@@ -8314,7 +8592,7 @@
               "name": "rowExpandable",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7731
+                "offset": 9536
               },
               "description": "控制每行是否可展开\n不传则所有行均可展开；返回 false 的行不显示展开按钮",
               "type": [
@@ -8325,7 +8603,7 @@
               "name": "treeCheckMode",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8134
+                "offset": 9939
               },
               "description": "树形 + 多选场景下，父子节点的联动策略\n- `'strict'`（默认）：父子独立，互不影响\n- `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）\n- `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父（子全部取消时父仍可保持选中）\n仅在同时启用 `treeProps` 与 `type=\"selection\"` 列时生效",
               "default": "'strict'",
@@ -8337,7 +8615,7 @@
               "name": "selectionPayload",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8476
+                "offset": 10281
               },
               "description": "selection-change / select / select-all 事件 payload 的输出形态\n- `'rows'`（默认）：数组，每项是完整行对象（等价原行为）\n- `'keys'`：数组，每项是该行的 rowKey 值\n- `'detail'`：结构化对象 `{ rows, keys, halfRows, halfKeys }`，同时返回全选与半选",
               "default": "'rows'",
@@ -8349,7 +8627,7 @@
               "name": "includeHalfChecked",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8786
+                "offset": 10591
               },
               "description": "`selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组\n仅在联动模式（cascade / bubble）下可能产生半选节点\n`selectionPayload === 'detail'` 时此 prop 无效（detail 本身已分离全选与半选）",
               "default": "false",
@@ -8361,7 +8639,7 @@
               "name": "checkedKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 9417
+                "offset": 11222
               },
               "description": "受控选中 rowKey 数组（配合 `v-model:checked-keys`）\n典型场景：表单回填、编辑已有记录、权限/批量分配等\n\n- 传入 `undefined`（默认）：组件使用内部状态，非受控\n- 传入数组（含空数组）：进入受控模式，外部数组为真相来源\n\n回填时**不做级联归一化**：传 `[3]` 就只选中 id=3 那一行，即便在 cascade/bubble 模式下也不会\n自动补勾父节点或后代。父节点的 indeterminate 视觉态由组件自动计算。\n这样保证 `v-model:checkedKeys` 读写对称——`getSelectionKeys()` 输出什么，回填就能用什么。",
               "type": [
@@ -8375,7 +8653,7 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9744
+                  "offset": 11547
                 },
                 "description": "排序变化"
               },
@@ -8383,7 +8661,7 @@
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9808
+                  "offset": 11619
                 },
                 "description": "行点击"
               },
@@ -8391,7 +8669,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9894
+                  "offset": 11705
                 },
                 "description": "选中行变化"
               },
@@ -8399,7 +8677,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 9969
+                  "offset": 11780
                 },
                 "description": "全选"
               },
@@ -8407,7 +8685,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 10040
+                  "offset": 11851
                 },
                 "description": "单行选中"
               },
@@ -8415,7 +8693,7 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 10118
+                  "offset": 11929
                 },
                 "description": "当前行变化"
               },
@@ -8423,7 +8701,7 @@
                 "name": "expand-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 10224
+                  "offset": 12035
                 },
                 "description": "树形行展开/折叠 或 行展开列展开/折叠"
               },
@@ -8431,9 +8709,17 @@
                 "name": "update:checkedKeys",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 10338
+                  "offset": 12148
                 },
                 "description": "受控 checkedKeys 变化（用于 `v-model:checked-keys`）"
+              },
+              {
+                "name": "update:sortState",
+                "source": {
+                  "file": "../components/table/src/table.ts",
+                  "offset": 12259
+                },
+                "description": "受控 sortState 变化（用于 `v-model:sort-state`）"
               }
             ]
           }
@@ -8449,7 +8735,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1368
+                "offset": 1546
               },
               "description": "列特殊类型",
               "default": "'default'",
@@ -8461,7 +8747,7 @@
               "name": "prop",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1497
+                "offset": 1675
               },
               "description": "数据字段名",
               "default": "''",
@@ -8473,7 +8759,7 @@
               "name": "label",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1593
+                "offset": 1771
               },
               "description": "列标题",
               "default": "''",
@@ -8485,7 +8771,7 @@
               "name": "width",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1681
+                "offset": 1859
               },
               "description": "列宽 (px 或百分比)",
               "type": [
@@ -8496,7 +8782,7 @@
               "name": "minWidth",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1782
+                "offset": 1960
               },
               "description": "最小列宽",
               "type": [
@@ -8507,19 +8793,52 @@
               "name": "sortable",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1908
+                "offset": 2188
               },
-              "description": "是否可排序",
+              "description": "是否可排序\n\n- `false`：不可排序\n- `true`：使用 CpTable 内置本地排序\n- `'custom'`：只触发排序状态和事件，不做本地排序，适用于远程排序",
               "default": "false",
               "type": [
-                "boolean"
+                "boolean | 'custom'"
+              ]
+            },
+            {
+              "name": "sortMethod",
+              "source": {
+                "file": "../components/table-column/src/table-column.ts",
+                "offset": 2408
+              },
+              "description": "自定义本地排序函数\n\n仅在 `sortable` 为 `true` 且表格未开启 `manualSort` 时生效。\n返回值规则与 `Array.prototype.sort` 一致。",
+              "type": [
+                "(a: any, b: any, order: Exclude<SortOrder, null>) => number"
+              ]
+            },
+            {
+              "name": "sortBy",
+              "source": {
+                "file": "../components/table-column/src/table-column.ts",
+                "offset": 2603
+              },
+              "description": "自定义排序取值\n\n支持字段名、字段名数组（依次比较）或函数。未设置时使用 `prop`。\n可用于展示字段与排序字段不一致，或需要嵌套字段排序的场景。",
+              "type": [
+                "string | string[] | ((row: any) => any)"
+              ]
+            },
+            {
+              "name": "sortOrders",
+              "source": {
+                "file": "../components/table-column/src/table-column.ts",
+                "offset": 2799
+              },
+              "description": "当前列的排序切换顺序\n\n未设置时继承 CpTable 的 `sortOrders`。",
+              "type": [
+                "SortOrder[]"
               ]
             },
             {
               "name": "align",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2019
+                "offset": 2935
               },
               "description": "内容对齐方式",
               "default": "'left'",
@@ -8531,7 +8850,7 @@
               "name": "headerAlign",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2159
+                "offset": 3075
               },
               "description": "表头对齐方式 (默认跟随 align)",
               "default": "''",
@@ -9455,6 +9774,24 @@
             {
               "name": "connector",
               "description": "自定义连线"
+            }
+          ]
+        },
+        {
+          "name": "cp-time-picker",
+          "source": {
+            "symbol": "CpTimePicker"
+          },
+          "description": "CpTimePicker 时间选择器\n\n支持单时间、时间范围、时分秒步长和禁用时间段。",
+          "props": [
+            {
+              "name": "type",
+              "source": {
+                "file": "../components/time-picker/src/time-picker.ts",
+                "offset": 754
+              },
+              "description": "时间选择器类型",
+              "default": "'time'"
             }
           ]
         },

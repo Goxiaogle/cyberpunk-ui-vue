@@ -82,6 +82,18 @@ const meta: Meta<typeof CpTable> = {
       control: 'boolean',
       description: '禁用状态',
     },
+    manualSort: {
+      control: 'boolean',
+      description: '手动排序模式。开启后只维护排序状态和事件，不对 data 做本地排序，适用于远程排序',
+    },
+    sortState: {
+      control: false,
+      description: '受控排序状态，配合 v-model:sort-state 使用',
+    },
+    sortOrders: {
+      control: false,
+      description: '排序切换顺序，默认 ascending -> descending -> null',
+    },
   },
   args: {
     size: 'md',
@@ -95,6 +107,7 @@ const meta: Meta<typeof CpTable> = {
     loading: false,
     loadingText: '加载中...',
     disabled: false,
+    manualSort: false,
   },
 }
 
@@ -238,6 +251,85 @@ export const Sortable: Story = {
         <CpTableColumn prop="score" label="分数" sortable />
         <CpTableColumn prop="role" label="角色" />
       </CpTable>
+    `,
+  }),
+}
+
+/**
+ * 远程排序
+ *
+ * 开启 `manual-sort` 后，表格只更新排序状态并触发 `sort-change`，
+ * 不会对当前页 `data` 做本地排序。调用者可用 `v-model:sort-state`
+ * 绑定排序状态，再请求服务端返回已排序的数据。
+ */
+export const RemoteSorting: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn },
+    setup() {
+      const sourceData = mediumData.slice(0, 20)
+      const tableData = ref(sourceData.slice(0, 8))
+      const loading = ref(false)
+      const sortState = ref<{ prop: string, order: 'ascending' | 'descending' | null }>({
+        prop: '',
+        order: null,
+      })
+      let requestId = 0
+
+      const compareValue = (a: any, b: any, prop: string) => {
+        const valA = a[prop]
+        const valB = b[prop]
+        if (valA == null && valB == null) return 0
+        if (valA == null) return -1
+        if (valB == null) return 1
+        if (typeof valA === 'number' && typeof valB === 'number') return valA - valB
+        return String(valA).localeCompare(String(valB))
+      }
+
+      const fetchRemoteData = (nextSort = sortState.value) => {
+        const currentRequest = ++requestId
+        loading.value = true
+        window.setTimeout(() => {
+          if (currentRequest !== requestId) return
+          const nextData = [...sourceData]
+          if (nextSort.prop && nextSort.order) {
+            nextData.sort((a, b) => {
+              const result = compareValue(a, b, nextSort.prop)
+              return nextSort.order === 'ascending' ? result : -result
+            })
+          }
+          tableData.value = nextData.slice(0, 8)
+          loading.value = false
+        }, 500)
+      }
+
+      const onSortChange = (sort: { prop: string, order: 'ascending' | 'descending' | null }) => {
+        fetchRemoteData({ prop: sort.prop, order: sort.order })
+      }
+
+      return { tableData, loading, sortState, onSortChange }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <CpTable
+          v-model:sort-state="sortState"
+          :data="tableData"
+          :loading="loading"
+          manual-sort
+          stripe
+          border
+          loading-text="请求远程数据..."
+          @sort-change="onSortChange"
+        >
+          <CpTableColumn prop="id" label="ID" :width="60" sortable />
+          <CpTableColumn prop="name" label="姓名" sortable />
+          <CpTableColumn prop="age" label="年龄" sortable />
+          <CpTableColumn prop="score" label="分数" sortable />
+          <CpTableColumn prop="date" label="日期" sortable />
+        </CpTable>
+        <div style="color: var(--cp-text-muted); font-size: 12px;">
+          当前远程排序：{{ sortState.prop || '未排序' }} / {{ sortState.order || 'none' }}
+        </div>
+      </div>
     `,
   }),
 }

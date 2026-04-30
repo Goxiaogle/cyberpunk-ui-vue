@@ -322,6 +322,93 @@
 
 ---
 
+## CpDatePicker 日期面板
+
+赛博朋克风格日期面板。参考 Vuetify DatePicker 的 header / controls / month grid 分层，年份选择置于左侧，月份置于右侧，更符合中文日期选择习惯。
+
+### Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `modelValue` | `string \| number \| Date \| null \| undefined` | `null` | 绑定值 (v-model) |
+| `valueFormat` | `string` | `''` | 输出值格式。为空时输出 Date；传入 `timestamp` 时输出时间戳。 |
+| `title` | `string` | `'选择日期'` | 标题文本 |
+| `showAdjacentMonths` | `boolean` | `true` | 是否显示相邻月份日期 |
+| `viewMode` | `'day' \| 'month' \| 'year'` | `'day'` | 初始视图模式 |
+| `defaultValue` | `Exclude<DatePickerValue, null \| undefined` | `undefined` | 默认展示日期 |
+| `min` | `Exclude<DatePickerValue, null \| undefined` | `undefined` | 最小可选日期 |
+| `max` | `Exclude<DatePickerValue, null \| undefined` | `undefined` | 最大可选日期 |
+| `disabledDate` | `(date: Date) =` | — | 禁用日期判断函数 |
+| `color` | `string` | `''` | 自定义主题色 |
+| `disabled` | `boolean` | `false` | 是否禁用整个面板 |
+
+### 事件
+
+| 事件名 | 参数 | 说明 |
+|--------|------|------|
+| `change` | `(_value: DatePickerValue)` | 值变化事件 |
+
+### 插槽
+
+| 名称 | 说明 |
+|------|------|
+| `day` | 自定义日期单元格内容 |
+| `header` | 自定义顶部标题区 |
+| `actions` | 自定义底部操作区 |
+
+### 暴露方法
+
+| 方法 | 说明 |
+|------|------|
+| `goToday` | 跳转并选中今天 |
+| `setViewDate` | 设置当前展示年月 |
+
+### 示例
+
+```vue
+<CpDatePicker v-model="date" value-format="YYYY-MM-DD" show-adjacent-months />
+```
+
+---
+
+## CpDateTimePicker 日期时间选择器
+
+赛博朋克风格日期时间选择器，支持日期与时间组合选择以及日期时间范围选择。
+
+### Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `type` | — | `'datetime'` | 日期时间选择器类型 |
+
+### 插槽
+
+| 名称 | 说明 |
+|------|------|
+| `prefix` | 触发器前缀内容 |
+| `suffix` | 触发器后缀内容 |
+| `cell` | 自定义日期单元格内容 |
+| `footer` | 自定义面板底部操作区 |
+
+### 暴露方法
+
+| 方法 | 说明 |
+|------|------|
+| `open` | 打开选择器浮层 |
+| `close` | 关闭选择器浮层 |
+| `toggle` | 切换选择器浮层 |
+| `focus` | 聚焦触发器 |
+| `blur` | 失焦触发器 |
+
+### 示例
+
+```vue
+<CpDateTimePicker v-model="value" value-format="YYYY-MM-DD HH:mm:ss" />
+<CpDateTimePicker v-model="range" type="datetimerange" />
+```
+
+---
+
 ## CpSegmented 分段选择器
 
 赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。
@@ -567,6 +654,43 @@
 
 <!-- 异步切换 -->
 <CpSwitch v-model="enabled" :before-change="handleConfirm" />
+```
+
+---
+
+## CpTimePicker 时间选择器
+
+赛博朋克风格时间选择器，支持单时间、时间范围、时分秒步长和禁用时间段。
+
+### Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `type` | — | `'time'` | 时间选择器类型 |
+
+### 插槽
+
+| 名称 | 说明 |
+|------|------|
+| `prefix` | 触发器前缀内容 |
+| `suffix` | 触发器后缀内容 |
+| `footer` | 自定义面板底部操作区 |
+
+### 暴露方法
+
+| 方法 | 说明 |
+|------|------|
+| `open` | 打开选择器浮层 |
+| `close` | 关闭选择器浮层 |
+| `toggle` | 切换选择器浮层 |
+| `focus` | 聚焦触发器 |
+| `blur` | 失焦触发器 |
+
+### 示例
+
+```vue
+<CpTimePicker v-model="time" value-format="HH:mm:ss" />
+<CpTimePicker v-model="range" type="timerange" :minute-step="5" />
 ```
 
 ---

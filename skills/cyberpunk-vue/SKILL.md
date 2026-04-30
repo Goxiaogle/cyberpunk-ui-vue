@@ -76,10 +76,13 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 | CpInput / CpInputNumber / CpTextarea 输入框 | 赛博朋克风格输入框组件，支持多种尺寸、形态变体、可清空功能。 |
 | CpCheckbox / CpCheckboxGroup 复选框 | 赛博朋克风格复选框组件，支持半选状态、分组、自定义颜色。 |
 | CpRadio / CpRadioGroup 单选框 | 赛博朋克风格单选框组件，支持分组、自定义颜色、多种尺寸。 |
+| CpDatePicker 日期面板 | 赛博朋克风格日期面板。参考 Vuetify DatePicker 的 header / controls / month grid 分层，年份选择置于左侧，月份置于右侧，更符合中文日期选择习惯。 |
+| CpDateTimePicker 日期时间选择器 | 赛博朋克风格日期时间选择器，支持日期与时间组合选择以及日期时间范围选择。 |
 | CpSegmented 分段选择器 | 赛博朋克风格分段选择器，一组按钮式互斥选项，选中项带滑块高亮效果。 |
 | CpSelect 下拉选择 | 赛博朋克风格下拉选择器，支持多种尺寸、形态变体、可搜索/可清空功能。 |
 | CpSlider 滑块 | 赛博朋克风格滑块组件，用于在给定的数值范围内进行选择。 |
 | CpSwitch 开关 | 赛博朋克风格开关组件，支持异步切换、内嵌文字、自定义颜色。 |
+| CpTimePicker 时间选择器 | 赛博朋克风格时间选择器，支持单时间、时间范围、时分秒步长和禁用时间段。 |
 | CpUpload 上传 | 赛博朋克风格文件上传组件，支持拖拽、图片预览、多种变体和形状。 |
 
 ### 展示组件属性参考

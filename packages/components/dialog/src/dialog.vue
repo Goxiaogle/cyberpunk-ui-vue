@@ -6,7 +6,7 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, provide, toRef, useAttrs, h, type CSSProperties } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
-import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn } from './dialog'
+import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn, type DialogFullscreenInsetValue } from './dialog'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 
@@ -143,6 +143,11 @@ const realColorLight = computed(() => {
   return null
 })
 
+const formatCssSize = (value: DialogFullscreenInsetValue | undefined) => {
+  if (typeof value === 'number') return `${value}px`
+  return value
+}
+
 // ===== 面板 CSS 变量 =====
 const dialogCssVars = computed<Record<string, string>>(() => {
   const vars: Record<string, string> = {}
@@ -178,6 +183,37 @@ const dialogStyle = computed<CSSProperties>(() => {
       Object.assign(style, props.dialogStyle)
     }
   }
+
+  return style
+})
+
+// ===== 全屏安全边距 =====
+const wrapperStyle = computed<CSSProperties>(() => {
+  const style: CSSProperties = {}
+
+  if (!props.fullscreen || props.fullscreenInset === undefined) {
+    return style
+  }
+
+  if (typeof props.fullscreenInset === 'string' || typeof props.fullscreenInset === 'number') {
+    const inset = formatCssSize(props.fullscreenInset)
+    style['--cp-dialog-fullscreen-inset-top'] = inset
+    style['--cp-dialog-fullscreen-inset-right'] = inset
+    style['--cp-dialog-fullscreen-inset-bottom'] = inset
+    style['--cp-dialog-fullscreen-inset-left'] = inset
+    return style
+  }
+
+  const { top, right, bottom, left } = props.fullscreenInset
+  const insetTop = formatCssSize(top)
+  const insetRight = formatCssSize(right)
+  const insetBottom = formatCssSize(bottom)
+  const insetLeft = formatCssSize(left)
+
+  if (insetTop !== undefined) style['--cp-dialog-fullscreen-inset-top'] = insetTop
+  if (insetRight !== undefined) style['--cp-dialog-fullscreen-inset-right'] = insetRight
+  if (insetBottom !== undefined) style['--cp-dialog-fullscreen-inset-bottom'] = insetBottom
+  if (insetLeft !== undefined) style['--cp-dialog-fullscreen-inset-left'] = insetLeft
 
   return style
 })
@@ -443,7 +479,7 @@ defineExpose({
         :style="overlayStyleObj"
         @click.self="handleOverlayClick"
       >
-        <div :class="wrapperClasses" @click.self="handleOverlayClick">
+        <div :class="wrapperClasses" :style="wrapperStyle" @click.self="handleOverlayClick">
           <div
             ref="panelRef"
             v-bind="$attrs"

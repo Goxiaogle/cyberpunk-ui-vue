@@ -203,6 +203,9 @@
 | `emptyText` | `string` | `'暂无数据'` | 空数据文案 |
 | `rowKey` | `string \| ((row: any) =` | `'id'` | 行唯一标识字段名 |
 | `defaultSort` | `SortState` | — | 默认排序 |
+| `sortState` | `SortState` | — | 受控排序状态（配合 `v-model:sort-state`） |
+| `manualSort` | `boolean` | `false` | 手动排序模式 |
+| `sortOrders` | `SortOrder[]` | `['ascending', 'descending', null]` | 排序切换顺序 |
 | `color` | `string` | `''` | 自定义主题色（CSS 颜色值） |
 | `showHeader` | `boolean` | `true` | 是否显示表头 |
 | `loading` | `boolean` | `false` | 是否处于加载状态 |
@@ -222,7 +225,10 @@
 | `label` | `string` | `''` | 列标题 |
 | `width` | `string \| number` | — | 列宽 (px 或百分比) |
 | `minWidth` | `string \| number` | — | 最小列宽 |
-| `sortable` | `boolean` | `false` | 是否可排序 |
+| `sortable` | `ColumnSortable` | `false` | 是否可排序 |
+| `sortMethod` | `SortMethod` | — | 自定义本地排序函数 |
+| `sortBy` | `SortBy` | — | 自定义排序取值 |
+| `sortOrders` | `SortOrder[]` | `undefined` | 当前列的排序切换顺序 |
 | `align` | `'left' \| 'center' \| 'right'` | `'left'` | 内容对齐方式 |
 | `headerAlign` | `'left' \| 'center' \| 'right' \| ''` | `''` | 表头对齐方式 (默认跟随 align) |
 
@@ -230,7 +236,7 @@
 
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
-| `sort-change` | `(sortState: SortState)` | 排序变化 |
+| `sort-change` | `(_sortState: SortChangePayload)` | 排序变化 |
 | `row-click` | `(row: any, index: number, event: MouseEvent)` | 行点击 |
 | `selection-change` | `(selection: SelectionPayload)` | 选中行变化 |
 | `select-all` | `(selection: SelectionPayload)` | 全选 |
@@ -260,6 +266,16 @@
 #### CpTable
 
 ```vue
+<!-- 远程排序：只维护排序状态，不做本地排序 -->
+<CpTable
+  v-model:sort-state="sortState"
+  :data="tableData"
+  manual-sort
+  @sort-change="fetchTableData"
+>
+  <CpTableColumn prop="createdAt" label="创建时间" sortable />
+</CpTable>
+
 <!-- 基础用法 -->
 <CpTable :data="tableData" stripe border>
   <CpTableColumn prop="name" label="姓名" sortable />
@@ -283,6 +299,22 @@
   row-key="id"
   :row-expandable="(row) => !!row.details"
   :expand-row-keys="[1, 3]"
+  @expand-change="handleExpandChange"
+>
+  <CpTableColumn type="expand">
+    <template #default="{ row }">{{ row.details }}</template>
+  </CpTableColumn>
+  <CpTableColumn prop="name" label="姓名" />
+</CpTable>
+
+<!-- 行状态高亮：按业务条件返回 class -->
+<CpTable
+  :data="tableData"
+  :row-class-name="({ row }) => row.status === 'error' ? 'is-error-row' : ''"
+>
+  <CpTableColumn prop="name" label="姓名" />
+  <CpTableColumn prop="status" label="状态" />
+</CpTable>
 ```
 
 #### CpTableColumn
@@ -290,6 +322,7 @@
 ```vue
 <!-- 普通数据列 -->
 <CpTableColumn prop="name" label="姓名" sortable />
+<CpTableColumn prop="createdAt" label="创建时间" sortable="custom" />
 
 <!-- 自定义单元格渲染 -->
 <CpTableColumn prop="status" label="状态">
@@ -586,6 +619,7 @@
 | `width` | `string \| number` | `'520px'` | 对话框宽度 |
 | `top` | `string` | `'15vh'` | 距离顶部的距离 |
 | `fullscreen` | `boolean` | `false` | 是否全屏显示 |
+| `fullscreenInset` | `DialogFullscreenInsetValue \| Partial<Record<'top' \| 'right' \| 'bottom' \| 'left', DialogFullscreenInsetValue>>` | `undefined` | 全屏模式下对话框相对视口的安全边距 |
 | `modal` | `boolean` | `true` | 是否显示遮罩 |
 | `appendToBody` | `boolean` | `true` | 是否将对话框挂载到 body |
 | `closeOnClickModal` | `boolean` | `true` | 点击遮罩是否关闭 |
@@ -659,6 +693,10 @@
 
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
+| `--cp-dialog-fullscreen-inset-top` | `env(safe-area-inset-top, 0px)` |  |
+| `--cp-dialog-fullscreen-inset-right` | `env(safe-area-inset-right, 0px)` |  |
+| `--cp-dialog-fullscreen-inset-bottom` | `env(safe-area-inset-bottom, 0px)` |  |
+| `--cp-dialog-fullscreen-inset-left` | `env(safe-area-inset-left, 0px)` |  |
 | `--cp-dialog-color` | `var(--cp-color-#{$type})` |  |
 | `--cp-dialog-color-light` | `var(--cp-color-#{$type}-light)` |  |
 | `--cp-dialog-bg` | `color-mix(in srgb, var(--cp-bg-elevated) 80%, var(--cp-dialog-color))` |  |
@@ -673,6 +711,16 @@
     <CpButton @click="visible = false">取消</CpButton>
     <CpButton type="primary" @click="visible = false">确认</CpButton>
   </template>
+</CpDialog>
+
+<CpDialog
+  v-model="visible"
+  title="全屏安全边距"
+  fullscreen
+  :fullscreen-inset="{ top: '64px', right: '24px', bottom: '32px', left: '24px' }"
+  :body-style="{ padding: '24px 32px' }"
+>
+  <p>为固定顶栏、底栏或设备安全区预留空间。</p>
 </CpDialog>
 ```
 

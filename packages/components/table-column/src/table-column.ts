@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { ColumnSortable, SortBy, SortMethod, SortOrder } from '@cyberpunk-vue/components/table/src/table'
 
 /**
  * 列特殊类型
@@ -20,6 +21,7 @@ export type ColumnType = 'default' | 'selection' | 'index' | 'expand'
  * ```vue
  * <!-- 普通数据列 -->
  * <CpTableColumn prop="name" label="姓名" sortable />
+ * <CpTableColumn prop="createdAt" label="创建时间" sortable="custom" />
  *
  * <!-- 自定义单元格渲染 -->
  * <CpTableColumn prop="status" label="状态">
@@ -84,11 +86,47 @@ export const tableColumnProps = {
   },
   /**
    * 是否可排序
+   *
+   * - `false`：不可排序
+   * - `true`：使用 CpTable 内置本地排序
+   * - `'custom'`：只触发排序状态和事件，不做本地排序，适用于远程排序
+   *
    * @default false
    */
   sortable: {
-    type: Boolean,
+    type: [Boolean, String] as PropType<ColumnSortable>,
     default: false,
+  },
+  /**
+   * 自定义本地排序函数
+   *
+   * 仅在 `sortable` 为 `true` 且表格未开启 `manualSort` 时生效。
+   * 返回值规则与 `Array.prototype.sort` 一致。
+   */
+  sortMethod: {
+    type: Function as PropType<SortMethod>,
+    default: undefined,
+  },
+  /**
+   * 自定义排序取值
+   *
+   * 支持字段名、字段名数组（依次比较）或函数。未设置时使用 `prop`。
+   * 可用于展示字段与排序字段不一致，或需要嵌套字段排序的场景。
+   */
+  sortBy: {
+    type: [String, Array, Function] as PropType<SortBy>,
+    default: undefined,
+  },
+  /**
+   * 当前列的排序切换顺序
+   *
+   * 未设置时继承 CpTable 的 `sortOrders`。
+   *
+   * @default undefined
+   */
+  sortOrders: {
+    type: Array as PropType<SortOrder[]>,
+    default: undefined,
   },
   /**
    * 内容对齐方式

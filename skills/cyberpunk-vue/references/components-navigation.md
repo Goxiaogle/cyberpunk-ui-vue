@@ -79,6 +79,20 @@
 
 ### 示例
 
+#### CpMenu
+
+```vue
+<CpMenu default-active="1">
+  <CpMenuItem index="1">菜单项一</CpMenuItem>
+  <CpSubMenu index="2">
+    <template #title>子菜单</template>
+    <CpMenuItem index="2-1">子菜单项</CpMenuItem>
+  </CpSubMenu>
+</CpMenu>
+```
+
+#### CpMenuNav
+
 ```vue
 <CpMenuNav :data="menuData" default-active="1" />
 ```

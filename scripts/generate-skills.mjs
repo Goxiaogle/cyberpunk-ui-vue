@@ -117,14 +117,39 @@ function extractListTag(comment, tag) {
  * 提取 @example 代码块
  */
 function extractExample(comment) {
-  const regex = /@example\s*\n([\s\S]*?)(?=\n\s*\*\s*@[a-z]|\n\s*\*\/|$)/
-  const m = comment.match(regex)
-  if (!m) return ''
-  let code = m[1]
-    .split('\n')
-    .map((l) => l.replace(/^\s*\*\s?/, ''))
-    .join('\n')
-    .trim()
+  const lines = comment.split('\n')
+  const exampleStart = lines.findIndex((line) => line.replace(/^\s*\*\s?/, '').trim().startsWith('@example'))
+  if (exampleStart === -1) return ''
+
+  const knownTags = new Set([
+    'category',
+    'default',
+    'deprecated',
+    'description',
+    'displayName',
+    'example',
+    'exposes',
+    'internal',
+    'param',
+    'returns',
+    'slots',
+  ])
+  const codeLines = []
+  let inFence = false
+
+  for (let i = exampleStart + 1; i < lines.length; i++) {
+    const line = lines[i].replace(/^\s*\*\s?/, '')
+    const trimmed = line.trim()
+    const tagMatch = trimmed.match(/^@([A-Za-z][\w-]*)(?:\s|$)/)
+    if (!inFence && tagMatch && knownTags.has(tagMatch[1])) break
+
+    if (trimmed.startsWith('```')) {
+      inFence = !inFence
+    }
+    codeLines.push(line)
+  }
+
+  let code = codeLines.join('\n').trim()
   // 去掉外层 ```vue ... ``` (可能多种变体)
   code = code.replace(/^```\w*\r?\n/, '').replace(/\r?\n```\s*$/, '')
   return code.trim()

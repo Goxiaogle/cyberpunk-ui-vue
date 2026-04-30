@@ -83,9 +83,10 @@ $table-sizes: (
       --cp-table-row-selected-bg: color-mix(in srgb, #{$type-color} 8%, transparent);
 
       .cp-table__sort-caret {
-        &.is-ascending,
-        &.is-descending {
+        &.is-active {
           color: #{$type-color};
+          opacity: 1;
+          filter: drop-shadow(0 0 6px #{$type-color});
         }
       }
     }
@@ -180,7 +181,21 @@ $table-sizes: (
         background: rgba(255, 255, 255, 0.03);
 
         .cp-table__sort-caret {
-          opacity: 0.6;
+          opacity: 0.26;
+          color: var(--cp-text-muted);
+          filter: none;
+        }
+
+        .cp-table__sort-caret.is-active {
+          opacity: 1;
+          color: var(--cp-table-color);
+          filter: drop-shadow(0 0 7px var(--cp-table-color));
+        }
+      }
+
+      &:not(.is-ascending):not(.is-descending):hover {
+        .cp-table__sort-caret {
+          opacity: 0.32;
         }
       }
     }
@@ -202,15 +217,15 @@ $table-sizes: (
   }
 
   @include e(sort-caret) {
-    opacity: 0.2;
-    transition: all 0.2s ease;
+    opacity: 0.28;
+    transition: opacity 0.2s ease, color 0.2s ease, filter 0.2s ease;
     display: block;
     color: var(--cp-text-muted);
 
     &.is-active {
       opacity: 1;
       color: var(--cp-table-color);
-      filter: drop-shadow(0 0 4px var(--cp-table-color));
+      filter: drop-shadow(0 0 6px var(--cp-table-color));
     }
   }
 

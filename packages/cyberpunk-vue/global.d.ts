@@ -62,6 +62,19 @@ declare module 'vue' {
      */
     CpContainer: typeof import('cyberpunk-ui-vue')['CpContainer']
     /**
+     * CpDatePicker 日期选择器
+     * 
+     * 可嵌入日期面板，年份置于左侧，月份置于右侧。
+     */
+    CpDatePicker: typeof import('cyberpunk-ui-vue')['CpDatePicker']
+    CpDatePickerSelect: typeof import('cyberpunk-ui-vue')['CpDatePickerSelect']
+    /**
+     * CpDateTimePicker 日期时间选择器
+     * 
+     * 支持日期与时间组合选择、日期时间范围选择和确认式提交。
+     */
+    CpDateTimePicker: typeof import('cyberpunk-ui-vue')['CpDateTimePicker']
+    /**
      * CpDescriptions 描述列表组件
      */
     CpDescriptions: typeof import('cyberpunk-ui-vue')['CpDescriptions']
@@ -254,6 +267,12 @@ declare module 'vue' {
      * 支持激活态、脉冲/发光/闪烁动画、空心节点、图标节点、丰富插槽。
      */
     CpTimelineItem: typeof import('cyberpunk-ui-vue')['CpTimelineItem']
+    /**
+     * CpTimePicker 时间选择器
+     * 
+     * 支持单时间、时间范围、时分秒步长和禁用时间段。
+     */
+    CpTimePicker: typeof import('cyberpunk-ui-vue')['CpTimePicker']
     /**
      * CpTree 赛博朋克风格树形控件
      * 

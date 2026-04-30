@@ -5,7 +5,7 @@
  */
 import { computed, ref, shallowRef, toRaw, watch, provide } from 'vue'
 import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
-import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState, type SelectionDetail, type SelectionPayload } from './table'
+import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState, type SortChangePayload, type SelectionDetail, type SelectionPayload } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
@@ -39,50 +39,108 @@ const unregisterColumn = (id: string) => {
 provide(TABLE_CONTEXT_KEY, { registerColumn, unregisterColumn })
 
 // ===== 排序 =====
-const sortState = ref<SortState>({
+const innerSortState = ref<SortState>({
   prop: props.defaultSort?.prop || '',
   order: props.defaultSort?.order || null,
 })
 
+const isSortControlled = computed(() => props.sortState !== undefined)
+
+const currentSortState = computed<SortState>(() => props.sortState ?? innerSortState.value)
+
+const activeSortColumn = computed(() => {
+  const { prop } = currentSortState.value
+  if (!prop) return null
+  return columns.value.find(col => col.prop === prop) || null
+})
+
+const getValueByPath = (row: any, path: string) => {
+  if (!path) return undefined
+  return path.split('.').reduce((obj, key) => obj?.[key], row)
+}
+
+const getSortValue = (row: any, col: TableColumnConfig | null, prop: string) => {
+  const sortBy = col?.sortBy ?? prop
+  if (typeof sortBy === 'function') return sortBy(row)
+  if (Array.isArray(sortBy)) return sortBy.map(key => getValueByPath(row, key))
+  return getValueByPath(row, sortBy)
+}
+
+const compareSortValue = (valA: any, valB: any): number => {
+  if (Array.isArray(valA) || Array.isArray(valB)) {
+    const arrA = Array.isArray(valA) ? valA : [valA]
+    const arrB = Array.isArray(valB) ? valB : [valB]
+    const length = Math.max(arrA.length, arrB.length)
+    for (let i = 0; i < length; i++) {
+      const result = compareSortValue(arrA[i], arrB[i])
+      if (result !== 0) return result
+    }
+    return 0
+  }
+  if (valA == null && valB == null) return 0
+  if (valA == null) return -1
+  if (valB == null) return 1
+  if (typeof valA === 'number' && typeof valB === 'number') return valA - valB
+  return String(valA).localeCompare(String(valB))
+}
+
+const isManualSortColumn = (col: TableColumnConfig | null) =>
+  props.manualSort || col?.sortable === 'custom'
+
 const sortedData = computed(() => {
-  const { prop, order } = sortState.value
+  const { prop, order } = currentSortState.value
   if (!prop || !order) return [...props.data]
+  const col = activeSortColumn.value
+  if (isManualSortColumn(col)) return [...props.data]
 
   return [...props.data].sort((a, b) => {
-    const valA = a[prop]
-    const valB = b[prop]
-    if (valA == null && valB == null) return 0
-    if (valA == null) return order === 'ascending' ? -1 : 1
-    if (valB == null) return order === 'ascending' ? 1 : -1
-    if (typeof valA === 'number' && typeof valB === 'number') {
-      return order === 'ascending' ? valA - valB : valB - valA
+    if (col?.sortMethod) {
+      return col.sortMethod(a, b, order)
     }
-    const strA = String(valA)
-    const strB = String(valB)
-    return order === 'ascending' ? strA.localeCompare(strB) : strB.localeCompare(strA)
+    const result = compareSortValue(getSortValue(a, col, prop), getSortValue(b, col, prop))
+    return order === 'ascending' ? result : -result
   })
 })
 
+const getSortOrders = (col: TableColumnConfig): SortOrder[] => {
+  const orders = col.sortOrders?.length ? col.sortOrders : props.sortOrders
+  const normalized = orders.filter((order): order is SortOrder => order === 'ascending' || order === 'descending' || order === null)
+  return normalized.length > 0 ? normalized : ['ascending', 'descending', null]
+}
+
+const getNextSortOrder = (col: TableColumnConfig): SortOrder => {
+  const currentOrder = currentSortState.value.prop === col.prop ? currentSortState.value.order : null
+  const orders = getSortOrders(col)
+  const currentIndex = orders.findIndex(order => order === currentOrder)
+  return currentIndex === -1 ? orders[0] : orders[(currentIndex + 1) % orders.length]
+}
+
+const buildSortChangePayload = (state: SortState, column: TableColumnConfig | null): SortChangePayload => ({
+  ...state,
+  column,
+})
+
+const commitSortState = (state: SortState, column: TableColumnConfig | null) => {
+  if (!isSortControlled.value) {
+    innerSortState.value = state
+  }
+  emit('update:sortState', state)
+  emit('sort-change', buildSortChangePayload(state, column))
+}
+
 const handleSort = (col: TableColumnConfig) => {
   if (!col.sortable) return
-  const currentOrder = sortState.value.prop === col.prop ? sortState.value.order : null
-  let nextOrder: SortOrder = null
-  if (currentOrder === null) nextOrder = 'ascending'
-  else if (currentOrder === 'ascending') nextOrder = 'descending'
-  else nextOrder = null
-
-  sortState.value = { prop: col.prop, order: nextOrder }
-  emit('sort-change', sortState.value)
+  commitSortState({ prop: col.prop, order: getNextSortOrder(col) }, col)
 }
 
 const getSortClass = (col: TableColumnConfig) => {
   if (!col.sortable) return ''
-  if (sortState.value.prop !== col.prop) return ''
-  return sortState.value.order === 'ascending' ? 'is-ascending' : sortState.value.order === 'descending' ? 'is-descending' : ''
+  if (currentSortState.value.prop !== col.prop) return ''
+  return currentSortState.value.order === 'ascending' ? 'is-ascending' : currentSortState.value.order === 'descending' ? 'is-descending' : ''
 }
 
 const isSortActive = (col: TableColumnConfig, order: Exclude<SortOrder, null>) =>
-  sortState.value.prop === col.prop && sortState.value.order === order
+  currentSortState.value.prop === col.prop && currentSortState.value.order === order
 
 // ===== 选择 =====
 // 使用 shallowRef 避免 Vue 把 Set 包成 reactive 代理——
@@ -598,7 +656,7 @@ const getColStyle = (col: TableColumnConfig) => {
 const getCellValue = (row: any, col: TableColumnConfig) => {
   if (!col.prop) return ''
   // 支持嵌套属性 如 'address.city'
-  return col.prop.split('.').reduce((obj, key) => obj?.[key], row)
+  return getValueByPath(row, col.prop)
 }
 
 // 对齐样式
@@ -646,9 +704,15 @@ defineExpose({
   },
   /** 排序 */
   sort: (prop: string, order: SortOrder) => {
-    sortState.value = { prop, order }
-    emit('sort-change', sortState.value)
+    const column = columns.value.find(col => col.prop === prop) || null
+    commitSortState({ prop, order }, column)
   },
+  /** 清空排序 */
+  clearSort: () => {
+    commitSortState({ prop: '', order: null }, null)
+  },
+  /** 获取当前排序状态 */
+  getSortState: (): SortState => ({ ...currentSortState.value }),
   /** 设置当前行 */
   setCurrentRow: (row: any) => {
     const old = currentRow.value

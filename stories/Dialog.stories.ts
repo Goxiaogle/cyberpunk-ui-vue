@@ -43,6 +43,10 @@ const meta: Meta<typeof CpDialog> = {
       control: 'boolean',
       description: '全屏模式',
     },
+    fullscreenInset: {
+      control: 'object',
+      description: '全屏模式安全边距，可传统一 CSS 长度或分别设置 top/right/bottom/left',
+    },
     modal: {
       control: 'boolean',
       description: '是否显示遮罩',
@@ -401,6 +405,36 @@ export const 全屏模式: Story = {
         <CpDialog v-model="visible" title="全屏模式" fullscreen type="info">
           <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
             <CpText size="lg">全屏内容区域</CpText>
+          </div>
+        </CpDialog>
+      </div>
+    `,
+  }),
+}
+
+/** 全屏安全边距 */
+export const 全屏安全边距: Story = {
+  render: () => ({
+    components: { CpDialog, CpButton, CpText },
+    setup() {
+      const visible = ref(false)
+      return { visible }
+    },
+    template: `
+      <div style="padding: 40px;">
+        <CpButton type="info" @click="visible = true">带安全边距的全屏对话框</CpButton>
+        <CpDialog
+          v-model="visible"
+          title="全屏安全边距"
+          fullscreen
+          type="info"
+          :fullscreen-inset="{ top: '64px', right: '24px', bottom: '32px', left: '24px' }"
+          :body-style="{ padding: '24px 32px' }"
+          :header-style="{ padding: '16px 32px' }"
+          :footer-style="{ padding: '16px 32px' }"
+        >
+          <div style="height: 100%; display: grid; place-items: center; border: 1px dashed rgba(0,240,255,0.35);">
+            <CpText size="lg">顶部、两侧和底部都预留了空间，内容区仍可单独控制 padding。</CpText>
           </div>
         </CpDialog>
       </div>
