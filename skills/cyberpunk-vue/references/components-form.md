@@ -739,7 +739,7 @@
 
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
-| `change` | `(file: UploadFile, _fileList: UploadFile[])` | 文件列表变化 |
+| `change` | `(file: UploadFile, _fileList: UploadFile[])` | 文件选择、上传状态或文件列表变化 |
 | `success` | `(_response: unknown, file: UploadFile, _fileList: UploadFile[])` | 上传成功 |
 | `error` | `(_error: Error, file: UploadFile, _fileList: UploadFile[])` | 上传失败 |
 | `progress` | `(_percentage: number, file: UploadFile)` | 上传进度 |

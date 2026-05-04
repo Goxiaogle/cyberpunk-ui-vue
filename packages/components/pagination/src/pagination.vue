@@ -179,6 +179,7 @@ const handlePageChange = (page: number) => {
   innerCurrentPage.value = clamped
   emit('update:currentPage', clamped)
   emit('change', clamped)
+  emit('current-change', clamped)
 }
 
 const handlePrev = () => {
@@ -203,7 +204,9 @@ const handleSizeSelect = (val: string | number) => {
     emit('update:pageSize', newSize)
     emit('update:currentPage', 1)
     emit('sizeChange', newSize)
+    emit('size-change', newSize)
     emit('change', 1)
+    emit('current-change', 1)
   }
 }
 

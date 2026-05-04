@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.6",
+  "version": "1.13.8",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -5950,7 +5950,7 @@
               "name": "currentPage",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1426
+                "offset": 1451
               },
               "description": "当前页码 (v-model:currentPage)",
               "default": "1",
@@ -5962,7 +5962,7 @@
               "name": "pageSize",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1570
+                "offset": 1595
               },
               "description": "每页显示条数 (v-model:pageSize)",
               "default": "10",
@@ -5974,7 +5974,7 @@
               "name": "total",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1689
+                "offset": 1714
               },
               "description": "总条数",
               "default": "0",
@@ -5986,7 +5986,7 @@
               "name": "pageSizes",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 1826
+                "offset": 1851
               },
               "description": "可选的每页条数列表",
               "default": "() => [10, 20, 50, 100]",
@@ -5998,7 +5998,7 @@
               "name": "pagerCount",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2005
+                "offset": 2030
               },
               "description": "最大可见页码按钮数（应为奇数 >= 5）",
               "default": "7",
@@ -6010,9 +6010,9 @@
               "name": "layout",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2280
+                "offset": 2308
               },
-              "description": "布局配置，逗号分隔\n可选模块: total, sizes, prev, pager, next, jumper",
+              "description": "布局配置，逗号分隔\n可选模块: total, sizes, prev, pager, next, jumper, spacer",
               "default": "'prev, pager, next'",
               "type": [
                 "string"
@@ -6022,7 +6022,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2419
+                "offset": 2447
               },
               "description": "是否禁用",
               "default": "false",
@@ -6034,7 +6034,7 @@
               "name": "hideOnSinglePage",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2550
+                "offset": 2578
               },
               "description": "只有一页时隐藏",
               "default": "false",
@@ -6046,7 +6046,7 @@
               "name": "type",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2690
+                "offset": 2718
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -6058,7 +6058,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2844
+                "offset": 2872
               },
               "description": "形状",
               "default": "'clip'",
@@ -6070,7 +6070,7 @@
               "name": "size",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 2995
+                "offset": 3023
               },
               "description": "尺寸",
               "default": "'md'",
@@ -6082,7 +6082,7 @@
               "name": "color",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3187
+                "offset": 3215
               },
               "description": "自定义颜色（CSS 颜色值）\n优先级高于 type，覆盖主题色",
               "default": "''",
@@ -6094,7 +6094,7 @@
               "name": "buttonVariant",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3338
+                "offset": 3366
               },
               "description": "分页按钮变体\n控制 CpButton 的显示风格",
               "default": "'solid'",
@@ -6106,7 +6106,7 @@
               "name": "totalTemplate",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3537
+                "offset": 3565
               },
               "description": "总条数文案模板\n使用 `{total}` 作为占位符",
               "default": "'共 {total} 条'",
@@ -6118,7 +6118,7 @@
               "name": "sizeTemplate",
               "source": {
                 "file": "../components/pagination/src/pagination.ts",
-                "offset": 3716
+                "offset": 3744
               },
               "description": "每页条数选项文案模板\n使用 `{size}` 作为占位符",
               "default": "'{size} 条/页'",
@@ -6133,7 +6133,7 @@
                 "name": "update:currentPage",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 3973
+                  "offset": 4001
                 },
                 "description": "当前页码变化"
               },
@@ -6141,7 +6141,7 @@
                 "name": "update:pageSize",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 4063
+                  "offset": 4091
                 },
                 "description": "每页条数变化"
               },
@@ -6149,15 +6149,31 @@
                 "name": "change",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 4177
+                  "offset": 4203
                 },
                 "description": "页码变化事件（同 update:currentPage，便于监听）"
+              },
+              {
+                "name": "current-change",
+                "source": {
+                  "file": "../components/pagination/src/pagination.ts",
+                  "offset": 4279
+                },
+                "description": "当前页码变化事件"
               },
               {
                 "name": "sizeChange",
                 "source": {
                   "file": "../components/pagination/src/pagination.ts",
-                  "offset": 4255
+                  "offset": 4365
+                },
+                "description": "每页条数变化事件"
+              },
+              {
+                "name": "size-change",
+                "source": {
+                  "file": "../components/pagination/src/pagination.ts",
+                  "offset": 4445
                 },
                 "description": "每页条数变化事件"
               }
@@ -10436,9 +10452,9 @@
               "name": "httpRequest",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5218
+                "offset": 5230
               },
-              "description": "自定义上传函数\n若提供，则完全替代内置 XHR 上传逻辑",
+              "description": "自定义上传函数\n若提供，则完全替代内置 XHR 上传逻辑；可在不传 action 时使用",
               "type": [
                 "(options: UploadRequestOptions) => Promise<unknown> | void"
               ]
@@ -10447,7 +10463,7 @@
               "name": "beforeUpload",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5428
+                "offset": 5440
               },
               "description": "上传前钩子，返回 false 或 reject 可阻止上传",
               "type": [
@@ -10458,7 +10474,7 @@
               "name": "onExceed",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5605
+                "offset": 5617
               },
               "description": "超出文件数限制时的回调",
               "type": [
@@ -10469,7 +10485,7 @@
               "name": "inlinePreview",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 5910
+                "offset": 5922
               },
               "description": "单图内联预览（picture-card 模式下）\n仅在 limit = 1 且 listType = 'picture-card' 时生效。\n未显式传值时，在 limit = 1 场景下默认开启；\n可显式设为 false 关闭。",
               "type": [
@@ -10480,7 +10496,7 @@
               "name": "preview",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6057
+                "offset": 6069
               },
               "description": "是否开启图片卡片点击预览功能",
               "default": "false",
@@ -10492,7 +10508,7 @@
               "name": "download",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6195
+                "offset": 6207
               },
               "description": "在预览大图时，是否允许下载图片",
               "default": "false",
@@ -10504,7 +10520,7 @@
               "name": "showInnerStripe",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6341
+                "offset": 6353
               },
               "description": "是否显示 CpProgress 内圈虚线装饰",
               "default": "false",
@@ -10516,7 +10532,7 @@
               "name": "placeholder",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6551
+                "offset": 6563
               },
               "description": "自定义触发器文案\n- drag 模式默认: '拖拽文件到此处，或 点击上传'\n- 默认(按钮)模式默认: '选择文件'",
               "type": [
@@ -10527,7 +10543,7 @@
               "name": "placeholderIcon",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6725
+                "offset": 6737
               },
               "description": "自定义触发器图标组件\n传入 Vue 组件，替换默认 SVG 图标",
               "type": [
@@ -10538,7 +10554,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 6988
+                "offset": 7000
               },
               "description": "是否为减淡模式\n减淡模式下组件默认以无色彩（default）外观展示，仅在 hover / 激活时显示主题色\n会穿透给内部 CpButton",
               "default": "false",
@@ -10550,7 +10566,7 @@
               "name": "successType",
               "source": {
                 "file": "../components/upload/src/upload.ts",
-                "offset": 7262
+                "offset": 7274
               },
               "description": "上传成功时的边框颜色\n可传入 type 关键词（'primary' | 'success' | 'warning' | 'error' | 'info'），\n也可传入任意 CSS 颜色值。\n默认跟随 Upload 自身的 type / color。",
               "type": [
@@ -10564,7 +10580,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7505
+                  "offset": 7517
                 },
                 "description": "v-model 绑定"
               },
@@ -10572,15 +10588,15 @@
                 "name": "change",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7603
+                  "offset": 7624
                 },
-                "description": "文件列表变化"
+                "description": "文件选择、上传状态或文件列表变化"
               },
               {
                 "name": "success",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7714
+                  "offset": 7734
                 },
                 "description": "上传成功"
               },
@@ -10588,7 +10604,7 @@
                 "name": "error",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7846
+                  "offset": 7866
                 },
                 "description": "上传失败"
               },
@@ -10596,7 +10612,7 @@
                 "name": "progress",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 7972
+                  "offset": 7992
                 },
                 "description": "上传进度"
               },
@@ -10604,7 +10620,7 @@
                 "name": "remove",
                 "source": {
                   "file": "../components/upload/src/upload.ts",
-                  "offset": 8090
+                  "offset": 8110
                 },
                 "description": "文件移除"
               }

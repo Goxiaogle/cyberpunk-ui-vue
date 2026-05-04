@@ -25,8 +25,9 @@ export type PaginationSize = Size
  * - `pager` — 页码按钮组
  * - `next` — 下一页按钮
  * - `jumper` — 页码跳转输入框
+ * - `spacer` — 弹性占位
  */
-export type PaginationLayout = 'total' | 'sizes' | 'prev' | 'pager' | 'next' | 'jumper'
+export type PaginationLayout = 'total' | 'sizes' | 'prev' | 'pager' | 'next' | 'jumper' | 'spacer'
 
 /**
  * CpPagination 组件 Props 定义
@@ -93,7 +94,7 @@ export const paginationProps = {
     },
     /**
      * 布局配置，逗号分隔
-     * 可选模块: total, sizes, prev, pager, next, jumper
+     * 可选模块: total, sizes, prev, pager, next, jumper, spacer
      * @default 'prev, pager, next'
      */
     layout: {
@@ -190,8 +191,12 @@ export const paginationEmits = {
     'update:pageSize': (size: number) => typeof size === 'number',
     /** 页码变化事件（同 update:currentPage，便于监听） */
     change: (page: number) => typeof page === 'number',
+    /** 当前页码变化事件 */
+    'current-change': (page: number) => typeof page === 'number',
     /** 每页条数变化事件 */
     sizeChange: (size: number) => typeof size === 'number',
+    /** 每页条数变化事件 */
+    'size-change': (size: number) => typeof size === 'number',
 }
 
 export type PaginationEmits = typeof paginationEmits

@@ -255,7 +255,7 @@ export const uploadProps = {
     },
     /**
      * 自定义上传函数
-     * 若提供，则完全替代内置 XHR 上传逻辑
+     * 若提供，则完全替代内置 XHR 上传逻辑；可在不传 action 时使用
      */
     httpRequest: {
         type: Function as PropType<(options: UploadRequestOptions) => Promise<unknown> | void>,
@@ -359,7 +359,7 @@ export type UploadProps = ExtractPropTypes<typeof uploadProps>
 export const uploadEmits = {
     /** v-model 绑定 */
     'update:modelValue': (fileList: UploadFile[]) => Array.isArray(fileList),
-    /** 文件列表变化 */
+    /** 文件选择、上传状态或文件列表变化 */
     change: (file: UploadFile, _fileList: UploadFile[]) => file && Array.isArray(_fileList),
     /** 上传成功 */
     success: (_response: unknown, file: UploadFile, _fileList: UploadFile[]) => file && Array.isArray(_fileList),

@@ -180,7 +180,9 @@
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
 | `change` | `(page: number)` | 页码变化事件（同 update:currentPage，便于监听） |
+| `current-change` | `(page: number)` | 当前页码变化事件 |
 | `sizeChange` | `(size: number)` | 每页条数变化事件 |
+| `size-change` | `(size: number)` | 每页条数变化事件 |
 
 ### CSS 变量
 

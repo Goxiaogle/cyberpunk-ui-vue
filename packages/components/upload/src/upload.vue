@@ -16,6 +16,8 @@ import { CpProgress } from '@cyberpunk-vue/components/progress'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { CpText } from '@cyberpunk-vue/components/text'
 
+type UploadNativeFile = File & { relativePath?: string }
+
 defineOptions({
     name: `${COMPONENT_PREFIX}Upload`,
     inheritAttrs: false,
@@ -33,6 +35,7 @@ const formContext = inject(formContextKey, undefined)
 const inputRef = ref<HTMLInputElement>()
 const isDragover = ref(false)
 let fileUid = 0
+const fileRelativePathMap = new WeakMap<File, string>()
 
 // 是否禁用
 const isDisabled = computed(() => props.disabled || formContext?.disabled.value || false)
@@ -171,8 +174,48 @@ function updateFileList(fileList: UploadFile[]) {
     emit('update:modelValue', fileList)
 }
 
+function emitChangeForFiles(files: UploadFile[], fileList: UploadFile[]) {
+    for (const file of files) {
+        emit('change', file, fileList)
+    }
+}
+
 function generateUid(): number {
     return Date.now() + fileUid++
+}
+
+function revokeFileUrl(file: UploadFile) {
+    if (file.url && file.raw) {
+        URL.revokeObjectURL(file.url)
+    }
+}
+
+function attachRelativePath(file: File, relativePath: string): UploadNativeFile {
+    const uploadFile = file as UploadNativeFile
+    if (relativePath) {
+        fileRelativePathMap.set(file, relativePath)
+    }
+    return uploadFile
+}
+
+function isAcceptedFile(file: File): boolean {
+    if (!props.accept) return true
+
+    const acceptTypes = props.accept
+        .split(',')
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean)
+
+    if (acceptTypes.length === 0) return true
+
+    const mimeType = file.type.toLowerCase()
+    const fileName = file.name.toLowerCase()
+
+    return acceptTypes.some((acceptType) => {
+        if (acceptType.startsWith('.')) return fileName.endsWith(acceptType)
+        if (acceptType.endsWith('/*')) return mimeType.startsWith(acceptType.slice(0, -1))
+        return mimeType === acceptType
+    })
 }
 
 function isImageFile(file: UploadFile): boolean {
@@ -191,11 +234,20 @@ function getFileUrl(file: UploadFile): string {
     return ''
 }
 
-async function uploadFile(uploadFile: UploadFile) {
-    if (!props.action || !uploadFile.raw) return
+function getUploadFileList(uploadFile: UploadFile, fallbackFileList: UploadFile[]) {
+    const source = props.modelValue.some((file) => file.uid === uploadFile.uid)
+        ? props.modelValue
+        : fallbackFileList
+    return [...source]
+}
+
+async function uploadFile(uploadFile: UploadFile, fallbackFileList: UploadFile[] = props.modelValue) {
+    if (!uploadFile.raw) return
+    if (!props.action && !props.httpRequest) return
 
     uploadFile.status = 'uploading'
     uploadFile.percentage = 0
+    updateFileList(getUploadFileList(uploadFile, fallbackFileList))
 
     const requestFn = props.httpRequest || defaultHttpRequest
 
@@ -208,20 +260,20 @@ async function uploadFile(uploadFile: UploadFile) {
         onProgress: (percentage: number) => {
             uploadFile.percentage = percentage
             emit('progress', percentage, uploadFile)
-            updateFileList([...props.modelValue])
+            updateFileList(getUploadFileList(uploadFile, fallbackFileList))
         },
         onSuccess: (response: unknown) => {
             uploadFile.status = 'success'
             uploadFile.percentage = 100
             uploadFile.response = response
-            const newList = [...props.modelValue]
+            const newList = getUploadFileList(uploadFile, fallbackFileList)
             emit('success', response, uploadFile, newList)
             emit('change', uploadFile, newList)
             updateFileList(newList)
         },
         onError: (error: Error) => {
             uploadFile.status = 'error'
-            const newList = [...props.modelValue]
+            const newList = getUploadFileList(uploadFile, fallbackFileList)
             emit('error', error, uploadFile, newList)
             emit('change', uploadFile, newList)
             updateFileList(newList)
@@ -236,7 +288,7 @@ async function uploadFile(uploadFile: UploadFile) {
 }
 
 async function handleFiles(files: FileList | File[]) {
-    const fileArray = Array.from(files)
+    const fileArray = Array.from(files).filter(isAcceptedFile)
     const nextCandidates = isInlinePreviewMode.value ? fileArray.slice(0, 1) : fileArray
 
     // 检查数量限制
@@ -253,6 +305,9 @@ async function handleFiles(files: FileList | File[]) {
     const newFiles: UploadFile[] = []
 
     for (const file of nextCandidates) {
+        const nativeFile = file as UploadNativeFile
+        const relativePath = nativeFile.webkitRelativePath || nativeFile.relativePath || fileRelativePathMap.get(file)
+
         // 检查大小限制
         if (props.maxSize && file.size > props.maxSize) {
             continue
@@ -275,7 +330,7 @@ async function handleFiles(files: FileList | File[]) {
             status: 'ready',
             percentage: 0,
             raw: file,
-            ...(file.webkitRelativePath ? { relativePath: file.webkitRelativePath } : {}),
+            ...(relativePath ? { relativePath } : {}),
         }
 
         // 生成 blob URL（用于预览 / 展示）
@@ -292,13 +347,9 @@ async function handleFiles(files: FileList | File[]) {
 
     if (isInlinePreviewMode.value) {
         for (const oldFile of props.modelValue) {
-            if (oldFile.url && oldFile.raw) {
-                URL.revokeObjectURL(oldFile.url)
-            }
+            revokeFileUrl(oldFile)
         }
     }
-
-    updateFileList(updatedList)
 
     // 自动上传
     if (props.autoUpload) {
@@ -309,16 +360,21 @@ async function handleFiles(files: FileList | File[]) {
                 file.percentage = 100
             }
             const successList = [...updatedList]
+            updateFileList(successList)
             for (const file of newFiles) {
                 emit('success', null, file, successList)
                 emit('change', file, successList)
             }
-            updateFileList(successList)
         } else {
+            updateFileList(updatedList)
+            emitChangeForFiles(newFiles, updatedList)
             for (const file of newFiles) {
-                uploadFile(file)
+                uploadFile(file, updatedList)
             }
         }
+    } else {
+        updateFileList(updatedList)
+        emitChangeForFiles(newFiles, updatedList)
     }
 }
 
@@ -329,7 +385,7 @@ function readEntryFiles(entry: FileSystemEntry): Promise<File[]> {
     return new Promise((resolve) => {
         if (entry.isFile) {
             ;(entry as FileSystemFileEntry).file(
-                (f) => resolve([f]),
+                (f) => resolve([attachRelativePath(f, entry.fullPath.replace(/^\/+/, ''))]),
                 () => resolve([]),
             )
         } else if (entry.isDirectory) {
@@ -361,19 +417,7 @@ async function collectFilesFromEntries(entries: FileSystemEntry[]): Promise<File
     const nested = await Promise.all(entries.map(readEntryFiles))
     const allFiles = nested.flat()
     // 如果设置了 accept，按 accept 过滤
-    if (props.accept) {
-        const acceptTypes = props.accept.split(',').map((s) => s.trim().toLowerCase())
-        return allFiles.filter((f) => {
-            const mimeType = f.type.toLowerCase()
-            const ext = '.' + f.name.split('.').pop()?.toLowerCase()
-            return acceptTypes.some((a) => {
-                if (a.startsWith('.')) return ext === a
-                if (a.endsWith('/*')) return mimeType.startsWith(a.replace('/*', '/'))
-                return mimeType === a
-            })
-        })
-    }
-    return allFiles
+    return allFiles.filter(isAcceptedFile)
 }
 
 // ===== 事件处理 =====
@@ -449,9 +493,7 @@ async function handleDrop(e: DragEvent) {
 
 function handleRemove(file: UploadFile) {
     const newList = props.modelValue.filter((f) => f.uid !== file.uid)
-    if (file.url && file.raw) {
-        URL.revokeObjectURL(file.url)
-    }
+    revokeFileUrl(file)
     emit('remove', file, newList)
     emit('change', file, newList)
     updateFileList(newList)
@@ -503,7 +545,10 @@ defineExpose({
     /** 手动触发上传 */
     submit,
     /** 清空文件列表 */
-    clearFiles: () => updateFileList([]),
+    clearFiles: () => {
+        props.modelValue.forEach(revokeFileUrl)
+        updateFileList([])
+    },
 })
 
 // 格式化文件大小
@@ -511,7 +556,7 @@ function formatSize(bytes: number): string {
     if (bytes === 0) return '0 B'
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1)
     return `${(bytes / Math.pow(k, i)).toFixed(1)} ${sizes[i]}`
 }
 </script>
