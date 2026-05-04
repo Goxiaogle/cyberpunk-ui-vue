@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/constants",
-    "version": "1.13.8",
+    "version": "1.13.9",
     "description": "Cyberpunk Vue shared constants and type definitions",
     "type": "module",
     "main": "./dist/index.cjs",

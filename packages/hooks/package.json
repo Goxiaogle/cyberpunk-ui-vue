@@ -1,6 +1,6 @@
 {
     "name": "@cyberpunk-vue/hooks",
-    "version": "1.13.8",
+    "version": "1.13.9",
     "description": "Cyberpunk Vue composables - Reusable Vue 3 composition functions",
     "type": "module",
     "main": "./dist/index.cjs",
