@@ -156,10 +156,9 @@ const hasNodeIcon = computed(() =>
 // ===== 交互处理 =====
 
 const handleExpandClick = (e: Event) => {
+  if (props.node.isLeaf) return
   e.stopPropagation()
-  if (!props.node.isLeaf) {
-    ctx.toggleExpand(props.node)
-  }
+  ctx.toggleExpand(props.node)
 }
 
 const handleCheckChange = (e: Event) => {
@@ -169,8 +168,13 @@ const handleCheckChange = (e: Event) => {
 
 const handleContentClick = () => {
   ctx.handleNodeClick(props.node)
-  // 点击内容区也触发展开/收起（单选 / 复选模式除外：留给对应指示器处理，避免误操作）
-  if (!props.node.isLeaf && !ctx.showCheckbox && !ctx.showRadio) {
+  // 复选模式下，点击整行内容即可切换勾选，复选框自身会阻止冒泡避免重复触发
+  if (ctx.showCheckbox) {
+    ctx.toggleCheck(props.node)
+    return
+  }
+  // 点击内容区也触发展开/收起（单选模式除外：留给单选指示器处理，避免误操作）
+  if (!props.node.isLeaf && !ctx.showRadio) {
     ctx.toggleExpand(props.node)
   }
 }
