@@ -13,11 +13,7 @@
 | `fit` | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片适应模式 |
 | `shape` | `'clip' \| 'no-clip' \| 'round' \| 'circle'` | `'clip'` | 图片形状模式 |
 | `lazy` | `boolean` | `false` | 是否懒加载 |
-| `preview` | `boolean` | `false` | 是否开启点击预览 |
-| `previewSrc` | `string` | `''` | 预览大图地址 |
-| `previewSrcList` | `string[]` | `[]` | 多图预览列表 |
-| `initialIndex` | `number` | `0` | 初始预览索引，在 previewSrcList 模式下有效 |
-| `download` | `boolean` | `false` | 是否允许在预览时下载图片 |
+| `preview` | `boolean \| ImagePreviewOptions` | `false` | 预览配置 |
 | `fallbackSrc` | `string` | `''` | 加载失败时的回退图片地址 |
 | `width` | `string \| number` | `''` | 图片宽度 |
 | `height` | `string \| number` | `''` | 图片高度 |
@@ -40,6 +36,7 @@
 | `type` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 主题颜色类型 |
 | `color` | `string` | `''` | 自定义外发光及部分元素的颜色 |
 | `download` | `boolean` | `false` | 是否允许下载图片，开启后工具栏会显示下载按钮 |
+| `closeOnClickModal` | `boolean` | `true` | 点击遮罩是否关闭预览 |
 
 ### 事件
 
@@ -47,7 +44,7 @@
 |--------|------|------|
 | `load` | `(event: Event)` | 图片加载成功时触发 |
 | `error` | `(event: Event)` | 图片加载失败时触发 |
-| `close` | `—` | 关闭时触发 |
+| `close` | `(payload: ImagePreviewClosePayload)` | 关闭时触发 |
 | `switch` | `(index: number)` | 切换图片时触发 |
 
 ### 插槽
@@ -79,6 +76,17 @@
 
 <!-- 圆形头像 -->
 <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
+
+<!-- 聚合式预览配置 -->
+<CpImage
+  src="/thumb.jpg"
+  :preview="{
+    urlList: ['/a.jpg', '/b.jpg'],
+    initialIndex: 0,
+    closeOnClickModal: false,
+    onClose: ({ index }) => console.log(index)
+  }"
+/>
 ```
 
 #### CpImagePreview
@@ -86,6 +94,14 @@
 ```vue
 <!-- 基础用法 -->
 <CpImagePreview v-model="visible" :url-list="urls" />
+
+<!-- 禁止点击遮罩关闭，并在关闭时获取停留位置 -->
+<CpImagePreview
+  v-model="visible"
+  :url-list="urls"
+  :close-on-click-modal="false"
+  @close="({ index, url }) => console.log(index, url)"
+/>
 
 <!-- 在内置工具栏末尾追加按钮 -->
 <CpImagePreview v-model="visible" :url-list="urls">

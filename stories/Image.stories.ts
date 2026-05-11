@@ -90,6 +90,10 @@ const meta: Meta<typeof CpImage> = {
             control: 'boolean',
             description: '是否允许拖拽图片（默认禁止）',
         },
+        preview: {
+            control: 'object',
+            description: '预览配置。true 使用默认预览；对象可配置 url、urlList、initialIndex、download、closeOnClickModal、onClose、onSwitch 等',
+        },
     },
     args: {
         src: 'https://picsum.photos/400/300',
@@ -110,6 +114,7 @@ const meta: Meta<typeof CpImage> = {
         srcProcessor: undefined,
         processorParams: undefined,
         draggable: false,
+        preview: false,
     },
 }
 
@@ -647,13 +652,12 @@ export const Preview: Story = {
                     <div style="text-align: center;">
                         <CpImage
                             src="https://picsum.photos/300/200?preview=2"
-                            preview
-                            preview-src="https://picsum.photos/1200/800?preview=hd"
+                            :preview="{ url: 'https://picsum.photos/1200/800?preview=hd' }"
                             width="280px"
                             height="180px"
                         />
                         <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
-                            preview + previewSrc（高清大图）
+                            preview.url（高清大图）
                         </div>
                     </div>
                 </div>
@@ -665,8 +669,8 @@ export const Preview: Story = {
 /**
  * 多图预览画廊
  *
- * 使用 `previewSrcList` 传入多张图片，点击任一图片后可左右切换浏览。
- * - 使用 `initialIndex` 可指定默认预览的初始图片索引。
+ * 使用 `preview.urlList` 传入多张图片，点击任一图片后可左右切换浏览。
+ * - 使用 `preview.initialIndex` 可指定默认预览的初始图片索引。
  * - 支持键盘 ← → 切换，滚轮缩放。
  */
 export const PreviewList: Story = {
@@ -693,8 +697,7 @@ export const PreviewList: Story = {
                         v-for="(url, i) in urls"
                         :key="i"
                         :src="url"
-                        :preview-src-list="urls"
-                        :initial-index="i"
+                        :preview="{ urlList: urls, initialIndex: i, closeOnClickModal: false }"
                         height="120px"
                         hoverable
                         hover-mode="zoom"
@@ -715,24 +718,33 @@ export const PreviewStandalone: Story = {
         components: { CpImage, CpImagePreview },
         setup() {
             const show = ref(false)
+            const currentIndex = ref(0)
             const urls = [
                 'https://picsum.photos/900/600?standalone=1',
                 'https://picsum.photos/900/600?standalone=2',
                 'https://picsum.photos/900/600?standalone=3',
             ]
-            return { show, urls }
+            const handleClose = (payload: { index: number }) => {
+                currentIndex.value = payload.index
+            }
+            return { show, urls, currentIndex, handleClose }
         },
         template: `
-            <div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button
                     style="padding: 10px 24px; background: var(--cp-color-primary); color: #fff; border: none; cursor: pointer; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); font-size: 14px;"
                     @click="show = true"
                 >
                     打开独立预览
                 </button>
+                <div style="color: var(--cp-text-secondary); font-size: 14px;">
+                    上次关闭停留索引：{{ currentIndex }}
+                </div>
                 <CpImagePreview
                     v-model="show"
                     :url-list="urls"
+                    :close-on-click-modal="false"
+                    @close="handleClose"
                 />
             </div>
         `,
@@ -742,7 +754,7 @@ export const PreviewStandalone: Story = {
 /**
  * 带有下载功能的预览
  *
- * 通过设置 `download` 属性，在预览工具栏中提供下载按钮。
+ * 通过 `preview.download` 在预览工具栏中提供下载按钮。
  */
 export const PreviewDownload: Story = {
     render: () => ({
@@ -758,8 +770,7 @@ export const PreviewDownload: Story = {
                 </div>
                 <CpImage
                     :src="url"
-                    preview
-                    download
+                    :preview="{ download: true }"
                     height="240px"
                     hoverable
                     hover-mode="zoom"

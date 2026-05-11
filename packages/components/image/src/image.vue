@@ -8,6 +8,10 @@ import { useNamespace, useImageSrc, normalizeDuration, normalizeSize } from '@cy
 import { imageProps, imageEmits } from './image'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpImagePreview from '@cyberpunk-vue/components/image-preview/src/image-preview.vue'
+import type {
+    ImagePreviewClosePayload,
+    ImagePreviewSwitchPayload,
+} from '@cyberpunk-vue/components/image-preview/src/image-preview'
 
 defineOptions({
     name: `${COMPONENT_PREFIX}Image`,
@@ -30,16 +34,43 @@ const isInViewport = ref(!props.lazy)
 
 // 预览相关
 const showPreview = ref(false)
-const isPreviewEnabled = computed(() => props.preview || props.previewSrcList.length > 0)
+const previewOptions = computed(() => (
+    typeof props.preview === 'object' && props.preview !== null
+        ? props.preview
+        : {}
+))
+const isPreviewEnabled = computed(() => Boolean(props.preview) || props.previewSrcList.length > 0)
 const previewUrlList = computed(() => {
+    if (previewOptions.value.urlList?.length) return previewOptions.value.urlList
     if (props.previewSrcList.length > 0) return props.previewSrcList
     // 单图预览：优先使用 previewSrc，否则 fallback 到 currentSrc
-    const url = props.previewSrc || currentSrc.value
+    const url = previewOptions.value.url || props.previewSrc || currentSrc.value
     return url ? [url] : []
 })
+const previewInitialIndex = computed(() => previewOptions.value.initialIndex ?? props.initialIndex)
+const previewProps = computed(() => ({
+    zIndex: previewOptions.value.zIndex,
+    infinite: previewOptions.value.infinite,
+    teleportTo: previewOptions.value.teleportTo,
+    type: previewOptions.value.type ?? props.type,
+    color: previewOptions.value.color ?? props.color,
+    download: previewOptions.value.download ?? props.download,
+    closeOnClickModal: previewOptions.value.closeOnClickModal,
+}))
 const handlePreviewClick = () => {
     if (!isPreviewEnabled.value || isLoading.value || isError.value) return
     showPreview.value = true
+}
+const createPreviewPayload = (index: number): ImagePreviewSwitchPayload => ({
+    index,
+    url: previewUrlList.value[index] || '',
+    urlList: [...previewUrlList.value],
+})
+const handlePreviewClose = (payload: ImagePreviewClosePayload) => {
+    previewOptions.value.onClose?.(payload)
+}
+const handlePreviewSwitch = (index: number) => {
+    previewOptions.value.onSwitch?.(createPreviewPayload(index))
 }
 
 // IntersectionObserver 实例
@@ -254,10 +285,16 @@ onBeforeUnmount(() => {
       v-if="isPreviewEnabled"
       v-model="showPreview"
       :url-list="previewUrlList"
-      :initial-index="props.initialIndex"
-      :type="props.type"
-      :color="props.color"
-      :download="props.download"
+      :initial-index="previewInitialIndex"
+      :z-index="previewProps.zIndex"
+      :infinite="previewProps.infinite"
+      :teleport-to="previewProps.teleportTo"
+      :type="previewProps.type"
+      :color="previewProps.color"
+      :download="previewProps.download"
+      :close-on-click-modal="previewProps.closeOnClickModal"
+      @close="handlePreviewClose"
+      @switch="handlePreviewSwitch"
     />
   </div>
 </template>

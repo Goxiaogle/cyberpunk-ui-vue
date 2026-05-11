@@ -1,5 +1,36 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export interface ImagePreviewPayload {
+    index: number
+    url: string
+    urlList: string[]
+}
+
+export type ImagePreviewClosePayload = ImagePreviewPayload
+export type ImagePreviewSwitchPayload = ImagePreviewPayload
+
+export interface ImagePreviewToolbarSlotProps {
+    scale: number
+    rotate: number
+    currentIndex: number
+    currentUrl: string
+    urlList: string[]
+    isSingle: boolean
+    canPrev: boolean
+    canNext: boolean
+    zoomMin: number
+    zoomMax: number
+    zoomIn: () => void
+    zoomOut: () => void
+    rotateLeft: () => void
+    rotateRight: () => void
+    resetTransform: () => void
+    prev: () => void
+    next: () => void
+    close: () => void
+    download: () => void
+}
+
 /**
  * CpImagePreview 组件 Props 定义
  *
@@ -9,6 +40,14 @@ import type { ExtractPropTypes, PropType } from 'vue'
  * ```vue
  * <!-- 基础用法 -->
  * <CpImagePreview v-model="visible" :url-list="urls" />
+ *
+ * <!-- 禁止点击遮罩关闭，并在关闭时获取停留位置 -->
+ * <CpImagePreview
+ *   v-model="visible"
+ *   :url-list="urls"
+ *   :close-on-click-modal="false"
+ *   @close="({ index, url }) => console.log(index, url)"
+ * />
  *
  * <!-- 在内置工具栏末尾追加按钮 -->
  * <CpImagePreview v-model="visible" :url-list="urls">
@@ -115,6 +154,14 @@ export const imagePreviewProps = {
         type: Boolean,
         default: false,
     },
+    /**
+     * 点击遮罩是否关闭预览
+     * @default true
+     */
+    closeOnClickModal: {
+        type: Boolean,
+        default: true,
+    },
 } as const
 
 export type ImagePreviewProps = ExtractPropTypes<typeof imagePreviewProps>
@@ -126,7 +173,8 @@ export const imagePreviewEmits = {
     /** v-model 绑定 */
     'update:modelValue': (value: boolean) => typeof value === 'boolean',
     /** 关闭时触发 */
-    close: () => true,
+    close: (payload: ImagePreviewClosePayload) =>
+        typeof payload?.index === 'number' && typeof payload.url === 'string' && Array.isArray(payload.urlList),
     /** 切换图片时触发 */
     switch: (index: number) => typeof index === 'number',
 }

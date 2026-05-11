@@ -1,5 +1,10 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { DurationValue } from '@cyberpunk-vue/hooks'
+import type {
+    ImagePreviewClosePayload,
+    ImagePreviewProps,
+    ImagePreviewSwitchPayload,
+} from '@cyberpunk-vue/components/image-preview/src/image-preview'
 
 /**
  * 图片适应模式
@@ -29,6 +34,31 @@ export type ImageShape = 'clip' | 'no-clip' | 'round' | 'circle'
  */
 export type ImageDecorPosition = 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
 
+export type ImagePreviewOptions = Partial<Omit<ImagePreviewProps, 'modelValue' | 'urlList' | 'initialIndex'>> & {
+    /**
+     * 单图预览地址，不传时使用图片当前 src
+     */
+    url?: string
+    /**
+     * 多图预览列表，优先级高于 url
+     */
+    urlList?: string[]
+    /**
+     * 初始显示的图片索引
+     */
+    initialIndex?: number
+    /**
+     * 关闭预览时触发
+     */
+    onClose?: (payload: ImagePreviewClosePayload) => void
+    /**
+     * 切换图片时触发
+     */
+    onSwitch?: (payload: ImagePreviewSwitchPayload) => void
+}
+
+export type ImagePreviewConfig = boolean | ImagePreviewOptions
+
 /**
  * CpImage 组件 Props 定义
  *
@@ -47,6 +77,17 @@ export type ImageDecorPosition = 'bottom-left' | 'bottom-right' | 'top-left' | '
  *
  * <!-- 圆形头像 -->
  * <CpImage src="/avatar.jpg" shape="circle" :width="64" :height="64" />
+ *
+ * <!-- 聚合式预览配置 -->
+ * <CpImage
+ *   src="/thumb.jpg"
+ *   :preview="{
+ *     urlList: ['/a.jpg', '/b.jpg'],
+ *     initialIndex: 0,
+ *     closeOnClickModal: false,
+ *     onClose: ({ index }) => console.log(index)
+ *   }"
+ * />
  * ```
   * @category 展示组件
  * @displayName CpImage 图片
@@ -101,17 +142,18 @@ export const imageProps = {
         default: false,
     },
     /**
-     * 是否开启点击预览
-     * 开启后点击图片会弹出全屏大图预览
+     * 预览配置
+     * 设为 true 时使用当前图片和默认预览配置；传入对象时可聚合配置预览图片、交互行为和事件回调。
      * @default false
      */
     preview: {
-        type: Boolean,
+        type: [Boolean, Object] as PropType<ImagePreviewConfig>,
         default: false,
     },
     /**
-     * 预览大图地址
+     * 已废弃：请使用 `preview.url`
      * 在预览中使用的高清图片地址，不指定则使用 src
+     * @deprecated 请使用 `preview.url`
      * @default ''
      */
     previewSrc: {
@@ -119,8 +161,9 @@ export const imageProps = {
         default: '',
     },
     /**
-     * 多图预览列表
+     * 已废弃：请使用 `preview.urlList`
      * 传入后自动启用预览，点击图片可查看整个图片列表
+     * @deprecated 请使用 `preview.urlList`
      * @default []
      */
     previewSrcList: {
@@ -128,7 +171,8 @@ export const imageProps = {
         default: () => [],
     },
     /**
-     * 初始预览索引，在 previewSrcList 模式下有效
+     * 已废弃：请使用 `preview.initialIndex`
+     * @deprecated 请使用 `preview.initialIndex`
      * @default 0
      * @example `<CpImage :preview-src-list="[...]" :initial-index="1" />`
      */
@@ -137,7 +181,8 @@ export const imageProps = {
         default: 0,
     },
     /**
-     * 是否允许在预览时下载图片
+     * 已废弃：请使用 `preview.download`
+     * @deprecated 请使用 `preview.download`
      * @default false
      */
     download: {

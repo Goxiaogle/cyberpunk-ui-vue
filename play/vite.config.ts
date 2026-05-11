@@ -1,6 +1,11 @@
 import { defineConfig } from 'vite'
+import type { SassPreprocessorOptions } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+
+const scssPreprocessorOptions = {
+    api: 'modern-compiler',
+} as unknown as SassPreprocessorOptions
 
 export default defineConfig({
     plugins: [vue()],
@@ -11,9 +16,7 @@ export default defineConfig({
     },
     css: {
         preprocessorOptions: {
-            scss: {
-                api: 'modern-compiler',
-            },
+            scss: scssPreprocessorOptions,
         },
     },
     server: {

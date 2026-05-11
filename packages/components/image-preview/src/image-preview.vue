@@ -9,6 +9,7 @@ import { CpLoading } from '@cyberpunk-vue/components/loading'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { imagePreviewProps, imagePreviewEmits } from './image-preview'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
+import type { ImagePreviewToolbarSlotProps } from './image-preview'
 
 defineOptions({
     name: `${COMPONENT_PREFIX}ImagePreview`,
@@ -44,34 +45,12 @@ defineSlots<{
     /**
      * 完全替换底部工具栏（覆盖内置按钮）
      */
-    toolbar?: (props: ToolbarSlotProps) => unknown
+    toolbar?: (props: ImagePreviewToolbarSlotProps) => unknown
     /**
      * 在内置工具栏末尾追加自定义按钮
      */
-    'toolbar-append'?: (props: ToolbarSlotProps) => unknown
+    'toolbar-append'?: (props: ImagePreviewToolbarSlotProps) => unknown
 }>()
-
-interface ToolbarSlotProps {
-    scale: number
-    rotate: number
-    currentIndex: number
-    currentUrl: string
-    urlList: string[]
-    isSingle: boolean
-    canPrev: boolean
-    canNext: boolean
-    zoomMin: number
-    zoomMax: number
-    zoomIn: () => void
-    zoomOut: () => void
-    rotateLeft: () => void
-    rotateRight: () => void
-    resetTransform: () => void
-    prev: () => void
-    next: () => void
-    close: () => void
-    download: () => void
-}
 
 // ===== 计算属性 =====
 const currentUrl = computed(() => {
@@ -127,32 +106,43 @@ const rotateRight = () => {
     rotate.value += 90
 }
 
+const createPayload = () => ({
+    index: currentIndex.value,
+    url: currentUrl.value,
+    urlList: [...props.urlList],
+})
+
 const prev = () => {
     if (isSingle.value) return
-    if (props.infinite) {
-        currentIndex.value = (currentIndex.value - 1 + props.urlList.length) % props.urlList.length
-    } else if (currentIndex.value > 0) {
-        currentIndex.value--
-    }
+    const nextIndex = props.infinite
+        ? (currentIndex.value - 1 + props.urlList.length) % props.urlList.length
+        : currentIndex.value > 0
+            ? currentIndex.value - 1
+            : currentIndex.value
+    if (nextIndex === currentIndex.value) return
+    currentIndex.value = nextIndex
     resetTransform()
     emit('switch', currentIndex.value)
 }
 
 const next = () => {
     if (isSingle.value) return
-    if (props.infinite) {
-        currentIndex.value = (currentIndex.value + 1) % props.urlList.length
-    } else if (currentIndex.value < props.urlList.length - 1) {
-        currentIndex.value++
-    }
+    const nextIndex = props.infinite
+        ? (currentIndex.value + 1) % props.urlList.length
+        : currentIndex.value < props.urlList.length - 1
+            ? currentIndex.value + 1
+            : currentIndex.value
+    if (nextIndex === currentIndex.value) return
+    currentIndex.value = nextIndex
     resetTransform()
     emit('switch', currentIndex.value)
 }
 
 const close = () => {
+    const payload = createPayload()
     visible.value = false
     emit('update:modelValue', false)
-    emit('close')
+    emit('close', payload)
 }
 
 // ===== 图片加载 =====
@@ -229,7 +219,7 @@ const downloadImage = async () => {
 }
 
 // ===== 工具栏插槽 props =====
-const toolbarSlotProps = computed<ToolbarSlotProps>(() => ({
+const toolbarSlotProps = computed<ImagePreviewToolbarSlotProps>(() => ({
     scale: scale.value,
     rotate: rotate.value,
     currentIndex: currentIndex.value,
@@ -290,6 +280,7 @@ const handleWheel = (e: WheelEvent) => {
 
 // ===== 遮罩点击 =====
 const handleOverlayClick = (e: MouseEvent) => {
+    if (!props.closeOnClickModal) return
     // 仅在点击遮罩本身时关闭（不是子元素）
     if (e.target === e.currentTarget) {
         close()
@@ -381,42 +372,50 @@ defineExpose({
         </CpButton>
 
         <!-- 左切换按钮 -->
-        <CpButton
+        <div
           v-if="!isSingle"
           :class="[ns.e('arrow'), ns.bem(undefined, 'arrow', 'left')]"
-          variant="ghost"
-          dimmed
-          size="lg"
-          square
-          :type="props.type"
-          :color="props.color"
           title="上一张 (←)"
-          :disabled="!canPrev"
           @click.stop="prev"
         >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </CpButton>
+          <CpButton
+            variant="ghost"
+            dimmed
+            size="lg"
+            square
+            :type="props.type"
+            :color="props.color"
+            title="上一张 (←)"
+            :disabled="!canPrev"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </CpButton>
+        </div>
 
         <!-- 右切换按钮 -->
-        <CpButton
+        <div
           v-if="!isSingle"
           :class="[ns.e('arrow'), ns.bem(undefined, 'arrow', 'right')]"
-          variant="ghost"
-          dimmed
-          size="lg"
-          square
-          :type="props.type"
-          :color="props.color"
           title="下一张 (→)"
-          :disabled="!canNext"
           @click.stop="next"
         >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </CpButton>
+          <CpButton
+            variant="ghost"
+            dimmed
+            size="lg"
+            square
+            :type="props.type"
+            :color="props.color"
+            title="下一张 (→)"
+            :disabled="!canNext"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </CpButton>
+        </div>
 
         <!-- 图片容器 -->
         <div :class="ns.e('canvas')" @click.stop>
@@ -441,59 +440,59 @@ defineExpose({
         <!-- 底部工具栏 -->
         <div :class="ns.e('toolbar')" @click.stop>
           <slot name="toolbar" v-bind="toolbarSlotProps">
-          <!-- 缩小 -->
-          <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="缩小 (-)" :disabled="scale <= ZOOM_MIN" @click="zoomOut">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35M8 11h6" />
-            </svg>
-          </CpButton>
-          <!-- 放大 -->
-          <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="放大 (+)" :disabled="scale >= ZOOM_MAX" @click="zoomIn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
-            </svg>
-          </CpButton>
-          <!-- 分隔 -->
-          <span :class="ns.e('divider')" />
-          <!-- 左旋 -->
-          <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="向左旋转" @click="rotateLeft">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 4v6h6" />
-              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
-            </svg>
-          </CpButton>
-          <!-- 右旋 -->
-          <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="向右旋转" @click="rotateRight">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 4v6h-6" />
-              <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10" />
-            </svg>
-          </CpButton>
-          <!-- 分隔 -->
-          <span :class="ns.e('divider')" />
-          <!-- 还原 -->
-          <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="还原缩放与位置" @click="resetTransform">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <path d="M9 3v18M3 9h18" />
-            </svg>
-          </CpButton>
-          <!-- 下载 (可选) -->
-          <template v-if="props.download">
-            <!-- 分隔 -->
-            <span :class="ns.e('divider')" />
-            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="下载图片" @click="downloadImage">
+            <!-- 缩小 -->
+            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="缩小 (-)" :disabled="scale <= ZOOM_MIN" @click="zoomOut">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35M8 11h6" />
               </svg>
             </CpButton>
-          </template>
-          <!-- 自定义追加按钮插槽 -->
-          <slot name="toolbar-append" v-bind="toolbarSlotProps" />
+            <!-- 放大 -->
+            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="放大 (+)" :disabled="scale >= ZOOM_MAX" @click="zoomIn">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+              </svg>
+            </CpButton>
+            <!-- 分隔 -->
+            <span :class="ns.e('divider')" />
+            <!-- 左旋 -->
+            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="向左旋转" @click="rotateLeft">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 4v6h6" />
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+              </svg>
+            </CpButton>
+            <!-- 右旋 -->
+            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="向右旋转" @click="rotateRight">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6" />
+                <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10" />
+              </svg>
+            </CpButton>
+            <!-- 分隔 -->
+            <span :class="ns.e('divider')" />
+            <!-- 还原 -->
+            <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="还原缩放与位置" @click="resetTransform">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 3v18M3 9h18" />
+              </svg>
+            </CpButton>
+            <!-- 下载 (可选) -->
+            <template v-if="props.download">
+              <!-- 分隔 -->
+              <span :class="ns.e('divider')" />
+              <CpButton variant="ghost" dimmed square :type="props.type" :color="props.color" title="下载图片" @click="downloadImage">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </CpButton>
+            </template>
+            <!-- 自定义追加按钮插槽 -->
+            <slot name="toolbar-append" v-bind="toolbarSlotProps" />
           </slot>
         </div>
 

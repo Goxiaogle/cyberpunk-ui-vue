@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.9",
+  "version": "1.13.10",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -4189,7 +4189,7 @@
               "name": "src",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 1355
+                "offset": 2293
               },
               "description": "图片源地址",
               "default": "''",
@@ -4201,7 +4201,7 @@
               "name": "alt",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 1476
+                "offset": 2414
               },
               "description": "图片描述/替代文本",
               "default": "''",
@@ -4213,7 +4213,7 @@
               "name": "fit",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 1638
+                "offset": 2576
               },
               "description": "图片适应模式\n设置图片如何适应容器，与 CSS object-fit 一致",
               "default": "'cover'",
@@ -4225,7 +4225,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 1889
+                "offset": 2827
               },
               "description": "图片形状模式\n- `clip`: 机甲切角效果（默认）\n- `no-clip`: 标准直角\n- `round`: 圆角效果\n- `circle`: 圆形",
               "default": "'clip'",
@@ -4237,7 +4237,7 @@
               "name": "lazy",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2063
+                "offset": 3001
               },
               "description": "是否懒加载\n开启后图片进入可视区域时才加载",
               "default": "false",
@@ -4249,21 +4249,21 @@
               "name": "preview",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2216
+                "offset": 3178
               },
-              "description": "是否开启点击预览\n开启后点击图片会弹出全屏大图预览",
+              "description": "预览配置\n设为 true 时使用当前图片和默认预览配置；传入对象时可聚合配置预览图片、交互行为和事件回调。",
               "default": "false",
               "type": [
-                "boolean"
+                "boolean | ImagePreviewOptions"
               ]
             },
             {
               "name": "previewSrc",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2375
+                "offset": 3422
               },
-              "description": "预览大图地址\n在预览中使用的高清图片地址，不指定则使用 src",
+              "description": "已废弃：请使用 `preview.url`\n在预览中使用的高清图片地址，不指定则使用 src",
               "default": "''",
               "type": [
                 "string"
@@ -4273,9 +4273,9 @@
               "name": "previewSrcList",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2532
+                "offset": 3634
               },
-              "description": "多图预览列表\n传入后自动启用预览，点击图片可查看整个图片列表",
+              "description": "已废弃：请使用 `preview.urlList`\n传入后自动启用预览，点击图片可查看整个图片列表",
               "default": "() => []",
               "type": [
                 "string[]"
@@ -4285,9 +4285,9 @@
               "name": "initialIndex",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2786
+                "offset": 3930
               },
-              "description": "初始预览索引，在 previewSrcList 模式下有效",
+              "description": "已废弃：请使用 `preview.initialIndex`",
               "default": "0",
               "type": [
                 "number"
@@ -4297,9 +4297,9 @@
               "name": "download",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 2921
+                "offset": 4118
               },
-              "description": "是否允许在预览时下载图片",
+              "description": "已废弃：请使用 `preview.download`",
               "default": "false",
               "type": [
                 "boolean"
@@ -4309,7 +4309,7 @@
               "name": "fallbackSrc",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3054
+                "offset": 4251
               },
               "description": "加载失败时的回退图片地址",
               "default": "''",
@@ -4321,7 +4321,7 @@
               "name": "width",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3207
+                "offset": 4404
               },
               "description": "图片宽度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
@@ -4333,7 +4333,7 @@
               "name": "height",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3393
+                "offset": 4590
               },
               "description": "图片高度\n可传入数字（像素）或字符串（CSS 值）",
               "default": "''",
@@ -4345,7 +4345,7 @@
               "name": "type",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3567
+                "offset": 4764
               },
               "description": "颜色类型（影响装饰块颜色）",
               "default": "'primary'",
@@ -4357,7 +4357,7 @@
               "name": "color",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3806
+                "offset": 5003
               },
               "description": "自定义装饰块颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
@@ -4369,7 +4369,7 @@
               "name": "showDecor",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 3942
+                "offset": 5139
               },
               "description": "是否显示装饰块（仅 clip 形状生效）",
               "default": "true",
@@ -4381,7 +4381,7 @@
               "name": "decorPosition",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4208
+                "offset": 5405
               },
               "description": "装饰块位置（仅 clip 形状生效）\n- `bottom-left`: 左下角（默认）\n- `bottom-right`: 右下角\n- `top-left`: 左上角\n- `top-right`: 右上角",
               "default": "'bottom-left'",
@@ -4393,7 +4393,7 @@
               "name": "hoverable",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4416
+                "offset": 5613
               },
               "description": "是否开启 hover 动画效果\n开启后鼠标悬停时有缩放和发光效果",
               "default": "false",
@@ -4405,7 +4405,7 @@
               "name": "hoverMode",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4618
+                "offset": 5815
               },
               "description": "Hover 动画模式\n- `scale` - 整体放大（默认）\n- `zoom` - 容器不变，仅图片放大（溢出裁切）",
               "default": "'scale'",
@@ -4417,7 +4417,7 @@
               "name": "hoverDuration",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 4834
+                "offset": 6031
               },
               "description": "Hover 动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -4429,7 +4429,7 @@
               "name": "srcProcessor",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 5338
+                "offset": 6535
               },
               "description": "URL 预处理器\n可传入预设处理器名称（append/replace/tos）或自定义函数\n函数签名: (src: string, params?: T) => string",
               "type": [
@@ -4440,7 +4440,7 @@
               "name": "processorParams",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 5617
+                "offset": 6814
               },
               "description": "处理器参数\n传递给 srcProcessor 的参数，类型由处理器决定\n若未指定 srcProcessor 但传入了此参数，默认使用 append 处理器",
               "type": [
@@ -4451,7 +4451,7 @@
               "name": "draggable",
               "source": {
                 "file": "../components/image/src/image.ts",
-                "offset": 5860
+                "offset": 7057
               },
               "description": "是否允许拖拽图片\n默认禁止拖拽，设为 true 开启",
               "default": "false",
@@ -4466,7 +4466,7 @@
                 "name": "load",
                 "source": {
                   "file": "../components/image/src/image.ts",
-                  "offset": 6198
+                  "offset": 7395
                 },
                 "description": "图片加载成功时触发"
               },
@@ -4474,7 +4474,7 @@
                 "name": "error",
                 "source": {
                   "file": "../components/image/src/image.ts",
-                  "offset": 6319
+                  "offset": 7516
                 },
                 "description": "图片加载失败时触发"
               }
@@ -4492,7 +4492,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 1627
+                "offset": 2523
               },
               "description": "是否显示预览 (v-model)",
               "default": "false",
@@ -4504,7 +4504,7 @@
               "name": "urlList",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 1756
+                "offset": 2652
               },
               "description": "预览图片列表",
               "default": "() => []",
@@ -4516,7 +4516,7 @@
               "name": "initialIndex",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 1907
+                "offset": 2803
               },
               "description": "初始显示的图片索引",
               "default": "0",
@@ -4528,7 +4528,7 @@
               "name": "zIndex",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2039
+                "offset": 2935
               },
               "description": "z-index 层级",
               "default": "2000",
@@ -4540,7 +4540,7 @@
               "name": "infinite",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2179
+                "offset": 3075
               },
               "description": "是否支持循环切换（到最后一张后跳回第一张）",
               "default": "true",
@@ -4552,7 +4552,7 @@
               "name": "teleportTo",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2314
+                "offset": 3210
               },
               "description": "Teleport 目标",
               "default": "'body'",
@@ -4564,7 +4564,7 @@
               "name": "type",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2494
+                "offset": 3390
               },
               "description": "主题颜色类型",
               "default": "'primary'",
@@ -4576,7 +4576,7 @@
               "name": "color",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2706
+                "offset": 3602
               },
               "description": "自定义外发光及部分元素的颜色",
               "default": "''",
@@ -4588,10 +4588,22 @@
               "name": "download",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2845
+                "offset": 3741
               },
               "description": "是否允许下载图片，开启后工具栏会显示下载按钮",
               "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "closeOnClickModal",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 3866
+              },
+              "description": "点击遮罩是否关闭预览",
+              "default": "true",
               "type": [
                 "boolean"
               ]
@@ -4603,7 +4615,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 3106
+                  "offset": 4128
                 },
                 "description": "v-model 绑定"
               },
@@ -4611,7 +4623,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 3198
+                  "offset": 4218
                 },
                 "description": "关闭时触发"
               },
@@ -4619,7 +4631,7 @@
                 "name": "switch",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 3242
+                  "offset": 4400
                 },
                 "description": "切换图片时触发"
               }
