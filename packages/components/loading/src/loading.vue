@@ -28,22 +28,38 @@ const sizeMap: Record<string, number> = {
 const svgSize = computed(() => {
   return parseSizeNumber(props.size, sizeMap, sizeMap.md)
 })
+const resolvedStrokeWidth = computed(() => {
+  return props.strokeWidth ?? svgSize.value * 0.1
+})
 
 // ===== Circular (SVG) 参数 =====
 // 参考 MUI CircularProgress：ViewBox 44x44，圆心 (44,44)
 const CIRCULAR_SIZE = 44
 const circularStrokeWidth = computed(() => {
-  return props.strokeWidth * (CIRCULAR_SIZE / svgSize.value)
+  return resolvedStrokeWidth.value * (CIRCULAR_SIZE / svgSize.value)
 })
 const circularRadius = computed(() => {
   return (CIRCULAR_SIZE - circularStrokeWidth.value) / 2
+})
+const circularCircleStyle = computed(() => {
+  const circumference = 2 * Math.PI * circularRadius.value
+  const minDash = Math.max(circularStrokeWidth.value * 1.25, circumference * 0.06)
+  const maxDash = circumference * 0.8
+
+  return {
+    '--cp-loading-circle-dash-min': `${minDash}px`,
+    '--cp-loading-circle-dash-max': `${maxDash}px`,
+    '--cp-loading-circle-gap': `${circumference}px`,
+    '--cp-loading-circle-offset-mid': `${circumference * -0.12}px`,
+    '--cp-loading-circle-offset-end': `${-(circumference + minDash)}px`,
+  }
 })
 
 // ===== Spinner 参数 =====
 // 将实际笔触宽度映射到 50x50 的内部视口
 const viewBoxSize = 50;
 const mappedStrokeWidth = computed(() => {
-  return props.strokeWidth * (viewBoxSize / svgSize.value);
+  return resolvedStrokeWidth.value * (viewBoxSize / svgSize.value);
 });
 
 // 计算长条变体的 Y 轴起止坐标
@@ -66,7 +82,7 @@ const customStyle = computed(() => {
   if (props.color) {
     style['--cp-loading-color'] = props.color
   }
-  style['--cp-loading-stroke-width'] = `${props.strokeWidth}px`
+  style['--cp-loading-stroke-width'] = `${resolvedStrokeWidth.value}px`
   if (!isPresetSize(props.size)) {
     style['--cp-loading-size'] = normalizeSize(props.size, sizeMap)
   }
@@ -90,6 +106,7 @@ const customStyle = computed(() => {
         :stroke-width="circularStrokeWidth"
         stroke="currentColor"
         stroke-linecap="round"
+        :style="circularCircleStyle"
       />
     </svg>
 

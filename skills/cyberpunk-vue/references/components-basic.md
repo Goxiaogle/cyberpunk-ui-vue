@@ -214,7 +214,7 @@
 | `type` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'default'` | `'default'` | 加载器颜色类型 |
 | `size` | `Size` | `'md'` | 加载器尺寸 |
 | `color` | `string` | `''` | 自定义颜色 |
-| `strokeWidth` | `number` | `4` | SVG 描边宽度 |
+| `strokeWidth` | `number` | `undefined` | SVG 描边宽度 |
 | `variant` | `'circular' \| 'spinner' \| 'spinner-solid'` | `'circular'` | 加载器变体 |
 
 ### 示例

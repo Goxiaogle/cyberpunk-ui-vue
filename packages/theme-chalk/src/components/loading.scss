@@ -108,21 +108,21 @@ $loading-sizes: (
     }
 }
 
-// ===== Circular (MUI 参考) =====
-// 弧线伸缩动画：stroke-dasharray 控制弧长
+// ===== Circular =====
+// 弧线伸缩动画：stroke-dasharray 控制弧长，参数由实际圆周长派生，避免小尺寸在循环边界不可见
 @keyframes cp-loading-circular-dash {
     0% {
-        stroke-dasharray: 8px, 200px;
+        stroke-dasharray: var(--cp-loading-circle-dash-min), var(--cp-loading-circle-gap);
         stroke-dashoffset: 0;
     }
 
     50% {
-        stroke-dasharray: 100px, 200px;
-        stroke-dashoffset: -15px;
+        stroke-dasharray: var(--cp-loading-circle-dash-max), var(--cp-loading-circle-gap);
+        stroke-dashoffset: var(--cp-loading-circle-offset-mid);
     }
 
     100% {
-        stroke-dasharray: 8px, 200px;
-        stroke-dashoffset: -120px;
+        stroke-dasharray: var(--cp-loading-circle-dash-min), var(--cp-loading-circle-gap);
+        stroke-dashoffset: var(--cp-loading-circle-offset-end);
     }
 }

@@ -82,13 +82,13 @@ export const loadingProps = {
     },
     /**
      * SVG 描边宽度
-     * 数值越大，圆环越粗
-     * @default 4
+     * 未传入时按实际尺寸自动生成，约为 size 的 10%
+     * @default undefined
      * @example `<CpLoading :stroke-width="2" />`
      */
     strokeWidth: {
         type: Number,
-        default: 4,
+        default: undefined,
     },
     /**
      * 加载器变体

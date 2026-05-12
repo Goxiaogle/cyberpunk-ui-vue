@@ -39,9 +39,9 @@ const meta: Meta<typeof CpLoading> = {
         },
         strokeWidth: {
             control: { type: 'range', min: 2, max: 8, step: 1 },
-            description: '描边宽度',
+            description: '描边宽度；未传入时按 size 的 10% 自动生成',
             table: {
-                defaultValue: { summary: '4' },
+                defaultValue: { summary: 'auto' },
             },
         },
         variant: {
