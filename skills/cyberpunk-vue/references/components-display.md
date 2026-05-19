@@ -30,7 +30,8 @@
 | `modelValue` | `boolean` | `false` | 是否显示预览 (v-model) |
 | `urlList` | `string[]` | `[]` | 预览图片列表 |
 | `initialIndex` | `number` | `0` | 初始显示的图片索引 |
-| `zIndex` | `number` | `2000` | z-index 层级 |
+| `zIndex` | `number` | `2000` | 基础 z-index。多个前台弹层同时打开时会以该值为基础自动递增层级 |
+| `stackPriority` | `number` | `100` | 前台弹层栈优先级。默认高于 Dialog，确保图片预览打开后位于 Dialog 上方 |
 | `infinite` | `boolean` | `true` | 是否支持循环切换（到最后一张后跳回第一张） |
 | `teleportTo` | `string \| HTMLElement` | `'body'` | Teleport 目标 |
 | `type` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 主题颜色类型 |
@@ -677,7 +678,8 @@
 | `loadingText` | `string` | `'加载中...'` | 加载中显示的文字 |
 | `loadingClass` | `\| string` | — | 加载遮罩自定义类名 |
 | `loadingStyle` | `string \| CSSProperties` | — | 加载遮罩自定义样式 |
-| `zIndex` | `number` | `2000` | z-index |
+| `zIndex` | `number` | `2000` | 基础 z-index。多个 Dialog 同时打开时会以该值为基础自动递增层级 |
+| `stackPriority` | `number` | `0` | Dialog 栈优先级。值越大层级越高，同优先级内后打开的 Dialog 位于更上层 |
 | `showConfirmButton` | `boolean` | `true` | 是否显示确认按钮（当无 #footer 插槽时生效） |
 | `showCancelButton` | `boolean` | `true` | 是否显示取消按钮（当无 #footer 插槽时生效） |
 | `confirmText` | `string` | `'确认'` | 确认按钮文本 |

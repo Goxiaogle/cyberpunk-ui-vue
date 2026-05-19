@@ -3,8 +3,9 @@
  * CpImagePreview - 赛博朋克风格全屏大图预览
  * 支持缩放、旋转、拖拽平移、多图切换、键盘 & 滚轮交互
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { useNamespace } from '@cyberpunk-vue/hooks'
+import { registerOverlay } from '@cyberpunk-vue/components/utils'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { imagePreviewProps, imagePreviewEmits } from './image-preview'
@@ -26,6 +27,8 @@ const currentIndex = ref(0)
 const scale = ref(1)
 const rotate = ref(0)
 const loading = ref(true)
+const stackZIndex = ref(props.zIndex)
+let stackController: ReturnType<typeof registerOverlay> | undefined
 
 // 拖拽平移状态
 const translateX = ref(0)
@@ -79,7 +82,7 @@ const imgTransform = computed(() => {
 })
 
 const overlayStyle = computed(() => ({
-    zIndex: props.zIndex,
+    zIndex: stackZIndex.value,
 }))
 
 // ===== 操作方法 =====
@@ -243,29 +246,51 @@ const toolbarSlotProps = computed<ImagePreviewToolbarSlotProps>(() => ({
 
 // ===== 键盘事件 =====
 const handleKeydown = (e: KeyboardEvent) => {
-    if (!visible.value) return
+    if (!visible.value) return false
+
     switch (e.key) {
         case 'Escape':
             close()
-            break
+            return true
         case 'ArrowLeft':
             prev()
-            break
+            return true
         case 'ArrowRight':
             next()
-            break
+            return true
         case 'ArrowUp':
         case '+':
         case '=':
-            e.preventDefault()
             zoomIn()
-            break
+            return true
         case 'ArrowDown':
         case '-':
-            e.preventDefault()
             zoomOut()
-            break
+            return true
+        default:
+            return false
     }
+}
+
+const registerToStack = () => {
+    if (stackController) return
+
+    stackController = registerOverlay({
+        zIndex: props.zIndex,
+        stackPriority: props.stackPriority,
+        onKeydown: handleKeydown,
+        onZIndexChange: (zIndex) => {
+            stackZIndex.value = zIndex
+        },
+    })
+}
+
+const unregisterFromStack = () => {
+    if (!stackController) return
+
+    stackController.unregister()
+    stackController = undefined
+    stackZIndex.value = props.zIndex
 }
 
 // ===== 滚轮缩放 =====
@@ -296,14 +321,23 @@ watch(
             currentIndex.value = props.initialIndex
             resetTransform()
             loading.value = true
-            nextTick(() => {
-                document.addEventListener('keydown', handleKeydown)
-            })
+            registerToStack()
         } else {
-            document.removeEventListener('keydown', handleKeydown)
+            unregisterFromStack()
         }
     },
     { immediate: true }
+)
+
+watch(
+    () => [props.zIndex, props.stackPriority] as const,
+    ([zIndex, stackPriority]) => {
+        if (stackController) {
+            stackController.update({ zIndex, stackPriority })
+        } else {
+            stackZIndex.value = zIndex
+        }
+    },
 )
 
 // ===== 切换图片时重新 loading =====
@@ -311,14 +345,8 @@ watch(currentUrl, () => {
     loading.value = true
 })
 
-onMounted(() => {
-    if (props.modelValue) {
-        document.addEventListener('keydown', handleKeydown)
-    }
-})
-
 onBeforeUnmount(() => {
-    document.removeEventListener('keydown', handleKeydown)
+    unregisterFromStack()
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
 })

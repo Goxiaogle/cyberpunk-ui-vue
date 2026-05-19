@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.11",
+  "version": "1.13.12",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -3423,10 +3423,22 @@
               "name": "zIndex",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 8099
+                "offset": 8130
               },
-              "description": "z-index",
+              "description": "基础 z-index。多个 Dialog 同时打开时会以该值为基础自动递增层级",
               "default": "2000",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "stackPriority",
+              "source": {
+                "file": "../components/dialog/src/dialog.ts",
+                "offset": 8260
+              },
+              "description": "Dialog 栈优先级。值越大层级越高，同优先级内后打开的 Dialog 位于更上层",
+              "default": "0",
               "type": [
                 "number"
               ]
@@ -3435,7 +3447,7 @@
               "name": "showConfirmButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 8258
+                "offset": 8417
               },
               "description": "是否显示确认按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3447,7 +3459,7 @@
               "name": "showCancelButton",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 8395
+                "offset": 8554
               },
               "description": "是否显示取消按钮（当无 #footer 插槽时生效）",
               "default": "true",
@@ -3459,7 +3471,7 @@
               "name": "confirmText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 8511
+                "offset": 8670
               },
               "description": "确认按钮文本",
               "default": "'确认'",
@@ -3471,7 +3483,7 @@
               "name": "cancelText",
               "source": {
                 "file": "../components/dialog/src/dialog.ts",
-                "offset": 8621
+                "offset": 8780
               },
               "description": "取消按钮文本",
               "default": "'取消'",
@@ -3504,7 +3516,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8835
+                  "offset": 8994
                 },
                 "description": "v-model 更新事件"
               },
@@ -3512,7 +3524,7 @@
                 "name": "open",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8933
+                  "offset": 9092
                 },
                 "description": "对话框打开时触发（动画开始前）"
               },
@@ -3520,7 +3532,7 @@
                 "name": "opened",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 8977
+                  "offset": 9136
                 },
                 "description": "对话框打开动画结束后触发"
               },
@@ -3528,7 +3540,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 9026
+                  "offset": 9185
                 },
                 "description": "对话框关闭时触发（动画开始前）"
               },
@@ -3536,7 +3548,7 @@
                 "name": "closed",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 9071
+                  "offset": 9230
                 },
                 "description": "对话框关闭动画结束后触发"
               },
@@ -3544,7 +3556,7 @@
                 "name": "confirm",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 9114
+                  "offset": 9273
                 },
                 "description": "点击确认按钮时触发"
               },
@@ -3552,7 +3564,7 @@
                 "name": "cancel",
                 "source": {
                   "file": "../components/dialog/src/dialog.ts",
-                  "offset": 9158
+                  "offset": 9317
                 },
                 "description": "点击取消按钮时触发"
               }
@@ -4528,10 +4540,22 @@
               "name": "zIndex",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 2935
+                "offset": 2956
               },
-              "description": "z-index 层级",
+              "description": "基础 z-index。多个前台弹层同时打开时会以该值为基础自动递增层级",
               "default": "2000",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "stackPriority",
+              "source": {
+                "file": "../components/image-preview/src/image-preview.ts",
+                "offset": 3108
+              },
+              "description": "前台弹层栈优先级。默认高于 Dialog，确保图片预览打开后位于 Dialog 上方",
+              "default": "100",
               "type": [
                 "number"
               ]
@@ -4540,7 +4564,7 @@
               "name": "infinite",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3075
+                "offset": 3250
               },
               "description": "是否支持循环切换（到最后一张后跳回第一张）",
               "default": "true",
@@ -4552,7 +4576,7 @@
               "name": "teleportTo",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3210
+                "offset": 3385
               },
               "description": "Teleport 目标",
               "default": "'body'",
@@ -4564,7 +4588,7 @@
               "name": "type",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3390
+                "offset": 3565
               },
               "description": "主题颜色类型",
               "default": "'primary'",
@@ -4576,7 +4600,7 @@
               "name": "color",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3602
+                "offset": 3777
               },
               "description": "自定义外发光及部分元素的颜色",
               "default": "''",
@@ -4588,7 +4612,7 @@
               "name": "download",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3741
+                "offset": 3916
               },
               "description": "是否允许下载图片，开启后工具栏会显示下载按钮",
               "default": "false",
@@ -4600,7 +4624,7 @@
               "name": "closeOnClickModal",
               "source": {
                 "file": "../components/image-preview/src/image-preview.ts",
-                "offset": 3866
+                "offset": 4041
               },
               "description": "点击遮罩是否关闭预览",
               "default": "true",
@@ -4615,7 +4639,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 4128
+                  "offset": 4303
                 },
                 "description": "v-model 绑定"
               },
@@ -4623,7 +4647,7 @@
                 "name": "close",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 4218
+                  "offset": 4393
                 },
                 "description": "关闭时触发"
               },
@@ -4631,7 +4655,7 @@
                 "name": "switch",
                 "source": {
                   "file": "../components/image-preview/src/image-preview.ts",
-                  "offset": 4400
+                  "offset": 4575
                 },
                 "description": "切换图片时触发"
               }

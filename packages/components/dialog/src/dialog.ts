@@ -448,12 +448,20 @@ export const dialogProps = {
   },
 
   /**
-   * z-index
+   * 基础 z-index。多个 Dialog 同时打开时会以该值为基础自动递增层级
    * @default 2000
    */
   zIndex: {
     type: Number,
     default: 2000,
+  },
+  /**
+   * Dialog 栈优先级。值越大层级越高，同优先级内后打开的 Dialog 位于更上层
+   * @default 0
+   */
+  stackPriority: {
+    type: Number,
+    default: 0,
   },
 
   // ===== 内置确认 / 取消按钮 =====

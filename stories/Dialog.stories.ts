@@ -13,6 +13,7 @@ import { CpDialog, CpButton, CpText, CpInput, CpSwitch } from '@cyberpunk-vue/co
  * - 🌈 主题色 (primary / success / warning / error / info)
  * - 🎯 全屏模式
  * - 🖱️ 拖拽移动
+ * - 🧱 多 Dialog 自动栈管理
  * - 🔧 高度可定制 (颜色/样式/class)
  * - 🎬 流畅入场/出场动画
  */
@@ -178,8 +179,13 @@ const meta: Meta<typeof CpDialog> = {
     },
     zIndex: {
       control: { type: 'number', min: 1, max: 10000 },
-      description: 'z-index',
+      description: '基础 z-index，多个 Dialog 同时打开时自动递增',
       table: { defaultValue: { summary: '2000' } },
+    },
+    stackPriority: {
+      control: { type: 'number', min: 0, max: 100 },
+      description: 'Dialog 栈优先级，值越大越靠上；同优先级内后打开的在上',
+      table: { defaultValue: { summary: '0' } },
     },
   },
 }
@@ -516,7 +522,7 @@ export const 嵌套对话框: Story = {
         <CpDialog v-model="outer" title="外层对话框" type="primary" width="500px">
           <CpText>这是外层对话框的内容。</CpText>
           <CpButton type="info" style="margin-top: 12px;" @click="inner = true">打开内层</CpButton>
-          <CpDialog v-model="inner" title="内层对话框" type="info" width="360px" :z-index="2100">
+          <CpDialog v-model="inner" title="内层对话框" type="info" width="360px">
             <CpText>这是内层嵌套的对话框。</CpText>
             <template #footer>
               <CpButton type="info" @click="inner = false">关闭内层</CpButton>
@@ -525,6 +531,40 @@ export const 嵌套对话框: Story = {
           <template #footer>
             <CpButton @click="outer = false">关闭外层</CpButton>
           </template>
+        </CpDialog>
+      </div>
+    `,
+  }),
+}
+
+/** 多 Dialog 栈管理 */
+export const 多Dialog栈管理: Story = {
+  render: () => ({
+    components: { CpDialog, CpButton, CpText },
+    setup() {
+      const first = ref(false)
+      const second = ref(false)
+      const priority = ref(false)
+      return { first, second, priority }
+    },
+    template: `
+      <div style="padding: 40px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <CpButton type="primary" @click="first = true">打开 Dialog A</CpButton>
+          <CpButton type="info" @click="second = true">打开 Dialog B</CpButton>
+          <CpButton type="error" @click="priority = true">打开高优先级 Dialog</CpButton>
+        </div>
+
+        <CpDialog v-model="first" title="Dialog A" type="primary" width="420px">
+          <CpText>普通 Dialog 会按打开顺序自动叠放。</CpText>
+        </CpDialog>
+
+        <CpDialog v-model="second" title="Dialog B" type="info" width="420px">
+          <CpText>同优先级内，后打开的 Dialog 位于更上层。按 ESC 只关闭当前最上层。</CpText>
+        </CpDialog>
+
+        <CpDialog v-model="priority" title="高优先级 Dialog" type="error" width="420px" :stack-priority="10">
+          <CpText>此 Dialog 的 stackPriority 更高，会保持在普通 Dialog 上方。</CpText>
         </CpDialog>
       </div>
     `,

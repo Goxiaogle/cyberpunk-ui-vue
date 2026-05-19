@@ -107,12 +107,20 @@ export const imagePreviewProps = {
         default: 0,
     },
     /**
-     * z-index 层级
+     * 基础 z-index。多个前台弹层同时打开时会以该值为基础自动递增层级
      * @default 2000
      */
     zIndex: {
         type: Number,
         default: 2000,
+    },
+    /**
+     * 前台弹层栈优先级。默认高于 Dialog，确保图片预览打开后位于 Dialog 上方
+     * @default 100
+     */
+    stackPriority: {
+        type: Number,
+        default: 100,
     },
     /**
      * 是否支持循环切换（到最后一张后跳回第一张）

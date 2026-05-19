@@ -50,6 +50,7 @@ const previewUrlList = computed(() => {
 const previewInitialIndex = computed(() => previewOptions.value.initialIndex ?? props.initialIndex)
 const previewProps = computed(() => ({
     zIndex: previewOptions.value.zIndex,
+    stackPriority: previewOptions.value.stackPriority,
     infinite: previewOptions.value.infinite,
     teleportTo: previewOptions.value.teleportTo,
     type: previewOptions.value.type ?? props.type,
@@ -287,6 +288,7 @@ onBeforeUnmount(() => {
       :url-list="previewUrlList"
       :initial-index="previewInitialIndex"
       :z-index="previewProps.zIndex"
+      :stack-priority="previewProps.stackPriority"
       :infinite="previewProps.infinite"
       :teleport-to="previewProps.teleportTo"
       :type="previewProps.type"

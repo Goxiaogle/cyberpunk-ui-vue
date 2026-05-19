@@ -7,6 +7,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, p
 import { useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn, type DialogFullscreenInsetValue } from './dialog'
+import { registerOverlay } from '@cyberpunk-vue/components/utils'
 import { CpButton } from '@cyberpunk-vue/components/button'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 
@@ -33,6 +34,8 @@ const ns = useNamespace('dialog')
 // ===== 显示状态 =====
 const visible = ref(false)
 const rendered = ref(false)
+const stackZIndex = ref(props.zIndex)
+let stackController: ReturnType<typeof registerOverlay> | undefined
 
 // ===== 向子组件提供 Dialog 上下文 =====
 provide(DIALOG_CONTEXT_KEY, {
@@ -221,7 +224,7 @@ const wrapperStyle = computed<CSSProperties>(() => {
 // ===== 遮罩样式 =====
 const overlayStyleObj = computed<CSSProperties>(() => {
   const style: CSSProperties = {
-    zIndex: props.zIndex,
+    zIndex: stackZIndex.value,
   }
   if (props.overlayColor) {
     style['--cp-dialog-overlay-color'] = props.overlayColor
@@ -344,13 +347,38 @@ const handleCancel = () => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape' && visible.value) {
-    if (props.closeOnEscape) {
-      handleClose()
-    } else {
-      triggerShake()
-    }
+  if (event.key !== 'Escape' || !visible.value) {
+    return false
   }
+
+  if (props.closeOnEscape) {
+    handleClose()
+  } else {
+    triggerShake()
+  }
+
+  return true
+}
+
+const registerToStack = () => {
+  if (stackController) return
+
+  stackController = registerOverlay({
+    zIndex: props.zIndex,
+    stackPriority: props.stackPriority,
+    onKeydown: handleKeydown,
+    onZIndexChange: (zIndex) => {
+      stackZIndex.value = zIndex
+    },
+  })
+}
+
+const unregisterFromStack = () => {
+  if (!stackController) return
+
+  stackController.unregister()
+  stackController = undefined
+  stackZIndex.value = props.zIndex
 }
 
 // 阻止面板点击冒泡到遮罩
@@ -394,11 +422,11 @@ watch(
     if (val) {
       rendered.value = true
       visible.value = true
+      registerToStack()
       emit('open')
       nextTick(() => {
         resetDragPosition()
         lockBody()
-        document.addEventListener('keydown', handleKeydown)
         if (props.draggable) {
           window.addEventListener('resize', updateDragPosition)
         }
@@ -413,13 +441,26 @@ watch(
 
 // 关闭时（visible 变 false）同步 modelValue
 watch(visible, (val) => {
-  if (!val && props.modelValue) {
-    emit('close')
-    emit('update:modelValue', false)
-    document.removeEventListener('keydown', handleKeydown)
+  if (!val) {
+    if (props.modelValue) {
+      emit('close')
+      emit('update:modelValue', false)
+    }
+    unregisterFromStack()
     window.removeEventListener('resize', updateDragPosition)
   }
 })
+
+watch(
+  () => [props.zIndex, props.stackPriority] as const,
+  ([zIndex, stackPriority]) => {
+    if (stackController) {
+      stackController.update({ zIndex, stackPriority })
+    } else {
+      stackZIndex.value = zIndex
+    }
+  },
+)
 
 // ===== 全屏切换时保存/恢复拖拽位置 =====
 watch(
@@ -440,9 +481,9 @@ onMounted(() => {
   if (props.modelValue) {
     rendered.value = true
     visible.value = true
+    registerToStack()
     nextTick(() => {
       lockBody()
-      document.addEventListener('keydown', handleKeydown)
       if (props.draggable) {
         window.addEventListener('resize', updateDragPosition)
       }
@@ -453,7 +494,7 @@ onMounted(() => {
 // ===== 清理 =====
 onBeforeUnmount(() => {
   unlockBody()
-  document.removeEventListener('keydown', handleKeydown)
+  unregisterFromStack()
   window.removeEventListener('resize', updateDragPosition)
 })
 
