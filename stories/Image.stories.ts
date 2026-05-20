@@ -697,7 +697,7 @@ export const PreviewList: Story = {
                         v-for="(url, i) in urls"
                         :key="i"
                         :src="url"
-                        :preview="{ urlList: urls, initialIndex: i, closeOnClickModal: false }"
+                        :preview="{ urlList: urls, initialIndex: i }"
                         height="120px"
                         hoverable
                         hover-mode="zoom"

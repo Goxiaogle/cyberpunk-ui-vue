@@ -306,10 +306,19 @@ const handleWheel = (e: WheelEvent) => {
 // ===== 遮罩点击 =====
 const handleOverlayClick = (e: MouseEvent) => {
     if (!props.closeOnClickModal) return
-    // 仅在点击遮罩本身时关闭（不是子元素）
-    if (e.target === e.currentTarget) {
-        close()
+    const target = e.target
+
+    if (target instanceof Element && target.closest([
+        `.${ns.e('img')}`,
+        `.${ns.e('toolbar')}`,
+        `.${ns.e('arrow')}`,
+        `.${ns.e('close')}`,
+        `.${ns.e('counter')}`,
+    ].join(','))) {
+        return
     }
+
+    close()
 }
 
 // ===== watch modelValue =====
@@ -446,7 +455,7 @@ defineExpose({
         </div>
 
         <!-- 图片容器 -->
-        <div :class="ns.e('canvas')" @click.stop>
+        <div :class="ns.e('canvas')" @click="handleOverlayClick">
           <!-- 加载状态 -->
           <div v-if="loading" :class="ns.e('loading')">
             <CpLoading size="lg" :type="props.type" :color="props.color" />
