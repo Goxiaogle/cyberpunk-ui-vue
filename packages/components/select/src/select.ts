@@ -209,6 +209,22 @@ export const selectProps = {
     default: 'body',
   },
   /**
+   * 基础 z-index。打开下拉面板时会进入全局前台弹层栈，并以该值为基础自动分配层级
+   * @default 2000
+   */
+  zIndex: {
+    type: Number,
+    default: 2000,
+  },
+  /**
+   * 下拉面板栈优先级。不设置时会继承所在 Dialog 的栈优先级
+   * @default undefined
+   */
+  stackPriority: {
+    type: Number,
+    default: undefined,
+  },
+  /**
    * 下拉面板最大高度 (px)
    * @default 256
    */

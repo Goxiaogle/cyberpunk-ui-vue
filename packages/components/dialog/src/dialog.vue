@@ -41,6 +41,7 @@ let stackController: ReturnType<typeof registerOverlay> | undefined
 provide(DIALOG_CONTEXT_KEY, {
   type: toRef(props, 'type'),
   color: toRef(props, 'color'),
+  stackPriority: toRef(props, 'stackPriority'),
   visible,
 })
 

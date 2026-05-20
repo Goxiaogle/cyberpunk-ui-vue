@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { CpDialog, CpButton, CpText, CpInput, CpSwitch } from '@cyberpunk-vue/components'
+import { CpDialog, CpButton, CpText, CpInput, CpSwitch, CpSelect } from '@cyberpunk-vue/components'
 
 /**
  * # CpDialog 模态对话框
@@ -233,12 +233,18 @@ export const 基础用法: Story = {
 /** 自定义内容 - 表单 */
 export const 自定义内容: Story = {
   render: () => ({
-    components: { CpDialog, CpButton, CpText, CpInput, CpSwitch },
+    components: { CpDialog, CpButton, CpText, CpInput, CpSwitch, CpSelect },
     setup() {
       const visible = ref(false)
       const username = ref('')
       const password = ref('')
-      return { visible, username, password }
+      const role = ref('')
+      const roleOptions = [
+        { label: 'Netrunner 网络侵入者', value: 'netrunner' },
+        { label: 'Solo 独狼', value: 'solo' },
+        { label: 'Techie 技术专家', value: 'techie' },
+      ]
+      return { visible, username, password, role, roleOptions }
     },
     template: `
       <div style="padding: 40px;">
@@ -252,6 +258,10 @@ export const 自定义内容: Story = {
             <div>
               <CpText size="sm" style="margin-bottom: 6px; display: block;">密码</CpText>
               <CpInput v-model="password" placeholder="请输入密码" type="password" />
+            </div>
+            <div>
+              <CpText size="sm" style="margin-bottom: 6px; display: block;">角色</CpText>
+              <CpSelect v-model="role" :options="roleOptions" placeholder="请选择角色" />
             </div>
           </div>
           <template #footer>

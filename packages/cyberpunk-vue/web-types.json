@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.12",
+  "version": "1.13.13",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -7648,10 +7648,33 @@
               ]
             },
             {
+              "name": "zIndex",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3510
+              },
+              "description": "基础 z-index。打开下拉面板时会进入全局前台弹层栈，并以该值为基础自动分配层级",
+              "default": "2000",
+              "type": [
+                "number"
+              ]
+            },
+            {
+              "name": "stackPriority",
+              "source": {
+                "file": "../components/select/src/select.ts",
+                "offset": 3637
+              },
+              "description": "下拉面板栈优先级。不设置时会继承所在 Dialog 的栈优先级",
+              "type": [
+                "number"
+              ]
+            },
+            {
               "name": "maxHeight",
               "source": {
                 "file": "../components/select/src/select.ts",
-                "offset": 3480
+                "offset": 3752
               },
               "description": "下拉面板最大高度 (px)",
               "default": "256",
@@ -7663,7 +7686,7 @@
               "name": "noMatchText",
               "source": {
                 "file": "../components/select/src/select.ts",
-                "offset": 3583
+                "offset": 3855
               },
               "description": "无匹配时的文本",
               "default": "'无匹配数据'",
@@ -7675,7 +7698,7 @@
               "name": "noDataText",
               "source": {
                 "file": "../components/select/src/select.ts",
-                "offset": 3690
+                "offset": 3962
               },
               "description": "无数据时的文本",
               "default": "'无数据'",
@@ -7687,7 +7710,7 @@
               "name": "clearDuration",
               "source": {
                 "file": "../components/select/src/select.ts",
-                "offset": 3873
+                "offset": 4145
               },
               "description": "清除动画持续时间 (ms)\n控制点击清空按钮时文字消失动画的速度",
               "default": "150",
@@ -7699,7 +7722,7 @@
               "name": "width",
               "source": {
                 "file": "../components/select/src/select.ts",
-                "offset": 4042
+                "offset": 4314
               },
               "description": "选择器宽度\n支持数字 (px) 或带单位字符串 (如 '200px', '15rem')。\n为空时默认 100%（铺满父容器）。",
               "default": "''",
@@ -7728,7 +7751,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4301
+                  "offset": 4573
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -7736,7 +7759,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4434
+                  "offset": 4706
                 },
                 "description": "选中值变化时触发"
               },
@@ -7744,7 +7767,7 @@
                 "name": "clear",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4551
+                  "offset": 4823
                 },
                 "description": "清空时触发"
               },
@@ -7752,7 +7775,7 @@
                 "name": "focus",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4597
+                  "offset": 4869
                 },
                 "description": "获取焦点时触发"
               },
@@ -7760,7 +7783,7 @@
                 "name": "blur",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4643
+                  "offset": 4915
                 },
                 "description": "失去焦点时触发"
               },
@@ -7768,7 +7791,7 @@
                 "name": "visibleChange",
                 "source": {
                   "file": "../components/select/src/select.ts",
-                  "offset": 4690
+                  "offset": 4962
                 },
                 "description": "下拉面板显示时触发"
               }

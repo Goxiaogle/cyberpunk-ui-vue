@@ -14,6 +14,7 @@ export const THEME_KEY: InjectionKey<Ref<ThemeType>> = Symbol('cp-theme')
 export const DIALOG_CONTEXT_KEY: InjectionKey<{
   type: Ref<string>
   color: Ref<string>
+  stackPriority: Ref<number>
   visible?: Ref<boolean>
 }> = Symbol('cp-dialog-context')
 

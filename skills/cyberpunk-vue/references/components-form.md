@@ -505,6 +505,8 @@
 | `inline` | `boolean` | `false` | 是否启用行内搜索 (直接在触发器输入) |
 | `placement` | `'bottom' \| 'bottom-start' \| 'bottom-end' \| 'top' \| 'top-start' \| 'top-end'` | `'bottom-start'` | 弹出位置 |
 | `teleportTo` | `string \| HTMLElement` | `'body'` | Teleport 目标 |
+| `zIndex` | `number` | `2000` | 基础 z-index。打开下拉面板时会进入全局前台弹层栈，并以该值为基础自动分配层级 |
+| `stackPriority` | `number` | `undefined` | 下拉面板栈优先级。不设置时会继承所在 Dialog 的栈优先级 |
 | `maxHeight` | `number` | `256` | 下拉面板最大高度 (px) |
 | `noMatchText` | `string` | `'无匹配数据'` | 无匹配时的文本 |
 | `noDataText` | `string` | `'无数据'` | 无数据时的文本 |

@@ -8,6 +8,7 @@ import { ref, computed, inject, watch, onMounted, onBeforeUnmount, nextTick, use
 import { computePosition, autoUpdate, flip, shift, offset, size, type Placement } from '@floating-ui/dom'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
+import { registerOverlay } from '@cyberpunk-vue/components/utils'
 import { selectProps, selectEmits, type SelectOption } from './select'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
 
@@ -50,8 +51,10 @@ const isClearing = ref(false)
 const actualPlacement = ref<Placement>(props.placement)
 const dynamicMaxHeight = ref(props.maxHeight)
 const popperPosition = ref({ x: 0, y: 0, width: 0 })
+const popperZIndex = ref(props.zIndex)
 
 const isInlineSearch = computed(() => props.inline && props.filterable)
+const resolvedStackPriority = computed(() => props.stackPriority ?? dialogContext?.stackPriority.value ?? 0)
 
 // 当前选中
 const selectedOption = computed(() => props.options.find(opt => opt.value === props.modelValue))
@@ -110,6 +113,7 @@ const popperStyle = computed<CSSProperties>(() => ({
   transform: `translate3d(${Math.round(popperPosition.value.x)}px, ${Math.round(popperPosition.value.y)}px, 0)`,
   width: `${popperPosition.value.width}px`,
   maxHeight: `${dynamicMaxHeight.value}px`,
+  zIndex: popperZIndex.value,
   willChange: 'transform',
 }))
 
@@ -124,6 +128,7 @@ const popperClasses = computed(() => [
 let cleanupAutoUpdate: (() => void) | null = null
 let closePopperTimer: ReturnType<typeof setTimeout> | null = null
 let openPopperFrame = 0
+let stackController: ReturnType<typeof registerOverlay> | undefined
 
 const updatePosition = async () => {
   if (!triggerRef.value || !popperRef.value) return
@@ -177,6 +182,27 @@ const clearOpenPopperFrame = () => {
   }
 }
 
+const registerToStack = () => {
+  if (stackController) return
+
+  stackController = registerOverlay({
+    zIndex: props.zIndex,
+    stackPriority: resolvedStackPriority.value,
+    onKeydown: handleKeydown,
+    onZIndexChange: (zIndex) => {
+      popperZIndex.value = zIndex
+    },
+  })
+}
+
+const unregisterFromStack = () => {
+  if (!stackController) return
+
+  stackController.unregister()
+  stackController = undefined
+  popperZIndex.value = props.zIndex
+}
+
 const primePopperPosition = () => {
   if (!triggerRef.value) return
   const rect = triggerRef.value.getBoundingClientRect()
@@ -199,6 +225,7 @@ const applyOpen = () => {
   primePopperPosition()
   visible.value = true
   popperRendered.value = true
+  registerToStack()
   document.dispatchEvent(new CustomEvent(SELECT_OPEN_EVENT, { detail: uid }))
   emit('visibleChange', true)
   emit('focus')
@@ -219,6 +246,7 @@ const applyClose = () => {
   clearOpenPopperFrame()
   visible.value = false
   popperOpen.value = false
+  unregisterFromStack()
   emit('visibleChange', false)
   emit('blur')
   clearClosePopperTimer()
@@ -291,28 +319,31 @@ const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
       event.preventDefault()
       open()
+      return true
     }
-    return
+    return false
   }
   switch (event.key) {
     case 'Escape':
       event.preventDefault()
       close()
-      break
+      return true
     case 'ArrowDown':
       event.preventDefault()
       hoverIndex.value = Math.min(hoverIndex.value + 1, filteredOptions.value.length - 1)
-      break
+      return true
     case 'ArrowUp':
       event.preventDefault()
       hoverIndex.value = Math.max(hoverIndex.value - 1, 0)
-      break
+      return true
     case 'Enter':
       event.preventDefault()
       if (hoverIndex.value >= 0 && hoverIndex.value < filteredOptions.value.length) {
         handleSelect(filteredOptions.value[hoverIndex.value])
       }
-      break
+      return true
+    default:
+      return false
   }
 }
 
@@ -341,6 +372,17 @@ watch(visible, async (val) => {
   }
 })
 
+watch(
+  () => [props.zIndex, resolvedStackPriority.value] as const,
+  ([zIndex, stackPriority]) => {
+    if (stackController) {
+      stackController.update({ zIndex, stackPriority })
+    } else {
+      popperZIndex.value = zIndex
+    }
+  },
+)
+
 // 暴露方法
 defineExpose({
   /** @description 打开下拉面板 */
@@ -363,6 +405,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearClosePopperTimer()
   clearOpenPopperFrame()
+  unregisterFromStack()
   teardownAutoUpdate()
   document.removeEventListener(SELECT_OPEN_EVENT, handleOtherSelectOpen)
   document.removeEventListener('click', handleClickOutside)
