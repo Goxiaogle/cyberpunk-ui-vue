@@ -119,6 +119,28 @@ export const 基础用法: Story = {
   }),
 };
 
+/** 无文案 */
+export const 无文案: Story = {
+  render: () => ({
+    components: { CpCheckbox },
+    setup() {
+      const checked = ref(false);
+      const active = ref(true);
+      const disabled = ref(false);
+      const bordered = ref(false);
+      return { checked, active, disabled, bordered };
+    },
+    template: `
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <CpCheckbox v-model="checked" />
+        <CpCheckbox v-model="active" />
+        <CpCheckbox v-model="disabled" disabled />
+        <CpCheckbox v-model="bordered" border />
+      </div>
+    `,
+  }),
+};
+
 /** 尺寸 */
 export const 尺寸: Story = {
   render: () => ({

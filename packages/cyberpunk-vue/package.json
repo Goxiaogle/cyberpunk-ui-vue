@@ -1,6 +1,6 @@
 {
     "name": "cyberpunk-ui-vue",
-    "version": "1.13.14",
+    "version": "1.13.15",
     "description": "A futuristic Vue 3 component library with cyberpunk aesthetics",
     "type": "module",
     "main": "./dist/index.cjs",

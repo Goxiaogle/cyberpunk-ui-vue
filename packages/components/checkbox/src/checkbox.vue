@@ -3,7 +3,7 @@
  * CpCheckbox - 赛博朋克风格复选框
  * 支持多种尺寸、半选状态、分组使用
  */
-import { computed, inject, ref } from 'vue'
+import { Comment, Fragment, Text, computed, inject, ref, useSlots, type VNode } from 'vue'
 import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { checkboxProps, checkboxEmits } from './checkbox'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -18,6 +18,7 @@ const props = defineProps(checkboxProps)
 const emit = defineEmits(checkboxEmits)
 
 const ns = useNamespace('checkbox')
+const slots = useSlots()
 
 // 尺寸映射
 const checkboxSizeMap = { sm: 14, md: 18, lg: 22 }
@@ -83,6 +84,40 @@ const typeTextColorMap: Record<string, string> = {
   info: 'var(--cp-color-info-text)',
 }
 
+const hasRenderableSlotNode = (node: unknown): boolean => {
+  if (Array.isArray(node)) {
+    return node.some(hasRenderableSlotNode)
+  }
+
+  if (!node || typeof node !== 'object') {
+    return false
+  }
+
+  const vnode = node as VNode
+
+  if (vnode.type === Comment) {
+    return false
+  }
+
+  if (vnode.type === Text) {
+    return typeof vnode.children === 'string' && vnode.children.trim().length > 0
+  }
+
+  if (vnode.type === Fragment) {
+    return hasRenderableSlotNode(vnode.children)
+  }
+
+  return true
+}
+
+const hasLabel = computed(() => {
+  if (props.label !== undefined) {
+    return true
+  }
+
+  return slots.default ? hasRenderableSlotNode(slots.default({})) : false
+})
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
@@ -92,6 +127,7 @@ const classes = computed(() => [
   ns.is('disabled', actualDisabled.value),
   ns.is('indeterminate', props.indeterminate),
   ns.is('border', props.border),
+  ns.is('label-empty', !hasLabel.value),
   ns.is('custom-size', !isPresetSize(actualSize.value)),
 ])
 
@@ -192,7 +228,10 @@ defineExpose({
     </span>
     
     <!-- 标签文字 -->
-    <span :class="ns.e('label')">
+    <span
+      v-if="hasLabel"
+      :class="ns.e('label')"
+    >
       <slot>{{ props.label }}</slot>
     </span>
   </label>

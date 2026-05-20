@@ -254,6 +254,14 @@ $checkbox-sizes: (
       box-shadow: 0 0 12px var(--cp-checkbox-active-color-light);
     }
   }
+
+  @include when(label-empty) {
+    gap: 0;
+
+    &.is-border {
+      padding: 8px;
+    }
+  }
   
   // border + shape 联动
   &.cp-checkbox--shape-clip.is-border {
