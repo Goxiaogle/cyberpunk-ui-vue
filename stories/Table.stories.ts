@@ -86,6 +86,10 @@ const meta: Meta<typeof CpTable> = {
       control: 'boolean',
       description: '手动排序模式。开启后只维护排序状态和事件，不对 data 做本地排序，适用于远程排序',
     },
+    resizable: {
+      control: 'boolean',
+      description: '允许拖动表头分割线调整列宽，列宽会受 CpTableColumn 的 minWidth / maxWidth 限制',
+    },
     sortState: {
       control: false,
       description: '受控排序状态，配合 v-model:sort-state 使用',
@@ -108,6 +112,7 @@ const meta: Meta<typeof CpTable> = {
     loadingText: '加载中...',
     disabled: false,
     manualSort: false,
+    resizable: false,
   },
 }
 
@@ -542,6 +547,37 @@ export const FixedHeader: Story = {
         <CpTableColumn prop="role" label="角色" />
         <CpTableColumn prop="email" label="邮箱" />
         <CpTableColumn prop="date" label="日期" />
+      </CpTable>
+    `,
+  }),
+}
+
+/**
+ * 拖拽调整列宽
+ *
+ * 开启 `resizable` 后，可拖动表头右侧分割线调整列宽。
+ * `width` 作为初始宽度，`minWidth` / `maxWidth` 用于限制拖动范围。
+ */
+export const ResizableColumns: Story = {
+  render: () => ({
+    components: { CpTable, CpTableColumn, CpTag },
+    setup() {
+      return { tableData: mediumData.slice(0, 8) }
+    },
+    template: `
+      <CpTable :data="tableData" resizable stripe border>
+        <CpTableColumn prop="id" label="ID" :width="72" :min-width="56" :max-width="120" />
+        <CpTableColumn prop="name" label="姓名" :width="120" :min-width="90" :max-width="220" sortable />
+        <CpTableColumn prop="role" label="角色" :width="140" :min-width="100" :max-width="260" />
+        <CpTableColumn prop="status" label="状态" :width="120" :min-width="100" :max-width="180">
+          <template #default="{ row }">
+            <CpTag :type="row.status === 'active' ? 'success' : row.status === 'pending' ? 'warning' : 'error'" size="sm">
+              {{ row.status }}
+            </CpTag>
+          </template>
+        </CpTableColumn>
+        <CpTableColumn prop="email" label="邮箱" :width="240" :min-width="180" :max-width="420" />
+        <CpTableColumn prop="date" label="日期" :width="140" :min-width="120" :max-width="220" />
       </CpTable>
     `,
   }),

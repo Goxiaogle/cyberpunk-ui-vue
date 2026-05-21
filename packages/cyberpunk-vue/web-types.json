@@ -8419,7 +8419,7 @@
               "name": "data",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5493
+                "offset": 5579
               },
               "description": "表格数据",
               "default": "() => []",
@@ -8431,7 +8431,7 @@
               "name": "size",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5614
+                "offset": 5700
               },
               "description": "尺寸",
               "default": "'md'",
@@ -8443,7 +8443,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5753
+                "offset": 5839
               },
               "description": "颜色类型",
               "default": "'default'",
@@ -8455,7 +8455,7 @@
               "name": "stripe",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5886
+                "offset": 5972
               },
               "description": "是否显示条纹行",
               "default": "false",
@@ -8467,7 +8467,7 @@
               "name": "border",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 5994
+                "offset": 6080
               },
               "description": "是否显示边框",
               "default": "false",
@@ -8479,7 +8479,7 @@
               "name": "highlightCurrentRow",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6103
+                "offset": 6189
               },
               "description": "是否高亮当前行",
               "default": "false",
@@ -8491,7 +8491,7 @@
               "name": "rowClassName",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6533
+                "offset": 6619
               },
               "description": "行 class 名\n\n可传字符串、数组、对象，或函数按行动态返回 class。函数参数包含当前行数据与渲染索引。\n常用于根据业务状态高亮一行或多行；组件内置可直接使用的状态类：\n`is-success-row`、`is-warning-row`、`is-error-row`、`is-info-row`。",
               "default": "''",
@@ -8503,7 +8503,7 @@
               "name": "height",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6680
+                "offset": 6766
               },
               "description": "固定高度 (启用固定表头)",
               "type": [
@@ -8514,7 +8514,7 @@
               "name": "maxHeight",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6782
+                "offset": 6865
               },
               "description": "最大高度",
               "type": [
@@ -8522,10 +8522,22 @@
               ]
             },
             {
+              "name": "resizable",
+              "source": {
+                "file": "../components/table/src/table.ts",
+                "offset": 7077
+              },
+              "description": "是否允许拖动表头分割线调整列宽\n\n开启后，列的 `width` 作为初始宽度，拖动后的运行时宽度会受\n`minWidth` / `maxWidth` 限制。",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "emptyText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 6910
+                "offset": 7184
               },
               "description": "空数据文案",
               "default": "'暂无数据'",
@@ -8537,7 +8549,7 @@
               "name": "rowKey",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7022
+                "offset": 7296
               },
               "description": "行唯一标识字段名",
               "default": "'id'",
@@ -8549,7 +8561,7 @@
               "name": "defaultSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7213
+                "offset": 7487
               },
               "description": "默认排序\n\n仅作为非受控模式下的初始排序状态；后续外部变更不会自动覆盖内部状态。",
               "type": [
@@ -8560,7 +8572,7 @@
               "name": "sortState",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7515
+                "offset": 7789
               },
               "description": "受控排序状态（配合 `v-model:sort-state`）\n\n传入后排序状态由外部维护；组件点击表头只触发 `update:sortState`\n与 `sort-change`，视觉状态会跟随外部传回的新值。",
               "type": [
@@ -8571,7 +8583,7 @@
               "name": "manualSort",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 7786
+                "offset": 8060
               },
               "description": "手动排序模式\n\n开启后组件只维护排序状态与排序图标，不会对 `data` 做本地排序。\n适用于服务端排序、URL 状态同步、外部 store 管理等场景。\n\n也可以在列上设置 `sortable=\"custom\"` 仅让某一列进入手动排序。",
               "default": "false",
@@ -8583,7 +8595,7 @@
               "name": "sortOrders",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8007
+                "offset": 8281
               },
               "description": "排序切换顺序\n\n默认按升序、降序、取消排序循环。可传 `['descending', 'ascending']`\n让列始终保持有序状态，不进入取消排序。",
               "default": "() => ['ascending', 'descending', null]",
@@ -8595,7 +8607,7 @@
               "name": "color",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8201
+                "offset": 8475
               },
               "description": "自定义主题色（CSS 颜色值）\n优先级高于 type，设置后会覆盖 --cp-table-color",
               "default": "''",
@@ -8607,7 +8619,7 @@
               "name": "showHeader",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8303
+                "offset": 8577
               },
               "description": "是否显示表头",
               "default": "true",
@@ -8619,7 +8631,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8445
+                "offset": 8719
               },
               "description": "是否处于加载状态\n加载时会在表格内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -8631,7 +8643,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8559
+                "offset": 8833
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -8643,7 +8655,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8697
+                "offset": 8971
               },
               "description": "是否处于禁用状态\n禁用时表格整体变灰且不可交互",
               "default": "false",
@@ -8655,7 +8667,7 @@
               "name": "treeProps",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8852
+                "offset": 9126
               },
               "description": "树形数据配置\n传入后启用树形模式，表格将递归渲染子行",
               "type": [
@@ -8666,7 +8678,7 @@
               "name": "defaultExpandAll",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 8999
+                "offset": 9273
               },
               "description": "是否默认展开所有树形行",
               "default": "false",
@@ -8678,7 +8690,7 @@
               "name": "indent",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 9116
+                "offset": 9390
               },
               "description": "每级层级缩进像素",
               "default": "16",
@@ -8690,7 +8702,7 @@
               "name": "expandRowKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 9270
+                "offset": 9544
               },
               "description": "受控展开行 key 数组（展开列模式）\n传入后组件变为受控模式，由外部决定哪些行处于展开状态",
               "type": [
@@ -8701,7 +8713,7 @@
               "name": "rowExpandable",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 9536
+                "offset": 9810
               },
               "description": "控制每行是否可展开\n不传则所有行均可展开；返回 false 的行不显示展开按钮",
               "type": [
@@ -8712,7 +8724,7 @@
               "name": "treeCheckMode",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 9939
+                "offset": 10213
               },
               "description": "树形 + 多选场景下，父子节点的联动策略\n- `'strict'`（默认）：父子独立，互不影响\n- `'cascade'`：完全双向联动。勾父 → 全部后代勾选；勾/取子 → 父按直接子状态自动更新（含半选）\n- `'bubble'`：勾选任何节点 → 级联勾选全部后代 + 向上冒泡勾选祖先；取消父 → 后代全部取消；取消子不影响父（子全部取消时父仍可保持选中）\n仅在同时启用 `treeProps` 与 `type=\"selection\"` 列时生效",
               "default": "'strict'",
@@ -8724,7 +8736,7 @@
               "name": "selectionPayload",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 10281
+                "offset": 10555
               },
               "description": "selection-change / select / select-all 事件 payload 的输出形态\n- `'rows'`（默认）：数组，每项是完整行对象（等价原行为）\n- `'keys'`：数组，每项是该行的 rowKey 值\n- `'detail'`：结构化对象 `{ rows, keys, halfRows, halfKeys }`，同时返回全选与半选",
               "default": "'rows'",
@@ -8736,7 +8748,7 @@
               "name": "includeHalfChecked",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 10591
+                "offset": 10865
               },
               "description": "`selectionPayload` 为 `'rows'` 或 `'keys'` 时，是否将半选节点也混入数组\n仅在联动模式（cascade / bubble）下可能产生半选节点\n`selectionPayload === 'detail'` 时此 prop 无效（detail 本身已分离全选与半选）",
               "default": "false",
@@ -8748,7 +8760,7 @@
               "name": "checkedKeys",
               "source": {
                 "file": "../components/table/src/table.ts",
-                "offset": 11222
+                "offset": 11496
               },
               "description": "受控选中 rowKey 数组（配合 `v-model:checked-keys`）\n典型场景：表单回填、编辑已有记录、权限/批量分配等\n\n- 传入 `undefined`（默认）：组件使用内部状态，非受控\n- 传入数组（含空数组）：进入受控模式，外部数组为真相来源\n\n回填时**不做级联归一化**：传 `[3]` 就只选中 id=3 那一行，即便在 cascade/bubble 模式下也不会\n自动补勾父节点或后代。父节点的 indeterminate 视觉态由组件自动计算。\n这样保证 `v-model:checkedKeys` 读写对称——`getSelectionKeys()` 输出什么，回填就能用什么。",
               "type": [
@@ -8762,15 +8774,23 @@
                 "name": "sort-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11547
+                  "offset": 11821
                 },
                 "description": "排序变化"
+              },
+              {
+                "name": "column-resize",
+                "source": {
+                  "file": "../components/table/src/table.ts",
+                  "offset": 11895
+                },
+                "description": "列宽拖动变化"
               },
               {
                 "name": "row-click",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11619
+                  "offset": 12001
                 },
                 "description": "行点击"
               },
@@ -8778,7 +8798,7 @@
                 "name": "selection-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11705
+                  "offset": 12087
                 },
                 "description": "选中行变化"
               },
@@ -8786,7 +8806,7 @@
                 "name": "select-all",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11780
+                  "offset": 12162
                 },
                 "description": "全选"
               },
@@ -8794,7 +8814,7 @@
                 "name": "select",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11851
+                  "offset": 12233
                 },
                 "description": "单行选中"
               },
@@ -8802,7 +8822,7 @@
                 "name": "current-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 11929
+                  "offset": 12311
                 },
                 "description": "当前行变化"
               },
@@ -8810,7 +8830,7 @@
                 "name": "expand-change",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 12035
+                  "offset": 12417
                 },
                 "description": "树形行展开/折叠 或 行展开列展开/折叠"
               },
@@ -8818,7 +8838,7 @@
                 "name": "update:checkedKeys",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 12148
+                  "offset": 12530
                 },
                 "description": "受控 checkedKeys 变化（用于 `v-model:checked-keys`）"
               },
@@ -8826,7 +8846,7 @@
                 "name": "update:sortState",
                 "source": {
                   "file": "../components/table/src/table.ts",
-                  "offset": 12259
+                  "offset": 12641
                 },
                 "description": "受控 sortState 变化（用于 `v-model:sort-state`）"
               }
@@ -8844,7 +8864,7 @@
               "name": "type",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1546
+                "offset": 1637
               },
               "description": "列特殊类型",
               "default": "'default'",
@@ -8856,7 +8876,7 @@
               "name": "prop",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1675
+                "offset": 1766
               },
               "description": "数据字段名",
               "default": "''",
@@ -8868,7 +8888,7 @@
               "name": "label",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1771
+                "offset": 1862
               },
               "description": "列标题",
               "default": "''",
@@ -8880,7 +8900,7 @@
               "name": "width",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1859
+                "offset": 1950
               },
               "description": "列宽 (px 或百分比)",
               "type": [
@@ -8891,7 +8911,7 @@
               "name": "minWidth",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 1960
+                "offset": 2048
               },
               "description": "最小列宽",
               "type": [
@@ -8899,10 +8919,33 @@
               ]
             },
             {
+              "name": "maxWidth",
+              "source": {
+                "file": "../components/table-column/src/table-column.ts",
+                "offset": 2146
+              },
+              "description": "最大列宽",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "resizable",
+              "source": {
+                "file": "../components/table-column/src/table-column.ts",
+                "offset": 2328
+              },
+              "description": "是否允许拖动表头分割线调整当前列宽度\n\n需要同时在 CpTable 上开启 `resizable` 才会生效。",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
               "name": "sortable",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2188
+                "offset": 2535
               },
               "description": "是否可排序\n\n- `false`：不可排序\n- `true`：使用 CpTable 内置本地排序\n- `'custom'`：只触发排序状态和事件，不做本地排序，适用于远程排序",
               "default": "false",
@@ -8914,7 +8957,7 @@
               "name": "sortMethod",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2408
+                "offset": 2755
               },
               "description": "自定义本地排序函数\n\n仅在 `sortable` 为 `true` 且表格未开启 `manualSort` 时生效。\n返回值规则与 `Array.prototype.sort` 一致。",
               "type": [
@@ -8925,7 +8968,7 @@
               "name": "sortBy",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2603
+                "offset": 2950
               },
               "description": "自定义排序取值\n\n支持字段名、字段名数组（依次比较）或函数。未设置时使用 `prop`。\n可用于展示字段与排序字段不一致，或需要嵌套字段排序的场景。",
               "type": [
@@ -8936,7 +8979,7 @@
               "name": "sortOrders",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2799
+                "offset": 3146
               },
               "description": "当前列的排序切换顺序\n\n未设置时继承 CpTable 的 `sortOrders`。",
               "type": [
@@ -8947,7 +8990,7 @@
               "name": "align",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 2935
+                "offset": 3282
               },
               "description": "内容对齐方式",
               "default": "'left'",
@@ -8959,7 +9002,7 @@
               "name": "headerAlign",
               "source": {
                 "file": "../components/table-column/src/table-column.ts",
-                "offset": 3075
+                "offset": 3422
               },
               "description": "表头对齐方式 (默认跟随 align)",
               "default": "''",

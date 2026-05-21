@@ -21,6 +21,7 @@ export type ColumnType = 'default' | 'selection' | 'index' | 'expand'
  * ```vue
  * <!-- 普通数据列 -->
  * <CpTableColumn prop="name" label="姓名" sortable />
+ * <CpTableColumn prop="email" label="邮箱" :width="220" :min-width="160" :max-width="360" />
  * <CpTableColumn prop="createdAt" label="创建时间" sortable="custom" />
  *
  * <!-- 自定义单元格渲染 -->
@@ -83,6 +84,23 @@ export const tableColumnProps = {
    */
   minWidth: {
     type: [String, Number] as PropType<string | number>,
+  },
+  /**
+   * 最大列宽
+   */
+  maxWidth: {
+    type: [String, Number] as PropType<string | number>,
+  },
+  /**
+   * 是否允许拖动表头分割线调整当前列宽度
+   *
+   * 需要同时在 CpTable 上开启 `resizable` 才会生效。
+   *
+   * @default true
+   */
+  resizable: {
+    type: Boolean,
+    default: true,
   },
   /**
    * 是否可排序

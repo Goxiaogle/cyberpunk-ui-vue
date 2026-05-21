@@ -3,7 +3,7 @@
  * CpTable - 赛博朋克风格数据表格
  * 支持排序、多选、条纹、边框、固定表头、树形数据
  */
-import { computed, ref, shallowRef, toRaw, watch, provide } from 'vue'
+import { computed, ref, shallowRef, toRaw, watch, provide, onBeforeUnmount } from 'vue'
 import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
 import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState, type SortChangePayload, type SelectionDetail, type SelectionPayload } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
@@ -37,6 +37,151 @@ const unregisterColumn = (id: string) => {
 }
 
 provide(TABLE_CONTEXT_KEY, { registerColumn, unregisterColumn })
+
+// ===== 列宽拖拽 =====
+const DEFAULT_MIN_COLUMN_WIDTH = 40
+
+interface ColumnResizeState {
+  column: TableColumnConfig
+  startX: number
+  startWidth: number
+  oldWidth: number
+  minWidth: number
+  maxWidth: number
+  hasMoved: boolean
+}
+
+const resizingColumnId = ref('')
+const hasFrozenResizableWidths = ref(false)
+let resizeState: ColumnResizeState | null = null
+let previousBodyCursor = ''
+let previousBodyUserSelect = ''
+
+const parsePixelSize = (value?: string | number): number | undefined => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value !== 'string') return undefined
+
+  const trimmed = value.trim()
+  if (!trimmed || trimmed.endsWith('%')) return undefined
+
+  const parsed = Number.parseFloat(trimmed)
+  return Number.isFinite(parsed) ? parsed : undefined
+}
+
+const getColumnMinWidth = (col: TableColumnConfig) =>
+  parsePixelSize(col.minWidth) ?? (col.columnType === 'default' ? DEFAULT_MIN_COLUMN_WIDTH : 48)
+
+const getColumnMaxWidth = (col: TableColumnConfig) => parsePixelSize(col.maxWidth) ?? Number.POSITIVE_INFINITY
+
+const clampColumnWidth = (width: number, minWidth: number, maxWidth: number) => {
+  const safeMaxWidth = Math.max(minWidth, maxWidth)
+  return Math.max(minWidth, Math.min(width, safeMaxWidth))
+}
+
+const isColumnResizable = (col: TableColumnConfig) =>
+  props.resizable && col.resizable && !props.loading && !props.disabled
+
+const getHeaderCellWidth = (event: PointerEvent, col: TableColumnConfig) => {
+  const target = event.currentTarget as HTMLElement | null
+  const headerCell = target?.closest('th')
+  return headerCell?.offsetWidth || parsePixelSize(col.width) || getColumnMinWidth(col)
+}
+
+const getColumnWidthSum = () => {
+  if (!hasFrozenResizableWidths.value) return undefined
+
+  const sum = columns.value.reduce((total, col) => total + (parsePixelSize(col.width) ?? 0), 0)
+  return sum > 0 ? Math.round(sum) : undefined
+}
+
+const freezeResizableColumnWidths = (event: PointerEvent) => {
+  if (hasFrozenResizableWidths.value) return
+
+  const target = event.currentTarget as HTMLElement | null
+  const table = target?.closest('table')
+  const headerCells = table?.querySelectorAll<HTMLTableCellElement>('thead th')
+  if (!headerCells || headerCells.length !== columns.value.length) return
+
+  headerCells.forEach((cell, index) => {
+    columns.value[index].width = Math.round(cell.getBoundingClientRect().width)
+  })
+  hasFrozenResizableWidths.value = true
+}
+
+function cleanupColumnResizeListeners() {
+  if (typeof document === 'undefined') return
+
+  document.removeEventListener('pointermove', handleColumnResizeMove)
+  document.removeEventListener('pointerup', finishColumnResize)
+  document.removeEventListener('pointercancel', finishColumnResize)
+}
+
+function finishColumnResize() {
+  if (!resizeState) return
+
+  const { column, oldWidth, hasMoved } = resizeState
+  const width = parsePixelSize(column.width) ?? oldWidth
+  cleanupColumnResizeListeners()
+  if (typeof document !== 'undefined') {
+    document.body.style.cursor = previousBodyCursor
+    document.body.style.userSelect = previousBodyUserSelect
+  }
+  resizingColumnId.value = ''
+  resizeState = null
+
+  if (hasMoved && width !== oldWidth) {
+    emit('column-resize', column, width, oldWidth)
+  }
+}
+
+function handleColumnResizeMove(event: PointerEvent) {
+  if (!resizeState) return
+
+  const { column, startX, startWidth, minWidth, maxWidth } = resizeState
+  const deltaX = event.clientX - startX
+  if (Math.abs(deltaX) < 1) return
+
+  const nextWidth = clampColumnWidth(startWidth + deltaX, minWidth, maxWidth)
+  resizeState.hasMoved = true
+  column.width = Math.round(nextWidth)
+}
+
+const startColumnResize = (col: TableColumnConfig, event: PointerEvent) => {
+  if (!isColumnResizable(col) || typeof document === 'undefined') return
+
+  event.preventDefault()
+  event.stopPropagation()
+
+  cleanupColumnResizeListeners()
+
+  const currentWidth = getHeaderCellWidth(event, col)
+  freezeResizableColumnWidths(event)
+  const minWidth = getColumnMinWidth(col)
+  const maxWidth = getColumnMaxWidth(col)
+
+  resizeState = {
+    column: col,
+    startX: event.clientX,
+    startWidth: currentWidth,
+    oldWidth: currentWidth,
+    minWidth,
+    maxWidth,
+    hasMoved: false,
+  }
+  resizingColumnId.value = col.id
+
+  previousBodyCursor = document.body.style.cursor
+  previousBodyUserSelect = document.body.style.userSelect
+  document.body.style.cursor = 'col-resize'
+  document.body.style.userSelect = 'none'
+  document.addEventListener('pointermove', handleColumnResizeMove)
+  document.addEventListener('pointerup', finishColumnResize)
+  document.addEventListener('pointercancel', finishColumnResize)
+}
+
+onBeforeUnmount(() => {
+  cleanupColumnResizeListeners()
+})
 
 // ===== 排序 =====
 const innerSortState = ref<SortState>({
@@ -594,6 +739,8 @@ const classes = computed(() => [
   ns.is('border', props.border),
   ns.is('highlight-current-row', props.highlightCurrentRow),
   ns.is('scrollable', !!(props.height || props.maxHeight)),
+  ns.is('resizable', props.resizable),
+  ns.is('resizing', !!resizingColumnId.value),
   ns.is('loading', props.loading),
   ns.is('disabled', props.disabled),
 ])
@@ -637,17 +784,27 @@ const bodyStyle = computed(() => {
   return style
 })
 
+const tableStyle = computed(() => {
+  if (!props.resizable) return {}
+
+  const width = getColumnWidthSum()
+  return width ? { width: `${width}px`, minWidth: '100%' } : {}
+})
+
 // 列宽样式
 const getColStyle = (col: TableColumnConfig) => {
   const style: Record<string, string> = {}
-  if (col.width) {
+  if (col.width !== undefined && col.width !== '') {
     style.width = typeof col.width === 'number' ? `${col.width}px` : col.width
   }
   if (col.minWidth) {
     style.minWidth = typeof col.minWidth === 'number' ? `${col.minWidth}px` : col.minWidth
   }
+  if (col.maxWidth) {
+    style.maxWidth = typeof col.maxWidth === 'number' ? `${col.maxWidth}px` : col.maxWidth
+  }
   if (col.columnType === 'selection' || col.columnType === 'index' || col.columnType === 'expand') {
-    if (!col.width) style.width = '50px'
+    if (col.width === undefined || col.width === '') style.width = '50px'
   }
   return style
 }
@@ -739,7 +896,15 @@ defineExpose({
 
     <!-- 表格容器 -->
     <div :class="ns.e('wrapper')">
-      <table :class="ns.e('inner')">
+      <table :class="ns.e('inner')" :style="tableStyle">
+        <colgroup>
+          <col
+            v-for="col in columns"
+            :key="col.id"
+            :style="getColStyle(col)"
+          >
+        </colgroup>
+
         <!-- 表头 -->
         <thead v-if="showHeader" :class="ns.e('header')">
           <tr :class="ns.e('header-row')">
@@ -749,6 +914,8 @@ defineExpose({
               :class="[
                 ns.e('header-cell'),
                 col.sortable && ns.is('sortable', true),
+                isColumnResizable(col) && ns.is('resizable', true),
+                resizingColumnId === col.id && ns.is('resizing', true),
                 getSortClass(col),
                 getAlignClass(col.headerAlign || col.align),
               ]"
@@ -792,6 +959,13 @@ defineExpose({
                   </svg>
                 </span>
               </template>
+              <span
+                v-if="isColumnResizable(col)"
+                :class="ns.e('resize-handle')"
+                aria-hidden="true"
+                @pointerdown="startColumnResize(col, $event)"
+                @click.stop
+              />
             </th>
           </tr>
         </thead>

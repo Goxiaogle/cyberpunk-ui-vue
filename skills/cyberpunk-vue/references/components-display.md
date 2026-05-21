@@ -217,6 +217,7 @@
 | `rowClassName` | `TableRowClassValue \| ((params: TableRowClassNameParams) => TableRowClassValue)` | `''` | 行 class 名 |
 | `height` | `string \| number` | — | 固定高度 (启用固定表头) |
 | `maxHeight` | `string \| number` | — | 最大高度 |
+| `resizable` | `boolean` | `false` | 是否允许拖动表头分割线调整列宽 |
 | `emptyText` | `string` | `'暂无数据'` | 空数据文案 |
 | `rowKey` | `string \| ((row: any) =` | `'id'` | 行唯一标识字段名 |
 | `defaultSort` | `SortState` | — | 默认排序 |
@@ -242,6 +243,8 @@
 | `label` | `string` | `''` | 列标题 |
 | `width` | `string \| number` | — | 列宽 (px 或百分比) |
 | `minWidth` | `string \| number` | — | 最小列宽 |
+| `maxWidth` | `string \| number` | — | 最大列宽 |
+| `resizable` | `boolean` | `true` | 是否允许拖动表头分割线调整当前列宽度 |
 | `sortable` | `ColumnSortable` | `false` | 是否可排序 |
 | `sortMethod` | `SortMethod` | — | 自定义本地排序函数 |
 | `sortBy` | `SortBy` | — | 自定义排序取值 |
@@ -254,6 +257,7 @@
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
 | `sort-change` | `(_sortState: SortChangePayload)` | 排序变化 |
+| `column-resize` | `(_column: TableColumnConfig, _width: number, _oldWidth: number)` | 列宽拖动变化 |
 | `row-click` | `(row: any, index: number, event: MouseEvent)` | 行点击 |
 | `selection-change` | `(selection: SelectionPayload)` | 选中行变化 |
 | `select-all` | `(selection: SelectionPayload)` | 全选 |
@@ -339,6 +343,7 @@
 ```vue
 <!-- 普通数据列 -->
 <CpTableColumn prop="name" label="姓名" sortable />
+<CpTableColumn prop="email" label="邮箱" :width="220" :min-width="160" :max-width="360" />
 <CpTableColumn prop="createdAt" label="创建时间" sortable="custom" />
 
 <!-- 自定义单元格渲染 -->

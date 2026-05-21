@@ -127,6 +127,10 @@ export interface TableColumnConfig {
   width?: string | number
   /** 最小列宽 */
   minWidth?: string | number
+  /** 最大列宽 */
+  maxWidth?: string | number
+  /** 是否允许拖动表头分割线调整列宽 */
+  resizable: boolean
   /** 是否可排序 */
   sortable: ColumnSortable
   /** 自定义本地排序函数 */
@@ -299,6 +303,18 @@ export const tableProps = {
    */
   maxHeight: {
     type: [String, Number] as PropType<string | number>,
+  },
+  /**
+   * 是否允许拖动表头分割线调整列宽
+   *
+   * 开启后，列的 `width` 作为初始宽度，拖动后的运行时宽度会受
+   * `minWidth` / `maxWidth` 限制。
+   *
+   * @default false
+   */
+  resizable: {
+    type: Boolean,
+    default: false,
   },
   /**
    * 空数据文案
@@ -518,6 +534,8 @@ export type TableProps = ExtractPropTypes<typeof tableProps>
 export const tableEmits = {
   /** 排序变化 */
   'sort-change': (_sortState: SortChangePayload) => true,
+  /** 列宽拖动变化 */
+  'column-resize': (_column: TableColumnConfig, _width: number, _oldWidth: number) => true,
   /** 行点击 */
   'row-click': (row: any, index: number, event: MouseEvent) => true,
   /** 选中行变化 */

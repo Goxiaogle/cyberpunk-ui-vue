@@ -30,6 +30,8 @@ onMounted(() => {
       label: props.label,
       width: props.width,
       minWidth: props.minWidth,
+      maxWidth: props.maxWidth,
+      resizable: props.resizable,
       sortable: props.sortable,
       sortMethod: props.sortMethod,
       sortBy: props.sortBy,
