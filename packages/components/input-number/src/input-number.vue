@@ -24,6 +24,7 @@ const inputNumberSizeMap = { sm: 28, md: 36, lg: 44 }
 
 const inputRef = ref<HTMLInputElement>()
 const isFocused = ref(false)
+const isHovered = ref(false)
 const userInput = ref<string | null>(null)
 
 // 格式化显示值
@@ -65,6 +66,7 @@ const customStyle = computed(() => {
 // 增减按钮禁用状态
 const minDisabled = computed(() => props.modelValue <= props.min)
 const maxDisabled = computed(() => props.modelValue >= props.max)
+const resolvedWheelStep = computed(() => props.wheelStep ?? props.step)
 
 // 精确计算
 const toPrecision = (num: number): number => {
@@ -86,14 +88,35 @@ const setCurrentValue = (value: number) => {
   }
 }
 
+const normalizeStep = (step: number) => {
+  const normalizedStep = Math.abs(step)
+  return Number.isFinite(normalizedStep) ? normalizedStep : 0
+}
+
+const adjustValue = (direction: 1 | -1, step: number) => {
+  if (isDisabled.value || props.readonly) return
+
+  const normalizedStep = normalizeStep(step)
+  if (normalizedStep === 0) return
+
+  if (direction > 0) {
+    if (maxDisabled.value) return
+    userInput.value = null
+    setCurrentValue(props.modelValue + normalizedStep)
+    return
+  }
+
+  if (minDisabled.value) return
+  userInput.value = null
+  setCurrentValue(props.modelValue - normalizedStep)
+}
+
 const increase = () => {
-  if (isDisabled.value || props.readonly || maxDisabled.value) return
-  setCurrentValue(props.modelValue + props.step)
+  adjustValue(1, props.step)
 }
 
 const decrease = () => {
-  if (isDisabled.value || props.readonly || minDisabled.value) return
-  setCurrentValue(props.modelValue - props.step)
+  adjustValue(-1, props.step)
 }
 
 // 事件处理
@@ -129,6 +152,35 @@ const handleBlur = (event: FocusEvent) => {
   emit('blur', event)
 }
 
+const handleMouseEnter = () => {
+  isHovered.value = true
+}
+
+const handleMouseLeave = () => {
+  isHovered.value = false
+}
+
+const handleWheel = (event: WheelEvent) => {
+  if (
+    !props.wheel ||
+    (!isHovered.value && !isFocused.value) ||
+    isDisabled.value ||
+    props.readonly ||
+    event.deltaY === 0
+  ) {
+    return
+  }
+
+  const shouldIncrease = props.wheelReverse ? event.deltaY > 0 : event.deltaY < 0
+  const normalizedStep = normalizeStep(resolvedWheelStep.value)
+  if (normalizedStep === 0) return
+  if (shouldIncrease && maxDisabled.value) return
+  if (!shouldIncrease && minDisabled.value) return
+
+  event.preventDefault()
+  adjustValue(shouldIncrease ? 1 : -1, resolvedWheelStep.value)
+}
+
 // 暴露方法
 const focus = () => inputRef.value?.focus()
 const blur = () => inputRef.value?.blur()
@@ -141,7 +193,13 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="classes" :style="customStyle">
+  <div
+    :class="classes"
+    :style="customStyle"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @wheel="handleWheel"
+  >
     <!-- Decrease Button (left) -->
     <button
       v-if="controls && controlsPosition === 'both'"

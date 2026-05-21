@@ -38,6 +38,33 @@ export const inputNumberProps = {
         type: Number,
         default: 1,
     },
+    /**
+     * 是否启用滚轮增减
+     * @default true
+     * @description hover 或 focus 状态下，上滚动增加、下滚动减少
+     */
+    wheel: {
+        type: Boolean,
+        default: true,
+    },
+    /**
+     * 是否反转滚轮增减方向
+     * @default false
+     * @description true 时上滚动减少、下滚动增加
+     */
+    wheelReverse: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 滚轮独立步长
+     * @default undefined (默认使用 step)
+     * @description 未设置时沿用左右加减按钮的 step
+     */
+    wheelStep: {
+        type: Number,
+        default: undefined,
+    },
     /** 精度 (小数位数) */
     precision: {
         type: Number,

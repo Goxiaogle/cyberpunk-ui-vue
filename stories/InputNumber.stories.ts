@@ -10,6 +10,7 @@ import { CpInputNumber } from '@cyberpunk-vue/components'
  * ## 特性
  * - 📐 机甲风切角设计
  * - ➕➖ 增减控制按钮
+ * - 🖱️ hover / focus 滚轮增减
  * - 🔢 精度控制
  * - 📏 范围限制
  */
@@ -38,6 +39,18 @@ const meta: Meta<typeof CpInputNumber> = {
     step: {
       control: 'number',
       description: '步长',
+    },
+    wheel: {
+      control: 'boolean',
+      description: '是否启用滚轮增减',
+    },
+    wheelReverse: {
+      control: 'boolean',
+      description: '是否反转滚轮方向',
+    },
+    wheelStep: {
+      control: 'number',
+      description: '滚轮独立步长',
     },
     precision: {
       control: 'number',
@@ -143,6 +156,35 @@ export const 步长与精度: Story = {
         <p style="color: var(--cp-text-muted); font-size: 12px; margin-top: 8px;">
           步长: 0.1, 精度: 2位小数
         </p>
+      </div>
+    `,
+  }),
+}
+
+/** 滚轮增减 */
+export const 滚轮增减: Story = {
+  render: () => ({
+    components: { CpInputNumber },
+    setup() {
+      const normal = ref(10)
+      const reverse = ref(10)
+      const customStep = ref(10)
+      return { normal, reverse, customStep }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">默认方向：上滚 +1，下滚 -1</p>
+          <CpInputNumber v-model="normal" :min="0" :max="20" />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">反转方向：上滚 -1，下滚 +1</p>
+          <CpInputNumber v-model="reverse" :min="0" :max="20" wheel-reverse />
+        </div>
+        <div>
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 4px;">独立滚轮步长：按钮 ±1，滚轮 ±5</p>
+          <CpInputNumber v-model="customStep" :min="0" :max="50" :step="1" :wheel-step="5" />
+        </div>
       </div>
     `,
   }),

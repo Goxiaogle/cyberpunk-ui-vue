@@ -89,6 +89,9 @@
 | `min` | `number` | `-Infinity` | 最小值 |
 | `max` | `number` | `Infinity` | 最大值 |
 | `step` | `number` | `1` | 步长 |
+| `wheel` | `boolean` | `true` | 是否启用滚轮增减 |
+| `wheelReverse` | `boolean` | `false` | 是否反转滚轮增减方向 |
+| `wheelStep` | `number` | `undefined (默认使用 step)` | 滚轮独立步长 |
 | `precision` | `number` | — | 精度 (小数位数) |
 | `size` | `Size` | `'md'` | 尺寸 |
 | `disabled` | `boolean` | `false` | 是否禁用 |
