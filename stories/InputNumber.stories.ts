@@ -111,13 +111,25 @@ export const 尺寸: Story = {
       const v1 = ref(1)
       const v2 = ref(2)
       const v3 = ref(3)
-      return { v1, v2, v3 }
+      const rightV1 = ref(1)
+      const rightV2 = ref(2)
+      const rightV3 = ref(3)
+      return { v1, v2, v3, rightV1, rightV2, rightV3 }
     },
     template: `
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <CpInputNumber v-model="v1" size="sm" />
-        <CpInputNumber v-model="v2" size="md" />
-        <CpInputNumber v-model="v3" size="lg" />
+      <div style="display: grid; grid-template-columns: repeat(2, 160px); gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin: 0;">两侧控制器</p>
+          <CpInputNumber v-model="v1" size="sm" />
+          <CpInputNumber v-model="v2" size="md" />
+          <CpInputNumber v-model="v3" size="lg" />
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <p style="color: var(--cp-text-muted); font-size: 12px; margin: 0;">右侧控制器</p>
+          <CpInputNumber v-model="rightV1" size="sm" controls-position="right" />
+          <CpInputNumber v-model="rightV2" size="md" controls-position="right" />
+          <CpInputNumber v-model="rightV3" size="lg" controls-position="right" />
+        </div>
       </div>
     `,
   }),

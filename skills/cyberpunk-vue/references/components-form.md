@@ -143,6 +143,13 @@
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `--cp-icon-size` | `1em` |  |
+| `--cp-input-number-height` | `var(--cp-size-lg)` |  |
+| `--cp-input-number-control-width` | `var(--cp-input-number-height)` |  |
+| `--cp-input-number-right-control-width` | `clamp(24px, calc(var(--cp-input-number-height) * 0.9), 40px)` |  |
+| `--cp-input-number-icon-size` | `clamp(12px, calc(var(--cp-input-number-height) * 0.5), 22px)` |  |
+| `--cp-input-number-right-icon-size` | `clamp(10px, calc(var(--cp-input-number-height) * 0.4), 18px)` |  |
+| `--cp-input-number-input-padding` | `var(--cp-spacing-md)` |  |
+| `--cp-input-number-cut-size` | `8px` |  |
 
 ### 示例
 
