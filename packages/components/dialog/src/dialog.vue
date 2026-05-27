@@ -329,7 +329,19 @@ const handleClose = () => {
   }
 }
 
-const handleOverlayClick = () => {
+let overlayPointerDownOutsidePanel = false
+
+const handleOverlayPointerDown = (event: PointerEvent) => {
+  const target = event.target
+  overlayPointerDownOutsidePanel = !(target instanceof Node && panelRef.value?.contains(target))
+}
+
+const handleOverlayPointerUp = (event: PointerEvent) => {
+  const shouldClose = event.target === event.currentTarget && overlayPointerDownOutsidePanel
+  overlayPointerDownOutsidePanel = false
+
+  if (!shouldClose) return
+
   if (props.closeOnClickModal) {
     handleClose()
   } else {
@@ -519,9 +531,14 @@ defineExpose({
         v-show="visible"
         :class="overlayClasses"
         :style="overlayStyleObj"
-        @click.self="handleOverlayClick"
+        @pointerdown="handleOverlayPointerDown"
+        @pointerup.self="handleOverlayPointerUp"
       >
-        <div :class="wrapperClasses" :style="wrapperStyle" @click.self="handleOverlayClick">
+        <div
+          :class="wrapperClasses"
+          :style="wrapperStyle"
+          @pointerup.self="handleOverlayPointerUp"
+        >
           <div
             ref="panelRef"
             v-bind="$attrs"
