@@ -4,7 +4,7 @@
  * 八边形指示器，菱形内点，霓虹辉光效果
  */
 import { computed, inject, ref } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { radioProps, radioEmits, type RadioValueType } from './radio'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { radioGroupContextKey } from '@cyberpunk-vue/components/radio-group/src/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Radio`,
 })
 
-const props = defineProps(radioProps)
+const rawProps = defineProps(radioProps)
+const props = useDefaults(rawProps, 'radio')
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
@@ -42,6 +43,11 @@ const actualSize = computed(() => {
 // 实际类型
 const actualType = computed(() => {
   return radioGroup?.type?.value || props.type
+})
+
+// 实际形状
+const actualShape = computed(() => {
+  return radioGroup?.shape?.value || props.shape
 })
 
 // 是否选中
@@ -74,6 +80,7 @@ const typeTextColorMap: Record<string, string> = {
 const classes = computed(() => [
   ns.b(),
   isPresetSize(actualSize.value) && ns.m(actualSize.value),
+  ns.m(`shape-${actualShape.value}`),
   ns.is('checked', isChecked.value),
   ns.is('disabled', actualDisabled.value),
   ns.is('border', props.border),

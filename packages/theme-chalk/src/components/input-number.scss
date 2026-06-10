@@ -136,6 +136,65 @@
         }
     }
 
+    // ===== 形状模式 =====
+    @include m(shape-no-clip) {
+        .cp-input-number__inner,
+        .cp-input-number__increase,
+        .cp-input-number__decrease {
+            clip-path: none;
+            border-radius: 0;
+        }
+
+        .cp-input-number__controls {
+            overflow: hidden;
+            border-radius: 0;
+        }
+    }
+
+    @include m(shape-round) {
+        .cp-input-number__inner,
+        .cp-input-number__increase,
+        .cp-input-number__decrease {
+            clip-path: none;
+        }
+
+        &.cp-input-number--controls-both {
+            .cp-input-number__decrease {
+                border-radius: var(--cp-radius-lg) 0 0 var(--cp-radius-lg);
+            }
+
+            .cp-input-number__inner {
+                border-radius: 0;
+            }
+
+            .cp-input-number__increase {
+                border-radius: 0 var(--cp-radius-lg) var(--cp-radius-lg) 0;
+            }
+        }
+
+        &.cp-input-number--controls-right {
+            .cp-input-number__inner {
+                border-radius: var(--cp-radius-lg);
+            }
+
+            .cp-input-number__controls {
+                overflow: hidden;
+                border-radius: 0 var(--cp-radius-lg) var(--cp-radius-lg) 0;
+            }
+
+            .cp-input-number__increase,
+            .cp-input-number__decrease {
+                border-radius: 0;
+            }
+        }
+
+        &.is-without-controls {
+            .cp-input-number__inner {
+                border-radius: var(--cp-radius-lg);
+            }
+        }
+    }
+
     // ===== 内部元素 =====
     @include e(inner) {
         flex: 1;

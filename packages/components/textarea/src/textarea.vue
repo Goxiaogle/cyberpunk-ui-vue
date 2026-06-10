@@ -3,7 +3,7 @@
  * CpTextarea - 赛博朋克风格多行文本输入框
  */
 import { computed, ref, inject, watch, nextTick, onMounted } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textareaProps, textareaEmits } from './textarea'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Textarea`,
 })
 
-const props = defineProps(textareaProps)
+const rawProps = defineProps(textareaProps)
+const props = useDefaults(rawProps, 'textarea')
 const emit = defineEmits(textareaEmits)
 
 const ns = useNamespace('textarea')
@@ -30,10 +31,12 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(props.variant),
+  ns.m(`shape-${props.shape}`),
   ns.is('disabled', isDisabled.value),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),
   ns.is('custom-color', !!props.color),
+  ns.is('show-word-limit', showLimit.value),
   ns.is('custom-size', !isPresetSize(props.size)),
 ])
 

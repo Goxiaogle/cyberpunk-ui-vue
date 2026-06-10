@@ -8,6 +8,14 @@ import type { Size } from '@cyberpunk-vue/hooks'
 export type InputNumberSize = Size
 
 /**
+ * InputNumber 形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type InputNumberShape = 'clip' | 'no-clip' | 'round'
+
+/**
  * CpInputNumber 组件 Props 定义
   * @category 表单组件
  * @displayName CpInputNumber 数字输入
@@ -74,6 +82,14 @@ export const inputNumberProps = {
     size: {
         type: [String, Number] as PropType<InputNumberSize>,
         default: 'md',
+    },
+    /**
+     * 数字输入框形状
+     * @default 'clip'
+     */
+    shape: {
+        type: String as PropType<InputNumberShape>,
+        default: 'clip',
     },
     /** 是否禁用 */
     disabled: {

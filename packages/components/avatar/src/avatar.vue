@@ -4,7 +4,7 @@
  * 支持多种尺寸、形状，可显示图片、图标或文字
  */
 import { ref, computed, inject, useSlots, toRef, watch } from 'vue'
-import { useNamespace, useImageSrc, parseSizeNumber } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, useImageSrc, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { avatarProps, avatarEmits, avatarSizeMap } from './avatar'
@@ -14,7 +14,8 @@ defineOptions({
     name: `${COMPONENT_PREFIX}Avatar`,
 })
 
-const props = defineProps(avatarProps)
+const rawProps = defineProps(avatarProps)
+const props = useDefaults(rawProps, 'avatar')
 const emit = defineEmits(avatarEmits)
 const slots = useSlots()
 

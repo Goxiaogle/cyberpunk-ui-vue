@@ -13,7 +13,7 @@ import {
   onBeforeUnmount,
   type ComponentPublicInstance,
 } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { segmentedProps, segmentedEmits, type SegmentedOption, type SegmentedValueType } from './segmented'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -22,7 +22,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Segmented`,
 })
 
-const props = defineProps(segmentedProps)
+const rawProps = defineProps(segmentedProps)
+const props = useDefaults(rawProps, 'segmented')
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')

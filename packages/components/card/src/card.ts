@@ -6,6 +6,7 @@ import type { DurationValue } from '@cyberpunk-vue/hooks'
  * - `always` - 始终显示阴影（默认）
  * - `hover` - 仅悬停时显示
  * - `never` - 不显示阴影
+ * @note `variant="outline"` 以描边轮廓为主，外部 hover shadow 不生效。
  */
 export type CardShadow = 'always' | 'hover' | 'never'
 
@@ -126,6 +127,7 @@ export const cardProps = {
    * - `always` - 始终显示
    * - `hover` - 悬停时显示
    * - `never` - 不显示
+   * @description `variant="outline"` 时外部 hover shadow 无效，仅保留描边状态。
    * @default 'always'
    */
   shadow: {

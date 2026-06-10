@@ -3,7 +3,7 @@
  * CpInputNumber - 赛博朋克风格数字输入框
  */
 import { computed, ref, inject } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}InputNumber`,
 })
 
-const props = defineProps(inputNumberProps)
+const rawProps = defineProps(inputNumberProps)
+const props = useDefaults(rawProps, 'inputNumber')
 const emit = defineEmits(inputNumberEmits)
 
 const ns = useNamespace('input-number')
@@ -42,6 +43,7 @@ const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
   ns.m(`controls-${props.controlsPosition}`),
+  ns.m(`shape-${props.shape}`),
   ns.is('disabled', isDisabled.value),
   ns.is('readonly', props.readonly),
   ns.is('focused', isFocused.value),

@@ -6,7 +6,7 @@
  */
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
 import { computePosition, autoUpdate, flip, shift, offset, size, type Placement } from '@floating-ui/dom'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { registerOverlay } from '@cyberpunk-vue/components/utils'
 import { selectProps, selectEmits, type SelectOption } from './select'
@@ -16,7 +16,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Select`,
 })
 
-const props = defineProps(selectProps)
+const rawProps = defineProps(selectProps)
+const props = useDefaults(rawProps, 'select')
 const emit = defineEmits(selectEmits)
 const slots = useSlots()
 

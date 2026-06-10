@@ -4,7 +4,7 @@
  * 管理多个 CpCheckbox 的选中状态
  */
 import { computed, provide, toRef } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { checkboxGroupProps, checkboxGroupEmits } from './checkbox-group'
 import { checkboxGroupContextKey, type CheckboxGroupContext } from './constants'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}CheckboxGroup`,
 })
 
-const props = defineProps(checkboxGroupProps)
+const rawProps = defineProps(checkboxGroupProps)
+const props = useDefaults(rawProps, 'checkboxGroup')
 const emit = defineEmits(checkboxGroupEmits)
 
 const ns = useNamespace('checkbox-group')

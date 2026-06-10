@@ -4,7 +4,7 @@
  * 支持懒加载、加载占位、错误处理等功能
  */
 import { ref, computed, onMounted, onBeforeUnmount, watch, toRef } from 'vue'
-import { useNamespace, useImageSrc, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, useImageSrc, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { imageProps, imageEmits } from './image'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpImagePreview from '@cyberpunk-vue/components/image-preview/src/image-preview.vue'
@@ -17,7 +17,8 @@ defineOptions({
     name: `${COMPONENT_PREFIX}Image`,
 })
 
-const props = defineProps(imageProps)
+const rawProps = defineProps(imageProps)
+const props = useDefaults(rawProps, 'image')
 const emit = defineEmits(imageEmits)
 
 const ns = useNamespace('image')

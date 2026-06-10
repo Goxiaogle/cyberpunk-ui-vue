@@ -592,7 +592,7 @@
 | `--cp-card-color` | `var(--cp-border)` |  |
 | `--cp-card-color-light` | `rgba(255, 255, 255, 0.1)` |  |
 | `--cp-card-bg` | `color-mix(in srgb, var(--cp-border) 50%, transparent)` |  |
-| `--cp-card-shadow-color` | `rgba(0, 0, 0, 0.4)` |  |
+| `--cp-card-shadow-color` | `color-mix(in srgb, var(--cp-card-color) 44%, transparent)` |  |
 | `--cp-card-clip-path` | `polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)` |  |
 | `--cp-card-bg-hover` | `color-mix(in srgb, var(--cp-bg-elevated) 75%, var(--cp-card-color))` |  |
 | `--cp-card-border` | `var(--cp-border)` |  |
@@ -868,7 +868,7 @@
 | `max` | `number` | `100` | 进度最大值 |
 | `type` | `'line' \| 'circle' \| 'dashboard'` | `'line'` | 进度条类型 |
 | `size` | `Size \| 'xl' \| 'xxl'` | `'md'` | 进度条尺寸 |
-| `status` | `'success' \| 'warning' \| 'error'` | `undefined` | 进度条状态 |
+| `status` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `undefined` | 进度条状态 |
 | `color` | `string \| array \| function` | `''` | 自定义进度条颜色 |
 | `strokeWidth` | `number` | `undefined (根据尺寸自动计算)` | 进度条轨道宽度 (像素) |
 | `showText` | `boolean` | `true` | 是否显示进度文字 |
@@ -898,7 +898,7 @@
 
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
-| `--cp-progress-color` | `var(--cp-color-error)` |  |
+| `--cp-progress-color` | `var(--cp-color-info)` |  |
 
 ### 示例
 

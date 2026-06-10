@@ -1,11 +1,11 @@
 <script setup lang="ts">
 /**
  * CpSwitch - 赛博朋克风格开关
- * 支持多种尺寸、异步切换、内嵌文字
+ * 支持多种尺寸、异步切换、文字位置
  * 支持自定义颜色、加载状态、长文本自适应 (fitText)
  */
 import { computed, ref, inject } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { switchProps, switchEmits } from './switch'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Switch`,
 })
 
-const props = defineProps(switchProps)
+const rawProps = defineProps(switchProps)
+const props = useDefaults(rawProps, 'switch')
 const emit = defineEmits(switchEmits)
 
 const ns = useNamespace('switch')
@@ -27,6 +28,10 @@ const switchSizeMap = { sm: 16, md: 20, lg: 24 }
 const inputRef = ref<HTMLInputElement>()
 const isSwitching = ref(false)
 
+const isInnerText = computed(() => props.textPosition === 'inner')
+
+const hasText = computed(() => Boolean(props.activeText || props.inactiveText))
+
 // 是否实际禁用
 const actualDisabled = computed(() => {
   return props.disabled || formContext?.disabled.value || props.loading || isSwitching.value
@@ -36,10 +41,12 @@ const actualDisabled = computed(() => {
 const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
+  ns.m(`shape-${props.shape}`),
+  ns.m(`text-${props.textPosition}`),
   ns.is('checked', props.modelValue),
   ns.is('disabled', actualDisabled.value),
   ns.is('loading', props.loading),
-  ns.is('fit-text', props.fitText),
+  ns.is('fit-text', props.fitText && isInnerText.value),
   ns.is('custom-size', !isPresetSize(props.size)),
 ])
 
@@ -133,17 +140,22 @@ defineExpose({
       :disabled="actualDisabled"
       @change.stop
     />
+
+    <span v-if="props.textPosition === 'left' && hasText" :class="ns.e('text')">
+      <span v-if="props.activeText" class="cp-switch__text-value cp-switch__text-value--active">{{ props.activeText }}</span>
+      <span v-if="props.inactiveText" class="cp-switch__text-value cp-switch__text-value--inactive">{{ props.inactiveText }}</span>
+    </span>
     
     <!-- 轨道 -->
     <div :class="ns.e('track')">
       <!-- 占位层 (用于 fitText 模式下撑开高度和宽度) -->
-      <div v-if="props.fitText" :class="ns.e('wrapper')">
+      <div v-if="props.fitText && isInnerText" :class="ns.e('wrapper')">
         <span class="wrapper-text active">{{ props.activeText }}</span>
         <span class="wrapper-text inactive">{{ props.inactiveText }}</span>
       </div>
       
       <!-- 未选中文字 (显示在右侧) -->
-      <span v-if="props.inactiveText" :class="ns.e('inactive-text')">
+      <span v-if="isInnerText && props.inactiveText" :class="ns.e('inactive-text')">
         <span class="text-inner">{{ props.inactiveText }}</span>
       </span>
       
@@ -169,9 +181,14 @@ defineExpose({
       </div>
       
       <!-- 选中文字 (显示在左侧) -->
-      <span v-if="props.activeText" :class="ns.e('active-text')">
+      <span v-if="isInnerText && props.activeText" :class="ns.e('active-text')">
         <span class="text-inner">{{ props.activeText }}</span>
       </span>
     </div>
+
+    <span v-if="props.textPosition === 'right' && hasText" :class="ns.e('text')">
+      <span v-if="props.activeText" class="cp-switch__text-value cp-switch__text-value--active">{{ props.activeText }}</span>
+      <span v-if="props.inactiveText" class="cp-switch__text-value cp-switch__text-value--inactive">{{ props.inactiveText }}</span>
+    </span>
   </div>
 </template>

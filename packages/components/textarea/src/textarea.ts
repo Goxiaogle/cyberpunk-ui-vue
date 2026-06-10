@@ -8,6 +8,14 @@ import type { Size } from '@cyberpunk-vue/hooks'
 export type TextareaSize = Size
 
 /**
+ * Textarea 形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type TextareaShape = 'clip' | 'no-clip' | 'round'
+
+/**
  * Textarea 变体
  */
 export type TextareaVariant = 'outline' | 'filled'
@@ -37,6 +45,11 @@ export const textareaProps = {
     size: {
         type: [String, Number] as PropType<TextareaSize>,
         default: 'md',
+    },
+    /** 形状 */
+    shape: {
+        type: String as PropType<TextareaShape>,
+        default: 'clip',
     },
     /** 形态变体 */
     variant: {

@@ -211,6 +211,14 @@
     }
 
     // ===== 状态颜色 =====
+    @include when(primary) {
+        --cp-progress-color: var(--cp-color-primary);
+
+        .cp-progress__text {
+            color: var(--cp-color-primary);
+        }
+    }
+
     @include when(success) {
         --cp-progress-color: var(--cp-color-success);
 
@@ -232,6 +240,14 @@
 
         .cp-progress__text {
             color: var(--cp-color-error);
+        }
+    }
+
+    @include when(info) {
+        --cp-progress-color: var(--cp-color-info);
+
+        .cp-progress__text {
+            color: var(--cp-color-info);
         }
     }
 
@@ -307,6 +323,16 @@
     @include e(track) {
         stroke: var(--cp-border);
         opacity: 0.35; // 略微提高轨道可见度
+    }
+
+    @include e(track-path) {
+        fill: var(--cp-border);
+        stroke: none;
+    }
+
+    @include e(track-line) {
+        fill: none;
+        stroke: var(--cp-border);
     }
 
     @include e(inner-track) {

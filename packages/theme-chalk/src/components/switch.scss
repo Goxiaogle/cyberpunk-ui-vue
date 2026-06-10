@@ -38,6 +38,7 @@ $switch-sizes: (
     position: relative;
     display: inline-flex;
     align-items: center;
+    gap: var(--cp-spacing-sm);
     cursor: pointer;
     user-select: none;
     vertical-align: middle;
@@ -101,6 +102,52 @@ $switch-sizes: (
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0); // 三角形
             z-index: 2;
             transition: all 0.3s ease;
+        }
+    }
+
+    // ===== 外部状态文字 =====
+    @include e(text) {
+        display: inline-grid;
+        align-items: center;
+        min-width: 0;
+        color: var(--cp-text-muted);
+        font-family: var(--cp-font-family-ui);
+        font-size: var(--cp-font-size-sm);
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+        transition: color 0.2s ease, text-shadow 0.2s ease;
+
+        .cp-switch__text-value {
+            display: block;
+            grid-area: 1 / 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+
+            @include m(active) {
+                color: var(--cp-switch-active-color);
+                text-shadow: 0 0 8px var(--cp-switch-active-color-light);
+            }
+
+            @include m(inactive) {
+                color: var(--cp-text-muted);
+                text-shadow: none;
+            }
+        }
+    }
+
+    @include when(checked) {
+        .cp-switch__text-value--active {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &:not(.is-checked) {
+        .cp-switch__text-value--inactive {
+            opacity: 1;
+            visibility: visible;
         }
     }
 
@@ -342,6 +389,7 @@ $switch-sizes: (
 
             .cp-switch__active-text,
             .cp-switch__inactive-text,
+            .cp-switch__text,
             .wrapper-text {
                 font-size: map.get($size-config, font-size);
             }
@@ -418,6 +466,133 @@ $switch-sizes: (
         opacity: 0.6;
         cursor: not-allowed;
         filter: grayscale(0.8);
+    }
+
+    // ===== 形状模式 =====
+    @include m(shape-no-clip) {
+        .cp-switch__track,
+        .cp-switch__thumb {
+            clip-path: none;
+            border-radius: 0;
+        }
+
+        .cp-switch__track::after {
+            display: none;
+        }
+    }
+
+    @include m(shape-round) {
+        .cp-switch__track,
+        .cp-switch__thumb {
+            clip-path: none;
+            border-radius: 999px;
+        }
+
+        .cp-switch__track::after {
+            display: none;
+        }
+    }
+}
+
+[data-theme="light"] {
+    @include b(switch) {
+        --cp-switch-bg-color: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%);
+        --cp-switch-inactive-color: #c4d0e3;
+        --cp-switch-active-color-light: color-mix(in srgb, var(--cp-switch-active-color) 18%, transparent);
+
+        @include e(track) {
+            background: var(--cp-switch-bg-color);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.62),
+                0 1px 2px rgba(15, 23, 42, 0.06);
+
+            &::before {
+                background-image: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(15, 23, 42, 0.035) 2px,
+                    rgba(15, 23, 42, 0.035) 4px
+                );
+            }
+
+            &::after {
+                opacity: 0.65;
+            }
+        }
+
+        @include e(thumb) {
+            background: linear-gradient(135deg, #ffffff 0%, #e9f1ff 100%);
+            border-color: #b8c7dd;
+            box-shadow:
+                0 1px 2px rgba(15, 23, 42, 0.16),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            color: #64748b;
+
+            &::before {
+                background: #94a3b8;
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        @include e(text) {
+            .cp-switch__text-value--active {
+                text-shadow: none;
+            }
+        }
+
+        @include when(checked) {
+            .cp-switch__track {
+                background:
+                    linear-gradient(
+                        135deg,
+                        color-mix(in srgb, var(--cp-switch-active-color) 10%, #ffffff) 0%,
+                        color-mix(in srgb, var(--cp-switch-active-color) 18%, #ffffff) 100%
+                    );
+                border-color: var(--cp-switch-active-color);
+                box-shadow:
+                    inset 0 0 0 1px rgba(255, 255, 255, 0.56),
+                    0 0 0 2px color-mix(in srgb, var(--cp-switch-active-color) 14%, transparent);
+
+                &::after {
+                    background: var(--cp-switch-active-color);
+                    box-shadow: none;
+                }
+
+                &::before {
+                    background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 2px,
+                        color-mix(in srgb, var(--cp-switch-active-color) 16%, transparent) 2px,
+                        color-mix(in srgb, var(--cp-switch-active-color) 16%, transparent) 4px
+                    );
+                }
+            }
+
+            .cp-switch__thumb {
+                background: linear-gradient(
+                    135deg,
+                    color-mix(in srgb, var(--cp-switch-active-color) 88%, #ffffff) 0%,
+                    var(--cp-switch-active-color) 100%
+                );
+                border-color: #ffffff;
+                box-shadow:
+                    0 2px 5px color-mix(in srgb, var(--cp-switch-active-color) 34%, transparent),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+                color: #ffffff;
+
+                &::before {
+                    background: rgba(255, 255, 255, 0.78);
+                    box-shadow: none;
+                }
+            }
+        }
+
+        @include when(disabled) {
+            opacity: 0.55;
+            filter: grayscale(0.45);
+        }
     }
 }
 

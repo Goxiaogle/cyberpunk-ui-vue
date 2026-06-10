@@ -11,6 +11,16 @@ import type { Size } from '@cyberpunk-vue/hooks'
 export type SliderSize = Size
 
 /**
+ * 滑块类型（颜色预设）
+ * - `primary` - 主色调
+ * - `success` - 成功
+ * - `warning` - 警告
+ * - `error` - 错误/危险
+ * - `info` - 信息
+ */
+export type SliderType = 'primary' | 'success' | 'warning' | 'error' | 'info'
+
+/**
  * 滑块形状
  * - `clip` - 切角样式（默认，赛博朋克特色）
  * - `no-clip` - 直角矩形
@@ -93,6 +103,14 @@ export const sliderProps = {
     size: {
         type: [String, Number] as PropType<SliderSize>,
         default: 'md',
+    },
+    /**
+     * 滑块类型（颜色预设）
+     * @default 'primary'
+     */
+    type: {
+        type: String as PropType<SliderType>,
+        default: 'primary',
     },
     /**
      * 滑块形状

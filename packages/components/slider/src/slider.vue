@@ -4,7 +4,7 @@
  * 支持单值/范围模式、刻度标记、垂直模式
  */
 import { computed, ref, inject, onBeforeUnmount } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { sliderProps, sliderEmits } from './slider'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Slider`,
 })
 
-const props = defineProps(sliderProps)
+const rawProps = defineProps(sliderProps)
+const props = useDefaults(rawProps, 'slider')
 const emit = defineEmits(sliderEmits)
 
 const ns = useNamespace('slider')
@@ -38,6 +39,7 @@ const dragEndValue = ref<number | null>(null)
 const classes = computed(() => [
   ns.b(),
   isPresetSize(props.size) && ns.m(props.size),
+  ns.m(props.type),
   ns.m(`shape-${props.shape}`),
   ns.is('disabled', isDisabled.value),
   ns.is('vertical', props.vertical),
@@ -49,6 +51,10 @@ const classes = computed(() => [
 
 const customStyle = computed(() => {
   const style: Record<string, string> = {}
+  const sliderColor = props.color || `var(--cp-color-${props.type})`
+  const sliderColorLight = props.color
+    ? `color-mix(in srgb, ${props.color}, transparent 60%)`
+    : `var(--cp-color-${props.type}-light)`
   
   // 确定轨道和滑块的基础尺寸
   const sizeValue = isPresetSize(props.size) ? props.size : 'md'
@@ -81,10 +87,8 @@ const customStyle = computed(() => {
     : Math.max(2, Math.floor(trackHeight * 0.6))
   style['--cp-slider-clip-size'] = `${clipSize}px`
 
-  if (props.color) {
-    style['--cp-slider-custom-color'] = props.color
-    style['--cp-slider-custom-color-light'] = `color-mix(in srgb, ${props.color}, transparent 60%)`
-  }
+  style['--cp-slider-color'] = sliderColor
+  style['--cp-slider-color-light'] = sliderColorLight
   if (props.vertical && props.height) {
     style['height'] = props.height
   }

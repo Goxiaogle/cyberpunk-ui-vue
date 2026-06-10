@@ -4,7 +4,7 @@
  * 支持多种尺寸、半选状态、分组使用
  */
 import { Comment, Fragment, Text, computed, inject, ref, useSlots, type VNode } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { checkboxProps, checkboxEmits } from './checkbox'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { checkboxGroupContextKey } from '@cyberpunk-vue/components/checkbox-group/src/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Checkbox`,
 })
 
-const props = defineProps(checkboxProps)
+const rawProps = defineProps(checkboxProps)
+const props = useDefaults(rawProps, 'checkbox')
 const emit = defineEmits(checkboxEmits)
 
 const ns = useNamespace('checkbox')

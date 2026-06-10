@@ -4,7 +4,7 @@
  * 支持多种类型、变体、尺寸与可关闭功能
  */
 import { computed } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { tagProps, tagEmits } from './tag'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Tag`,
 })
 
-const props = defineProps(tagProps)
+const rawProps = defineProps(tagProps)
+const props = useDefaults(rawProps, 'tag')
 const emit = defineEmits(tagEmits)
 
 const ns = useNamespace('tag')

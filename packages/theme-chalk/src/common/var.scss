@@ -246,38 +246,69 @@ $cp-radius: (
 
 // ===== 暗色/亮色主题切换 =====
 [data-theme="light"] {
+  // 亮色主题使用独立语义色板，不沿用暗色霓虹色的降明度版本。
+  --cp-color-primary: #0077ff;
+  --cp-color-success: #00a66a;
+  --cp-color-warning: #f5a524;
+  --cp-color-error: #e11d48;
+  --cp-color-info: #7c3aed;
+
+  @each $name, $value in $cp-colors {
+    --cp-color-#{$name}-light: color-mix(in srgb, var(--cp-color-#{$name}) 10%, transparent);
+    --cp-color-#{$name}-dark: color-mix(in srgb, var(--cp-color-#{$name}) 82%, black);
+  }
+
   // 背景
-  --cp-bg-deep: #f5f5f8;
+  --cp-bg-deep: #f2f5fa;
   --cp-bg-base: #ffffff;
-  --cp-bg-elevated: #fafafa;
+  --cp-bg-elevated: #ffffff;
 
   // 表面色
   --cp-surface: #ffffff;
-  --cp-surface-variant: #fafafa;
-  --cp-surface-bright: #f0f0f5;
+  --cp-surface-variant: #f7f9fc;
+  --cp-surface-bright: #eef3f8;
   --cp-overlay: rgba(0, 0, 0, 0.3);
   --cp-scrim: rgba(255, 255, 255, 0.8);
 
   // 边框
-  --cp-border: #e0e0e8;
-  --cp-border-default: #e0e0e8;
-  --cp-border-inactive: #c0c0c8;
-  --cp-border-hover: #b0b0b8;
-  --cp-border-disabled: #d0d0d8;
+  --cp-border: #d7deea;
+  --cp-border-default: #d7deea;
+  --cp-border-inactive: #b8c2d2;
+  --cp-border-hover: #94a3b8;
+  --cp-border-disabled: #dfe5ef;
 
   // 文字
-  --cp-text-primary: #1a1a24;
-  --cp-text-secondary: #606070;
-  --cp-text-muted: #a0a0b0;
-  --cp-text-on-bright: #1a1a24;
+  --cp-text-primary: #111827;
+  --cp-text-secondary: #4b5563;
+  --cp-text-muted: #8a94a6;
+  --cp-text-on-bright: #ffffff;
+  --cp-text-on-dark: #ffffff;
   --cp-text-inverse: #ffffff;
 
   // Layout
   --cp-layout-header-bg: rgba(255, 255, 255, 0.76);
   --cp-layout-footer-bg: rgba(250, 250, 252, 0.72);
 
+  // 每个主题色的配套变量
+  --cp-color-primary-text: var(--cp-text-on-bright);
+  --cp-color-primary-border: var(--cp-color-primary);
+  --cp-color-primary-hover: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+  --cp-color-success-text: var(--cp-text-on-bright);
+  --cp-color-success-border: var(--cp-color-success);
+  --cp-color-success-hover: color-mix(in srgb, var(--cp-color-success) 8%, transparent);
+  --cp-color-warning-text: #111827;
+  --cp-color-warning-border: var(--cp-color-warning);
+  --cp-color-warning-hover: color-mix(in srgb, var(--cp-color-warning) 8%, transparent);
+  --cp-color-error-text: var(--cp-text-on-bright);
+  --cp-color-error-border: var(--cp-color-error);
+  --cp-color-error-hover: color-mix(in srgb, var(--cp-color-error) 8%, transparent);
+  --cp-color-info-text: var(--cp-text-on-bright);
+  --cp-color-info-border: var(--cp-color-info);
+  --cp-color-info-hover: color-mix(in srgb, var(--cp-color-info) 8%, transparent);
+
   // 交互状态
   --cp-state-hover: rgba(0, 0, 0, 0.04);
   --cp-state-pressed: rgba(0, 0, 0, 0.08);
-  --cp-state-selected: color-mix(in srgb, var(--cp-color-primary) 12%, transparent);
+  --cp-state-selected: color-mix(in srgb, var(--cp-color-primary) 8%, transparent);
+  --cp-state-focus-ring: color-mix(in srgb, var(--cp-color-primary) 20%, transparent);
 }

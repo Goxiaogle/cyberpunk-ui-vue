@@ -9,7 +9,7 @@
   --cp-card-color: var(--cp-border);
   --cp-card-color-light: rgba(255, 255, 255, 0.1);
   --cp-card-bg: var(--cp-bg-elevated);
-  --cp-card-shadow-color: rgba(0, 0, 0, 0.4);
+  --cp-card-shadow-color: color-mix(in srgb, var(--cp-card-color) 44%, transparent);
   --cp-card-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 
   position: relative;
@@ -24,6 +24,7 @@
   // 🚀 核心修复 2：彻底移除错误的 flex 和 height 过渡！
   // 浏览器不支持 auto 高度的动画，强加过渡会导致渲染出错，修复“高度从 0 开始”的 Bug
   transition:
+          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
           color var(--cp-card-dimmed-duration, 0.3s) ease,
           filter var(--cp-card-dimmed-duration, 0.3s) ease,
           box-shadow var(--cp-card-dimmed-duration, 0.3s) ease;
@@ -147,7 +148,7 @@
 
       &:hover {
         border-color: var(--cp-card-color);
-        box-shadow: 0 0 10px var(--cp-card-color-light);
+        box-shadow: none;
       }
     }
 
@@ -224,6 +225,8 @@
   }
 
   @include m(shape-no-clip) {
+    border-radius: 0;
+
     > .cp-card__container {
       clip-path: none;
       border-radius: 0;
@@ -241,6 +244,8 @@
   }
 
   @include m(shape-round) {
+    border-radius: var(--cp-radius-lg);
+
     > .cp-card__container {
       clip-path: none;
       border-radius: var(--cp-radius-lg);
@@ -259,70 +264,99 @@
 
   // ===== 阴影 =====
   @include m(shadow-always) {
-    filter: drop-shadow(0 4px 12px var(--cp-card-shadow-color));
+    filter: none;
+    box-shadow:
+      0 8px 22px -8px var(--cp-card-shadow-color),
+      0 0 18px -6px var(--cp-card-shadow-color);
   }
 
   @include m(shadow-hover) {
-    filter: drop-shadow(0 0 0 var(--cp-card-shadow-color));
-    // 撤销清理错误的 flex 过渡
-    transition: filter 0.3s ease;
+    filter: none;
+    box-shadow: 0 0 0 -100px var(--cp-card-shadow-color);
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s ease;
 
     &:hover {
-      filter: drop-shadow(0 4px 12px var(--cp-card-shadow-color));
+      box-shadow:
+        0 8px 22px -8px var(--cp-card-shadow-color),
+        0 0 18px -6px var(--cp-card-shadow-color);
     }
   }
 
   @include m(shadow-never) {
     filter: none;
     box-shadow: none;
+
+    &::before {
+      display: none;
+      opacity: 0;
+      filter: none;
+    }
   }
 
-  &.cp-card--shape-no-clip,
-  &.cp-card--shape-round {
+  &.cp-card--shape-clip {
     &.cp-card--shadow-always {
-      filter: none;
-      box-shadow: 0 4px 20px var(--cp-card-shadow-color);
+      filter: drop-shadow(0 4px 14px var(--cp-card-shadow-color));
+      box-shadow: none;
+
+      &::before {
+        display: none;
+        opacity: 0;
+        filter: none;
+      }
     }
 
     &.cp-card--shadow-hover {
-      filter: none;
-      box-shadow: 0 0 0 -100px var(--cp-card-shadow-color);
-      // 撤销清理错误的 flex 过渡
-      transition: box-shadow 0.3s ease;
+      filter: drop-shadow(0 0 0 var(--cp-card-shadow-color));
+      box-shadow: none;
+      transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.3s ease;
+
+      &::before {
+        display: none;
+        opacity: 0;
+        filter: none;
+      }
 
       &:hover {
-        box-shadow: 0 4px 20px 0 var(--cp-card-shadow-color);
+        filter: drop-shadow(0 4px 14px var(--cp-card-shadow-color));
+        box-shadow: none;
       }
     }
   }
 
-  &.cp-card--semi {
+  &.cp-card--outline {
     &.cp-card--shadow-always,
-    &.cp-card--shadow-hover {
-      filter: none !important;
-    }
+    &.cp-card--shadow-hover,
+    &.cp-card--shadow-hover:hover {
+      filter: none;
+      box-shadow: none;
 
-    &.cp-card--shadow-always::before,
-    &.cp-card--shadow-hover::before {
-      display: block;
-      filter: drop-shadow(0 0 12px var(--cp-card-shadow-color));
-    }
-
-    &.cp-card--shadow-always::before {
-      opacity: 1;
-    }
-
-    &.cp-card--shadow-hover::before {
-      opacity: 0;
-    }
-    &.cp-card--shadow-hover:hover::before {
-      opacity: 1;
+      &::before {
+        display: none;
+        opacity: 0;
+        filter: none;
+      }
     }
 
     &.cp-card--shadow-always > .cp-card__container,
     &.cp-card--shadow-hover > .cp-card__container,
     &.cp-card--shadow-hover:hover > .cp-card__container {
-      box-shadow: none !important;
+      box-shadow: none;
+    }
+  }
+
+  &.cp-card--ghost {
+    &.cp-card--shadow-always,
+    &.cp-card--shadow-hover,
+    &.cp-card--shadow-hover:hover {
+      &::before {
+        display: none;
+        opacity: 0;
+        filter: none;
+      }
     }
   }
 
@@ -511,12 +545,13 @@
   }
 
   @include when(hover-scale) {
-    // 撤销清理错误的 flex 过渡
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      filter 0.3s ease,
+      box-shadow 0.3s ease;
 
     &:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
     &:active {

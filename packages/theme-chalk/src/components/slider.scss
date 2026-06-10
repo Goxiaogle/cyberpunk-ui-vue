@@ -33,6 +33,8 @@ $slider-sizes: (
   align-items: center;
   cursor: pointer;
   user-select: none;
+  --cp-slider-color: var(--cp-color-primary);
+  --cp-slider-color-light: var(--cp-color-primary-light);
 
   // ========== 轨道 ==========
   @include e(runway) {
@@ -61,8 +63,8 @@ $slider-sizes: (
     top: 0;
     left: 0;
     height: 100%;
-    background: var(--cp-color-primary);
-    box-shadow: 0 0 10px var(--cp-color-primary);
+    background: var(--cp-slider-color);
+    box-shadow: 0 0 10px var(--cp-slider-color-light);
     z-index: 1;
 
     // 内部纹理，增加科幻感
@@ -89,8 +91,8 @@ $slider-sizes: (
     width: 18px;
     height: 18px;
     background: var(--cp-bg-elevated);
-    border: var(--cp-slider-thumb-border-width, 2px) solid var(--cp-color-primary);
-    box-shadow: 0 0 8px var(--cp-color-primary);
+    border: var(--cp-slider-thumb-border-width, 2px) solid var(--cp-slider-color);
+    box-shadow: 0 0 8px var(--cp-slider-color-light);
     transform: translate(-50%, 0);
     cursor: grab;
     z-index: 2;
@@ -114,7 +116,7 @@ $slider-sizes: (
       left: 50%;
       width: var(--cp-slider-inner-dot-size, 6px);
       height: var(--cp-slider-inner-dot-size, 6px);
-      background: var(--cp-color-primary);
+      background: var(--cp-slider-color);
       transform: translate(-50%, -50%);
       clip-path: polygon(
         var(--cp-slider-inner-clip-size, 2px) 0,
@@ -127,21 +129,21 @@ $slider-sizes: (
     }
 
     &:hover {
-      border-color: var(--cp-color-primary-light);
-      box-shadow: 0 0 12px var(--cp-color-primary);
+      border-color: var(--cp-slider-color);
+      box-shadow: 0 0 12px var(--cp-slider-color-light);
       transform: translate(-50%, 0) scale(1.1);
     }
 
     &:active,
     &:focus {
       cursor: grabbing;
-      border-color: var(--cp-color-primary-light);
-      box-shadow: 0 0 16px var(--cp-color-primary);
+      border-color: var(--cp-slider-color);
+      box-shadow: 0 0 16px var(--cp-slider-color-light);
     }
 
     @include when(active) {
-      border-color: var(--cp-color-primary-light);
-      box-shadow: 0 0 16px var(--cp-color-primary);
+      border-color: var(--cp-slider-color);
+      box-shadow: 0 0 16px var(--cp-slider-color-light);
       transform: translate(-50%, 0) scale(1.15);
     }
   }
@@ -154,13 +156,13 @@ $slider-sizes: (
     transform: translateX(-50%);
     padding: 4px 8px;
     background: var(--cp-bg-elevated);
-    border: 1px solid var(--cp-color-primary); // 修正变量名
-    color: var(--cp-color-primary); // 修正变量名
+    border: 1px solid var(--cp-slider-color);
+    color: var(--cp-slider-color);
     font-family: var(--cp-font-family-mono);
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
-    box-shadow: 0 0 8px var(--cp-color-primary); // 修正变量名
+    box-shadow: 0 0 8px var(--cp-slider-color-light);
     z-index: 10;
 
     // 箭头
@@ -171,7 +173,7 @@ $slider-sizes: (
       left: 50%;
       transform: translateX(-50%);
       border: 4px solid transparent;
-      border-top-color: var(--cp-color-primary); // 修正变量名
+      border-top-color: var(--cp-slider-color);
     }
   }
 
@@ -259,7 +261,7 @@ $slider-sizes: (
         right: 100%;
         transform: translateY(-50%);
         border: 4px solid transparent;
-        border-right-color: var(--cp-color-primary);
+        border-right-color: var(--cp-slider-color);
         border-top-color: transparent;
       }
     }
@@ -431,45 +433,45 @@ $slider-sizes: (
   // ========== 自定义颜色 ==========
   @include when(custom-color) {
     .#{$namespace}-slider__bar {
-      background: var(--cp-slider-custom-color);
-      box-shadow: 0 0 10px var(--cp-slider-custom-color-light);
+      background: var(--cp-slider-color);
+      box-shadow: 0 0 10px var(--cp-slider-color-light);
     }
 
     .#{$namespace}-slider__thumb {
-      border-color: var(--cp-slider-custom-color);
-      box-shadow: 0 0 8px var(--cp-slider-custom-color-light);
+      border-color: var(--cp-slider-color);
+      box-shadow: 0 0 8px var(--cp-slider-color-light);
 
       &::before {
-        background: var(--cp-slider-custom-color);
+        background: var(--cp-slider-color);
       }
 
       &:hover,
       &:active,
       &:focus {
-        border-color: var(--cp-slider-custom-color);
-        box-shadow: 0 0 12px var(--cp-slider-custom-color-light);
+        border-color: var(--cp-slider-color);
+        box-shadow: 0 0 12px var(--cp-slider-color-light);
       }
 
       &.is-active {
-        border-color: var(--cp-slider-custom-color);
-        box-shadow: 0 0 16px var(--cp-slider-custom-color-light);
+        border-color: var(--cp-slider-color);
+        box-shadow: 0 0 16px var(--cp-slider-color-light);
       }
     }
 
     .#{$namespace}-slider__tooltip {
-      border-color: var(--cp-slider-custom-color);
-      color: var(--cp-slider-custom-color);
-      box-shadow: 0 0 8px var(--cp-slider-custom-color-light);
+      border-color: var(--cp-slider-color);
+      color: var(--cp-slider-color);
+      box-shadow: 0 0 8px var(--cp-slider-color-light);
 
       &::after {
-        border-top-color: var(--cp-slider-custom-color);
+        border-top-color: var(--cp-slider-color);
       }
     }
 
     &.is-vertical {
       .#{$namespace}-slider__tooltip {
         &::after {
-          border-right-color: var(--cp-slider-custom-color);
+          border-right-color: var(--cp-slider-color);
           border-top-color: transparent;
         }
       }

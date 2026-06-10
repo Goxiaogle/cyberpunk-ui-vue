@@ -88,6 +88,10 @@
         }
     }
 
+    @include when(show-word-limit) {
+        padding-bottom: calc(var(--cp-spacing-xs) + var(--cp-font-size-sm));
+    }
+
     // ===== 自定义颜色 =====
     @include when(custom-color) {
         .cp-textarea__inner:hover:not(:disabled):not([readonly]) {
@@ -100,6 +104,21 @@
         }
     }
 
+    // ===== 形状模式 =====
+    @include m(shape-no-clip) {
+        .cp-textarea__inner {
+            clip-path: none;
+            border-radius: 0;
+        }
+    }
+
+    @include m(shape-round) {
+        .cp-textarea__inner {
+            clip-path: none;
+            border-radius: var(--cp-radius-lg);
+        }
+    }
+
     // ===== 内部元素 =====
     @include e(inner) {
         width: 100%;
@@ -109,7 +128,13 @@
         color: var(--cp-textarea-text-color, var(--cp-text-primary));
         font-family: inherit;
         font-size: inherit;
-        transition: all 0.2s ease;
+        transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            color 0.2s ease,
+            border-radius 0.2s ease,
+            clip-path 0.2s ease;
 
         // 机甲风切角
         clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
@@ -122,10 +147,11 @@
     @include e(count) {
         position: absolute;
         right: var(--cp-spacing-sm);
-        bottom: var(--cp-spacing-sm);
+        bottom: 0;
         color: var(--cp-text-muted);
         font-size: var(--cp-font-size-sm);
         font-family: var(--cp-font-family-mono);
+        line-height: 1;
         pointer-events: none;
     }
 }

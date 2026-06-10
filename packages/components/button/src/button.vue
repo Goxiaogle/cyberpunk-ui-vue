@@ -5,7 +5,7 @@
  * 支持 prefix/suffix 插槽、自定义颜色、无切角、虚线边框
  */
 import { computed, inject, useSlots } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { buttonProps, buttonEmits } from './button'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
@@ -17,7 +17,8 @@ defineOptions({
 })
 
 
-const props = defineProps(buttonProps)
+const rawProps = defineProps(buttonProps)
+const props = useDefaults(rawProps, 'button')
 const emit = defineEmits(buttonEmits)
 const slots = useSlots()
 
@@ -149,36 +150,36 @@ const loadingSize = computed(() => {
   <button
     :class="classes"
     :style="customStyle"
-    :type="nativeType"
-    :disabled="isDisabled || loading"
+    :type="props.nativeType"
+    :disabled="isDisabled || props.loading"
     @click="handleClick"
   >
     <!-- Icon-only 模式 -->
     <template v-if="isIconOnly">
       <!-- Loading 状态 -->
-      <CpLoading v-if="loading" :size="loadingSize" :stroke-width="3" />
+      <CpLoading v-if="props.loading" :size="loadingSize" :stroke-width="3" />
       <!-- 图标 -->
-      <CpIcon v-else :icon="icon" :size="finalIconOnlySize" :style="iconOnlyStyle" />
+      <CpIcon v-else :icon="props.icon" :size="finalIconOnlySize" :style="iconOnlyStyle" />
     </template>
     
     <!-- 正常模式 -->
     <template v-else>
       <!-- Loading: 占位模式 - 始终存在，用 CSS 控制可见性 -->
-      <span v-if="loadingPlaceholder" :class="ns.e('loader')">
+      <span v-if="props.loadingPlaceholder" :class="ns.e('loader')">
         <CpLoading :size="loadingSize" :stroke-width="3" />
       </span>
       
       <!-- Loading: 非占位模式 - 使用 Transition 动画 -->
       <Transition v-else name="cp-loader">
-        <span v-if="loading" :class="ns.e('loader')">
+        <span v-if="props.loading" :class="ns.e('loader')">
           <CpLoading :size="loadingSize" :stroke-width="3" />
         </span>
       </Transition>
 
       <!-- Prefix: slot 优先，其次 prefixIcon prop -->
-      <span v-if="hasPrefix && !loading" :class="ns.e('prefix')">
+      <span v-if="hasPrefix && !props.loading" :class="ns.e('prefix')">
         <slot name="prefix">
-          <CpIcon v-if="prefixIcon" :icon="prefixIcon" :size="finalPrefixSize" :style="prefixIconStyle" />
+          <CpIcon v-if="props.prefixIcon" :icon="props.prefixIcon" :size="finalPrefixSize" :style="prefixIconStyle" />
         </slot>
       </span>
       
@@ -190,7 +191,7 @@ const loadingSize = computed(() => {
       <!-- Suffix: slot 优先，其次 suffixIcon prop -->
       <span v-if="hasSuffix" :class="ns.e('suffix')">
         <slot name="suffix">
-          <CpIcon v-if="suffixIcon" :icon="suffixIcon" :size="finalSuffixSize" :style="suffixIconStyle" />
+          <CpIcon v-if="props.suffixIcon" :icon="props.suffixIcon" :size="finalSuffixSize" :style="suffixIconStyle" />
         </slot>
       </span>
     </template>

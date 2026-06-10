@@ -1,11 +1,14 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { ComputedRef, InjectionKey, Ref } from 'vue'
 
 /** 主题类型 */
 export type ThemeType = 'dark' | 'light'
 
+/** 主题模式，system 会跟随系统深浅色偏好 */
+export type ThemeMode = ThemeType | 'system'
+
 /** 全局默认配置注入 Key */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- 动态组件配置需要 any 类型
-export const DEFAULTS_KEY: InjectionKey<Record<string, any>> = Symbol('cp-defaults')
+export const DEFAULTS_KEY: InjectionKey<Record<string, any> | Ref<Record<string, any>> | ComputedRef<Record<string, any>>> = Symbol('cp-defaults')
 
 /** 主题注入 Key */
 export const THEME_KEY: InjectionKey<Ref<ThemeType>> = Symbol('cp-theme')

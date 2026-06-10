@@ -94,6 +94,7 @@
 | `wheelStep` | `number` | `undefined (默认使用 step)` | 滚轮独立步长 |
 | `precision` | `number` | — | 精度 (小数位数) |
 | `size` | `Size` | `'md'` | 尺寸 |
+| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 数字输入框形状 |
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `readonly` | `boolean` | `false` | 是否只读 |
 | `placeholder` | `string` | `''` | 占位文本 |
@@ -103,6 +104,7 @@
 | `modelValue` | `string` | `''` | 绑定值 (v-model) |
 | `placeholder` | `string` | `''` | 占位文本 |
 | `size` | `Size` | `'md'` | 尺寸 |
+| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 形状 |
 | `variant` | `'outline' \| 'filled'` | `'outline'` | 形态变体 |
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `readonly` | `boolean` | `false` | 是否只读 |
@@ -144,10 +146,10 @@
 |------|--------|------|
 | `--cp-icon-size` | `1em` |  |
 | `--cp-input-number-height` | `var(--cp-size-lg)` |  |
-| `--cp-input-number-control-width` | `var(--cp-input-number-height)` |  |
-| `--cp-input-number-right-control-width` | `clamp(24px, calc(var(--cp-input-number-height) * 0.9), 40px)` |  |
-| `--cp-input-number-icon-size` | `clamp(12px, calc(var(--cp-input-number-height) * 0.5), 22px)` |  |
-| `--cp-input-number-right-icon-size` | `clamp(10px, calc(var(--cp-input-number-height) * 0.4), 18px)` |  |
+| `--cp-input-number-control-width` | `clamp(20px, calc(var(--cp-input-number-height) * 0.7), 38px)` |  |
+| `--cp-input-number-right-control-width` | `clamp(16px, calc(var(--cp-input-number-height) * 0.6), 34px)` |  |
+| `--cp-input-number-icon-size` | `clamp(10px, calc(var(--cp-input-number-height) * 0.4), 20px)` |  |
+| `--cp-input-number-right-icon-size` | `clamp(8px, calc(var(--cp-input-number-height) * 0.32), 16px)` |  |
 | `--cp-input-number-input-padding` | `var(--cp-spacing-md)` |  |
 | `--cp-input-number-cut-size` | `8px` |  |
 
@@ -277,6 +279,7 @@
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `size` | `Size` | `'md'` | 单选框尺寸 |
 | `type` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 单选框类型（颜色预设） |
+| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 单选框形状 |
 | `color` | `string` | `''` | 自定义选中颜色 |
 | `glow` | `boolean` | `true` | 是否启用霓虹辉光效果 |
 | `dotColor` | `string` | `''` | 自定义中间装饰块（菱形点）颜色 |
@@ -286,6 +289,7 @@
 | `disabled` | `boolean` | `false` | 是否禁用所有子单选框 |
 | `size` | `Size` | `'md'` | 子单选框尺寸 |
 | `type` | `RadioType` | `'primary'` | 子单选框类型（颜色预设） |
+| `shape` | `RadioShape` | `'clip'` | 子单选框形状 |
 | `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | 布局方向 |
 
 ### 事件
@@ -578,6 +582,7 @@
 | `max` | `number` | `100` | 最大值 |
 | `step` | `number` | `1` | 步长 |
 | `size` | `Size` | `'md'` | 滑块尺寸 |
+| `type` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 滑块类型（颜色预设） |
 | `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 滑块形状 |
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `range` | `boolean` | `false` | 是否为范围选择模式 |
@@ -596,6 +601,13 @@
 | `change` | `(value: number \| [number, number])` | 值改变且释放滑块时触发 |
 | `input` | `(value: number \| [number, number])` | 拖动过程中实时触发 |
 
+### CSS 变量
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `--cp-slider-color` | `var(--cp-color-primary)` |  |
+| `--cp-slider-color-light` | `var(--cp-color-primary-light)` |  |
+
 ### 示例
 
 ```vue
@@ -613,7 +625,7 @@
 
 ## CpSwitch 开关
 
-赛博朋克风格开关组件，支持异步切换、内嵌文字、自定义颜色。
+赛博朋克风格开关组件，支持异步切换、文字位置、自定义颜色。
 
 ### Props
 
@@ -622,14 +634,16 @@
 | `modelValue` | `boolean` | `false` | 绑定值 (v-model) |
 | `size` | `Size` | `'md'` | 开关尺寸 |
 | `type` | `'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'primary'` | 开关类型（颜色预设） |
+| `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 开关形状 |
 | `disabled` | `boolean` | `false` | 是否禁用开关 |
 | `loading` | `boolean` | `false` | 是否加载中 |
 | `color` | `string` | `''` | 自定义选中状态颜色 |
 | `inactiveColor` | `string` | `''` | 自定义未选中状态颜色 |
 | `width` | `string \| number` | `''` | 强制指定宽度 |
 | `fitText` | `boolean` | `false` | 是否适应文字宽度 |
-| `activeText` | `string` | `''` | 选中时内嵌显示的文字 |
-| `inactiveText` | `string` | `''` | 未选中时内嵌显示的文字 |
+| `textPosition` | `'left' \| 'right' \| 'inner'` | `'right'` | 文字显示位置 |
+| `activeText` | `string` | `''` | 选中时显示的文字 |
+| `inactiveText` | `string` | `''` | 未选中时显示的文字 |
 | `beforeChange` | `() =` | — | 切换前钩子，返回 false 或 Promise reject 时阻止切换 |
 | `name` | `string` | `''` | 原生 name 属性 |
 
@@ -661,8 +675,11 @@
 <!-- 基础用法 -->
 <CpSwitch v-model="enabled" />
 
-<!-- 内嵌文字 -->
+<!-- 右侧状态文字 -->
 <CpSwitch v-model="enabled" active-text="ON" inactive-text="OFF" />
+
+<!-- 内嵌文字 -->
+<CpSwitch v-model="enabled" text-position="inner" active-text="ON" inactive-text="OFF" />
 
 <!-- 异步切换 -->
 <CpSwitch v-model="enabled" :before-change="handleConfirm" />

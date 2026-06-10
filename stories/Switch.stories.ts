@@ -45,6 +45,12 @@ const meta: Meta<typeof CpSwitch> = {
       description: '是否适应文字宽度',
       table: { category: 'Layout' },
     },
+    textPosition: {
+      control: 'select',
+      options: ['left', 'right', 'inner'],
+      description: '文字显示位置',
+      table: { category: 'Layout' },
+    },
     width: {
       control: 'text',
       description: '强制宽度',
@@ -74,6 +80,7 @@ const meta: Meta<typeof CpSwitch> = {
     disabled: false,
     loading: false,
     fitText: false,
+    textPosition: 'right',
     activeText: '',
     inactiveText: '',
   },
@@ -101,6 +108,7 @@ export const Playground: Story = {
           :disabled="args.disabled"
           :loading="args.loading"
           :fit-text="args.fitText"
+          :text-position="args.textPosition"
           :width="args.width"
           :active-text="args.activeText"
           :inactive-text="args.inactiveText"
@@ -175,6 +183,7 @@ export const 长文本自适应: Story = {
           <CpSwitch 
             v-model="v1" 
             fit-text 
+            text-position="inner"
             active-text="System Online" 
             inactive-text="System Offline" 
           />
@@ -185,6 +194,7 @@ export const 长文本自适应: Story = {
           <CpSwitch 
             v-model="v2" 
             fit-text 
+            text-position="inner"
             active-text="Warning: Self Destruct Sequence Initiated" 
             inactive-text="Safety Protocols Engaged" 
             color="#ff4757"
@@ -196,10 +206,55 @@ export const 长文本自适应: Story = {
            <CpSwitch 
               v-model="v3"
               fit-text
+              text-position="inner"
               size="lg"
               active-text="神经连接：已同步"
               inactive-text="神经连接：断开"
            />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+/** 文字位置 */
+export const 文字位置: Story = {
+  render: () => ({
+    components: { CpSwitch },
+    setup() {
+      const left = ref(true)
+      const right = ref(false)
+      const inner = ref(true)
+      return { left, right, inner }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <CpSwitch
+            v-model="left"
+            text-position="left"
+            active-text="ONLINE"
+            inactive-text="OFFLINE"
+          />
+          <span style="color: var(--cp-text-muted);">Left</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <CpSwitch
+            v-model="right"
+            text-position="right"
+            active-text="ONLINE"
+            inactive-text="OFFLINE"
+          />
+          <span style="color: var(--cp-text-muted);">Right (默认)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <CpSwitch
+            v-model="inner"
+            text-position="inner"
+            active-text="ON"
+            inactive-text="OFF"
+          />
+          <span style="color: var(--cp-text-muted);">Inner</span>
         </div>
       </div>
     `,
@@ -219,7 +274,7 @@ export const 视觉美化: Story = {
       template: `
         <div style="display: flex; flex-direction: column; gap: 20px;">
           <div style="display: flex; align-items: center; gap: 16px;">
-            <CpSwitch v-model="v1" size="lg" active-text="CYBER" inactive-text="PUNK" />
+            <CpSwitch v-model="v1" size="lg" text-position="inner" active-text="CYBER" inactive-text="PUNK" />
             <span style="color: var(--cp-text-muted);">Large</span>
           </div>
           <div style="display: flex; align-items: center; gap: 16px;">

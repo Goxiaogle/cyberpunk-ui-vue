@@ -4,7 +4,7 @@
  * 用于在另一个元素上显示数字、小红点或状态标识
  */
 import { computed } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { badgeProps } from './badge'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Badge`,
 })
 
-const props = defineProps(badgeProps)
+const rawProps = defineProps(badgeProps)
+const props = useDefaults(rawProps, 'badge')
 
 const ns = useNamespace('badge')
 

@@ -4,7 +4,7 @@
  * 支持多种变体、形状模式和灵活的插槽布局
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
-import { useNamespace, normalizeDuration } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, normalizeDuration } from '@cyberpunk-vue/hooks'
 import { cardProps, cardEmits } from './card'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { CpLoading } from '@cyberpunk-vue/components/loading'
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Card`,
 })
 
-const props = defineProps(cardProps)
+const rawProps = defineProps(cardProps)
+const props = useDefaults(rawProps, 'card')
 const emit = defineEmits(cardEmits)
 const slots = useSlots()
 
@@ -253,7 +254,7 @@ const cardStyle = computed(() => {
   if (props.shadowColor) {
     styles['--cp-card-shadow-color'] = props.shadowColor
   } else if (realColor.value) {
-    styles['--cp-card-shadow-color'] = `color-mix(in srgb, ${realColor.value} 40%, black)`
+    styles['--cp-card-shadow-color'] = `color-mix(in srgb, ${realColor.value} 44%, transparent)`
   }
 
   const dimmedDur = normalizeDuration(props.dimmedDuration)

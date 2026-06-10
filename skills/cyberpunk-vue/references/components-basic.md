@@ -85,7 +85,10 @@
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
 | `defaults` | `Record<string, Record<string, any>>` | `{}` | 组件默认值配置 |
-| `theme` | `ThemeType` | `'dark'` | 主题设置 |
+| `theme` | `ThemeMode` | `'dark'` | 主题设置 |
+| `themeOverrides` | `Record<string, string \| number>` | `{}` | 主题 CSS 变量覆盖 |
+| `syncDocument` | `boolean` | `true` | 是否同步主题和变量到 document.documentElement |
+| `tag` | `string` | `'div'` | Provider 渲染标签 |
 
 ### 插槽
 

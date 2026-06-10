@@ -21,17 +21,36 @@ export type SwitchSize = Size
 export type SwitchType = 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
+ * 开关形状
+ * - `clip` - 切角样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角胶囊
+ */
+export type SwitchShape = 'clip' | 'no-clip' | 'round'
+
+/**
+ * 开关文字显示位置
+ * - `left` - 显示在开关左侧
+ * - `right` - 显示在开关右侧，默认
+ * - `inner` - 显示在开关内部
+ */
+export type SwitchTextPosition = 'left' | 'right' | 'inner'
+
+/**
  * CpSwitch 组件 Props 定义
  *
- * @description 赛博朋克风格开关组件，支持异步切换、内嵌文字、自定义颜色。
+ * @description 赛博朋克风格开关组件，支持异步切换、文字位置、自定义颜色。
  *
  * @example
  * ```vue
  * <!-- 基础用法 -->
  * <CpSwitch v-model="enabled" />
  *
- * <!-- 内嵌文字 -->
+ * <!-- 右侧状态文字 -->
  * <CpSwitch v-model="enabled" active-text="ON" inactive-text="OFF" />
+ *
+ * <!-- 内嵌文字 -->
+ * <CpSwitch v-model="enabled" text-position="inner" active-text="ON" inactive-text="OFF" />
  *
  * <!-- 异步切换 -->
  * <CpSwitch v-model="enabled" :before-change="handleConfirm" />
@@ -69,6 +88,14 @@ export const switchProps = {
     type: {
         type: String as PropType<SwitchType>,
         default: 'primary',
+    },
+    /**
+     * 开关形状
+     * @default 'clip'
+     */
+    shape: {
+        type: String as PropType<SwitchShape>,
+        default: 'clip',
     },
     /**
      * 是否禁用开关
@@ -126,7 +153,16 @@ export const switchProps = {
         default: false,
     },
     /**
-     * 选中时内嵌显示的文字
+     * 文字显示位置
+     * @default 'right'
+     * @example `<CpSwitch text-position="left" active-text="ON" inactive-text="OFF" />`
+     */
+    textPosition: {
+        type: String as PropType<SwitchTextPosition>,
+        default: 'right',
+    },
+    /**
+     * 选中时显示的文字
      * @default ''
      * @example `<CpSwitch active-text="ON" />`
      */
@@ -135,7 +171,7 @@ export const switchProps = {
         default: '',
     },
     /**
-     * 未选中时内嵌显示的文字
+     * 未选中时显示的文字
      * @default ''
      * @example `<CpSwitch inactive-text="OFF" />`
      */

@@ -363,6 +363,9 @@
   }
 
   @include e(popper-panel) {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
     max-height: inherit;
     background: var(--cp-bg-elevated);
     border: 1px solid var(--cp-border);
@@ -371,7 +374,7 @@
       0 0 1px var(--cp-color-primary),
       inset 0 0 20px color-mix(in srgb, var(--cp-color-primary) 3%, transparent);
     backdrop-filter: blur(8px);
-    overflow: visible;
+    overflow: hidden;
 
     // 切角样式
     clip-path: polygon(
@@ -437,6 +440,7 @@
 
   // ===== 过滤搜索 =====
   @include e(filter) {
+    flex: 0 0 auto;
     padding: var(--cp-spacing-sm);
     border-bottom: 1px solid var(--cp-border);
   }
@@ -463,11 +467,16 @@
 
   // ===== 选项列表 =====
   @include e(options) {
+    flex: 1 1 auto;
+    min-height: 0;
+    box-sizing: border-box;
     list-style: none;
     margin: 0;
     padding: var(--cp-spacing-xs) 0;
     overflow-y: auto;
-    max-height: inherit;
+    max-height: none;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 
     // scrollbar 跟随 primary 颜色变量
     scrollbar-width: thin;

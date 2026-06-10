@@ -18,6 +18,7 @@ import MdiAutoFix from '~icons/mdi/auto-fix'
  * - 🎨 4 种变体：solid、outline、semi、ghost
  * - 📐 3 种形状：clip、no-clip、round
  * - 🌟 3 种阴影模式：always、hover、never
+ * - ℹ️ outline 变体以描边为主，不响应外部 hover shadow
  * - ⚡ 机甲风切角设计
  * - 📦 灵活的头部/底部插槽
  */
@@ -49,7 +50,7 @@ const meta: Meta<typeof CpCard> = {
         shadow: {
             control: 'select',
             options: ['hover', 'always', 'never'],
-            description: '阴影显示时机',
+            description: '阴影显示时机。variant="outline" 时外部 hover shadow 无效，仅保留描边状态。',
             table: {
                 defaultValue: {summary: 'hover'},
             },
@@ -371,6 +372,9 @@ export const 阴影控制: Story = {
             </CpCard>
             <CpCard title="Hover" shadow="hover" style="width: 200px;">
               <p>悬停时显示阴影</p>
+            </CpCard>
+            <CpCard title="Outline" variant="outline" shadow="hover" style="width: 200px;">
+              <p>outline 不响应 hover shadow</p>
             </CpCard>
             <CpCard title="Never" shadow="never" style="width: 200px;">
               <p>不显示阴影</p>

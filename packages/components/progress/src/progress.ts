@@ -22,11 +22,13 @@ export type ProgressSize = Size | 'xl' | 'xxl'
 
 /**
  * 进度条状态
+ * - `primary` - 主色调
  * - `success` - 成功状态（绿色）
  * - `warning` - 警告状态（黄色）
  * - `error` - 错误状态（红色）
+ * - `info` - 信息状态（紫色）
  */
-export type ProgressStatus = 'success' | 'warning' | 'error'
+export type ProgressStatus = 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
  * 进度条线端样式

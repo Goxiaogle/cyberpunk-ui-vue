@@ -185,6 +185,42 @@ $radio-sizes: (
       clip-path: #{octagon-clip(28%)};
     }
   }
+
+  // ===== 形状模式 =====
+  @include m(shape-no-clip) {
+    .cp-radio__indicator {
+      clip-path: none;
+      border-radius: 0;
+
+      &::before,
+      &::after {
+        clip-path: none;
+      }
+    }
+
+    .cp-radio__dot {
+      clip-path: none;
+      border-radius: 0;
+    }
+  }
+
+  @include m(shape-round) {
+    .cp-radio__indicator {
+      clip-path: none;
+      border-radius: 50%;
+
+      &::before,
+      &::after {
+        clip-path: none;
+        border-radius: 50%;
+      }
+    }
+
+    .cp-radio__dot {
+      clip-path: none;
+      border-radius: 50%;
+    }
+  }
   
   // ===== 选中状态 =====
   @include when(checked) {
@@ -233,6 +269,24 @@ $radio-sizes: (
       0 10px
     );
     transition: all 0.25s ease;
+
+    &.cp-radio--shape-no-clip {
+      clip-path: none;
+      border-radius: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &.cp-radio--shape-round {
+      clip-path: none;
+      border-radius: var(--cp-radius-lg);
+
+      &::before {
+        display: none;
+      }
+    }
     
     // 切角装饰线
     &::before {

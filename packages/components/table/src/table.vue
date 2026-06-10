@@ -4,7 +4,7 @@
  * 支持排序、多选、条纹、边框、固定表头、树形数据
  */
 import { computed, ref, shallowRef, toRaw, watch, provide, onBeforeUnmount } from 'vue'
-import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize } from '@cyberpunk-vue/hooks'
 import { tableProps, tableEmits, type TableColumnConfig, type SortOrder, type SortState, type SortChangePayload, type SelectionDetail, type SelectionPayload } from './table'
 import { COMPONENT_PREFIX, TABLE_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import CpCheckbox from '@cyberpunk-vue/components/checkbox/src/checkbox.vue'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Table`,
 })
 
-const props = defineProps(tableProps)
+const rawProps = defineProps(tableProps)
+const props = useDefaults(rawProps, 'table')
 const emit = defineEmits(tableEmits)
 const ns = useNamespace('table')
 

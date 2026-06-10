@@ -4,7 +4,7 @@
  * 支持多种文字效果：下划线、方框、加粗、斜体、删除线、发光、马克笔
  */
 import { computed } from 'vue'
-import { useNamespace, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textProps } from './text'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Text`,
 })
 
-const props = defineProps(textProps)
+const rawProps = defineProps(textProps)
+const props = useDefaults(rawProps, 'text')
 
 const ns = useNamespace('text')
 

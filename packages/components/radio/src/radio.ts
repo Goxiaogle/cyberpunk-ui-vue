@@ -21,6 +21,14 @@ export type RadioSize = Size
 export type RadioType = 'primary' | 'success' | 'warning' | 'error' | 'info'
 
 /**
+ * 单选框形状
+ * - `clip` - 切角/八边形样式（默认，赛博朋克特色）
+ * - `no-clip` - 直角矩形
+ * - `round` - 圆角矩形
+ */
+export type RadioShape = 'clip' | 'no-clip' | 'round'
+
+/**
  * 单选框值类型
  */
 export type RadioValueType = string | number | boolean
@@ -91,6 +99,14 @@ export const radioProps = {
   type: {
     type: String as PropType<RadioType>,
     default: 'primary',
+  },
+  /**
+   * 单选框形状
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<RadioShape>,
+    default: 'clip',
   },
   /**
    * 自定义选中颜色

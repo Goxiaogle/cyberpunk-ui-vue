@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.13.19",
+  "version": "1.13.20",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -1326,7 +1326,7 @@
               "name": "title",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2618
+                "offset": 2670
               },
               "description": "卡片标题",
               "default": "''",
@@ -1338,7 +1338,7 @@
               "name": "shadow",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2794
+                "offset": 2908
               },
               "description": "阴影显示时机\n- `always` - 始终显示\n- `hover` - 悬停时显示\n- `never` - 不显示",
               "default": "'hover'",
@@ -1350,7 +1350,7 @@
               "name": "variant",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 2985
+                "offset": 3098
               },
               "description": "卡片变体/形态",
               "default": "'solid'",
@@ -1362,7 +1362,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3193
+                "offset": 3306
               },
               "description": "卡片形状\n- `clip` - 切角样式（默认）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -1374,7 +1374,7 @@
               "name": "bodyPadding",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3385
+                "offset": 3498
               },
               "description": "自定义内容区内边距\n传入有效 CSS 值，如 '20px' 或 '1rem 2rem'",
               "type": [
@@ -1385,7 +1385,7 @@
               "name": "headerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3503
+                "offset": 3616
               },
               "description": "是否显示头部分隔线",
               "default": "true",
@@ -1397,7 +1397,7 @@
               "name": "footerBorder",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3618
+                "offset": 3731
               },
               "description": "是否显示底部分隔线",
               "default": "true",
@@ -1409,7 +1409,7 @@
               "name": "overlayAnimation",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3738
+                "offset": 3851
               },
               "description": "覆层出场动画类型",
               "default": "'slide-up'",
@@ -1421,7 +1421,7 @@
               "name": "overlayPosition",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 3895
+                "offset": 4008
               },
               "description": "覆层位置",
               "default": "'bottom'",
@@ -1433,7 +1433,7 @@
               "name": "overlayDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4095
+                "offset": 4208
               },
               "description": "覆层动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1445,7 +1445,7 @@
               "name": "overlayEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4253
+                "offset": 4366
               },
               "description": "覆层效果类型",
               "default": "'blur-color'",
@@ -1457,7 +1457,7 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4440
+                "offset": 4553
               },
               "description": "覆层颜色\n支持任意 CSS 颜色值",
               "default": "'rgba(26, 26, 36, 0.8)'",
@@ -1469,7 +1469,7 @@
               "name": "overlayBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4594
+                "offset": 4707
               },
               "description": "覆层毛玻璃模糊程度\n数字默认 px，字符串可指定单位",
               "default": "10",
@@ -1481,7 +1481,7 @@
               "name": "actionEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4778
+                "offset": 4891
               },
               "description": "操作区域效果类型\n如果未指定，则继承 overlayEffect",
               "type": [
@@ -1492,7 +1492,7 @@
               "name": "actionColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4959
+                "offset": 5072
               },
               "description": "操作区域颜色\n如果未指定，则继承 overlayColor",
               "type": [
@@ -1503,7 +1503,7 @@
               "name": "actionBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5109
+                "offset": 5222
               },
               "description": "操作区域模糊程度\n如果未指定，则继承 overlayBlur",
               "type": [
@@ -1514,7 +1514,7 @@
               "name": "type",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5270
+                "offset": 5383
               },
               "description": "卡片的主题颜色类型",
               "default": "'default'",
@@ -1526,7 +1526,7 @@
               "name": "color",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5388
+                "offset": 5501
               },
               "description": "自定义颜色，优先于 type",
               "default": "''",
@@ -1538,7 +1538,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5554
+                "offset": 5667
               },
               "description": "自定义背景颜色\n支持任意 CSS 颜色值，包括渐变",
               "default": "''",
@@ -1550,7 +1550,7 @@
               "name": "shadowColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5660
+                "offset": 5773
               },
               "description": "自定义阴影颜色\n默认与卡片最终主题色保持一致",
               "type": [
@@ -1561,7 +1561,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5736
+                "offset": 5849
               },
               "description": "是否开启平常减淡显示",
               "default": "false",
@@ -1573,7 +1573,7 @@
               "name": "dimmedDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5894
+                "offset": 6007
               },
               "description": "减淡模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1585,7 +1585,7 @@
               "name": "triggerImageHover",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6075
+                "offset": 6188
               },
               "description": "Card hover 时是否触发内部 CpImage 的 hover 效果",
               "default": "false",
@@ -1597,7 +1597,7 @@
               "name": "hoverScale",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6204
+                "offset": 6317
               },
               "description": "Card hover 时放大效果",
               "default": "false",
@@ -1609,7 +1609,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6368
+                "offset": 6481
               },
               "description": "是否折叠卡片（仅显示头部）\n不传时若 showCollapseAction 开启则由组件内部自治",
               "type": [
@@ -1620,7 +1620,7 @@
               "name": "halfCollapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6582
+                "offset": 6695
               },
               "description": "半折叠模式 — 仅在 collapse=true 时生效\n开启后 body 区域不会完全收起，而是保留 peekHeight 高度，\n通过 mask-image 渐变使底部内容淡出融入背景",
               "default": "false",
@@ -1632,7 +1632,7 @@
               "name": "peekHeight",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6727
+                "offset": 6840
               },
               "description": "半折叠时 body 区域的可见高度\n数字默认 px，字符串可指定单位",
               "default": "80",
@@ -1644,7 +1644,7 @@
               "name": "showCollapseAction",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7002
+                "offset": 7115
               },
               "description": "是否显示内置折叠控制器（\"查看更多\" / \"收起\"）\n开启后组件在半折叠 body 底部渲染操作条，点击自动切换展开/半折叠。\n仅在 halfCollapse=true 时生效。\n当内容不足 peekHeight 时控制器自动隐藏。",
               "default": "false",
@@ -1656,7 +1656,7 @@
               "name": "collapseActionExpandText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7126
+                "offset": 7239
               },
               "description": "内置控制器展开文案",
               "default": "'查看更多'",
@@ -1668,7 +1668,7 @@
               "name": "collapseActionCollapseText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7254
+                "offset": 7367
               },
               "description": "内置控制器收起文案",
               "default": "'收起'",
@@ -1680,7 +1680,7 @@
               "name": "borderColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7360
+                "offset": 7473
               },
               "description": "自定义边框颜色",
               "type": [
@@ -1691,7 +1691,7 @@
               "name": "dividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7416
+                "offset": 7529
               },
               "description": "全局设置头尾分隔线颜色",
               "type": [
@@ -1702,7 +1702,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7473
+                "offset": 7586
               },
               "description": "单独设置头部分隔线颜色",
               "type": [
@@ -1713,7 +1713,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7536
+                "offset": 7649
               },
               "description": "单独设置底部分隔线颜色",
               "type": [
@@ -1724,7 +1724,7 @@
               "name": "backgroundClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7598
+                "offset": 7711
               },
               "description": "容器/背景自定义类名",
               "type": [
@@ -1735,7 +1735,7 @@
               "name": "backgroundStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7703
+                "offset": 7816
               },
               "description": "容器/背景自定义样式",
               "type": [
@@ -1746,7 +1746,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7805
+                "offset": 7918
               },
               "description": "头部自定义类名",
               "type": [
@@ -1757,7 +1757,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7903
+                "offset": 8016
               },
               "description": "头部自定义样式",
               "type": [
@@ -1768,7 +1768,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8001
+                "offset": 8114
               },
               "description": "主体自定义类名",
               "type": [
@@ -1779,7 +1779,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8097
+                "offset": 8210
               },
               "description": "主体自定义样式",
               "type": [
@@ -1790,7 +1790,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8244
+                "offset": 8357
               },
               "description": "是否处于加载状态\n加载时会在卡片内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -1802,7 +1802,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8358
+                "offset": 8471
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -1814,7 +1814,7 @@
               "name": "loadingClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8455
+                "offset": 8568
               },
               "description": "加载遮罩自定义类名",
               "type": [
@@ -1825,7 +1825,7 @@
               "name": "loadingStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8556
+                "offset": 8669
               },
               "description": "加载遮罩自定义样式",
               "type": [
@@ -1836,7 +1836,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8698
+                "offset": 8811
               },
               "description": "是否处于禁用状态\n禁用时卡片整体变灰且不可交互",
               "default": "false",
@@ -1885,7 +1885,7 @@
                 "name": "collapse-change",
                 "source": {
                   "file": "../components/card/src/card.ts",
-                  "offset": 9004
+                  "offset": 9117
                 },
                 "description": "半折叠模式下，内容高度变化时触发"
               }
@@ -2278,7 +2278,7 @@
               "name": "defaults",
               "source": {
                 "file": "../components/config-provider/src/config-provider.ts",
-                "offset": 1613
+                "offset": 1807
               },
               "description": "组件默认值配置\n\n统一设置组件的 props 默认值，避免在每个组件上重复配置。\n格式: `{ componentName: { propName: value } }`\n\n组件名使用小写驼峰命名（不带 `Cp` 前缀）",
               "default": "() => ({})",
@@ -2290,12 +2290,48 @@
               "name": "theme",
               "source": {
                 "file": "../components/config-provider/src/config-provider.ts",
-                "offset": 1906
+                "offset": 2098
               },
               "description": "主题设置\n\n- `dark` - 深色主题，赛博朋克风格（默认）\n- `light` - 浅色主题",
               "default": "'dark'",
               "type": [
-                "'dark' | 'light'"
+                "ThemeType | 'system'"
+              ]
+            },
+            {
+              "name": "themeOverrides",
+              "source": {
+                "file": "../components/config-provider/src/config-provider.ts",
+                "offset": 2502
+              },
+              "description": "主题 CSS 变量覆盖\n\n用于按作用域覆盖组件库设计 token。传入简写 token 名时会自动转换为\n`--cp-*` CSS 变量。",
+              "default": "() => ({})",
+              "type": [
+                "{ [x: string]: string | number; }"
+              ]
+            },
+            {
+              "name": "syncDocument",
+              "source": {
+                "file": "../components/config-provider/src/config-provider.ts",
+                "offset": 2785
+              },
+              "description": "是否同步主题和变量到 document.documentElement\n\n根级 Provider 建议开启，以影响 body 背景等全局样式；局部嵌套 Provider\n可以关闭，仅让配置作用于当前插槽子树。",
+              "default": "true",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "tag",
+              "source": {
+                "file": "../components/config-provider/src/config-provider.ts",
+                "offset": 2983
+              },
+              "description": "Provider 渲染标签\n\n默认使用 `div` 并设置 `display: contents`，不会产生额外布局盒。",
+              "default": "'div'",
+              "type": [
+                "string"
               ]
             }
           ],
@@ -4958,7 +4994,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 520
+                "offset": 678
               },
               "description": "绑定值 (v-model)",
               "default": "0",
@@ -4970,7 +5006,7 @@
               "name": "min",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 607
+                "offset": 765
               },
               "description": "最小值",
               "default": "-Infinity",
@@ -4982,7 +5018,7 @@
               "name": "max",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 695
+                "offset": 853
               },
               "description": "最大值",
               "default": "Infinity",
@@ -4994,7 +5030,7 @@
               "name": "step",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 780
+                "offset": 938
               },
               "description": "步长",
               "default": "1",
@@ -5006,7 +5042,7 @@
               "name": "wheel",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 944
+                "offset": 1102
               },
               "description": "是否启用滚轮增减",
               "default": "true",
@@ -5018,7 +5054,7 @@
               "name": "wheelReverse",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1104
+                "offset": 1262
               },
               "description": "是否反转滚轮增减方向",
               "default": "false",
@@ -5030,7 +5066,7 @@
               "name": "wheelStep",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1285
+                "offset": 1443
               },
               "description": "滚轮独立步长",
               "type": [
@@ -5041,7 +5077,7 @@
               "name": "precision",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1380
+                "offset": 1538
               },
               "description": "精度 (小数位数)",
               "type": [
@@ -5052,7 +5088,7 @@
               "name": "size",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1470
+                "offset": 1628
               },
               "description": "尺寸",
               "default": "'md'",
@@ -5061,10 +5097,22 @@
               ]
             },
             {
+              "name": "shape",
+              "source": {
+                "file": "../components/input-number/src/input-number.ts",
+                "offset": 1785
+              },
+              "description": "数字输入框形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
               "name": "disabled",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1594
+                "offset": 1898
               },
               "description": "是否禁用",
               "default": "false",
@@ -5076,7 +5124,7 @@
               "name": "readonly",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1685
+                "offset": 1989
               },
               "description": "是否只读",
               "default": "false",
@@ -5088,7 +5136,7 @@
               "name": "placeholder",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1776
+                "offset": 2080
               },
               "description": "占位文本",
               "default": "''",
@@ -5100,7 +5148,7 @@
               "name": "color",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1867
+                "offset": 2171
               },
               "description": "自定义颜色",
               "default": "''",
@@ -5112,7 +5160,7 @@
               "name": "controls",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 1955
+                "offset": 2259
               },
               "description": "是否使用控制按钮",
               "default": "true",
@@ -5124,7 +5172,7 @@
               "name": "controlsPosition",
               "source": {
                 "file": "../components/input-number/src/input-number.ts",
-                "offset": 2047
+                "offset": 2351
               },
               "description": "控制按钮位置",
               "default": "'both'",
@@ -5139,28 +5187,28 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/input-number/src/input-number.ts",
-                  "offset": 2284
+                  "offset": 2588
                 }
               },
               {
                 "name": "change",
                 "source": {
                   "file": "../components/input-number/src/input-number.ts",
-                  "offset": 2356
+                  "offset": 2660
                 }
               },
               {
                 "name": "focus",
                 "source": {
                   "file": "../components/input-number/src/input-number.ts",
-                  "offset": 2465
+                  "offset": 2769
                 }
               },
               {
                 "name": "blur",
                 "source": {
                   "file": "../components/input-number/src/input-number.ts",
-                  "offset": 2529
+                  "offset": 2833
                 }
               }
             ]
@@ -6701,7 +6749,7 @@
               "name": "percentage",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 1627
+                "offset": 1685
               },
               "description": "当前进度值\n取值范围 0 到 max（默认 100）",
               "default": "0",
@@ -6713,7 +6761,7 @@
               "name": "max",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 1904
+                "offset": 1962
               },
               "description": "进度最大值\n实际百分比 = percentage / max * 100\n在 Step 模式下，max 同时决定分段数量",
               "default": "100",
@@ -6725,7 +6773,7 @@
               "name": "type",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 2153
+                "offset": 2211
               },
               "description": "进度条类型\n- `line` - 线性进度条\n- `circle` - 环形进度条\n- `dashboard` - 仪表盘式",
               "default": "'line'",
@@ -6737,7 +6785,7 @@
               "name": "size",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 2364
+                "offset": 2422
               },
               "description": "进度条尺寸",
               "default": "'md'",
@@ -6749,18 +6797,18 @@
               "name": "status",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 2617
+                "offset": 2675
               },
               "description": "进度条状态\n设置后会覆盖默认的主题色",
               "type": [
-                "'success' | 'warning' | 'error'"
+                "'primary' | 'success' | 'warning' | 'error' | 'info'"
               ]
             },
             {
               "name": "color",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 2875
+                "offset": 2933
               },
               "description": "自定义进度条颜色\n支持 CSS 颜色值，会覆盖 status 颜色",
               "default": "''",
@@ -6772,7 +6820,7 @@
               "name": "strokeWidth",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 3128
+                "offset": 3186
               },
               "description": "进度条轨道宽度 (像素)",
               "type": [
@@ -6783,7 +6831,7 @@
               "name": "showText",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 3265
+                "offset": 3323
               },
               "description": "是否显示进度文字",
               "default": "true",
@@ -6795,7 +6843,7 @@
               "name": "textInside",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 3492
+                "offset": 3550
               },
               "description": "进度文字是否在进度条内部显示\n仅在 type=\"line\" 时有效",
               "default": "false",
@@ -6807,7 +6855,7 @@
               "name": "format",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 3720
+                "offset": 3778
               },
               "description": "自定义进度文字格式化函数",
               "type": [
@@ -6818,7 +6866,7 @@
               "name": "strokeLinecap",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 3903
+                "offset": 3961
               },
               "description": "环形进度条的线端样式",
               "default": "'round'",
@@ -6830,7 +6878,7 @@
               "name": "width",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 4121
+                "offset": 4179
               },
               "description": "环形进度条的宽度 (像素)\n仅在 type=\"circle\" 或 type=\"dashboard\" 时有效",
               "default": "126",
@@ -6842,7 +6890,7 @@
               "name": "striped",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 4306
+                "offset": 4364
               },
               "description": "是否显示条纹效果",
               "default": "false",
@@ -6854,7 +6902,7 @@
               "name": "stripedFlow",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 4530
+                "offset": 4588
               },
               "description": "条纹是否流动\n需配合 striped 使用",
               "default": "false",
@@ -6866,7 +6914,7 @@
               "name": "indeterminate",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 4749
+                "offset": 4807
               },
               "description": "是否为不确定进度模式\n开启后显示加载动画，忽略 percentage 值",
               "default": "false",
@@ -6878,7 +6926,7 @@
               "name": "duration",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 4937
+                "offset": 4995
               },
               "description": "不确定模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '3s' 或 '3000ms')",
               "default": "3000",
@@ -6890,7 +6938,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 5171
+                "offset": 5229
               },
               "description": "是否显示加载状态（光波扫过效果）",
               "default": "false",
@@ -6902,7 +6950,7 @@
               "name": "shape",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 5300
+                "offset": 5358
               },
               "description": "进度条形状",
               "default": "'clip'",
@@ -6914,7 +6962,7 @@
               "name": "steps",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 5575
+                "offset": 5633
               },
               "description": "是否启用分段模式\n启用后，进度条将显示为分段样式，分段数量由 max 决定",
               "default": "false",
@@ -6926,7 +6974,7 @@
               "name": "stepGap",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 5700
+                "offset": 5758
               },
               "description": "分段间距（像素）",
               "default": "2",
@@ -6938,7 +6986,7 @@
               "name": "stepColors",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 5953
+                "offset": 6011
               },
               "description": "各分段自定义颜色数组\n可为每个分段指定独立颜色，未指定的分段使用默认颜色",
               "default": "() => []",
@@ -6950,7 +6998,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 6262
+                "offset": 6320
               },
               "description": "进度条内部文字颜色\n仅在 textInside 为 true 时生效\n如未设置则根据进度条背景色自动计算对比度选择黑白",
               "type": [
@@ -6961,7 +7009,7 @@
               "name": "showInnerStripe",
               "source": {
                 "file": "../components/progress/src/progress.ts",
-                "offset": 6489
+                "offset": 6547
               },
               "description": "是否显示内圈虚线装饰\n仅在 type=\"circle\" 或 type=\"dashboard\" 时有效\n默认在 circle 时显示，dashboard 时关闭",
               "type": [
@@ -6987,7 +7035,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1051
+                "offset": 1198
               },
               "description": "绑定值 (v-model)",
               "type": [
@@ -6998,7 +7046,7 @@
               "name": "value",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1278
+                "offset": 1425
               },
               "description": "此单选框对应的值\n在 RadioGroup 中用于标识选中项",
               "type": [
@@ -7009,7 +7057,7 @@
               "name": "label",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1433
+                "offset": 1580
               },
               "description": "显示标签（也作为默认 slot fallback）",
               "default": "''",
@@ -7021,7 +7069,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1573
+                "offset": 1720
               },
               "description": "是否禁用",
               "default": "false",
@@ -7033,7 +7081,7 @@
               "name": "size",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1681
+                "offset": 1828
               },
               "description": "单选框尺寸",
               "default": "'md'",
@@ -7045,7 +7093,7 @@
               "name": "type",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1827
+                "offset": 1974
               },
               "description": "单选框类型（颜色预设）",
               "default": "'primary'",
@@ -7054,10 +7102,22 @@
               ]
             },
             {
+              "name": "shape",
+              "source": {
+                "file": "../components/radio/src/radio.ts",
+                "offset": 2098
+              },
+              "description": "单选框形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
               "name": "color",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 1956
+                "offset": 2221
               },
               "description": "自定义选中颜色\n优先级高于 type",
               "default": "''",
@@ -7069,7 +7129,7 @@
               "name": "glow",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 2062
+                "offset": 2327
               },
               "description": "是否启用霓虹辉光效果",
               "default": "true",
@@ -7081,7 +7141,7 @@
               "name": "dotColor",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 2218
+                "offset": 2483
               },
               "description": "自定义中间装饰块（菱形点）颜色\n用于在暗色背景下提高可见度\n不传时默认跟随当前 type 的文字颜色（参考 Button 文字颜色）",
               "default": "''",
@@ -7093,7 +7153,7 @@
               "name": "border",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 2346
+                "offset": 2611
               },
               "description": "是否使用边框样式\n开启后整个标签区域带有边框",
               "default": "false",
@@ -7105,7 +7165,7 @@
               "name": "name",
               "source": {
                 "file": "../components/radio/src/radio.ts",
-                "offset": 2437
+                "offset": 2702
               },
               "description": "原生 name 属性",
               "default": "''",
@@ -7120,7 +7180,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/radio/src/radio.ts",
-                  "offset": 2667
+                  "offset": 2932
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -7128,7 +7188,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/radio/src/radio.ts",
-                  "offset": 2836
+                  "offset": 3101
                 },
                 "description": "值变化时触发"
               }
@@ -7146,7 +7206,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 621
+                "offset": 632
               },
               "description": "绑定值 (v-model)",
               "type": [
@@ -7157,7 +7217,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 787
+                "offset": 798
               },
               "description": "是否禁用所有子单选框",
               "default": "false",
@@ -7169,7 +7229,7 @@
               "name": "size",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 896
+                "offset": 907
               },
               "description": "子单选框尺寸",
               "default": "'md'",
@@ -7181,7 +7241,7 @@
               "name": "type",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 1038
+                "offset": 1049
               },
               "description": "子单选框类型（颜色预设）",
               "default": "'primary'",
@@ -7190,10 +7250,22 @@
               ]
             },
             {
+              "name": "shape",
+              "source": {
+                "file": "../components/radio-group/src/radio-group.ts",
+                "offset": 1174
+              },
+              "description": "子单选框形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
               "name": "direction",
               "source": {
                 "file": "../components/radio-group/src/radio-group.ts",
-                "offset": 1175
+                "offset": 1305
               },
               "description": "布局方向",
               "default": "'horizontal'",
@@ -7208,7 +7280,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/radio-group/src/radio-group.ts",
-                  "offset": 1479
+                  "offset": 1609
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -7216,7 +7288,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/radio-group/src/radio-group.ts",
-                  "offset": 1648
+                  "offset": 1778
                 },
                 "description": "值变化时触发"
               }
@@ -7844,7 +7916,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1188
+                "offset": 1384
               },
               "description": "绑定值 (v-model)\n普通模式为 number，范围模式为 [number, number]",
               "default": "0",
@@ -7856,7 +7928,7 @@
               "name": "min",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1356
+                "offset": 1552
               },
               "description": "最小值",
               "default": "0",
@@ -7868,7 +7940,7 @@
               "name": "max",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1471
+                "offset": 1667
               },
               "description": "最大值",
               "default": "100",
@@ -7880,7 +7952,7 @@
               "name": "step",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1585
+                "offset": 1781
               },
               "description": "步长",
               "default": "1",
@@ -7892,7 +7964,7 @@
               "name": "size",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1703
+                "offset": 1899
               },
               "description": "滑块尺寸",
               "default": "'md'",
@@ -7901,10 +7973,22 @@
               ]
             },
             {
+              "name": "type",
+              "source": {
+                "file": "../components/slider/src/slider.ts",
+                "offset": 2057
+              },
+              "description": "滑块类型（颜色预设）",
+              "default": "'primary'",
+              "type": [
+                "'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
               "name": "shape",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 1944
+                "offset": 2288
               },
               "description": "滑块形状\n- `clip` - 切角样式（赛博朋克特色）\n- `no-clip` - 直角矩形\n- `round` - 圆角矩形",
               "default": "'clip'",
@@ -7916,7 +8000,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2094
+                "offset": 2438
               },
               "description": "是否禁用",
               "default": "false",
@@ -7928,7 +8012,7 @@
               "name": "range",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2272
+                "offset": 2616
               },
               "description": "是否为范围选择模式\n开启后 modelValue 类型变为 [number, number]",
               "default": "false",
@@ -7940,7 +8024,7 @@
               "name": "showTooltip",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2400
+                "offset": 2744
               },
               "description": "是否显示数值提示",
               "default": "true",
@@ -7952,7 +8036,7 @@
               "name": "showStops",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2558
+                "offset": 2902
               },
               "description": "是否显示刻度点\n仅在 step 大于 1 时有效",
               "default": "false",
@@ -7964,7 +8048,7 @@
               "name": "marks",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2746
+                "offset": 3090
               },
               "description": "标记刻度\nkey 为数值，value 为标签文本或配置对象",
               "type": [
@@ -7975,7 +8059,7 @@
               "name": "color",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 2927
+                "offset": 3271
               },
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖默认的主题色",
               "default": "''",
@@ -7987,7 +8071,7 @@
               "name": "vertical",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 3050
+                "offset": 3394
               },
               "description": "是否垂直模式",
               "default": "false",
@@ -7999,7 +8083,7 @@
               "name": "height",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 3190
+                "offset": 3534
               },
               "description": "滑块高度（垂直模式必需）",
               "type": [
@@ -8010,7 +8094,7 @@
               "name": "formatTooltip",
               "source": {
                 "file": "../components/slider/src/slider.ts",
-                "offset": 3361
+                "offset": 3705
               },
               "description": "格式化 tooltip 显示内容",
               "type": [
@@ -8024,7 +8108,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/slider/src/slider.ts",
-                  "offset": 3813
+                  "offset": 4157
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -8032,7 +8116,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/slider/src/slider.ts",
-                  "offset": 4005
+                  "offset": 4349
                 },
                 "description": "值改变且释放滑块时触发"
               },
@@ -8040,7 +8124,7 @@
                 "name": "input",
                 "source": {
                   "file": "../components/slider/src/slider.ts",
-                  "offset": 4181
+                  "offset": 4525
                 },
                 "description": "拖动过程中实时触发"
               }
@@ -8235,7 +8319,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 1066
+                "offset": 1473
               },
               "description": "绑定值 (v-model)",
               "default": "false",
@@ -8247,7 +8331,7 @@
               "name": "size",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 1237
+                "offset": 1644
               },
               "description": "开关尺寸",
               "default": "'md'",
@@ -8259,7 +8343,7 @@
               "name": "type",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 1484
+                "offset": 1891
               },
               "description": "开关类型（颜色预设）\n设置后会使用主题颜色，优先级低于 color 属性",
               "default": "'primary'",
@@ -8268,10 +8352,22 @@
               ]
             },
             {
+              "name": "shape",
+              "source": {
+                "file": "../components/switch/src/switch.ts",
+                "offset": 2035
+              },
+              "description": "开关形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
               "name": "disabled",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 1660
+                "offset": 2205
               },
               "description": "是否禁用开关\n禁用后不可切换，样式变为灰色",
               "default": "false",
@@ -8283,7 +8379,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 1823
+                "offset": 2368
               },
               "description": "是否加载中\n加载中状态时显示 loading 动画，且不可切换",
               "default": "false",
@@ -8295,7 +8391,7 @@
               "name": "color",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2032
+                "offset": 2577
               },
               "description": "自定义选中状态颜色\n传入有效 CSS 颜色值，覆盖默认的选中态颜色",
               "default": "''",
@@ -8307,7 +8403,7 @@
               "name": "inactiveColor",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2243
+                "offset": 2788
               },
               "description": "自定义未选中状态颜色\n传入有效 CSS 颜色值，覆盖默认的未选中态颜色",
               "default": "''",
@@ -8319,7 +8415,7 @@
               "name": "width",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2371
+                "offset": 2916
               },
               "description": "强制指定宽度",
               "default": "''",
@@ -8331,7 +8427,7 @@
               "name": "fitText",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2577
+                "offset": 3122
               },
               "description": "是否适应文字宽度\n开启后，Switch 宽度将随内部文字内容自适应撑开（支持长文本）",
               "default": "false",
@@ -8340,12 +8436,24 @@
               ]
             },
             {
+              "name": "textPosition",
+              "source": {
+                "file": "../components/switch/src/switch.ts",
+                "offset": 3334
+              },
+              "description": "文字显示位置",
+              "default": "'right'",
+              "type": [
+                "'left' | 'right' | 'inner'"
+              ]
+            },
+            {
               "name": "activeText",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2756
+                "offset": 3540
               },
-              "description": "选中时内嵌显示的文字",
+              "description": "选中时显示的文字",
               "default": "''",
               "type": [
                 "string"
@@ -8355,9 +8463,9 @@
               "name": "inactiveText",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 2938
+                "offset": 3713
               },
-              "description": "未选中时内嵌显示的文字",
+              "description": "未选中时显示的文字",
               "default": "''",
               "type": [
                 "string"
@@ -8367,7 +8475,7 @@
               "name": "beforeChange",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 3200
+                "offset": 3975
               },
               "description": "切换前钩子，返回 false 或 Promise reject 时阻止切换",
               "type": [
@@ -8378,7 +8486,7 @@
               "name": "name",
               "source": {
                 "file": "../components/switch/src/switch.ts",
-                "offset": 3401
+                "offset": 4176
               },
               "description": "原生 name 属性\n用于表单提交",
               "default": "''",
@@ -8393,7 +8501,7 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/switch/src/switch.ts",
-                  "offset": 3765
+                  "offset": 4540
                 },
                 "description": "值变化时触发 (v-model 绑定)"
               },
@@ -8401,7 +8509,7 @@
                 "name": "change",
                 "source": {
                   "file": "../components/switch/src/switch.ts",
-                  "offset": 3904
+                  "offset": 4679
                 },
                 "description": "值变化时触发"
               }
@@ -9464,7 +9572,7 @@
               "name": "modelValue",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 599
+                "offset": 746
               },
               "description": "绑定值 (v-model)",
               "default": "''",
@@ -9476,7 +9584,7 @@
               "name": "placeholder",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 688
+                "offset": 835
               },
               "description": "占位文本",
               "default": "''",
@@ -9488,7 +9596,7 @@
               "name": "size",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 776
+                "offset": 923
               },
               "description": "尺寸",
               "default": "'md'",
@@ -9497,10 +9605,22 @@
               ]
             },
             {
+              "name": "shape",
+              "source": {
+                "file": "../components/textarea/src/textarea.ts",
+                "offset": 1037
+              },
+              "description": "形状",
+              "default": "'clip'",
+              "type": [
+                "'clip' | 'no-clip' | 'round'"
+              ]
+            },
+            {
               "name": "variant",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 897
+                "offset": 1147
               },
               "description": "形态变体",
               "default": "'outline'",
@@ -9512,7 +9632,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1019
+                "offset": 1269
               },
               "description": "是否禁用",
               "default": "false",
@@ -9524,7 +9644,7 @@
               "name": "readonly",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1110
+                "offset": 1360
               },
               "description": "是否只读",
               "default": "false",
@@ -9536,7 +9656,7 @@
               "name": "maxlength",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1203
+                "offset": 1453
               },
               "description": "最大输入长度",
               "type": [
@@ -9547,7 +9667,7 @@
               "name": "showWordLimit",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1300
+                "offset": 1550
               },
               "description": "显示字数统计",
               "default": "false",
@@ -9559,7 +9679,7 @@
               "name": "rows",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1394
+                "offset": 1644
               },
               "description": "行数",
               "default": "3",
@@ -9571,7 +9691,7 @@
               "name": "autosize",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1477
+                "offset": 1727
               },
               "description": "自适应高度",
               "default": "false",
@@ -9583,7 +9703,7 @@
               "name": "color",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1641
+                "offset": 1891
               },
               "description": "自定义颜色",
               "default": "''",
@@ -9595,7 +9715,7 @@
               "name": "textColor",
               "source": {
                 "file": "../components/textarea/src/textarea.ts",
-                "offset": 1725
+                "offset": 1975
               },
               "description": "文字颜色",
               "default": "''",
@@ -9610,35 +9730,35 @@
                 "name": "update:modelValue",
                 "source": {
                   "file": "../components/textarea/src/textarea.ts",
-                  "offset": 1912
+                  "offset": 2162
                 }
               },
               {
                 "name": "input",
                 "source": {
                   "file": "../components/textarea/src/textarea.ts",
-                  "offset": 1984
+                  "offset": 2234
                 }
               },
               {
                 "name": "change",
                 "source": {
                   "file": "../components/textarea/src/textarea.ts",
-                  "offset": 2082
+                  "offset": 2332
                 }
               },
               {
                 "name": "focus",
                 "source": {
                   "file": "../components/textarea/src/textarea.ts",
-                  "offset": 2141
+                  "offset": 2391
                 }
               },
               {
                 "name": "blur",
                 "source": {
                   "file": "../components/textarea/src/textarea.ts",
-                  "offset": 2205
+                  "offset": 2455
                 }
               }
             ]

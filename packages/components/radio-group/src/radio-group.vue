@@ -4,7 +4,7 @@
  * 管理多个 CpRadio 的选中状态
  */
 import { computed, provide, toRef } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { radioGroupProps, radioGroupEmits } from './radio-group'
 import { radioGroupContextKey, type RadioGroupContext } from './constants'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}RadioGroup`,
 })
 
-const props = defineProps(radioGroupProps)
+const rawProps = defineProps(radioGroupProps)
+const props = useDefaults(rawProps, 'radioGroup')
 const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio-group')
@@ -39,6 +40,7 @@ const context: RadioGroupContext = {
   disabled: toRef(props, 'disabled'),
   size: toRef(props, 'size'),
   type: toRef(props, 'type'),
+  shape: toRef(props, 'shape'),
   handleChange,
 }
 

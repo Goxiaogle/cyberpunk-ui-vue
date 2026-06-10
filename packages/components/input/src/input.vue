@@ -6,7 +6,7 @@
  * 支持密码可见性切换、字数统计
  */
 import { computed, ref, inject, useSlots, onMounted, nextTick } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { inputProps, inputEmits } from './input'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { formContextKey } from '@cyberpunk-vue/components/form/src/constants'
@@ -15,7 +15,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Input`,
 })
 
-const props = defineProps(inputProps)
+const rawProps = defineProps(inputProps)
+const props = useDefaults(rawProps, 'input')
 const emit = defineEmits(inputEmits)
 const slots = useSlots()
 

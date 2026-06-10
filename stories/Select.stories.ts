@@ -496,8 +496,8 @@ export const Flex布局: Story = {
   }),
 }
 
-// 长选项列表（用于测试滚动）
-const longOptions: SelectOption[] = Array.from({ length: 20 }, (_, i) => ({
+// 长选项列表（用于测试弹层内部滚动）
+const longOptions: SelectOption[] = Array.from({ length: 60 }, (_, i) => ({
   label: `选项 ${i + 1} - Item #${i + 1}`,
   value: `item-${i + 1}`,
 }))
@@ -515,9 +515,9 @@ export const 自动翻转与滚动: Story = {
       <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100vh; padding: 24px; box-sizing: border-box;">
         <div>
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">
-            📍 顶部 — 长列表（20 项），弹层内自动滚动
+            📍 顶部 — 长列表（60 项），弹层内自动滚动
           </p>
-          <CpSelect v-model="v1" :options="longOptions" :width="300" placeholder="长列表，自动滚动" />
+          <CpSelect v-model="v1" :options="longOptions" :width="300" :max-height="220" placeholder="长列表，自动滚动" />
         </div>
         <div style="text-align: center; color: var(--cp-text-muted); font-size: 12px;">
           ⬆️ 上方正常展开 &nbsp;&nbsp;|&nbsp;&nbsp; ⬇️ 下方自动翻转到上方 ⬆️
@@ -526,7 +526,7 @@ export const 自动翻转与滚动: Story = {
           <p style="color: var(--cp-text-secondary); font-size: 12px; margin-bottom: 8px;">
             📍 底部 — 空间不足时自动翻转到上方展开
           </p>
-          <CpSelect v-model="v2" :options="longOptions" :width="300" placeholder="底部，自动翻转" />
+          <CpSelect v-model="v2" :options="longOptions" :width="300" :max-height="220" placeholder="底部，自动翻转" />
         </div>
       </div>
     `,

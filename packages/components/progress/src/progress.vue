@@ -5,7 +5,7 @@
  * 支持条纹效果、流动动画、不确定状态
  */
 import { computed, type CSSProperties } from 'vue'
-import { useNamespace, normalizeDuration, isPresetSize, parseSizeNumber } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults, normalizeDuration, isPresetSize, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { progressProps } from './progress'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Progress`,
 })
 
-const props = defineProps(progressProps)
+const rawProps = defineProps(progressProps)
+const props = useDefaults(rawProps, 'progress')
 
 const ns = useNamespace('progress')
 
@@ -167,20 +168,22 @@ const circleBarStyle = computed<CSSProperties>(() => {
   return style
 })
 
-// 生成弧形路径 (支持刀锋切角)
-// 对于 clip 模式，使用多边形路径模拟切角效果
-const progressArcPath = computed(() => {
+const createArcPath = (progressRatio: number, stroke: number) => {
   const { center, radius } = circleParams.value
-  const stroke = strokeWidthComputed.value
 
   // 计算进度对应的角度
-  const progressRatio = actualPercentage.value / 100
   const dashboardDegree = props.type === 'dashboard' ? 0.75 : 1
   const totalAngle = 360 * dashboardDegree * progressRatio
+  // Dashboard 直接从左下角绘制，避免旋转整个 SVG 导致小尺寸场景视觉边界扩大。
+  // Circle 保持从 0 度开始，再由 SVG 旋转到顶部起点。
+  const startAngle = props.type === 'dashboard' ? 135 : 0
+  const startAngleRad = (startAngle * Math.PI) / 180
+  const startX = center + radius * Math.cos(startAngleRad)
+  const startY = center + radius * Math.sin(startAngleRad)
 
   // 0% 情况：返回一个几乎不可见的极小路径，保持 Path 元素存在以避免动画跳动
-  if (totalAngle <= 0 || props.percentage <= 0) {
-    return `M ${center + radius} ${center} L ${center + radius + 0.01} ${center}`
+  if (totalAngle <= 0) {
+    return `M ${startX} ${startY} L ${startX + 0.01} ${startY}`
   }
 
   // 圆角模式使用 circle 元素
@@ -193,9 +196,7 @@ const progressArcPath = computed(() => {
   const innerRadius = radius - stroke / 2
   const outerRadius = radius + stroke / 2
 
-  // 起始角度 (固定为 0，因为旋转由容器 CSS 负责)
-  const startAngle = 0
-  const endAngle = Math.min(totalAngle, 359.99)
+  const endAngle = Math.min(startAngle + totalAngle, startAngle + 359.99)
 
   const startRad = toRad(startAngle)
   const endRad = toRad(endAngle)
@@ -213,12 +214,12 @@ const progressArcPath = computed(() => {
   const innerEndX = center + innerRadius * Math.cos(endRad)
   const innerEndY = center + innerRadius * Math.sin(endRad)
 
-  const largeArcFlag = endAngle > 180 ? 1 : 0
+  const largeArcFlag = totalAngle > 180 ? 1 : 0
 
   // 100% 满圆特殊处理：使用两个半圆弧，确保闭合且无间隙
   // 注意：dashboard 模式不需要这个，因为它永远不是完整的圆
-  if (actualPercentage.value >= 100 && props.type !== 'dashboard') {
-    const midAngle = 180
+  if (progressRatio >= 1 && props.type !== 'dashboard') {
+    const midAngle = startAngle + 180
     const midRad = toRad(midAngle)
     const outerMidX = center + outerRadius * Math.cos(midRad)
     const outerMidY = center + outerRadius * Math.sin(midRad)
@@ -240,7 +241,7 @@ const progressArcPath = computed(() => {
   if (props.shape === 'clip') {
     // 斜切模式 (Slant Cut)：通过内圈端点偏移产生斜向切口
     // 计算偏移角度 (约为 strokeWidth 的一半对应的弧度)
-    const clipAngleDeg = (stroke / 2 / radius) * (180 / Math.PI)
+    const clipAngleDeg = Math.min((stroke / 2 / radius) * (180 / Math.PI), totalAngle / 2)
 
     // 内圈端点偏移
     const innerStartClipRad = toRad(startAngle + clipAngleDeg)
@@ -268,17 +269,52 @@ const progressArcPath = computed(() => {
       'Z'
     ].join(' ')
   }
+}
+
+// 生成弧形路径 (支持刀锋切角)
+// 对于 clip 模式，使用多边形路径模拟切角效果
+const progressArcPath = computed(() => {
+  return createArcPath(actualPercentage.value / 100, strokeWidthComputed.value)
 })
+
+const dashboardTrackArcPath = computed(() => {
+  return createArcPath(1, Math.max(1, strokeWidthComputed.value - 2))
+})
+
+const createStrokeArcPath = (progressRatio: number) => {
+  const { center, radius } = circleParams.value
+  const dashboardDegree = props.type === 'dashboard' ? 0.75 : 1
+  const totalAngle = 360 * dashboardDegree * progressRatio
+  const startAngle = props.type === 'dashboard' ? 135 : 0
+  const toRad = (deg: number) => (deg * Math.PI) / 180
+  const startRad = toRad(startAngle)
+  const startX = center + radius * Math.cos(startRad)
+  const startY = center + radius * Math.sin(startRad)
+
+  if (totalAngle <= 0) {
+    return `M ${startX} ${startY} L ${startX + 0.01} ${startY}`
+  }
+
+  const endAngle = Math.min(startAngle + totalAngle, startAngle + 359.99)
+  const endRad = toRad(endAngle)
+  const endX = center + radius * Math.cos(endRad)
+  const endY = center + radius * Math.sin(endRad)
+  const largeArcFlag = totalAngle > 180 ? 1 : 0
+
+  return `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`
+}
+
+const dashboardTrackStrokePath = computed(() => createStrokeArcPath(1))
+const dashboardProgressStrokePath = computed(() => createStrokeArcPath(actualPercentage.value / 100))
 
 // 是否使用路径模式
 const usePathMode = computed(() => props.shape !== 'round')
+const useDashboardTrackPath = computed(() => props.type === 'dashboard')
 
 // 环形容器样式
 const circleSvgStyle = computed<CSSProperties>(() => {
-  // 旋转起点：
-  // Circle 从顶部 (-90deg) 开始顺时针绘制
-  // Dashboard 从左下角 (135deg) 开始顺时针绘制
-  const rotation = props.type === 'dashboard' ? 'rotate(135deg)' : 'rotate(-90deg)'
+  // Circle 仍通过旋转从顶部开始；Dashboard 的起点已写入 path 坐标，避免旋转 SVG 盒子。
+  const rotation = props.type === 'dashboard' ? 'none' : 'rotate(-90deg)'
   return {
     width: `${props.width}px`,
     height: `${props.width}px`,
@@ -421,7 +457,15 @@ const stepItems = computed<StepItem[]>(() => {
         :viewBox="`0 0 ${circleParams.size} ${circleParams.size}`"
       >
         <!-- 轨道 -->
+        <path
+          v-if="useDashboardTrackPath"
+          :class="[ns.e('track'), usePathMode ? ns.e('track-path') : ns.e('track-line')]"
+          :d="usePathMode ? dashboardTrackArcPath : dashboardTrackStrokePath"
+          fill="none"
+          :stroke-width="usePathMode ? undefined : Math.max(1, strokeWidthComputed - 2)"
+        />
         <circle
+          v-else
           :class="ns.e('track')"
           :cx="circleParams.center"
           :cy="circleParams.center"
@@ -443,9 +487,12 @@ const stepItems = computed<StepItem[]>(() => {
 
         <!-- 进度 (路径模式 - 刀锋/平头) -->
         <path
-          v-if="usePathMode"
+          v-if="usePathMode || type === 'dashboard'"
           :class="ns.e('path')"
-          :d="progressArcPath"
+          :d="usePathMode ? progressArcPath : dashboardProgressStrokePath"
+          :fill="usePathMode ? undefined : 'none'"
+          :stroke-width="usePathMode ? undefined : strokeWidthComputed"
+          :stroke-linecap="usePathMode ? undefined : 'round'"
           :style="circleBarStyle"
         />
 

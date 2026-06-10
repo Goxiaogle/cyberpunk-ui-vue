@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Size } from '@cyberpunk-vue/hooks'
-import type { RadioValueType, RadioType } from '@cyberpunk-vue/components/radio/src/radio'
+import type { RadioValueType, RadioType, RadioShape } from '@cyberpunk-vue/components/radio/src/radio'
 
 /**
  * CpRadioGroup 组件 Props 定义
@@ -49,6 +49,14 @@ export const radioGroupProps = {
   type: {
     type: String as PropType<RadioType>,
     default: 'primary',
+  },
+  /**
+   * 子单选框形状
+   * @default 'clip'
+   */
+  shape: {
+    type: String as PropType<RadioShape>,
+    default: 'clip',
   },
   /**
    * 布局方向
