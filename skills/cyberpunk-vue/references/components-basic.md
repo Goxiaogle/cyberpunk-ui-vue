@@ -247,15 +247,17 @@
 
 ## CpText 文字
 
-赛博朋克风格特殊文字组件，可快速为文字添加多种视觉效果。
+赛博朋克风格文字组件，可快速切换文字层级并添加多种视觉效果。
 
 ### Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
 | `type` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 文字类型（颜色预设） |
+| `level` | `'heading' \| 'subheading' \| 'body' \| 'secondary' \| 'caption' \| 'muted'` | `'body'` | 文字层级 |
+| `tag` | `'span' \| 'p' \| 'div' \| 'label' \| 'strong' \| 'em' \| 'small' \| 'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'span'` | 渲染标签 |
 | `color` | `string` | `''` | 自定义颜色 |
-| `size` | `'sm' \| 'md' \| 'lg' \| number` | `'md'` | 文字尺寸 |
+| `size` | `'sm' \| 'md' \| 'lg' \| number` | `undefined` | 文字尺寸 |
 | `align` | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 垂直对齐方式 |
 | `underline` | `boolean` | `false` | 下划线效果 |
 | `boxed` | `boolean` | `false` | 方框边框效果 |
@@ -281,7 +283,8 @@
 
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
-| `--cp-text-color` | `inherit` | CSS 变量默认值 |
+| `--cp-text-color` | `var(--cp-text-muted)` |  |
+| `--cp-text-size` | `12px` |  |
 | `--cp-text-glow-intensity` | `3px` | 默认强度 |
 | `--cp-text-pulse-duration` | `1.5s` |  |
 | `--cp-text-wave-duration` | `2s` | 默认时长 |
@@ -295,6 +298,7 @@
 ```vue
 <!-- 基础用法 -->
 <CpText>普通文字</CpText>
+<CpText level="heading" tag="h2">标题文字</CpText>
 
 <!-- 带效果 -->
 <CpText underline type="primary">下划线</CpText>

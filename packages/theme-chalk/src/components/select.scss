@@ -454,7 +454,11 @@
     font-family: inherit;
     font-size: var(--cp-font-size-sm);
     outline: none;
-    transition: border-color 0.2s ease;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    transition:
+      border-color 0.2s ease,
+      border-radius 0.2s ease,
+      clip-path 0.2s ease;
 
     &:focus {
       border-color: var(--cp-color-primary);
@@ -462,6 +466,16 @@
 
     &::placeholder {
       color: var(--cp-text-muted);
+    }
+
+    .cp-select--shape-no-clip & {
+      clip-path: none;
+      border-radius: 0;
+    }
+
+    .cp-select--shape-round & {
+      clip-path: none;
+      border-radius: var(--cp-radius-md);
     }
   }
 

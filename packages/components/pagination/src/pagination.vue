@@ -4,7 +4,7 @@
  * 支持 layout 配置渲染分页模块
  */
 import { computed, ref, watch } from 'vue'
-import { useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { paginationProps, paginationEmits } from './pagination'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpButton from '@cyberpunk-vue/components/button/src/button.vue'
@@ -15,7 +15,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Pagination`,
 })
 
-const props = defineProps(paginationProps)
+const rawProps = defineProps(paginationProps)
+const props = useDefaults(rawProps, 'pagination')
 const emit = defineEmits(paginationEmits)
 
 const ns = useNamespace('pagination')

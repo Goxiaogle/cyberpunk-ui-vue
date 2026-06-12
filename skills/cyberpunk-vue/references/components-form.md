@@ -664,9 +664,9 @@
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `--cp-switch-active-color` | `var(--cp-color-primary)` | CSS 变量 |
-| `--cp-switch-active-color-light` | `var(--cp-color-primary-light)` |  |
-| `--cp-switch-inactive-color` | `var(--cp-border)` |  |
-| `--cp-switch-bg-color` | `color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)` |  |
+| `--cp-switch-active-color-light` | `color-mix(in srgb, var(--cp-switch-active-color) 18%, transparent)` |  |
+| `--cp-switch-inactive-color` | `#c4d0e3` |  |
+| `--cp-switch-bg-color` | `linear-gradient(135deg, #ffffff 0%, #eef4ff 100%)` |  |
 | `--cp-switch-text-color` | `var(--cp-text-inverse)` |  |
 
 ### 示例

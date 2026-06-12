@@ -4,7 +4,7 @@
  * 当子元素包含 Header 或 Footer 时自动切换为垂直排列
  */
 import { computed, useSlots, type VNode, type Component } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { containerProps } from './container'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -13,10 +13,11 @@ defineOptions({
 })
 
 defineSlots<{
-  default?: (props?: any) => any
+  default?: () => VNode[]
 }>()
 
-const props = defineProps(containerProps)
+const rawProps = defineProps(containerProps)
+const props = useDefaults(rawProps, 'container')
 const ns = useNamespace('container')
 const slots = useSlots()
 

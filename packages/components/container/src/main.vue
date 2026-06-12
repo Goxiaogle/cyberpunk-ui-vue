@@ -3,7 +3,7 @@
  * CpMain - 主内容区域容器
  */
 import { computed, ref } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { mainProps } from './container'
 
@@ -11,7 +11,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Main`,
 })
 
-const props = defineProps(mainProps)
+const rawProps = defineProps(mainProps)
+const props = useDefaults(rawProps, 'main')
 const ns = useNamespace('main')
 const mainRef = ref<HTMLElement>()
 const classes = computed(() => [

@@ -5,7 +5,7 @@
  * 图标 + 标题 + 描述 + 底部操作
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace } from '@cyberpunk-vue/hooks'
 import { emptyProps } from './empty'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -14,7 +14,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Empty`,
 })
 
-const props = defineProps(emptyProps)
+const rawProps = defineProps(emptyProps)
+const props = useDefaults(rawProps, 'empty')
 const slots = useSlots()
 const ns = useNamespace('empty')
 

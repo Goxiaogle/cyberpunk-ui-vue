@@ -5,7 +5,7 @@
  * 支持模板式 (v-model) 和函数式 (notify()) 两种用法
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, isVNode, type VNode, type CSSProperties } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { notificationProps, notificationEmits } from './notification'
 
@@ -14,7 +14,8 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(notificationProps)
+const rawProps = defineProps(notificationProps)
+const props = useDefaults(rawProps, 'notification')
 const emit = defineEmits(notificationEmits)
 const slots = useSlots()
 

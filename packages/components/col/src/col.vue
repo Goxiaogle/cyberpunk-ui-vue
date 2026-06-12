@@ -4,7 +4,7 @@
  * 基于 24 栅格系统，支持 span/offset/push/pull
  */
 import { computed, inject } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { colProps } from './col'
 import { rowContextKey } from '@cyberpunk-vue/components/row/src/row'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Col`,
 })
 
-const props = defineProps(colProps)
+const rawProps = defineProps(colProps)
+const props = useDefaults(rawProps, 'col')
 const ns = useNamespace('col')
 
 // 注入父 Row 的 gutter

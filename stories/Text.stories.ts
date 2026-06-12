@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { CpText } from '@cyberpunk-vue/components'
+import { CpConfigProvider, CpText } from '@cyberpunk-vue/components'
 
 /**
  * CpText 特殊文字组件
  *
- * 用于快速为文字添加多种视觉效果的内联组件。
- * 支持下划线、方框、加粗、斜体、删除线、发光、马克笔等效果，可自由组合。
+ * 用于快速切换文字层级并添加多种视觉效果的文字组件。
+ * 支持 heading / body / caption 等层级、渲染标签切换，以及下划线、方框、发光、马克笔等效果组合。
  */
 const meta: Meta<typeof CpText> = {
   title: '通用 General/Text 特殊文字',
@@ -17,10 +17,20 @@ const meta: Meta<typeof CpText> = {
       options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
       description: '文字类型（颜色预设）',
     },
+    level: {
+      control: 'select',
+      options: ['heading', 'subheading', 'body', 'secondary', 'caption', 'muted'],
+      description: '文字层级，控制默认字号、字重、行高和文本色',
+    },
+    tag: {
+      control: 'select',
+      options: ['span', 'p', 'div', 'label', 'strong', 'em', 'small', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      description: '渲染标签，只改变 HTML 标签，不改变视觉层级',
+    },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '文字尺寸',
+      description: '文字尺寸，显式传入时覆盖 level 的默认字号',
     },
     align: {
       control: 'select',
@@ -125,7 +135,9 @@ const meta: Meta<typeof CpText> = {
   },
   args: {
     type: 'primary',
-    size: 'md',
+    level: 'body',
+    tag: 'span',
+    size: undefined,
     align: 'middle',
     color: '',
     underline: false,
@@ -187,6 +199,62 @@ export const Types: Story = {
         <CpText type="warning">警告</CpText>
         <CpText type="error">错误</CpText>
         <CpText type="info">信息</CpText>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 文字层级
+ *
+ * 使用 `level` 切换内置排版层级；需要语义标签时配合 `tag` 使用。
+ */
+export const Levels: Story = {
+  render: () => ({
+    components: { CpText },
+    template: `
+      <div style="display: grid; gap: 12px; max-width: 720px;">
+        <CpText level="heading" tag="h2" style="margin: 0;">主题标题文字 Heading</CpText>
+        <CpText level="subheading" tag="h3" style="margin: 0;">副标题文字 Subheading</CpText>
+        <CpText level="body" tag="p" style="margin: 0;">
+          普通正文 Body 使用主题主文字色和舒适行高，适合完整段落、说明文本和内容主体。
+        </CpText>
+        <CpText level="secondary" tag="p" style="margin: 0;">
+          次级正文 Secondary 使用次级文字色，适合描述、表格辅助信息和卡片正文。
+        </CpText>
+        <CpText level="caption">Caption 用于标签、注释和紧凑元信息。</CpText>
+        <CpText level="muted">Muted 用于空状态说明和低优先级元信息。</CpText>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 主题适配
+ *
+ * 默认文字色会读取当前主题的 `--cp-text-primary`，局部主题也会生效。
+ */
+export const ThemeAware: Story = {
+  render: () => ({
+    components: { CpConfigProvider, CpText },
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+        <CpConfigProvider theme="dark" :sync-document="false">
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 18px; background: var(--cp-bg-deep); border: 1px solid var(--cp-border);">
+            <CpText bold>暗色默认文字</CpText>
+            <CpText type="primary">暗色 Primary</CpText>
+            <CpText type="success" underline>暗色 Success</CpText>
+            <CpText type="warning" marker>暗色 Warning</CpText>
+          </div>
+        </CpConfigProvider>
+        <CpConfigProvider theme="light" :sync-document="false">
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 18px; background: var(--cp-bg-deep); border: 1px solid var(--cp-border);">
+            <CpText bold>亮色默认文字</CpText>
+            <CpText type="primary">亮色 Primary</CpText>
+            <CpText type="success" underline>亮色 Success</CpText>
+            <CpText type="warning" marker>亮色 Warning</CpText>
+          </div>
+        </CpConfigProvider>
       </div>
     `,
   }),

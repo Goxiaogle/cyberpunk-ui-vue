@@ -534,7 +534,7 @@
 |------|------|--------|------|
 | `title` | `string` | `''` | 卡片标题 |
 | `shadow` | `'always' \| 'hover' \| 'never'` | `'always'` | 阴影显示时机 |
-| `variant` | `'solid' \| 'outline' \| 'semi' \| 'ghost' \| 'neon' \| 'cyber'` | `'solid'` | 卡片变体/形态 |
+| `variant` | `'solid' \| 'outline' \| 'semi' \| 'ghost' \| 'neon'` | `'solid'` | 卡片变体/形态 |
 | `shape` | `'clip' \| 'no-clip' \| 'round'` | `'clip'` | 卡片形状 |
 | `bodyPadding` | `string` | `undefined (使用默认 padding)` | 自定义内容区内边距 |
 | `headerBorder` | `boolean` | `true` | 是否显示头部分隔线 |

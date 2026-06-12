@@ -3,7 +3,7 @@
  * CpText - 赛博朋克风格特殊文字
  * 支持多种文字效果：下划线、方框、加粗、斜体、删除线、发光、马克笔
  */
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import { useNamespace, useDefaults, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textProps } from './text'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -14,6 +14,7 @@ defineOptions({
 
 const rawProps = defineProps(textProps)
 const props = useDefaults(rawProps, 'text')
+const instance = getCurrentInstance()
 
 const ns = useNamespace('text')
 
@@ -33,9 +34,15 @@ const sizeMap: Record<string, number> = {
   lg: 16,
 }
 
+const isSizeExplicit = computed(() => {
+  const rawVNodeProps = instance?.vnode.props
+  return !!rawVNodeProps && 'size' in rawVNodeProps
+})
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
+  ns.m(`level-${props.level}`),
   ns.m(`align-${props.align}`),
   ns.is('underline', props.underline),
   ns.is('boxed', props.boxed),
@@ -65,7 +72,8 @@ const customStyle = computed(() => {
   }
 
   // 尺寸处理
-  const sizeStr = normalizeSize(props.size, sizeMap)
+  const shouldApplySize = props.level === 'body' || isSizeExplicit.value
+  const sizeStr = shouldApplySize ? normalizeSize(props.size, sizeMap) : ''
   if (sizeStr) {
     style['--cp-text-size'] = sizeStr
   }
@@ -112,7 +120,8 @@ const customStyle = computed(() => {
 </script>
 
 <template>
-  <span
+  <component
+    :is="props.tag"
     :class="classes"
     :style="customStyle"
     :data-text="($slots.default?.({})[0]?.children as string) || ''"
@@ -131,5 +140,5 @@ const customStyle = computed(() => {
     <span v-if="$slots.suffix" :class="ns.e('suffix')">
       <slot name="suffix" />
     </span>
-  </span>
+  </component>
 </template>

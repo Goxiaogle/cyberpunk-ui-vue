@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, nextTick, onMounted, provide, ref, toRef, watch } from 'vue'
-import { isPresetSize, normalizeSize, useNamespace } from '@cyberpunk-vue/hooks'
+import { isPresetSize, normalizeSize, useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { menuProps, menuEmits } from './menu'
 import { menuContextKey } from './constants'
 import type { MenuContext } from './constants'
 
 defineOptions({ name: 'CpMenu' })
 
-const props = defineProps(menuProps)
+const rawProps = defineProps(menuProps)
+const props = useDefaults(rawProps, 'menu')
 const emit = defineEmits(menuEmits)
 const ns = useNamespace('menu')
 const instance = getCurrentInstance()

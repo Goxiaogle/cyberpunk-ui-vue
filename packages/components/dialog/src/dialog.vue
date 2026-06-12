@@ -4,7 +4,7 @@
  * 支持多种变体、形状、主题色、拖拽，以及各区域的颜色/样式/class 自定义
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount, useSlots, nextTick, provide, toRef, useAttrs, h, type CSSProperties } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DIALOG_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import { dialogProps, dialogEmits, type DialogBeforeCloseDoneFn, type DialogBeforeCloseFn, type DialogFullscreenInsetValue } from './dialog'
 import { registerOverlay } from '@cyberpunk-vue/components/utils'
@@ -24,7 +24,8 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(dialogProps)
+const rawProps = defineProps(dialogProps)
+const props = useDefaults(rawProps, 'dialog')
 const emit = defineEmits(dialogEmits)
 const slots = useSlots()
 const attrs = useAttrs()

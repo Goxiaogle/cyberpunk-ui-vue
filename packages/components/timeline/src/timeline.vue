@@ -4,7 +4,7 @@
  * 支持 left/right/alternate 排列模式
  */
 import { computed, provide, useSlots } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace } from '@cyberpunk-vue/hooks'
 import { timelineProps, TIMELINE_CONTEXT_KEY } from './timeline'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -16,7 +16,8 @@ defineSlots<{
   default?: () => any
 }>()
 
-const props = defineProps(timelineProps)
+const rawProps = defineProps(timelineProps)
+const props = useDefaults(rawProps, 'timeline')
 const slots = useSlots()
 
 const ns = useNamespace('timeline')

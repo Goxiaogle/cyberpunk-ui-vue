@@ -153,6 +153,13 @@ $pagination-types: (
       font-weight: var(--cp-pagination-font-weight);
       font-variation-settings: 'wght' var(--cp-pagination-font-weight);
       transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease,
+        text-shadow 0.2s ease,
+        transform 0.2s ease,
         font-weight var(--cp-pagination-font-weight-transition),
         font-variation-settings var(--cp-pagination-font-weight-transition);
     }

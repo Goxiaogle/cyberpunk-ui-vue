@@ -12,7 +12,7 @@ export type TextSize = 'sm' | 'md' | 'lg' | number
 
 /**
  * 文字类型（颜色预设）
- * - `default` - 默认 (继承父级颜色)
+ * - `default` - 默认主题文字色
  * - `primary` - 主色调 (赛博青)
  * - `success` - 成功 (霓虹绿)
  * - `warning` - 警告 (橙黄)
@@ -20,6 +20,17 @@ export type TextSize = 'sm' | 'md' | 'lg' | number
  * - `info` - 信息 (紫罗兰)
  */
 export type TextType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+
+/**
+ * 文字层级
+ * - `heading` - 标题文字，适合模块标题或卡片标题
+ * - `subheading` - 副标题文字，适合标题下方说明
+ * - `body` - 正文文字，默认
+ * - `secondary` - 次级正文，适合描述、辅助信息
+ * - `caption` - 标签/注释文字，适合元信息
+ * - `muted` - 弱化文字，适合低优先级说明
+ */
+export type TextLevel = 'heading' | 'subheading' | 'body' | 'secondary' | 'caption' | 'muted'
 
 /**
  * 垂直对齐方式
@@ -30,14 +41,20 @@ export type TextType = 'default' | 'primary' | 'success' | 'warning' | 'error' |
 export type TextAlign = 'top' | 'middle' | 'bottom'
 
 /**
+ * 渲染标签
+ */
+export type TextTag = 'span' | 'p' | 'div' | 'label' | 'strong' | 'em' | 'small' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+/**
  * CpText 组件 Props 定义
  *
- * @description 赛博朋克风格特殊文字组件，可快速为文字添加多种视觉效果。
+ * @description 赛博朋克风格文字组件，可快速切换文字层级并添加多种视觉效果。
  *
  * @example
  * ```vue
  * <!-- 基础用法 -->
  * <CpText>普通文字</CpText>
+ * <CpText level="heading" tag="h2">标题文字</CpText>
  *
  * <!-- 带效果 -->
  * <CpText underline type="primary">下划线</CpText>
@@ -62,6 +79,26 @@ export const textProps = {
         default: 'default',
     },
     /**
+     * 文字层级
+     * 控制默认字号、字重、行高和文本色，可被 size / type / color 显式覆盖
+     * @default 'body'
+     * @example `<CpText level="heading" tag="h2">标题</CpText>`
+     */
+    level: {
+        type: String as PropType<TextLevel>,
+        default: 'body',
+    },
+    /**
+     * 渲染标签
+     * 仅改变实际 HTML 标签，不改变视觉层级；需要视觉层级请使用 level
+     * @default 'span'
+     * @example `<CpText tag="p" level="body">段落</CpText>`
+     */
+    tag: {
+        type: String as PropType<TextTag>,
+        default: 'span',
+    },
+    /**
      * 自定义颜色
      * 传入有效 CSS 颜色值，覆盖 type 的颜色
      * @default ''
@@ -73,14 +110,14 @@ export const textProps = {
     },
     /**
      * 文字尺寸
-     * 可以是预设值 (sm/md/lg) 或数字 (像素)
-     * @default 'md'
+     * 可以是预设值 (sm/md/lg) 或数字 (像素)，不传时使用 level 的默认字号
+     * @default undefined
      * @example `<CpText size="lg">大号</CpText>`
      * @example `<CpText :size="20">20像素</CpText>`
      */
     size: {
         type: [String, Number] as PropType<TextSize>,
-        default: 'md',
+        default: undefined,
     },
     /**
      * 垂直对齐方式

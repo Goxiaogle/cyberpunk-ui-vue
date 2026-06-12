@@ -5,7 +5,7 @@
  */
 import { ref, reactive, computed, watch, onMounted, onBeforeUnmount, nextTick, useSlots, type CSSProperties } from 'vue'
 import type { PopoverTrigger } from './popover'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { popoverProps, popoverEmits } from './popover'
 
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Popover`,
 })
 
-const props = defineProps(popoverProps)
+const rawProps = defineProps(popoverProps)
+const props = useDefaults(rawProps, 'popover')
 const emit = defineEmits(popoverEmits)
 
 const ns = useNamespace('popover')
@@ -404,6 +405,9 @@ onMounted(() => {
   // 使用捕获阶段监听滚动，确保能监听到所有滚动事件
   window.addEventListener('resize', updatePosition)
   window.addEventListener('scroll', updatePosition, true)
+  if (visible.value) {
+    nextTick(updatePosition)
+  }
 })
 
 onBeforeUnmount(() => {

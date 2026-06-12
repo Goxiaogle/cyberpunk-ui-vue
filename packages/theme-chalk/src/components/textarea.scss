@@ -89,7 +89,9 @@
     }
 
     @include when(show-word-limit) {
-        padding-bottom: calc(var(--cp-spacing-xs) + var(--cp-font-size-sm));
+        .cp-textarea__inner {
+            padding-bottom: calc(var(--cp-spacing-sm) + var(--cp-font-size-sm) + 4px);
+        }
     }
 
     // ===== 自定义颜色 =====
@@ -146,8 +148,8 @@
 
     @include e(count) {
         position: absolute;
-        right: var(--cp-spacing-sm);
-        bottom: 0;
+        right: var(--cp-spacing-md);
+        bottom: var(--cp-spacing-sm);
         color: var(--cp-text-muted);
         font-size: var(--cp-font-size-sm);
         font-family: var(--cp-font-family-mono);

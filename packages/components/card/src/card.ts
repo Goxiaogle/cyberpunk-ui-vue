@@ -17,9 +17,8 @@ export type CardShadow = 'always' | 'hover' | 'never'
  * - `semi` - 半透明背景，支持毛玻璃效果
  * - `ghost` - 透明背景
  * - `neon` - 霓虹发光
- * - `cyber` - 赛博风格
  */
-export type CardVariant = 'solid' | 'outline' | 'semi' | 'ghost' | 'neon' | 'cyber'
+export type CardVariant = 'solid' | 'outline' | 'semi' | 'ghost' | 'neon'
 
 /**
  * 卡片形状模式

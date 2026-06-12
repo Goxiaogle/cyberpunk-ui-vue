@@ -4,7 +4,7 @@
  * 独立状态显示组件，支持多种形状和动画效果
  */
 import { computed, useSlots } from 'vue'
-import { useNamespace, normalizeDuration, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace, normalizeDuration, isPresetSize, normalizeSize } from '@cyberpunk-vue/hooks'
 import { statusIndicatorProps } from './status-indicator'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}StatusIndicator`,
 })
 
-const props = defineProps(statusIndicatorProps)
+const rawProps = defineProps(statusIndicatorProps)
+const props = useDefaults(rawProps, 'statusIndicator')
 const slots = useSlots()
 
 const ns = useNamespace('status-indicator')

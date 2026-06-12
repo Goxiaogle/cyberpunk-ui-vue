@@ -2,27 +2,47 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { computed, ref } from 'vue'
 import {
     CpConfigProvider,
+    CpAside,
     CpAvatar,
     CpBadge,
     CpButton,
     CpCard,
     CpCheckbox,
     CpCheckboxGroup,
+    CpCol,
+    CpContainer,
+    CpDialog,
     CpDivider,
+    CpDescriptions,
+    CpDescriptionsItem,
+    CpEmpty,
     CpImage,
     CpInputNumber,
+    CpFooter,
+    CpHeader,
+    CpMain,
+    CpMenu,
+    CpMenuItem,
+    CpNotification,
+    CpPagination,
+    CpPopover,
     CpRadio,
     CpRadioGroup,
     CpSegmented,
     CpSelect,
+    CpStatusIndicator,
     CpTag,
     CpTable,
     CpTableColumn,
     CpText,
     CpTextarea,
+    CpTimeline,
+    CpTimelineItem,
     CpProgress,
+    CpRow,
     CpSwitch,
     CpSlider,
+    CpSubMenu,
     CpInput
 } from '@cyberpunk-vue/components'
 
@@ -198,37 +218,56 @@ export const AdvancedThemeLab: Story = {
     render: () => ({
         components: {
             CpConfigProvider,
+            CpAside,
             CpAvatar,
             CpBadge,
             CpButton,
             CpCard,
             CpCheckbox,
             CpCheckboxGroup,
+            CpCol,
+            CpContainer,
+            CpDialog,
+            CpDescriptions,
+            CpDescriptionsItem,
             CpDivider,
+            CpEmpty,
             CpImage,
             CpInput,
             CpInputNumber,
+            CpFooter,
+            CpHeader,
+            CpMain,
+            CpMenu,
+            CpMenuItem,
+            CpNotification,
+            CpPagination,
+            CpPopover,
             CpProgress,
             CpRadio,
             CpRadioGroup,
+            CpRow,
             CpSegmented,
             CpSelect,
             CpSlider,
+            CpSubMenu,
+            CpStatusIndicator,
             CpSwitch,
             CpTag,
             CpTable,
             CpTableColumn,
             CpText,
-            CpTextarea
+            CpTextarea,
+            CpTimeline,
+            CpTimelineItem
         },
         setup() {
             const theme = ref<'dark' | 'light' | 'system'>('dark')
-            const type = ref('primary')
+            const type = ref('default')
             const size = ref('md')
             const shape = ref('clip')
-            const buttonVariant = ref('ghost')
+            const componentVariant = ref('solid')
             const fieldVariant = ref('filled')
-            const cardVariant = ref('solid')
             const tagVariant = ref('outline')
             const badgeVariant = ref('glow')
             const density = ref<'compact' | 'comfortable'>('comfortable')
@@ -241,19 +280,25 @@ export const AdvancedThemeLab: Story = {
             const inputValue = ref('默认值由 ConfigProvider 注入')
             const textareaValue = ref('同一组 defaults 会同时影响表单、展示和反馈组件。')
             const inputNumberValue = ref(42)
+            const currentPage = ref(4)
+            const pageSize = ref(20)
+            const notificationVisible = ref(false)
+            const primaryNotificationVisible = ref(false)
+            const dialogVisible = ref(false)
+            const primaryDialogVisible = ref(false)
             const selectValue = ref('ops')
             const checkboxValue = ref(['monitor', 'deploy'])
             const radioValue = ref('auto')
             const switchValue = ref(true)
             const sliderValue = ref(68)
             const segmentedValue = ref('overview')
+            const menuActive = ref('overview')
 
-            const typeOptions = ['primary', 'success', 'warning', 'error', 'info'] as const
+            const typeOptions = ['default', 'primary', 'success', 'warning', 'error', 'info'] as const
             const sizeOptions = ['sm', 'md', 'lg'] as const
             const shapeOptions = ['clip', 'round', 'no-clip'] as const
-            const buttonVariants = ['solid', 'outline', 'ghost', 'neon', 'semi'] as const
+            const componentVariants = ['solid', 'outline', 'ghost', 'neon', 'semi'] as const
             const fieldVariants = ['outline', 'filled', 'ghost'] as const
-            const cardVariants = ['solid', 'outline', 'semi', 'ghost', 'neon', 'cyber'] as const
             const palette = [
                 { name: '赛博青', value: '#00f0ff', lightValue: '#0077ff', surface: '#18181c' },
                 { name: '霓虹绿', value: '#39ff14', lightValue: '#00a66a', surface: '#111c16' },
@@ -394,13 +439,40 @@ export const AdvancedThemeLab: Story = {
                 radiusLg: shape.value === 'round' ? '16px' : '8px'
             }))
 
+            const backgroundPreviewStyle = computed(() => ({
+                backgroundImage: `linear-gradient(135deg, color-mix(in srgb, var(--cp-bg-deep) 72%, transparent), color-mix(in srgb, var(--cp-surface-variant) 70%, transparent)), url("${imageSrc.value}")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                borderColor: 'var(--cp-border-default)'
+            }))
+
+            const tokenSwatches = computed(() => [
+                { name: 'bgDeep', css: '--cp-bg-deep', value: canvasTokens.value.bgDeep },
+                { name: 'bgBase', css: '--cp-bg-base', value: canvasTokens.value.bgBase },
+                { name: 'bgElevated', css: '--cp-bg-elevated', value: canvasTokens.value.bgElevated },
+                { name: 'surface', css: '--cp-surface', value: canvasTokens.value.surface },
+                { name: 'surfaceVariant', css: '--cp-surface-variant', value: canvasTokens.value.surfaceVariant },
+                { name: 'surfaceBright', css: '--cp-surface-bright', value: canvasTokens.value.surfaceBright },
+                { name: 'borderDefault', css: '--cp-border-default', value: canvasTokens.value.borderDefault },
+                { name: 'borderActive', css: '--cp-border-active', value: activeAccent.value },
+                { name: 'borderFocus', css: '--cp-border-focus', value: activeAccent.value }
+            ])
+
+            const menuVariant = computed(() =>
+                componentVariant.value === 'solid'
+                    ? 'solid'
+                    : componentVariant.value === 'outline'
+                        ? 'outline'
+                        : 'note'
+            )
+
             const defaults = computed(() => ({
                 button: {
                     size: size.value,
                     type: type.value,
-                    variant: buttonVariant.value,
+                    variant: componentVariant.value,
                     shape: shape.value,
-                    dashed: buttonVariant.value === 'outline' && animated.value
+                    dashed: componentVariant.value === 'outline' && animated.value
                 },
                 tag: {
                     size: size.value,
@@ -453,7 +525,7 @@ export const AdvancedThemeLab: Story = {
                 },
                 progress: {
                     size: size.value === 'lg' ? 'xl' : size.value,
-                    status: type.value,
+                    status: type.value === 'default' ? undefined : type.value,
                     shape: shape.value === 'circle' ? 'round' : shape.value,
                     striped: animated.value,
                     stripedFlow: animated.value,
@@ -487,7 +559,7 @@ export const AdvancedThemeLab: Story = {
                 segmented: {
                     size: size.value,
                     type: type.value,
-                    variant: buttonVariant.value,
+                    variant: componentVariant.value,
                     shape: shape.value,
                     clearable: true
                 },
@@ -503,10 +575,7 @@ export const AdvancedThemeLab: Story = {
                 },
                 text: {
                     size: size.value,
-                    type: type.value,
-                    glow: animated.value,
-                    glowPulse: animated.value && density.value === 'comfortable',
-                    marker: buttonVariant.value === 'semi'
+                    type: type.value
                 },
                 image: {
                     type: type.value,
@@ -523,13 +592,99 @@ export const AdvancedThemeLab: Story = {
                     highlightCurrentRow: true,
                     resizable: density.value === 'comfortable'
                 },
+                menu: {
+                    type: type.value,
+                    size: size.value,
+                    shape: shape.value,
+                    variant: menuVariant.value,
+                    defaultOpeneds: ['system']
+                },
+                container: {
+                    direction: 'vertical'
+                },
+                header: {
+                    height: density.value === 'compact' ? '48px' : '56px',
+                    divider: bordered.value,
+                    dividerType: type.value,
+                    dividerVariant: animated.value ? 'glow' : 'solid'
+                },
+                aside: {
+                    width: density.value === 'compact' ? '180px' : '220px',
+                    divider: bordered.value,
+                    dividerType: type.value,
+                    dividerVariant: animated.value ? 'glow' : 'solid'
+                },
+                footer: {
+                    height: density.value === 'compact' ? '38px' : '44px',
+                    divider: bordered.value,
+                    dividerType: type.value,
+                    dividerVariant: animated.value ? 'gradient' : 'solid'
+                },
+                row: {
+                    gutter: density.value === 'compact' ? 8 : 14,
+                    justify: 'space-between',
+                    align: 'top'
+                },
                 card: {
                     type: type.value,
-                    variant: cardVariant.value,
+                    variant: componentVariant.value,
                     shape: shape.value === 'circle' ? 'round' : shape.value,
                     shadow: animated.value ? 'hover' : 'always',
-                    hoverScale: animated.value,
+                    hoverScale: false,
                     bodyPadding: density.value === 'compact' ? '14px' : '20px'
+                },
+                popover: {
+                    type: type.value,
+                    variant: componentVariant.value === 'semi' ? 'solid' : componentVariant.value,
+                    shape: shape.value === 'circle' ? 'round' : shape.value,
+                    transition: animated.value ? 'fade' : 'none'
+                },
+                pagination: {
+                    type: type.value,
+                    size: size.value,
+                    shape: shape.value,
+                    buttonVariant: componentVariant.value
+                },
+                dialog: {
+                    type: type.value,
+                    variant: componentVariant.value === 'semi'
+                        ? 'semi'
+                        : componentVariant.value === 'outline' || componentVariant.value === 'ghost'
+                            ? 'outline'
+                            : 'solid',
+                    shape: shape.value === 'circle' ? 'round' : shape.value,
+                    width: density.value === 'compact' ? '420px' : '520px',
+                    draggable: animated.value,
+                    alignCenter: density.value === 'comfortable'
+                },
+                notification: {
+                    type: type.value,
+                    variant: componentVariant.value === 'semi'
+                        ? 'semi'
+                        : componentVariant.value === 'outline' || componentVariant.value === 'ghost'
+                            ? 'outline'
+                            : 'solid',
+                    shape: shape.value === 'circle' ? 'round' : shape.value,
+                    duration: animated.value ? 4500 : 0,
+                    offset: density.value === 'compact' ? 12 : 16
+                },
+                statusIndicator: {
+                    type: type.value,
+                    size: size.value,
+                    animation: animated.value ? 'glow' : 'none'
+                },
+                empty: {
+                    type: type.value,
+                    imageSize: density.value === 'compact' ? 48 : 64
+                },
+                descriptions: {
+                    type: type.value,
+                    size: size.value,
+                    variant: fieldVariant.value === 'ghost' ? 'ghost' : 'solid'
+                },
+                timeline: {
+                    type: type.value,
+                    lineStyle: bordered.value ? 'solid' : 'dashed'
                 }
             }))
 
@@ -541,12 +696,11 @@ export const AdvancedThemeLab: Story = {
 
             const resetLab = () => {
                 theme.value = 'dark'
-                type.value = 'primary'
+                type.value = 'default'
                 size.value = 'md'
                 shape.value = 'clip'
-                buttonVariant.value = 'ghost'
+                componentVariant.value = 'solid'
                 fieldVariant.value = 'filled'
-                cardVariant.value = 'solid'
                 tagVariant.value = 'outline'
                 badgeVariant.value = 'glow'
                 density.value = 'comfortable'
@@ -562,9 +716,8 @@ export const AdvancedThemeLab: Story = {
                 type,
                 size,
                 shape,
-                buttonVariant,
+                componentVariant,
                 fieldVariant,
-                cardVariant,
                 tagVariant,
                 badgeVariant,
                 density,
@@ -577,21 +730,30 @@ export const AdvancedThemeLab: Story = {
                 inputValue,
                 textareaValue,
                 inputNumberValue,
+                currentPage,
+                pageSize,
+                notificationVisible,
+                primaryNotificationVisible,
+                dialogVisible,
+                primaryDialogVisible,
                 selectValue,
                 checkboxValue,
                 radioValue,
                 switchValue,
                 sliderValue,
                 segmentedValue,
+                menuActive,
                 tableData,
                 imageSrc,
+                backgroundPreviewStyle,
+                tokenSwatches,
+                menuVariant,
                 rowClassName,
                 typeOptions,
                 sizeOptions,
                 shapeOptions,
-                buttonVariants,
+                componentVariants,
                 fieldVariants,
-                cardVariants,
                 palette,
                 selectOptions,
                 segmentedOptions,
@@ -664,20 +826,15 @@ export const AdvancedThemeLab: Story = {
                                 <CpSegmented v-model="shape" :options="shapeOptions.map(item => ({ label: item, value: item }))" />
                             </div>
 
-                            <div style="display: grid; gap: 8px;">
-                                <div style="color: var(--cp-text-secondary); font-size: 12px;">Button / Segmented 变体</div>
-                                <CpSelect v-model="buttonVariant" :options="buttonVariants.map(item => ({ label: item, value: item }))" />
-                            </div>
+	                            <div style="display: grid; gap: 8px;">
+	                                <div style="color: var(--cp-text-secondary); font-size: 12px;">组件变体</div>
+	                                <CpSelect v-model="componentVariant" :options="componentVariants.map(item => ({ label: item, value: item }))" />
+	                            </div>
 
-                            <div style="display: grid; gap: 8px;">
-                                <div style="color: var(--cp-text-secondary); font-size: 12px;">Field 变体</div>
-                                <CpSelect v-model="fieldVariant" :options="fieldVariants.map(item => ({ label: item, value: item }))" />
-                            </div>
-
-                            <div style="display: grid; gap: 8px;">
-                                <div style="color: var(--cp-text-secondary); font-size: 12px;">Card 变体</div>
-                                <CpSelect v-model="cardVariant" :options="cardVariants.map(item => ({ label: item, value: item }))" />
-                            </div>
+	                            <div style="display: grid; gap: 8px;">
+	                                <div style="color: var(--cp-text-secondary); font-size: 12px;">Field 变体</div>
+	                                <CpSelect v-model="fieldVariant" :options="fieldVariants.map(item => ({ label: item, value: item }))" />
+	                            </div>
 
                             <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
                                 <CpSwitch v-model="animated" active-text="动态" inactive-text="静态" />
@@ -721,9 +878,9 @@ export const AdvancedThemeLab: Story = {
                             </div>
                         </CpCard>
 
-                        <CpCard title="表单组件矩阵">
-                            <div style="display: grid; grid-template-columns: repeat(2, minmax(240px, 1fr)); gap: 18px;">
-                                <div style="display: grid; gap: 12px;">
+	                        <CpCard title="表单组件矩阵">
+	                            <div style="display: grid; grid-template-columns: repeat(2, minmax(240px, 1fr)); gap: 18px;">
+	                                <div style="display: grid; gap: 12px;">
                                     <CpInput v-model="inputValue" />
                                     <CpSelect v-model="selectValue" :options="selectOptions" />
                                     <CpInputNumber v-model="inputNumberValue" :min="0" :max="100" />
@@ -748,10 +905,58 @@ export const AdvancedThemeLab: Story = {
                                         <CpSlider v-model="sliderValue" :marks="{ 0: '0', 50: '50', 100: '100' }" />
                                     </div>
                                 </div>
-                            </div>
-                        </CpCard>
+	                            </div>
+	                        </CpCard>
 
-                        <CpCard title="反馈与数据展示">
+	                        <CpCard title="导航与布局">
+	                            <div style="display: grid; grid-template-columns: minmax(220px, 0.85fr) minmax(360px, 1.15fr); gap: 16px; align-items: stretch;">
+	                                <CpMenu :default-active="menuActive" @select="(idx) => menuActive = idx">
+	                                    <CpMenuItem index="overview">总览</CpMenuItem>
+	                                    <CpMenuItem index="deploy">部署</CpMenuItem>
+	                                    <CpSubMenu index="system">
+	                                        <template #title>系统设置</template>
+	                                        <CpMenuItem index="system-theme">主题</CpMenuItem>
+	                                        <CpMenuItem index="system-access">访问控制</CpMenuItem>
+	                                    </CpSubMenu>
+	                                </CpMenu>
+
+	                                <CpContainer style="min-height: 260px; border: 1px solid var(--cp-border-default); background: var(--cp-bg-base); overflow: hidden;">
+	                                    <CpHeader style="display: flex; align-items: center; justify-content: space-between; padding: 0 14px;">
+	                                        <strong style="color: var(--cp-text-primary); font-size: 13px;">Layout Header</strong>
+	                                        <CpTag size="sm">Menu {{ menuVariant }}</CpTag>
+	                                    </CpHeader>
+	                                    <CpContainer direction="horizontal">
+	                                        <CpAside>
+	                                            <div style="display: grid; gap: 8px; padding: 12px;">
+	                                                <CpTag>Aside</CpTag>
+	                                                <CpText size="sm">divider / width 继承 defaults</CpText>
+	                                            </div>
+	                                        </CpAside>
+	                                        <CpMain style="--cp-main-padding: 14px;">
+	                                            <CpRow>
+	                                                <CpCol :span="8">
+	                                                    <div style="padding: 12px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-default); color: var(--cp-text-secondary);">span 8</div>
+	                                                </CpCol>
+	                                                <CpCol :span="8">
+	                                                    <div style="padding: 12px; background: var(--cp-surface-variant); border: 1px solid var(--cp-border-active); color: var(--cp-text-secondary);">span 8</div>
+	                                                </CpCol>
+	                                                <CpCol :span="8">
+	                                                    <div style="padding: 12px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-default); color: var(--cp-text-secondary);">span 8</div>
+	                                                </CpCol>
+	                                            </CpRow>
+	                                            <div style="margin-top: 12px; color: var(--cp-text-secondary); font-size: 13px;">
+	                                                Container / Header / Aside / Main / Footer / Row / Col 使用同一组 ConfigProvider defaults。
+	                                            </div>
+	                                        </CpMain>
+	                                    </CpContainer>
+	                                    <CpFooter style="display: flex; align-items: center; padding: 0 14px; color: var(--cp-text-muted); font-size: 12px;">
+	                                        Layout Footer
+	                                    </CpFooter>
+	                                </CpContainer>
+	                            </div>
+	                        </CpCard>
+
+	                        <CpCard title="反馈与数据展示">
                             <div style="display: grid; gap: 18px;">
                                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                                     <CpProgress :percentage="sliderValue" style="width: min(520px, 100%);" />
@@ -776,6 +981,75 @@ export const AdvancedThemeLab: Story = {
                                     </CpTable>
                                 </div>
 
+	                                <div style="display: grid; gap: 14px;">
+	                                    <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+	                                        <CpPopover
+	                                            title="继承 Popover"
+	                                            content="点击按钮查看；再次点击或点击外部关闭。type、variant、shape 和 transition 由 ConfigProvider defaults 控制。"
+	                                            placement="right"
+	                                            trigger="click"
+                                        >
+                                            <CpButton>Popover 触发器</CpButton>
+                                        </CpPopover>
+                                        <CpPopover
+                                            title="Primary Popover"
+                                            content="点击按钮查看；显式 type=primary 用于和继承态做对照。"
+                                            type="primary"
+	                                            variant="outline"
+	                                            placement="bottom"
+	                                            trigger="click"
+	                                        >
+	                                            <CpButton type="primary" variant="outline">Primary Popover</CpButton>
+	                                        </CpPopover>
+	                                        <CpButton @click="dialogVisible = true">Dialog 继承</CpButton>
+	                                        <CpButton type="primary" variant="outline" @click="primaryDialogVisible = true">Primary Dialog</CpButton>
+	                                        <CpButton @click="notificationVisible = true">Notification 继承</CpButton>
+	                                        <CpButton type="primary" variant="outline" @click="primaryNotificationVisible = true">Primary Notification</CpButton>
+	                                    </div>
+
+	                                    <CpDialog
+	                                        v-model="dialogVisible"
+	                                        title="继承 Dialog"
+	                                    >
+	                                        <p style="margin: 0; color: var(--cp-text-secondary);">type、variant、shape、width、draggable 和 alignCenter 由 ConfigProvider defaults 控制。</p>
+	                                        <template #footer="{ close }">
+	                                            <CpButton @click="close">关闭</CpButton>
+	                                            <CpButton @click="close">确认</CpButton>
+	                                        </template>
+	                                    </CpDialog>
+	                                    <CpDialog
+	                                        v-model="primaryDialogVisible"
+	                                        title="Primary Dialog"
+	                                        type="primary"
+	                                        variant="outline"
+	                                    >
+	                                        <p style="margin: 0; color: var(--cp-text-secondary);">显式 type=primary / variant=outline 用于和继承态做对照。</p>
+	                                        <template #footer="{ close }">
+	                                            <CpButton variant="outline" @click="close">取消</CpButton>
+	                                            <CpButton type="primary" @click="close">确认</CpButton>
+	                                        </template>
+	                                    </CpDialog>
+	                                    <CpNotification
+	                                        v-model="notificationVisible"
+	                                        title="继承 Notification"
+	                                        message="type、variant、shape、duration 和 offset 由 ConfigProvider defaults 控制。"
+	                                    />
+	                                    <CpNotification
+	                                        v-model="primaryNotificationVisible"
+	                                        title="Primary Notification"
+	                                        message="显式 type=primary / variant=outline 用于和继承态做对照。"
+	                                        type="primary"
+	                                        variant="outline"
+	                                    />
+
+	                                    <CpPagination
+	                                        v-model:current-page="currentPage"
+	                                        v-model:page-size="pageSize"
+	                                        :total="186"
+	                                        layout="total, sizes, prev, pager, next, jumper"
+                                    />
+                                </div>
+
                                 <div style="display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 14px;">
                                     <CpCard title="继承 Card">
                                         <p style="margin: 0; color: var(--cp-text-secondary);">Card 默认 type、variant、shape、shadow 都来自 Provider；outline 时 hover shadow 无效。</p>
@@ -789,6 +1063,276 @@ export const AdvancedThemeLab: Story = {
                                             <CpButton>内部按钮</CpButton>
                                         </div>
                                     </CpCard>
+                                </div>
+                            </div>
+                        </CpCard>
+
+                        <CpCard title="主题变量可视化">
+                            <div style="display: grid; gap: 18px;">
+                                <div style="display: grid; grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr); gap: 16px; align-items: stretch;">
+                                    <section style="display: grid; gap: 14px; padding: 18px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-default); border-radius: var(--cp-radius-lg);">
+                                        <div>
+                                            <CpText level="caption" type="default" style="display: block; margin-bottom: 6px;">CpText 层级 / 主题文字</CpText>
+                                            <CpText level="heading" tag="h2" :type="type" style="display: block; margin: 0 0 8px;">主题标题文字 Primary Heading</CpText>
+                                            <CpText level="subheading" tag="h3" type="default" style="display: block; margin: 0 0 10px;">副标题文字 Secondary Heading</CpText>
+                                            <CpText level="body" tag="p" type="default" style="display: block; margin: 0;">
+                                                普通正文使用 <code style="color: var(--cp-color-primary);">--cp-text-primary</code>，需要在浅色、暗色和自定义主题色下保持足够可读性。
+                                            </CpText>
+                                            <CpText level="secondary" tag="p" type="default" style="display: block; margin: 8px 0 0;">
+                                                次级正文使用 <code>--cp-text-secondary</code>，用于说明、描述、表格辅助信息和卡片正文。
+                                            </CpText>
+                                            <CpText level="muted" tag="p" type="default" style="display: block; margin: 8px 0 0;">
+                                                弱化文字使用 <code>--cp-text-muted</code>，用于标签、空状态说明和低优先级元信息。
+                                            </CpText>
+                                        </div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                            <CpText>Default Text</CpText>
+                                            <CpText :type="type" boxed>Boxed</CpText>
+                                            <CpText :type="type" underline dashed>Underline</CpText>
+                                            <CpText :type="type" marker>Marker</CpText>
+                                        </div>
+                                        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+                                            <div style="padding: 12px; background: var(--cp-bg-deep); border: 1px solid var(--cp-border-default); color: var(--cp-text-secondary); border-radius: var(--cp-radius-md);">bgDeep</div>
+                                            <div style="padding: 12px; background: var(--cp-bg-base); border: 1px solid var(--cp-border-default); color: var(--cp-text-secondary); border-radius: var(--cp-radius-md);">bgBase</div>
+                                            <div style="padding: 12px; background: var(--cp-surface-variant); border: 1px solid var(--cp-border-default); color: var(--cp-text-secondary); border-radius: var(--cp-radius-md);">surface</div>
+                                        </div>
+                                    </section>
+
+                                    <section :style="backgroundPreviewStyle" style="min-height: 280px; display: flex; align-items: end; padding: 18px; border: 1px solid; border-radius: var(--cp-radius-lg); overflow: hidden;">
+                                        <div style="width: 100%; padding: 14px; background: color-mix(in srgb, var(--cp-bg-elevated) 78%, transparent); border: 1px solid var(--cp-border-default); border-radius: var(--cp-radius-md); backdrop-filter: blur(10px);">
+                                            <CpText level="caption" type="default" style="display: block; margin-bottom: 6px;">背景图 / 背景渐变</CpText>
+                                            <CpText level="subheading" type="default" style="display: block; margin-bottom: 6px;">THEME BACKGROUND ASSET</CpText>
+                                            <CpText level="secondary" type="default" style="display: block;">
+                                                背景图会叠加当前主题背景、surface、border 与 primary 色，便于检查图片上文字和边界是否可读。
+                                            </CpText>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                                    <div
+                                        v-for="item in tokenSwatches"
+                                        :key="item.css"
+                                        style="display: grid; gap: 8px; padding: 12px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-default); border-radius: var(--cp-radius-md);"
+                                    >
+                                        <div :style="{ background: item.value }" style="height: 34px; border: 1px solid var(--cp-border-default); border-radius: 4px;"></div>
+                                        <div style="display: grid; gap: 2px;">
+                                            <strong style="color: var(--cp-text-primary); font-size: 13px;">{{ item.name }}</strong>
+                                            <code style="color: var(--cp-text-muted); font-size: 11px;">{{ item.css }}</code>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                                    <div style="padding: 14px; border: 1px solid var(--cp-border-default); border-radius: var(--cp-radius-md); background: var(--cp-bg-elevated);">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Default Border</div>
+                                        <div style="height: 52px; border: 1px solid var(--cp-border-default); border-radius: var(--cp-radius-md); background: var(--cp-surface);"></div>
+                                    </div>
+                                    <div style="padding: 14px; border: 1px solid var(--cp-border-active); border-radius: var(--cp-radius-md); background: var(--cp-state-selected);">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Active Border</div>
+                                        <div style="height: 52px; border: 1px solid var(--cp-border-active); border-radius: var(--cp-radius-md); background: var(--cp-surface);"></div>
+                                    </div>
+                                    <div style="padding: 14px; border: 1px solid var(--cp-border-focus); box-shadow: 0 0 0 4px var(--cp-state-focus-ring); border-radius: var(--cp-radius-md); background: var(--cp-bg-elevated);">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px;">Focus Ring</div>
+                                        <CpInput v-model="inputValue" placeholder="聚焦边框变量" />
+                                    </div>
+                                </div>
+                            </div>
+                        </CpCard>
+
+                        <CpCard title="Default 实际效果矩阵">
+                            <div style="display: grid; gap: 18px;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: start;">
+                                    <div style="display: grid; gap: 12px;">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">基础操作</div>
+                                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                            <CpButton type="default" variant="solid">Solid</CpButton>
+                                            <CpButton type="default" variant="outline">Outline</CpButton>
+                                            <CpButton type="default" variant="ghost">Ghost</CpButton>
+                                            <CpButton type="default" variant="semi">Semi</CpButton>
+                                            <CpButton type="default" variant="neon">Neon</CpButton>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                            <CpTag type="default" variant="solid">默认标签</CpTag>
+                                            <CpTag type="default" variant="outline">描边标签</CpTag>
+                                            <CpTag type="default" variant="semi" closable>半透明</CpTag>
+                                            <CpBadge type="default" :value="8"><CpButton type="default" size="sm">消息</CpButton></CpBadge>
+                                        </div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                            <CpStatusIndicator type="default" label="默认在线" />
+                                            <CpStatusIndicator type="default" animation="pulse" label="脉冲" />
+                                            <CpStatusIndicator type="default" shape="diamond" label="菱形" />
+                                        </div>
+                                    </div>
+
+                                    <div style="display: grid; gap: 12px;">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">默认文本与输入</div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                            <CpText type="default">Default Text</CpText>
+                                            <CpText type="default" boxed>Boxed</CpText>
+                                            <CpText type="default" underline>Underline</CpText>
+                                            <CpText type="default" marker>Marker</CpText>
+                                        </div>
+                                        <CpInput v-model="inputValue" type="text" variant="outline" shape="clip" />
+                                        <CpSelect v-model="selectValue" :options="selectOptions" variant="outline" shape="clip" />
+                                        <CpTextarea v-model="textareaValue" variant="outline" shape="clip" :rows="3" />
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch;">
+                                    <CpCard title="Default Card" type="default" variant="solid" :hover-scale="false">
+                                        <div style="display: grid; gap: 12px;">
+                                            <CpProgress :percentage="sliderValue" />
+                                            <CpProgress :percentage="72" striped />
+                                            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                                <CpProgress type="circle" :percentage="sliderValue" :width="76" />
+                                                <CpProgress type="dashboard" :percentage="sliderValue" :width="76" />
+                                                <CpSwitch v-model="switchValue" type="default" />
+                                            </div>
+                                        </div>
+                                    </CpCard>
+
+                                    <CpCard title="Default Choice" type="default" variant="outline" :hover-scale="false">
+                                        <div style="display: grid; gap: 14px;">
+                                            <CpSegmented v-model="segmentedValue" type="default" variant="solid" :options="segmentedOptions" />
+                                            <CpCheckboxGroup v-model="checkboxValue" type="default">
+                                                <CpCheckbox label="monitor" type="default">监控</CpCheckbox>
+                                                <CpCheckbox label="deploy" type="default">部署</CpCheckbox>
+                                                <CpCheckbox label="audit" type="default">审计</CpCheckbox>
+                                            </CpCheckboxGroup>
+                                            <CpRadioGroup v-model="radioValue" type="default">
+                                                <CpRadio value="manual" label="手动" type="default" />
+                                                <CpRadio value="auto" label="自动" type="default" />
+                                                <CpRadio value="safe" label="安全" type="default" />
+                                            </CpRadioGroup>
+                                            <CpSlider v-model="sliderValue" type="default" />
+                                        </div>
+                                    </CpCard>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start;">
+                                    <CpDescriptions title="Default Descriptions" :column="2" type="default" variant="solid">
+                                        <CpDescriptionsItem label="环境">Production</CpDescriptionsItem>
+                                        <CpDescriptionsItem label="状态">Idle</CpDescriptionsItem>
+                                        <CpDescriptionsItem label="版本">v0.1.0</CpDescriptionsItem>
+                                        <CpDescriptionsItem label="策略">Default</CpDescriptionsItem>
+                                    </CpDescriptions>
+
+                                    <div style="height: 220px; border: 1px dashed var(--cp-border-default); border-radius: var(--cp-radius-md);">
+                                        <CpEmpty title="Default Empty" description="默认空状态保持中性视觉，不抢占主操作层级。" type="default">
+                                            <CpButton type="default" size="sm" variant="outline">查看详情</CpButton>
+                                        </CpEmpty>
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: minmax(280px, 0.8fr) minmax(320px, 1.2fr); gap: 16px; align-items: start;">
+                                    <CpTimeline type="default">
+                                        <CpTimelineItem type="default" timestamp="09:00">默认节点创建</CpTimelineItem>
+                                        <CpTimelineItem type="default" timestamp="09:15" hollow>等待人工确认</CpTimelineItem>
+                                        <CpTimelineItem type="default" timestamp="09:30" active animation="glow">默认激活态</CpTimelineItem>
+                                    </CpTimeline>
+
+                                    <CpTable :data="tableData" row-key="id" type="default" size="sm" border stripe max-height="220">
+                                        <CpTableColumn type="index" label="#" width="52" align="center" />
+                                        <CpTableColumn prop="service" label="服务" />
+                                        <CpTableColumn prop="owner" label="团队" />
+                                        <CpTableColumn prop="status" label="状态">
+                                            <template #default="{ row }">
+                                                <CpTag type="default" size="sm">{{ row.status }}</CpTag>
+                                            </template>
+                                        </CpTableColumn>
+                                        <CpTableColumn prop="latency" label="延迟" align="right" />
+                                    </CpTable>
+                                </div>
+                            </div>
+                        </CpCard>
+
+                        <CpCard title="Primary 实际效果矩阵">
+                            <div style="display: grid; gap: 18px;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: start;">
+                                    <div style="display: grid; gap: 12px;">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">Primary 基础操作</div>
+                                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                            <CpButton type="primary" variant="solid">Solid</CpButton>
+                                            <CpButton type="primary" variant="outline">Outline</CpButton>
+                                            <CpButton type="primary" variant="ghost">Ghost</CpButton>
+                                            <CpButton type="primary" variant="semi">Semi</CpButton>
+                                            <CpButton type="primary" variant="neon">Neon</CpButton>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                            <CpTag type="primary" variant="solid">Primary 标签</CpTag>
+                                            <CpTag type="primary" variant="outline">描边标签</CpTag>
+                                            <CpTag type="primary" variant="semi" closable>半透明</CpTag>
+                                            <CpBadge type="primary" :value="18"><CpButton type="primary" size="sm">消息</CpButton></CpBadge>
+                                        </div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                            <CpStatusIndicator type="primary" label="Primary 在线" />
+                                            <CpStatusIndicator type="primary" animation="pulse" label="脉冲" />
+                                            <CpStatusIndicator type="primary" shape="diamond" label="菱形" />
+                                        </div>
+                                    </div>
+
+                                    <div style="display: grid; gap: 12px;">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">Primary 文本与输入</div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                            <CpText type="primary">Primary Text</CpText>
+                                            <CpText type="primary" boxed>Boxed</CpText>
+                                            <CpText type="primary" underline>Underline</CpText>
+                                            <CpText type="primary" marker>Marker</CpText>
+                                        </div>
+                                        <CpInput v-model="inputValue" color="var(--cp-color-primary)" variant="outline" shape="clip" />
+                                        <CpSelect v-model="selectValue" :options="selectOptions" color="var(--cp-color-primary)" variant="outline" shape="clip" />
+                                        <CpTextarea v-model="textareaValue" color="var(--cp-color-primary)" variant="outline" shape="clip" :rows="3" />
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch;">
+                                    <div style="display: grid; gap: 12px; padding: 16px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-active); border-radius: var(--cp-radius-lg);">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">Primary 反馈</div>
+                                        <CpProgress status="primary" :percentage="sliderValue" />
+                                        <CpProgress status="primary" :percentage="72" striped />
+                                        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                            <CpProgress type="circle" status="primary" :percentage="sliderValue" :width="76" />
+                                            <CpProgress type="dashboard" status="primary" :percentage="sliderValue" :width="76" />
+                                            <CpSwitch v-model="switchValue" type="primary" />
+                                        </div>
+                                    </div>
+
+                                    <div style="display: grid; gap: 14px; padding: 16px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-active); border-radius: var(--cp-radius-lg);">
+                                        <div style="color: var(--cp-text-muted); font-size: 12px;">Primary 选择</div>
+                                        <CpSegmented v-model="segmentedValue" type="primary" variant="solid" :options="segmentedOptions" />
+                                        <CpCheckboxGroup v-model="checkboxValue" type="primary">
+                                            <CpCheckbox label="monitor" type="primary">监控</CpCheckbox>
+                                            <CpCheckbox label="deploy" type="primary">部署</CpCheckbox>
+                                            <CpCheckbox label="audit" type="primary">审计</CpCheckbox>
+                                        </CpCheckboxGroup>
+                                        <CpRadioGroup v-model="radioValue" type="primary">
+                                            <CpRadio value="manual" label="手动" type="primary" />
+                                            <CpRadio value="auto" label="自动" type="primary" />
+                                            <CpRadio value="safe" label="安全" type="primary" />
+                                        </CpRadioGroup>
+                                        <CpSlider v-model="sliderValue" type="primary" />
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: minmax(280px, 0.8fr) minmax(320px, 1.2fr); gap: 16px; align-items: start;">
+                                    <CpTimeline type="primary">
+                                        <CpTimelineItem type="primary" timestamp="10:00">Primary 节点创建</CpTimelineItem>
+                                        <CpTimelineItem type="primary" timestamp="10:15" hollow>等待确认</CpTimelineItem>
+                                        <CpTimelineItem type="primary" timestamp="10:30" active animation="glow">Primary 激活态</CpTimelineItem>
+                                    </CpTimeline>
+
+                                    <CpTable :data="tableData" row-key="id" type="primary" size="sm" border stripe max-height="220">
+                                        <CpTableColumn type="index" label="#" width="52" align="center" />
+                                        <CpTableColumn prop="service" label="服务" />
+                                        <CpTableColumn prop="owner" label="团队" />
+                                        <CpTableColumn prop="status" label="状态">
+                                            <template #default="{ row }">
+                                                <CpTag type="primary" size="sm">{{ row.status }}</CpTag>
+                                            </template>
+                                        </CpTableColumn>
+                                        <CpTableColumn prop="traffic" label="流量" align="right" />
+                                    </CpTable>
                                 </div>
                             </div>
                         </CpCard>

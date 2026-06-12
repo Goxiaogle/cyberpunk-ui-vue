@@ -66,7 +66,7 @@ py -3 skills/cyberpunk-vue/scripts/find-source.py CpButton --ref v1.12.6
 | CpLoading 加载 | 赛博朋克风格加载器组件，环形 SVG 动画效果。
 可用于按钮内置加载、页面加载、异步操作等场景。 |
 | CpSpacer 间距 | 间距组件，用于快速在元素之间添加间距 |
-| CpText 文字 | 赛博朋克风格特殊文字组件，可快速为文字添加多种视觉效果。 |
+| CpText 文字 | 赛博朋克风格文字组件，可快速切换文字层级并添加多种视觉效果。 |
 
 ### 表单组件属性参考
 

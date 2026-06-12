@@ -4,7 +4,7 @@
  * 以键值对形式展示结构化数据
  */
 import { computed, ref, provide, nextTick, onMounted, onBeforeUnmount, watch } from 'vue'
-import { useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
+import { useDefaults, useNamespace, isPresetSize } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX, DESCRIPTIONS_CONTEXT_KEY } from '@cyberpunk-vue/constants'
 import {
   descriptionsProps,
@@ -16,7 +16,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Descriptions`,
 })
 
-const props = defineProps(descriptionsProps)
+const rawProps = defineProps(descriptionsProps)
+const props = useDefaults(rawProps, 'descriptions')
 const ns = useNamespace('descriptions')
 
 // ===== 颜色映射（给 per-item type 算色用） =====

@@ -4,7 +4,7 @@
  * 配合 CpCol 实现 24 栅格布局系统
  */
 import { computed, provide } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { rowProps, rowContextKey } from './row'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 
@@ -12,7 +12,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Row`,
 })
 
-const props = defineProps(rowProps)
+const rawProps = defineProps(rowProps)
+const props = useDefaults(rawProps, 'row')
 const ns = useNamespace('row')
 
 // 向子 Col 提供 gutter

@@ -4,7 +4,7 @@
  * 底部嵌入 CpDivider，支持 dividerType / dividerColor / dividerVariant 控制分割线
  */
 import { computed, onMounted, ref, watch } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { headerProps } from './container'
 import { COMPONENT_PREFIX, CSS_NAMESPACE } from '@cyberpunk-vue/constants'
 import CpDivider from '@cyberpunk-vue/components/divider/src/divider.vue'
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Header`,
 })
 
-const props = defineProps(headerProps)
+const rawProps = defineProps(headerProps)
+const props = useDefaults(rawProps, 'header')
 const ns = useNamespace('header')
 const headerRef = ref<HTMLElement>()
 

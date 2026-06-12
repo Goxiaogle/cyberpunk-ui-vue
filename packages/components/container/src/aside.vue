@@ -4,7 +4,7 @@
  * 边缘嵌入 CpDivider (vertical)，支持 dividerType / dividerColor / dividerVariant 控制分割线
  */
 import { computed, ref } from 'vue'
-import { useNamespace } from '@cyberpunk-vue/hooks'
+import { useNamespace, useDefaults } from '@cyberpunk-vue/hooks'
 import { asideProps } from './container'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import CpDivider from '@cyberpunk-vue/components/divider/src/divider.vue'
@@ -13,7 +13,8 @@ defineOptions({
   name: `${COMPONENT_PREFIX}Aside`,
 })
 
-const props = defineProps(asideProps)
+const rawProps = defineProps(asideProps)
+const props = useDefaults(rawProps, 'aside')
 const ns = useNamespace('aside')
 const contentRef = ref<HTMLElement>()
 const classes = computed(() => [
