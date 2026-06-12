@@ -96,9 +96,9 @@ const meta: Meta<typeof CpCard> = {
         },
         overlayColor: {
             control: 'color',
-            description: '覆层颜色 (支持任意 CSS 颜色)',
+            description: '覆层颜色 (支持任意 CSS 颜色；默认跟随当前主题背景)',
             table: {
-                defaultValue: {summary: 'rgba(26, 26, 36, 0.8)'},
+                defaultValue: {summary: 'undefined'},
             },
         },
         overlayBlur: {

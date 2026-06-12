@@ -543,7 +543,7 @@
 | `overlayPosition` | `'bottom' \| 'top' \| 'center'` | `'bottom'` | 覆层位置 |
 | `overlayDuration` | `DurationValue` | `300` | 覆层动画持续时间 |
 | `overlayEffect` | `'none' \| 'blur' \| 'color' \| 'blur-color'` | `'blur-color'` | 覆层效果类型 |
-| `overlayColor` | `string` | `'rgba(26, 26, 36, 0.8)'` | 覆层颜色 |
+| `overlayColor` | `string` | `undefined` | 覆层颜色 |
 | `overlayBlur` | `number \| string` | `10` | 覆层毛玻璃模糊程度 |
 | `actionEffect` | `'none' \| 'blur' \| 'color' \| 'blur-color'` | `undefined` | 操作区域效果类型 |
 | `actionColor` | `string` | `undefined` | 操作区域颜色 |
@@ -593,6 +593,9 @@
 | `--cp-card-color-light` | `rgba(255, 255, 255, 0.1)` |  |
 | `--cp-card-bg` | `color-mix(in srgb, var(--cp-border) 50%, transparent)` |  |
 | `--cp-card-shadow-color` | `color-mix(in srgb, var(--cp-card-color) 44%, transparent)` |  |
+| `--cp-card-overlay-color-default` | `color-mix(in srgb, var(--cp-bg-elevated) 72%, transparent)` |  |
+| `--cp-card-action-color-default` | `color-mix(in srgb, var(--cp-bg-elevated) 90%, transparent)` |  |
+| `--cp-card-loading-bg-default` | `color-mix(in srgb, var(--cp-bg-elevated) 86%, transparent)` |  |
 | `--cp-card-clip-path` | `polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)` |  |
 | `--cp-card-bg-hover` | `color-mix(in srgb, var(--cp-bg-elevated) 75%, var(--cp-card-color))` |  |
 | `--cp-card-border` | `var(--cp-border)` |  |

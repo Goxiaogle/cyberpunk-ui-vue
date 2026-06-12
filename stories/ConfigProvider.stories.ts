@@ -286,6 +286,7 @@ export const AdvancedThemeLab: Story = {
             const primaryNotificationVisible = ref(false)
             const dialogVisible = ref(false)
             const primaryDialogVisible = ref(false)
+            const loadingDialogVisible = ref(false)
             const selectValue = ref('ops')
             const checkboxValue = ref(['monitor', 'deploy'])
             const radioValue = ref('auto')
@@ -736,6 +737,7 @@ export const AdvancedThemeLab: Story = {
                 primaryNotificationVisible,
                 dialogVisible,
                 primaryDialogVisible,
+                loadingDialogVisible,
                 selectValue,
                 checkboxValue,
                 radioValue,
@@ -964,10 +966,10 @@ export const AdvancedThemeLab: Story = {
                                     <CpProgress type="dashboard" :percentage="sliderValue" :width="96" />
                                 </div>
 
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: stretch;">
-                                    <CpImage :src="imageSrc" alt="主题资产" height="220" preview />
+	                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: stretch;">
+	                                    <CpImage :src="imageSrc" alt="主题资产" height="220" preview />
 
-                                    <CpTable :data="tableData" :row-class-name="rowClassName" row-key="id" max-height="220">
+	                                    <CpTable :data="tableData" :row-class-name="rowClassName" row-key="id" max-height="220">
                                         <CpTableColumn type="index" label="#" width="52" align="center" />
                                         <CpTableColumn prop="service" label="服务" sortable />
                                         <CpTableColumn prop="owner" label="团队" />
@@ -977,12 +979,54 @@ export const AdvancedThemeLab: Story = {
                                             </template>
                                         </CpTableColumn>
                                         <CpTableColumn prop="latency" label="延迟" sortable align="right" />
-                                        <CpTableColumn prop="traffic" label="流量" align="right" />
-                                    </CpTable>
-                                </div>
+	                                        <CpTableColumn prop="traffic" label="流量" align="right" />
+	                                    </CpTable>
+	                                </div>
 
-	                                <div style="display: grid; gap: 14px;">
-	                                    <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: stretch;">
+                                        <CpCard
+                                            title="隐藏式覆层 Card"
+                                            overlay-effect="blur-color"
+                                            action-effect="blur-color"
+                                            :hover-scale="false"
+                                            style="min-height: 190px;"
+                                        >
+                                            <div style="display: grid; gap: 12px;">
+                                                <CpText level="secondary" type="default">悬停时显示 overlay slot，背景和操作条默认跟随当前主题。</CpText>
+                                                <div style="height: 54px; border: 1px dashed var(--cp-border-default); border-radius: var(--cp-radius-md); background: var(--cp-surface-variant); display: flex; align-items: center; justify-content: center;">
+                                                    <CpText level="caption" type="default">hover preview</CpText>
+                                                </div>
+                                            </div>
+                                            <template #overlay>
+                                                <div style="display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                                                    <CpButton :type="type" variant="outline" size="sm">归档</CpButton>
+                                                    <CpButton type="error" variant="outline" size="sm">删除</CpButton>
+                                                </div>
+                                            </template>
+                                        </CpCard>
+
+                                        <div style="min-height: 190px;">
+                                            <CpTable :data="tableData.slice(0, 3)" row-key="id" loading loading-text="主题 Loading 遮罩" max-height="190">
+                                                <CpTableColumn type="index" label="#" width="52" align="center" />
+                                                <CpTableColumn prop="service" label="服务" />
+                                                <CpTableColumn prop="status" label="状态">
+                                                    <template #default="{ row }">
+                                                        <CpTag :type="row.status" size="sm">{{ row.status }}</CpTag>
+                                                    </template>
+                                                </CpTableColumn>
+                                            </CpTable>
+                                        </div>
+
+                                        <CpCard title="Dialog Loading 遮罩" :hover-scale="false" style="min-height: 190px;">
+                                            <div style="display: grid; gap: 12px;">
+                                                <CpText level="secondary" type="default">Dialog 的 loading overlay 也使用同一套主题背景。</CpText>
+                                                <CpButton @click="loadingDialogVisible = true">打开 Loading Dialog</CpButton>
+                                            </div>
+                                        </CpCard>
+                                    </div>
+
+		                                <div style="display: grid; gap: 14px;">
+		                                    <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
 	                                        <CpPopover
 	                                            title="继承 Popover"
 	                                            content="点击按钮查看；再次点击或点击外部关闭。type、variant、shape 和 transition 由 ConfigProvider defaults 控制。"
@@ -1017,21 +1061,32 @@ export const AdvancedThemeLab: Story = {
 	                                            <CpButton @click="close">确认</CpButton>
 	                                        </template>
 	                                    </CpDialog>
-	                                    <CpDialog
-	                                        v-model="primaryDialogVisible"
-	                                        title="Primary Dialog"
-	                                        type="primary"
+		                                    <CpDialog
+		                                        v-model="primaryDialogVisible"
+		                                        title="Primary Dialog"
+		                                        type="primary"
 	                                        variant="outline"
 	                                    >
 	                                        <p style="margin: 0; color: var(--cp-text-secondary);">显式 type=primary / variant=outline 用于和继承态做对照。</p>
 	                                        <template #footer="{ close }">
 	                                            <CpButton variant="outline" @click="close">取消</CpButton>
-	                                            <CpButton type="primary" @click="close">确认</CpButton>
-	                                        </template>
-	                                    </CpDialog>
-	                                    <CpNotification
-	                                        v-model="notificationVisible"
-	                                        title="继承 Notification"
+		                                            <CpButton type="primary" @click="close">确认</CpButton>
+		                                        </template>
+		                                    </CpDialog>
+                                            <CpDialog
+                                                v-model="loadingDialogVisible"
+                                                title="Loading Dialog"
+                                                loading
+                                                loading-text="主题遮罩加载中..."
+                                            >
+                                                <p style="margin: 0; color: var(--cp-text-secondary);">内容区域保持可见，但 loading overlay 会阻止交互并跟随当前主题。</p>
+                                                <template #footer="{ close }">
+                                                    <CpButton @click="close">关闭</CpButton>
+                                                </template>
+                                            </CpDialog>
+		                                    <CpNotification
+		                                        v-model="notificationVisible"
+		                                        title="继承 Notification"
 	                                        message="type、variant、shape、duration 和 offset 由 ConfigProvider defaults 控制。"
 	                                    />
 	                                    <CpNotification

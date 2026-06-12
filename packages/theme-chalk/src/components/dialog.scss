@@ -382,7 +382,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--cp-spacing-sm);
-    background: var(--cp-dialog-loading-bg, rgba(10, 10, 18, 0.75));
+    background: var(--cp-dialog-loading-bg, color-mix(in srgb, var(--cp-bg-elevated) 86%, transparent));
     backdrop-filter: var(--cp-dialog-loading-backdrop, blur(4px));
     z-index: 4;
   }

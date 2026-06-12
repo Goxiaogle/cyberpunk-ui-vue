@@ -10,6 +10,9 @@
   --cp-card-color-light: rgba(255, 255, 255, 0.1);
   --cp-card-bg: var(--cp-bg-elevated);
   --cp-card-shadow-color: color-mix(in srgb, var(--cp-card-color) 44%, transparent);
+  --cp-card-overlay-color-default: color-mix(in srgb, var(--cp-bg-elevated) 72%, transparent);
+  --cp-card-action-color-default: color-mix(in srgb, var(--cp-bg-elevated) 90%, transparent);
+  --cp-card-loading-bg-default: color-mix(in srgb, var(--cp-bg-elevated) 86%, transparent);
   --cp-card-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 
   position: relative;
@@ -439,8 +442,8 @@
 
     &.cp-card__overlay-backdrop--effect-none { background: transparent; backdrop-filter: none; }
     &.cp-card__overlay-backdrop--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
-    &.cp-card__overlay-backdrop--effect-color { background: var(--cp-card-overlay-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: none; }
-    &.cp-card__overlay-backdrop--effect-blur-color { background: var(--cp-card-overlay-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
+    &.cp-card__overlay-backdrop--effect-color { background: var(--cp-card-overlay-color, var(--cp-card-overlay-color-default)); backdrop-filter: none; }
+    &.cp-card__overlay-backdrop--effect-blur-color { background: var(--cp-card-overlay-color, var(--cp-card-overlay-color-default)); backdrop-filter: blur(var(--cp-card-overlay-blur, 10px)); }
   }
 
   // ===== 覆层操作区 =====
@@ -459,8 +462,8 @@
 
     &.cp-card__overlay--effect-none { background: transparent; backdrop-filter: none; }
     &.cp-card__overlay--effect-blur { background: transparent; backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
-    &.cp-card__overlay--effect-color { background: var(--cp-card-action-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: none; }
-    &.cp-card__overlay--effect-blur-color { background: var(--cp-card-action-color, color-mix(in srgb, var(--cp-bg-deep) 80%, transparent)); backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
+    &.cp-card__overlay--effect-color { background: var(--cp-card-action-color, var(--cp-card-action-color-default)); backdrop-filter: none; }
+    &.cp-card__overlay--effect-blur-color { background: var(--cp-card-action-color, var(--cp-card-action-color-default)); backdrop-filter: blur(var(--cp-card-action-blur, 10px)); }
 
     &.cp-card__overlay--bottom { bottom: 0; }
     &.cp-card__overlay--top { top: 0; border-top: none; border-bottom: 1px solid var(--cp-border); }
@@ -745,7 +748,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--cp-spacing-sm);
-    background: var(--cp-card-loading-bg, rgba(10, 10, 18, 0.75));
+    background: var(--cp-card-loading-bg, var(--cp-card-loading-bg-default));
     backdrop-filter: var(--cp-card-loading-backdrop, blur(4px));
     pointer-events: auto;
   }

@@ -321,13 +321,22 @@ const normalizeBlur = (value: number | string | undefined): string => {
   return value
 }
 
-const overlayStyle = computed(() => ({
-  '--cp-card-overlay-duration': normalizeDuration(props.overlayDuration),
-  '--cp-card-overlay-color': props.overlayColor,
-  '--cp-card-overlay-blur': normalizeBlur(props.overlayBlur),
-  '--cp-card-action-color': realActionColor.value,
-  '--cp-card-action-blur': normalizeBlur(realActionBlur.value),
-}))
+const overlayStyle = computed(() => {
+  const styles: Record<string, string> = {
+    '--cp-card-overlay-duration': normalizeDuration(props.overlayDuration),
+    '--cp-card-overlay-blur': normalizeBlur(props.overlayBlur),
+    '--cp-card-action-blur': normalizeBlur(realActionBlur.value),
+  }
+
+  if (props.overlayColor) {
+    styles['--cp-card-overlay-color'] = props.overlayColor
+  }
+  if (realActionColor.value) {
+    styles['--cp-card-action-color'] = realActionColor.value
+  }
+
+  return styles
+})
 
 const loadingOverlayClasses = computed(() => [
   ns.e('loading-overlay'),
@@ -409,4 +418,3 @@ const loadingOverlayClasses = computed(() => [
     </div>
   </div>
 </template>
-

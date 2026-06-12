@@ -213,12 +213,12 @@ export const cardProps = {
   },
   /**
    * 覆层颜色
-   * 支持任意 CSS 颜色值
-   * @default 'rgba(26, 26, 36, 0.8)'
+   * 支持任意 CSS 颜色值；不传时使用当前主题背景与卡片主题色生成
+   * @default undefined
    */
   overlayColor: {
     type: String,
-    default: 'rgba(26, 26, 36, 0.8)',
+    default: undefined,
   },
   /**
    * 覆层毛玻璃模糊程度

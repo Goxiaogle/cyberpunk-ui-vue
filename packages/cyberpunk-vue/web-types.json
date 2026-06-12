@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.14.0",
+  "version": "1.14.1",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -1457,10 +1457,9 @@
               "name": "overlayColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4318
+                "offset": 4324
               },
-              "description": "覆层颜色\n支持任意 CSS 颜色值",
-              "default": "'rgba(26, 26, 36, 0.8)'",
+              "description": "覆层颜色\n支持任意 CSS 颜色值；不传时使用当前主题背景与卡片主题色生成",
               "type": [
                 "string"
               ]
@@ -1469,7 +1468,7 @@
               "name": "overlayBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4463
+                "offset": 4455
               },
               "description": "覆层毛玻璃模糊程度\n数字默认 px，字符串可指定单位",
               "default": "10",
@@ -1481,7 +1480,7 @@
               "name": "actionEffect",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4638
+                "offset": 4630
               },
               "description": "操作区域效果类型\n如果未指定，则继承 overlayEffect",
               "type": [
@@ -1492,7 +1491,7 @@
               "name": "actionColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4810
+                "offset": 4802
               },
               "description": "操作区域颜色\n如果未指定，则继承 overlayColor",
               "type": [
@@ -1503,7 +1502,7 @@
               "name": "actionBlur",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 4951
+                "offset": 4943
               },
               "description": "操作区域模糊程度\n如果未指定，则继承 overlayBlur",
               "type": [
@@ -1514,7 +1513,7 @@
               "name": "type",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5104
+                "offset": 5096
               },
               "description": "卡片的主题颜色类型",
               "default": "'default'",
@@ -1526,7 +1525,7 @@
               "name": "color",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5215
+                "offset": 5207
               },
               "description": "自定义颜色，优先于 type",
               "default": "''",
@@ -1538,7 +1537,7 @@
               "name": "bgColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5372
+                "offset": 5364
               },
               "description": "自定义背景颜色\n支持任意 CSS 颜色值，包括渐变",
               "default": "''",
@@ -1550,7 +1549,7 @@
               "name": "shadowColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5470
+                "offset": 5462
               },
               "description": "自定义阴影颜色\n默认与卡片最终主题色保持一致",
               "type": [
@@ -1561,7 +1560,7 @@
               "name": "dimmed",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5541
+                "offset": 5533
               },
               "description": "是否开启平常减淡显示",
               "default": "false",
@@ -1573,7 +1572,7 @@
               "name": "dimmedDuration",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5690
+                "offset": 5682
               },
               "description": "减淡模式动画持续时间\n数字默认毫秒 (ms)，字符串可指定单位 (如 '0.3s' 或 '300ms')",
               "default": "300",
@@ -1585,7 +1584,7 @@
               "name": "triggerImageHover",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5863
+                "offset": 5855
               },
               "description": "Card hover 时是否触发内部 CpImage 的 hover 效果",
               "default": "false",
@@ -1597,7 +1596,7 @@
               "name": "hoverScale",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 5984
+                "offset": 5976
               },
               "description": "Card hover 时放大效果",
               "default": "false",
@@ -1609,7 +1608,7 @@
               "name": "collapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6139
+                "offset": 6131
               },
               "description": "是否折叠卡片（仅显示头部）\n不传时若 showCollapseAction 开启则由组件内部自治",
               "type": [
@@ -1620,7 +1619,7 @@
               "name": "halfCollapse",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6343
+                "offset": 6335
               },
               "description": "半折叠模式 — 仅在 collapse=true 时生效\n开启后 body 区域不会完全收起，而是保留 peekHeight 高度，\n通过 mask-image 渐变使底部内容淡出融入背景",
               "default": "false",
@@ -1632,7 +1631,7 @@
               "name": "peekHeight",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6479
+                "offset": 6471
               },
               "description": "半折叠时 body 区域的可见高度\n数字默认 px，字符串可指定单位",
               "default": "80",
@@ -1644,7 +1643,7 @@
               "name": "showCollapseAction",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6743
+                "offset": 6735
               },
               "description": "是否显示内置折叠控制器（\"查看更多\" / \"收起\"）\n开启后组件在半折叠 body 底部渲染操作条，点击自动切换展开/半折叠。\n仅在 halfCollapse=true 时生效。\n当内容不足 peekHeight 时控制器自动隐藏。",
               "default": "false",
@@ -1656,7 +1655,7 @@
               "name": "collapseActionExpandText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6859
+                "offset": 6851
               },
               "description": "内置控制器展开文案",
               "default": "'查看更多'",
@@ -1668,7 +1667,7 @@
               "name": "collapseActionCollapseText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 6979
+                "offset": 6971
               },
               "description": "内置控制器收起文案",
               "default": "'收起'",
@@ -1680,7 +1679,7 @@
               "name": "borderColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7078
+                "offset": 7070
               },
               "description": "自定义边框颜色",
               "type": [
@@ -1691,7 +1690,7 @@
               "name": "dividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7130
+                "offset": 7122
               },
               "description": "全局设置头尾分隔线颜色",
               "type": [
@@ -1702,7 +1701,7 @@
               "name": "headerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7183
+                "offset": 7175
               },
               "description": "单独设置头部分隔线颜色",
               "type": [
@@ -1713,7 +1712,7 @@
               "name": "footerDividerColor",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7242
+                "offset": 7234
               },
               "description": "单独设置底部分隔线颜色",
               "type": [
@@ -1724,7 +1723,7 @@
               "name": "backgroundClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7300
+                "offset": 7292
               },
               "description": "容器/背景自定义类名",
               "type": [
@@ -1735,7 +1734,7 @@
               "name": "backgroundStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7401
+                "offset": 7393
               },
               "description": "容器/背景自定义样式",
               "type": [
@@ -1746,7 +1745,7 @@
               "name": "headerClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7499
+                "offset": 7491
               },
               "description": "头部自定义类名",
               "type": [
@@ -1757,7 +1756,7 @@
               "name": "headerStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7593
+                "offset": 7585
               },
               "description": "头部自定义样式",
               "type": [
@@ -1768,7 +1767,7 @@
               "name": "bodyClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7687
+                "offset": 7679
               },
               "description": "主体自定义类名",
               "type": [
@@ -1779,7 +1778,7 @@
               "name": "bodyStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7779
+                "offset": 7771
               },
               "description": "主体自定义样式",
               "type": [
@@ -1790,7 +1789,7 @@
               "name": "loading",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 7920
+                "offset": 7912
               },
               "description": "是否处于加载状态\n加载时会在卡片内容上显示遮罩层，阻止用户交互",
               "default": "false",
@@ -1802,7 +1801,7 @@
               "name": "loadingText",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8026
+                "offset": 8018
               },
               "description": "加载中显示的文字",
               "default": "'加载中...'",
@@ -1814,7 +1813,7 @@
               "name": "loadingClass",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8116
+                "offset": 8108
               },
               "description": "加载遮罩自定义类名",
               "type": [
@@ -1825,7 +1824,7 @@
               "name": "loadingStyle",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8213
+                "offset": 8205
               },
               "description": "加载遮罩自定义样式",
               "type": [
@@ -1836,7 +1835,7 @@
               "name": "disabled",
               "source": {
                 "file": "../components/card/src/card.ts",
-                "offset": 8349
+                "offset": 8341
               },
               "description": "是否处于禁用状态\n禁用时卡片整体变灰且不可交互",
               "default": "false",
@@ -1885,7 +1884,7 @@
                 "name": "collapse-change",
                 "source": {
                   "file": "../components/card/src/card.ts",
-                  "offset": 8639
+                  "offset": 8631
                 },
                 "description": "半折叠模式下，内容高度变化时触发"
               }
