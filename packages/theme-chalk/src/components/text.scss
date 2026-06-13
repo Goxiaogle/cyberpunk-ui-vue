@@ -67,6 +67,36 @@ $text-types: (
     vertical-align: bottom;
   }
 
+  // ===== 文本省略 =====
+  @include when(ellipsis) {
+    min-width: 0;
+    max-width: 100%;
+
+    .cp-text__content {
+      display: block;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  @include when(line-clamp) {
+    min-width: 0;
+    max-width: 100%;
+
+    .cp-text__content {
+      display: -webkit-box;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      white-space: normal;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: var(--cp-text-line-clamp, 2);
+    }
+  }
+
   // ===== 文字层级 =====
   @include m(level-heading) {
     --cp-text-size: 24px;
@@ -290,8 +320,7 @@ $text-types: (
     filter: brightness(1) drop-shadow(0 0 2px currentColor);
   }
   50% {
-    opacity: 0.85;
-    filter: brightness(1.4) drop-shadow(0 0 10px currentColor);
+    filter: brightness(1.12) drop-shadow(0 0 10px currentColor);
   }
 }
 

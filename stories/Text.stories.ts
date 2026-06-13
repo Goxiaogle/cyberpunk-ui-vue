@@ -37,6 +37,22 @@ const meta: Meta<typeof CpText> = {
       options: ['top', 'middle', 'bottom'],
       description: '垂直对齐方式',
     },
+    ellipsis: {
+      control: 'boolean',
+      description: '单行省略，文字超出可用宽度时显示省略号',
+    },
+    lineClamp: {
+      control: { type: 'number', min: 1, max: 8, step: 1 },
+      description: '多行省略行数，优先级高于 ellipsis',
+    },
+    contentClass: {
+      control: 'text',
+      description: '文字本体自定义类名，作用于 .cp-text__content',
+    },
+    contentStyle: {
+      control: 'object',
+      description: '文字本体自定义样式，作用于 .cp-text__content',
+    },
     color: {
       control: 'color',
       description: '自定义颜色',
@@ -139,6 +155,10 @@ const meta: Meta<typeof CpText> = {
     tag: 'span',
     size: undefined,
     align: 'middle',
+    ellipsis: false,
+    lineClamp: undefined,
+    contentClass: undefined,
+    contentStyle: undefined,
     color: '',
     underline: false,
     boxed: false,
@@ -224,6 +244,30 @@ export const Levels: Story = {
         </CpText>
         <CpText level="caption">Caption 用于标签、注释和紧凑元信息。</CpText>
         <CpText level="muted">Muted 用于空状态说明和低优先级元信息。</CpText>
+      </div>
+    `,
+  }),
+}
+
+/**
+ * 文本省略
+ *
+ * 使用 `ellipsis` 处理单行省略，使用 `lineClamp` 处理多行省略；需要根节点或父容器提供明确宽度/最大宽度。
+ */
+export const Ellipsis: Story = {
+  render: () => ({
+    components: { CpText },
+    template: `
+      <div style="display: grid; gap: 16px; max-width: 360px;">
+        <CpText ellipsis style="max-width: 240px;">
+          单行省略：这是一段非常长的文字，用于展示 CpText 在单行场景下的省略效果。
+        </CpText>
+        <CpText :line-clamp="2" tag="p" style="margin: 0; max-width: 320px;">
+          多行省略：这是一段更长的段落内容，用于展示 CpText 在两行之后进行裁剪的效果。它应该保持主题文字色、字号和行高，同时在内容超出指定行数时显示省略。
+        </CpText>
+        <CpText :line-clamp="2" content-class="custom-text-content" :content-style="{ wordBreak: 'break-all' }" style="max-width: 320px;">
+          contentClass 和 contentStyle 会作用到文字本体，可以用于覆盖内部文本节点的换行、断词或其他样式。
+        </CpText>
       </div>
     `,
   }),

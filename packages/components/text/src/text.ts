@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 import type { DurationValue } from '@cyberpunk-vue/hooks'
 
 /**
@@ -44,6 +44,11 @@ export type TextAlign = 'top' | 'middle' | 'bottom'
  * 渲染标签
  */
 export type TextTag = 'span' | 'p' | 'div' | 'label' | 'strong' | 'em' | 'small' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+/**
+ * 文字本体 class 绑定值
+ */
+export type TextContentClassValue = string | string[] | Record<string, boolean> | null | undefined
 
 /**
  * CpText 组件 Props 定义
@@ -126,6 +131,44 @@ export const textProps = {
     align: {
         type: String as PropType<TextAlign>,
         default: 'middle',
+    },
+    /**
+     * 单行省略
+     * 开启后文字本体超出可用宽度时显示省略号；需要根节点或父容器提供明确宽度/最大宽度
+     * @default false
+     * @example `<CpText ellipsis style="max-width: 180px">很长的文字</CpText>`
+     */
+    ellipsis: {
+        type: Boolean,
+        default: false,
+    },
+    /**
+     * 多行省略行数
+     * 传入数字或数字字符串后，文字本体会在指定行数后裁剪；优先级高于 ellipsis
+     * @default undefined
+     * @example `<CpText :line-clamp="2">很长的段落</CpText>`
+     */
+    lineClamp: {
+        type: [Number, String] as PropType<number | string>,
+        default: undefined,
+    },
+    /**
+     * 文字本体自定义类名
+     * class 仍作用于根节点；该属性用于定向控制内部 `.cp-text__content`
+     * @default undefined
+     */
+    contentClass: {
+        type: [String, Array, Object] as PropType<TextContentClassValue>,
+        default: undefined,
+    },
+    /**
+     * 文字本体自定义样式
+     * style 仍作用于根节点；该属性用于定向控制内部 `.cp-text__content`
+     * @default undefined
+     */
+    contentStyle: {
+        type: [String, Array, Object] as PropType<StyleValue>,
+        default: undefined,
     },
     /**
      * 下划线效果

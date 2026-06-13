@@ -4,6 +4,7 @@
  * 支持多种文字效果：下划线、方框、加粗、斜体、删除线、发光、马克笔
  */
 import { computed, getCurrentInstance } from 'vue'
+import type { StyleValue } from 'vue'
 import { useNamespace, useDefaults, normalizeDuration, normalizeSize } from '@cyberpunk-vue/hooks'
 import { textProps } from './text'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
@@ -39,11 +40,18 @@ const isSizeExplicit = computed(() => {
   return !!rawVNodeProps && 'size' in rawVNodeProps
 })
 
+const hasLineClamp = computed(() => {
+  const value = props.lineClamp
+  return value !== undefined && value !== null && value !== '' && value !== 'none' && Number(value) > 0
+})
+
 // 计算类名
 const classes = computed(() => [
   ns.b(),
   ns.m(`level-${props.level}`),
   ns.m(`align-${props.align}`),
+  ns.is('ellipsis', props.ellipsis && !hasLineClamp.value),
+  ns.is('line-clamp', hasLineClamp.value),
   ns.is('underline', props.underline),
   ns.is('boxed', props.boxed),
   ns.is('dashed', props.dashed),
@@ -76,6 +84,11 @@ const customStyle = computed(() => {
   const sizeStr = shouldApplySize ? normalizeSize(props.size, sizeMap) : ''
   if (sizeStr) {
     style['--cp-text-size'] = sizeStr
+  }
+
+  // 省略行数
+  if (hasLineClamp.value) {
+    style['--cp-text-line-clamp'] = String(props.lineClamp)
   }
 
   // 发光强度 (1-10 映射到 1px-10px)
@@ -117,6 +130,25 @@ const customStyle = computed(() => {
 
   return style
 })
+
+const contentClasses = computed(() => [
+  ns.e('content'),
+  props.contentClass,
+])
+
+const contentStyle = computed<StyleValue>(() => {
+  const styles: StyleValue[] = []
+
+  if (props.contentStyle) {
+    styles.push(props.contentStyle)
+  }
+
+  if (props.glowPulse && props.lightWave) {
+    styles.push({ animation: 'inherit' })
+  }
+
+  return styles
+})
 </script>
 
 <template>
@@ -132,7 +164,7 @@ const customStyle = computed(() => {
     </span>
 
     <!-- 主内容 -->
-    <span :class="ns.e('content')" :style="props.glowPulse && props.lightWave ? { animation: 'inherit' } : {}">
+    <span :class="contentClasses" :style="contentStyle">
       <slot />
     </span>
 
