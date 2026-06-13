@@ -4,6 +4,7 @@ import {
     CpConfigProvider,
     CpAside,
     CpAvatar,
+    CpAvatarGroup,
     CpBadge,
     CpButton,
     CpCard,
@@ -220,6 +221,7 @@ export const AdvancedThemeLab: Story = {
             CpConfigProvider,
             CpAside,
             CpAvatar,
+            CpAvatarGroup,
             CpBadge,
             CpButton,
             CpCard,
@@ -571,8 +573,19 @@ export const AdvancedThemeLab: Story = {
                     showZero: true
                 },
                 avatar: {
+                    type: type.value,
                     size: size.value === 'sm' ? 'sm' : size.value === 'lg' ? 'xl' : 'lg',
-                    shape: shape.value === 'clip' ? 'clip' : shape.value === 'round' ? 'square' : 'circle'
+                    shape: shape.value
+                },
+                avatarGroup: {
+                    type: type.value,
+                    size: size.value === 'sm' ? 'sm' : size.value === 'lg' ? 'xl' : 'lg',
+                    shape: shape.value,
+                    spacing: density.value === 'compact' ? -10 : -12,
+                    collapseAvatars: true,
+                    max: density.value === 'compact' ? 3 : 4,
+                    total: 8,
+                    collapseAvatarsTooltip: 'ConfigProvider 注入的 AvatarGroup defaults'
                 },
                 text: {
                     size: size.value,
@@ -867,6 +880,27 @@ export const AdvancedThemeLab: Story = {
                                     <CpBadge :value="0"><CpAvatar>AI</CpAvatar></CpBadge>
                                     <CpAvatar>CP</CpAvatar>
                                     <CpAvatar>UX</CpAvatar>
+                                    <CpAvatar type="primary">PR</CpAvatar>
+                                </div>
+
+                                <div style="display: grid; gap: 10px;">
+                                    <div style="color: var(--cp-text-muted); font-size: 12px;">Avatar / AvatarGroup defaults</div>
+                                    <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center;">
+                                        <CpAvatar>ME</CpAvatar>
+                                        <CpAvatar type="primary">P</CpAvatar>
+                                        <CpAvatarGroup>
+                                            <CpAvatar>RD</CpAvatar>
+                                            <CpAvatar>OPS</CpAvatar>
+                                            <CpAvatar>QA</CpAvatar>
+                                            <CpAvatar>UX</CpAvatar>
+                                            <CpAvatar>PM</CpAvatar>
+                                        </CpAvatarGroup>
+                                        <CpAvatarGroup type="primary" shape="clip" :max="2" :total="6">
+                                            <CpAvatar>AI</CpAvatar>
+                                            <CpAvatar>ML</CpAvatar>
+                                            <CpAvatar>CV</CpAvatar>
+                                        </CpAvatarGroup>
+                                    </div>
                                 </div>
 
                                 <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
@@ -1396,13 +1430,19 @@ export const AdvancedThemeLab: Story = {
                             theme="light"
                             :sync-document="false"
                             :theme-overrides="{ colorPrimary: '#e83e8c', colorPrimaryLight: 'color-mix(in srgb, #e83e8c 10%, transparent)', bgElevated: '#ffffff', surfaceVariant: '#fff7fb', borderDefault: '#f4c7dd' }"
-                            :defaults="{ button: { variant: 'solid', shape: 'round', type: 'primary' }, tag: { variant: 'solid', shape: 'round', type: 'primary' }, text: { type: 'primary', marker: true }, image: { shape: 'round', type: 'primary', hoverable: true }, table: { size: 'sm', type: 'primary', stripe: true, border: true }, card: { variant: 'outline', shape: 'round' } }"
+                            :defaults="{ button: { variant: 'solid', shape: 'round', type: 'primary' }, tag: { variant: 'solid', shape: 'round', type: 'primary' }, avatar: { type: 'primary', size: 'lg', shape: 'round' }, avatarGroup: { type: 'primary', size: 'lg', shape: 'round', collapseAvatars: true, max: 2, total: 5, spacing: -10 }, text: { type: 'primary', marker: true }, image: { shape: 'round', type: 'primary', hoverable: true }, table: { size: 'sm', type: 'primary', stripe: true, border: true }, card: { variant: 'outline', shape: 'round' } }"
                         >
                             <CpCard title="局部 Provider 覆盖">
                                 <div style="display: grid; gap: 14px;">
                                     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
                                         <CpButton>局部按钮</CpButton>
                                         <CpTag>局部标签</CpTag>
+                                        <CpAvatar>局</CpAvatar>
+                                        <CpAvatarGroup>
+                                            <CpAvatar>DE</CpAvatar>
+                                            <CpAvatar>QA</CpAvatar>
+                                            <CpAvatar>PM</CpAvatar>
+                                        </CpAvatarGroup>
                                         <CpText>局部文字</CpText>
                                         <CpInput v-model="inputValue" style="max-width: 260px;" />
                                         <CpProgress :percentage="72" style="width: 220px;" />

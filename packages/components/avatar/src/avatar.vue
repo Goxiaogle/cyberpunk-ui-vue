@@ -3,11 +3,11 @@
  * CpAvatar - 赛博朋克风格头像组件
  * 支持多种尺寸、形状，可显示图片、图标或文字
  */
-import { ref, computed, inject, useSlots, toRef, watch } from 'vue'
+import { ref, computed, getCurrentInstance, inject, useSlots, toRef, watch } from 'vue'
 import { useNamespace, useDefaults, useImageSrc, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { CpIcon } from '@cyberpunk-vue/components/icon'
-import { avatarProps, avatarEmits, avatarSizeMap } from './avatar'
+import { avatarProps, avatarEmits, avatarSizeMap, normalizeAvatarShape } from './avatar'
 import { AVATAR_GROUP_INJECTION_KEY, type AvatarGroupContext } from './avatar-group'
 
 defineOptions({
@@ -18,6 +18,7 @@ const rawProps = defineProps(avatarProps)
 const props = useDefaults(rawProps, 'avatar')
 const emit = defineEmits(avatarEmits)
 const slots = useSlots()
+const instance = getCurrentInstance()
 
 const ns = useNamespace('avatar')
 
@@ -36,16 +37,31 @@ const isLoading = ref(true)
 const isError = ref(false)
 const currentSrc = ref(processedSrc.value)
 
+const hyphenate = (value: string) => value.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+const hasExplicitProp = (key: string) => {
+    const rawVNodeProps = instance?.vnode.props
+    return !!rawVNodeProps && (
+        Object.prototype.hasOwnProperty.call(rawVNodeProps, key) ||
+        Object.prototype.hasOwnProperty.call(rawVNodeProps, hyphenate(key))
+    )
+}
+
 // 合并尺寸（优先使用自身 props，否则使用 group 注入）
 const mergedSize = computed(() => {
-    if (props.size !== 'md') return props.size
+    if (hasExplicitProp('size')) return props.size
     return avatarGroupContext?.size ?? props.size
 })
 
 // 合并形状
 const mergedShape = computed(() => {
-    if (props.shape !== 'circle') return props.shape
-    return avatarGroupContext?.shape ?? props.shape
+    if (hasExplicitProp('shape')) return normalizeAvatarShape(props.shape)
+    return normalizeAvatarShape(avatarGroupContext?.shape ?? props.shape)
+})
+
+// 合并语义类型
+const mergedType = computed(() => {
+    if (hasExplicitProp('type')) return props.type
+    return avatarGroupContext?.type ?? props.type
 })
 
 // 计算实际尺寸值（px）
@@ -56,6 +72,7 @@ const sizeValue = computed(() => {
 // 类名
 const classes = computed(() => [
     ns.b(),
+    ns.m(`type-${mergedType.value}`),
     ns.m(`shape-${mergedShape.value}`),
     ns.is('loading', isLoading.value),
     ns.is('error', isError.value),

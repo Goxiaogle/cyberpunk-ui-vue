@@ -448,10 +448,11 @@
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
+| `type` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | 头像颜色类型 |
 | `src` | `string` | `''` | 头像图片地址 |
 | `alt` | `string` | `''` | 图片描述/替代文本 |
 | `size` | `Size \| 'xs' \| 'xl'` | `'md'` | 头像尺寸 |
-| `shape` | `'circle' \| 'square' \| 'clip'` | `'circle'` | 头像形状 |
+| `shape` | `'circle' \| 'square' \| 'clip' \| 'round' \| 'no-clip'` | `'circle'` | 头像形状 |
 | `icon` | `IconValue` | — | 默认图标（无图片时显示） |
 | `fallbackSrc` | `string` | `''` | 加载失败时的回退图片地址 |
 | `fit` | `'cover' \| 'contain' \| 'fill'` | `'cover'` | 图片适应模式 |
@@ -465,6 +466,14 @@
 |--------|------|------|
 | `load` | `(event: Event)` | 图片加载成功时触发 |
 | `error` | `(event: Event)` | 图片加载失败时触发 |
+
+### CSS 变量
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `--cp-avatar-bg` | `var(--cp-surface-bright)` |  |
+| `--cp-avatar-text-color` | `var(--cp-text-secondary)` |  |
+| `--cp-avatar-border-color` | `var(--cp-border-default)` |  |
 
 ### 示例
 

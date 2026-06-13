@@ -62,12 +62,16 @@ $avatar-group-counter-font-ratio: 0.35;
         justify-content: center;
         width: var(--cp-avatar-size, 40px);
         height: var(--cp-avatar-size, 40px);
-        background-color: var(--cp-bg-elevated);
-        color: var(--cp-text-secondary);
+        --cp-avatar-group-counter-bg: var(--cp-surface-bright);
+        --cp-avatar-group-counter-text: var(--cp-text-secondary);
+        --cp-avatar-group-counter-border: var(--cp-border-default);
+        background-color: var(--cp-avatar-group-counter-bg);
+        color: var(--cp-avatar-group-counter-text);
         font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-group-counter-font-ratio});
         font-weight: 600;
         margin-left: var(--cp-avatar-group-spacing, -8px);
         border: $avatar-group-border-width solid var(--cp-bg-base);
+        box-shadow: inset 0 0 0 1px var(--cp-avatar-group-counter-border);
         box-sizing: content-box;
         cursor: default;
         z-index: 11;
@@ -75,11 +79,50 @@ $avatar-group-counter-font-ratio: 0.35;
 
         // Hover 效果
         transition: background-color 0.2s ease,
-                    color 0.2s ease;
+                    color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    filter 0.2s ease;
 
         &:hover {
-            background-color: var(--cp-border);
+            filter: brightness(1.08);
+            box-shadow:
+                inset 0 0 0 1px var(--cp-avatar-group-counter-border),
+                0 0 14px color-mix(in srgb, var(--cp-avatar-group-counter-border) 38%, transparent),
+                0 2px 8px color-mix(in srgb, var(--cp-bg-deep) 50%, transparent);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-default:hover {
             color: var(--cp-text-primary);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-primary {
+            background-color: var(--cp-color-primary);
+            color: var(--cp-color-primary-text);
+            --cp-avatar-group-counter-border: var(--cp-color-primary-border);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-success {
+            background-color: var(--cp-color-success);
+            color: var(--cp-color-success-text);
+            --cp-avatar-group-counter-border: var(--cp-color-success-border);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-warning {
+            background-color: var(--cp-color-warning);
+            color: var(--cp-color-warning-text);
+            --cp-avatar-group-counter-border: var(--cp-color-warning-border);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-error {
+            background-color: var(--cp-color-error);
+            color: var(--cp-color-error-text);
+            --cp-avatar-group-counter-border: var(--cp-color-error-border);
+        }
+
+        &.#{$namespace}-avatar-group__counter--type-info {
+            background-color: var(--cp-color-info);
+            color: var(--cp-color-info-text);
+            --cp-avatar-group-counter-border: var(--cp-color-info-border);
         }
 
         // ========================================

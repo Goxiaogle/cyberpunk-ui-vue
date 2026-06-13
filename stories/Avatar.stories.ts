@@ -14,6 +14,11 @@ const meta: Meta<typeof CpAvatar> = {
     component: CpAvatar,
     tags: ['autodocs'],
     argTypes: {
+        type: {
+            control: 'select',
+            options: ['default', 'primary', 'success', 'warning', 'error', 'info'],
+            description: '颜色类型',
+        },
         src: {
             control: 'text',
             description: '头像图片地址',
@@ -29,8 +34,8 @@ const meta: Meta<typeof CpAvatar> = {
         },
         shape: {
             control: 'select',
-            options: ['circle', 'square', 'clip'],
-            description: '形状模式',
+            options: ['circle', 'square', 'clip', 'round', 'no-clip'],
+            description: '形状模式，round/no-clip 会映射到头像内部形状',
         },
         fallbackSrc: {
             control: 'text',
@@ -47,6 +52,7 @@ const meta: Meta<typeof CpAvatar> = {
         },
     },
     args: {
+        type: 'default',
         src: 'https://picsum.photos/100/100?random=1',
         alt: '用户头像',
         size: 'md',
@@ -70,6 +76,29 @@ export const Basic: Story = {
             return { args }
         },
         template: `<CpAvatar v-bind="args" />`,
+    }),
+}
+
+/**
+ * 颜色类型
+ *
+ * 文字头像和占位头像支持 `default` / `primary` / `success` / `warning` / `error` / `info` 语义色。
+ */
+export const Types: Story = {
+    render: () => ({
+        components: { CpAvatar },
+        template: `
+            <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                <div v-for="type in ['default', 'primary', 'success', 'warning', 'error', 'info']" :key="type" style="text-align: center;">
+                    <CpAvatar :type="type" size="lg">
+                        {{ type.slice(0, 2) }}
+                    </CpAvatar>
+                    <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
+                        {{ type }}
+                    </div>
+                </div>
+            </div>
+        `,
     }),
 }
 
@@ -118,12 +147,14 @@ export const Shapes: Story = {
         components: { CpAvatar },
         template: `
             <div style="display: flex; gap: 24px; align-items: center;">
-                <div v-for="shape in ['circle', 'square', 'clip']" :key="shape" style="text-align: center;">
+                <div v-for="shape in ['circle', 'round', 'square', 'no-clip', 'clip']" :key="shape" style="text-align: center;">
                     <CpAvatar
-                        src="https://picsum.photos/100/100?random=shapes"
                         :shape="shape"
+                        type="primary"
                         size="lg"
-                    />
+                    >
+                        {{ shape.slice(0, 2) }}
+                    </CpAvatar>
                     <div style="color: var(--cp-text-muted); margin-top: 8px; font-size: 12px;">
                         {{ shape }}
                     </div>

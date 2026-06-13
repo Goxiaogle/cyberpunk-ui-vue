@@ -15,11 +15,36 @@ export type AvatarSize = Size | 'xs' | 'xl'
 
 /**
  * 头像形状模式
- * - `circle` - 圆形（默认）
- * - `square` - 圆角方形
+ * - `circle` / `round` - 圆形（默认）
+ * - `square` / `no-clip` - 圆角方形
  * - `clip` - 机甲切角
  */
-export type AvatarShape = 'circle' | 'square' | 'clip'
+export type AvatarShape = 'circle' | 'square' | 'clip' | 'round' | 'no-clip'
+
+/**
+ * 头像解析后的形状类名
+ */
+export type AvatarResolvedShape = 'circle' | 'square' | 'clip'
+
+/**
+ * 头像颜色类型
+ * - `default` - 默认中性色
+ * - `primary` - 主色调
+ * - `success` - 成功
+ * - `warning` - 警告
+ * - `error` - 错误/危险
+ * - `info` - 信息
+ */
+export type AvatarType = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+
+/**
+ * 将组件库通用 shape 映射到 Avatar 内部形状
+ */
+export const normalizeAvatarShape = (shape: AvatarShape | undefined): AvatarResolvedShape => {
+    if (shape === 'clip') return 'clip'
+    if (shape === 'square' || shape === 'no-clip') return 'square'
+    return 'circle'
+}
 
 /**
  * CpAvatar 组件 Props 定义
@@ -44,6 +69,14 @@ export type AvatarShape = 'circle' | 'square' | 'clip'
  * @displayName CpAvatar 头像
  */
 export const avatarProps = {
+    /**
+     * 头像颜色类型
+     * @default 'default'
+     */
+    type: {
+        type: String as PropType<AvatarType>,
+        default: 'default',
+    },
     /**
      * 头像图片地址
      * @default ''
@@ -72,8 +105,8 @@ export const avatarProps = {
     },
     /**
      * 头像形状
-     * - `circle`: 圆形（默认）
-     * - `square`: 圆角方形
+     * - `circle` / `round`: 圆形（默认）
+     * - `square` / `no-clip`: 圆角方形
      * - `clip`: 机甲切角
      * @default 'circle'
      */

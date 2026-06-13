@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "cyberpunk-ui-vue",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "framework": "vue",
   "js-types-syntax": "typescript",
   "contributions": {
@@ -467,10 +467,22 @@
           "description": "CpAvatar 头像组件",
           "props": [
             {
+              "name": "type",
+              "source": {
+                "file": "../components/avatar/src/avatar.ts",
+                "offset": 1617
+              },
+              "description": "头像颜色类型",
+              "default": "'default'",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
               "name": "src",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 984
+                "offset": 1759
               },
               "description": "头像图片地址",
               "default": "''",
@@ -482,7 +494,7 @@
               "name": "alt",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1097
+                "offset": 1872
               },
               "description": "图片描述/替代文本",
               "default": "''",
@@ -494,7 +506,7 @@
               "name": "size",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1269
+                "offset": 2044
               },
               "description": "头像尺寸\n可传入预设值 'xs' | 'sm' | 'md' | 'lg' | 'xl'\n或数字（像素）",
               "default": "'md'",
@@ -506,19 +518,19 @@
               "name": "shape",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1492
+                "offset": 2289
               },
-              "description": "头像形状\n- `circle`: 圆形（默认）\n- `square`: 圆角方形\n- `clip`: 机甲切角",
+              "description": "头像形状\n- `circle` / `round`: 圆形（默认）\n- `square` / `no-clip`: 圆角方形\n- `clip`: 机甲切角",
               "default": "'circle'",
               "type": [
-                "'circle' | 'square' | 'clip'"
+                "'circle' | 'square' | 'clip' | 'round' | 'no-clip'"
               ]
             },
             {
               "name": "icon",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1636
+                "offset": 2433
               },
               "description": "默认图标（无图片时显示）\n传入图标组件",
               "type": [
@@ -529,7 +541,7 @@
               "name": "fallbackSrc",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1803
+                "offset": 2600
               },
               "description": "加载失败时的回退图片地址",
               "default": "''",
@@ -541,7 +553,7 @@
               "name": "fit",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 1926
+                "offset": 2723
               },
               "description": "图片适应模式",
               "default": "'cover'",
@@ -553,7 +565,7 @@
               "name": "srcProcessor",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 2413
+                "offset": 3210
               },
               "description": "URL 预处理器\n可传入预设处理器名称（append/replace/tos）或自定义函数\n函数签名: (src: string, params?: T) => string",
               "type": [
@@ -564,7 +576,7 @@
               "name": "processorParams",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 2683
+                "offset": 3480
               },
               "description": "处理器参数\n传递给 srcProcessor 的参数，类型由处理器决定\n若未指定 srcProcessor 但传入了此参数，默认使用 append 处理器",
               "type": [
@@ -575,7 +587,7 @@
               "name": "draggable",
               "source": {
                 "file": "../components/avatar/src/avatar.ts",
-                "offset": 2917
+                "offset": 3714
               },
               "description": "是否允许拖拽图片\n默认禁止拖拽，设为 true 开启",
               "default": "false",
@@ -590,7 +602,7 @@
                 "name": "load",
                 "source": {
                   "file": "../components/avatar/src/avatar.ts",
-                  "offset": 3153
+                  "offset": 3950
                 },
                 "description": "图片加载成功时触发"
               },
@@ -598,7 +610,7 @@
                 "name": "error",
                 "source": {
                   "file": "../components/avatar/src/avatar.ts",
-                  "offset": 3239
+                  "offset": 4036
                 },
                 "description": "图片加载失败时触发"
               }
@@ -616,7 +628,7 @@
               "name": "max",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 723
+                "offset": 735
               },
               "description": "最多显示数量\n超出的头像将折叠为 +N 计数器",
               "type": [
@@ -627,7 +639,7 @@
               "name": "total",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 933
+                "offset": 945
               },
               "description": "自定义总数\n指定后折叠计数器显示为 total - 已显示数量，用于仅传入部分头像却想展示真实总数的场景\n若小于已显示数量则不生效",
               "type": [
@@ -638,7 +650,7 @@
               "name": "size",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1083
+                "offset": 1095
               },
               "description": "统一尺寸\n会通过 provide 注入到子 Avatar",
               "default": "'md'",
@@ -647,22 +659,33 @@
               ]
             },
             {
+              "name": "type",
+              "source": {
+                "file": "../components/avatar/src/avatar-group.ts",
+                "offset": 1301
+              },
+              "description": "统一颜色类型\n会通过 provide 注入到子 Avatar；未配置时子 Avatar 使用自身默认值",
+              "type": [
+                "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'"
+              ]
+            },
+            {
               "name": "shape",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1265
+                "offset": 1478
               },
               "description": "统一形状\n会通过 provide 注入到子 Avatar",
               "default": "'circle'",
               "type": [
-                "'circle' | 'square' | 'clip'"
+                "'circle' | 'square' | 'clip' | 'round' | 'no-clip'"
               ]
             },
             {
               "name": "spacing",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1431
+                "offset": 1644
               },
               "description": "头像间距\n负值实现堆叠重叠效果，正值实现间距",
               "default": "-8",
@@ -674,7 +697,7 @@
               "name": "collapseAvatars",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1619
+                "offset": 1832
               },
               "description": "是否开启折叠模式（堆叠显示）\n开启后头像会重叠显示，并带有边框",
               "default": "false",
@@ -686,7 +709,7 @@
               "name": "collapseClass",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1749
+                "offset": 1962
               },
               "description": "折叠计数器自定义类名",
               "default": "''",
@@ -698,7 +721,7 @@
               "name": "collapseStyle",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 1854
+                "offset": 2067
               },
               "description": "折叠计数器自定义样式",
               "default": "() => ({})",
@@ -710,7 +733,7 @@
               "name": "collapseAvatarsTooltip",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 2017
+                "offset": 2230
               },
               "description": "折叠提示文本（鼠标悬停显示）",
               "default": "''",
@@ -722,11 +745,11 @@
               "name": "collapseShape",
               "source": {
                 "file": "../components/avatar/src/avatar-group.ts",
-                "offset": 2193
+                "offset": 2406
               },
               "description": "折叠计数器形状\n默认与 shape 保持一致，可单独设置",
               "type": [
-                "'circle' | 'square' | 'clip'"
+                "'circle' | 'square' | 'clip' | 'round' | 'no-clip'"
               ]
             }
           ]
@@ -9287,7 +9310,7 @@
               "name": "type",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 1766
+                "offset": 1904
               },
               "description": "文字类型（颜色预设）",
               "default": "'default'",
@@ -9299,7 +9322,7 @@
               "name": "level",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 2023
+                "offset": 2161
               },
               "description": "文字层级\n控制默认字号、字重、行高和文本色，可被 size / type / color 显式覆盖",
               "default": "'body'",
@@ -9311,7 +9334,7 @@
               "name": "tag",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 2268
+                "offset": 2406
               },
               "description": "渲染标签\n仅改变实际 HTML 标签，不改变视觉层级；需要视觉层级请使用 level",
               "default": "'span'",
@@ -9323,7 +9346,7 @@
               "name": "color",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 2489
+                "offset": 2627
               },
               "description": "自定义颜色\n传入有效 CSS 颜色值，覆盖 type 的颜色",
               "default": "''",
@@ -9335,7 +9358,7 @@
               "name": "size",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 2757
+                "offset": 2895
               },
               "description": "文字尺寸\n可以是预设值 (sm/md/lg) 或数字 (像素)，不传时使用 level 的默认字号",
               "type": [
@@ -9346,7 +9369,7 @@
               "name": "align",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 2913
+                "offset": 3051
               },
               "description": "垂直对齐方式",
               "default": "'middle'",
@@ -9355,10 +9378,55 @@
               ]
             },
             {
+              "name": "ellipsis",
+              "source": {
+                "file": "../components/text/src/text.ts",
+                "offset": 3316
+              },
+              "description": "单行省略\n开启后文字本体超出可用宽度时显示省略号；需要根节点或父容器提供明确宽度/最大宽度",
+              "default": "false",
+              "type": [
+                "boolean"
+              ]
+            },
+            {
+              "name": "lineClamp",
+              "source": {
+                "file": "../components/text/src/text.ts",
+                "offset": 3547
+              },
+              "description": "多行省略行数\n传入数字或数字字符串后，文字本体会在指定行数后裁剪；优先级高于 ellipsis",
+              "type": [
+                "string | number"
+              ]
+            },
+            {
+              "name": "contentClass",
+              "source": {
+                "file": "../components/text/src/text.ts",
+                "offset": 3772
+              },
+              "description": "文字本体自定义类名\nclass 仍作用于根节点；该属性用于定向控制内部 `.cp-text__content`",
+              "type": [
+                "string | string[] | Record<string, boolean> | null | undefined"
+              ]
+            },
+            {
+              "name": "contentStyle",
+              "source": {
+                "file": "../components/text/src/text.ts",
+                "offset": 4013
+              },
+              "description": "文字本体自定义样式\nstyle 仍作用于根节点；该属性用于定向控制内部 `.cp-text__content`",
+              "type": [
+                "string | false | import(\"/Users/mac/projects/cyberpunk-ui-vue/node_modules/.pnpm/vue@3.5.27_typescript@5.9.3/node_modules/vue/dist/vue\").CSSProperties | StyleValue[] | null | undefined"
+              ]
+            },
+            {
               "name": "underline",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3056
+                "offset": 4182
               },
               "description": "下划线效果",
               "default": "false",
@@ -9370,7 +9438,7 @@
               "name": "boxed",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3179
+                "offset": 4305
               },
               "description": "方框边框效果",
               "default": "false",
@@ -9382,7 +9450,7 @@
               "name": "dashed",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3315
+                "offset": 4441
               },
               "description": "虚线样式\n应用于下划线或方框边框",
               "default": "false",
@@ -9394,7 +9462,7 @@
               "name": "bold",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3433
+                "offset": 4559
               },
               "description": "加粗效果",
               "default": "false",
@@ -9406,7 +9474,7 @@
               "name": "italic",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3549
+                "offset": 4675
               },
               "description": "斜体效果",
               "default": "false",
@@ -9418,7 +9486,7 @@
               "name": "strikethrough",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3668
+                "offset": 4794
               },
               "description": "删除线效果",
               "default": "false",
@@ -9430,7 +9498,7 @@
               "name": "glow",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3811
+                "offset": 4937
               },
               "description": "发光效果\n赛博朋克霓虹发光效果",
               "default": "false",
@@ -9442,7 +9510,7 @@
               "name": "glowIntensity",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 3949
+                "offset": 5075
               },
               "description": "发光强度\n1-10 的数值，控制发光的扩散范围",
               "default": "3",
@@ -9454,7 +9522,7 @@
               "name": "glowPulse",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4094
+                "offset": 5220
               },
               "description": "发光心跳动画\n开启后发光效果会有呼吸脉冲动画",
               "default": "false",
@@ -9466,7 +9534,7 @@
               "name": "lightWave",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4238
+                "offset": 5364
               },
               "description": "光波扫射动画\n斜向高光扫过文字的动态效果",
               "default": "false",
@@ -9478,7 +9546,7 @@
               "name": "lightWaveDuration",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4408
+                "offset": 5534
               },
               "description": "光波动画时长\n数字默认毫秒 (ms)，字符串可指定单位 (如 '2s' 或 '2000ms')",
               "default": "2000",
@@ -9490,7 +9558,7 @@
               "name": "marker",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4590
+                "offset": 5716
               },
               "description": "马克笔背景效果\n荧光笔高亮效果",
               "default": "false",
@@ -9502,7 +9570,7 @@
               "name": "markerColor",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4727
+                "offset": 5853
               },
               "description": "马克笔自定义颜色\n不设置则使用文字颜色",
               "default": "''",
@@ -9514,7 +9582,7 @@
               "name": "glowPulseDuration",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 4899
+                "offset": 6025
               },
               "description": "发光心跳动画时长\n数字默认毫秒 (ms)，字符串可指定单位 (如 '1.5s' 或 '1500ms')",
               "default": "1500",
@@ -9526,7 +9594,7 @@
               "name": "overlap",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 5103
+                "offset": 6229
               },
               "description": "重叠文字效果\n通过 text-shadow 实现错位重影的赛博朋克视觉效果",
               "default": "false",
@@ -9538,7 +9606,7 @@
               "name": "overlapOffsetX",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 5251
+                "offset": 6377
               },
               "description": "重叠文字 X 轴偏移量 (px)\n正值向右偏移，负值向左偏移",
               "default": "2",
@@ -9550,7 +9618,7 @@
               "name": "overlapOffsetY",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 5401
+                "offset": 6527
               },
               "description": "重叠文字 Y 轴偏移量 (px)\n正值向下偏移，负值向上偏移",
               "default": "2",
@@ -9562,7 +9630,7 @@
               "name": "overlapColor",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 5546
+                "offset": 6672
               },
               "description": "重叠文字颜色\n不设置则使用文字颜色的明暗调整版本",
               "default": "''",
@@ -9574,7 +9642,7 @@
               "name": "unselectable",
               "source": {
                 "file": "../components/text/src/text.ts",
-                "offset": 5696
+                "offset": 6822
               },
               "description": "禁止选中/复制\n开启后文字无法被鼠标选中或通过键盘复制",
               "default": "false",

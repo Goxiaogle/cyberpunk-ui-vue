@@ -3,11 +3,11 @@
  * CpAvatarGroup - 头像组组件
  * 用于展示一组头像，支持堆叠和折叠模式
  */
-import { computed, provide, useSlots, type Slot, type VNode } from 'vue'
-import { useNamespace, parseSizeNumber } from '@cyberpunk-vue/hooks'
+import { computed, provide, useSlots, type VNode } from 'vue'
+import { useNamespace, useDefaults, parseSizeNumber } from '@cyberpunk-vue/hooks'
 import { COMPONENT_PREFIX } from '@cyberpunk-vue/constants'
 import { avatarGroupProps, AVATAR_GROUP_INJECTION_KEY, type AvatarGroupContext } from './avatar-group'
-import { avatarSizeMap } from './avatar'
+import { avatarSizeMap, normalizeAvatarShape } from './avatar'
 
 defineOptions({
     name: `${COMPONENT_PREFIX}AvatarGroup`,
@@ -17,7 +17,8 @@ defineSlots<{
   default?: () => any
 }>()
 
-const props = defineProps(avatarGroupProps)
+const rawProps = defineProps(avatarGroupProps)
+const props = useDefaults(rawProps, 'avatarGroup')
 const slots = useSlots()
 
 const ns = useNamespace('avatar-group')
@@ -34,11 +35,20 @@ const spacingValue = computed(() => {
     return spacing
 })
 
-// 向子组件提供上下文
-provide<AvatarGroupContext>(AVATAR_GROUP_INJECTION_KEY, {
-    size: props.size,
-    shape: props.shape,
-})
+// 向子组件提供上下文，getter 保持 ConfigProvider defaults 切换时的响应式。
+const groupContext: AvatarGroupContext = {
+    get size() {
+        return props.size
+    },
+    get shape() {
+        return props.shape
+    },
+    get type() {
+        return props.type
+    },
+}
+
+provide<AvatarGroupContext>(AVATAR_GROUP_INJECTION_KEY, groupContext)
 
 // 类名
 const classes = computed(() => [
@@ -97,11 +107,13 @@ const hiddenCount = computed(() => {
 })
 
 // 折叠计数器形状（优先使用 collapseShape，否则跟随 shape）
-const counterShape = computed(() => props.collapseShape ?? props.shape)
+const counterShape = computed(() => normalizeAvatarShape(props.collapseShape ?? props.shape))
+const counterType = computed(() => props.type ?? 'default')
 
 // 折叠计数器类名
 const counterClasses = computed(() => [
     ns.e('counter'),
+    ns.bem('', 'counter', `type-${counterType.value}`),
     ns.bem('', 'counter', `shape-${counterShape.value}`),
     props.collapseClass,
 ])

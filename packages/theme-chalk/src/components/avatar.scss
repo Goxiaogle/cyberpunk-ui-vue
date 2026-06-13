@@ -23,8 +23,10 @@ $avatar-transition-duration: 0.2s;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    background-color: var(--cp-bg-elevated);
-    color: var(--cp-text-muted);
+    box-sizing: border-box;
+    background-color: var(--cp-avatar-bg);
+    color: var(--cp-avatar-text-color);
+    border: 1px solid var(--cp-avatar-border-color);
     vertical-align: middle;
     flex-shrink: 0;
 
@@ -32,13 +34,57 @@ $avatar-transition-duration: 0.2s;
     width: var(--cp-avatar-size, 40px);
     height: var(--cp-avatar-size, 40px);
     font-size: calc(var(--cp-avatar-size, 40px) * #{$avatar-font-ratio});
+    --cp-avatar-bg: var(--cp-surface-bright);
+    --cp-avatar-text-color: var(--cp-text-secondary);
+    --cp-avatar-border-color: var(--cp-border-default);
 
     // 默认禁止选中和拖拽
     user-select: none;
     -webkit-user-drag: none;
 
     transition: background-color $avatar-transition-duration ease,
+                border-color $avatar-transition-duration ease,
+                color $avatar-transition-duration ease,
                 box-shadow $avatar-transition-duration ease;
+
+    // ========================================
+    // 语义类型
+    // ========================================
+
+    &.#{$namespace}-avatar--type-primary {
+        background-color: var(--cp-color-primary);
+        color: var(--cp-color-primary-text);
+        border-color: var(--cp-color-primary-border);
+        box-shadow: 0 0 0 1px var(--cp-color-primary-light);
+    }
+
+    &.#{$namespace}-avatar--type-success {
+        background-color: var(--cp-color-success);
+        color: var(--cp-color-success-text);
+        border-color: var(--cp-color-success-border);
+        box-shadow: 0 0 0 1px var(--cp-color-success-light);
+    }
+
+    &.#{$namespace}-avatar--type-warning {
+        background-color: var(--cp-color-warning);
+        color: var(--cp-color-warning-text);
+        border-color: var(--cp-color-warning-border);
+        box-shadow: 0 0 0 1px var(--cp-color-warning-light);
+    }
+
+    &.#{$namespace}-avatar--type-error {
+        background-color: var(--cp-color-error);
+        color: var(--cp-color-error-text);
+        border-color: var(--cp-color-error-border);
+        box-shadow: 0 0 0 1px var(--cp-color-error-light);
+    }
+
+    &.#{$namespace}-avatar--type-info {
+        background-color: var(--cp-color-info);
+        color: var(--cp-color-info-text);
+        border-color: var(--cp-color-info-border);
+        box-shadow: 0 0 0 1px var(--cp-color-info-light);
+    }
 
     // ========================================
     // 形状变体
@@ -99,7 +145,7 @@ $avatar-transition-duration: 0.2s;
     @include e(placeholder) {
         width: 55%;
         height: 55%;
-        color: var(--cp-text-muted);
+        color: currentColor;
         opacity: 0.7;
     }
 

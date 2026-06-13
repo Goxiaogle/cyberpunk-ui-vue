@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType, CSSProperties } from 'vue'
-import type { AvatarSize, AvatarShape } from './avatar'
+import type { AvatarSize, AvatarShape, AvatarType } from './avatar'
 
 /**
  * CpAvatarGroup 组件 Props 定义
@@ -51,6 +51,15 @@ export const avatarGroupProps = {
     size: {
         type: [String, Number] as PropType<AvatarSize>,
         default: 'md',
+    },
+    /**
+     * 统一颜色类型
+     * 会通过 provide 注入到子 Avatar；未配置时子 Avatar 使用自身默认值
+     * @default undefined
+     */
+    type: {
+        type: String as PropType<AvatarType>,
+        default: undefined,
     },
     /**
      * 统一形状
@@ -121,6 +130,7 @@ export type AvatarGroupProps = ExtractPropTypes<typeof avatarGroupProps>
 export interface AvatarGroupContext {
     size: AvatarSize
     shape: AvatarShape
+    type?: AvatarType
 }
 
 /**
